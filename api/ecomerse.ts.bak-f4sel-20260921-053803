@@ -1,0 +1,230 @@
+/**
+ * Cliente del servicio Ecomerse (marketplace estilo Xianyu) — backend unificado.
+ * Base ABSOLUTA: /api/ecomerse/*. F1: catálogo público + vendedor con requisitos
+ * (KYC + datos negocio + aprobación admin) + productos moderados + pedidos
+ * cash|billing + garantía 7d + disputas + reviews.
+ */
+
+import { http, httpRequest } from './httpClient';
+
+import { API_HOST } from './config';
+export const ECOMERSE_API = `${API_HOST}/api`;
+const e = (p: string) => `${ECOMERSE_API}${p}`;
+
+export interface EcomerseSubcategory { id: string; code: string; label: string; }
+
+export interface EcomerseCategory { id: string; code: string; label: string; icon: string | null; subs: EcomerseSubcategory[]; }
+
+export interface EcomerseSellerBrief {
+  id: string | null; businessName: string | null; ratingAvg: number; ratingCount: number;
+  city: string | null; phoneContact: string | null; photoKey: string | null; userId: string | null;
+  /** 'Pro' si la tienda tiene Tienda Pro activa (badge en tarjetas). */
+  badge?: string | null;
+  /** Identidad verificada (KYC aprobado) — el escudo solo si es real. */
+  verified?: boolean;
+}
+
+/** Documentación que el vendedor aporta por un anuncio (tanda 4 · sección 4 del formulario). */
+export interface EcomerseProductDoc {
+  id: string;
+  docType: 'factura_compra' | 'certificado_autenticidad' | 'autorizacion_marca';
+  url: string;
+  docNumber: string | null;
+  amountXaf: number | null;
+  issuedOn: string | null;
+  /** `pending` hasta que un admin la revise: el comprador la ve con su estado, no como un sello. */
+  status: 'pending' | 'approved' | 'rejected';
+  rejectionReason: string | null;
+  createdAt: string;
+}
+
+/** Documento pendiente de revisión, con su anuncio: quien revisa necesita saber QUÉ está revisando. */
+export interface EcomerseDocPendiente extends EcomerseProductDoc {
+  producto: { id: string; title: string; priceXaf: number; city: string; sellerName: string | null };
+}
+
+export interface EcomerseProduct {
+  id: string; title: string; description: string | null;
+  categoryId: string | null; categoryLabel: string | null; categoryIcon: string | null;
+  subcategoryId: string | null; subcategoryLabel: string | null;
+  priceXaf: number; city: string; photos: string[]; stock: number;
+  status: string; rejectionReason: string | null; isNegotiable: boolean; views: number;
+  favoriteCount: number; isFeatured: boolean; featuredUntil: string | null;
+  /** Atributos del producto (talla, color, estado, marca…) */
+  attributes: Record<string, string | number | boolean>;
+  /** Horas de preparación que declara el vendedor (24/48/72). Tanda 4. */
+  handlingHours: number;
+  /** Devoluciones que ofrece el vendedor; NO es la garantía de 7 días de la plataforma. Tanda 4. */
+  returnsAccepted: boolean;
+  createdAt: string; updatedAt: string; seller: EcomerseSellerBrief;
+  /** Solo en favoritos (myFavorites): true si está marcado como 特别关注. */
+  isSpecial?: boolean;
+  /** Solo en la ficha (`product`): documentación aportada por el vendedor. Tanda 4. */
+  docs?: EcomerseProductDoc[];
+}
+
+export interface EcomerseShopPlan {
+  limit: number; badge: boolean; priority: boolean; plan: string; name: string;
+  used: number; freeFeaturedLeft: number; freeFeaturedMax: number;
+  /** Vencimiento del plan de pago activo (para mostrar "activo hasta…"). */
+  expiresAt?: string | null;
+}
+
+export interface EcomerseDeliveryZone {
+  id: string; city: string; zoneCode: string; label: string;
+  baseFeeXaf: number; perKmXaf: number; kmDefault: number;
+}
+
+export interface EcomerseSellerMe {
+  kycOk: boolean; kycMessage: string | null; warrantyDays: number;
+  seller: null | {
+    id: string; businessName: string; categoryId: string | null; categoryLabel: string | null;
+    description: string | null; city: string; phoneContact: string | null; photoKey: string | null;
+    status: string; rejectionReason: string | null; ratingAvg: number; ratingCount: number;
+    approvedAt: string | null; createdAt: string;
+  };
+  products: EcomerseProduct[];
+}
+
+export interface EcomerseOrder {
+  id: string; buyerId: string; sellerId: string; sellerName: string | null; sellerPhone: string | null;
+  items: Array<{ productId: string; title: string; price: number; qty: number; photos: string[] }>;
+  totalXaf: number; logisticsFeeXaf: number; paymentMethod: string; billingOrderId: string | null;
+  deliveryZoneId: string | null; deliveryZone: string | null; deliveryKm: number | null;
+  status: string; deliveryAddress: string | null; note: string | null;
+  deliveredAt: string | null; warrantyExpiresAt: string | null; openDisputes: number; reviewed: boolean;
+  fulfillmentType: string; cancelledAt: string | null; cancellationReason: string | null; createdAt: string;
+  /** Embebidos por myOrders (v4.9): auditoría y envío, sin N+1. */
+  events?: EcomerseOrderEvent[];
+  shipment?: EcomerseShipment | null;
+}
+
+export interface EcomerseOrderEvent {
+  id: string; fromStatus: string | null; toStatus: string; actorType: string;
+  actorId: string | null; note: string | null; createdAt: string;
+}
+
+export interface EcomerseShipment {
+  id: string; orderId: string; fulfillmentType: string; agentId: string | null;
+  agentName: string | null; trackingCode: string; status: string; createdAt: string; updatedAt: string;
+}
+
+export const ecomerseApi = {
+  flags: () => http.get<{ f1: boolean; cash: boolean; billing: boolean; escrow: boolean }>(e('/ecomerse/flags'), false),
+  catalog: (q: Record<string, string> = {}) => {
+    const qs = new URLSearchParams(q).toString();
+    return http.get<EcomerseProduct[]>(e(`/ecomerse/catalog${qs ? '?' + qs : ''}`), false);
+  },
+  product: (id: string) => http.get<EcomerseProduct>(e(`/ecomerse/products/${id}`), false),
+  categories: () => http.get<EcomerseCategory[]>(e('/ecomerse/categories'), false),
+  sellerMe: () => http.get<EcomerseSellerMe>(e('/ecomerse/seller/me'), true),
+  shopPlan: () => http.get<EcomerseShopPlan>(e('/ecomerse/shop/plan'), true),
+  upsertSeller: (body: Record<string, unknown>) =>
+    http.post<{ message: string; status: string; sellerId?: string }>(e('/ecomerse/seller'), body, true),
+  myProducts: () => http.get<EcomerseProduct[]>(e('/ecomerse/products'), true),
+  createProduct: (body: Record<string, unknown>) =>
+    http.post<{ message: string; productId: string; status: string }>(e('/ecomerse/products'), body, true),
+  updateProduct: (id: string, body: Record<string, unknown>) =>
+    http.put<{ message: string }>(e(`/ecomerse/products/${id}`), body, true),
+
+  /**
+   * ── LOS DOS CARRILES (zona del comerciante, 20-sep-2026) ──────────────────────────────────────
+   *
+   * `updateProduct` (arriba) es el CARRIL MODERADO: contenido y vuelve a revisión.
+   * Estas dos son el CARRIL RÁPIDO: la operación del día a día, que **no** pasa por moderación
+   * porque no es lo que el moderador juzgó. La regla, en una frase: *la moderación aprueba el
+   * anuncio; el comerciante administra la operación.*
+   *
+   * Por qué hacían falta: hasta ahora el único camino de edición exigía `draft|rejected` y
+   * reescribía `status='pending'`, así que **un anuncio vivo era inmutable**. Reponer existencias
+   * costaba despublicar y esperar 24–48 h de revisión, y «pausar» o «retirar» no existían.
+   *
+   * El servidor devuelve el estado REAL resultante (no el que se pidió) y por eso se tipa: si pides
+   * `active` con 0 existencias, contesta `sold_out`, y la pantalla tiene que poder decirlo.
+   */
+
+  /** Existencias, plazo de preparación y devoluciones. NO vuelve a moderación. */
+  updateProductOperations: (id: string, body: { stock?: number; handlingHours?: 24 | 48 | 72; returnsAccepted?: boolean }) =>
+    http.patch<{ message: string; producto: { id: string; stock: number; status: string; handlingHours: number; returnsAccepted: boolean } }>(
+      e(`/ecomerse/seller/products/${id}/operations`), body, true),
+
+  /** Poner a la venta, pausar o retirar. NO vuelve a moderación. */
+  updateProductState: (id: string, state: 'active' | 'paused' | 'removed') =>
+    http.patch<{ message: string; sinCambio?: boolean; producto: { id: string; stock: number; status: string } }>(
+      e(`/ecomerse/seller/products/${id}/state`), { state }, true),
+  /**
+   * Crear pedido. Con pago por MONEDERO (parche 101) el servidor exige el token de pago
+   * (PIN, scope ESCROW_LOCK, importe EXACTO) en `X-Payment-Token`; el importe queda en
+   * garantía y el vendedor cobra en su monedero al entregar. Ojo: el monedero admite
+   * compras de UNA sola tienda (el token va ligado a un importe).
+   */
+  createOrder: (body: { productId?: string; qty?: number; items?: Array<{ productId: string; qty: number }>; paymentMethod?: 'cash' | 'billing' | 'likebook_wallet'; deliveryAddress?: string; note?: string; idempotencyKey?: string; fulfillmentType?: 'seller' | 'agent'; agentId?: string; deliveryZoneId?: string | null; deliveryKm?: number | null }, paymentToken?: string) =>
+    httpRequest<{ message: string; order: EcomerseOrder; orders?: EcomerseOrder[]; billingOrderId: string | null; orderCount?: number; idempotent?: boolean }>(e('/ecomerse/orders'), {
+      method: 'POST',
+      body,
+      auth: true,
+      ...(paymentToken ? { headers: { 'X-Payment-Token': paymentToken } } : {}),
+    }),
+  /**
+   * Mis pedidos. Devuelve `{ orders, total, limit, offset }` (tanda B): el filtro por estado y la
+   * paginación necesitan el total, y un array pelado no lo puede dar.
+   */
+  myOrders: (as: 'buyer' | 'seller' = 'buyer', opts?: { status?: string; limit?: number; offset?: number }) => {
+    const q = new URLSearchParams({ as });
+    if (opts?.status) q.set('status', opts.status);
+    if (opts?.limit !== undefined) q.set('limit', String(opts.limit));
+    if (opts?.offset !== undefined) q.set('offset', String(opts.offset));
+    return http.get<{ orders: EcomerseOrder[]; total: number; limit: number; offset: number }>(e(`/ecomerse/orders?${q.toString()}`), true);
+  },
+  /** Contadores por estado, para las pestañas del filtro. */
+  orderCounts: (as: 'buyer' | 'seller' = 'buyer') =>
+    http.get<{ total: number; porEstado: Record<string, number> }>(e(`/ecomerse/orders/counts?as=${as}`), true),
+  /** Moderación de documentación (solo ADMIN): cola de pendientes y decisión. */
+  adminDocs: () => http.get<EcomerseDocPendiente[]>(e('/ecomerse/admin/docs'), true),
+  adminDecideDoc: (id: string, approve: boolean, reason?: string) =>
+    http.put<{ message: string }>(e(`/ecomerse/admin/docs/${id}`), { approve, reason }, true),
+  updateStatus: (id: string, status: string) =>
+    http.put<{ message: string }>(e(`/ecomerse/orders/${id}/status`), { status }, true),
+  cancelOrder: (id: string, reason?: string) =>
+    http.post<{ message: string }>(e(`/ecomerse/orders/${id}/cancel`), { reason }, true),
+  orderEvents: (id: string) => http.get<EcomerseOrderEvent[]>(e(`/ecomerse/orders/${id}/events`), true),
+  shipment: (id: string) => http.get<EcomerseShipment>(e(`/ecomerse/orders/${id}/shipment`), true),
+  updateShipment: (id: string, status: string) =>
+    http.put<{ message: string }>(e(`/ecomerse/orders/${id}/shipment/status`), { status }, true),
+  openDispute: (id: string, reason: string) =>
+    http.post<{ message: string; disputeId: string }>(e(`/ecomerse/orders/${id}/dispute`), { reason }, true),
+  review: (id: string, rating: number, comment?: string) =>
+    http.post<{ message: string }>(e(`/ecomerse/orders/${id}/review`), { rating, comment }, true),
+  reportProduct: (id: string, reason: string, note?: string) =>
+    http.post<{ message: string }>(e(`/ecomerse/products/${id}/report`), { reason, note }, true),
+  // --- Ecomerse v3: favoritos (Xianyu) + búsqueda por imagen ---
+  favoritesToggle: (productId: string) =>
+    http.post<{ favorited: boolean; favoriteCount: number }>(e('/ecomerse/favorites/toggle'), { productId }, true),
+  favoritesSpecial: (productId: string) =>
+    http.post<{ special: boolean }>(e('/ecomerse/favorites/special'), { productId }, true),
+  featureFree: (productId: string) =>
+    http.post<{ ok: boolean; days: number }>(e('/ecomerse/featured/free'), { productId }, true),
+  favoriteIds: () => http.get<string[]>(e('/ecomerse/favorites/ids'), true),
+  myFavorites: (q: Record<string, string> = {}) => {
+    const qs = new URLSearchParams(q).toString();
+    return http.get<EcomerseProduct[]>(e(`/ecomerse/favorites${qs ? '?' + qs : ''}`), true);
+  },
+  myPurchased: () => http.get<EcomerseProduct[]>(e('/ecomerse/favorites/purchased'), true),
+  // --- Logística por zonas (v4.2) ---
+  deliveryZones: (city?: string) => http.get<EcomerseDeliveryZone[]>(e(`/ecomerse/delivery/zones${city ? '?city=' + encodeURIComponent(city) : ''}`), false),
+  quoteLogistics: (zone: string, km?: number | null) =>
+    http.get<{ feeXaf: number; breakdown: { zone: string; baseFeeXaf: number; perKmXaf: number; km: number } | null }>(
+      e(`/ecomerse/delivery/quote?zone=${zone}${km ? '&km=' + km : ''}`), false),
+  // --- Leads de contacto (v4.4): registro sin fricción del trato fuera del funnel ---
+  contactIntent: (productId: string, channel: 'whatsapp' | 'call') =>
+    http.post<{ ok: boolean }>(e('/ecomerse/contact/intent'), { productId, channel }, true),
+  // --- Upload de fotos como ARCHIVO (multipart, sin base64 en JSON) ---
+  uploadPhoto: (form: FormData) =>
+    httpRequest<{ url: string }>(e('/ecomerse/upload'), { method: 'POST', auth: true, form }),
+  searchImage: (form: FormData) =>
+    httpRequest<{ query: string; total: number; products: EcomerseProduct[] }>(e('/ecomerse/search/image'), {
+      method: 'POST',
+      auth: true,
+      form,
+    }),
+};

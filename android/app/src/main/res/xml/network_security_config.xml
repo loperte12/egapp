@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- android/app/src/main/res/xml/network_security_config.xml
+     El SPA del monedero se sirve por HTTP plano en 106.14.104.146 (decisión del dueño, 15/09).
+     Desde API 28 Android bloquea el tráfico cleartext por defecto, así que se abre SOLO para ese
+     host; todo lo demás (incluidos hk.egrouteplan.com y los dominios propios) sigue https-only. -->
+<network-security-config>
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="false">106.14.104.146</domain>
+  </domain-config>
+</network-security-config>

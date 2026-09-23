@@ -1,0 +1,12 @@
+<resources>
+  <!--
+    El nombre de la app NO se define aquí: lo pone `android/app/build.gradle` con
+    `resValue "string", "app_name", …`. Por defecto «EG Route Plan»; se cambia con
+    `-PappName="EG Comida"`.
+
+    Por qué (y así queda escrito para que nadie lo vuelva a poner aquí): si se define en los dos
+    sitios, Gradle falla con «Duplicate resources» al generar el recurso. Y tenerlo en Gradle es lo
+    que permite que **dos personas instalen su build en el mismo móvil** sin pisarse: cada una con
+    su `applicationId` y su nombre en el lanzador, distinguibles de un vistazo.
+  -->
+</resources>

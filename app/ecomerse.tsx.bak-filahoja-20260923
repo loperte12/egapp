@@ -1,0 +1,996 @@
+/**
+ * EcomerseScreen — Home del marketplace "Mercado" (estilo Xianyu adaptado GQ).
+ * v5 (auditoría senior): error de red con Reintentar (nunca "no hay productos"),
+ * sin datos stale al filtrar, subcategoría limpia al cambiar de categoría,
+ * búsqueda server-side con debounce, favoritos con sesión, carrito siempre
+ * navegable, sin teléfonos PII en el feed (WhatsApp solo en detalle), CTA
+ * "Añadir" en tarjeta, grid par, a11y, pull-to-refresh, SafeArea y skeletons.
+ * Ruta: /ecomerse
+ */
+
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  ActivityIndicator, Alert, FlatList, Pressable, ScrollView, StyleSheet,
+  Text, TextInput, View,
+} from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ArrowLeft, Camera, Heart, Search, ShoppingCart, Store } from 'lucide-react-native';
+import { useTheme, alpha, EmptyState, InlineError, Sheet, tipografia, radios, trazo, peso, espaciado, ilustracion } from '@egrouteplan/ui-kit';
+import { ecomerseApi, EcomerseCategory, EcomerseFamily, EcomerseProduct } from '../api/ecomerse';
+import { useEcomerseStore } from '../state/ecomerse';
+import { useSession } from '../state/session';
+import { brand } from '@egrouteplan/ui-kit';
+import { TarjetaProducto, EsqueletoTarjeta, ANCHO_CARRUSEL } from '../components/ecomerse/TarjetaProducto';
+import PieDelMercado, { PIE_MERCADO_H } from '../components/ecomerse/PieDelMercado';
+import { useSinLeerMercado } from '../components/ecomerse/useSinLeer';
+
+/**
+ * LA ZONA DE CATEGORÍAS DE LA HOME — 23-sep-2026. Es la estructura de la referencia (Pinduoduo):
+ * **pestañas de departamento pegadas a la barra de búsqueda y, debajo, la rejilla de familias de la
+ * pestaña activa**. Sustituye a lo que había antes en este mismo sitio: un carril de ciudad, tres
+ * chips de orden y una pila de avatares de categorías. Las tres cosas se retiraron a la vez y por el
+ * mismo motivo: la cabecera gastaba cuatro filas en cromo y las categorías —que es a lo que se entra
+ * al Mercado— empezaban demasiado abajo.
+ *
+ * LO QUE SE FUE, y qué se pierde con ello:
+ *   · **Ciudad** (📍 + «Quitar filtro»). El filtro por ciudad **sigue existiendo en el servidor y en
+ *     el `state`**, pero la home ya no lo ofrece: `catalog()` acepta `city` y el campo sigue en el
+ *     store, así que devolverlo es volver a pintar la fila. Se retira de la vista, no del sistema.
+ *   · **Chips de orden** (Recomendado · Mejor valorado · Novedades). El servidor **sigue ordenando**
+ *     —se le manda `sort: 'recommended'`, que es su valor por defecto— y sigue aceptando los otros
+ *     tres valores; lo que desaparece es el selector.
+ *   · **Pila de avatares + «Ver todas (18)»**. Con las 18 pestañas a la vista, la hoja «Todas las
+ *     categorías» era una segunda puerta al mismo sitio: se retiró con la pila, y con ella
+ *     `CatCell`/`GRID_COLS` y su modal.
+ */
+/**
+ * COLUMNAS DE LA REJILLA, y el número tiene dueño: **la referencia de Pinduoduo usa 5**, y 5 se
+ * puso. Pero los rótulos chinos de esa rejilla miden 2-5 caracteres y los nuestros en español no,
+ * así que el número lleva un coste medido —no una impresión— que conviene tener a mano:
+ *
+ * | Columnas | Texto por celda | Por línea | Rótulos que se cortan |
+ * |---|---|---|---|
+ * | **5** (la referencia) | 63,2 dp | ~8 car. | **31 de 110 — 28 %** |
+ * | 4 | 80,0 dp | ~11 car. | 10 de 110 — 9 % |
+ * | 3 | 108,0 dp | ~15 car. | 3 de 110 — 3 % |
+ *
+ * Contado sobre el árbol real (18 departamentos / 110 familias, `_c6-medir-rotulos.cjs`), con
+ * `numberOfLines={2}` y corte por palabra. Los que caen son de dos palabras largas —
+ * «Bolsos y accesorios deportivos» (30), «Calzado infantil y juvenil» (26), «Electrodomésticos
+ * grandes» (25)—, y con puntos suspensivos siguen leyéndose: `Bolsos y accesorios…`.
+ *
+ * A 4 columnas se corta uno de cada once. **Cambiar de opinión es cambiar esta constante**: nada más
+ * del archivo depende de ella (`celda.width` se calcula con `100 / COLUMNAS_REJILLA`).
+ */
+const COLUMNAS_REJILLA = 5;
+/**
+ * Diámetro de la miniatura de una familia en la rejilla. 48 dp es el mínimo táctil que recomienda
+ * Android y el mismo que usaba el avatar de categoría que esto sustituye.
+ */
+const DIAM_FOTO_FAMILIA = 48;
+/**
+ * ALTO DE LA CELDA, con la cuenta hecha y no estimada: **48 (foto) + 6 (respiro) + 2 líneas de
+ * `micro` a 1,15 de escala = 48 + 6 + 2 × 17 = 88 dp**. El alto de línea es el natural de Android
+ * (≈1,3 × 12,65 dp), porque `celdaRotulo` no fija `lineHeight`.
+ *
+ * Existe por un caso que hay que resolver mirándolo: **hoy casi ninguna familia tiene imagen**. La
+ * imagen la resuelve el servidor a partir de una tienda de esa familia, y con las tiendas que hay
+ * eso da una celda con foto por cada 110. Si la celda midiera lo que mide su contenido, una fila con
+ * una foto y cuatro sin ella quedaría a cuatro alturas distintas y el rótulo de las celdas sin foto
+ * se pegaría al borde de arriba —se leería como un error de maquetación, no como «todavía no hay
+ * logo»—. Con un mínimo común y el rótulo centrado verticalmente, **la celda sin imagen queda como
+ * una celda con su nombre**, que es lo que es.
+ *
+ * ES `minHeight` Y NO `height`, a propósito. 88 dp cubre dos líneas **a la escala de referencia**;
+ * con el `font_scale` del sistema al 1,3 esas dos líneas piden más. Con `height` el rótulo se
+ * cortaría; con `minHeight` la fila crece. Una fila más alta es un defecto menor que una palabra
+ * cortada. Y como el mínimo es el peor caso real, en la práctica todas las filas miden 88.
+ */
+const ALTO_CELDA_FAMILIA = 88;
+const MAX_PHOTO_MB = 8;
+/**
+ * LA TARJETA SE MUDÓ. El velo, la proporción, las etiquetas y los controles viven ahora en
+ * `components/ecomerse/TarjetaProducto.tsx`, porque estaban duplicados en tres sitios (rejilla,
+ * carrusel y Favoritos) con tres aspectros distintos.
+ *
+ * Lo que hay que saber desde aquí, que es la pantalla que la usa:
+ *
+ * **La proporción la decide la cámara, no el gusto.** El alta de vendedor sube la foto tal cual sale
+ * del dispositivo (`launchCameraAsync` sin `allowsEditing` ni `aspect`) y las cámaras Android
+ * arrancan en 4:3, así que el catálogo se llena de fotos 3:4. Con el marco 2:3 anterior —más alto
+ * que ancho— la tarjeta venía recortando **el 11 % del ancho de todas las fotos** sin avisar a
+ * nadie. Con 3:4 el recorte es **cero** y el vendedor ve en el visor exactamente lo que verá el
+ * comprador. La decisión completa está en `DECISION-PROPORCION-TARJETAS.md`.
+ *
+ * Lo que se paga a cambio es altura: la tarjeta baja de 236 a 209 dp, y con ella la imagen limpia de
+ * cada una. A cambio entra más catálogo por pantalla.
+ */
+
+/**
+ * EL ORDEN DEL CATÁLOGO YA NO SE ELIGE DESDE LA HOME (23-sep-2026). Aquí vivía `SORTS` —los tres
+ * chips «Recomendado · Mejor valorado · Novedades»—, construidos en la tanda A sobre el `sort` que
+ * el servidor acepta desde siempre. Se retiraron con el resto del cromo de la cabecera, y la app
+ * manda `sort: 'recommended'` fijo, que es el valor por defecto que el `switch` de
+ * `ecomerse.service.ts` ya aplicaba cuando no llegaba nada.
+ *
+ * NO SE PERDIÓ CAPACIDAD: el servidor sigue aceptando `rating`, `newest`, `price_asc` y
+ * `price_desc`, y los ids no cambiaron. Devolver el selector es volver a pintar los chips. Si algún
+ * día se recupera, el sitio natural no es la cabecera —donde competía con las categorías— sino el
+ * orden de la lista ya filtrada.
+ */
+const SORT_CATALOGO = 'recommended';
+
+const PLACEHOLDER_CARDS = [0, 1, 2, 3];
+
+export default function EcomerseScreen() {
+  const { colors } = useTheme();
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { isAuthenticated } = useSession();
+  /** Los sin leer, para la insignia de «Mensajes» del pie. Ver `useSinLeer.ts`. */
+  const sinLeer = useSinLeerMercado();
+  const {
+    query, setQuery, categoryFilter, setCategoryFilter, subcategoryFilter, setSubcategoryFilter,
+    leafFilter, setLeafFilter,
+    favIds, setFavIds, toggleFavId, cart, addToCart,
+  } = useEcomerseStore();
+
+  const [products, setProducts] = useState<EcomerseProduct[]>([]);
+  const [recommended, setRecommended] = useState<EcomerseProduct[]>([]);
+  const [cats, setCats] = useState<EcomerseCategory[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  /* Los dos modales de la home (ciudad y «Todas las categorías») se retiraron el 23-sep-2026 con el
+     cromo de la cabecera: la ciudad dejó de ofrecerse y las 18 pestañas hacen innecesaria la hoja.
+     VUELVE UN MODAL, y NO es aquel. Es la hoja de CLASES de la familia activa —el tercer escalón—,
+     que se abre al tocar una familia en la rejilla. Aquel modal era una segunda puerta a las 18
+     categorías, que ya estaban todas en pantalla; este no tiene sustituto: las clases de una familia
+     no caben en la rejilla sin convertirla en un árbol.
+     Es un BOOLEANO y no la familia elegida: la familia ya es `subcategoryFilter`, y guardarla además
+     aquí sería el mismo dato en dos sitios —el árbol se vuelve a servir en cada carga, así que un
+     objeto guardado es el que se queda obsoleto—. Ver `activeFam`. */
+  const [clasesAbiertas, setClasesAbiertas] = useState(false);
+  const [imageResults, setImageResults] = useState<EcomerseProduct[]>([]);
+  const [imageActive, setImageActive] = useState(false);
+  /* El fallo de la búsqueda por foto se guarda para enseñarlo EN la pantalla: antes se
+     convertía en una lista vacía + un Alert, o sea en un «no hay resultados» falso. */
+  const [imageError, setImageError] = useState<string | null>(null);
+  const [imageBusy, setImageBusy] = useState(false);
+
+  // Carga con debounce: búsqueda server-side + filtros. Nunca datos stale:
+  // se vacían los productos al empezar; recomendados son globales (sin ciudad).
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    setProducts([]);
+    try {
+      const q: Record<string, string> = {};
+      /* El árbol con sus tres nombres. El alias viejo (`category` -> familia, `subcategory` ->
+         hoja) seguiría funcionando, pero mandarlo con el nombre nuevo evita que dentro de seis meses
+         alguien lea `category` y crea que filtra por departamento. */
+      if (categoryFilter) q.department = categoryFilter;
+      if (subcategoryFilter) q.family = subcategoryFilter;
+      if (leafFilter) q.leaf = leafFilter;
+      const t = query.trim();
+      if (t) q.q = t;
+      /* El orden deja de ser una elección del usuario en la home; se manda el valor por defecto
+         del servidor, explícito, para que el contrato se lea en la llamada. Ver `SORT_CATALOGO`. */
+      q.sort = SORT_CATALOGO;
+      const [p, c, rec] = await Promise.all([
+        ecomerseApi.catalog(q),
+        ecomerseApi.categories(),
+        ecomerseApi.catalog({ sort: 'recommended' }),
+      ]);
+      setProducts(p);
+      setCats(c);
+      setRecommended(rec.slice(0, 8));
+    } catch {
+      setError('No pudimos cargar el mercado. Revisa tu conexión e inténtalo de nuevo.');
+      setProducts([]);
+      setRecommended([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [categoryFilter, subcategoryFilter, leafFilter, query]);
+
+  useEffect(() => {
+    const t = setTimeout(() => { load(); }, 300);
+    return () => clearTimeout(t);
+  }, [load]);
+
+  // Favoritos: sincroniza ids (silencioso si no hay sesión)
+  useEffect(() => {
+    let alive = true;
+    ecomerseApi.favoriteIds().then((ids) => { if (alive) setFavIds(ids); }).catch(() => undefined);
+    return () => { alive = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /**
+   * Corazón, con la puerta de sesión y la vuelta atrás si la API falla. **En un solo sitio**: ahora
+   * lo pulsan la rejilla y el carrusel, y tener la misma regla escrita dos veces es la forma más
+   * segura de que un día digan cosas distintas.
+   */
+  const alternarFavorito = useCallback((item: EcomerseProduct) => {
+    if (!isAuthenticated) {
+      Alert.alert('Inicia sesión', 'Para guardar favoritos entra en tu cuenta.');
+      return;
+    }
+    toggleFavId(item.id);
+    ecomerseApi.favoritesToggle(item.id).catch(() => {
+      toggleFavId(item.id);
+      Alert.alert('Favoritos', 'No se pudo guardar. Inténtalo de nuevo.');
+    });
+  }, [isAuthenticated, toggleFavId]);
+
+  /** Búsqueda por foto: valida, avisa y sube; imageActive se activa al empezar
+   *  para que el banner muestre "Buscando…" mientras trabaja. */
+  const searchByPhoto = async () => {
+    try {
+      const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!perm.granted) {
+        Alert.alert('Permiso de fotos', 'Necesitamos acceso a tu galería para buscar por imagen.');
+        return;
+      }
+      const res = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], quality: 0.7 });
+      if (res.canceled || !res.assets?.[0]) return; // cancelado ≠ error
+      const asset = res.assets[0];
+      if ((asset.fileSize ?? 0) > MAX_PHOTO_MB * 1024 * 1024) {
+        Alert.alert('Foto demasiado pesada', `Usa una imagen de menos de ${MAX_PHOTO_MB} MB.`);
+        return;
+      }
+      const type = asset.mimeType ?? 'image/jpeg';
+      if (!type.startsWith('image/')) {
+        Alert.alert('Archivo no válido', 'Selecciona una imagen.');
+        return;
+      }
+      setImageActive(true);
+      setImageBusy(true);
+      setImageError(null);
+      try {
+        const form = new FormData();
+        form.append('image', { uri: asset.uri, name: 'foto.jpg', type } as unknown as Blob);
+        const r = await ecomerseApi.searchImage(form);
+        setImageResults(r.products ?? []);
+      } catch (e) {
+        /*
+          NO se convierte en «sin resultados»: se guarda el fallo y se enseña con `InlineError`
+          (que además lo anuncia al lector de pantalla). Antes esto era `setImageResults([])` +
+          un Alert, y el usuario leía que su foto no servía cuando el problema era otro.
+        */
+        setImageResults([]);
+        setImageError(e instanceof Error && e.message ? e.message : 'No se pudo procesar la imagen. Prueba con otra foto.');
+      } finally {
+        setImageBusy(false);
+      }
+    } catch { /* picker falló por el sistema */ }
+  };
+
+  /* El departamento y la familia activos, que son los dos primeros escalones de la navegación.
+     `activeCat` conserva el nombre viejo —el árbol lo llamaba «categoría»— y lo que hace hoy es
+     **alimentar la rejilla de familias**; `activeFam` es el escalón de en medio, del que salen las
+     hojas. Los dos se buscan por `id` y no se guardan como objeto: el árbol puede recargarse
+     (cambian los filtros y el servidor lo vuelve a servir) y un objeto guardado quedaría obsoleto. */
+  const activeCat = cats.find((c) => c.id === categoryFilter);
+  const activeFam = activeCat?.familias?.find((f) => f.id === subcategoryFilter);
+  /* El camino elegido —familia y clase— para escribirlo en la línea de resultados. Al retirarse el
+     carril de chips (23-sep-2026) la clase activa no se vería en ninguna parte: la rejilla marca la
+     familia, pero no la clase, y el filtro es de los dos escalones. */
+  const caminoFiltro = [activeFam?.label, activeFam?.hojas.find((h) => h.id === leafFilter)?.label]
+    .filter(Boolean).join(' · ');
+  const cartCount = cart.reduce((a, c) => a + c.qty, 0);
+
+  const listData: EcomerseProduct[] = useMemo(() => {
+    const base = imageActive ? imageResults : products;
+    if (loading && !products.length && !imageActive) return PLACEHOLDER_CARDS.map((i) => ({ id: `__sk_${i}` } as EcomerseProduct));
+    return base.length % 2 === 1 ? [...base, { id: '__spacer__' } as EcomerseProduct] : base;
+  }, [imageActive, imageResults, products, loading]);
+
+  const isPlaceholder = (id: string) => id.startsWith('__sk_');
+
+  const chooseCat = (catId: string) => {
+    const next = categoryFilter === catId ? '' : catId;
+    setCategoryFilter(next);
+    setSubcategoryFilter(''); // nunca arrastrar la familia de otro departamento
+    setLeafFilter('');        // ni la hoja de otra familia
+    setClasesAbiertas(false);  // ni dejar abierta la hoja de clases de una familia que ya no está
+  };
+
+  /**
+   * Elegir una CLASE: filtra y cierra la hoja. Cierra porque la hoja tapa el catálogo y lo que se
+   * viene a ver son los productos; y volver a pulsar la clase puesta la suelta, que es como se
+   * comportaba el carril de chips que esto sustituye.
+   *
+   * Lo que se paga al cerrar: la clase elegida deja de verse como chip. Por eso el filtro se escribe
+   * en la línea de resultados (`caminoFiltro`) — un filtro invisible es un filtro que el usuario cree
+   * no haber puesto.
+   */
+  const elegirClase = (id: string) => {
+    setLeafFilter(leafFilter === id ? '' : id);
+    setClasesAbiertas(false);
+  };
+
+  const s = styles(colors);
+  return (
+    <View style={[s.root, { paddingTop: insets.top }]}>
+      {/* Header. La barra de búsqueda vive AQUÍ, donde antes estaba el título «Mercado»: el título
+          solo gastaba la fila más valiosa de la pantalla, y la búsqueda se iba hacia arriba con el
+          catálogo (había que volver a subir para corregir una palabra). Es el patrón de Xianyu y de
+          Dewu, y es lo que se pidió.
+          Lo que se paga: la pantalla se queda **sin nombre visible**, y por tanto sin encabezado que
+          el lector de pantalla anuncie al entrar. Se acepta a cambio de la barra fija. Queda dicho
+          como deuda: si algún día se quiere recuperar, el sitio natural no es esta fila sino el
+          `accessibilityLabel` de la pantalla, y hay un desajuste de nombre que arreglar antes —
+          el cajón de servicios llama a esta pantalla «Ecomerse» (`ServicesDrawer.tsx:172`), que es
+          el nombre del módulo en código, no el que usa el resto de la app («Mercado», en
+          `billing-status.tsx:45` y `profile.tsx:431`). */}
+      <View style={s.header}>
+        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
+          <ArrowLeft size={22} color={colors.textPrimary} />
+        </Pressable>
+        <View style={s.headerSearch}>
+          <Search size={16} color={colors.textSecondary} />
+          <TextInput
+            value={query}
+            onChangeText={setQuery}
+            /* «Buscar» y no «Buscar productos». El campo mide 126 dp y el texto va a `body`
+               (14 → 16,1 dp con el `font_scale` 1.15 del dispositivo): a 10,08 dp por carácter,
+               «Buscar productos» (16) pide 161 y se cortaba en «Buscar product». No se estrecha
+               nada más para que quepa —los márgenes de la cabecera valen más que el relleno de un
+               marcador—: se acorta el marcador, que es lo único prescindible. El significado entero
+               sigue en el `accessibilityLabel`, que no compite por el ancho. */
+            placeholder="Buscar"
+            placeholderTextColor={colors.textSecondary}
+            accessibilityLabel="Buscar productos"
+            returnKeyType="search"
+            autoCorrect={false}
+            style={s.searchInput}
+          />
+          <Pressable onPress={searchByPhoto} hitSlop={10} disabled={imageBusy} accessibilityRole="button"
+            accessibilityLabel="Buscar por foto">
+            {imageBusy ? <ActivityIndicator size="small" color={colors.primary} /> : <Camera size={18} color={colors.primary} />}
+          </Pressable>
+        </View>
+        <View style={s.headerActions}>
+          <Pressable onPress={() => router.push('/ecomerse-favorites' as any)} hitSlop={12} accessibilityRole="button"
+            accessibilityLabel={favIds.length ? `Favoritos, ${favIds.length}` : 'Favoritos'}>
+            <Heart size={20} color={favIds.length ? brand.like : colors.textPrimary} />
+          </Pressable>
+          <Pressable onPress={() => router.push('/ecomerse-checkout' as any)} hitSlop={12} accessibilityRole="button"
+            accessibilityLabel={cartCount ? `Carrito, ${cartCount} productos` : 'Carrito vacío'}>
+            <ShoppingCart size={20} color={colors.textPrimary} />
+            {cartCount > 0 && (
+              <View style={s.cartBadge}><Text style={s.cartBadgeText}>{cartCount > 9 ? '9+' : cartCount}</Text></View>
+            )}
+          </Pressable>
+          {/* TIENDAS, no «mi tienda». Este icono 🏪 llevaba al panel del vendedor —una pantalla que,
+              sin tienda dada de alta, solo puede decir que no tienes tienda— y no había **ninguna**
+              forma de ver las tiendas de los demás. Ahora abre el directorio (`/ecomerse-tiendas`),
+              y el panel del vendedor vive dentro, en su propia fila «Mi tienda». El icono deja de
+              tener que adivinar si «tienda» es la tuya o las de todos: ahora son las dos, cada una
+              en su fila. */}
+          <Pressable onPress={() => router.push('/ecomerse-tiendas' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Tiendas">
+            <Store size={20} color={colors.primary} />
+          </Pressable>
+        </View>
+      </View>
+
+      <FlatList
+        data={listData}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={s.colWrap}
+        contentContainerStyle={[s.listContent, { paddingBottom: PIE_MERCADO_H + insets.bottom + espaciado.xxl }]}
+        keyboardShouldPersistTaps="handled"
+        refreshing={loading && products.length > 0}
+        onRefresh={load}
+        ListHeaderComponent={
+          imageActive ? (
+            <View style={[s.photoBanner, { backgroundColor: alpha(colors.primary, 0.08), borderColor: colors.border }]}>
+              <Text style={[s.photoBannerTitle, { color: colors.textPrimary }]}>🔍 Resultados de tu foto</Text>
+              <Text style={[s.photoBannerSub, { color: colors.textSecondary }]}>
+                {imageBusy ? 'Buscando productos similares…' : `${imageResults.length} producto${imageResults.length === 1 ? '' : 's'} similar${imageResults.length === 1 ? '' : 'es'}`}
+              </Text>
+              <Pressable onPress={() => setImageActive(false)} style={s.photoBack} accessibilityRole="button">
+                <Text style={s.photoBackText}>← Volver al catálogo</Text>
+              </Pressable>
+            </View>
+          ) : (
+          <View>
+            {/* PESTAÑAS DE DEPARTAMENTOS — lo primero bajo la barra de búsqueda.
+                Es la estructura de la referencia: el primer nivel son pestañas, la activa se marca
+                con color y subrayado, y la fila **desliza** en vez de aplastarse (18 departamentos
+                no caben en 360 dp, y con una escala de letra grande caben menos todavía).
+                El emoji viaja DELANTE del nombre, y eso no es adorno: el servidor da emoji a los 18
+                departamentos (`icon`), así que la pestaña se reconoce por figura antes de leerse —
+                es lo único del árbol que tiene imagen propia.
+                «Recomendado» es una pestaña más y NO es un departamento: es el estado de partida
+                (sin departamento elegido) el que la deja activa, y al pulsarla se vuelve al feed
+                entero. Va la primera porque es el camino de vuelta, y sin ella la única forma de
+                quitar el filtro sería volver a pulsar la pestaña puesta. */}
+            {loading && cats.length === 0 ? (
+              <PestanasEsqueleto colors={colors} />
+            ) : (
+              <PestanasDepartamentos cats={cats} activeId={categoryFilter} onPick={chooseCat} />
+            )}
+
+            {/* LA REJILLA — las familias del departamento activo, con la imagen del servidor.
+                La imagen **no es de la familia**: la familia no tiene ninguna (0 de 110 tienen
+                `icon`), y el servidor la resuelve a partir de una TIENDA de esa familia —su logo, o
+                si no lo tiene la foto de su anuncio más reciente—. Por eso el rótulo es estable y la
+                imagen no: el día que las tiendas cambien sus fotos, o que se borren las de prueba,
+                la celda se actualiza sola. Sin imagen (`foto: null`) la celda sale con su nombre y
+                centrado: el hueco no se finge con un cuadro vacío, que se leería como avería.
+                Tocar una familia la **elige** y abre su HOJA DE CLASES (ver el `<Sheet>` del final).
+                Ya no la quita volver a tocarla: si volver a tocar cerrara el filtro, la hoja no
+                podría reabrirse con la clase puesta a la vista, que es justo lo que se viene a hacer.
+                Para soltar la familia está «Todas» dentro de la hoja —suelta la clase— y la pestaña
+                del departamento, que suelta las dos. */}
+            {activeCat && (
+              <RejillaFamilias
+                familias={activeCat.familias ?? []}
+                activeId={subcategoryFilter}
+                onPick={(f) => {
+                  setSubcategoryFilter(f.id);
+                  setLeafFilter(''); // la clase de la familia anterior no viaja
+                  /* Una familia sin clases no abre hoja: sería una hoja vacía, que se lee como una
+                     avería. Hoy no hay ninguna (0 de 110), pero la guarda es del dato, no del día. */
+                  setClasesAbiertas(f.hojas.length > 0);
+                }}
+              />
+            )}
+
+            {/* AQUÍ ESTABA EL AVISO. Decía «No le pagamos al vendedor hasta que recibas el pedido»
+                dentro de una franja verde (`<EstadoDinero activo="retenido" compacto />`) y se
+                retiró en la limpieza de cromo. El argumento para quitarlo no es que sobre
+                información, sino que **estaba en el sitio equivocado**: es una promesa sobre el
+                dinero, y el usuario decide si le importa cuando va a pagar, no cuando está mirando
+                categorías. El primitivo sigue vivo, intacto, para la ficha del producto y el
+                checkout, que es donde esa frase cambia una decisión. */}
+
+            {/* AQUÍ VIVÍAN TRES COSAS, Y SE FUERON LAS TRES EL 23-sep-2026 (mismo cambio que las
+                pestañas y la rejilla, quince líneas más arriba):
+                  · los chips de ORDEN («Recomendado · Mejor valorado · Novedades»), con su `SORTS`;
+                  · la pila de AVATARES de categorías con su «Ver todas (18)» y su modal;
+                  · el carril de FAMILIAS en chips, que la rejilla sustituye.
+                El motivo es el mismo en los tres casos: la cabecera gastaba cuatro filas antes de
+                enseñar el primer producto, y las dos primeras —ciudad y orden— no son categorías:
+                son cromo de otra pantalla. Lo que se pierde está anotado arriba, en la cabecera de
+                este fichero, para que no parezca que se perdió por descuido. */}
+
+            {/* AQUÍ VIVIÓ EL CARRIL DE HOJAS, unas horas del 23-sep-2026: una fila de chips con un
+                caret que la abría en el sitio. Duró lo que tardó Bernardo en decir dónde va de
+                verdad: **al tocar una familia se abre una HOJA (modal) con su nombre en el
+                encabezado y sus clases debajo**, que es como lo hace la referencia. Se movió al
+                `<Sheet>` del final de esta pantalla; aquí no queda nada que pintar, y el estado se
+                sigue viendo en la línea de resultados (`caminoFiltro`). */}
+
+            {/* Recomendados (globales; no se ocultan al filtrar) */}
+            {recommended.length > 0 && (
+              <>
+                <View style={[s.sectionHead, { marginTop: 4 }]}>
+                  <Text style={s.sectionTitle}>🔥 Recomendados</Text>
+                </View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingRight: 16 }}>
+                  {recommended.map((p) => (
+                    <TarjetaProducto
+                      key={p.id}
+                      product={p}
+                      width={ANCHO_CARRUSEL}
+                      iconoTamano={ilustracion.md}
+                      favorited={favIds.includes(p.id)}
+                      onPress={() => router.push({ pathname: '/ecomerse-detail', params: { id: p.id } } as any)}
+                      onFav={() => alternarFavorito(p)}
+                    />
+                  ))}
+                </ScrollView>
+              </>
+            )}
+
+            {/* Contador de resultados, con el CAMINO elegido delante cuando hay filtro de categoría:
+                es donde se ve la clase activa desde que la hoja se cierra al elegirla. Va en esta
+                línea y no en una fila nueva: la cabecera de esta pantalla no admite más cromo. */}
+            {!error && (
+              <Text style={s.resultsLabel}>
+                {loading ? 'Cargando…'
+                  : `${caminoFiltro ? `${caminoFiltro} — ` : ''}${products.length} producto${products.length === 1 ? '' : 's'}`}
+              </Text>
+            )}
+          </View>
+          )
+        }
+        ListEmptyComponent={
+          imageActive ? (
+            /* Tres estados distintos, y antes eran uno: mientras busca se enseña que busca, si
+               falla se dice que falló (con reintento), y solo si de verdad no hay resultados se
+               enseña el vacío. El vacío, además, ahora es el del kit. */
+            imageBusy ? (
+              <View style={{ alignItems: 'center', paddingTop: 48 }}>
+                <ActivityIndicator color={colors.primary} />
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: 10 }}>Buscando productos parecidos…</Text>
+              </View>
+            ) : imageError ? (
+              <View style={{ paddingTop: 40, paddingHorizontal: 32 }}>
+                <InlineError mensaje={imageError} onReintentar={() => void searchByPhoto()} etiquetaReintento="Elegir otra foto" />
+              </View>
+            ) : (
+              <EmptyState
+                emoji="📷"
+                titulo="No encontramos productos parecidos"
+                texto="Prueba con otra foto más nítida, de frente y con buena luz, o busca por texto."
+                accionLabel="← Volver al catálogo"
+                onAccion={() => setImageActive(false)}
+              />
+            )
+          ) : error ? (
+            /*
+              El error, con el componente del kit: se anuncia al lector de pantalla, vibra y trae
+              su propio reintento. Era un bloque a mano con 📡 y un botón de estilo propio.
+            */
+            <View style={{ paddingTop: 40, paddingHorizontal: 32 }}>
+              <InlineError mensaje={`No pudimos cargar el catálogo. ${error}`} onReintentar={load} />
+            </View>
+          ) : loading ? null : (
+            /* El vacío del kit. Antes este archivo definía el suyo: tres formas de hacer lo
+               mismo en el mismo producto. Las dos caras van en un solo objeto para no repetir
+               cinco veces la condición de «hay filtros». */
+            /* La ciudad salió de esta condición el 23-sep-2026 junto con su carril. No se pierde
+               nada: `cityFilter` sigue en el store pero **nada puede ya escribirlo** —la home no lo
+               pinta y el `partialize` del store solo persiste `cart`—, así que un filtro de ciudad
+               es hoy imposible de tener activo. Y el texto ya no manda «buscar en otra ciudad», que
+               era una salida que esta pantalla no ofrece. */
+            <EmptyState
+              emoji="🛍️"
+              {...((!!categoryFilter || !!subcategoryFilter || !!leafFilter || !!query.trim())
+                ? {
+                    titulo: 'Sin resultados con estos filtros',
+                    texto: 'Prueba a quitar filtros o a buscar con otras palabras.',
+                    accionLabel: 'Quitar filtros',
+                    onAccion: () => { setCategoryFilter(''); setSubcategoryFilter(''); setLeafFilter(''); setQuery(''); },
+                  }
+                : {
+                    titulo: 'Todavía no hay productos',
+                    texto: 'Sé el primero en publicar: identidad verificada + aprobación del administrador.',
+                    accionLabel: 'Publicar mi primer producto',
+                    accionPrimaria: true,
+                    onAccion: () => router.push('/ecomerse-seller' as any),
+                  })}
+            />
+          )
+        }
+        renderItem={({ item }) =>
+          isPlaceholder(item.id) ? (
+            <EsqueletoTarjeta key={item.id} />
+          ) : item.id === '__spacer__' ? (
+            <View key="spacer" style={{ flex: 1 }} />
+          ) : (
+            <TarjetaProducto
+              product={item}
+              favorited={favIds.includes(item.id)}
+              onPress={() => router.push({ pathname: '/ecomerse-detail', params: { id: item.id } } as any)}
+              onFav={() => alternarFavorito(item)}
+              onAdd={() => {
+                /* Un anuncio CON combinaciones no se añade desde la tarjeta: hay que elegir, y la
+                   tarjeta no tiene dónde. Se manda a la ficha, que es donde se elige. La guarda se
+                   apoya en `variantCount`, que hoy devuelve `myProducts`; **el catálogo todavía no lo
+                   manda**, así que mientras tanto esta rama no se toma y la línea se retira con su
+                   aviso en el checkout (ver `app/ecomerse-checkout.tsx`). */
+                if (item.variantCount) {
+                  router.push({ pathname: '/ecomerse-detail', params: { id: item.id } } as any);
+                  return;
+                }
+                addToCart({ productId: item.id, title: item.title, priceXaf: item.priceXaf, qty: 1, photos: item.photos ?? [], stock: item.stock, city: item.city });
+              }}
+            />
+          )
+        }
+      />
+
+      {/* AQUÍ VIVÍAN DOS MODALES: «Todas las categorías» (la hoja de la pila de avatares) y «Elige tu
+          ciudad». Los dos cayeron con el cromo de la cabecera el 23-sep-2026: las 18 pestañas de
+          departamento ya están todas a la vista —y deslizan—, así que la hoja era una segunda puerta
+          al mismo sitio; y el filtro por ciudad dejó de ofrecerse en la home (el servidor y el
+          `state` lo conservan intacto, ver la cabecera del fichero). */}
+
+      {/* LA HOJA DE CLASES — el tercer escalón, y la forma que pidió Bernardo mirando la referencia:
+          **al tocar una familia se abre un modal cuyo encabezado dice SOLO el nombre de la familia y
+          debajo van sus clases**.
+          Se usa el `Sheet` del kit y no un `<Modal>` escrito aquí: ese primitivo ya resuelve el fondo
+          oscurecido, el cierre al tocar fuera, el botón físico de atrás, el foco encerrado para el
+          lector de pantalla y el tope de altura para las listas largas — y existe porque la app llegó
+          a tener 51 modales a mano con la accesibilidad desigual (ver `primitives/Sheet.tsx`).
+          `position="bottom"`: es una hoja de acción, no una confirmación corta, y así entra desde
+          abajo como en la referencia.
+          SIN desplazamiento propio: la familia más larga del árbol vivo tiene **16 clases** (medido;
+          el reparto es 36 familias con 1-3, 66 con 4-6, 3 con 7-9, 4 con 10-14 y 1 con 16), que en
+          chips de ancho natural son unas 6 filas — dentro del 80 % de alto que ya topa el `Sheet`.
+          Si alguna familia pasara de ~30 clases, habría que meter un `ScrollView` aquí. */}
+      <Sheet
+        visible={clasesAbiertas && !!activeFam}
+        title={activeFam?.label ?? ''}
+        position="bottom"
+        onClose={() => setClasesAbiertas(false)}
+      >
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.sm }}>
+          <SubChip label="Todas" active={leafFilter === ''} onPress={() => elegirClase('')} />
+          {(activeFam?.hojas ?? []).map((h) => (
+            <SubChip key={h.id} label={h.label} active={leafFilter === h.id} onPress={() => elegirClase(h.id)} />
+          ))}
+        </View>
+      </Sheet>
+
+      {/* El pie del Mercado (Home · Mensajes · Perfil). Va DENTRO del View raíz y al final, como el
+          dock en las pantallas que lo pintan. El hueco que necesita la lista se lo da el
+          `paddingBottom` de arriba: sin él, la última fila de productos quedaría tapada por la barra
+          y no habría forma de llegar a ella. */}
+      <PieDelMercado sinLeer={sinLeer} />
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Componentes
+// ---------------------------------------------------------------------------
+
+/**
+ * PESTAÑAS DE DEPARTAMENTOS — el primer nivel de la home, pegado a la barra de búsqueda.
+ *
+ * Son 18 y **no caben** en 360 dp, así que la fila **desliza** en vez de repartirse: 18 pestañas
+ * comprimidas serían 18 rótulos cortados, que es el defecto que esta pantalla ya arregló una vez.
+ *
+ * La activa se marca de DOS formas a la vez —color y subrayado—, y no es redundancia: en el tema
+ * oscuro el color primario y el texto secundario se distinguen mal, y hay quien no distingue el
+ * rojo. El `accessibilityState` lo dice además sin depender de ninguna de las dos.
+ *
+ * «Recomendado» es la primera y **no es un departamento**: es el estado «sin departamento». Volver a
+ * pulsar la pestaña puesta también lo quita (`chooseCat` alterna), pero eso hay que descubrirlo; una
+ * pestaña que se llama «Recomendado» se entiende sin manual.
+ *
+ * EL EMOJI VA DELANTE DEL NOMBRE, y va dentro del MISMO `Text`: es lo único del árbol que tiene
+ * imagen propia —los 18 departamentos sí, las 110 familias no—, así que la pestaña se reconoce por
+ * figura antes de leerse. En dos `Text` hermanos dentro de una fila la línea base se descuadra en
+ * cuanto cambia la escala de letra del sistema.
+ */
+function PestanasDepartamentos({ cats, activeId, onPick }: {
+  cats: EcomerseCategory[]; activeId: string; onPick: (id: string) => void;
+}) {
+  const { colors } = useTheme();
+  return (
+    <View style={[s_home.pestanasBarra, { borderBottomColor: colors.border }]}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s_home.pestanasContenido}>
+        <Pestana label="Recomendado" activa={activeId === ''} onPress={() => onPick('')} colors={colors} />
+        {cats.map((c) => (
+          <Pestana
+            key={c.id}
+            label={c.label}
+            emoji={c.icon}
+            activa={activeId === c.id}
+            onPress={() => onPick(c.id)}
+            colors={colors}
+          />
+        ))}
+      </ScrollView>
+    </View>
+  );
+}
+
+/** Una pestaña. Aparte del carril para que el carril no tenga dos ramas de pintado. */
+function Pestana({ label, emoji, activa, onPress, colors }: {
+  label: string; emoji?: string | null; activa: boolean;
+  onPress: () => void; colors: ReturnType<typeof useTheme>['colors'];
+}) {
+  return (
+    <Pressable onPress={onPress} hitSlop={6} accessibilityRole="tab"
+      accessibilityState={{ selected: activa }} accessibilityLabel={label} style={s_home.pestana}>
+      <Text numberOfLines={1} style={[s_home.pestanaTexto, { color: activa ? colors.primary : colors.textSecondary }]}>
+        {emoji ? `${emoji} ` : ''}{label}
+      </Text>
+      {/* El subrayado se pinta SIEMPRE (transparente cuando no toca) y no condicionalmente: así la
+          pestaña mide lo mismo activa y no activa, y al cambiar de pestaña no baila el alto. */}
+      <View style={[s_home.subrayado, { backgroundColor: activa ? colors.primary : 'transparent' }]} />
+    </Pressable>
+  );
+}
+
+/**
+ * Esqueleto del carril de pestañas: **mismo alto, mismo deslizamiento horizontal, mismo hueco**. Un
+ * esqueleto que no mide lo que va a medir el contenido real es una promesa falsa — hace saltar la
+ * pantalla cuando llegan los datos. Por eso son barras del alto de una pestaña y no círculos.
+ */
+function PestanasEsqueleto({ colors }: { colors: ReturnType<typeof useTheme>['colors'] }) {
+  return (
+    <View style={[s_home.pestanasEsqueleto, { borderBottomColor: colors.border }]}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <View key={i} style={[s_home.pestanaEsqueleto, { backgroundColor: colors.border }]} />
+      ))}
+    </View>
+  );
+}
+
+/**
+ * LA REJILLA DE FAMILIAS — el segundo nivel, con la imagen que resuelve el servidor.
+ *
+ * LA IMAGEN NO ES DE LA FAMILIA, y esto es lo que hay que entender antes de tocar nada: la familia
+ * no tiene imagen propia (0 de las 110 traen `icon`), así que el servidor la saca de **una tienda de
+ * esa familia** —su logo, o si no lo tiene la foto de su anuncio más reciente—. Consecuencia: el
+ * **rótulo es estable y la imagen no**, porque el rótulo sale del árbol y la imagen de las tiendas.
+ * El día que las tiendas cambien sus fotos, o que se borren las de prueba, la celda se actualiza
+ * sola sin tocar este código.
+ *
+ * SIN IMAGEN NO SE FINGE NADA. `foto: null` es un estado legítimo —hoy es el de casi todas las
+ * celdas, con dos tiendas en el Mercado— y entonces la celda sale **con su nombre, centrado**: no un
+ * cuadro vacío, que se leería como una imagen rota, ni el emoji del departamento, que sería idéntico
+ * en las quince celdas de una pestaña y no distinguiría nada.
+ *
+ * El alto de la celda es un MÍNIMO COMÚN (`ALTO_CELDA_FAMILIA`, 88 dp) justo por eso: si midiera lo
+ * que mide su contenido, una fila con una foto y cuatro sin ella quedaría a cinco alturas y los
+ * rótulos quedarían descolgados, que es lo que se lee como error de maquetación.
+ *
+ * EL RÓTULO SE CORTA A DOS LÍNEAS (`numberOfLines={2}`) y a 5 columnas eso alcanza a **31 de las 110
+ * familias (28 %)** —las de dos palabras largas—: `Bolsos y accesorios…`. Está medido y asumido; el
+ * porqué del número de columnas y qué costaría bajarlo a 4 está en la cabecera de `COLUMNAS_REJILLA`.
+ */
+function RejillaFamilias({ familias, activeId, onPick }: {
+  familias: EcomerseFamily[]; activeId: string; onPick: (id: string) => void;
+}) {
+  const { colors } = useTheme();
+  return (
+    <View style={s_home.rejillaContenido}>
+      {familias.map((f) => {
+        const on = activeId === f.id;
+        return (
+          <Pressable key={f.id} onPress={() => onPick(f.id)} accessibilityRole="button"
+            accessibilityState={{ selected: on }} accessibilityLabel={f.label} style={s_home.celda}>
+            {f.foto ? (
+              <Image
+                source={{ uri: f.foto }}
+                style={[s_home.celdaFoto, {
+                  backgroundColor: colors.surface,
+                  borderColor: on ? colors.primary : colors.border,
+                  borderWidth: on ? trazo.fuerte : trazo.fino,
+                }]}
+                contentFit="cover"
+                transition={150}
+              />
+            ) : null}
+            <Text numberOfLines={2} ellipsizeMode="tail"
+              style={[s_home.celdaRotulo, { color: on ? colors.primary : colors.textPrimary }]}>{f.label}</Text>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
+const s_home = StyleSheet.create({
+  /* --- pestañas --- */
+  pestanasBarra: { borderBottomWidth: trazo.fino },
+  pestanasContenido: { paddingHorizontal: espaciado.lg, gap: espaciado.md, alignItems: 'flex-end' },
+  pestana: { alignItems: 'center', paddingTop: espaciado.sm },
+  /** `caption` (12) y no `body`: con 18 pestañas la fila se recorre deslizando, y un rótulo grande
+   *  convierte cada pestaña en un bloque — se ve menos de la mitad del árbol de un vistazo. */
+  pestanaTexto: { fontSize: tipografia.caption, fontWeight: peso.fuerte, paddingBottom: espaciado.xs },
+  /** `radios.full` y no `1`: el subrayado mide 2 dp de alto, así que el radio máximo lo convierte en
+   *  una barra de extremos redondeados igual que un `1` a mano — pero el `1` era el único valor de
+   *  radio suelto del archivo, y la guardia de diseño (`npm run diseno`) lo cazaba como deuda nueva. */
+  subrayado: { height: 2, width: '100%', borderRadius: radios.full },
+  pestanasEsqueleto: { flexDirection: 'row', gap: espaciado.md, paddingHorizontal: espaciado.lg, paddingVertical: espaciado.md, borderBottomWidth: trazo.fino },
+  pestanaEsqueleto: { width: 56, height: 12, borderRadius: radios.sm },
+
+  /* --- rejilla de familias --- */
+  /** `flexWrap` con ancho EXPLÍCITO por celda (`100/COLUMNAS_REJILLA`): con `flex: 1` y base 0 el
+   *  `flexWrap` no llega a partir la fila —las celdas «caben» en teoría y acaban comprimidas—. Es un
+   *  defecto que ya apareció en la rejilla vieja de esta pantalla. */
+  rejillaContenido: { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: espaciado.md, paddingTop: espaciado.md },
+  celda: {
+    width: `${100 / COLUMNAS_REJILLA}%`, minHeight: ALTO_CELDA_FAMILIA,
+    alignItems: 'center', justifyContent: 'center', paddingHorizontal: 2, paddingVertical: espaciado.xs,
+  },
+  celdaFoto: { width: DIAM_FOTO_FAMILIA, height: DIAM_FOTO_FAMILIA, borderRadius: radios.md, marginBottom: 6 },
+  celdaRotulo: { fontSize: tipografia.micro, fontWeight: peso.fuerte, textAlign: 'center' },
+});
+
+function SubChip({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
+  const { colors } = useTheme();
+  return (
+    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label}
+      style={{ paddingHorizontal: 12, paddingVertical: 6, borderRadius: radios.md, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border }}>
+      <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: active ? brand.white : colors.textPrimary }}>{label}</Text>
+    </Pressable>
+  );
+}
+
+/**
+ * LA FILA DE HOJAS Y SU PANEL ABIERTO — 23-sep-2026.
+ *
+ * Es la pieza de la referencia (Pinduoduo) que faltaba: **una fila de chips con un caret a la
+ * derecha que la abre entera**, en dos estados, colapsada y desplegada.
+ *
+ * HACÍA FALTA AQUÍ MÁS QUE EN LA REFERENCIA, y es un dato, no una impresión. Allí los rótulos miden
+ * 2-5 caracteres y en una fila entran cinco o seis. Los nuestros, medidos sobre las **502 hojas
+ * vivas**: mínimo 4, **mediana 15**, máximo 38 caracteres («Farmacia D.O.M. (Deus Optimus
+ * Maximus)»). En un móvil de 360 dp eso son **dos o tres chips por pantalla**, así que sin la forma
+ * abierta una familia con 16 hojas —Supermercados— se recorre a ciegas, deslizando sin saber cuánto
+ * queda. El reparto medido: 36 familias con 1-3 hojas, 66 con 4-6, 3 con 7-9, 4 con 10-14 y 1 con 16.
+ *
+ * EL CARET SOLO SALE SI EL CARRIL DESBORDA DE VERDAD, y eso se mide: ancho del contenido
+ * (`onContentSizeChange`) contra ancho del carril (`onLayout`). Un umbral fijo de hojas no valdría
+ * —«Aceite» (6) y «Farmacia D.O.M. (Deus Optimus Maximus)» (38) no ocupan lo mismo— y un caret
+ * permanente en las 102 familias que caben sería cromo que no hace nada. La condición además es
+ * **monótona**, que es lo que impide el parpadeo: enseñar el caret solo le quita ancho al carril y
+ * el contenido no cambia, así que lo que ya desbordaba sigue desbordando y lo que no desbordaba
+ * nunca lo ve aparecer.
+ *
+ * AL ELEGIR, SE CIERRA — y ahí se discrepa de la referencia, que deja el panel abierto. El motivo es
+ * que aquí el panel tapa el feed y su razón de ser es ENCONTRAR: elegido el chip, lo que se quiere
+ * ver son los productos. El precio de cerrar es que el chip elegido puede quedar fuera de la
+ * pantalla, y eso convertiría la elección en invisible; por eso al cerrar el carril **se desplaza
+ * hasta él**. La posición de cada chip se toma de su `onLayout` (el `x` dentro del contenido, que no
+ * cambia al cambiar el ancho de la ventana porque es relativo al contenido).
+ */
+function FilaHojas({ familia, activeId, onPick }: {
+  familia: EcomerseFamily;
+  activeId: string;
+  onPick: (id: string) => void;
+}) {
+  const { colors } = useTheme();
+  const [abierta, setAbierta] = useState(false);
+  const [anchoCarril, setAnchoCarril] = useState(0);
+  const [anchoContenido, setAnchoContenido] = useState(0);
+  const carril = useRef<ScrollView>(null);
+  const posiciones = useRef<Record<string, number>>({});
+  /** El chip que hay que dejar a la vista en cuanto el carril vuelva a estar montado. */
+  const porVer = useRef<string | null>(null);
+
+  /** Los +1 de margen no son decoración: `onContentSizeChange` redondea y sin él un contenido que
+   *  cabe por medio píxel sacaría el caret para nada. */
+  const desborda = anchoContenido > anchoCarril + 1;
+
+  /* El desplazamiento al chip elegido va en un efecto y no en el `onPress`: con el panel abierto el
+   * carril NO está montado (el `return` de abajo lo sustituye), así que en el momento de pulsar la
+   * referencia es `null`. Cuando el efecto corre, el estado ya cambió y el carril existe. */
+  useEffect(() => {
+    if (abierta || porVer.current === null) return;
+    const id = porVer.current;
+    porVer.current = null;
+    const x = posiciones.current[id];
+    if (x !== undefined) carril.current?.scrollTo({ x: Math.max(0, x - espaciado.lg), animated: true });
+  }, [abierta]);
+
+  const elegir = (id: string) => {
+    /* Volver a pulsar el chip puesto lo quita, que es como se comportaba esta fila antes del panel
+       y como se comporta la pestaña de departamento. */
+    const nuevo = activeId === id ? '' : id;
+    porVer.current = nuevo || null;
+    onPick(nuevo);
+    setAbierta(false);
+  };
+
+  /* Los chips son los mismos en los dos estados, y por eso se escriben una vez: en el carril se
+     deslizan y en el panel se envuelven, pero un chip no cambia de forma ni de contenido. */
+  const chips = (
+    <>
+      <View onLayout={(e) => { posiciones.current[''] = e.nativeEvent.layout.x; }}>
+        <SubChip label="Todas" active={activeId === ''} onPress={() => elegir('')} />
+      </View>
+      {familia.hojas.map((h) => (
+        <View key={h.id} onLayout={(e) => { posiciones.current[h.id] = e.nativeEvent.layout.x; }}>
+          <SubChip label={h.label} active={activeId === h.id} onPress={() => elegir(h.id)} />
+        </View>
+      ))}
+    </>
+  );
+
+  if (abierta) {
+    return (
+      <View style={[s_hojas.panel, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+        <Pressable onPress={() => setAbierta(false)} accessibilityRole="button"
+          accessibilityLabel={`Cerrar las categorías de ${familia.label}`} style={s_hojas.panelCabecera}>
+          <Text style={[s_hojas.panelTitulo, { color: colors.textSecondary }]} numberOfLines={1}>{familia.label}</Text>
+          <ChevronUp size={ilustracion.sm} color={colors.textSecondary} />
+        </Pressable>
+        <View style={s_hojas.panelCuerpo}>{chips}</View>
+      </View>
+    );
+  }
+
+  return (
+    <View style={s_hojas.fila}>
+      <ScrollView ref={carril} horizontal showsHorizontalScrollIndicator={false} style={s_hojas.carril}
+        contentContainerStyle={s_hojas.carrilContenido}
+        onLayout={(e) => setAnchoCarril(e.nativeEvent.layout.width)}
+        onContentSizeChange={(w) => setAnchoContenido(w)}>
+        {chips}
+      </ScrollView>
+      {desborda && (
+        <Pressable onPress={() => setAbierta(true)} accessibilityRole="button"
+          accessibilityLabel={`Ver las ${familia.hojas.length + 1} categorías de ${familia.label}`}
+          style={s_hojas.caret}>
+          <ChevronDown size={ilustracion.sm} color={colors.textSecondary} />
+        </Pressable>
+      )}
+    </View>
+  );
+}
+
+/**
+ * Los estilos de la fila de hojas, al nivel del módulo y **sin colores**: los que dependen del tema
+ * van en línea (`colors.surface`, `colors.border`, `colors.textSecondary`), que es el patrón que ya
+ * sigue `s_home` aquí al lado. Solo tokens: así la guardia de diseño (`npm run diseno`) no ve un
+ * solo `fontWeight`, `borderWidth` ni hex nuevos, que es exactamente lo que cuenta.
+ */
+const s_hojas = StyleSheet.create({
+  fila: { flexDirection: 'row', alignItems: 'center', marginTop: espaciado.sm },
+  carril: { flex: 1, paddingLeft: espaciado.lg },
+  carrilContenido: { gap: espaciado.sm, paddingRight: espaciado.sm },
+  /** El área táctil del caret: `ilustracion.sm` (20) de icono más el relleno, para no quedar por
+   *  debajo del mínimo táctil de Android. */
+  caret: { paddingHorizontal: espaciado.sm, paddingVertical: espaciado.md, justifyContent: 'center' },
+  panel: { marginTop: espaciado.sm, marginHorizontal: espaciado.lg, padding: espaciado.md, borderRadius: radios.md, borderWidth: trazo.fino },
+  panelCabecera: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingBottom: espaciado.sm },
+  panelTitulo: { flex: 1, fontSize: tipografia.caption, fontWeight: peso.fuerte },
+  /** `flexWrap` con chips de ancho natural, y no las 4 columnas de la referencia: en una columna de
+   *  un cuarto de pantalla (80 dp) el rótulo mediano —15 caracteres— sale cortado, y el motivo de
+   *  abrir el panel es justamente **leer los nombres**. El chip conserva así el alto de una línea y
+   *  la forma que ya tenía en el carril, así que al abrir y cerrar no salta nada. */
+  panelCuerpo: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.sm },
+});
+
+/** Aquí vivieron tres esqueletos de la zona de categorías, y ninguno llegó a tiempo: `CatSkeletonGrid`
+ *  (5 cuadrados de 46 en fila) se retiró al pasar la home a la pila de avatares, `AvatarStackEsqueleto`
+ *  (los círculos con su solape) al pasar la home a las pestañas + rejilla el 23-sep-2026. El que vive
+ *  ahora es `PestanasEsqueleto`, unas barras del ancho de una pestaña: dibuja **lo que va a llegar**
+ *  —nombres de departamento— y no una forma que luego no aparece. Regla que sacaron los tres: un
+ *  esqueleto que no mide lo mismo que el contenido hace saltar la cabecera al cargar. */
+
+const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
+  root: { flex: 1, backgroundColor: c.background },
+  /**
+   * Fondo SÓLIDO + elevación: es lo que despega la cabecera del catálogo que se desliza por
+   * debajo. Sin `backgroundColor` la barra era transparente y, al desplazar, la fila de tarjetas
+   * cortada por el borde de la lista se leía pegada al título, sin separación ninguna.
+   * `paddingVertical` bajó de 12 a 8 al mudarse aquí la barra de búsqueda: 8 + 40 + 8 = 56 dp de
+   * cabecera, el alto estándar de una barra de app de Android. Con 12 serían 64 y se comía el
+   * sitio de una tarjeta y media.
+   */
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.lg, paddingVertical: espaciado.sm, backgroundColor: c.background, borderBottomWidth: trazo.fino, borderBottomColor: c.border, zIndex: 2, elevation: 2 },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  cartBadge: { position: 'absolute', top: -6, right: -8, minWidth: 16, height: 16, borderRadius: radios.sm, backgroundColor: brand.like, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3 },
+  cartBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.titulo },
+  /**
+   * La barra de búsqueda, en la cabecera. `height: 40` en vez de `paddingVertical`: es lo que la
+   * hace caber junto a los tres iconos de acción y quedar centrada con ellos, y evita que el alto
+   * dependa del `font_scale` del usuario (con un `paddingVertical` fijo, a 1.3 de escala la barra
+   * crecía y desalineaba la fila entera). Los 40 dp son de la barra, no del área táctil: la barra
+   * entera es el campo, así que el alto táctil ya es de sobra.
+   */
+  headerSearch: { flex: 1, flexDirection: 'row', alignItems: 'center', marginHorizontal: espaciado.md, height: 40, paddingHorizontal: espaciado.md, backgroundColor: c.surface, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border },
+  /** `paddingVertical: 0` es obligatorio en Android: el `TextInput` trae relleno vertical propio y,
+   *  sin quitarlo, desborda los 40 dp de la barra por arriba y por abajo. */
+  searchInput: { flex: 1, color: c.textPrimary, fontSize: tipografia.body, marginLeft: espaciado.sm, paddingVertical: 0 },
+  /* Aquí vivían `cityRow`, `cityPicker`, `cityLabel` y `cityItem` (el carril de ciudad) y `seeAll`
+     («Ver todas (18)», el acceso al modal de categorías). Se retiraron el 23-sep-2026 con el cromo
+     de la cabecera: sus dos pantallas ya no existen, así que eran cinco hojas de estilo que nadie
+     podía aplicar. Un `StyleSheet` con claves muertas no molesta al compilador, pero hace creer que
+     la ciudad y el modal siguen ahí a quien lea el archivo. */
+  sectionHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, marginTop: 16, marginBottom: 8 },
+  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary },
+  /* Aquí vivía `subRow` (el carril de hojas). Se retiró el 23-sep-2026 al mudarse la fila a su
+     propio componente (`FilaHojas`), que trae sus estilos en `s_hojas`: dejarla habría sido una hoja
+     de estilo que nadie aplica, y el patrón del archivo —`s_home` al lado— ya dice que los estilos de
+     un componente de módulo viven con él, no en el `styles()` de la pantalla. */
+  resultsLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, paddingHorizontal: 16, marginTop: 16, marginBottom: 10 },
+  colWrap: { gap: 10, paddingHorizontal: 16 },
+  listContent: { paddingBottom: 32 },
+  /* `modalWrap`/`modalCard`/`modalHead`/`modalTitle` murieron con los dos modales de la home
+     (ciudad y «Todas las categorías»), retirados el 23-sep-2026. El `Modal` ya no está importado
+     en este archivo: si vuelve a hacer falta un modal, se trae el `Modal` y con él su envoltorio. */
+  photoBanner: { marginHorizontal: 16, marginTop: 12, borderRadius: radios.md, borderWidth: 1, padding: 14, alignItems: 'center' },
+  photoBannerTitle: { fontSize: tipografia.body, fontWeight: '800' },
+  photoBannerSub: { fontSize: tipografia.caption, marginTop: 4 },
+  photoBack: { marginTop: 10, paddingHorizontal: 14, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: c.primary },
+  photoBackText: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800' },
+});

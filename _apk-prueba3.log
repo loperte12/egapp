@@ -1,0 +1,16 @@
+﻿🔒 bloqueo tomado por nisang12
+· compilando (assembleRelease -PprojectRoot=D:\egapp -PappIdSuffix=.prueba -PappName=EG Route Plan Prueba)
+
+> Task :app:dexBuilderRelease UP-TO-DATE
+[Incubating] Problems report is available at: file:///D:/egapp/android/build/reports/problems/problems-report.html
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+BUILD SUCCESSFUL in 1m 25s
+· APK: D:\egapp\android\app\build\outputs\apk\release\app-release.apk  (111.3 MB, 09/23/2026 21:59:58)
+⚠ no hay ningún móvil conectado por USB: no se instala
+   (adb dice: adb.exe : * daemon not running; starting now at tcp:5037 · At D:\egapp\compilar-apk.ps1:100 char:21 · +  
+     $salidaAdb = (& $adb devices 2>&1 | Out-String) · +                     ~~~~~~~~~~~~~~~~~~~ ·     + CategoryInfo  
+        : NotSpecified: (* daemon not ru...now at tcp:5037:String) [], RemoteException ·     + FullyQualifiedErrorId : 
+NativeCommandError ·   · * daemon started successfully · List of devices attached)
+🔓 bloqueo liberado
+
+

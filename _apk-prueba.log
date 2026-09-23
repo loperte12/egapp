@@ -1,0 +1,17 @@
+﻿🔒 bloqueo tomado por nisang12
+· compilando (assembleRelease -PprojectRoot=D:\egapp -PappIdSuffix=.prueba -PappName=EG Route Plan Prueba)
+
+> Task :app:dexBuilderRelease
+[Incubating] Problems report is available at: file:///D:/egapp/android/build/reports/problems/problems-report.html
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+BUILD SUCCESSFUL in 6m 2s
+· APK: D:\egapp\android\app\build\outputs\apk\release\app-release.apk  (111.3 MB, 09/23/2026 21:42:33)
+· instalando com.egrouteplan.app.prueba
+Performing Streamed Install
+Success
+    versionName=0.1.0
+    lastUpdateTime=2026-09-23 21:42:57
+🔓 bloqueo liberado
+
+
+rc=1

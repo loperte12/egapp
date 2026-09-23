@@ -1,0 +1,837 @@
+/**
+ * EcomerseScreen — Home del marketplace "Mercado" (estilo Xianyu adaptado GQ).
+ * v5 (auditoría senior): error de red con Reintentar (nunca "no hay productos"),
+ * sin datos stale al filtrar, subcategoría limpia al cambiar de categoría,
+ * búsqueda server-side con debounce, favoritos con sesión, carrito siempre
+ * navegable, sin teléfonos PII en el feed (WhatsApp solo en detalle), CTA
+ * "Añadir" en tarjeta, grid par, a11y, pull-to-refresh, SafeArea y skeletons.
+ * Ruta: /ecomerse
+ */
+
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  ActivityIndicator, Alert, FlatList, Modal, Pressable, ScrollView, StyleSheet,
+  Text, TextInput, View,
+} from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ArrowLeft, Camera, Heart, Search, ShoppingCart, Store, X } from 'lucide-react-native';
+import { useTheme, alpha, EmptyState, InlineError, tipografia, radios, trazo, peso, espaciado, ilustracion } from '@egrouteplan/ui-kit';
+import { ecomerseApi, EcomerseCategory, EcomerseProduct } from '../api/ecomerse';
+import { useEcomerseStore } from '../state/ecomerse';
+import { useSession } from '../state/session';
+import { CITIES } from '../constants/data';
+import { brand } from '@egrouteplan/ui-kit';
+import { TarjetaProducto, EsqueletoTarjeta, ANCHO_CARRUSEL } from '../components/ecomerse/TarjetaProducto';
+
+/**
+ * Columnas de la rejilla de categorías: **4 y no 5**. No es estética, es aritmética de dp.
+ *
+ * La pantalla del móvil de referencia es 1080 px con densidad 480 (×3), o sea **360 dp de ancho**,
+ * y con `font_scale` 1.15 el token `micro` (11) se pinta a 12,65 dp. Medido en el volcado de
+ * accesibilidad, eso son **~21 px físicos por carácter**:
+ *   · «Abacería» (8)            = 172 px
+ *   · «Frutas y verduras» (17) ≈ 365 px   → 122 dp
+ *
+ * A 5 columnas la celda mide **72 dp** y «Frutas y verduras» necesita 122: no cabe, y el texto sale
+ * con puntos suspensivos. A 4 columnas son **90 dp** y, repartido en dos líneas («Frutas y» /
+ * «verduras»), entra **todo entero** — incluso «Teléfonos y tablets» (78 dp la primera línea).
+ * Por eso la celda se mide antes de dar la rejilla por buena: lo que fallaba no era el `ellipsis`,
+ * era el ancho.
+ *
+ * Desde la limpieza de cromo esta rejilla **solo la usa la hoja «Todas las categorías»**: en la home
+ * las categorías son un avatar stack, donde no hay etiqueta que pueda salir cortada.
+ */
+const GRID_COLS = 4;
+/**
+ * AVATAR STACK DE CATEGORÍAS — la home ya no enseña 7 celdas con etiqueta, enseña 6 avatares
+ * solapados y un «+N» que abre la hoja completa (patrón
+ * {@link https://ui.spectrumhq.in/docs/avatar-stack}, con su mismo `max` + píldora «+N»).
+ *
+ * POR QUÉ 6 Y NO 7, NI 8. La cuenta la manda la pantalla más estrecha que hay que soportar
+ * (**320 dp**), no la de referencia (360). Con 16 dp de margen a cada lado quedan 288:
+ *
+ *     ancho = 2·D + (n-1)·(D − S) + 8        D = 48 (diámetro), S = 16 (solape)
+ *     n = 6  →  96 + 5·32 + 8  = 264 dp   ✔ sobran 24 dp en 320 y 64 en 360
+ *     n = 7  →  96 + 6·32 + 8  = 296 dp   ✘ se sale en 320
+ *
+ * 7 avatares NO caben en un móvil de 320 dp y, sin `wrap`, se recortarían los dos extremos. 6 sí.
+ *
+ * LO QUE SE PAGA: el área táctil de los avatares 2.º a 5.º deja de ser el círculo entero y pasa a
+ * ser **la banda que queda al descubierto, 32 × 48 dp** (el 1.º y el 6.º conservan los 48, porque
+ * nadie los tapa). 32 dp supera el mínimo AA de WCAG 2.5.8 —24 × 24— pero **no** los 44 dp que
+ * recomienda la plataforma: es el precio de solapar, y es exactamente el mismo trueque que hace
+ * cualquier avatar stack. Por eso la hoja «Ver todas» sigue teniendo su rejilla de 4 columnas con
+ * etiqueta: el stack es el atajo, la hoja es la lista buena.
+ */
+const MAX_AVATARES_CAT = 6;
+/** Diámetro del avatar de categoría. 48 = el mínimo táctil que recomienda Android. */
+const DIAM_AVATAR = 48;
+/** Cuánto tapa cada avatar al anterior. Múltiplo de 4 y 1/3 del diámetro: se lee como pila, no como choque. */
+const SOLAPE_AVATAR = 16;
+const MAX_PHOTO_MB = 8;
+/**
+ * LA TARJETA SE MUDÓ. El velo, la proporción, las etiquetas y los controles viven ahora en
+ * `components/ecomerse/TarjetaProducto.tsx`, porque estaban duplicados en tres sitios (rejilla,
+ * carrusel y Favoritos) con tres aspectros distintos.
+ *
+ * Lo que hay que saber desde aquí, que es la pantalla que la usa:
+ *
+ * **La proporción la decide la cámara, no el gusto.** El alta de vendedor sube la foto tal cual sale
+ * del dispositivo (`launchCameraAsync` sin `allowsEditing` ni `aspect`) y las cámaras Android
+ * arrancan en 4:3, así que el catálogo se llena de fotos 3:4. Con el marco 2:3 anterior —más alto
+ * que ancho— la tarjeta venía recortando **el 11 % del ancho de todas las fotos** sin avisar a
+ * nadie. Con 3:4 el recorte es **cero** y el vendedor ve en el visor exactamente lo que verá el
+ * comprador. La decisión completa está en `DECISION-PROPORCION-TARJETAS.md`.
+ *
+ * Lo que se paga a cambio es altura: la tarjeta baja de 236 a 209 dp, y con ella la imagen limpia de
+ * cada una. A cambio entra más catálogo por pantalla.
+ */
+
+/**
+ * ORDEN DEL CATÁLOGO (tanda A — patrón del `/search` «综合搜索、筛选、排序» de macrozheng/mall, que
+ * hace búsqueda, filtro y orden en un solo endpoint).
+ *
+ * Por qué existe: el backend **ya ordenaba** (`catalog()` acepta `sort`) y la app **ya lo mandaba**,
+ * pero fijo a 'recommended'. El usuario no podía elegir. Esto no añade ni una consulta nueva.
+ *
+ * Los `id` tienen que coincidir EXACTAMENTE con el `switch` de `ecomerse.service.ts`, o el
+ * servidor caería en el caso por defecto sin avisar.
+ *
+ * LIMPIEZA DE CROMO: eran cinco opciones (las dos de precio incluidas) y quedan **tres**. No es que
+ * el precio no importe —importa—, es que dos de las cinco no caben en la fila junto a las otras y
+ * el usuario acababa mirando un carrusel de criterios en vez del catálogo. El backend **sigue
+ * aceptando** `price_asc` y `price_desc`: devolverlos es volver a añadirlos a esta lista (y su sitio
+ * natural no es este carril, sino el orden de la lista ya filtrada). Los `label` van en singular
+ * porque ya no hay un «Ordenar por» encima que los convierta en respuesta: ahora cada chip se lee
+ * solo, y «Recomendado» se lee como criterio, no como sección.
+ */
+const SORTS = [
+  { id: 'recommended', label: 'Recomendado' },
+  { id: 'rating', label: 'Mejor valorado' },
+  { id: 'newest', label: 'Novedades' },
+] as const;
+type SortKey = (typeof SORTS)[number]['id'];
+
+const PLACEHOLDER_CARDS = [0, 1, 2, 3];
+
+export default function EcomerseScreen() {
+  const { colors } = useTheme();
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { isAuthenticated } = useSession();
+  const {
+    query, setQuery, categoryFilter, setCategoryFilter, subcategoryFilter, setSubcategoryFilter,
+    cityFilter, setCityFilter, favIds, setFavIds, toggleFavId, cart, addToCart,
+  } = useEcomerseStore();
+
+  const [products, setProducts] = useState<EcomerseProduct[]>([]);
+  const [recommended, setRecommended] = useState<EcomerseProduct[]>([]);
+  const [cats, setCats] = useState<EcomerseCategory[]>([]);
+  const [loading, setLoading] = useState(true);
+  /** Orden del catálogo. Los valores coinciden con el `switch` de `ecomerse.service.ts`. */
+  const [sort, setSort] = useState<SortKey>('recommended');
+  const [error, setError] = useState<string | null>(null);
+  const [showAllCats, setShowAllCats] = useState(false);
+  const [showCityModal, setShowCityModal] = useState(false);
+  const [imageResults, setImageResults] = useState<EcomerseProduct[]>([]);
+  const [imageActive, setImageActive] = useState(false);
+  /* El fallo de la búsqueda por foto se guarda para enseñarlo EN la pantalla: antes se
+     convertía en una lista vacía + un Alert, o sea en un «no hay resultados» falso. */
+  const [imageError, setImageError] = useState<string | null>(null);
+  const [imageBusy, setImageBusy] = useState(false);
+
+  // Carga con debounce: búsqueda server-side + filtros. Nunca datos stale:
+  // se vacían los productos al empezar; recomendados son globales (sin ciudad).
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    setProducts([]);
+    try {
+      const q: Record<string, string> = {};
+      if (categoryFilter) q.category = categoryFilter;
+      if (subcategoryFilter) q.subcategory = subcategoryFilter;
+      if (cityFilter) q.city = cityFilter; // contrato API: nombre (ILIKE normalizado sin tildes)
+      const t = query.trim();
+      if (t) q.q = t;
+      /* ORDENACIÓN (tanda A). El servidor ya sabía ordenar (`catalog()` acepta `sort` desde
+         siempre) y la app ya lo mandaba, pero fijo a 'recommended': el usuario no podía elegir.
+         Ahora `sort` sale del selector. Los valores tienen que coincidir EXACTAMENTE con los del
+         `switch` de `ecomerse.service.ts`. */
+      q.sort = sort;
+      const [p, c, rec] = await Promise.all([
+        ecomerseApi.catalog(q),
+        ecomerseApi.categories(),
+        ecomerseApi.catalog({ sort: 'recommended' }),
+      ]);
+      setProducts(p);
+      setCats(c);
+      setRecommended(rec.slice(0, 8));
+    } catch {
+      setError('No pudimos cargar el mercado. Revisa tu conexión e inténtalo de nuevo.');
+      setProducts([]);
+      setRecommended([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [categoryFilter, subcategoryFilter, cityFilter, query, sort]);
+
+  useEffect(() => {
+    const t = setTimeout(() => { load(); }, 300);
+    return () => clearTimeout(t);
+  }, [load]);
+
+  // Favoritos: sincroniza ids (silencioso si no hay sesión)
+  useEffect(() => {
+    let alive = true;
+    ecomerseApi.favoriteIds().then((ids) => { if (alive) setFavIds(ids); }).catch(() => undefined);
+    return () => { alive = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /**
+   * Corazón, con la puerta de sesión y la vuelta atrás si la API falla. **En un solo sitio**: ahora
+   * lo pulsan la rejilla y el carrusel, y tener la misma regla escrita dos veces es la forma más
+   * segura de que un día digan cosas distintas.
+   */
+  const alternarFavorito = useCallback((item: EcomerseProduct) => {
+    if (!isAuthenticated) {
+      Alert.alert('Inicia sesión', 'Para guardar favoritos entra en tu cuenta.');
+      return;
+    }
+    toggleFavId(item.id);
+    ecomerseApi.favoritesToggle(item.id).catch(() => {
+      toggleFavId(item.id);
+      Alert.alert('Favoritos', 'No se pudo guardar. Inténtalo de nuevo.');
+    });
+  }, [isAuthenticated, toggleFavId]);
+
+  /** Búsqueda por foto: valida, avisa y sube; imageActive se activa al empezar
+   *  para que el banner muestre "Buscando…" mientras trabaja. */
+  const searchByPhoto = async () => {
+    try {
+      const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!perm.granted) {
+        Alert.alert('Permiso de fotos', 'Necesitamos acceso a tu galería para buscar por imagen.');
+        return;
+      }
+      const res = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], quality: 0.7 });
+      if (res.canceled || !res.assets?.[0]) return; // cancelado ≠ error
+      const asset = res.assets[0];
+      if ((asset.fileSize ?? 0) > MAX_PHOTO_MB * 1024 * 1024) {
+        Alert.alert('Foto demasiado pesada', `Usa una imagen de menos de ${MAX_PHOTO_MB} MB.`);
+        return;
+      }
+      const type = asset.mimeType ?? 'image/jpeg';
+      if (!type.startsWith('image/')) {
+        Alert.alert('Archivo no válido', 'Selecciona una imagen.');
+        return;
+      }
+      setImageActive(true);
+      setImageBusy(true);
+      setImageError(null);
+      try {
+        const form = new FormData();
+        form.append('image', { uri: asset.uri, name: 'foto.jpg', type } as unknown as Blob);
+        const r = await ecomerseApi.searchImage(form);
+        setImageResults(r.products ?? []);
+      } catch (e) {
+        /*
+          NO se convierte en «sin resultados»: se guarda el fallo y se enseña con `InlineError`
+          (que además lo anuncia al lector de pantalla). Antes esto era `setImageResults([])` +
+          un Alert, y el usuario leía que su foto no servía cuando el problema era otro.
+        */
+        setImageResults([]);
+        setImageError(e instanceof Error && e.message ? e.message : 'No se pudo procesar la imagen. Prueba con otra foto.');
+      } finally {
+        setImageBusy(false);
+      }
+    } catch { /* picker falló por el sistema */ }
+  };
+
+  const activeCat = cats.find((c) => c.id === categoryFilter);
+  const cartCount = cart.reduce((a, c) => a + c.qty, 0);
+  const cityLabel = CITIES.find((c) => c.id === cityFilter)?.name ?? (cityFilter || 'Todas las ciudades');
+
+  const listData: EcomerseProduct[] = useMemo(() => {
+    const base = imageActive ? imageResults : products;
+    if (loading && !products.length && !imageActive) return PLACEHOLDER_CARDS.map((i) => ({ id: `__sk_${i}` } as EcomerseProduct));
+    return base.length % 2 === 1 ? [...base, { id: '__spacer__' } as EcomerseProduct] : base;
+  }, [imageActive, imageResults, products, loading]);
+
+  const isPlaceholder = (id: string) => id.startsWith('__sk_');
+
+  const chooseCat = (catId: string) => {
+    const next = categoryFilter === catId ? '' : catId;
+    setCategoryFilter(next);
+    setSubcategoryFilter(''); // nunca arrastrar la subcategoría de otra categoría
+    setShowAllCats(false);
+  };
+
+  const s = styles(colors);
+  return (
+    <View style={[s.root, { paddingTop: insets.top }]}>
+      {/* Header. La barra de búsqueda vive AQUÍ, donde antes estaba el título «Mercado»: el título
+          solo gastaba la fila más valiosa de la pantalla, y la búsqueda se iba hacia arriba con el
+          catálogo (había que volver a subir para corregir una palabra). Es el patrón de Xianyu y de
+          Dewu, y es lo que se pidió.
+          Lo que se paga: la pantalla se queda **sin nombre visible**, y por tanto sin encabezado que
+          el lector de pantalla anuncie al entrar. Se acepta a cambio de la barra fija. Queda dicho
+          como deuda: si algún día se quiere recuperar, el sitio natural no es esta fila sino el
+          `accessibilityLabel` de la pantalla, y hay un desajuste de nombre que arreglar antes —
+          el cajón de servicios llama a esta pantalla «Ecomerse» (`ServicesDrawer.tsx:172`), que es
+          el nombre del módulo en código, no el que usa el resto de la app («Mercado», en
+          `billing-status.tsx:45` y `profile.tsx:431`). */}
+      <View style={s.header}>
+        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
+          <ArrowLeft size={22} color={colors.textPrimary} />
+        </Pressable>
+        <View style={s.headerSearch}>
+          <Search size={16} color={colors.textSecondary} />
+          <TextInput
+            value={query}
+            onChangeText={setQuery}
+            /* «Buscar» y no «Buscar productos». El campo mide 126 dp y el texto va a `body`
+               (14 → 16,1 dp con el `font_scale` 1.15 del dispositivo): a 10,08 dp por carácter,
+               «Buscar productos» (16) pide 161 y se cortaba en «Buscar product». No se estrecha
+               nada más para que quepa —los márgenes de la cabecera valen más que el relleno de un
+               marcador—: se acorta el marcador, que es lo único prescindible. El significado entero
+               sigue en el `accessibilityLabel`, que no compite por el ancho. */
+            placeholder="Buscar"
+            placeholderTextColor={colors.textSecondary}
+            accessibilityLabel="Buscar productos"
+            returnKeyType="search"
+            autoCorrect={false}
+            style={s.searchInput}
+          />
+          <Pressable onPress={searchByPhoto} hitSlop={10} disabled={imageBusy} accessibilityRole="button"
+            accessibilityLabel="Buscar por foto">
+            {imageBusy ? <ActivityIndicator size="small" color={colors.primary} /> : <Camera size={18} color={colors.primary} />}
+          </Pressable>
+        </View>
+        <View style={s.headerActions}>
+          <Pressable onPress={() => router.push('/ecomerse-favorites' as any)} hitSlop={12} accessibilityRole="button"
+            accessibilityLabel={favIds.length ? `Favoritos, ${favIds.length}` : 'Favoritos'}>
+            <Heart size={20} color={favIds.length ? brand.like : colors.textPrimary} />
+          </Pressable>
+          <Pressable onPress={() => router.push('/ecomerse-checkout' as any)} hitSlop={12} accessibilityRole="button"
+            accessibilityLabel={cartCount ? `Carrito, ${cartCount} productos` : 'Carrito vacío'}>
+            <ShoppingCart size={20} color={colors.textPrimary} />
+            {cartCount > 0 && (
+              <View style={s.cartBadge}><Text style={s.cartBadgeText}>{cartCount > 9 ? '9+' : cartCount}</Text></View>
+            )}
+          </Pressable>
+          {/* TIENDAS, no «mi tienda». Este icono 🏪 llevaba al panel del vendedor —una pantalla que,
+              sin tienda dada de alta, solo puede decir que no tienes tienda— y no había **ninguna**
+              forma de ver las tiendas de los demás. Ahora abre el directorio (`/ecomerse-tiendas`),
+              y el panel del vendedor vive dentro, en su propia fila «Mi tienda». El icono deja de
+              tener que adivinar si «tienda» es la tuya o las de todos: ahora son las dos, cada una
+              en su fila. */}
+          <Pressable onPress={() => router.push('/ecomerse-tiendas' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Tiendas">
+            <Store size={20} color={colors.primary} />
+          </Pressable>
+        </View>
+      </View>
+
+      <FlatList
+        data={listData}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={s.colWrap}
+        contentContainerStyle={s.listContent}
+        keyboardShouldPersistTaps="handled"
+        refreshing={loading && products.length > 0}
+        onRefresh={load}
+        ListHeaderComponent={
+          imageActive ? (
+            <View style={[s.photoBanner, { backgroundColor: alpha(colors.primary, 0.08), borderColor: colors.border }]}>
+              <Text style={[s.photoBannerTitle, { color: colors.textPrimary }]}>🔍 Resultados de tu foto</Text>
+              <Text style={[s.photoBannerSub, { color: colors.textSecondary }]}>
+                {imageBusy ? 'Buscando productos similares…' : `${imageResults.length} producto${imageResults.length === 1 ? '' : 's'} similar${imageResults.length === 1 ? '' : 'es'}`}
+              </Text>
+              <Pressable onPress={() => setImageActive(false)} style={s.photoBack} accessibilityRole="button">
+                <Text style={s.photoBackText}>← Volver al catálogo</Text>
+              </Pressable>
+            </View>
+          ) : (
+          <View>
+            {/* Solo en mi ciudad — selector con TODAS las ciudades de GQ */}
+            <View style={s.cityRow}>
+              <Pressable onPress={() => setShowCityModal(true)} accessibilityRole="button" accessibilityLabel="Elegir ciudad"
+                style={[s.cityPicker, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+                <Text style={s.cityLabel}>📍 {cityLabel}</Text>
+                <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>▾</Text>
+              </Pressable>
+              {cityFilter !== '' && (
+                <Pressable onPress={() => setCityFilter('')} hitSlop={8} accessibilityRole="button">
+                  <Text style={[s.seeAll, { fontSize: tipografia.caption }]}>Quitar filtro</Text>
+                </Pressable>
+              )}
+            </View>
+
+            {/* AQUÍ ESTABA EL AVISO. Decía «No le pagamos al vendedor hasta que recibas el pedido»
+                dentro de una franja verde (`<EstadoDinero activo="retenido" compacto />`) y se
+                retiró en la limpieza de cromo. El argumento para quitarlo no es que sobre
+                información, sino que **estaba en el sitio equivocado**: es una promesa sobre el
+                dinero, y el usuario decide si le importa cuando va a pagar, no cuando está mirando
+                categorías. El primitivo sigue vivo, intacto, para la ficha del producto y el
+                checkout, que es donde esa frase cambia una decisión. */}
+
+            {/* ORDENAR (tanda A). Va entre el filtro de ciudad y las categorías: es donde el usuario
+                ya está decidiendo «qué me enseñas», y no compite con las categorías, que son «de qué
+                categoría». Los chips dicen el orden elegido con `accessibilityState`, no solo con
+                color.
+                LIMPIEZA: el título «Ordenar por» se fue con las dos opciones de precio. Con cinco
+                chips hacía falta un rótulo que explicara la fila; con tres, cada chip se explica
+                solo. El rótulo **no se pierde para quien usa lector de pantalla**: sigue en el
+                `accessibilityLabel` («Ordenar por …»), que es donde hace falta y donde no ocupa
+                alto.
+                ALTO: los chips llevan `hitSlop` porque miden 37 dp, por debajo de los 44 que pide la
+                plataforma — agranda el área táctil sin engordar el chip.
+                ANCHO, que es lo que costó: medidos en el dispositivo con el `font_scale` 1.15 de
+                referencia, los tres rótulos a `caption` daban una fila de **387 dp** en una pantalla
+                de 360; «Novedades» terminaba en **359,7** —visible entero, pero sin un dp de aire,
+                que es lo que se lee como corte—. El texto bajó a `micro` (11) y la fila quedó en
+                **367**, o sea 7 dp de más y «Novedades» terminando en 351 (9 dp de aire). El hueco
+                entre chips bajó entonces de 8 a 4 —`espaciado.xs`, que es un valor de la escala— y
+                la fila mide **359**: entra, y «Novedades» acaba en 343 con 17 dp de aire.
+                Lo que NO se toca es el relleno de 12 dentro del chip: es lo que separa el texto del
+                radio de 16, o sea lo que hace que siga pareciendo un chip y no una etiqueta. Y la
+                `ScrollView` se queda: en 320 dp o con una escala de letra mayor esto se sale, y
+                entonces lo correcto es que deslice, no que se aplaste. */}
+            <View style={{ marginTop: 12 }}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.xs, paddingHorizontal: espaciado.lg }}>
+                {SORTS.map((o) => {
+                  const on = sort === o.id;
+                  return (
+                    <Pressable
+                      key={o.id}
+                      onPress={() => setSort(o.id)}
+                      hitSlop={8}
+                      accessibilityRole="radio"
+                      accessibilityState={{ checked: on }}
+                      accessibilityLabel={`Ordenar por ${o.label}`}
+                      style={{
+                        paddingHorizontal: espaciado.md, paddingVertical: espaciado.sm, borderRadius: radios.lg,
+                        backgroundColor: on ? colors.primary : colors.surface,
+                        borderWidth: trazo.fino, borderColor: on ? colors.primary : colors.border,
+                      }}
+                    >
+                      <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: on ? brand.white : colors.textPrimary }}>
+                        {o.label}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </ScrollView>
+            </View>
+
+            {/* Categorías — avatar stack. Antes eran 7 celdas con etiqueta más «Ver todas» en
+                rejilla de 4 columnas: dos filas de celdas con rótulo debajo, y el rótulo peleando
+                por un ancho que no tenía («Frutas y verduras» necesita 122 dp en una celda de 90, y
+                solo entra repartido en dos líneas). El stack resuelve las dos cosas de golpe: una
+                sola fila de 48 dp —64 con su respiro— y ni una etiqueta que se pueda cortar. El
+                nombre no desaparece: se mueve al `accessibilityLabel` de cada avatar y a la hoja
+                «Todas las categorías», que sigue con su rejilla y sus rótulos para quien los lee. */}
+            <View style={s.sectionHead}>
+              <Text style={s.sectionTitle}>Categorías</Text>
+              <Pressable onPress={() => setShowAllCats(true)} hitSlop={8} accessibilityRole="button">
+                <Text style={s.seeAll}>Ver todas ({cats.length})</Text>
+              </Pressable>
+            </View>
+            {loading && cats.length === 0 ? (
+              <AvatarStackEsqueleto colors={colors} />
+            ) : (
+              <AvatarStackCats
+                cats={cats}
+                activeId={categoryFilter}
+                onPick={chooseCat}
+                onVerTodas={() => setShowAllCats(true)}
+              />
+            )}
+
+            {/* Subcategorías de la categoría activa */}
+            {activeCat && (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.subRow} contentContainerStyle={{ gap: 8, paddingRight: 16 }}>
+                <SubChip label="Todas" active={subcategoryFilter === ''} onPress={() => setSubcategoryFilter('')} />
+                {(activeCat.subs ?? []).map((sub) => (
+                  <SubChip key={sub.id} label={sub.label} active={subcategoryFilter === sub.id}
+                    onPress={() => setSubcategoryFilter(subcategoryFilter === sub.id ? '' : sub.id)} />
+                ))}
+              </ScrollView>
+            )}
+
+            {/* Recomendados (globales; no se ocultan al filtrar) */}
+            {recommended.length > 0 && (
+              <>
+                <View style={[s.sectionHead, { marginTop: 4 }]}>
+                  <Text style={s.sectionTitle}>🔥 Recomendados</Text>
+                </View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingRight: 16 }}>
+                  {recommended.map((p) => (
+                    <TarjetaProducto
+                      key={p.id}
+                      product={p}
+                      width={ANCHO_CARRUSEL}
+                      iconoTamano={ilustracion.md}
+                      favorited={favIds.includes(p.id)}
+                      onPress={() => router.push({ pathname: '/ecomerse-detail', params: { id: p.id } } as any)}
+                      onFav={() => alternarFavorito(p)}
+                    />
+                  ))}
+                </ScrollView>
+              </>
+            )}
+
+            {/* Contador de resultados */}
+            {!error && (
+              <Text style={s.resultsLabel}>
+                {loading ? 'Cargando…' : `${products.length} producto${products.length === 1 ? '' : 's'}`}
+              </Text>
+            )}
+          </View>
+          )
+        }
+        ListEmptyComponent={
+          imageActive ? (
+            /* Tres estados distintos, y antes eran uno: mientras busca se enseña que busca, si
+               falla se dice que falló (con reintento), y solo si de verdad no hay resultados se
+               enseña el vacío. El vacío, además, ahora es el del kit. */
+            imageBusy ? (
+              <View style={{ alignItems: 'center', paddingTop: 48 }}>
+                <ActivityIndicator color={colors.primary} />
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: 10 }}>Buscando productos parecidos…</Text>
+              </View>
+            ) : imageError ? (
+              <View style={{ paddingTop: 40, paddingHorizontal: 32 }}>
+                <InlineError mensaje={imageError} onReintentar={() => void searchByPhoto()} etiquetaReintento="Elegir otra foto" />
+              </View>
+            ) : (
+              <EmptyState
+                emoji="📷"
+                titulo="No encontramos productos parecidos"
+                texto="Prueba con otra foto más nítida, de frente y con buena luz, o busca por texto."
+                accionLabel="← Volver al catálogo"
+                onAccion={() => setImageActive(false)}
+              />
+            )
+          ) : error ? (
+            /*
+              El error, con el componente del kit: se anuncia al lector de pantalla, vibra y trae
+              su propio reintento. Era un bloque a mano con 📡 y un botón de estilo propio.
+            */
+            <View style={{ paddingTop: 40, paddingHorizontal: 32 }}>
+              <InlineError mensaje={`No pudimos cargar el catálogo. ${error}`} onReintentar={load} />
+            </View>
+          ) : loading ? null : (
+            /* El vacío del kit. Antes este archivo definía el suyo: tres formas de hacer lo
+               mismo en el mismo producto. Las dos caras van en un solo objeto para no repetir
+               cinco veces la condición de «hay filtros». */
+            <EmptyState
+              emoji="🛍️"
+              {...((!!categoryFilter || !!subcategoryFilter || !!cityFilter || !!query.trim())
+                ? {
+                    titulo: 'Sin resultados con estos filtros',
+                    texto: 'Prueba a quitar filtros o buscar en otra ciudad.',
+                    accionLabel: 'Quitar filtros',
+                    onAccion: () => { setCategoryFilter(''); setSubcategoryFilter(''); setCityFilter(''); setQuery(''); },
+                  }
+                : {
+                    titulo: 'Todavía no hay productos',
+                    texto: 'Sé el primero en publicar: identidad verificada + aprobación del administrador.',
+                    accionLabel: 'Publicar mi primer producto',
+                    accionPrimaria: true,
+                    onAccion: () => router.push('/ecomerse-seller' as any),
+                  })}
+            />
+          )
+        }
+        renderItem={({ item }) =>
+          isPlaceholder(item.id) ? (
+            <EsqueletoTarjeta key={item.id} />
+          ) : item.id === '__spacer__' ? (
+            <View key="spacer" style={{ flex: 1 }} />
+          ) : (
+            <TarjetaProducto
+              product={item}
+              favorited={favIds.includes(item.id)}
+              onPress={() => router.push({ pathname: '/ecomerse-detail', params: { id: item.id } } as any)}
+              onFav={() => alternarFavorito(item)}
+              onAdd={() => {
+                addToCart({ productId: item.id, title: item.title, priceXaf: item.priceXaf, qty: 1, photos: item.photos ?? [], stock: item.stock, city: item.city });
+              }}
+            />
+          )
+        }
+      />
+
+      {/* Modal Ver todas las categorías */}
+      <Modal visible={showAllCats} animationType="slide" transparent onRequestClose={() => setShowAllCats(false)}>
+        <Pressable style={s.modalWrap} onPress={() => setShowAllCats(false)} accessibilityViewIsModal>
+          <Pressable style={[s.modalCard, { backgroundColor: colors.card }]}>
+            <View style={s.modalHead}>
+              <Text style={s.modalTitle}>Todas las categorías</Text>
+              <Pressable onPress={() => setShowAllCats(false)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Cerrar">
+                <X size={20} color={colors.textPrimary} />
+              </Pressable>
+            </View>
+            <FlatList data={cats} numColumns={GRID_COLS} keyExtractor={(c) => c.id}
+              renderItem={({ item }) => (
+                <CatCell cat={item} active={categoryFilter === item.id} onPress={() => chooseCat(item.id)} />
+              )}
+              contentContainerStyle={{ paddingBottom: 24 }}
+            />
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      {/* Modal Elegir ciudad */}
+      <Modal visible={showCityModal} animationType="slide" transparent onRequestClose={() => setShowCityModal(false)}>
+        <Pressable style={s.modalWrap} onPress={() => setShowCityModal(false)} accessibilityViewIsModal>
+          <Pressable style={[s.modalCard, { backgroundColor: colors.card }]}>
+            <View style={s.modalHead}>
+              <Text style={s.modalTitle}>Elige tu ciudad</Text>
+              <Pressable onPress={() => setShowCityModal(false)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Cerrar">
+                <X size={20} color={colors.textPrimary} />
+              </Pressable>
+            </View>
+            <FlatList
+              data={[{ id: '__all__', name: 'Todas las ciudades', region: '' }, ...CITIES]}
+              keyExtractor={(c) => c.id}
+              renderItem={({ item }) => (
+                <Pressable
+                  onPress={() => { setCityFilter(item.id === '__all__' ? '' : item.name); setShowCityModal(false); }}
+                  accessibilityRole="button"
+                  style={[s.cityItem, { borderBottomColor: colors.border }]}>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: cityFilter === item.name || (item.id === '__all__' && !cityFilter) ? colors.primary : colors.textPrimary }}>
+                    {item.name}
+                  </Text>
+                  {item.region ? <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>{item.region}</Text> : null}
+                </Pressable>
+              )}
+              contentContainerStyle={{ paddingBottom: 24 }}
+            />
+          </Pressable>
+        </Pressable>
+      </Modal>
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Componentes
+// ---------------------------------------------------------------------------
+
+/**
+ * Celda de la rejilla de la hoja «Todas las categorías» (`GRID_COLS` = 4 por fila).
+ *
+ * Ya NO la usa la home: la home pasó al avatar stack. Por eso se le quitaron los dos parámetros
+ * `label`/`icon` que existían solo para pintar la celda falsa «⋯ Ver todas» de la rejilla vieja —
+ * ahora esta función tiene un único llamador y un único trabajo.
+ *
+ * El círculo se cambió de cuadrado redondeado a **círculo** para que una categoría se vea igual en
+ * la home y en la hoja: es el mismo objeto, no dos.
+ */
+function CatCell({ cat, active, onPress }: { cat: EcomerseCategory; active: boolean; onPress: () => void }) {
+  const { colors } = useTheme();
+  return (
+    <Pressable onPress={onPress} accessibilityRole="button" accessibilityState={{ selected: active }}
+      accessibilityLabel={cat.label} style={s_cat.cell}>
+      <View style={[s_cat.iconWrap, {
+        backgroundColor: active ? alpha(colors.primary, 0.16) : colors.surface,
+        borderColor: active ? colors.primary : colors.border,
+        borderWidth: active ? trazo.fuerte : trazo.fino,
+      }]}>
+        <Text style={s_cat.icon}>{cat.icon ?? '📦'}</Text>
+      </View>
+      <Text numberOfLines={2} ellipsizeMode="tail" style={[s_cat.label, { color: active ? colors.primary : colors.textPrimary }]}>{cat.label}</Text>
+    </Pressable>
+  );
+}
+
+/**
+ * AVATAR STACK DE CATEGORÍAS — la home.
+ *
+ * Traducción del patrón al caso: los «avatares» son las categorías (el emoji que manda el backend
+ * dentro de un círculo), el `max` es `MAX_AVATARES_CAT` y la píldora «+N» hace exactamente lo que
+ * hace en el original —decir cuántos quedan y abrir la lista completa—. Del original NO se traen
+ * dos cosas, y por motivos distintos: el `hover` que abre hueco entre avatares (aquí no hay ratón; en
+ * táctil el hueco de la primera pregunta se tapa con el dedo de la segunda) y el `tooltip` con el
+ * nombre (en 48 dp no cabe un nombre como «Materiales de construcción»; el nombre vive en el
+ * `accessibilityLabel` de cada avatar y en la hoja, donde sí se lee).
+ *
+ * El 1.º y el 6.º avatar conservan los 48 dp táctiles enteros; los de en medio, los 32 dp que quedan
+ * al descubierto. La cuenta está en `MAX_AVATARES_CAT`.
+ *
+ * El estado «elegida» se marca con **anillo, no con relleno**: rellenar el círculo de color primario
+ * convierte la categoría elegida en una mancha y se come el emoji justo cuando el usuario la está
+ * mirando. El anillo dice lo mismo sin tapar el icono, y el `accessibilityState` lo dice sin
+ * depender del color.
+ */
+function AvatarStackCats({ cats, activeId, onPick, onVerTodas }: {
+  cats: EcomerseCategory[]; activeId: string;
+  onPick: (id: string) => void; onVerTodas: () => void;
+}) {
+  const { colors } = useTheme();
+  const visibles = cats.slice(0, MAX_AVATARES_CAT);
+  const resto = cats.length - visibles.length;
+  return (
+    <View style={s_cat.stack}>
+      {visibles.map((c, i) => {
+        const on = activeId === c.id;
+        return (
+          <Pressable
+            key={c.id}
+            onPress={() => onPick(c.id)}
+            accessibilityRole="button"
+            accessibilityState={{ selected: on }}
+            accessibilityLabel={c.label}
+            style={[
+              s_cat.avatar,
+              {
+                marginLeft: i === 0 ? 0 : -SOLAPE_AVATAR,
+                /* zIndex DESCENDENTE: el primero tapa al segundo, y así hasta el final. Es como se
+                   apila un avatar stack de verdad (el de más a la izquierda se ve entero) y mantiene
+                   el orden de lectura de izquierda a derecha. Al revés, el último taparía a todos. */
+                zIndex: visibles.length - i,
+                backgroundColor: on ? alpha(colors.primary, 0.16) : colors.surface,
+                borderColor: on ? colors.primary : colors.border,
+                borderWidth: on ? trazo.fuerte : trazo.fino,
+              },
+            ]}
+          >
+            <Text style={s_cat.icon}>{c.icon ?? '📦'}</Text>
+          </Pressable>
+        );
+      })}
+      {resto > 0 && (
+        <Pressable
+          onPress={onVerTodas}
+          accessibilityRole="button"
+          accessibilityLabel={`Ver todas las categorías, ${resto} más`}
+          style={[s_cat.avatar, { marginLeft: espaciado.sm, backgroundColor: colors.surface, borderColor: colors.border, borderWidth: trazo.fino }]}
+        >
+          <Text style={[s_cat.avatarMasTexto, { color: colors.primary }]}>+{resto}</Text>
+        </Pressable>
+      )}
+    </View>
+  );
+}
+
+/**
+ * Esqueleto del stack: **los mismos círculos, el mismo solape, el mismo alto**. Un esqueleto que no
+ * mide lo que va a medir el contenido real es una promesa falsa: hace saltar la pantalla cuando
+ * llegan los datos. El anterior eran 5 cuadrados de 46 en fila con `gap` — ni el número, ni la
+ * forma, ni el alto. La píldora «+N» no se dibuja porque con el catálogo sin cargar todavía no se
+ * sabe si hará falta (siempre aparece de las 22 categorías hacia arriba).
+ */
+function AvatarStackEsqueleto({ colors }: { colors: ReturnType<typeof useTheme>['colors'] }) {
+  return (
+    <View style={s_cat.stack}>
+      {Array.from({ length: MAX_AVATARES_CAT }).map((_, i) => (
+        <View
+          key={i}
+          style={[s_cat.avatar, {
+            marginLeft: i === 0 ? 0 : -SOLAPE_AVATAR,
+            zIndex: MAX_AVATARES_CAT - i,
+            backgroundColor: colors.border,
+            borderColor: colors.border,
+            borderWidth: trazo.fino,
+          }]}
+        />
+      ))}
+    </View>
+  );
+}
+
+const s_cat = StyleSheet.create({
+  /**
+   * Ancho EXPLÍCITO de un cuarto: es lo que obliga a que haya 4 columnas por fila (`GRID_COLS`).
+   * Antes era `flex: 1, maxWidth: '20%'`, o sea base 0 — y con la base a 0 el `flexWrap` no
+   * llegaba a partir la fila: las once celdas cabían «en teoría» en una línea y acababan
+   * comprimidas. Con `width` no hay ambigüedad. Y son 90 dp de celda, no 72: ver `GRID_COLS`.
+   */
+  cell: { width: '25%', alignItems: 'center', paddingVertical: espaciado.sm },
+  iconWrap: { width: DIAM_AVATAR, height: DIAM_AVATAR, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.sm },
+  /** Emoji: `ilustracion.sm` (20), no `md` (36). Cabe de sobra en 48 dp y es el tamaño que la
+   *  escala reserva a un emoji «en línea, dentro de una fila» — que es exactamente lo que es. */
+  icon: { fontSize: ilustracion.sm },
+  /**
+   * **Dos líneas, no una.** Con 1 línea «Frutas y verduras» (122 dp) no cabe en los 90 dp de la
+   * celda y sale con puntos suspensivos; con 2 líneas se reparte por palabras («Frutas y» /
+   * «verduras») y se lee entera. El defecto original no venía de permitir dos líneas —eso ya
+   * estaba— sino de que la celda medía 98 px en vez de 270: la palabra «verduras» no cabía en
+   * ninguna de las dos. La elipsis queda como red por si aparecen etiquetas nuevas muy largas.
+   * Token `micro` (11) en vez del 10.5 a mano que llevaba, que era deuda de la guardia.
+   */
+  label: { fontSize: tipografia.micro, fontWeight: peso.fuerte, textAlign: 'center', paddingHorizontal: 2 },
+  /** La fila del stack. Centrada: el ancho es fijo (264 dp con 6 + píldora) y no llena los 328
+   *  disponibles, así que alinearla a la izquierda dejaría un hueco a la derecha que se lee como
+   *  error, no como margen. */
+  stack: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.sm },
+  avatar: { width: DIAM_AVATAR, height: DIAM_AVATAR, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
+  avatarMasTexto: { fontSize: tipografia.body, fontWeight: peso.titulo },
+});
+
+function SubChip({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
+  const { colors } = useTheme();
+  return (
+    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label}
+      style={{ paddingHorizontal: 12, paddingVertical: 6, borderRadius: radios.md, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border }}>
+      <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: active ? brand.white : colors.textPrimary }}>{label}</Text>
+    </Pressable>
+  );
+}
+
+/** Aquí vivía `CatSkeletonGrid` (5 cuadrados de 46 en fila, sin solape, con una barrita debajo).
+ *  Se retiró al pasar la home al avatar stack: un esqueleto tiene que medir lo que va a medir el
+ *  contenido, y aquel no coincidía en número, ni en forma, ni en alto. Su sustituto es
+ *  `AvatarStackEsqueleto`, que dibuja exactamente los mismos círculos y el mismo solape. */
+
+const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
+  root: { flex: 1, backgroundColor: c.background },
+  /**
+   * Fondo SÓLIDO + elevación: es lo que despega la cabecera del catálogo que se desliza por
+   * debajo. Sin `backgroundColor` la barra era transparente y, al desplazar, la fila de tarjetas
+   * cortada por el borde de la lista se leía pegada al título, sin separación ninguna.
+   * `paddingVertical` bajó de 12 a 8 al mudarse aquí la barra de búsqueda: 8 + 40 + 8 = 56 dp de
+   * cabecera, el alto estándar de una barra de app de Android. Con 12 serían 64 y se comía el
+   * sitio de una tarjeta y media.
+   */
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.lg, paddingVertical: espaciado.sm, backgroundColor: c.background, borderBottomWidth: trazo.fino, borderBottomColor: c.border, zIndex: 2, elevation: 2 },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  cartBadge: { position: 'absolute', top: -6, right: -8, minWidth: 16, height: 16, borderRadius: radios.sm, backgroundColor: brand.like, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3 },
+  cartBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.titulo },
+  /**
+   * La barra de búsqueda, en la cabecera. `height: 40` en vez de `paddingVertical`: es lo que la
+   * hace caber junto a los tres iconos de acción y quedar centrada con ellos, y evita que el alto
+   * dependa del `font_scale` del usuario (con un `paddingVertical` fijo, a 1.3 de escala la barra
+   * crecía y desalineaba la fila entera). Los 40 dp son de la barra, no del área táctil: la barra
+   * entera es el campo, así que el alto táctil ya es de sobra.
+   */
+  headerSearch: { flex: 1, flexDirection: 'row', alignItems: 'center', marginHorizontal: espaciado.md, height: 40, paddingHorizontal: espaciado.md, backgroundColor: c.surface, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border },
+  /** `paddingVertical: 0` es obligatorio en Android: el `TextInput` trae relleno vertical propio y,
+   *  sin quitarlo, desborda los 40 dp de la barra por arriba y por abajo. */
+  searchInput: { flex: 1, color: c.textPrimary, fontSize: tipografia.body, marginLeft: espaciado.sm, paddingVertical: 0 },
+  cityRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, marginTop: 12 },
+  cityPicker: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 12, paddingVertical: 8, borderRadius: radios.md, borderWidth: 1 },
+  cityLabel: { fontSize: tipografia.caption, fontWeight: '800', color: c.textPrimary },
+  cityItem: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 13, borderBottomWidth: 1 },
+  sectionHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, marginTop: 16, marginBottom: 8 },
+  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary },
+  seeAll: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.primary },
+  subRow: { marginTop: 8, paddingLeft: 16 },
+  resultsLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, paddingHorizontal: 16, marginTop: 16, marginBottom: 10 },
+  colWrap: { gap: 10, paddingHorizontal: 16 },
+  listContent: { paddingBottom: 32 },
+  modalWrap: { flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' },
+  modalCard: { borderTopLeftRadius: radios.lg, borderTopRightRadius: radios.lg, paddingTop: 14, maxHeight: '78%' },
+  modalHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingBottom: 10 },
+  modalTitle: { fontSize: tipografia.subtitle, fontWeight: '800', color: c.textPrimary },
+  photoBanner: { marginHorizontal: 16, marginTop: 12, borderRadius: radios.md, borderWidth: 1, padding: 14, alignItems: 'center' },
+  photoBannerTitle: { fontSize: tipografia.body, fontWeight: '800' },
+  photoBannerSub: { fontSize: tipografia.caption, marginTop: 4 },
+  photoBack: { marginTop: 10, paddingHorizontal: 14, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: c.primary },
+  photoBackText: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800' },
+});

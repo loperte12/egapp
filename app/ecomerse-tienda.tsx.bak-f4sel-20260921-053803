@@ -1,0 +1,193 @@
+/**
+ * EcomerseTiendaScreen — la página de una tienda: quién es y todo lo que vende.
+ * Ruta: /ecomerse-tienda?id=<sellerId>&nombre=<opcional>
+ *
+ * POR QUÉ EXISTE: era la salida que faltaba. La ficha enseñaba la tienda y no dejaba entrar; el
+ * directorio (`/ecomerse-tiendas`) enseña las tiendas y esta es donde se entra. Con las dos, el
+ * Mercado pasa de «productos sueltos» a «productos y quién los vende».
+ *
+ * ── DE DÓNDE SALEN SUS ANUNCIOS (y su límite) ──────────────────────────────────────────────────
+ * Del catálogo público, filtrando por `seller.id` **en el cliente**. El catálogo **no acepta un
+ * filtro por tienda** —sus filtros son categoría, subcategoría, precio, ciudad y texto—, así que
+ * pedir «los anuncios de esta tienda» al servidor hoy no se puede. Dos consecuencias:
+ *
+ *   · Se descarga el catálogo entero (10 anuncios hoy) para enseñar los de una tienda.
+ *   · Con `LIMIT 200` en el servidor, una tienda con anuncios fuera de esos 200 **los perdería sin
+ *     avisar**. Es el mismo techo que el directorio, y el mismo arreglo: `GET /ecomerse/catalog?
+ *     sellerId=` en el servidor, una línea en el `conds` de `ecomerse.service.ts`.
+ *
+ * ── EL PARÁMETRO `nombre` ES SOLO PARA PINTAR MIENTRAS CARGA ───────────────────────────────────
+ * El nombre que manda la pantalla anterior es lo que se enseña en la cabecera **hasta que llega el
+ * catálogo**; en cuanto llega, manda el brief del servidor. Es un `string` de conveniencia, no un
+ * dato de verdad: si viene vacío o miente, se corrige solo en el primer render con datos.
+ */
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ArrowLeft } from 'lucide-react-native';
+import {
+  useTheme, EmptyState, InlineError, espaciado, peso, tipografia, trazo,
+} from '@egrouteplan/ui-kit';
+import { ecomerseApi, EcomerseProduct } from '../api/ecomerse';
+import { useEcomerseStore } from '../state/ecomerse';
+import { useSession } from '../state/session';
+import { TarjetaProducto, EsqueletoTarjeta } from '../components/ecomerse/TarjetaProducto';
+import { CabeceraTienda } from '../components/ecomerse/CabeceraTienda';
+import { llamarTelefono } from '../utils/llamar';
+
+const ESQUELETOS = [0, 1, 2, 3];
+
+export default function EcomerseTiendaScreen() {
+  const { colors } = useTheme();
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const s = styles(colors);
+  const { isAuthenticated } = useSession();
+  const { favIds, setFavIds, toggleFavId, addToCart } = useEcomerseStore();
+
+  const raw = useLocalSearchParams<{ id?: string | string[]; nombre?: string | string[] }>();
+  const id = Array.isArray(raw.id) ? raw.id[0] : raw.id;
+  const nombreParam = Array.isArray(raw.nombre) ? raw.nombre[0] : raw.nombre;
+
+  const [productos, setProductos] = useState<EcomerseProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    if (!id) {
+      setError('No sabemos qué tienda abrir.');
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const todos = await ecomerseApi.catalog({});
+      setProductos(todos.filter((p) => p.seller?.id === id));
+    } catch {
+      setError('No pudimos cargar la tienda. Revisa tu conexión e inténtalo de nuevo.');
+      setProductos([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
+  useEffect(() => { load(); }, [load]);
+
+  // Los corazones de las tarjetas necesitan saber qué está guardado (silencioso sin sesión).
+  useEffect(() => {
+    let vivo = true;
+    ecomerseApi.favoriteIds().then((ids) => { if (vivo) setFavIds(ids); }).catch(() => undefined);
+    return () => { vivo = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /** Mismo corazón que la rejilla del Mercado: sesión primero, y vuelta atrás si la API falla. */
+  const alternarFavorito = useCallback((item: EcomerseProduct) => {
+    if (!isAuthenticated) {
+      Alert.alert('Inicia sesión', 'Para guardar favoritos entra en tu cuenta.');
+      return;
+    }
+    toggleFavId(item.id);
+    ecomerseApi.favoritesToggle(item.id).catch(() => {
+      toggleFavId(item.id);
+      Alert.alert('Favoritos', 'No se pudo guardar. Inténtalo de nuevo.');
+    });
+  }, [isAuthenticated, toggleFavId]);
+
+  // El brief sale del primer anuncio; mientras no hay anuncios, se pinta el nombre que llegó por
+  // parámetro para que la cabecera no salte de vacío a lleno.
+  const seller = productos[0]?.seller ?? null;
+  const nombre = seller?.businessName ?? nombreParam ?? 'Tienda';
+  const telefono = seller?.phoneContact ?? null;
+  const vacia = !loading && !error && productos.length === 0;
+
+  const datos: EcomerseProduct[] = loading && productos.length === 0
+    ? ESQUELETOS.map((i) => ({ id: `__sk_${i}` } as EcomerseProduct))
+    : productos.length % 2 === 1
+      ? [...productos, { id: '__spacer__' } as EcomerseProduct]
+      : productos;
+
+  return (
+    <View style={[s.root, { paddingTop: insets.top }]}>
+      <View style={s.header}>
+        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
+          <ArrowLeft size={22} color={colors.textPrimary} />
+        </Pressable>
+        <Text style={s.headerTitle} numberOfLines={1}>{nombre}</Text>
+        <View style={{ width: 22 }} />
+      </View>
+
+      <FlatList
+        data={datos}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={s.colWrap}
+        contentContainerStyle={s.lista}
+        refreshing={loading && productos.length > 0}
+        onRefresh={load}
+        ListHeaderComponent={
+          <View style={s.cabecera}>
+            {/* Si no hay brief (tienda sin anuncios activos) no se pinta la tarjeta: la pantalla no
+                se inventa una valoración ni una ciudad que no ha podido leer. */}
+            {seller && (
+              <CabeceraTienda
+                seller={seller}
+                anuncios={productos.length}
+                onLlamar={telefono ? () => { void llamarTelefono(telefono); } : undefined}
+              />
+            )}
+            {!loading && !error && productos.length > 0 && (
+              <Text style={s.tituloSeccion}>Anuncios ({productos.length})</Text>
+            )}
+          </View>
+        }
+        ListEmptyComponent={
+          loading ? (
+            <View style={{ alignItems: 'center', paddingTop: 40 }}>
+              <ActivityIndicator color={colors.primary} />
+            </View>
+          ) : error ? (
+            <View style={{ paddingTop: 24 }}>
+              <InlineError mensaje={error} onReintentar={load} />
+            </View>
+          ) : vacia ? (
+            <EmptyState
+              emoji="🏪"
+              titulo={nombreParam ? `${nombreParam} no tiene anuncios` : 'Esta tienda no tiene anuncios'}
+              texto="La tienda existe, pero ahora mismo no tiene nada publicado. Vuelve a mirar más tarde."
+              accionLabel="Ver otras tiendas"
+              onAccion={() => router.push('/ecomerse-tiendas' as any)}
+            />
+          ) : null
+        }
+        renderItem={({ item }) =>
+          item.id.startsWith('__sk_') ? (
+            <EsqueletoTarjeta />
+          ) : item.id === '__spacer__' ? (
+            <View style={{ flex: 1 }} />
+          ) : (
+            <TarjetaProducto
+              product={item}
+              favorited={favIds.includes(item.id)}
+              onPress={() => router.push({ pathname: '/ecomerse-detail', params: { id: item.id } } as any)}
+              onFav={() => alternarFavorito(item)}
+              onAdd={() => addToCart({ productId: item.id, title: item.title, priceXaf: item.priceXaf, qty: 1, photos: item.photos ?? [], stock: item.stock, city: item.city })}
+            />
+          )
+        }
+      />
+    </View>
+  );
+}
+
+const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
+  root: { flex: 1, backgroundColor: c.background },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.lg, paddingVertical: espaciado.md, borderBottomWidth: trazo.fino, borderBottomColor: c.border },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: c.textPrimary },
+  colWrap: { gap: espaciado.sm, paddingHorizontal: espaciado.lg },
+  lista: { gap: espaciado.sm, paddingBottom: espaciado.xxl },
+  cabecera: { paddingHorizontal: espaciado.lg, paddingTop: espaciado.md, gap: espaciado.md },
+  tituloSeccion: { fontSize: tipografia.body, fontWeight: peso.titulo, color: c.textPrimary },
+});

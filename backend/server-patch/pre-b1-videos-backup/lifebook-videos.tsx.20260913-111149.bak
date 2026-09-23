@@ -1,0 +1,562 @@
+/**
+ * LifeBookVideosScreen — FEED INMERSIVO DE VÍDEO (B1).
+ *
+ * Deslizar arriba/abajo pasa de un vídeo al siguiente SIN salir a otra pantalla:
+ * una página por vídeo, autoplay del que está visible y pausa del resto, silencio
+ * al entrar con botón para activar el sonido, doble toque = me gusta, y el
+ * siguiente vídeo ya montado (precarga) para que el pase no espere.
+ *
+ * ── POR QUÉ ASÍ, Y NO DE OTRA FORMA ─────────────────────────────────────────
+ * · FlatList con `pagingEnabled` + `getItemLayout` de altura fija. En el proyecto
+ *   NO hay `react-native-pager-view` ni `@shopify/flash-list`, y añadirlos por esto
+ *   no compensa: con una página = una pantalla, `getItemLayout` da paginado exacto,
+ *   `initialScrollIndex` gratis y precarga controlada con `windowSize`.
+ * · El feed masonry de `lifebook.tsx` NO se toca. Es un FlatList con UN solo item
+ *   que contiene las dos columnas (`data={[{ left, right }]}`), así que un vídeo a
+ *   pantalla completa no cabe ahí dentro ni se puede paginar. Esta pantalla es
+ *   aparte a propósito — es la opción A+B que decidió el dueño: canal de vídeo
+ *   propio, y al tocar una tarjeta de vídeo del masonry se entra aquí.
+ * · `/lifebook-player` se conserva para el detalle (controles nativos + pantalla
+ *   completa). Desde aquí se salta con un botón, y al volver el feed NO pierde su
+ *   posición: la lista no se desmonta y no se recarga (ver `useFocusEffect`).
+ *
+ * ── LÍMITES MEDIDOS, no supuestos ───────────────────────────────────────────
+ * · `expo-video` 2.2.3 **no exporta `useVideoPlayerStatus`**: el estado de
+ *   reproducción se gestiona aquí con estado propio (somos nosotros quienes
+ *   llamamos a `play()`/`pause()`), sin suscribirse a eventos. Menos superficie y
+ *   sin API inventada.
+ * · `expo-haptics` **no está instalado**, así que el doble toque NO vibra. Añadir
+ *   la dependencia por una vibración no merece la pena sin decidirlo aparte.
+ * · Sin controles nativos en el feed (tap = pausa/reanudar). Un vídeo largo sin
+ *   barra de progreso es incómodo: para eso está el botón de pantalla completa, que
+ *   abre `/lifebook-player` con `nativeControls` y `allowsFullscreen`. Hoy los
+ *   vídeos son ≤60 s (`lifebook-media.tsx` rechaza más), pero A1 sube el techo a
+ *   50 min — cuando eso ocurra, este botón es la vía.
+ *
+ * Ruta: /lifebook-videos?startId=&channel=&city=
+ */
+
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View,
+  useWindowDimensions, type ViewToken, type ViewabilityConfig,
+} from 'react-native';
+import { Image } from 'expo-image';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { runOnJS } from 'react-native-reanimated';
+import { useVideoPlayer, VideoView } from 'expo-video';
+import {
+  ArrowLeft, Heart, Maximize, MessageCircle, Volume2, VolumeX,
+} from 'lucide-react-native';
+import { alpha, useTheme } from '@egrouteplan/ui-kit';
+import { absUrl } from '../api/config';
+import {
+  lifebookActionsApi, lifebookApi,
+  type LbFeedPage, type LbPostBase,
+} from '../api/lifebook';
+import { fmtDur } from '../constants/lifebook';
+
+const LIKE_RED = '#FF2442';
+const PAGE = 40;
+
+/**
+ * A partir de aquí, un vídeo es LARGO (Parte 50) y el feed cambia de trato.
+ *
+ * El feed inmersivo está pensado para clips: autoplay del visible, en bucle, y el vídeo
+ * siguiente con un desliz. Un vídeo de 50 minutos ahí dentro es lo peor de los dos mundos:
+ *   · Autoplay + bucle = se descarga entero (cientos de MB) mientras el usuario mira, y al
+ *     terminar vuelve a empezar como si fuera un clip.
+ *   · Sin barra de progreso no hay forma de saber por dónde va ni de saltar.
+ * Así que el largo NO se reproduce solo: se ve su portada con la duración y un botón, y al
+ * tocarlo se abre el reproductor de verdad, que sí tiene controles. El umbral es el mismo
+ * del backend (`video_short` = 60 s), para que "corto" signifique lo mismo en todas partes.
+ */
+const LARGO_DESDE_SEC = 60;
+
+/** `payload.videoUrl` resuelto. El feed guarda los posts CRUDOS (`LbPostBase`),
+ *  así que el vídeo está disponible aunque `toPostCard()` no lo exponga en la
+ *  tarjeta. Devuelve '' si la publicación no tiene vídeo reproducible. */
+function videoUrlOf(p: LbPostBase): string {
+  const v = (p.payload ?? {}) as Record<string, unknown>;
+  const raw = typeof v.videoUrl === 'string' ? v.videoUrl.trim() : '';
+  return raw ? absUrl(raw) : '';
+}
+
+function coverOf(p: LbPostBase): string {
+  const v = (p.payload ?? {}) as Record<string, unknown>;
+  const c = typeof v.coverUrl === 'string' && v.coverUrl.trim() ? v.coverUrl.trim() : '';
+  if (c) return absUrl(c);
+  const first = p.media?.[0]?.url;
+  return first ? absUrl(first) : '';
+}
+
+/** ancho/alto de la portada como proxy de la forma del vídeo. El backend no da
+ *  dimensiones del vídeo; `coverRatio` es lo más cercano que hay y sirve para no
+ *  recortar un vídeo horizontal a pantalla completa vertical. */
+function ratioOf(p: LbPostBase): number {
+  const v = (p.payload ?? {}) as Record<string, unknown>;
+  const n = Number(v.coverRatio);
+  return Number.isFinite(n) && n > 0 ? n : 0.75;
+}
+
+export default function LifeBookVideosScreen() {
+  const { colors } = useTheme();
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { height: H } = useWindowDimensions();
+  const { startId, channel, city } = useLocalSearchParams<{
+    startId?: string; channel?: string; city?: string;
+  }>();
+
+  const [posts, setPosts] = useState<LbPostBase[]>([]);
+  const [cursor, setCursor] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  /** Índice del vídeo visible = el único que reproduce. */
+  const [active, setActive] = useState(0);
+  /** Silencio por defecto al entrar (como 小红书): el sonido se activa a mano. */
+  const [muted, setMuted] = useState(true);
+  /** Pausa forzada por el usuario con un toque; se reinicia al cambiar de vídeo. */
+  const [pausedId, setPausedId] = useState<string | null>(null);
+  /** La pantalla perdió el foco (se abrió el detalle): pausar todo. */
+  const [focused, setFocused] = useState(true);
+
+  const listRef = useRef<FlatList<LbPostBase>>(null);
+  const busy = useRef(false);
+  const mounted = useRef(true);
+  const didInitialScroll = useRef(false);
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
+
+  /* ── Carga ────────────────────────────────────────────────────────────────
+     Se pide `type: 'video'` al servidor (el parámetro existe y ya lo usa
+     `lifebook-explore.tsx`). Aun así se FILTRA en cliente por `videoUrl` real: un
+     post de tipo vídeo sin URL reproducible pintaría un rectángulo negro, y eso es
+     peor que no mostrarlo. */
+  const load = useCallback(async (mode: 'initial' | 'more') => {
+    if (busy.current) return;
+    busy.current = true;
+    if (mode === 'initial') { setLoading(true); setError(null); } else setLoadingMore(true);
+    try {
+      const page: LbFeedPage = await lifebookApi.feed(channel || 'for_you', {
+        city: city || undefined,
+        type: 'video',
+        cursor: mode === 'more' ? (cursor ?? undefined) : undefined,
+        limit: PAGE,
+      });
+      if (!mounted.current) return;
+      const withVideo = (page.posts ?? []).filter((p) => videoUrlOf(p) !== '');
+      setPosts((prev) => (mode === 'more' ? [...prev, ...withVideo] : withVideo));
+      setCursor(page.nextCursor ?? null);
+    } catch (e) {
+      if (!mounted.current) return;
+      setError(e instanceof Error ? e.message : 'No se pudieron cargar los vídeos.');
+    } finally {
+      busy.current = false;
+      if (mounted.current) { setLoading(false); setLoadingMore(false); }
+    }
+  }, [channel, city, cursor]);
+
+  useEffect(() => { void load('initial'); }, [channel, city]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /* ── Entrada B: empezar por el vídeo que se tocó en el masonry ─────────────
+     `initialScrollIndex` necesita el índice en el primer render, y aún no hay
+     datos. Se resuelve tras la primera carga con `scrollToIndex` sin animar. Si el
+     vídeo no viene en la primera página (puede pasar si el feed del masonry estaba
+     paginado), la lista se queda arriba: se avisa con el comentario de abajo en vez
+     de fingir que siempre funciona. */
+  useEffect(() => {
+    if (loading || didInitialScroll.current || posts.length === 0) return;
+    if (!startId) { didInitialScroll.current = true; return; }
+    const i = posts.findIndex((p) => p.id === startId);
+    didInitialScroll.current = true;
+    if (i > 0) {
+      // En el siguiente frame: la lista ya tiene `getItemLayout` y medida la altura.
+      requestAnimationFrame(() => {
+        listRef.current?.scrollToIndex({ index: i, animated: false });
+        setActive(i);
+      });
+    }
+  }, [loading, posts, startId]);
+
+  /* ── Foco: al abrir el detalle o el reproductor, PAUSAR ────────────────────
+     Sin esto el audio seguiría sonando encima de la otra pantalla, que es el fallo
+     más visible de un feed de vídeo. Al volver, se reanuda solo el visible. */
+  useFocusEffect(useCallback(() => {
+    setFocused(true);
+    return () => setFocused(false);
+  }, []));
+
+  const viewability = useRef<ViewabilityConfig>({
+    // Con `pagingEnabled` el vídeo asentado ocupa el 100 %; 60 % evita que el
+    // vecino cuente como visible a mitad de un deslizamiento.
+    viewAreaCoveragePercentThreshold: 60,
+  }).current;
+
+  // Callback ESTABLE por referencia: si se recrea en cada render, FlatList avisa y
+  // deja de notificar. De ahí el useRef con la lógica dentro.
+  const onViewable = useRef(({ viewableItems }: { viewableItems: ViewToken[]; changed: ViewToken[] }) => {
+    const first = viewableItems[0];
+    if (first?.index != null) {
+      setActive(first.index);
+      // Cambiar de vídeo quita la pausa manual: el siguiente empieza reproduciendo.
+      setPausedId(null);
+    }
+  }).current;
+
+  const getItemLayout = useCallback(
+    (_: ArrayLike<LbPostBase> | null | undefined, index: number) => ({ length: H, offset: H * index, index }),
+    [H],
+  );
+
+  /* ── Me gusta: optimista y con marcha atrás si el servidor falla ────────────
+     El mismo contrato que usa el feed (`lifebookActionsApi.toggleLike(id, liked)`),
+     para que el corazón no quede desincronizado entre las dos pantallas. */
+  const toggleLike = useCallback((id: string, liked: boolean) => {
+    setPosts((list) => list.map((p) => {
+      if (p.id !== id) return p;
+      const stats = p.stats ?? ({} as LbPostBase['stats']);
+      return {
+        ...p,
+        stats: { ...stats, likedByMe: liked, likes: Math.max(0, (stats.likes ?? 0) + (liked ? 1 : -1)) },
+      };
+    }));
+    lifebookActionsApi.toggleLike(id, liked).catch(() => {
+      setPosts((list) => list.map((p) => {
+        if (p.id !== id) return p;
+        const stats = p.stats ?? ({} as LbPostBase['stats']);
+        return {
+          ...p,
+          stats: { ...stats, likedByMe: !liked, likes: Math.max(0, (stats.likes ?? 0) + (liked ? -1 : 1)) },
+        };
+      }));
+    });
+  }, []);
+
+  const renderItem = useCallback(({ item, index }: { item: LbPostBase; index: number }) => (
+    <VideoPage
+      post={item}
+      height={H}
+      isActive={index === active && focused}
+      muted={muted}
+      insets={{ top: insets.top, bottom: insets.bottom }}
+      onTogglePause={() => setPausedId((cur) => (cur === item.id ? null : item.id))}
+      paused={pausedId === item.id}
+      onLike={(liked) => toggleLike(item.id, liked)}
+      onOpenDetail={() => router.push({ pathname: '/lifebook-post/[id]', params: { id: item.id } } as never)}
+      onOpenPlayer={() => router.push({
+        pathname: '/lifebook-player',
+        params: { kind: 'video', src: videoUrlOf(item), title: item.title ?? 'Vídeo', cover: coverOf(item) },
+      } as never)}
+    />
+  ), [H, active, focused, muted, insets.top, insets.bottom, pausedId, toggleLike, router]);
+
+  const keyExtractor = useCallback((p: LbPostBase) => p.id, []);
+
+  return (
+    <View style={[s.root, { backgroundColor: '#000' }]}>
+      {loading && posts.length === 0 ? (
+        <View style={s.center}>
+          <ActivityIndicator color="#FFF" />
+        </View>
+      ) : error && posts.length === 0 ? (
+        <View style={s.center}>
+          <Text style={s.errTitle}>No se pudieron cargar los vídeos</Text>
+          <Text style={s.errSub}>{error}</Text>
+          <Pressable onPress={() => { didInitialScroll.current = true; void load('initial'); }} style={s.retry}>
+            <Text style={s.retryText}>Reintentar</Text>
+          </Pressable>
+        </View>
+      ) : posts.length === 0 ? (
+        <View style={s.center}>
+          <Text style={{ fontSize: 40, marginBottom: 10 }}>🎬</Text>
+          <Text style={s.errTitle}>Todavía no hay vídeos aquí</Text>
+          <Text style={s.errSub}>Cuando alguien publique un vídeo en este canal aparecerá en este feed.</Text>
+        </View>
+      ) : (
+        <FlatList
+          ref={listRef}
+          data={posts}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          getItemLayout={getItemLayout}
+          pagingEnabled
+          showsVerticalScrollIndicator={false}
+          viewabilityConfig={viewability}
+          onViewableItemsChanged={onViewable}
+          initialNumToRender={1}
+          maxToRenderPerBatch={1}
+          // 3 pantallas montadas: la visible y la de arriba/abajo. Es lo que da la
+          // precarga del siguiente sin tener decenas de reproductores vivos.
+          windowSize={3}
+          onEndReached={() => { if (cursor && !loadingMore) void load('more'); }}
+          onEndReachedThreshold={0.5}
+        />
+      )}
+
+      {/* Cabecera flotante: volver + sonido. Va encima del vídeo, no ocupa sitio. */}
+      <View style={[s.topBar, { paddingTop: insets.top + 8 }]} pointerEvents="box-none">
+        <Pressable onPress={() => router.back()} hitSlop={12} style={s.iconBtn}
+          accessibilityRole="button" accessibilityLabel="Volver">
+          <ArrowLeft size={22} color="#FFF" />
+        </Pressable>
+        <Pressable onPress={() => setMuted((m) => !m)} hitSlop={12} style={s.iconBtn}
+          accessibilityRole="button"
+          accessibilityLabel={muted ? 'Activar el sonido' : 'Silenciar'}
+          accessibilityState={{ checked: !muted }}>
+          {muted ? <VolumeX size={20} color="#FFF" /> : <Volume2 size={20} color="#FFF" />}
+        </Pressable>
+      </View>
+
+      {loadingMore && (
+        <View style={[s.moreBox, { paddingBottom: insets.bottom + 10 }]} pointerEvents="none">
+          <ActivityIndicator color="#FFF" />
+        </View>
+      )}
+    </View>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Una página = un vídeo
+// ─────────────────────────────────────────────────────────────────────────────
+
+function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLike, onOpenDetail, onOpenPlayer, insets }: {
+  post: LbPostBase; height: number; isActive: boolean; muted: boolean; paused: boolean;
+  onTogglePause: () => void; onLike: (liked: boolean) => void;
+  onOpenDetail: () => void; onOpenPlayer: () => void;
+  insets: { top: number; bottom: number };
+}) {
+  const { colors } = useTheme();
+  const src = useMemo(() => videoUrlOf(post), [post]);
+  const cover = useMemo(() => coverOf(post), [post]);
+  const ratio = useMemo(() => ratioOf(post), [post]);
+  // Vídeo horizontal → `contain` (no recortar); vertical/cuadrado → `cover` (llenar).
+  const fit = ratio > 1 ? 'contain' : 'cover';
+
+  /** Duración declarada al publicar (la que verificó el servidor con ffprobe). */
+  const dur = Number((post.payload as Record<string, unknown>)?.durationSec);
+  const durOk = Number.isFinite(dur) && dur > 0;
+  const esLargo = durOk && dur > LARGO_DESDE_SEC;
+
+  const [liked, setLiked] = useState(!!post.stats?.likedByMe);
+  const [likes, setLikes] = useState(post.stats?.likes ?? 0);
+  const [heartPop, setHeartPop] = useState(false);
+  const popTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // El estado real puede llegar después (recarga silenciosa del feed).
+  useEffect(() => { setLiked(!!post.stats?.likedByMe); }, [post.stats?.likedByMe]);
+  useEffect(() => { setLikes(post.stats?.likes ?? 0); }, [post.stats?.likes]);
+  useEffect(() => () => { if (popTimer.current) clearTimeout(popTimer.current); }, []);
+
+  const player = useVideoPlayer(src || null, (p) => {
+    // En bucle, como en todo feed inmersivo: al terminar, vuelve a empezar en vez de
+    // quedarse en un fotograma negro. (`/lifebook-player` usa loop=false, que allí
+    // sí tiene sentido: es reproducción de detalle.)
+    // Los LARGOS no: repetir 50 minutos no es un feed, es un error.
+    p.loop = !esLargo;
+    p.muted = muted;
+  });
+
+  /* Autoplay SOLO del visible, y pausa del resto. Es el corazón de B1: sin esto,
+     todos los vídeos montados reproducirían a la vez (audio solapado y datos).
+     Los largos quedan fuera del autoplay a propósito (ver LARGO_DESDE_SEC). */
+  useEffect(() => {
+    if (!src) return;
+    if (isActive && !paused && !esLargo) {
+      player.play();
+    } else {
+      player.pause();
+    }
+  }, [isActive, paused, player, src, esLargo]);
+
+  // El silencio es global (un botón en la cabecera), así que se sincroniza aquí.
+  useEffect(() => { player.muted = muted; }, [muted, player]);
+
+  const applyLike = (next: boolean) => {
+    setLiked(next);
+    setLikes((n) => Math.max(0, n + (next ? 1 : -1)));
+    onLike(next);
+  };
+
+  /** Doble toque = me gusta + corazón grande. Mismo patrón y mismos tiempos que
+   *  `PostCard.tsx` (260 ms de ventana, 650 ms de corazón), para que el gesto se
+   *  sienta igual en el masonry y aquí. No vibra: `expo-haptics` no está instalado. */
+  const doubleTapLike = () => {
+    if (!liked) applyLike(true);
+    setHeartPop(true);
+    if (popTimer.current) clearTimeout(popTimer.current);
+    popTimer.current = setTimeout(() => setHeartPop(false), 650);
+  };
+  // Un toque: en un clip, pausa/reanuda. En un LARGO, abre el reproductor con controles
+  // (que es lo único útil: sin barra de progreso un toque no lleva a ninguna parte).
+  const singleTap = () => { if (esLargo) onOpenPlayer(); else onTogglePause(); };
+
+  const taps = Gesture.Exclusive(
+    Gesture.Tap().numberOfTaps(2).maxDuration(260).onEnd(() => { runOnJS(doubleTapLike)(); }),
+    Gesture.Tap().numberOfTaps(1).onEnd(() => { runOnJS(singleTap)(); }),
+  );
+
+  const authorName = post.author?.fullName?.trim() || post.author?.name?.trim() || 'Usuario';
+  const title = post.title?.trim() || post.body?.trim() || '';
+
+  return (
+    <View style={{ height, width: '100%', backgroundColor: '#000' }}>
+      <GestureDetector gesture={taps}>
+        <View style={StyleSheet.absoluteFill}>
+          {src ? (
+            <VideoView
+              player={player}
+              style={StyleSheet.absoluteFill}
+              contentFit={fit}
+              // Sin controles nativos: tap = pausa/reanudar y el botón de pantalla
+              // completa lleva al reproductor, que sí los tiene.
+              nativeControls={false}
+              allowsFullscreen={false}
+            />
+          ) : cover ? (
+            <Image source={cover} style={StyleSheet.absoluteFill} contentFit="cover" cachePolicy="memory-disk" />
+          ) : null}
+
+          {/* Portada encima mientras carga: tapa el negro del primer fotograma. */}
+          {src && cover ? (
+            <Image
+              source={cover}
+              style={[StyleSheet.absoluteFill, { opacity: isActive && !paused ? 0 : 1 }]}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+              transition={200}
+              pointerEvents="none"
+            />
+          ) : null}
+
+          {/* Pausa: indicador central, como en TikTok. */}
+          {paused && isActive ? (
+            <View style={s.pauseDot} pointerEvents="none">
+              <Text style={{ fontSize: 26, color: '#FFF' }}>▶</Text>
+            </View>
+          ) : null}
+
+          {/* VÍDEO LARGO: no se reproduce solo. Portada + botón, y se abre el reproductor
+              completo (con barra de progreso). Así el feed no descarga 50 minutos sin
+              permiso ni hace creer que esto es un clip. */}
+          {esLargo ? (
+            <View style={s.largoBox} pointerEvents="none">
+              <View style={s.largoPlay}>
+                <Text style={{ fontSize: 30, color: '#FFF', marginLeft: 4 }}>▶</Text>
+              </View>
+              <Text style={s.largoTxt}>
+                Vídeo de {fmtDur(dur)}{'\n'}
+                <Text style={s.largoSub}>Toca para verlo con controles</Text>
+              </Text>
+            </View>
+          ) : null}
+
+          {/* Corazón del doble toque */}
+          {heartPop ? (
+            <View style={s.heartPop} pointerEvents="none">
+              <Heart size={92} color={LIKE_RED} fill={LIKE_RED} />
+            </View>
+          ) : null}
+        </View>
+      </GestureDetector>
+
+      {/* Degradado inferior para que el texto se lea sobre el vídeo. */}
+      <View style={[s.scrim, { paddingBottom: insets.bottom + 14 }]} pointerEvents="none" />
+
+      {/* Columna de acciones (derecha), como en 小红书/TikTok. */}
+      <View style={[s.actions, { bottom: insets.bottom + 78 }]} pointerEvents="box-none">
+        <Pressable onPress={() => applyLike(!liked)} hitSlop={10} style={s.actBtn}
+          accessibilityRole="button"
+          accessibilityLabel={`Me gusta${likes ? `, ${likes}` : ''}`}
+          accessibilityState={{ selected: liked }}>
+          <Heart size={27} color={liked ? LIKE_RED : '#FFF'} fill={liked ? LIKE_RED : 'none'} />
+          <Text style={s.actN}>{fmtCount(likes)}</Text>
+        </Pressable>
+        <Pressable onPress={onOpenDetail} hitSlop={10} style={s.actBtn}
+          accessibilityRole="button"
+          accessibilityLabel={`Comentarios${post.stats?.comments ? `, ${post.stats.comments}` : ''}`}>
+          <MessageCircle size={26} color="#FFF" />
+          <Text style={s.actN}>{fmtCount(post.stats?.comments ?? 0)}</Text>
+        </Pressable>
+        <Pressable onPress={onOpenPlayer} hitSlop={10} style={s.actBtn}
+          accessibilityRole="button"
+          accessibilityLabel="Ver a pantalla completa con controles">
+          <Maximize size={24} color="#FFF" />
+        </Pressable>
+      </View>
+
+      {/* Texto inferior: autor, título y duración. */}
+      <View style={[s.info, { paddingBottom: insets.bottom + 14 }]} pointerEvents="none">
+        <View style={s.authorRow}>
+          {post.author?.avatarUrl ? (
+            <Image source={absUrl(post.author.avatarUrl)} style={s.avatar} contentFit="cover" cachePolicy="memory-disk" />
+          ) : (
+            <View style={[s.avatar, { backgroundColor: alpha(colors.primary, 0.5) }]}>
+              <Text style={{ fontSize: 11, fontWeight: '800', color: '#FFF' }}>
+                {authorName.trim().charAt(0).toUpperCase() || '?'}
+              </Text>
+            </View>
+          )}
+          <Text numberOfLines={1} style={s.author}>{authorName}</Text>
+          {durOk ? (
+            <View style={s.durChip}><Text style={s.durText}>{fmtDur(dur)}</Text></View>
+          ) : null}
+        </View>
+        {title ? <Text numberOfLines={2} style={s.title}>{title}</Text> : null}
+      </View>
+    </View>
+  );
+}
+
+function fmtCount(n: number): string {
+  if (n >= 1_000) return `${(n / 1000).toFixed(1)}k`;
+  return String(n);
+}
+
+const s = StyleSheet.create({
+  root: { flex: 1 },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32, backgroundColor: '#000' },
+  errTitle: { color: '#FFF', fontSize: 15, fontWeight: '800', textAlign: 'center' },
+  errSub: { color: 'rgba(255,255,255,0.7)', fontSize: 12.5, textAlign: 'center', marginTop: 6, lineHeight: 18 },
+  retry: { marginTop: 18, backgroundColor: '#FF2442', paddingHorizontal: 24, paddingVertical: 11, borderRadius: 22 },
+  retryText: { color: '#FFF', fontWeight: '800', fontSize: 13 },
+  topBar: {
+    position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 14,
+  },
+  iconBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center' },
+  moreBox: { position: 'absolute', left: 0, right: 0, bottom: 0, alignItems: 'center', zIndex: 4 },
+  scrim: {
+    position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 2,
+    height: 210, justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.42)',
+  },
+  actions: { position: 'absolute', right: 10, zIndex: 3, alignItems: 'center', gap: 16 },
+  actBtn: { alignItems: 'center' },
+  actN: { color: '#FFF', fontSize: 11, fontWeight: '800', marginTop: 3 },
+  info: { position: 'absolute', left: 14, right: 74, bottom: 0, zIndex: 3 },
+  authorRow: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  avatar: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  author: { color: '#FFF', fontSize: 13.5, fontWeight: '800', flexShrink: 1 },
+  durChip: { backgroundColor: 'rgba(0,0,0,0.45)', borderRadius: 8, paddingHorizontal: 6, paddingVertical: 2 },
+  durText: { color: '#FFF', fontSize: 10.5, fontWeight: '800' },
+  title: { color: 'rgba(255,255,255,0.94)', fontSize: 13, lineHeight: 18, marginTop: 6 },
+  pauseDot: {
+    ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 3,
+  },
+  largoBox: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 3, gap: 12 },
+  largoPlay: {
+    width: 70, height: 70, borderRadius: 35, alignItems: 'center', justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.55)', borderWidth: 2, borderColor: 'rgba(255,255,255,0.85)',
+  },
+  largoTxt: { color: '#FFF', fontSize: 14, fontWeight: '900', textAlign: 'center', lineHeight: 19 },
+  largoSub: { color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: '700' },
+  heartPop: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 4 },
+});

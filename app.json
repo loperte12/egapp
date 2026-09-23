@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "EG Route Plan",
+    "slug": "egrouteplan",
+    "scheme": "egrouteplan",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#FFFFFF",
+    "primaryColor": "#0084FF",
+    "plugins": [
+      "expo-router",
+      "expo-camera",
+      "expo-local-authentication",
+      "expo-location",
+      "expo-video",
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Para dictarle a Cucucul hablando en vez de escribir.",
+          "speechRecognitionPermission": "Para pasar tu voz a texto: Cucucul recibe el texto, no el audio."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.egrouteplan.app",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.egrouteplan.app",
+      "softwareKeyboardLayoutMode": "pan",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "RECORD_AUDIO",
+        "CAMERA"
+      ]
+    }
+  }
+}

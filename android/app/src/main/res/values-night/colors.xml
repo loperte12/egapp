@@ -1,0 +1,22 @@
+<resources>
+  <!--
+    ══════════════════════════════════════════════════════════════════════════════════════════════
+    MODO OSCURO — ESTE FICHERO ES EL ARREGLO DEL «DESTELLO BLANCO» (2026-09-12).
+    ══════════════════════════════════════════════════════════════════════════════════════════════
+    `AppTheme` pinta la ventana con `activityBackground` desde que arranca la actividad **hasta que la
+    app dibuja su primer fotograma**. Sin variante de noche, en modo oscuro se usaba el color claro y se
+    veía un fogonazo blanco al abrir la app.
+
+    Medido con pantallazos en el Poco F5 (modo oscuro): los dos primeros fotogramas salían con luma
+    **246,4 de 255** y el resto con **40,4** (la app oscura). Ese 246,4 es exactamente `#F5F7FA`, el
+    color claro. Con estos valores la ventana nace del mismo color que la app.
+
+    ⚠️ `expo prebuild` regenera `values/colors.xml` desde `app.json` y **dejaba este fichero vacío**
+    (`<resources/>`): si algún día se vuelve a ejecutar, hay que reponer estas cuatro líneas. El color
+    oscuro del tema de la app está en `packages/ui-kit/src/theme/colors.ts` (`darkColors.background`).
+  -->
+  <color name="splashscreen_background">#17171A</color>
+  <color name="colorPrimary">#0084FF</color>
+  <color name="colorPrimaryDark">#17171A</color>
+  <color name="activityBackground">#17171A</color>
+</resources>

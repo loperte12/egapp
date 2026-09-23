@@ -1,0 +1,7 @@
+﻿adb : cat: /sdcard/b1.xml: No such file or directory
+At line:7 char:1
++ adb shell cat /sdcard/b1.xml 2>&1 | Out-File -FilePath '.tmp-compra\b ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (cat: /sdcard/b1...le or directory:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

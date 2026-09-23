@@ -1,0 +1,19 @@
+{
+  "name": "@egrouteplan/ui-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Design System interno de EG Route Plan: tokens, tema y primitivos de seguridad (OTP, PIN, formularios). Consumen: app movilidad, módulo KYC, módulo Monedero y futuros (crédito, seguros).",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "license": "UNLICENSED",
+  "peerDependencies": {
+    "expo-haptics": "*",
+    "expo-screen-capture": "*",
+    "lucide-react-native": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-gesture-handler": "*",
+    "react-native-reanimated": "*",
+    "react-native-safe-area-context": "*"
+  }
+}

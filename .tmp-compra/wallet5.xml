@@ -1,0 +1,7 @@
+﻿adb : adb.exe: no devices/emulators found
+At line:7 char:1
++ adb shell cat /sdcard/w5.xml 2>&1 | Out-File -FilePath '.tmp-compra\w ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (adb.exe: no devices/emulators found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

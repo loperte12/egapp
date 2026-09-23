@@ -1,0 +1,32 @@
+﻿const fs=require('fs'); const {JSDOM}=require('jsdom');
+process.on('unhandledRejection',()=>{});
+const bundle=fs.readFileSync('.auditoria-servicios/web-admin/web-admin/assets/index-CheeN-IO.js','utf8');
+const mio=fs.readFileSync('.auditoria-servicios/web-admin/ecomerse-docs.js','utf8');
+(async()=>{
+  const dom=new JSDOM('<!doctype html><html><head></head><body><div id="root"></div></body></html>',{url:'https://hk.egrouteplan.com/admin/ecomerse-docs',runScripts:'dangerously',pretendToBeVisual:true});
+  const w=dom.window; w.localStorage.setItem('unified_token','t');
+  ['log','info','warn','error','debug'].forEach(n=>{w.console[n]=()=>{}});
+  w.fetch=(u)=>{let c=[]; if(/auth\/me/.test(u)) c={data:{user:{id:'u-1',phone:'+240999888777',fullName:'Admin Prueba',role:'ADMIN',isAdmin:true,admin:true,status:'active'}}}; else if(/metrics/.test(u)) c={pendingOrders:0}; else if(/driver-documents/.test(u)) c={data:{drivers:[]}}; else if(/stats/.test(u)) c={pending:1,approved:0,rejected:0,total:1}; else if(/admin\/docs/.test(u)) c=[{id:'d1',docType:'factura_compra',url:'https://x/f.png',docNumber:'FAC-1',amountXaf:6500,issuedOn:'2026-09-01',status:'pending',createdAt:'2026-09-18T10:00:00Z',producto:{id:'p1',title:'Producto cuota 4',priceXaf:18500,city:'Malabo',sellerName:'Abaceria'}}]; return Promise.resolve({ok:true,status:200,json:()=>Promise.resolve(c),text:()=>Promise.resolve(JSON.stringify(c))});};
+  w.matchMedia=()=>({matches:false,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}});
+  w.URL.createObjectURL=()=>'blob:x'; w.URL.revokeObjectURL=()=>{};
+  // ORDEN REAL de index.html: primero mi script, luego el bundle del panel.
+  w.eval(mio);
+  const urlTrasMiScript = w.location.pathname;
+  w.eval(bundle);
+  await new Promise(r=>setTimeout(r,1500));
+  console.log('url tras mi script:', urlTrasMiScript);
+  console.log('url tras el panel :', w.location.pathname);
+  const root=w.document.getElementById('root');
+  console.log('aside presente:', !!w.document.querySelector('aside'));
+  console.log('texto de root (120):', root?root.textContent.slice(0,120):'');
+  console.log('capa de documentacion:', !!w.document.getElementById('ecomerse-docs-root'));
+  console.log('enlace en el menu:', !!w.document.getElementById('ecomerse-docs-enlace-menu'));
+  console.log('QUIEN APAGO LA BANDERA:', JSON.stringify(w.__apagado || null));
+  console.log('LLAMADAS:', JSON.stringify(w.__calls || null));
+  console.log('CARGAS DEL SCRIPT:', w.__cargas);
+  console.log('LOG DE SINCRONIZAR:'); (w.__log||[]).forEach(x=>console.log('   ', JSON.stringify(x)));
+  console.log('body:', Array.from(w.document.body.children).map(e=>e.tagName+'#'+(e.id||'')).join(', '));
+  const capa=w.document.getElementById('ecomerse-docs-root');
+  console.log('la capa dice:', capa?capa.textContent.slice(0,150):'(sin capa)');
+  process.exit(0);
+})();

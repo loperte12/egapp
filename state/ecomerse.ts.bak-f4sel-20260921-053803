@@ -1,0 +1,114 @@
+/**
+ * Store global de Ecomerse (Zustand v5) — estado del marketplace.
+ * Carrito de compra, favoritos (Xianyu), filtros activos (categoría,
+ * subcategoría, ciudad) y último catálogo cargado.
+ * Persistencia (auditoría 2026-09-02): SOLO el carrito sobrevive al cierre de
+ * la app (AsyncStorage). Favoritos NO se persisten: van sincronizados por API
+ * y son por-usuario; filtros/búsqueda son de sesión.
+ */
+
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export interface CartLine {
+  productId: string;
+  title: string;
+  priceXaf: number;
+  qty: number;
+  photos: string[];
+  /** Techo de stock (auditoría): el carrito nunca supera el disponible. */
+  stock?: number;
+  /** Ciudad del producto (para tarifa logística). */
+  city?: string;
+}
+
+interface EcomerseState {
+  cart: CartLine[];
+  categoryFilter: string;
+  subcategoryFilter: string;
+  cityFilter: string;          // '' = todas las ciudades
+  query: string;
+  favIds: string[];            // productos favoritos del usuario (corazón)
+  lastCatalogAt: number | null;
+  addToCart: (line: CartLine) => void;
+  setQty: (productId: string, qty: number) => void;
+  removeFromCart: (productId: string) => void;
+  clearCart: () => void;
+  updateLinePrice: (productId: string, priceXaf: number) => void;
+  setCategoryFilter: (cat: string) => void;
+  setSubcategoryFilter: (sub: string) => void;
+  setCityFilter: (city: string) => void;
+  setQuery: (q: string) => void;
+  setFavIds: (ids: string[]) => void;
+  toggleFavId: (productId: string) => void;
+  markCatalogLoaded: () => void;
+}
+
+export const useEcomerseStore = create<EcomerseState>()(
+  persist(
+    (set) => ({
+      cart: [],
+      categoryFilter: '',
+      subcategoryFilter: '',
+      cityFilter: '',
+      query: '',
+      favIds: [],
+      lastCatalogAt: null,
+
+      addToCart: (line) =>
+        set((s) => {
+          const max = line.stock ?? 999;
+          const existing = s.cart.find((c) => c.productId === line.productId);
+          if (existing) {
+            return {
+              cart: s.cart.map((c) =>
+                c.productId === line.productId ? { ...c, qty: Math.min(c.qty + line.qty, max) } : c),
+            };
+          }
+          return { cart: [...s.cart, { ...line, qty: Math.min(line.qty, max) }] };
+        }),
+
+      setQty: (productId, qty) =>
+        set((s) => ({
+          cart:
+            qty <= 0
+              ? s.cart.filter((c) => c.productId !== productId)
+              : s.cart.map((c) => (c.productId === productId ? { ...c, qty } : c)),
+        })),
+
+      removeFromCart: (productId) =>
+        set((s) => ({ cart: s.cart.filter((c) => c.productId !== productId) })),
+
+      updateLinePrice: (productId, priceXaf) =>
+        set((s) => ({
+          cart: s.cart.map((c) => (c.productId === productId ? { ...c, priceXaf } : c)),
+        })),
+
+      clearCart: () => set({ cart: [] }),
+      setCategoryFilter: (cat) => set({ categoryFilter: cat, subcategoryFilter: '' }),
+      setSubcategoryFilter: (sub) => set({ subcategoryFilter: sub }),
+      setCityFilter: (city) => set({ cityFilter: city }),
+      setQuery: (q) => set({ query: q }),
+      setFavIds: (ids) => set({ favIds: ids }),
+      toggleFavId: (productId) =>
+        set((s) => ({
+          favIds: s.favIds.includes(productId)
+            ? s.favIds.filter((id) => id !== productId)
+            : [productId, ...s.favIds],
+        })),
+      markCatalogLoaded: () => set({ lastCatalogAt: Date.now() }),
+    }),
+    {
+      name: 'eg-ecomerse-cart',
+      storage: createJSONStorage(() => AsyncStorage),
+      version: 1,
+      partialize: (s) => ({ cart: s.cart }),
+    },
+  ),
+);
+
+/** Total del carrito en XAF (entero). */
+export function cartTotal(cart: CartLine[]): number {
+  return cart.reduce((acc, c) => acc + c.priceXaf * c.qty, 0);
+}

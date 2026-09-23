@@ -1,0 +1,86 @@
+/**
+ * FareQuoteCard — tarifa en vivo desde la API de movilidad.
+ * Muestra la cotización TAXI (banda de negociación) para la distancia dada.
+ * Tinte naranja secundario (servicios). Falla en silencio si la API no
+ * responde (la Home sigue funcionando offline con los datos estáticos).
+ */
+
+import React, { useEffect, useState } from 'react';
+import { tipografia, radios } from '@egrouteplan/ui-kit';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { CarTaxiFront, BadgeInfo } from 'lucide-react-native';
+import { mobilityApi, fmtXaf, type FareQuote } from '../api/mobility';
+import { alpha } from '../constants/colors';
+import { useTheme } from '../theme/ThemeContext';
+
+export default function FareQuoteCard({ distanceKm = 3.5, city = 'Malabo' }: { distanceKm?: number; city?: string }) {
+  const { colors } = useTheme();
+  const [quote, setQuote] = useState<FareQuote | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let alive = true;
+    mobilityApi
+      .fareQuote({ serviceType: 'TAXI', zoneType: 'inside', vehicleType: 'car', distanceKm })
+      .then((q) => { if (alive) setQuote(q); })
+      .catch(() => { /* fallback silencioso: la tarjeta no se muestra */ })
+      .finally(() => { if (alive) setLoading(false); });
+    return () => { alive = false; };
+  }, [distanceKm]);
+
+  if (loading) {
+    return (
+      <View style={[styles.card, { backgroundColor: alpha(colors.secondary, 0.08), borderColor: alpha(colors.secondary, 0.25) }]}>
+        <ActivityIndicator color={colors.secondary} size="small" />
+        <Text style={[styles.loadingText, { color: colors.textSecondary }]}>Tarifa en vivo…</Text>
+      </View>
+    );
+  }
+  if (!quote) return null;
+
+  return (
+    <View style={[styles.card, { backgroundColor: alpha(colors.secondary, 0.08), borderColor: alpha(colors.secondary, 0.25) }]}>
+      <View style={[styles.iconWrap, { backgroundColor: alpha(colors.secondary, 0.15) }]}>
+        <CarTaxiFront size={18} color={colors.secondary} />
+      </View>
+      <View style={styles.body}>
+        <Text style={[styles.title, { color: colors.textPrimary }]}>
+          Taxi en {city} · ~{distanceKm} km
+        </Text>
+        <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
+          base {fmtXaf(quote.breakdown.baseFare)} + {fmtXaf(quote.breakdown.perKmRate)}/km · orientativo
+        </Text>
+      </View>
+      <View style={styles.priceBlock}>
+        <Text style={[styles.price, { color: colors.secondary }]}>{fmtXaf(quote.quote)} XAF</Text>
+        <View style={styles.bandRow}>
+          <BadgeInfo size={11} color={colors.textSecondary} />
+          <Text style={[styles.band, { color: colors.textSecondary }]}>
+            negociable {fmtXaf(quote.band.min)}–{fmtXaf(quote.band.max)}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  card: {
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: radios.lg,
+    padding: 12,
+    gap: 10,
+  },
+  iconWrap: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  body: { flex: 1 },
+  title: { fontSize: tipografia.body, fontWeight: '800' },
+  subtitle: { fontSize: tipografia.micro, marginTop: 2 },
+  priceBlock: { alignItems: 'flex-end' },
+  price: { fontSize: 15, fontWeight: '800' },
+  bandRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 2 },
+  band: { fontSize: 9.5, fontWeight: '600' },
+  loadingText: { fontSize: tipografia.caption, fontWeight: '600', marginLeft: 8 },
+});

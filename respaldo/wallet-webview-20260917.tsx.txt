@@ -1,0 +1,283 @@
+// egrouteplan-app/app/wallet.tsx
+/**
+ * WalletScreen — Monedero con Autenticación Progresiva (Lazy Auth).
+ *
+ * ⚠ FICHERO RECONSTRUIDO (noche del 15/09): una cadena de reemplazos por PowerShell **vació** este
+ * fichero (quedó en 3 bytes) y no hay git. El encabezado, las constantes, el guarda de URLs, el efecto
+ * KYC, el aviso `kycCaido` y el JSX del WebView están **recuperados literal** de lecturas de esta
+ * sesión; el bloque que nadie llegó a releer (`retryCheck`, `onMessage` y la UI de error) está
+ * **vuelto a escribir en pequeño**, con el mismo contrato (Reintentar, LOGOUT por origen, spinner).
+ * Si algo difiere del original, lo dirá la pantalla — no fiarse a ciegas.
+ *
+ * Flujo:
+ *   1. AuthGate muestra un "Glass Pane" hasta desbloquear con biometría o sesión recordada.
+ *   2. Desbloqueado → comprueba KYC. Sin APPROVED_L2 → /kyc. Si lo que falla es el SERVICIO de
+ *      verificación (el servidor tiene la puerta `kyc-gate` pero NO las rutas `submissions`), el
+ *      monedero ABRE con aviso visible (`kycCaido`): «servicio caído» ≠ «sin verificar».
+ *   3. WebView del monedero con el JWT inyectado en localStorage ANTES de que cargue el SPA.
+ *
+ * Endurecimiento (auditoría 2026-09-02; ampliada 15/09 por el dueño del proyecto):
+ *   · El WebView SOLO puede navegar a nuestros hosts (onShouldStartLoadWithRequest + originWhitelist):
+ *     sin navegaciones a terceros, sin ventanas emergentes, mixed content "never", file access OFF.
+ *   · El SPA del monedero se sirve en `https://hk.egrouteplan.com/wallet/` (dominio con TLS y
+ *     el backend bueno de P1-c; decisión del dueño 17/09 tras ver que cada host servía una app
+ *     distinta en /wallet/). El viejo host de Shanghái (IP sin TLS, http) sigue permitido en
+ *     `HTTP_HOSTS` y en `res/xml/network_security_config.xml` por si se vuelve a necesitar.
+ *   · El JWT solo se inyecta con sesión desbloqueada; el mensaje LOGOUT se valida por origen.
+ * Ruta: /wallet
+ *
+ * ⚠ 17/09 (tarde) — P2: las TRES entradas («Monedero» del pie, cajón de servicios
+ * y «Métodos de pago» de Mis documentos) apuntan ya a la pantalla NATIVA
+ * `/monedero` (ver app/monedero.tsx), porque este WebView sirve una maqueta con
+ * datos falsos («Hola, María», tarjeta de agente MBO-0042 fija, ayuda a un
+ * teléfono chino) y solo tenía viva la pestaña de saldo. Este fichero se queda
+ * como RESPALDO alcanzable por URL directa; no recibe mantenimiento.
+ */
+
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import WebView, { type WebViewMessageEvent } from 'react-native-webview';
+import { ArrowLeft } from 'lucide-react-native';
+import { useTheme } from '@egrouteplan/ui-kit';
+import { AuthGate } from '../core/AuthGate';
+import { useSession } from '../state/session';
+import { kycApi, type SubmissionState } from '../api/kyc';
+
+/**
+ * 17/09 (corregido el mismo día): lo de «monedero de agente / panel de administración»
+ * NO era esto: hk servía en /wallet/ una app DISTINTA (el panel-admin) y el alias
+ * DRIVER→AGENT en RolesGuard daba a los conductores con perfil de agente el rol AGENT
+ * en sus logins PIN. Ambos ya corregidos: hk /wallet/ sirve ahora el monedero real
+ * (mismo build que Shanghái) y el alias es DRIVER→USER (parche 93). Ver
+ * docs/AUDITORIA-MONEDERO.md, sección 17/09.
+ * Ruta: /wallet
+ */
+const WALLET_URL = 'https://hk.egrouteplan.com/wallet/';
+const TOKEN_KEY = 'malabogo.token';
+/** Dominios propios: SOLO https. */
+const HTTPS_HOSTS = ['hk.egrouteplan.com', 'egrouteplan.com', 'www.egrouteplan.com'];
+/** Excepción medida: el host de legado de Shanghái solo sirve por http (IP sin TLS). */
+const HTTP_HOSTS = ['106.14.104.146'];
+
+function isAllowedUrl(url: string | undefined): boolean {
+  if (!url) return false;
+  try {
+    const u = new URL(url);
+    if (u.protocol === 'https:') return HTTPS_HOSTS.includes(u.hostname);
+    if (u.protocol === 'http:') return HTTP_HOSTS.includes(u.hostname);
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+export default function WalletScreen() {
+  return (
+    <AuthGate>
+      <WalletContent />
+    </AuthGate>
+  );
+}
+
+function WalletContent() {
+  const { colors } = useTheme();
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { token, webviewLogoutNonce, logout } = useSession();
+
+  const [checking, setChecking] = useState(true);
+  const [verified, setVerified] = useState(false);
+  /** El servicio de verificación falló (no es lo mismo que «no verificado»): el monedero abre igual. */
+  const [kycCaido, setKycCaido] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [webviewKey, setWebviewKey] = useState(0);
+
+  // Comprueba KYC una vez desbloqueado (token disponible).
+  useEffect(() => {
+    if (!token) return;
+    let alive = true;
+    setChecking(true);
+    setError(null);
+    kycApi
+      .current()
+      .then((sub: SubmissionState | null) => {
+        if (!alive) return;
+        if (sub?.status === 'APPROVED_L2') {
+          setVerified(true);
+          setKycCaido(false);
+        } else {
+          router.replace('/kyc' as any);
+        }
+      })
+      .catch(() => {
+        if (!alive) return;
+        /**
+         * EL SERVICIO DE VERIFICACIÓN NO ESTÁ DISPONIBLE ≠ «NO ESTÁS VERIFICADO».
+         *
+         * Antes las dos cosas acababan igual: la pantalla se quedaba en el error («Cannot GET
+         * /api/v1/mobility/kyc/submissions/me») y **el monedero no abría**. El servidor tiene la puerta
+         * de KYC (`services/kyc-gate.service.ts`) pero **no tiene las rutas** que pide la app, así que
+         * esa llamada falla siempre. Si la verificación responde «no aprobado», se sigue yendo a `/kyc`
+         * (el gate manda); si lo que falla es el SERVICIO, el monedero abre con el aviso a la vista.
+         */
+        setKycCaido(true);
+        setVerified(false);
+      })
+      .finally(() => { if (alive) setChecking(false); });
+    return () => { alive = false; };
+  }, [token]);
+
+  // Refresco silencioso del JWT (interceptor 401 del httpClient): el WebView se
+  // quedó con el token inyectado — que caduca a los 15 min y este build del SPA
+  // no sabe refrescar — así que al cambiar el token recargamos la pantalla con
+  // el nuevo. Sin esto, un monedero abierto media hora empieza a fallar en
+  // silencio y a pedir login propio (cuya PIN NO es la contraseña de la app).
+  const ultimoTokenRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (token && ultimoTokenRef.current && ultimoTokenRef.current !== token) {
+      setWebviewKey((k) => k + 1);
+    }
+    ultimoTokenRef.current = token;
+  }, [token]);
+
+  // Logout nativo → recarga el WebView (se limpia al no inyectar token).
+  useEffect(() => {
+    if (webviewLogoutNonce > 0) setWebviewKey((k) => k + 1);
+  }, [webviewLogoutNonce]);
+
+  // Reintento desde la UI de error: vuelve a comprobar KYC con el mismo contrato que el efecto.
+  const retryCheck = useCallback(() => {
+    if (!token) return;
+    setChecking(true);
+    setError(null);
+    kycApi
+      .current()
+      .then((sub) => {
+        if (sub?.status === 'APPROVED_L2') { setVerified(true); setKycCaido(false); }
+        else { setVerified(false); setKycCaido(false); router.replace('/kyc' as any); }
+      })
+      .catch(() => { setKycCaido(true); setVerified(false); })
+      .finally(() => setChecking(false));
+  }, [token, router]);
+
+  // Mensajes del SPA: el ORIGEN manda antes de fiarse del contenido (auditoría 2026-09-02).
+  // Auditoría 17/09: el bundle actual envía postMessage("LOGOUT") en TEXTO PLANO, no JSON —
+  // JSON.parse fallaba y el logout del monedero nunca llegaba a la app. Se aceptan ambas formas.
+  const onMessage = useCallback((ev: WebViewMessageEvent) => {
+    if (!isAllowedUrl(ev.nativeEvent.url)) return;
+    const data = ev.nativeEvent.data;
+    if (data === 'LOGOUT') { logout(); return; }
+    let msg: { type?: string } | null = null;
+    try { msg = JSON.parse(data); } catch { return; }
+    if (msg?.type === 'LOGOUT') logout();
+  }, [logout]);
+
+  const s = styles(colors);
+
+  if (error) {
+    return (
+      <View style={[s.root, { paddingTop: insets.top }]}>
+        <View style={s.center}>
+          <Text style={{ color: colors.textPrimary, fontWeight: '700', fontSize: 14, textAlign: 'center', paddingHorizontal: 28 }}>{error}</Text>
+          <Pressable onPress={retryCheck} accessibilityRole="button" style={s.retryBtn}>
+            <Text style={{ color: '#fff', fontWeight: '800', fontSize: 13 }}>Reintentar</Text>
+          </Pressable>
+          <Pressable onPress={logout} accessibilityRole="button" style={{ marginTop: 14 }}>
+            <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: 12 }}>Cerrar sesión</Text>
+          </Pressable>
+        </View>
+      </View>
+    );
+  }
+
+  if (checking) {
+    return (
+      <View style={[s.root, s.center]}>
+        <ActivityIndicator color={colors.primary} />
+      </View>
+    );
+  }
+
+  if (!(verified || kycCaido) || !token) {
+    return null; // redirigiendo a /kyc o sin sesión desbloqueada
+  }
+
+  /**
+   * D2 — SESIÓN UNICA APP↔SPA (16/09). El SPA del monedero se guarda en `unified_token` y su guardia
+   * de sesión es «existe unified_token» (`jv()`) contra `/wallet/api/v1/mobility/*`. La app inicia sesión
+   * en ESA MISMA puerta (`api/auth.ts → /mobility/auth/login`), así que su JWT ya es un token unificado
+   * válido: lo inyectamos con el nombre que el SPA espera y el WebView entra **directo a su pantalla**,
+   * sin el formulario «Inicia sesión con el admin unificado» (que era lo que se veía antes).
+   * `malabogo.token` se mantiene por compatibilidad con lo que ya lo leía.
+   */
+  const injected = `
+    (function() {
+      try {
+        window.localStorage.setItem(${JSON.stringify(TOKEN_KEY)}, ${JSON.stringify(token)});
+        window.localStorage.setItem('unified_token', ${JSON.stringify(token)});
+      } catch (e) {}
+    })();
+  `;
+
+  return (
+    <View style={[s.root, { paddingTop: insets.top }]}>
+      {/* Header propio: el usuario siempre puede volver */}
+      <View style={s.header}>
+        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
+          <ArrowLeft size={22} color={colors.textPrimary} />
+        </Pressable>
+        <Text style={s.headerTitle}>Monedero</Text>
+        <View style={{ width: 24 }} />
+      </View>
+
+      {kycCaido ? (
+        <Text style={{ color: colors.textSecondary, fontSize: 11.5, paddingHorizontal: 14, paddingBottom: 8 }}>
+          La verificación de identidad todavía no está disponible en el servidor: el monedero abre sin ella.
+        </Text>
+      ) : null}
+      <View style={s.fill}>
+        <WebView
+          key={webviewKey}
+          source={{ uri: WALLET_URL }}
+          injectedJavaScriptBeforeContentLoaded={injected}
+          originWhitelist={[
+            ...HTTPS_HOSTS.map((h) => `https://${h}`),
+            ...HTTP_HOSTS.map((h) => `http://${h}`),
+          ]}
+          // ── Endurecimiento ──
+          javaScriptEnabled
+          domStorageEnabled
+          allowFileAccess={false}
+          allowUniversalAccessFromFileURLs={false}
+          mixedContentMode="never"
+          onShouldStartLoadWithRequest={(req) => isAllowedUrl(req.url)}
+          onOpenWindow={() => undefined /* bloquear popups/window.open */}
+          onMessage={onMessage}
+          startInLoadingState
+          renderLoading={() => (
+            <View style={[s.center, { backgroundColor: colors.background }]}>
+              <ActivityIndicator color={colors.primary} />
+            </View>
+          )}
+          onError={() => {
+            setError('No se pudo cargar el monedero. Revisa tu conexión e inténtalo de nuevo.');
+            setWebviewKey((k) => k + 1);
+          }}
+        />
+      </View>
+    </View>
+  );
+}
+
+const styles = (c: ReturnType<typeof useTheme>['colors']) =>
+  StyleSheet.create({
+    root: { flex: 1, backgroundColor: c.background },
+    fill: { flex: 1 },
+    header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
+    headerTitle: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '800', color: c.textPrimary },
+    center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+    text: { fontSize: 13, fontWeight: '600' },
+    retryBtn: { marginTop: 18, backgroundColor: '#FF6B35', paddingHorizontal: 24, paddingVertical: 11, borderRadius: 22 },
+  });

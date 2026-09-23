@@ -1,0 +1,159 @@
+/**
+ * food-fees — EL DINERO DE UN PEDIDO DE COMIDA, en un solo sitio y sin tocar la base.
+ *
+ * ── POR QUÉ ES UN MÓDULO APARTE ──────────────────────────────────────────────────
+ * Porque es la única parte del módulo donde un error se convierte en dinero mal cobrado, y aquí se
+ * puede PROBAR sin arrancar el servidor ni tocar Postgres: entra un importe y una configuración, sale
+ * un desglose. Todo lo demás (leer la configuración, guardar el desglose, cobrar) vive en el servicio.
+ *
+ * ── LAS CUATRO REGLAS (decididas por el dueño y medidas contra cómo lo hace Meituan) ──
+ *  1. **Comisión de la plataforma**: porcentaje del pedido, con un **mínimo por pedido** (el 保底 de
+ *     Meituan: si el porcentaje da menos que el mínimo, manda el mínimo). Sin mínimo, un pedido de
+ *     1 000 XAF deja 80 XAF, que no paga ni el trabajo de atenderlo.
+ *  2. **Comisión del reparto**: **fijo por entrega + porcentaje**. El reparto se cobra por su coste, no
+ *     por el precio del pedido: un pedido caro no cuesta más de llevar.
+ *  3. **TOPE**: el descuento total nunca pasa de un porcentaje del pedido. Es la red que garantiza que
+ *     **ningún pedido deje al restaurante en negativo** (con los números adoptados, un pedido de
+ *     1 000 XAF daba −50 XAF sin tope). Cuando el tope recorta, **se recorta primero la comisión de la
+ *     plataforma y solo después la del repartidor**: la del repartidor es el pago de una persona por un
+ *     trabajo ya hecho, y la de la plataforma es el margen del dueño — que es quien decide absorberlo.
+ *  4. **El restaurante nunca recibe menos de cero.** No es una comprobación de adorno: es la promesa del
+ *     tope, y se puede verificar en las pruebas.
+ *
+ * ── LA REGLA DE PRECEDENCIA (la que las pruebas obligaron a escribir) ────────────
+ * En un pedido BARATO, el **mínimo** y el **tope** se pelean: el mínimo quiere cobrar 500 y el tope no
+ * deja pasar de un porcentaje. **Gana el tope.** El mínimo existe para que un pedido pequeño no salga
+ * ruinoso; el tope existe para que el restaurante **no pague por servir**, y esa promesa es la que no se
+ * rompe nunca. La diferencia la absorbe la plataforma (es lo que decidió el dueño: opción A + tope de B).
+ * Dicho con el ejemplo real: un pedido de 2 000 XAF acaba pagando **200** de comisión de plataforma, por
+ * debajo del mínimo de 500, y el restaurante se queda 1 200. Está en las pruebas, no en un comentario.
+ *
+ * ── LO QUE NO HACE ──────────────────────────────────────────────────────────────
+ * No lee la base, no conoce Prisma, no decide si un pedido se puede cancelar y no cobra nada. Es una
+ * función pura: mismo importe y misma configuración → mismo desglose, siempre.
+ */
+
+export interface FeeConfig {
+  /** % de la plataforma sobre el pedido (p. ej. 8). */
+  platformPercent: number;
+  /** Mínimo por pedido de la comisión de la plataforma, en XAF (p. ej. 500). */
+  platformMinXaf: number;
+  /** Fijo por entrega de la comisión de reparto, en XAF (p. ej. 500). */
+  riderFixedXaf: number;
+  /** % del pedido de la comisión de reparto (p. ej. 5). */
+  riderPercent: number;
+  /** Tope: descuento total máximo como % del pedido (p. ej. 40). */
+  maxTotalPercent: number;
+  /**
+   * 起送价: importe mínimo del pedido para que haya REPARTO (p. ej. 2 000 XAF). Recoger en el local no
+   * tiene mínimo. Va en la configuración porque es una decisión del negocio, no del reparto.
+   */
+  minOrderXaf?: number;
+}
+
+export interface OrderFees {
+  grossXaf: number;
+  platformFeeXaf: number;
+  riderFeeXaf: number;
+  totalFeeXaf: number;
+  restaurantNetXaf: number;
+  /** true si el tope tuvo que recortar (útil para avisar en el panel: el margen se comió la diferencia). */
+  capped: boolean;
+  /** Qué se recortó, con nombre y apellido, para poder explicarlo en el panel. */
+  capAppliedTo: 'ninguno' | 'plataforma' | 'plataforma y reparto';
+}
+
+/** Porcentaje de un importe, redondeado a XAF entero (todo el dinero del proyecto es entero). */
+const pct = (importe: number, porcentaje: number) => Math.round((importe * porcentaje) / 100);
+
+/**
+ * Configuración por defecto cuando un restaurante todavía no tiene fila propia.
+ * Son los números adoptados; están aquí solo como último recurso, y el servicio debe preferir
+ * SIEMPRE la configuración de la base (así se cambia sin desplegar código).
+ */
+export const FEE_CONFIG_POR_DEFECTO: FeeConfig = {
+  platformPercent: 8,
+  platformMinXaf: 500,
+  riderFixedXaf: 500,
+  riderPercent: 5,
+  maxTotalPercent: 40,
+  minOrderXaf: 2000,
+};
+
+/** 起送价 por defecto: el importe mínimo para que haya reparto (ver §2.4 del modelo de dinero). */
+export const MIN_ORDER_POR_DEFECTO = 2000;
+
+/** Normaliza lo que venga de la base (numeric de Postgres llega como string a veces). */
+export function aConfigFee(crudo: any): FeeConfig {
+  const num = (v: any, porDefecto: number) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : porDefecto;
+  };
+  return {
+    platformPercent: num(crudo?.platform_percent ?? crudo?.platformPercent, FEE_CONFIG_POR_DEFECTO.platformPercent),
+    platformMinXaf: num(crudo?.platform_min_xaf ?? crudo?.platformMinXaf, FEE_CONFIG_POR_DEFECTO.platformMinXaf),
+    riderFixedXaf: num(crudo?.rider_fixed_xaf ?? crudo?.riderFixedXaf, FEE_CONFIG_POR_DEFECTO.riderFixedXaf),
+    riderPercent: num(crudo?.rider_percent ?? crudo?.riderPercent, FEE_CONFIG_POR_DEFECTO.riderPercent),
+    maxTotalPercent: num(crudo?.max_total_percent ?? crudo?.maxTotalPercent, FEE_CONFIG_POR_DEFECTO.maxTotalPercent),
+    minOrderXaf: num(crudo?.min_order_xaf ?? crudo?.minOrderXaf, MIN_ORDER_POR_DEFECTO),
+  };
+}
+
+/**
+ * El desglose de un pedido. `computeOrderFees(10000, cfg)` con los números adoptados:
+ *   plataforma 800 + reparto 1 000 = 1 800 · neto del restaurante 8 200.
+ * Y con un pedido de 1 000 XAF, que sin tope daba negativo:
+ *   plataforma 500 + reparto 550 = 1 050 → el tope del 40% lo deja en 400 · neto 600.
+ */
+export function computeOrderFees(grossXaf: number, cfg: FeeConfig = FEE_CONFIG_POR_DEFECTO): OrderFees {
+  const bruto = Math.max(0, Math.round(Number(grossXaf) || 0));
+  if (bruto === 0) {
+    return { grossXaf: 0, platformFeeXaf: 0, riderFeeXaf: 0, totalFeeXaf: 0, restaurantNetXaf: 0, capped: false, capAppliedTo: 'ninguno' };
+  }
+
+  // 1 · Plataforma: el mínimo manda cuando el porcentaje da menos.
+  let plataforma = Math.max(pct(bruto, cfg.platformPercent), Math.max(0, Math.round(cfg.platformMinXaf)));
+  // 2 · Reparto: fijo + porcentaje.
+  let reparto = Math.max(0, Math.round(cfg.riderFixedXaf)) + pct(bruto, cfg.riderPercent);
+
+  // 3 · Tope. Se recorta PRIMERO la plataforma; la del repartidor solo si la plataforma ya está a 0.
+  const tope = pct(bruto, cfg.maxTotalPercent);
+  let capped = false;
+  let capAppliedTo: OrderFees['capAppliedTo'] = 'ninguno';
+
+  const total = () => plataforma + reparto;
+  if (total() > tope) {
+    capped = true;
+    const sobra = total() - tope;
+    const recortePlataforma = Math.min(plataforma, sobra);
+    plataforma -= recortePlataforma;
+    if (sobra > recortePlataforma) {
+      reparto = Math.max(0, reparto - (sobra - recortePlataforma));
+      capAppliedTo = 'plataforma y reparto';
+    } else {
+      capAppliedTo = 'plataforma';
+    }
+  }
+
+  const totalFinal = plataforma + reparto;
+  return {
+    grossXaf: bruto,
+    platformFeeXaf: plataforma,
+    riderFeeXaf: reparto,
+    totalFeeXaf: totalFinal,
+    // Por construcción no puede ser negativo; si algún día lo fuera, esto es lo que fallaría en las
+    // pruebas antes de que nadie lo vea en una liquidación.
+    restaurantNetXaf: bruto - totalFinal,
+    capped,
+    capAppliedTo,
+  };
+}
+
+/**
+ * ¿Se puede pedir a DOMICILIO por este importe? Es el 起送价 de Meituan: por debajo del mínimo no hay
+ * reparto. **Recoger en el local siempre se puede** — el mínimo protege del reparto ruinoso, no de vender.
+ */
+export function permiteReparto(totalXaf: number, minOrderXaf: number): boolean {
+  const minimo = Math.max(0, Math.round(Number(minOrderXaf) || 0));
+  return Math.max(0, Math.round(Number(totalXaf) || 0)) >= minimo;
+}

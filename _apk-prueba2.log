@@ -1,0 +1,8 @@
+﻿🔒 bloqueo tomado por nisang12
+· compilando (assembleRelease -PprojectRoot=D:\egapp -PappIdSuffix=.prueba -PappName=EG Route Plan Prueba)
+
+Execution failed for task ':app:packageRelease'.
+> A failure occurred while executing com.android.build.gradle.tasks.PackageAndroidArtifact$IncrementalSplitterRunnable
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+BUILD FAILED in 4m 43s
+🔓 bloqueo liberado

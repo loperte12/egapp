@@ -1,0 +1,21 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@egrouteplan/ui-kit": ["packages/ui-kit/src"],
+      "@egrouteplan/contracts": ["packages/contracts/src"],
+      "@egrouteplan/map": ["packages/map/src"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
+  /**
+   * `backend/server-src` y `backend/server-patch` son COPIAS/borradores de los ficheros del
+   * servidor (NestJS) que se bajan aquí para poder leerlos y anclarlos con precisión en los
+   * parches. No forman parte de la app: si se incluyen, el chequeo de tipos de la app se llena
+   * de errores de `@nestjs/*` y decoradores.
+   */
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js", "backend/server-src", "backend/server-patch"]
+}

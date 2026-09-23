@@ -1,0 +1,1840 @@
+{
+  "total": {
+    "hex": 189,
+    "fontSize": 663,
+    "borderRadius": 688,
+    "fontWeight": 1970,
+    "borderWidth": 548,
+    "espaciado": 5402,
+    "precioFigura": 12
+  },
+  "porArchivo": {
+    "app/agente-escaner.tsx": {
+      "hex": 1,
+      "fontSize": 1,
+      "borderRadius": 2,
+      "fontWeight": 5,
+      "borderWidth": 1,
+      "espaciado": 8,
+      "precioFigura": 0
+    },
+    "app/agente.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 3,
+      "fontWeight": 12,
+      "borderWidth": 3,
+      "espaciado": 28,
+      "precioFigura": 0
+    },
+    "app/alquiler-detalle.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 9,
+      "fontWeight": 13,
+      "borderWidth": 5,
+      "espaciado": 50,
+      "precioFigura": 0
+    },
+    "app/alquiler-planes.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 4,
+      "fontWeight": 10,
+      "borderWidth": 4,
+      "espaciado": 27,
+      "precioFigura": 0
+    },
+    "app/alquiler-publicar.tsx": {
+      "hex": 1,
+      "fontSize": 11,
+      "borderRadius": 8,
+      "fontWeight": 21,
+      "borderWidth": 6,
+      "espaciado": 73,
+      "precioFigura": 0
+    },
+    "app/alquiler.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 11,
+      "fontWeight": 15,
+      "borderWidth": 5,
+      "espaciado": 62,
+      "precioFigura": 0
+    },
+    "app/auth.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 4,
+      "borderWidth": 0,
+      "espaciado": 9,
+      "precioFigura": 0
+    },
+    "app/billing-checkout.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 1,
+      "fontWeight": 14,
+      "borderWidth": 3,
+      "espaciado": 35,
+      "precioFigura": 1
+    },
+    "app/billing-status.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 4,
+      "fontWeight": 12,
+      "borderWidth": 5,
+      "espaciado": 41,
+      "precioFigura": 0
+    },
+    "app/buscar.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 3,
+      "fontWeight": 4,
+      "borderWidth": 2,
+      "espaciado": 21,
+      "precioFigura": 0
+    },
+    "app/conductor-hub.tsx": {
+      "hex": 0,
+      "fontSize": 7,
+      "borderRadius": 4,
+      "fontWeight": 17,
+      "borderWidth": 5,
+      "espaciado": 27,
+      "precioFigura": 0
+    },
+    "app/conductor.tsx": {
+      "hex": 16,
+      "fontSize": 37,
+      "borderRadius": 34,
+      "fontWeight": 74,
+      "borderWidth": 26,
+      "espaciado": 155,
+      "precioFigura": 0
+    },
+    "app/documents.tsx": {
+      "hex": 6,
+      "fontSize": 2,
+      "borderRadius": 1,
+      "fontWeight": 6,
+      "borderWidth": 0,
+      "espaciado": 14,
+      "precioFigura": 0
+    },
+    "app/driver-onboarding.tsx": {
+      "hex": 7,
+      "fontSize": 2,
+      "borderRadius": 5,
+      "fontWeight": 17,
+      "borderWidth": 6,
+      "espaciado": 27,
+      "precioFigura": 0
+    },
+    "app/driver-profile.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 3,
+      "fontWeight": 24,
+      "borderWidth": 3,
+      "espaciado": 27,
+      "precioFigura": 0
+    },
+    "app/ecomerse-checkout.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 20,
+      "borderWidth": 4,
+      "espaciado": 60,
+      "precioFigura": 0
+    },
+    "app/ecomerse-detail.tsx": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 22,
+      "borderWidth": 9,
+      "espaciado": 59,
+      "precioFigura": 0
+    },
+    "app/ecomerse-docs.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 6,
+      "borderWidth": 4,
+      "espaciado": 21,
+      "precioFigura": 0
+    },
+    "app/ecomerse-favorites.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 5,
+      "borderWidth": 3,
+      "espaciado": 24,
+      "precioFigura": 0
+    },
+    "app/ecomerse-orders.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 14,
+      "borderWidth": 8,
+      "espaciado": 48,
+      "precioFigura": 0
+    },
+    "app/ecomerse-planes.tsx": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 15,
+      "borderWidth": 6,
+      "espaciado": 48,
+      "precioFigura": 0
+    },
+    "app/ecomerse-subcategoria.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 5,
+      "precioFigura": 0
+    },
+    "app/ecomerse-tienda.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 2,
+      "precioFigura": 0
+    },
+    "app/ecomerse-tiendas.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 5,
+      "precioFigura": 0
+    },
+    "app/ecomerse.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 8,
+      "precioFigura": 0
+    },
+    "app/edit-profile.tsx": {
+      "hex": 6,
+      "fontSize": 9,
+      "borderRadius": 13,
+      "fontWeight": 51,
+      "borderWidth": 12,
+      "espaciado": 121,
+      "precioFigura": 0
+    },
+    "app/emergencia.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 2,
+      "fontWeight": 6,
+      "borderWidth": 3,
+      "espaciado": 18,
+      "precioFigura": 0
+    },
+    "app/food-checkout.tsx": {
+      "hex": 0,
+      "fontSize": 9,
+      "borderRadius": 5,
+      "fontWeight": 23,
+      "borderWidth": 7,
+      "espaciado": 57,
+      "precioFigura": 4
+    },
+    "app/food-menu.tsx": {
+      "hex": 1,
+      "fontSize": 9,
+      "borderRadius": 15,
+      "fontWeight": 14,
+      "borderWidth": 5,
+      "espaciado": 49,
+      "precioFigura": 1
+    },
+    "app/food-orders.tsx": {
+      "hex": 2,
+      "fontSize": 8,
+      "borderRadius": 14,
+      "fontWeight": 27,
+      "borderWidth": 9,
+      "espaciado": 72,
+      "precioFigura": 0
+    },
+    "app/food-owner.tsx": {
+      "hex": 1,
+      "fontSize": 11,
+      "borderRadius": 8,
+      "fontWeight": 27,
+      "borderWidth": 10,
+      "espaciado": 83,
+      "precioFigura": 1
+    },
+    "app/food-rider.tsx": {
+      "hex": 1,
+      "fontSize": 9,
+      "borderRadius": 13,
+      "fontWeight": 34,
+      "borderWidth": 11,
+      "espaciado": 96,
+      "precioFigura": 4
+    },
+    "app/food.tsx": {
+      "hex": 0,
+      "fontSize": 7,
+      "borderRadius": 6,
+      "fontWeight": 10,
+      "borderWidth": 5,
+      "espaciado": 34,
+      "precioFigura": 0
+    },
+    "app/index.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 3,
+      "precioFigura": 0
+    },
+    "app/intercity-planes.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 8,
+      "fontWeight": 12,
+      "borderWidth": 4,
+      "espaciado": 33,
+      "precioFigura": 0
+    },
+    "app/intercity-publish.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 4,
+      "fontWeight": 25,
+      "borderWidth": 3,
+      "espaciado": 33,
+      "precioFigura": 0
+    },
+    "app/intercity.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 3,
+      "fontWeight": 27,
+      "borderWidth": 4,
+      "espaciado": 30,
+      "precioFigura": 0
+    },
+    "app/kyc/capture.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 1,
+      "borderWidth": 0,
+      "espaciado": 7,
+      "precioFigura": 0
+    },
+    "app/kyc/index.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 1,
+      "borderWidth": 0,
+      "espaciado": 8,
+      "precioFigura": 0
+    },
+    "app/kyc/liveness.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 2,
+      "borderWidth": 0,
+      "espaciado": 6,
+      "precioFigura": 0
+    },
+    "app/kyc/status.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 1,
+      "borderWidth": 0,
+      "espaciado": 8,
+      "precioFigura": 0
+    },
+    "app/landlord-profile.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 0,
+      "fontWeight": 4,
+      "borderWidth": 1,
+      "espaciado": 8,
+      "precioFigura": 0
+    },
+    "app/lifebook-ai.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 10,
+      "fontWeight": 17,
+      "borderWidth": 6,
+      "espaciado": 57,
+      "precioFigura": 0
+    },
+    "app/lifebook-blocks.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 2,
+      "fontWeight": 5,
+      "borderWidth": 0,
+      "espaciado": 13,
+      "precioFigura": 0
+    },
+    "app/lifebook-carrito-checkout.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 3,
+      "fontWeight": 21,
+      "borderWidth": 5,
+      "espaciado": 42,
+      "precioFigura": 0
+    },
+    "app/lifebook-carrito.tsx": {
+      "hex": 1,
+      "fontSize": 13,
+      "borderRadius": 6,
+      "fontWeight": 28,
+      "borderWidth": 6,
+      "espaciado": 49,
+      "precioFigura": 0
+    },
+    "app/lifebook-catalog.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 0,
+      "fontWeight": 10,
+      "borderWidth": 2,
+      "espaciado": 38,
+      "precioFigura": 0
+    },
+    "app/lifebook-chat/[id].tsx": {
+      "hex": 1,
+      "fontSize": 13,
+      "borderRadius": 22,
+      "fontWeight": 46,
+      "borderWidth": 4,
+      "espaciado": 108,
+      "precioFigura": 0
+    },
+    "app/lifebook-checkout.tsx": {
+      "hex": 1,
+      "fontSize": 1,
+      "borderRadius": 3,
+      "fontWeight": 11,
+      "borderWidth": 2,
+      "espaciado": 28,
+      "precioFigura": 0
+    },
+    "app/lifebook-compose.tsx": {
+      "hex": 2,
+      "fontSize": 3,
+      "borderRadius": 3,
+      "fontWeight": 15,
+      "borderWidth": 7,
+      "espaciado": 38,
+      "precioFigura": 0
+    },
+    "app/lifebook-dinero.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 8,
+      "borderWidth": 1,
+      "espaciado": 21,
+      "precioFigura": 0
+    },
+    "app/lifebook-explore.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 0,
+      "fontWeight": 6,
+      "borderWidth": 0,
+      "espaciado": 30,
+      "precioFigura": 0
+    },
+    "app/lifebook-group-create.tsx": {
+      "hex": 2,
+      "fontSize": 8,
+      "borderRadius": 8,
+      "fontWeight": 15,
+      "borderWidth": 6,
+      "espaciado": 43,
+      "precioFigura": 0
+    },
+    "app/lifebook-groups.tsx": {
+      "hex": 0,
+      "fontSize": 6,
+      "borderRadius": 3,
+      "fontWeight": 14,
+      "borderWidth": 1,
+      "espaciado": 42,
+      "precioFigura": 0
+    },
+    "app/lifebook-guardados.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 2,
+      "fontWeight": 7,
+      "borderWidth": 1,
+      "espaciado": 16,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-calendario.tsx": {
+      "hex": 0,
+      "fontSize": 7,
+      "borderRadius": 3,
+      "fontWeight": 16,
+      "borderWidth": 4,
+      "espaciado": 38,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-detalle.tsx": {
+      "hex": 0,
+      "fontSize": 8,
+      "borderRadius": 8,
+      "fontWeight": 13,
+      "borderWidth": 7,
+      "espaciado": 33,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-fechas.tsx": {
+      "hex": 0,
+      "fontSize": 6,
+      "borderRadius": 4,
+      "fontWeight": 10,
+      "borderWidth": 6,
+      "espaciado": 18,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-gestion.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 3,
+      "fontWeight": 7,
+      "borderWidth": 3,
+      "espaciado": 25,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-habitacion.tsx": {
+      "hex": 0,
+      "fontSize": 6,
+      "borderRadius": 4,
+      "fontWeight": 14,
+      "borderWidth": 3,
+      "espaciado": 36,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-habitaciones.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 6,
+      "fontWeight": 16,
+      "borderWidth": 5,
+      "espaciado": 42,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-panel.tsx": {
+      "hex": 0,
+      "fontSize": 7,
+      "borderRadius": 5,
+      "fontWeight": 18,
+      "borderWidth": 10,
+      "espaciado": 35,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-perfil.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 1,
+      "fontWeight": 13,
+      "borderWidth": 6,
+      "espaciado": 41,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-reserva.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 2,
+      "fontWeight": 13,
+      "borderWidth": 5,
+      "espaciado": 23,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-reservar.tsx": {
+      "hex": 0,
+      "fontSize": 9,
+      "borderRadius": 7,
+      "fontWeight": 15,
+      "borderWidth": 7,
+      "espaciado": 32,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-reservas.tsx": {
+      "hex": 0,
+      "fontSize": 6,
+      "borderRadius": 1,
+      "fontWeight": 16,
+      "borderWidth": 9,
+      "espaciado": 27,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel-resultados.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 1,
+      "fontWeight": 9,
+      "borderWidth": 5,
+      "espaciado": 26,
+      "precioFigura": 0
+    },
+    "app/lifebook-hotel.tsx": {
+      "hex": 0,
+      "fontSize": 11,
+      "borderRadius": 7,
+      "fontWeight": 24,
+      "borderWidth": 14,
+      "espaciado": 43,
+      "precioFigura": 0
+    },
+    "app/lifebook-inbox-comments.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 3,
+      "fontWeight": 4,
+      "borderWidth": 1,
+      "espaciado": 18,
+      "precioFigura": 0
+    },
+    "app/lifebook-inbox-followers.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 1,
+      "fontWeight": 8,
+      "borderWidth": 1,
+      "espaciado": 20,
+      "precioFigura": 0
+    },
+    "app/lifebook-inbox-likes.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 3,
+      "fontWeight": 5,
+      "borderWidth": 1,
+      "espaciado": 19,
+      "precioFigura": 0
+    },
+    "app/lifebook-inbox.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 3,
+      "fontWeight": 8,
+      "borderWidth": 1,
+      "espaciado": 24,
+      "precioFigura": 0
+    },
+    "app/lifebook-media.tsx": {
+      "hex": 4,
+      "fontSize": 2,
+      "borderRadius": 4,
+      "fontWeight": 19,
+      "borderWidth": 8,
+      "espaciado": 45,
+      "precioFigura": 0
+    },
+    "app/lifebook-merchant-gestion.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 8,
+      "borderWidth": 3,
+      "espaciado": 27,
+      "precioFigura": 0
+    },
+    "app/lifebook-merchant-products.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 15,
+      "borderWidth": 1,
+      "espaciado": 44,
+      "precioFigura": 0
+    },
+    "app/lifebook-merchant-settings.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 4,
+      "borderWidth": 1,
+      "espaciado": 22,
+      "precioFigura": 0
+    },
+    "app/lifebook-merchant.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 12,
+      "borderWidth": 0,
+      "espaciado": 53,
+      "precioFigura": 0
+    },
+    "app/lifebook-message-search.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 3,
+      "borderWidth": 1,
+      "espaciado": 22,
+      "precioFigura": 0
+    },
+    "app/lifebook-messages.tsx": {
+      "hex": 1,
+      "fontSize": 6,
+      "borderRadius": 5,
+      "fontWeight": 11,
+      "borderWidth": 1,
+      "espaciado": 30,
+      "precioFigura": 0
+    },
+    "app/lifebook-order/[id].tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 7,
+      "fontWeight": 19,
+      "borderWidth": 5,
+      "espaciado": 48,
+      "precioFigura": 0
+    },
+    "app/lifebook-orders.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 1,
+      "fontWeight": 14,
+      "borderWidth": 2,
+      "espaciado": 36,
+      "precioFigura": 0
+    },
+    "app/lifebook-player.tsx": {
+      "hex": 5,
+      "fontSize": 2,
+      "borderRadius": 10,
+      "fontWeight": 9,
+      "borderWidth": 3,
+      "espaciado": 21,
+      "precioFigura": 0
+    },
+    "app/lifebook-post/[id].tsx": {
+      "hex": 15,
+      "fontSize": 12,
+      "borderRadius": 7,
+      "fontWeight": 34,
+      "borderWidth": 3,
+      "espaciado": 89,
+      "precioFigura": 0
+    },
+    "app/lifebook-product/[id].tsx": {
+      "hex": 2,
+      "fontSize": 6,
+      "borderRadius": 6,
+      "fontWeight": 19,
+      "borderWidth": 4,
+      "espaciado": 50,
+      "precioFigura": 0
+    },
+    "app/lifebook-scan.tsx": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 1,
+      "borderWidth": 1,
+      "espaciado": 5,
+      "precioFigura": 0
+    },
+    "app/lifebook-search.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 6,
+      "borderWidth": 0,
+      "espaciado": 33,
+      "precioFigura": 0
+    },
+    "app/lifebook-sell.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 2,
+      "borderWidth": 0,
+      "espaciado": 9,
+      "precioFigura": 0
+    },
+    "app/lifebook-shop/[id].tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 4,
+      "fontWeight": 9,
+      "borderWidth": 1,
+      "espaciado": 34,
+      "precioFigura": 0
+    },
+    "app/lifebook-store.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 0,
+      "fontWeight": 10,
+      "borderWidth": 2,
+      "espaciado": 26,
+      "precioFigura": 0
+    },
+    "app/lifebook-user.tsx": {
+      "hex": 2,
+      "fontSize": 11,
+      "borderRadius": 7,
+      "fontWeight": 28,
+      "borderWidth": 7,
+      "espaciado": 86,
+      "precioFigura": 0
+    },
+    "app/lifebook-videos.tsx": {
+      "hex": 3,
+      "fontSize": 7,
+      "borderRadius": 9,
+      "fontWeight": 15,
+      "borderWidth": 1,
+      "espaciado": 31,
+      "precioFigura": 0
+    },
+    "app/lifebook-vistos.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 0,
+      "fontWeight": 3,
+      "borderWidth": 0,
+      "espaciado": 11,
+      "precioFigura": 0
+    },
+    "app/lifebook.tsx": {
+      "hex": 2,
+      "fontSize": 4,
+      "borderRadius": 11,
+      "fontWeight": 12,
+      "borderWidth": 1,
+      "espaciado": 61,
+      "precioFigura": 0
+    },
+    "app/monedero-movimientos.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 2,
+      "fontWeight": 6,
+      "borderWidth": 3,
+      "espaciado": 19,
+      "precioFigura": 0
+    },
+    "app/monedero-pin.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 3,
+      "fontWeight": 3,
+      "borderWidth": 2,
+      "espaciado": 15,
+      "precioFigura": 0
+    },
+    "app/monedero-recargar.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 6,
+      "borderWidth": 2,
+      "espaciado": 22,
+      "precioFigura": 0
+    },
+    "app/monedero-retirar.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 2,
+      "fontWeight": 6,
+      "borderWidth": 3,
+      "espaciado": 26,
+      "precioFigura": 0
+    },
+    "app/monedero.tsx": {
+      "hex": 6,
+      "fontSize": 5,
+      "borderRadius": 3,
+      "fontWeight": 12,
+      "borderWidth": 3,
+      "espaciado": 30,
+      "precioFigura": 0
+    },
+    "app/my-tickets.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 2,
+      "fontWeight": 9,
+      "borderWidth": 2,
+      "espaciado": 16,
+      "precioFigura": 0
+    },
+    "app/profile.tsx": {
+      "hex": 1,
+      "fontSize": 13,
+      "borderRadius": 17,
+      "fontWeight": 43,
+      "borderWidth": 9,
+      "espaciado": 98,
+      "precioFigura": 0
+    },
+    "app/promo/[id].tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 1,
+      "borderWidth": 1,
+      "espaciado": 6,
+      "precioFigura": 0
+    },
+    "app/reserva.tsx": {
+      "hex": 0,
+      "fontSize": 8,
+      "borderRadius": 2,
+      "fontWeight": 17,
+      "borderWidth": 6,
+      "espaciado": 58,
+      "precioFigura": 0
+    },
+    "app/ruta-fallida.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 2,
+      "fontWeight": 3,
+      "borderWidth": 1,
+      "espaciado": 9,
+      "precioFigura": 0
+    },
+    "app/scanner.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 1,
+      "borderWidth": 1,
+      "espaciado": 5,
+      "precioFigura": 0
+    },
+    "app/service/[id].tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 1,
+      "borderWidth": 1,
+      "espaciado": 5,
+      "precioFigura": 0
+    },
+    "app/settings.tsx": {
+      "hex": 2,
+      "fontSize": 4,
+      "borderRadius": 3,
+      "fontWeight": 14,
+      "borderWidth": 0,
+      "espaciado": 25,
+      "precioFigura": 0
+    },
+    "app/status.tsx": {
+      "hex": 1,
+      "fontSize": 3,
+      "borderRadius": 4,
+      "fontWeight": 10,
+      "borderWidth": 4,
+      "espaciado": 31,
+      "precioFigura": 0
+    },
+    "app/taxi.tsx": {
+      "hex": 12,
+      "fontSize": 30,
+      "borderRadius": 20,
+      "fontWeight": 71,
+      "borderWidth": 18,
+      "espaciado": 138,
+      "precioFigura": 0
+    },
+    "app/tienda/anuncios.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 6,
+      "precioFigura": 0
+    },
+    "app/tienda/combinaciones.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 1,
+      "precioFigura": 0
+    },
+    "app/tienda/index.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 2,
+      "precioFigura": 0
+    },
+    "app/tienda/perfil.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 12,
+      "precioFigura": 0
+    },
+    "app/tienda/publicar.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 117,
+      "precioFigura": 0
+    },
+    "app/trips-history.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 1,
+      "fontWeight": 19,
+      "borderWidth": 4,
+      "espaciado": 25,
+      "precioFigura": 0
+    },
+    "app/work-detail.tsx": {
+      "hex": 0,
+      "fontSize": 10,
+      "borderRadius": 14,
+      "fontWeight": 22,
+      "borderWidth": 5,
+      "espaciado": 68,
+      "precioFigura": 0
+    },
+    "app/work-gestion.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 3,
+      "fontWeight": 7,
+      "borderWidth": 3,
+      "espaciado": 26,
+      "precioFigura": 0
+    },
+    "app/work-panel.tsx": {
+      "hex": 0,
+      "fontSize": 6,
+      "borderRadius": 4,
+      "fontWeight": 10,
+      "borderWidth": 5,
+      "espaciado": 44,
+      "precioFigura": 0
+    },
+    "app/work-planes.tsx": {
+      "hex": 1,
+      "fontSize": 5,
+      "borderRadius": 3,
+      "fontWeight": 12,
+      "borderWidth": 3,
+      "espaciado": 27,
+      "precioFigura": 0
+    },
+    "app/work-publish.tsx": {
+      "hex": 0,
+      "fontSize": 6,
+      "borderRadius": 7,
+      "fontWeight": 17,
+      "borderWidth": 4,
+      "espaciado": 72,
+      "precioFigura": 0
+    },
+    "app/work.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 9,
+      "fontWeight": 13,
+      "borderWidth": 5,
+      "espaciado": 44,
+      "precioFigura": 0
+    },
+    "app/_layout.tsx": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0
+    },
+    "components/CalendarPicker.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 2,
+      "fontWeight": 7,
+      "borderWidth": 5,
+      "espaciado": 17,
+      "precioFigura": 0
+    },
+    "components/DriverHomeSheet.tsx": {
+      "hex": 1,
+      "fontSize": 6,
+      "borderRadius": 11,
+      "fontWeight": 29,
+      "borderWidth": 6,
+      "espaciado": 42,
+      "precioFigura": 0
+    },
+    "components/DriverLiveMap.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 1,
+      "borderWidth": 0,
+      "espaciado": 2,
+      "precioFigura": 0
+    },
+    "components/ecomerse/CabeceraTienda.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 6,
+      "precioFigura": 0
+    },
+    "components/ecomerse/EditorDeCombinaciones.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 1,
+      "precioFigura": 0
+    },
+    "components/ecomerse/SelectorDeVariante.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 2,
+      "precioFigura": 0
+    },
+    "components/ecomerse/TarjetaProducto.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 1,
+      "borderWidth": 0,
+      "espaciado": 11,
+      "precioFigura": 0
+    },
+    "components/EditProfileModal.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 4,
+      "fontWeight": 8,
+      "borderWidth": 1,
+      "espaciado": 9,
+      "precioFigura": 0
+    },
+    "components/EmergencyModal.tsx": {
+      "hex": 1,
+      "fontSize": 3,
+      "borderRadius": 4,
+      "fontWeight": 4,
+      "borderWidth": 1,
+      "espaciado": 12,
+      "precioFigura": 0
+    },
+    "components/FareQuoteCard.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 1,
+      "fontWeight": 4,
+      "borderWidth": 1,
+      "espaciado": 7,
+      "precioFigura": 0
+    },
+    "components/FloatingFooter.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 1,
+      "fontWeight": 3,
+      "borderWidth": 2,
+      "espaciado": 3,
+      "precioFigura": 0
+    },
+    "components/HotelResultCard.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 5,
+      "fontWeight": 6,
+      "borderWidth": 4,
+      "espaciado": 13,
+      "precioFigura": 0
+    },
+    "components/jobs.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 8,
+      "fontWeight": 13,
+      "borderWidth": 2,
+      "espaciado": 38,
+      "precioFigura": 0
+    },
+    "components/lifebook/AdSheet.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 1,
+      "fontWeight": 5,
+      "borderWidth": 1,
+      "espaciado": 18,
+      "precioFigura": 0
+    },
+    "components/lifebook/AsistenteDeTalla.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 1,
+      "fontWeight": 10,
+      "borderWidth": 2,
+      "espaciado": 18,
+      "precioFigura": 0
+    },
+    "components/lifebook/AvatarsSeguidos.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 2,
+      "fontWeight": 2,
+      "borderWidth": 0,
+      "espaciado": 7,
+      "precioFigura": 0
+    },
+    "components/lifebook/BotonCucucul.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 0,
+      "borderWidth": 1,
+      "espaciado": 0,
+      "precioFigura": 0
+    },
+    "components/lifebook/ChainSheet.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 1,
+      "fontWeight": 3,
+      "borderWidth": 0,
+      "espaciado": 12,
+      "precioFigura": 0
+    },
+    "components/lifebook/ChallengePlazaSheet.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 3,
+      "fontWeight": 19,
+      "borderWidth": 1,
+      "espaciado": 39,
+      "precioFigura": 0
+    },
+    "components/lifebook/ChatOptionsSheet.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 6,
+      "fontWeight": 7,
+      "borderWidth": 2,
+      "espaciado": 24,
+      "precioFigura": 0
+    },
+    "components/lifebook/ChatPlusPanel.tsx": {
+      "hex": 4,
+      "fontSize": 2,
+      "borderRadius": 1,
+      "fontWeight": 2,
+      "borderWidth": 0,
+      "espaciado": 7,
+      "precioFigura": 0
+    },
+    "components/lifebook/CheckinSheet.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 1,
+      "fontWeight": 5,
+      "borderWidth": 1,
+      "espaciado": 18,
+      "precioFigura": 0
+    },
+    "components/lifebook/Chip.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 1,
+      "borderWidth": 2,
+      "espaciado": 5,
+      "precioFigura": 0
+    },
+    "components/lifebook/CommentsSheet.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 10,
+      "fontWeight": 19,
+      "borderWidth": 4,
+      "espaciado": 75,
+      "precioFigura": 0
+    },
+    "components/lifebook/CreateGroupSheet.tsx": {
+      "hex": 1,
+      "fontSize": 1,
+      "borderRadius": 4,
+      "fontWeight": 6,
+      "borderWidth": 1,
+      "espaciado": 28,
+      "precioFigura": 0
+    },
+    "components/lifebook/GroupCardSheet.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 4,
+      "fontWeight": 13,
+      "borderWidth": 1,
+      "espaciado": 31,
+      "precioFigura": 0
+    },
+    "components/lifebook/GroupManageSheet.tsx": {
+      "hex": 1,
+      "fontSize": 14,
+      "borderRadius": 6,
+      "fontWeight": 39,
+      "borderWidth": 4,
+      "espaciado": 79,
+      "precioFigura": 0
+    },
+    "components/lifebook/LocationPickerSheet.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 4,
+      "borderWidth": 1,
+      "espaciado": 11,
+      "precioFigura": 0
+    },
+    "components/lifebook/messaging-sheets.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 2,
+      "fontWeight": 4,
+      "borderWidth": 2,
+      "espaciado": 24,
+      "precioFigura": 0
+    },
+    "components/lifebook/OrderCardEnChat.tsx": {
+      "hex": 1,
+      "fontSize": 9,
+      "borderRadius": 2,
+      "fontWeight": 6,
+      "borderWidth": 0,
+      "espaciado": 18,
+      "precioFigura": 0
+    },
+    "components/lifebook/OrderSheet.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 3,
+      "fontWeight": 3,
+      "borderWidth": 1,
+      "espaciado": 15,
+      "precioFigura": 0
+    },
+    "components/lifebook/PersonRow.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 2,
+      "borderWidth": 0,
+      "espaciado": 3,
+      "precioFigura": 0
+    },
+    "components/lifebook/PostCard.tsx": {
+      "hex": 1,
+      "fontSize": 2,
+      "borderRadius": 3,
+      "fontWeight": 7,
+      "borderWidth": 0,
+      "espaciado": 16,
+      "precioFigura": 0
+    },
+    "components/lifebook/ProductoCard.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 0,
+      "fontWeight": 4,
+      "borderWidth": 0,
+      "espaciado": 6,
+      "precioFigura": 0
+    },
+    "components/lifebook/ProductoEnChatSheet.tsx": {
+      "hex": 0,
+      "fontSize": 5,
+      "borderRadius": 6,
+      "fontWeight": 16,
+      "borderWidth": 3,
+      "espaciado": 30,
+      "precioFigura": 0
+    },
+    "components/lifebook/PublicacionTarjeta.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 2,
+      "fontWeight": 1,
+      "borderWidth": 1,
+      "espaciado": 4,
+      "precioFigura": 0
+    },
+    "components/lifebook/publish/OptionGroupsEditor.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 6,
+      "fontWeight": 11,
+      "borderWidth": 5,
+      "espaciado": 29,
+      "precioFigura": 0
+    },
+    "components/lifebook/publish/PublishParts.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 2,
+      "borderWidth": 1,
+      "espaciado": 7,
+      "precioFigura": 0
+    },
+    "components/lifebook/publish/SizeChartEditor.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 2,
+      "fontWeight": 4,
+      "borderWidth": 2,
+      "espaciado": 16,
+      "precioFigura": 0
+    },
+    "components/lifebook/publish/StepDetails.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 2,
+      "fontWeight": 0,
+      "borderWidth": 1,
+      "espaciado": 8,
+      "precioFigura": 0
+    },
+    "components/lifebook/publish/StepExtras.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 2,
+      "fontWeight": 1,
+      "borderWidth": 2,
+      "espaciado": 6,
+      "precioFigura": 0
+    },
+    "components/lifebook/publish/StepMedia.tsx": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 0,
+      "borderWidth": 1,
+      "espaciado": 2,
+      "precioFigura": 0
+    },
+    "components/lifebook/publish/StepPreview.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 1,
+      "fontWeight": 3,
+      "borderWidth": 0,
+      "espaciado": 5,
+      "precioFigura": 0
+    },
+    "components/lifebook/publish/StepShop.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 1,
+      "borderWidth": 1,
+      "espaciado": 4,
+      "precioFigura": 0
+    },
+    "components/lifebook/publish/StepType.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 3,
+      "borderWidth": 0,
+      "espaciado": 5,
+      "precioFigura": 0
+    },
+    "components/lifebook/ReportSheet.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 0,
+      "fontWeight": 3,
+      "borderWidth": 0,
+      "espaciado": 10,
+      "precioFigura": 0
+    },
+    "components/lifebook/RuletaVertical.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 1,
+      "borderWidth": 3,
+      "espaciado": 1,
+      "precioFigura": 0
+    },
+    "components/lifebook/SeguirViendo.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 2,
+      "borderWidth": 0,
+      "espaciado": 6,
+      "precioFigura": 0
+    },
+    "components/lifebook/SelectorDeCupon.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 2,
+      "fontWeight": 3,
+      "borderWidth": 1,
+      "espaciado": 6,
+      "precioFigura": 0
+    },
+    "components/lifebook/SelectorDeProductos.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 5,
+      "fontWeight": 5,
+      "borderWidth": 1,
+      "espaciado": 11,
+      "precioFigura": 0
+    },
+    "components/lifebook/SelectorDeVariante.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 7,
+      "fontWeight": 13,
+      "borderWidth": 5,
+      "espaciado": 28,
+      "precioFigura": 0
+    },
+    "components/lifebook/TarjetaAnuncio.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 2,
+      "fontWeight": 2,
+      "borderWidth": 1,
+      "espaciado": 5,
+      "precioFigura": 0
+    },
+    "components/lifebook/ui/Sheet.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 3,
+      "fontWeight": 1,
+      "borderWidth": 0,
+      "espaciado": 4,
+      "precioFigura": 0
+    },
+    "components/lifebook/VideoCoverSheet.tsx": {
+      "hex": 1,
+      "fontSize": 2,
+      "borderRadius": 5,
+      "fontWeight": 4,
+      "borderWidth": 2,
+      "espaciado": 17,
+      "precioFigura": 0
+    },
+    "components/lifebook/ViewerControls.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 1,
+      "precioFigura": 0
+    },
+    "components/lifebook/VoteSheet.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 1,
+      "fontWeight": 3,
+      "borderWidth": 1,
+      "espaciado": 14,
+      "precioFigura": 0
+    },
+    "components/LocationBadge.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 1,
+      "borderWidth": 0,
+      "espaciado": 3,
+      "precioFigura": 0
+    },
+    "components/LocationModal.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 3,
+      "fontWeight": 2,
+      "borderWidth": 0,
+      "espaciado": 11,
+      "precioFigura": 0
+    },
+    "components/MapBackground.tsx": {
+      "hex": 4,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 2,
+      "borderWidth": 0,
+      "espaciado": 7,
+      "precioFigura": 0
+    },
+    "components/MapTools.tsx": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 1,
+      "precioFigura": 0
+    },
+    "components/PhotoGallery.tsx": {
+      "hex": 1,
+      "fontSize": 1,
+      "borderRadius": 2,
+      "fontWeight": 1,
+      "borderWidth": 0,
+      "espaciado": 4,
+      "precioFigura": 0
+    },
+    "components/PromoCarousel.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 2,
+      "fontWeight": 2,
+      "borderWidth": 1,
+      "espaciado": 10,
+      "precioFigura": 0
+    },
+    "components/rental/Badge.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 2,
+      "fontWeight": 1,
+      "borderWidth": 0,
+      "espaciado": 4,
+      "precioFigura": 0
+    },
+    "components/rental/Badges.tsx": {
+      "hex": 2,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0
+    },
+    "components/rental/LandlordCard.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 6,
+      "fontWeight": 11,
+      "borderWidth": 4,
+      "espaciado": 25,
+      "precioFigura": 0
+    },
+    "components/rental/LazyImage.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 0,
+      "fontWeight": 2,
+      "borderWidth": 0,
+      "espaciado": 4,
+      "precioFigura": 0
+    },
+    "components/rental/PriceCalculator.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 3,
+      "fontWeight": 6,
+      "borderWidth": 4,
+      "espaciado": 20,
+      "precioFigura": 1
+    },
+    "components/rental/PropertyCard.tsx": {
+      "hex": 0,
+      "fontSize": 2,
+      "borderRadius": 4,
+      "fontWeight": 5,
+      "borderWidth": 2,
+      "espaciado": 16,
+      "precioFigura": 0
+    },
+    "components/SearchHeader.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 3,
+      "fontWeight": 3,
+      "borderWidth": 0,
+      "espaciado": 8,
+      "precioFigura": 0
+    },
+    "components/ServiceGrid.tsx": {
+      "hex": 1,
+      "fontSize": 3,
+      "borderRadius": 3,
+      "fontWeight": 7,
+      "borderWidth": 1,
+      "espaciado": 22,
+      "precioFigura": 0
+    },
+    "components/ServicesDrawer.tsx": {
+      "hex": 0,
+      "fontSize": 3,
+      "borderRadius": 4,
+      "fontWeight": 9,
+      "borderWidth": 1,
+      "espaciado": 30,
+      "precioFigura": 0
+    },
+    "components/SocialHomeHeader.tsx": {
+      "hex": 7,
+      "fontSize": 3,
+      "borderRadius": 4,
+      "fontWeight": 6,
+      "borderWidth": 4,
+      "espaciado": 9,
+      "precioFigura": 0
+    },
+    "components/status/StatusChip.tsx": {
+      "hex": 0,
+      "fontSize": 4,
+      "borderRadius": 1,
+      "fontWeight": 2,
+      "borderWidth": 1,
+      "espaciado": 9,
+      "precioFigura": 0
+    },
+    "components/status/StatusDetailModal.tsx": {
+      "hex": 4,
+      "fontSize": 3,
+      "borderRadius": 6,
+      "fontWeight": 11,
+      "borderWidth": 2,
+      "espaciado": 24,
+      "precioFigura": 0
+    },
+    "components/status/StatusEditorModal.tsx": {
+      "hex": 1,
+      "fontSize": 11,
+      "borderRadius": 12,
+      "fontWeight": 14,
+      "borderWidth": 8,
+      "espaciado": 38,
+      "precioFigura": 0
+    },
+    "components/status/StatusRingAvatar.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 1,
+      "borderWidth": 2,
+      "espaciado": 0,
+      "precioFigura": 0
+    },
+    "core/diagnostics.tsx": {
+      "hex": 5,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 2,
+      "borderWidth": 0,
+      "espaciado": 6,
+      "precioFigura": 0
+    },
+    "core/PanelGate.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 1,
+      "fontWeight": 3,
+      "borderWidth": 0,
+      "espaciado": 10,
+      "precioFigura": 0
+    },
+    "constants/commerce.ts": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0
+    },
+    "constants/lifebook-chat.ts": {
+      "hex": 14,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0
+    },
+    "constants/lifebook.ts": {
+      "hex": 10,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0
+    },
+    "constants/status.ts": {
+      "hex": 16,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0
+    }
+  }
+}

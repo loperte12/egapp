@@ -1,0 +1,5 @@
+﻿Respaldo del monedero WebView (maqueta), retirado el 17/09/2026.
+Motivo: el monedero es ya nativo (app/monedero*.tsx). La maqueta pintaba datos
+falsos («Hola, María», tarjeta de agente MBO-0042 fija, ayuda a un teléfono
+chino) y solo tenía viva la pestaña de saldo.
+Para restaurarlo: renombrar a app/wallet.tsx (vuelve a ser la ruta /wallet).

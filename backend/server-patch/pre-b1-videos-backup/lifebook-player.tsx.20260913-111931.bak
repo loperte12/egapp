@@ -1,0 +1,175 @@
+/**
+ * Life Book — REPRODUCTOR (/lifebook-player).
+ * Video (expo-video, nativo con controles) o audio (expo-audio con controles
+ * propios: ±15 s, velocidad, progreso). DISEÑO-UX-LIFEBOOK-AUDIOVISUAL módulos 1-2.
+ */
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { alpha, useTheme } from '@egrouteplan/ui-kit';
+import { ArrowLeft, Pause, Play, Rewind, FastForward } from 'lucide-react-native';
+import { useVideoPlayer, VideoView } from 'expo-video';
+import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { absUrl } from '../api/config';
+import { fmtDur } from '../constants/lifebook';
+
+export default function LifeBookPlayerScreen() {
+  const { colors } = useTheme();
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const p = useLocalSearchParams<{ kind?: string; src?: string; title?: string; cover?: string }>();
+  const kind = p.kind === 'audio' ? 'audio' : 'video';
+  const src = absUrl(p.src ?? '');
+  const title = p.title ? decodeURIComponent(p.title) : 'Reproduciendo';
+  const cover = absUrl(p.cover ?? '');
+
+  if (kind === 'video') return <VideoPlayerView src={src} title={title} insets={insets} onClose={() => router.back()} />;
+  return <AudioPlayerView src={src} title={title} cover={cover} insets={insets} onClose={() => router.back()} />;
+}
+
+function CloseBar({ onClose, title, dark }: { onClose: () => void; title: string; dark: boolean }) {
+  const insets = useSafeAreaInsets();
+  const tint = dark ? '#FFFFFF' : undefined;
+  return (
+    <View style={[styles.closeBar, { paddingTop: insets.top + 8 }]}>
+      <Pressable onPress={onClose} hitSlop={12} style={styles.closeBtn} accessibilityLabel="Cerrar reproductor">
+        <ArrowLeft size={22} color={tint ?? '#1D2129'} />
+      </Pressable>
+      <Text numberOfLines={1} style={[styles.closeTitle, { color: tint ?? '#1D2129' }]}>{title}</Text>
+      <View style={{ width: 36 }} />
+    </View>
+  );
+}
+
+function VideoPlayerView({ src, title, insets, onClose }: { src: string; title: string; insets: { bottom: number }; onClose: () => void }) {
+  const { colors } = useTheme();
+  const player = useVideoPlayer(src || null, (p) => { p.loop = false; });
+  if (!src) {
+    return (
+      <View style={[styles.videoRoot, { backgroundColor: '#000', alignItems: 'center', justifyContent: 'center' }]}>
+        <CloseBar onClose={onClose} title={title} dark />
+        <Text style={{ color: '#FFF', fontWeight: '800' }}>Sin vídeo disponible</Text>
+      </View>
+    );
+  }
+  return (
+    <View style={[styles.videoRoot, { backgroundColor: '#000' }]}>
+      <CloseBar onClose={onClose} title={title} dark />
+      <View style={styles.videoBox}>
+        <VideoView
+          player={player}
+          style={styles.video}
+          nativeControls
+          contentFit="contain"
+          allowsFullscreen
+        />
+      </View>
+      <View style={{ height: insets.bottom }} />
+    </View>
+  );
+}
+
+const SPEEDS = [1, 1.25, 1.5, 2];
+
+function AudioPlayerView({ src, title, cover, insets, onClose }: {
+  src: string; title: string; cover: string; insets: { bottom: number }; onClose: () => void;
+}) {
+  const { colors } = useTheme();
+  const player = useAudioPlayer({ uri: src });
+  const status = useAudioPlayerStatus(player);
+  const [speedIdx, setSpeedIdx] = useState(0);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setAudioModeAsync({ playsInSilentMode: true }).catch(() => {});
+    player.seekTo(0).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const cur = Number(status?.currentTime ?? 0);
+  const dur = Number(status?.duration ?? 0);
+  const playing = !!status?.playing;
+  const pct = dur > 0 ? Math.min(100, (cur / dur) * 100) : 0;
+  const seek = (delta: number) => player.seekTo(Math.max(0, Math.min(dur || cur + delta, cur + delta))).catch(() => {});
+
+  const playPause = () => {
+    if (!playing) {
+      player.play();
+      setError(false);
+    } else player.pause();
+  };
+
+  return (
+    <View style={[styles.audioRoot, { backgroundColor: colors.background }]}>
+      <CloseBar onClose={onClose} title={title} dark={false} />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 26 }}>
+        {cover ? (
+          <View style={[styles.coverFrame, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+            <Image source={{ uri: cover }} style={styles.cover} resizeMode="cover" />
+          </View>
+        ) : (
+          <View style={[styles.coverFrame, { backgroundColor: alpha(colors.primary, 0.12), borderColor: colors.border, alignItems: 'center', justifyContent: 'center' }]}>
+            <Text style={{ fontSize: 60 }}>🎙️</Text>
+          </View>
+        )}
+        <Text style={[styles.audioTitle, { color: colors.textPrimary }]} numberOfLines={2}>{title}</Text>
+
+        {/* Progreso */}
+        <View style={styles.progressTrack}>
+          <View style={[styles.progressFill, { backgroundColor: colors.primary, width: `${pct}%` }]} />
+        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+          <Text style={{ color: colors.textSecondary, fontSize: 12, fontWeight: '700' }}>{fmtDur(cur)}</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: 12, fontWeight: '700' }}>{fmtDur(dur || 0)}</Text>
+        </View>
+
+        {/* Controles */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 26, marginTop: 14 }}>
+          <Pressable onPress={() => seek(-15)} hitSlop={10} accessibilityLabel="Retroceder 15 segundos">
+            <Rewind size={28} color={colors.textPrimary} />
+          </Pressable>
+          <Pressable onPress={playPause} accessibilityLabel={playing ? 'Pausar' : 'Reproducir'} style={[styles.playBig, { backgroundColor: colors.primary }]}>
+            {playing ? <Pause size={30} color="#FFFFFF" fill="#FFFFFF" /> : <Play size={30} color="#FFFFFF" fill="#FFFFFF" style={{ marginLeft: 3 }} />}
+          </Pressable>
+          <Pressable onPress={() => seek(15)} hitSlop={10} accessibilityLabel="Avanzar 15 segundos">
+            <FastForward size={28} color={colors.textPrimary} />
+          </Pressable>
+        </View>
+
+        <Pressable
+          onPress={() => { const next = (speedIdx + 1) % SPEEDS.length; setSpeedIdx(next); player.setPlaybackRate(SPEEDS[next]); }}
+          style={[styles.speedBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          accessibilityLabel="Velocidad"
+        >
+          <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 13 }}>{SPEEDS[speedIdx]}x</Text>
+        </Pressable>
+
+        {error && (
+          <Text style={{ color: colors.danger, fontSize: 12.5, fontWeight: '700', marginTop: 10 }}>No se pudo reproducir. Reintenta.</Text>
+        )}
+        {!status?.isLoaded && (
+          <ActivityIndicator color={colors.primary} style={{ marginTop: 14 }} />
+        )}
+      </View>
+      <View style={{ height: insets.bottom + 10 }} />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  videoRoot: { flex: 1 },
+  closeBar: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12, paddingBottom: 8 },
+  closeBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(128,128,140,0.18)', alignItems: 'center', justifyContent: 'center' },
+  closeTitle: { flex: 1, fontSize: 15, fontWeight: '800' },
+  videoBox: { flex: 1, justifyContent: 'center' },
+  video: { width: '100%', height: '100%' },
+  audioRoot: { flex: 1 },
+  coverFrame: { width: 220, height: 220, borderRadius: 24, borderWidth: 1, overflow: 'hidden', marginBottom: 18 },
+  cover: { width: '100%', height: '100%' },
+  audioTitle: { fontSize: 18, fontWeight: '900', textAlign: 'center' },
+  progressTrack: { width: '100%', height: 5, borderRadius: 3, backgroundColor: 'rgba(128,128,140,0.25)', marginTop: 22, overflow: 'hidden' },
+  progressFill: { height: '100%', borderRadius: 3 },
+  playBig: { width: 66, height: 66, borderRadius: 33, alignItems: 'center', justifyContent: 'center', elevation: 4 },
+  speedBtn: { marginTop: 18, borderRadius: 999, borderWidth: 1, paddingHorizontal: 16, paddingVertical: 7 },
+});
