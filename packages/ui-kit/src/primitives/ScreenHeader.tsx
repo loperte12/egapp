@@ -32,10 +32,21 @@
  *    borde debajo no admite crecer. Y hay una excepción MEDIDA, no supuesta: el ancho disponible
  *    para el título es 360 dp de pantalla menos 16 de relleno a cada lado, menos los dos huecos de
  *    24 → **280 dp**. Con la calibración de ancho de letra del proyecto (**7,9 dp por carácter a
- *    tamaño 11**, medida contra el teléfono en `_c9-medir-letra-rejilla.cjs`), a 17 le caben
- *    **22 caracteres**. `alquiler.tsx` titula «Alquileres en Guinea Ecuatorial» —**31 caracteres,
- *    378 dp**— y `food-menu.tsx` pone el **nombre del comercio**, que no tiene tope. Esos dos
- *    pasan `lineasTitulo={2}`; los otros 19 caben en una.
+ *    tamaño 11**, medida contra el teléfono en `_c9-medir-letra-rejilla.cjs`), escalando al tamaño
+ *    17 salen **12,21 dp/carácter → caben 22,9 caracteres**. OJO AL CITAR ESTO: los 7,9 están
+ *    medidos en el móvil; las 22,9 son esa constante **escalada**, no una medición a tamaño 17.
+ *    Los títulos reales, contados uno a uno:
+ *      · `alquiler.tsx` «Alquileres en Guinea Ecuatorial» — **31 caracteres, 378 dp** → **no cabe**.
+ *        Este pasa `lineasTitulo={2}`.
+ *      · `food-menu.tsx` pone el **nombre del comercio** (`detail?.businessName ?? 'Menú'`), que no
+ *        tiene tope conocido → pasa `lineasTitulo={2}`.
+ *      · `billing-status` «Mis compras y derechos» e `intercity-planes` «Planes Ciudad a Ciudad» —
+ *        **22 caracteres exactos**, en el borde del modelo (22,9). Cabe, pero sin margen.
+ *      · `alquiler-planes` «Planes de suscripción» y `landlord-profile` «Perfil del anunciante» —
+ *        **21**, a un carácter del borde.
+ *    Es decir: los **dos** de dos líneas son seguros, y los **cuatro** de 21–22 caben por poco. Si
+ *    en el móvil alguno parte, el arreglo es `lineasTitulo={2}`, no reabrir el ancho. **Esa
+ *    comprobación la hace Bernardo**: aquí queda dicho dónde mirar.
  *  · **`hitSlop` por lado, no caja de 44** — el alto de la cabecera lo marca el icono (24 + 12 de
  *    relleno arriba y abajo = 48 dp). Subir la caja del botón a `altura.punto` la llevaría a 68 y
  *    **cambiaría el alto de las 21 pantallas**: eso es un rediseño, no una unificación. Con 12 por
@@ -44,13 +55,18 @@
  *    `gap`.
  *
  * ── LO QUE MEJORA SIN QUE NADIE LO PIDIERA ───────────────────────────────────────────────────
- *  · **19 botones de volver con respuesta al toque.** Hoy son `Pressable` secos: no cambian nada
- *    al pulsarse. Es el hallazgo que creó `Tactil` (solo 156 de 1.163 `Pressable` reaccionaban) y
- *    la cabecera no lo había adoptado.
- *  · **`landlord-profile.tsx` gana `accessibilityRole` y etiqueta**: era el único de los 19 sin
- *    ninguno de los dos.
- *  · **`subCabecera` (17) entra en el sistema**: 15 ficheros lo escribían a mano y ni un solo sitio
- *    usaba el token. Lo mismo con `icono.lg` para el icono de volver.
+ *  · **20 botones de volver que ahora responden al ojo.** Medido fichero a fichero: los 20 SÍ
+ *    navegaban (`onPress` a `router.back()`, a `ir.atras()` o —en `food-owner`— a
+ *    `dirty ? confirmLeave() : router.back()`), pero **ninguno daba señal visual**: eran
+ *    `Pressable` desnudos, sin opacidad al pulsar y sin `pressed`. En una app con dinero, tocar
+ *    y no ver nada durante 200 ms se lee como «no ha cogido el toque». `Tactil` baja la opacidad
+ *    a 0,6 mientras el dedo está puesto. Mejora medible, no supuesta.
+ *    (Corrección de una versión anterior de este comentario, que decía que «no hacían nada al
+ *    pulsarse»: era falso. Navegaban todos. Lo que faltaba era la respuesta visual.)
+ *  · **`landlord-profile.tsx` gana `accessibilityRole` y etiqueta**: medido, era el **único de
+ *    los 20** sin ninguno de los dos (19 con · 1 sin).
+ *  · **`subCabecera` (17) entra en el sistema**: 14 de los 20 lo escribían a mano, y otros 6
+ *    escribían `tipografia.subtitle`. Lo mismo con `icono.lg` para el icono de volver.
  *
  * ── USO ─────────────────────────────────────────────────────────────────────────────────────
  *   <ScreenHeader titulo="Mis pedidos" alVolver={() => router.back()} />
