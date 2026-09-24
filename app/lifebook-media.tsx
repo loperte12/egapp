@@ -27,7 +27,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Clapperboard, ImagePlus, Mic, ShoppingBag, Upload, Video } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { authApi } from '../api/auth';
@@ -340,7 +340,7 @@ function MediaComposeContent() {
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         {/* Barra */}
         <View style={[styles.topBar, { borderBottomColor: colors.border, paddingTop: insets.top + 6 }]}>
-          <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: 4 }}>
+          <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: espaciado.e4 }}>
             <ArrowLeft size={22} color={colors.textPrimary} />
           </Pressable>
           <Text style={[styles.topTitle, { color: colors.textPrimary }]}>{meta.title}</Text>
@@ -349,7 +349,7 @@ function MediaComposeContent() {
           </Pressable>
         </View>
 
-        <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 30 }}>
+        <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }}>
           {error ? (
             <View style={[styles.errorBox, { backgroundColor: alpha(colors.danger, 0.09), borderColor: alpha(colors.danger, 0.4) }]}>
               <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>{error}</Text>
@@ -364,7 +364,7 @@ function MediaComposeContent() {
               {esVideo && (
                 <>
                   <Text style={styles.label}>TIPO DE VÍDEO</Text>
-                  <View style={{ flexDirection: 'row', gap: 8 }}>
+                  <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                     {(['short', 'long'] as LbVideoPerfilId[]).map((id) => {
                       const p = LB_VIDEO_PERFILES[id];
                       const on = perfilId === id;
@@ -385,13 +385,13 @@ function MediaComposeContent() {
                         >
                           <Text style={{ color: on ? meta.color : colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>{p.label}</Text>
                           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>{p.hint}</Text>
-                          <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: 2 }}>{p.desc}</Text>
+                          <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e2 }}>{p.desc}</Text>
                         </Pressable>
                       );
                     })}
                   </View>
                   {perfilId === 'long' && (
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 6, lineHeight: 15 }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e6, lineHeight: 15 }}>
                       Un vídeo de 50 minutos ocupa mucho. Intenta grabar en 720p: se ve bien y pesa
                       la mitad.{pesoSubida > 0
                         ? ` Este pesa ${lbPeso(pesoSubida)}: con datos móviles son ${lbTiempoSubida(pesoSubida)} de subida.`
@@ -407,7 +407,7 @@ function MediaComposeContent() {
                 style={[styles.dropZone, { backgroundColor: colors.surface, borderColor: file ? alpha(colors.success, 0.6) : colors.border }]}
               >
                 {file ? (
-                  <View style={{ alignItems: 'center', gap: 6 }}>
+                  <View style={{ alignItems: 'center', gap: espaciado.e6 }}>
                     <Text style={{ fontSize: 34 }}>{kind === 'podcast' ? '🎙️' : '🎬'}</Text>
                     <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }} numberOfLines={1}>
                       {file.name}
@@ -416,11 +416,11 @@ function MediaComposeContent() {
                       {fmtDur(file.durSec)}{pesoSubida ? ` · ${lbPeso(pesoSubida)}` : ''} · listo para publicar
                     </Text>
                     {!busy && (
-                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginTop: 2 }}>Toca para cambiar</Text>
+                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e2 }}>Toca para cambiar</Text>
                     )}
                   </View>
                 ) : (
-                  <View style={{ alignItems: 'center', gap: 6 }}>
+                  <View style={{ alignItems: 'center', gap: espaciado.e6 }}>
                     {kind === 'podcast' ? <Mic size={30} color={meta.color} /> : <Video size={30} color={meta.color} />}
                     <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>{fileLabel}</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center' }}>{fileHint}</Text>
@@ -430,11 +430,11 @@ function MediaComposeContent() {
 
               {/* Progreso REAL de la subida: sin esto, 900 MB son una pantalla congelada. */}
               {busy && progreso && fase === 'subiendo' && progreso.total > 0 && (
-                <View style={{ marginTop: 8 }}>
+                <View style={{ marginTop: espaciado.e8 }}>
                   <View style={[styles.progTrack, { backgroundColor: colors.border }]}>
                     <View style={[styles.progFill, { width: `${Math.round(progreso.fraccion * 100)}%`, backgroundColor: meta.color }]} />
                   </View>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 4 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e4 }}>
                     {lbPeso(progreso.enviados)} de {lbPeso(progreso.total)} · {Math.round(progreso.fraccion * 100)} %
                     {progreso.mbps > 0.05 ? ` · ${progreso.mbps.toFixed(1).replace('.', ',')} MB/s` : ''}
                     {progreso.restanteSec !== null ? ` · faltan ~${fmtDur(progreso.restanteSec)}` : ''}
@@ -443,13 +443,13 @@ function MediaComposeContent() {
               )}
 
               {esVideo && file && file.durSec > perfil.maxSec && (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: 4 }}>
+                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e4 }}>
                   ⚠️ El vídeo dura {fmtDur(file.durSec)} y {perfil.label.toLowerCase()} llega a {fmtDur(perfil.maxSec)}.
                   {perfilId === 'short' ? ' Cámbialo a vídeo largo.' : ''}
                 </Text>
               )}
               {esVideo && file && file.durSec <= perfil.maxSec && file.sizeBytes > perfil.maxMb * 1024 * 1024 && (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: 4 }}>
+                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e4 }}>
                   ⚠️ Pesa {lbPeso(file.sizeBytes)} y el máximo es {perfil.maxMb} MB.
                 </Text>
               )}
@@ -477,7 +477,7 @@ function MediaComposeContent() {
               <Text style={styles.label}>
                 PORTADA ({kind === 'podcast' ? 'OBLIGATORIA 1:1' : 'recomendada'})
               </Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                 {cover ? (
                   <View>
                     <Image source={{ uri: cover.uri }} style={styles.coverPreview} />
@@ -539,7 +539,7 @@ function MediaComposeContent() {
           {kind !== 'episode' && (
             <>
               <Text style={styles.label}>CIUDAD *</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 7 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 }}>
                 {LB_CITIES.map((c) => {
                   const on = city === c;
                   return (
@@ -562,8 +562,8 @@ function MediaComposeContent() {
                 onPress={() => setProdOpen(true)}
                 accessibilityLabel="Elegir productos para este vídeo"
                 style={{
-                  flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: radios.md,
-                  borderWidth: 1, paddingHorizontal: 12, paddingVertical: 11,
+                  flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.md,
+                  borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e11,
                   backgroundColor: productos.length ? alpha(colors.primary, 0.14) : colors.surface,
                   borderColor: productos.length ? alpha(colors.primary, 0.55) : colors.border,
                 }}
@@ -575,7 +575,7 @@ function MediaComposeContent() {
                     : 'Enseñar un producto en el vídeo (opcional)'}
                 </Text>
               </Pressable>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 6, lineHeight: 15 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e6, lineHeight: 15 }}>
                 Sale como una pegatina encima del vídeo, con su precio. Solo productos de tu tienda.
               </Text>
             </>
@@ -583,7 +583,7 @@ function MediaComposeContent() {
 
           {/* Permisos */}
           {kind !== 'serie' && (
-            <View style={{ marginTop: 18 }}>
+            <View style={{ marginTop: espaciado.e18 }}>
               <View style={styles.switchRow}>
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Permitir comentarios</Text>
                 <Switch value={allowComments} onValueChange={setAllowComments} trackColor={{ true: colors.primary }} />
@@ -592,7 +592,7 @@ function MediaComposeContent() {
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Permitir descarga</Text>
                 <Switch value={allowDownload} onValueChange={setAllowDownload} trackColor={{ true: colors.primary }} />
               </View>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
                 {allowDownload ? 'Cualquiera podrá descargar el archivo.' : 'Solo se podrá escuchar/ver en streaming.'}
               </Text>
             </View>
@@ -642,21 +642,21 @@ function MediaComposeContent() {
 }
 
 const styles = StyleSheet.create({
-  topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12, paddingBottom: 8, borderBottomWidth: StyleSheet.hairlineWidth },
+  topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 },
-  publishBtn: { borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 7, minWidth: 76, alignItems: 'center' },
-  label: { fontSize: tipografia.caption, fontWeight: '900', color: '#86909C', letterSpacing: 0.8, marginTop: 16, marginBottom: 6 },
-  dropZone: { borderRadius: radios.lg, borderWidth: 1.5, borderStyle: 'dashed', paddingVertical: 26, paddingHorizontal: 16, alignItems: 'center' },
+  publishBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 76, alignItems: 'center' },
+  label: { fontSize: tipografia.caption, fontWeight: '900', color: '#86909C', letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
+  dropZone: { borderRadius: radios.lg, borderWidth: 1.5, borderStyle: 'dashed', paddingVertical: espaciado.e26, paddingHorizontal: espaciado.e16, alignItems: 'center' },
   coverPreview: { width: 84, height: 84, borderRadius: 14, backgroundColor: '#EEE' },
   photoX: { position: 'absolute', top: -6, right: -6, width: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  coverAdd: { borderRadius: 14, borderWidth: 1, borderStyle: 'dashed', paddingHorizontal: 16, paddingVertical: 12, alignItems: 'center', gap: 4 },
-  input: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 9, fontSize: tipografia.body },
-  textArea: { borderRadius: radios.md, borderWidth: 1, padding: 12, fontSize: tipografia.body, minHeight: 84, textAlignVertical: 'top' },
-  chip: { borderRadius: radios.full, paddingHorizontal: 11, paddingVertical: 6, borderWidth: 1, borderColor: 'transparent' },
-  switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 6 },
-  bigPublish: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderRadius: radios.full, paddingVertical: 14, marginTop: 22 },
-  errorBox: { borderRadius: radios.md, borderWidth: 1, padding: 10, marginBottom: 4 },
-  perfilCard: { flex: 1, borderRadius: 14, borderWidth: 1.5, paddingHorizontal: 12, paddingVertical: 10 },
+  coverAdd: { borderRadius: 14, borderWidth: 1, borderStyle: 'dashed', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, alignItems: 'center', gap: espaciado.e4 },
+  input: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
+  textArea: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e12, fontSize: tipografia.body, minHeight: 84, textAlignVertical: 'top' },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6, borderWidth: 1, borderColor: 'transparent' },
+  switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e6 },
+  bigPublish: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: radios.full, paddingVertical: espaciado.e14, marginTop: espaciado.e22 },
+  errorBox: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e4 },
+  perfilCard: { flex: 1, borderRadius: 14, borderWidth: 1.5, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10 },
   progTrack: { height: 6, borderRadius: radios.full, overflow: 'hidden' },
   progFill: { height: 6, borderRadius: radios.full },
 });

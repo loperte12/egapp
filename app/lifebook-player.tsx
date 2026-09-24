@@ -36,7 +36,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-nati
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Pause, Play, Rewind, FastForward } from 'lucide-react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
@@ -224,7 +224,7 @@ function EpisodePlayerView({ src, title, insets, onClose }: { src: string; title
         >
           {!playing ? (
             <View style={styles.centerPlayBg}>
-              <Play size={34} color={brand.white} fill={brand.white} style={{ marginLeft: 4 }} />
+              <Play size={34} color={brand.white} fill={brand.white} style={{ marginLeft: espaciado.e4 }} />
             </View>
           ) : null}
         </Pressable>
@@ -235,7 +235,7 @@ function EpisodePlayerView({ src, title, insets, onClose }: { src: string; title
       <View style={styles.ctlRow}>
         <Pressable onPress={playPause} hitSlop={10} style={[styles.playBtn, { backgroundColor: colors.primary }]}
           accessibilityRole="button" accessibilityLabel={playing ? 'Pausar' : 'Reproducir'}>
-          {playing ? <Pause size={22} color={brand.white} fill={brand.white} /> : <Play size={22} color={brand.white} fill={brand.white} style={{ marginLeft: 3 }} />}
+          {playing ? <Pause size={22} color={brand.white} fill={brand.white} /> : <Play size={22} color={brand.white} fill={brand.white} style={{ marginLeft: espaciado.e3 }} />}
         </Pressable>
       </View>
 
@@ -307,7 +307,7 @@ function AudioPlayerView({ src, title, cover, insets, onClose }: {
   return (
     <View style={[styles.audioRoot, { backgroundColor: colors.background }]}>
       <CloseBar onClose={onClose} title={title} dark={false} />
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 26 }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e26 }}>
         {cover ? (
           <View style={[styles.coverFrame, { backgroundColor: colors.surface, borderColor: colors.border }]}>
             <Image source={cover} style={styles.cover} contentFit="cover" cachePolicy="memory-disk" />
@@ -329,12 +329,12 @@ function AudioPlayerView({ src, title, cover, insets, onClose }: {
         </View>
 
         {/* Controles */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 26, marginTop: 14 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e26, marginTop: espaciado.e14 }}>
           <Pressable onPress={() => seek(-15)} hitSlop={10} accessibilityLabel="Retroceder 15 segundos">
             <Rewind size={28} color={colors.textPrimary} />
           </Pressable>
           <Pressable onPress={playPause} accessibilityLabel={playing ? 'Pausar' : 'Reproducir'} style={[styles.playBig, { backgroundColor: colors.primary }]}>
-            {playing ? <Pause size={30} color={brand.white} fill={brand.white} /> : <Play size={30} color={brand.white} fill={brand.white} style={{ marginLeft: 3 }} />}
+            {playing ? <Pause size={30} color={brand.white} fill={brand.white} /> : <Play size={30} color={brand.white} fill={brand.white} style={{ marginLeft: espaciado.e3 }} />}
           </Pressable>
           <Pressable onPress={() => seek(15)} hitSlop={10} accessibilityLabel="Avanzar 15 segundos">
             <FastForward size={28} color={colors.textPrimary} />
@@ -350,10 +350,10 @@ function AudioPlayerView({ src, title, cover, insets, onClose }: {
         </Pressable>
 
         {error && (
-          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: 10 }}>No se pudo reproducir. Reintenta.</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e10 }}>No se pudo reproducir. Reintenta.</Text>
         )}
         {!status?.isLoaded && (
-          <ActivityIndicator color={colors.primary} style={{ marginTop: 14 }} />
+          <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e14 }} />
         )}
       </View>
       <View style={{ height: insets.bottom + 10 }} />
@@ -372,29 +372,29 @@ const styles = StyleSheet.create({
     width: 74, height: 74, borderRadius: 37, alignItems: 'center', justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.55)', borderWidth: 2, borderColor: 'rgba(255,255,255,0.85)',
   },
-  ctlRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 26, paddingVertical: 8 },
+  ctlRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e26, paddingVertical: espaciado.e8 },
   playBtn: { width: 46, height: 46, borderRadius: 23, alignItems: 'center', justifyContent: 'center' },
   track: { height: 26, justifyContent: 'center', paddingHorizontal: TRACK_MARGIN },
   trackBg: { height: 4, borderRadius: 2, overflow: 'hidden' },
   trackFill: { height: 4, borderRadius: 2 },
   knob: { position: 'absolute', width: 14, height: 14, borderRadius: 7, marginLeft: -7 },
-  timeRow: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: TRACK_MARGIN, paddingBottom: 6 },
+  timeRow: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: TRACK_MARGIN, paddingBottom: espaciado.e6 },
   timeTxt: { color: 'rgba(255,255,255,0.8)', fontSize: tipografia.caption, fontWeight: '700' },
-  errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: '700', textAlign: 'center', paddingHorizontal: 24, paddingBottom: 8 },
+  errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: '700', textAlign: 'center', paddingHorizontal: espaciado.e24, paddingBottom: espaciado.e8 },
 
   // Estilos del AUDIO.
   audioRoot: { flex: 1 },
   closeBar: {
     position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10,
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 14,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e14,
   },
   closeBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center' },
-  closeTitle: { flex: 1, textAlign: 'center', fontSize: tipografia.body, fontWeight: '800', marginHorizontal: 10 },
+  closeTitle: { flex: 1, textAlign: 'center', fontSize: tipografia.body, fontWeight: '800', marginHorizontal: espaciado.e10 },
   coverFrame: { width: 220, height: 220, borderRadius: 18, borderWidth: 1, overflow: 'hidden' },
   cover: { width: '100%', height: '100%' },
-  audioTitle: { fontSize: 17, fontWeight: '800', textAlign: 'center', marginTop: 16, marginBottom: 18 },
+  audioTitle: { fontSize: 17, fontWeight: '800', textAlign: 'center', marginTop: espaciado.e16, marginBottom: espaciado.e18 },
   progressTrack: { width: '100%', height: 5, borderRadius: 3, backgroundColor: 'rgba(0,0,0,0.12)', overflow: 'hidden' },
   progressFill: { height: 5, borderRadius: 3 },
   playBig: { width: 62, height: 62, borderRadius: 31, alignItems: 'center', justifyContent: 'center' },
-  speedBtn: { marginTop: 20, paddingHorizontal: 16, paddingVertical: 8, borderRadius: radios.lg, borderWidth: 1 },
+  speedBtn: { marginTop: espaciado.e20, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8, borderRadius: radios.lg, borderWidth: 1 },
 });

@@ -28,7 +28,7 @@ import {
 import { Image as ExpoImage } from 'expo-image';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, Bookmark, Briefcase, Car, ChevronRight, Heart, Home, MapPin,
   MoreHorizontal, Package, Play, Plus, Send, Share2, ShoppingBag, ShoppingCart, Store, Utensils, X,
@@ -118,7 +118,7 @@ function Avatar({ url, name, size = 40 }: { url?: string | null; name?: string |
 
 function Chip({ text, color, bg }: { text: string; color: string; bg: string }) {
   return (
-    <View style={{ backgroundColor: bg, borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 4 }}>
+    <View style={{ backgroundColor: bg, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4 }}>
       <Text style={{ color, fontSize: tipografia.caption, fontWeight: '800' }}>{text}</Text>
     </View>
   );
@@ -139,12 +139,12 @@ function DetailActionButton({ icon, count, active, activeColor, colors, onPress,
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={count ? `${label}, ${count}` : label}
-      style={{ alignItems: 'center', justifyContent: 'center', minWidth: 38, paddingVertical: 2 }}
+      style={{ alignItems: 'center', justifyContent: 'center', minWidth: 38, paddingVertical: espaciado.e2 }}
     >
       {icon}
       {typeof count === 'number' && count > 0 ? (
         <Text style={{
-          marginTop: 2, fontSize: 10.5, fontWeight: '900',
+          marginTop: espaciado.e2, fontSize: 10.5, fontWeight: '900',
           color: active ? activeColor : colors.textSecondary,
         }}>
           {count > 999 ? '999+' : count}
@@ -390,12 +390,12 @@ function PostContent() {
     return (
       <View style={[styles.root, { backgroundColor: colors.background }]}>
         <View style={[styles.header, { paddingTop: insets.top + 4, borderBottomColor: alpha(colors.border, 0.4) }]}>
-          <Pressable onPress={() => router.back()} hitSlop={12} style={{ padding: 4 }} accessibilityLabel="Volver">
+          <Pressable onPress={() => router.back()} hitSlop={12} style={{ padding: espaciado.e4 }} accessibilityLabel="Volver">
             <ArrowLeft size={22} color={colors.textPrimary} />
           </Pressable>
           <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', flex: 1 }}>Publicación</Text>
         </View>
-        <View style={[styles.center, { flex: 1, padding: 30, gap: 8 }]}>
+        <View style={[styles.center, { flex: 1, padding: espaciado.e30, gap: espaciado.e8 }]}>
           <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 15 }}>No se encontró esta publicación</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
             Puede que se haya eliminado o que su visibilidad no te lo permita.
@@ -451,7 +451,7 @@ function PostContent() {
     >
       {/* ═══════ CABECERA FIJA: autor + seguir + ⋯ ═══════ */}
       <View style={[styles.header, { paddingTop: insets.top + 4, borderBottomColor: alpha(colors.border, 0.4) }]}>
-        <Pressable onPress={() => router.back()} hitSlop={12} style={{ padding: 4 }} accessibilityLabel="Volver">
+        <Pressable onPress={() => router.back()} hitSlop={12} style={{ padding: espaciado.e4 }} accessibilityLabel="Volver">
           <ArrowLeft size={22} color={colors.textPrimary} />
         </Pressable>
 
@@ -479,7 +479,7 @@ function PostContent() {
           </Pressable>
         )}
 
-        <Pressable onPress={() => setMenuOpen(true)} hitSlop={8} style={{ padding: 4, marginLeft: 6 }} accessibilityLabel="Más opciones">
+        <Pressable onPress={() => setMenuOpen(true)} hitSlop={8} style={{ padding: espaciado.e4, marginLeft: espaciado.e6 }} accessibilityLabel="Más opciones">
           <MoreHorizontal size={20} color={colors.textSecondary} />
         </Pressable>
       </View>
@@ -545,7 +545,7 @@ function PostContent() {
             {isPlaying && (
               <View style={styles.playOverlay} pointerEvents="none">
                 <View style={styles.playCircle}>
-                  <Play size={28} color={brand.white} fill={brand.white} style={{ marginLeft: 3 }} />
+                  <Play size={28} color={brand.white} fill={brand.white} style={{ marginLeft: espaciado.e3 }} />
                 </View>
               </View>
             )}
@@ -570,7 +570,7 @@ function PostContent() {
           </View>
         )}
 
-        <View style={{ paddingHorizontal: 16, paddingTop: 14 }}>
+        <View style={{ paddingHorizontal: espaciado.e16, paddingTop: espaciado.e14 }}>
           {/* Título + descripción */}
           {post.title ? <Text style={[styles.postTitle, { color: colors.textPrimary }]}>{post.title}</Text> : null}
           {post.body ? <Text style={[styles.postBody, { color: colors.textPrimary }]}>{post.body}</Text> : null}
@@ -579,14 +579,14 @@ function PostContent() {
               ANTES de los hashtags, que es donde los pone Xiaohongshu. Si la nota no tiene
               productos, no se pinta nada (ni hueco). */}
           {productos.length > 0 ? (
-            <View style={{ marginTop: 12, gap: 8 }}>
+            <View style={{ marginTop: espaciado.e12, gap: espaciado.e8 }}>
               {productos.map((p) => (
                 <Pressable
                   key={p.id}
                   onPress={() => irSeguro.libre('/lifebook-product/[id]', { id: p.id })}
                   accessibilityLabel={`Ver el producto ${p.title}`}
                   style={{
-                    flexDirection: 'row', alignItems: 'center', gap: 10, padding: 8,
+                    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, padding: espaciado.e8,
                     borderRadius: radios.md, borderWidth: 1,
                     borderColor: alpha(colors.primary, 0.35),
                     backgroundColor: alpha(colors.primary, 0.06),
@@ -605,7 +605,7 @@ function PostContent() {
                       {lbPriceLabel(p.priceXaf, p.priceMode, lbXaf)}
                     </Text>
                   </View>
-                  <View style={{ paddingHorizontal: 12, paddingVertical: 6, borderRadius: radios.full, backgroundColor: colors.primary }}>
+                  <View style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full, backgroundColor: colors.primary }}>
                     <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>Ver</Text>
                   </View>
                 </Pressable>
@@ -630,9 +630,9 @@ function PostContent() {
           )}
 
           {/* Ubicación + fecha */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 12, flexWrap: 'wrap' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, marginTop: espaciado.e12, flexWrap: 'wrap' }}>
             {post.city ? (
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
                 <MapPin size={13} color={colors.textSecondary} />
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                   {post.barrio ? `${post.barrio}, ` : ''}{post.city}
@@ -671,7 +671,7 @@ function PostContent() {
               <Text style={[styles.panelTitle, { color: colors.textPrimary }]}>
                 Precio: {price !== undefined ? lbXaf(price) : 'A convenir'}
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
                 {(CONDITION_LABEL[String(pl.condition ?? '')] ?? pl.condition ?? '')}{pl.negotiable ? ' · negociable' : ''}{pl.category ? ` · ${pl.category}` : ''}
               </Text>
               {(pl.delivery as string[] | undefined)?.length ? (
@@ -701,27 +701,27 @@ function PostContent() {
           {/* Debate */}
           {isDebate && post.debate && (
             <View style={[styles.panel, { borderColor: alpha(tint, 0.4) }]}>
-              <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e8, flexWrap: 'wrap' }}>
                 <Chip text={String(post.debate.category ?? '')} color={tint} bg={alpha(tint, 0.12)} />
                 <Chip text={STATE_LABEL[post.debate.state] ?? post.debate.state} color={brand.white} bg={tint} />
               </View>
-              {post.debate.problem ? <Text style={[styles.panelTitle, { color: colors.textPrimary, marginTop: 8 }]}>El problema</Text> : null}
+              {post.debate.problem ? <Text style={[styles.panelTitle, { color: colors.textPrimary, marginTop: espaciado.e8 }]}>El problema</Text> : null}
               {post.debate.problem ? <Text style={styles.panelLine}>{post.debate.problem}</Text> : null}
               {post.debate.context ? <Text style={styles.panelLine}>{post.debate.context}</Text> : null}
               {post.debate.initialProposal ? <Text style={styles.panelLine}>Propuesta inicial: {post.debate.initialProposal}</Text> : null}
               {post.debate.resolvedSummary ? (
                 <>
-                  <Text style={[styles.panelTitle, { color: colors.success, marginTop: 6 }]}>✓ Cómo se resolvió</Text>
+                  <Text style={[styles.panelTitle, { color: colors.success, marginTop: espaciado.e6 }]}>✓ Cómo se resolvió</Text>
                   <Text style={styles.panelLine}>{post.debate.resolvedSummary}</Text>
                 </>
               ) : null}
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 8 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e8 }}>
                 {post.debate.allowProposals ? 'Acepta propuestas de solución' : 'No acepta propuestas'}
                 {post.debate.allowVotes ? ' · con votos de la comunidad' : ''}
               </Text>
               {/* Parte 14: agregado real de los votos de las propuestas */}
               {(post.debate.votesYes !== undefined || post.debate.votesNo !== undefined) && (
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, flexWrap: 'wrap', marginTop: espaciado.e10 }}>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                     Comunidad: {post.debate.votesYes ?? 0} a favor · {post.debate.votesNo ?? 0} en contra
                   </Text>
@@ -739,8 +739,8 @@ function PostContent() {
 
           {/* Serie: episodios */}
           {post.type === 'serie' && (
-            <View style={{ marginTop: 16 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <View style={{ marginTop: espaciado.e16 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, flexWrap: 'wrap' }}>
                 <Text style={[styles.sectionTitle, { marginTop: 0, marginBottom: 0, color: colors.textPrimary }]}>Episodios</Text>
                 {post.serie ? (
                   <Chip
@@ -761,9 +761,9 @@ function PostContent() {
                 )}
               </View>
               {episodes === null ? (
-                <ActivityIndicator color={colors.primary} style={{ marginTop: 14 }} />
+                <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e14 }} />
               ) : episodes.length === 0 ? (
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: 8, lineHeight: 19 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e8, lineHeight: 19 }}>
                   {isMine ? 'Tu serie aún no tiene episodios. Añade el primero.' : 'Esta serie aún no tiene episodios publicados.'}
                 </Text>
               ) : (
@@ -790,7 +790,7 @@ function PostContent() {
                     {ep.durationSec != null && (
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700' }}>{fmtDur(ep.durationSec)}</Text>
                     )}
-                    <Play size={15} color={colors.primary} fill={colors.primary} style={{ marginLeft: 6 }} />
+                    <Play size={15} color={colors.primary} fill={colors.primary} style={{ marginLeft: espaciado.e6 }} />
                   </Pressable>
                 ))
               )}
@@ -806,7 +806,7 @@ function PostContent() {
           </View>
 
           {/* ═══════ COMENTARIOS (vista previa → hoja) ═══════ */}
-          <View style={{ marginTop: 18 }}>
+          <View style={{ marginTop: espaciado.e18 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Text style={{ fontSize: tipografia.subtitle, fontWeight: '900', color: colors.textPrimary }}>{commentSectionTitle}</Text>
               <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textSecondary }}>
@@ -815,7 +815,7 @@ function PostContent() {
             </View>
 
             {!post.allowComments ? (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingVertical: 18 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingVertical: espaciado.e18 }}>
                 Los comentarios están desactivados
               </Text>
             ) : comments.length === 0 ? (
@@ -823,14 +823,14 @@ function PostContent() {
                 onPress={() => setCommentsOpen(true)}
                 accessibilityLabel="Sé el primero en comentar"
                 style={{
-                  marginTop: 10, borderRadius: radios.lg, borderWidth: 1, borderColor: colors.border,
-                  backgroundColor: colors.surface, paddingVertical: 16, alignItems: 'center',
+                  marginTop: espaciado.e10, borderRadius: radios.lg, borderWidth: 1, borderColor: colors.border,
+                  backgroundColor: colors.surface, paddingVertical: espaciado.e16, alignItems: 'center',
                 }}
               >
                 <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textSecondary }}>Sé el primero en comentar</Text>
               </Pressable>
             ) : (
-              <View style={{ marginTop: 4 }}>
+              <View style={{ marginTop: espaciado.e4 }}>
                 {comments.slice(0, 3).map((c) => (
                   <CommentRow
                     key={c.id}
@@ -848,7 +848,7 @@ function PostContent() {
               <Pressable
                 onPress={() => setCommentsOpen(true)}
                 accessibilityLabel={`Ver los ${commentsTotal} comentarios`}
-                style={{ marginTop: 8, paddingVertical: 10, alignItems: 'center' }}
+                style={{ marginTop: espaciado.e8, paddingVertical: espaciado.e10, alignItems: 'center' }}
               >
                 <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body }}>
                   Ver los {formatCount(commentsTotal || (post.stats?.comments ?? 0))} comentarios
@@ -859,8 +859,8 @@ function PostContent() {
 
           {/* ═══════ DESCUBRIR MÁS (relacionadas) ═══════ */}
           {related.length > 0 && (
-            <View style={{ marginTop: 24 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '800', marginBottom: 12 }}>
+            <View style={{ marginTop: espaciado.e24 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '800', marginBottom: espaciado.e12 }}>
                 Descubrir más
               </Text>
               <View style={styles.masonryRow}>
@@ -902,7 +902,7 @@ function PostContent() {
           paddingBottom: insets.bottom,
         }}
       >
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12, paddingVertical: 8 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 }}>
           {/* La caja es una pastilla: el texto se escribe en la hoja de comentarios */}
           <Pressable
             onPress={() => setCommentsOpen(true)}
@@ -910,7 +910,7 @@ function PostContent() {
             style={{
               flex: 1, height: 38, borderRadius: radios.full,
               backgroundColor: alpha(colors.textPrimary, 0.07),
-              paddingHorizontal: 14, justifyContent: 'center',
+              paddingHorizontal: espaciado.e14, justifyContent: 'center',
             }}
           >
             <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '700' }}>
@@ -925,7 +925,7 @@ function PostContent() {
               accessibilityLabel="Comprar"
               style={{
                 height: 38, borderRadius: radios.full, backgroundColor: colors.primary,
-                flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 14,
+                flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingHorizontal: espaciado.e14,
               }}
             >
               <ShoppingCart size={16} color={brand.white} />
@@ -1046,7 +1046,7 @@ function PostContent() {
               <Text style={{ color: colors.danger, fontSize: 15, fontWeight: '800' }}>Reportar publicación</Text>
             </Pressable>
           )}
-          <Pressable onPress={() => setMenuOpen(false)} style={{ paddingVertical: 10 }}>
+          <Pressable onPress={() => setMenuOpen(false)} style={{ paddingVertical: espaciado.e10 }}>
             <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
         </View>
@@ -1106,7 +1106,7 @@ function PostContent() {
           />
 
           {mediaUrls.length > 1 ? (
-            <View style={{ position: 'absolute', bottom: insets.bottom + 18, alignSelf: 'center', backgroundColor: 'rgba(255,255,255,0.16)', borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 5 }}>
+            <View style={{ position: 'absolute', bottom: insets.bottom + 18, alignSelf: 'center', backgroundColor: 'rgba(255,255,255,0.16)', borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e5 }}>
               <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.caption }}>{viewerIdx + 1}/{mediaUrls.length}</Text>
             </View>
           ) : null}
@@ -1146,14 +1146,14 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingBottom: 10,
+    paddingHorizontal: espaciado.e12,
+    paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    gap: 8,
+    gap: espaciado.e8,
   },
-  headerAuthor: { flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1 },
-  followBtn: { borderRadius: radios.full, paddingHorizontal: 16, paddingVertical: 7 },
-  hero: { height: 120, alignItems: 'center', justifyContent: 'center', gap: 4 },
+  headerAuthor: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, flex: 1 },
+  followBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e7 },
+  hero: { height: 120, alignItems: 'center', justifyContent: 'center', gap: espaciado.e4 },
   heroType: { fontSize: tipografia.title, fontWeight: '900', letterSpacing: 2 },
   heroPrice: { fontSize: 17, fontWeight: '900' },
   playOverlay: {
@@ -1170,31 +1170,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dots: { position: 'absolute', bottom: 8, alignSelf: 'center', flexDirection: 'row', gap: 5 },
-  countBadge: { position: 'absolute', top: 10, right: 12, borderRadius: radios.full, paddingHorizontal: 9, paddingVertical: 4 },
+  dots: { position: 'absolute', bottom: 8, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e5 },
+  countBadge: { position: 'absolute', top: 10, right: 12, borderRadius: radios.full, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e4 },
   dot: { width: 6, height: 6, borderRadius: 3 },
   postTitle: { fontSize: 18, fontWeight: '900', lineHeight: 23 },
-  postBody: { fontSize: 15.5, lineHeight: 22.5, marginTop: 8 },
-  chipRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 7, marginTop: 12 },
+  postBody: { fontSize: 15.5, lineHeight: 22.5, marginTop: espaciado.e8 },
+  chipRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: espaciado.e7, marginTop: espaciado.e12 },
   serviceBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: espaciado.e8,
     borderRadius: radios.md,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginTop: 14,
+    paddingHorizontal: espaciado.e16,
+    paddingVertical: espaciado.e12,
+    marginTop: espaciado.e14,
   },
-  panel: { borderRadius: 14, borderWidth: 1, padding: 12, marginTop: 14 },
+  panel: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, marginTop: espaciado.e14 },
   panelTitle: { fontSize: 15, fontWeight: '900' },
-  panelLine: { color: '#5B6470', fontSize: tipografia.body, marginTop: 4, lineHeight: 18 },
-  statsRow: { marginTop: 14, paddingBottom: 12, borderBottomWidth: StyleSheet.hairlineWidth },
-  sectionTitle: { fontSize: 14.5, fontWeight: '900', marginTop: 20, marginBottom: 8 },
-  epAddBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 5, marginLeft: 'auto' },
-  epRow: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, padding: 10, marginTop: 8 },
+  panelLine: { color: '#5B6470', fontSize: tipografia.body, marginTop: espaciado.e4, lineHeight: 18 },
+  statsRow: { marginTop: espaciado.e14, paddingBottom: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },
+  sectionTitle: { fontSize: 14.5, fontWeight: '900', marginTop: espaciado.e20, marginBottom: espaciado.e8 },
+  epAddBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, marginLeft: 'auto' },
+  epRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e10, marginTop: espaciado.e8 },
   epThumb: { width: 40, height: 40, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   masonryRow: { flexDirection: 'row', gap: COLUMN_GAP },
   masonryCol: { flex: 1, gap: COLUMN_GAP },
   menuSheet: { ...formaHoja },
-  menuRow: { borderRadius: radios.md, paddingVertical: 13, paddingHorizontal: 12 },
+  menuRow: { borderRadius: radios.md, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e12 },
 });

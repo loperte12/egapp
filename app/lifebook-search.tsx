@@ -29,7 +29,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { alpha, useTheme, EmptyState, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import {
   Clock,
   Flame,
@@ -272,7 +272,7 @@ function LifeBookSearchContent() {
     <View style={[styles.root, { backgroundColor: colors.background, paddingTop: insets.top }]}>
       {/* ═══════ BARRA DE BÚSQUEDA ═══════ */}
       <View style={[styles.searchBar, { borderBottomColor: alpha(colors.border, 0.5) }]}>
-        <Pressable onPress={() => router.back()} hitSlop={12} style={{ padding: 4 }} accessibilityLabel="Cerrar búsqueda">
+        <Pressable onPress={() => router.back()} hitSlop={12} style={{ padding: espaciado.e4 }} accessibilityLabel="Cerrar búsqueda">
           <X size={20} color={colors.textSecondary} />
         </Pressable>
 
@@ -318,9 +318,9 @@ function LifeBookSearchContent() {
               style={({ pressed }) => ({
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: 10,
-                paddingVertical: 12,
-                paddingHorizontal: 16,
+                gap: espaciado.e10,
+                paddingVertical: espaciado.e12,
+                paddingHorizontal: espaciado.e16,
                 backgroundColor: pressed ? alpha(colors.textSecondary, 0.05) : 'transparent',
               })}
             >
@@ -350,7 +350,7 @@ function LifeBookSearchContent() {
             data={SEARCH_FILTERS}
             keyExtractor={(f) => f.id}
             style={{ flexGrow: 0 }}
-            contentContainerStyle={{ paddingHorizontal: 12, gap: 6, paddingVertical: 8 }}
+            contentContainerStyle={{ paddingHorizontal: espaciado.e12, gap: espaciado.e6, paddingVertical: espaciado.e8 }}
             renderItem={({ item }) => {
               const active = item.id === filter;
               return (
@@ -424,7 +424,7 @@ function LifeBookSearchContent() {
               onEndReached={() => { if (nextCursor && !loadingMore) doSearch(query, false); }}
               onEndReachedThreshold={0.5}
               ListFooterComponent={
-                loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: 16 }} /> : null
+                loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e16 }} /> : null
               }
             />
           )}
@@ -474,7 +474,7 @@ function LifeBookSearchContent() {
               </Text>
             </View>
             {trends.length === 0 ? (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, paddingHorizontal: 2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, paddingHorizontal: espaciado.e2 }}>
                 Todavía no hay tendencias en tu ciudad.
               </Text>
             ) : (
@@ -485,8 +485,8 @@ function LifeBookSearchContent() {
                   style={({ pressed }) => ({
                     flexDirection: 'row',
                     alignItems: 'center',
-                    gap: 10,
-                    paddingVertical: 11,
+                    gap: espaciado.e10,
+                    paddingVertical: espaciado.e11,
                     opacity: pressed ? 0.7 : 1,
                   })}
                 >
@@ -536,7 +536,7 @@ function LifeBookSearchContent() {
           </View>
 
           <View style={styles.section}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
               <MapPin size={13} color={colors.textSecondary} />
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                 Buscando en {city} · se muestran solo publicaciones públicas
@@ -575,19 +575,19 @@ const styles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    paddingHorizontal: 12,
-    paddingBottom: 10,
+    gap: espaciado.e8,
+    paddingHorizontal: espaciado.e12,
+    paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   inputWrap: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: espaciado.e8,
     borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: espaciado.e12,
+    paddingVertical: espaciado.e8,
   },
   input: { flex: 1, fontSize: tipografia.body, paddingVertical: 0 },
   suggestList: {
@@ -602,37 +602,37 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 60 },
   filterChip: {
     borderRadius: radios.full,
-    paddingHorizontal: 14,
-    paddingVertical: 7,
+    paddingHorizontal: espaciado.e14,
+    paddingVertical: espaciado.e7,
   },
   masonryRow: {
     flexDirection: 'row',
     paddingHorizontal: SIDE_PADDING,
     gap: COLUMN_GAP,
-    paddingTop: 4,
+    paddingTop: espaciado.e4,
   },
   masonryCol: { flex: 1, gap: COLUMN_GAP },
-  section: { paddingHorizontal: 16, marginTop: 20 },
+  section: { paddingHorizontal: espaciado.e16, marginTop: espaciado.e20 },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 6,
-    marginBottom: 10,
+    gap: espaciado.e6,
+    marginBottom: espaciado.e10,
   },
   sectionTitle: { fontSize: tipografia.subtitle, fontWeight: '800' },
-  tagsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  tagsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
   historyTag: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: espaciado.e5,
     borderRadius: radios.full,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
+    paddingHorizontal: espaciado.e12,
+    paddingVertical: espaciado.e7,
   },
   discoverTag: {
     borderRadius: radios.full,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+    paddingHorizontal: espaciado.e14,
+    paddingVertical: espaciado.e8,
   },
 });

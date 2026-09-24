@@ -8,7 +8,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ArrowLeft, ScanLine } from 'lucide-react-native';
-import { useTheme, brand, tipografia } from '@egrouteplan/ui-kit';
+import { brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
@@ -19,11 +19,11 @@ export default function LifeBookScan() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#000000', paddingTop: insets.top }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10 }}>
         <Pressable onPress={() => router.back()} hitSlop={8} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={brand.white} />
         </Pressable>
-        <Text style={{ color: brand.white, fontWeight: '800', marginLeft: 10, fontSize: tipografia.subtitle }}>Escanear</Text>
+        <Text style={{ color: brand.white, fontWeight: '800', marginLeft: espaciado.e10, fontSize: tipografia.subtitle }}>Escanear</Text>
       </View>
 
       {/* Aquí se integrará expo-camera / lector de QR */}
@@ -32,11 +32,11 @@ export default function LifeBookScan() {
         <ScanLine size={34} color={brand.white} style={{ position: 'absolute' }} />
       </View>
 
-      <Text style={{ color: 'rgba(255,255,255,0.7)', textAlign: 'center', fontSize: tipografia.caption, marginTop: 16, lineHeight: 18 }}>
+      <Text style={{ color: 'rgba(255,255,255,0.7)', textAlign: 'center', fontSize: tipografia.caption, marginTop: espaciado.e16, lineHeight: 18 }}>
         Apunta al código QR para añadir amigos,{'\n'}unirte a grupos o abrir publicaciones
       </Text>
 
-      <Text style={{ color: 'rgba(255,255,255,0.45)', textAlign: 'center', fontSize: tipografia.micro, marginTop: 10, marginBottom: insets.bottom + 24 }}>
+      <Text style={{ color: 'rgba(255,255,255,0.45)', textAlign: 'center', fontSize: tipografia.micro, marginTop: espaciado.e10, marginBottom: insets.bottom + 24 }}>
         Lector pendiente: necesita cámara y búsqueda por EG-ID en el servidor.
       </Text>
     </View>

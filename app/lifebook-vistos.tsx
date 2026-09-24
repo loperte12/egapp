@@ -16,7 +16,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, EmptyState, InlineError, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, InlineError, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Clock } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceApi, type LbViewedProduct } from '../api/commerce';
@@ -103,7 +103,7 @@ function VistosContent() {
         <Pressable onPress={() => irSeguro.atras()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <View style={{ flex: 1, marginLeft: 10 }}>
+        <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
           <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>Historial de productos</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>Solo lo ves tú</Text>
         </View>
@@ -123,13 +123,13 @@ function VistosContent() {
           data={items}
           keyExtractor={(p) => p.id}
           numColumns={2}
-          columnWrapperStyle={{ gap: 10, paddingHorizontal: 14 }}
-          contentContainerStyle={{ paddingTop: 12, paddingBottom: insets.bottom + 30, gap: 12, flexGrow: 1 }}
+          columnWrapperStyle={{ gap: espaciado.e10, paddingHorizontal: espaciado.e14 }}
+          contentContainerStyle={{ paddingTop: espaciado.e12, paddingBottom: insets.bottom + 30, gap: espaciado.e12, flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           refreshing={refrescando}
           onRefresh={() => void cargar('refresco')}
           ListHeaderComponent={items.length ? (
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, paddingHorizontal: 14 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, paddingHorizontal: espaciado.e14 }}>
               {items.length} producto{items.length === 1 ? '' : 's'} · lo último que miraste, primero
             </Text>
           ) : null}
@@ -142,7 +142,7 @@ function VistosContent() {
               `EmptyState`.
             */
             error ? (
-              <View style={{ paddingTop: 40, paddingHorizontal: 14 }}>
+              <View style={{ paddingTop: 40, paddingHorizontal: espaciado.e14 }}>
                 <InlineError mensaje={error} onReintentar={() => void cargar()} />
               </View>
             ) : (
@@ -166,7 +166,7 @@ function VistosContent() {
                 { id: item.serviceType === 'hotel_room' ? item.shop.id : item.id },
               )}
               pie={
-                <View style={{ marginTop: 4 }}>
+                <View style={{ marginTop: espaciado.e4 }}>
                   <Text style={{ color: colors.textSecondary, fontSize: 10 }}>
                     {cuandoLoVio(item.viewedAt)}
                     {item.times > 1 ? ` · ${item.times} veces` : ''}
@@ -187,7 +187,7 @@ function VistosContent() {
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });

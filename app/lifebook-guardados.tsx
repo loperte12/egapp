@@ -16,7 +16,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, useTheme, EmptyState, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, GhostButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AlertCircle, ArrowLeft, Heart } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceApi, type LbProductCard } from '../api/commerce';
@@ -74,7 +74,7 @@ function GuardadosContent() {
 
   if (error && !items) {
     return (
-      <View style={[styles.center, { backgroundColor: colors.background, padding: 24, gap: 12 }]}>
+      <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
         <AlertCircle size={34} color={colors.danger} />
         <Text style={{ color: colors.textPrimary, fontWeight: '800', textAlign: 'center' }}>{error}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
@@ -95,7 +95,7 @@ function GuardadosContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: 10, flex: 1 }} numberOfLines={1}>
+        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
           Mis guardados
         </Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
@@ -104,7 +104,7 @@ function GuardadosContent() {
       </View>
 
       <ScrollView
-        contentContainerStyle={{ padding: 16, paddingBottom: 28 }}
+        contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e28 }}
         refreshControl={<RefreshControl refreshing={cargando} onRefresh={cargar} tintColor={colors.primary} />}
       >
         {items.length === 0 ? (
@@ -129,11 +129,11 @@ function GuardadosContent() {
                   {p.title}
                 </Text>
                 {p.shortDescription ? (
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }} numberOfLines={2}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }} numberOfLines={2}>
                     {p.shortDescription}
                   </Text>
                 ) : null}
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginTop: 6 }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e6 }}>
                   {p.priceXaf === null ? 'Precio a consultar' : lbXaf(p.priceXaf)}
                   {p.oldPriceXaf && p.priceXaf && p.oldPriceXaf > p.priceXaf ? (
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
@@ -141,7 +141,7 @@ function GuardadosContent() {
                     </Text>
                   ) : null}
                 </Text>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                   {p.condition === 'used' ? 'Usado' : 'Nuevo'}
                   {p.stockMode === 'exact' ? '' : ' · a pedir'}
                 </Text>
@@ -170,15 +170,15 @@ function GuardadosContent() {
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   tarjeta: {
-    flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 14, padding: 14, marginBottom: 10,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e10,
   },
   quitar: {
-    flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderRadius: 10,
-    paddingHorizontal: 10, paddingVertical: 8,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderWidth: 1, borderRadius: 10,
+    paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8,
   },
 });

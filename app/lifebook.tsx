@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, elevation, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, elevation, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import {
   ChevronDown,
   Clapperboard,
@@ -119,7 +119,7 @@ function SkeletonCard({ width }: { width: number }) {
       />
       <View
         style={{
-          marginTop: 6,
+          marginTop: espaciado.e6,
           height: 12,
           width: '80%',
           borderRadius: 4,
@@ -128,7 +128,7 @@ function SkeletonCard({ width }: { width: number }) {
       />
       <View
         style={{
-          marginTop: 6,
+          marginTop: espaciado.e6,
           height: 10,
           width: '50%',
           borderRadius: 4,
@@ -146,7 +146,7 @@ function SkeletonGrid() {
         flexDirection: 'row',
         paddingHorizontal: SIDE_PADDING,
         gap: COLUMN_GAP,
-        paddingTop: 8,
+        paddingTop: espaciado.e8,
       }}
     >
       <View style={{ flex: 1, gap: COLUMN_GAP }}>
@@ -687,7 +687,7 @@ function LifeBookContent() {
           hitSlop={8}
           accessibilityRole="button"
           accessibilityLabel="Asistente"
-          style={[styles.msgBtn, { marginRight: 8 }]}
+          style={[styles.msgBtn, { marginRight: espaciado.e8 }]}
         >
           <Sparkles size={20} color={colors.primary} />
         </Pressable>
@@ -735,7 +735,7 @@ function LifeBookContent() {
           showsHorizontalScrollIndicator={false}
           data={tabsVisibles}
           keyExtractor={(c) => c.id}
-          contentContainerStyle={{ paddingHorizontal: 12, gap: 4 }}
+          contentContainerStyle={{ paddingHorizontal: espaciado.e12, gap: espaciado.e4 }}
           renderItem={({ item }) => {
             const active = item.id === channelId;
             return (
@@ -779,7 +779,7 @@ function LifeBookContent() {
         <Pressable
           onPress={() => setCityOpen(true)}
           accessibilityLabel={"Ciudad: " + city + ". Cambiar de ciudad"}
-          style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 14, paddingTop: 9 }}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e9 }}
         >
           <MapPin size={15} color={colors.primary} />
           <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>{city}</Text>
@@ -799,7 +799,7 @@ function LifeBookContent() {
             showsHorizontalScrollIndicator={false}
             data={LB_DISTANCIAS}
             keyExtractor={(d) => d.id}
-            contentContainerStyle={{ paddingHorizontal: 12, gap: 8, paddingVertical: 8 }}
+            contentContainerStyle={{ paddingHorizontal: espaciado.e12, gap: espaciado.e8, paddingVertical: espaciado.e8 }}
             renderItem={({ item, index }) => {
               const activo = index === distIdx;
               return (
@@ -809,7 +809,7 @@ function LifeBookContent() {
                   accessibilityState={{ selected: activo }}
                   accessibilityLabel={`${item.label} · ${item.hint}`}
                   style={{
-                    paddingHorizontal: 13, paddingVertical: 7, borderRadius: radios.full, borderWidth: 1,
+                    paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e7, borderRadius: radios.full, borderWidth: 1,
                     borderColor: activo ? colors.primary : alpha(colors.border, 0.7),
                     backgroundColor: activo ? alpha(colors.primary, 0.14) : 'transparent',
                   }}
@@ -822,7 +822,7 @@ function LifeBookContent() {
             }}
           />
           {!miPos && distIdx !== LB_DISTANCIAS.length - 1 ? (
-            <Pressable onPress={() => { void pedirUbicacion(); }} accessibilityLabel="Activar la ubicación" style={{ flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 14, paddingBottom: 8 }}>
+            <Pressable onPress={() => { void pedirUbicacion(); }} accessibilityLabel="Activar la ubicación" style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 }}>
               <Text style={{ color: brand.warning, fontSize: tipografia.caption, fontWeight: '800' }}>📍 Activar la ubicación</Text>
             </Pressable>
           ) : null}
@@ -839,7 +839,7 @@ function LifeBookContent() {
           showsHorizontalScrollIndicator={false}
           data={chipsDeTab}
           keyExtractor={(c) => `${tab}-${c.channel}-${c.type ?? 'todo'}`}
-          contentContainerStyle={{ paddingHorizontal: 12, gap: 8, paddingVertical: 9 }}
+          contentContainerStyle={{ paddingHorizontal: espaciado.e12, gap: espaciado.e8, paddingVertical: espaciado.e9 }}
           renderItem={({ item, index }) => {
             const activo = index === chipIdx;
             return (
@@ -848,7 +848,7 @@ function LifeBookContent() {
                 accessibilityRole="button"
                 accessibilityState={{ selected: activo }}
                 style={{
-                  paddingHorizontal: 12, paddingVertical: 6, borderRadius: radios.full,
+                  paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full,
                   backgroundColor: activo ? alpha(colors.primary, 0.14) : alpha(colors.textPrimary, 0.06),
                 }}
               >
@@ -901,8 +901,8 @@ function LifeBookContent() {
               fontSize: tipografia.body,
               fontWeight: '700',
               textAlign: 'center',
-              paddingHorizontal: 30,
-              marginBottom: 14,
+              paddingHorizontal: espaciado.e30,
+              marginBottom: espaciado.e14,
             }}
           >
             {error}
@@ -924,7 +924,7 @@ function LifeBookContent() {
           <Text
             style={[
               styles.emptyTitle,
-              { color: colors.textPrimary, marginTop: 12 },
+              { color: colors.textPrimary, marginTop: espaciado.e12 },
             ]}
           >
             Sin publicaciones
@@ -932,7 +932,7 @@ function LifeBookContent() {
           <Text
             style={[
               styles.emptyText,
-              { color: colors.textSecondary, marginTop: 6 },
+              { color: colors.textSecondary, marginTop: espaciado.e6 },
             ]}
           >
             {EMPTY_COPY[channelId] ?? 'Todavía no hay publicaciones aquí.'}
@@ -987,7 +987,7 @@ function LifeBookContent() {
             loadingMore ? (
               <ActivityIndicator
                 color={colors.primary}
-                style={{ marginVertical: 16 }}
+                style={{ marginVertical: espaciado.e16 }}
               />
             ) : posts.length > 0 && !nextCursor ? (
               <Text
@@ -995,7 +995,7 @@ function LifeBookContent() {
                   textAlign: 'center',
                   color: colors.textSecondary,
                   fontSize: tipografia.caption,
-                  marginVertical: 14,
+                  marginVertical: espaciado.e14,
                 }}
               >
                 Ya estás al día ✨
@@ -1025,7 +1025,7 @@ function LifeBookContent() {
           accessibilityLabel="Vídeos en pantalla completa"
           style={[styles.fab, { backgroundColor: colors.textPrimary }]}
         >
-          <Play size={22} color={brand.white} fill={brand.white} strokeWidth={1.5} style={{ marginLeft: 3 }} />
+          <Play size={22} color={brand.white} fill={brand.white} strokeWidth={1.5} style={{ marginLeft: espaciado.e3 }} />
         </Pressable>
 
         <Pressable
@@ -1154,7 +1154,7 @@ function LifeBookContent() {
 
             <Pressable
               onPress={() => setPublishOpen(false)}
-              style={{ paddingVertical: 12, marginTop: 4 }}
+              style={{ paddingVertical: espaciado.e12, marginTop: espaciado.e4 }}
             >
               <Text
                 style={{
@@ -1255,7 +1255,7 @@ function LifeBookContent() {
             <Pressable
               onPress={() => { setCityOpen(false); setMapaCiudadOpen(true); }}
               accessibilityLabel="Elegir en el mapa o buscar un sitio"
-              style={{ marginTop: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 }}
+              style={{ marginTop: espaciado.e12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e7 }}
             >
               <MapPin size={15} color={colors.primary} />
               <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>
@@ -1269,7 +1269,7 @@ function LifeBookContent() {
                   setCity(meCity);
                   setCityOpen(false);
                 }}
-                style={{ marginTop: 6 }}
+                style={{ marginTop: espaciado.e6 }}
               >
                 <Text
                   style={{
@@ -1320,9 +1320,9 @@ const styles = StyleSheet.create({
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingBottom: 8,
-    gap: 8,
+    paddingHorizontal: espaciado.e10,
+    paddingBottom: espaciado.e8,
+    gap: espaciado.e8,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   /**
@@ -1333,22 +1333,22 @@ const styles = StyleSheet.create({
    * estilo se queda solo con la búsqueda.)
    */
   topBarSpacer: { flex: 1 },
-  msgBtn: { padding: 4 },
+  msgBtn: { padding: espaciado.e4 },
 
   /* ── Canales ── */
   channelsWrap: {
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   channelTab: {
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingHorizontal: espaciado.e10,
+    paddingVertical: espaciado.e10,
     alignItems: 'center',
   },
   channelText: {
     fontSize: tipografia.body,
   },
   channelIndicator: {
-    marginTop: 4,
+    marginTop: espaciado.e4,
     width: 20,
     height: 2.5,
     borderRadius: 2,
@@ -1359,7 +1359,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: SIDE_PADDING,
     gap: COLUMN_GAP,
-    paddingTop: 8,
+    paddingTop: espaciado.e8,
   },
   masonryCol: {
     flex: 1,
@@ -1376,10 +1376,10 @@ const styles = StyleSheet.create({
   retryBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 7,
+    gap: espaciado.e7,
     borderRadius: radios.full,
-    paddingHorizontal: 18,
-    paddingVertical: 10,
+    paddingHorizontal: espaciado.e18,
+    paddingVertical: espaciado.e10,
   },
   emptyTitle: { fontSize: tipografia.subtitle, fontWeight: '800' },
   emptyText: {
@@ -1396,7 +1396,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 16,
     alignItems: 'center',
-    gap: 10,
+    gap: espaciado.e10,
   },
   fab: {
     width: 52,
@@ -1416,43 +1416,43 @@ const styles = StyleSheet.create({
   sheet: {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 18,
+    padding: espaciado.e18,
   },
   sheetHandle: {
     width: 36,
     height: 4,
     borderRadius: 2,
     alignSelf: 'center',
-    marginBottom: 14,
+    marginBottom: espaciado.e14,
   },
   sheetTitle: { fontSize: 17, fontWeight: '900' },
-  sheetHint: { fontSize: tipografia.caption, marginTop: 3, marginBottom: 10 },
+  sheetHint: { fontSize: tipografia.caption, marginTop: espaciado.e3, marginBottom: espaciado.e10 },
   cityOption: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
+    gap: espaciado.e10,
+    paddingVertical: espaciado.e12,
+    paddingHorizontal: espaciado.e12,
     borderRadius: radios.md,
   },
   pubSheet: {
     borderTopLeftRadius: 22,
     borderTopRightRadius: 22,
-    padding: 18,
+    padding: espaciado.e18,
   },
   pubSheetTitle: {
     fontSize: 17,
     fontWeight: '900',
-    marginBottom: 14,
+    marginBottom: espaciado.e14,
     textAlign: 'center',
   },
   pubRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: espaciado.e12,
     borderRadius: 14,
-    padding: 13,
-    marginBottom: 8,
+    padding: espaciado.e13,
+    marginBottom: espaciado.e8,
   },
   pubIcon: {
     width: 46,

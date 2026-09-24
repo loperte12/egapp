@@ -12,7 +12,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, LinearGradient as SvgLinearGradient, Rect, Stop } from 'react-native-svg';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, BadgeCheck, Bookmark, Building2, CarTaxiFront, ChevronRight, Heart, Home, MoreHorizontal,
   MapPin, Package, PenSquare, Search, Star, Store, Utensils, Users,
@@ -354,11 +354,11 @@ function UserContent() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <View style={[styles.topBar, { borderBottomColor: colors.border, paddingTop: insets.top + 6 }]}>
-          <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: 4 }}><ArrowLeft size={22} color={colors.textPrimary} /></Pressable>
+          <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: espaciado.e4 }}><ArrowLeft size={22} color={colors.textPrimary} /></Pressable>
           <Text style={[styles.topTitle, { color: colors.textPrimary }]}>Perfil</Text>
           <View style={{ width: 22 }} />
         </View>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 30, gap: 6 }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e30, gap: espaciado.e6 }}>
           <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 15 }}>{error ?? 'Perfil'}</Text>
         </View>
       </View>
@@ -471,7 +471,7 @@ function UserContent() {
             </View>
 
             {/* Identidad superpuesta */}
-            <View style={[styles.identity, { paddingHorizontal: 16, marginTop: -46 }]}>
+            <View style={[styles.identity, { paddingHorizontal: espaciado.e16, marginTop: -46 }]}>
               {/* El avatar pasa a ser `StatusRingAvatar`: trae el ANILLO del estado 24 h y, si no
                   hay foto, la inicial — que es justo lo que este bloque hacía a mano. Tamaño 80
                   + 3 de anillo = 86, exactamente el avatar que había, así que el hueco no cambia.
@@ -486,8 +486,8 @@ function UserContent() {
                 defaultRingColor={colors.background}
                 onPress={estado ? () => setEstadoOpen(true) : undefined}
               />
-              <View style={{ flex: 1, paddingTop: 4 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+              <View style={{ flex: 1, paddingTop: espaciado.e4 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 }}>
                   <Text numberOfLines={2} style={[styles.fullName, { color: profile.nameColor || colors.textPrimary }]}>
                     {profile.fullName ?? 'Usuario'}
                   </Text>
@@ -497,7 +497,7 @@ function UserContent() {
                   {[profile.profession, profile.school].filter(Boolean).join(' · ') || (rel.isSelf ? 'Tu perfil' : 'Miembro de Life Book')}
                 </Text>
                 {profile.city ? (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 2 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e2 }}>
                     <MapPin size={11} color={colors.textSecondary} />
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                       {[profile.country, profile.city].filter(Boolean).join(' · ')}
@@ -505,11 +505,11 @@ function UserContent() {
                   </View>
                 ) : null}
                 {verifiedList.length > 0 && (
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 5, marginTop: 6 }}>
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5, marginTop: espaciado.e6 }}>
                     {verifiedList.map((v) => {
                       const Icon = v.icon;
                       return (
-                        <View key={v.key} style={{ flexDirection: 'row', alignItems: 'center', gap: 3, backgroundColor: alpha(v.color, 0.12), borderRadius: radios.full, paddingHorizontal: 8, paddingVertical: 3 }}>
+                        <View key={v.key} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, backgroundColor: alpha(v.color, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
                           <Icon size={11} color={v.color} />
                           <Text style={{ color: v.color, fontSize: 10.5, fontWeight: '900' }}>{v.label} ✓</Text>
                         </View>
@@ -532,7 +532,7 @@ function UserContent() {
                 return (
                   <View key={s.l} style={[styles.stat, i > 0 && { borderLeftWidth: StyleSheet.hairlineWidth, borderLeftColor: colors.border }]}>
                     <Text style={{ color: colors.textPrimary, fontSize: 16.5, fontWeight: '900' }}>{s.n}</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 1 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: 1 }}>
                       <Icon size={10.5} color={colors.textSecondary} />
                       <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 9.5, fontWeight: '700' }}>{s.l}</Text>
                     </View>
@@ -545,7 +545,7 @@ function UserContent() {
                 tarjeta de la tienda quede donde pide la especificación: entre la bio y los
                 botones de seguir/mensaje. Tal como estaba, ese hueco no existía. */}
             {profile.bio ? (
-              <View style={{ paddingHorizontal: 16, marginTop: 12 }}>
+              <View style={{ paddingHorizontal: espaciado.e16, marginTop: espaciado.e12 }}>
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, lineHeight: 20 }}>{profile.bio}</Text>
               </View>
             ) : null}
@@ -554,12 +554,12 @@ function UserContent() {
                 abre la tienda; tocar una miniatura abre la tienda POSICIONADA en ese
                 producto (no la ficha del producto). */}
             {tienda?.shop ? (
-              <View style={{ paddingHorizontal: 16, marginTop: 12 }}>
+              <View style={{ paddingHorizontal: espaciado.e16, marginTop: espaciado.e12 }}>
                 <View style={[styles.tiendaCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
                   <Pressable
                     onPress={() => irSeguro.libre('/lifebook-shop/[id]', { id: tienda.shop!.id })}
                     accessibilityLabel={`Abrir la tienda ${tienda.shop.name}`}
-                    style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+                    style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}
                   >
                     {tienda.shop.logoUrl ? (
                       <Image source={{ uri: absUrl(tienda.shop.logoUrl) }} style={styles.tiendaLogo} />
@@ -575,7 +575,7 @@ function UserContent() {
                         estrellas» ni un hueco. Por eso se mira `ratingCount`, no `rating`
                         (hoy hay 116 productos con `rating` y 0 reseñas). */}
                     {tienda.shop.ratingCount > 0 ? (
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
                         <Star size={13} color={brand.warning} fill={brand.warning} />
                         <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
                           {tienda.shop.rating.toFixed(1)}
@@ -586,7 +586,7 @@ function UserContent() {
                   </Pressable>
 
                   {tienda.featured.length > 0 ? (
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingTop: 10 }}>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8, paddingTop: espaciado.e10 }}>
                       {tienda.featured.map((f) => (
                         <Pressable
                           key={f.id}
@@ -610,7 +610,7 @@ function UserContent() {
                               </Text>
                             </View>
                           </View>
-                          <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: 4 }}>
+                          <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e4 }}>
                             {f.title}
                           </Text>
                         </Pressable>
@@ -622,14 +622,14 @@ function UserContent() {
             ) : null}
 
             {/* Acciones */}
-            <View style={{ paddingHorizontal: 16, marginTop: 12 }}>
+            <View style={{ paddingHorizontal: espaciado.e16, marginTop: espaciado.e12 }}>
               {rel.isSelf ? (
                 <>
                   <Pressable onPress={() => router.push('/edit-profile')} style={[styles.mainBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                     <PenSquare size={16} color={colors.textPrimary} />
                     <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '900' }}>Editar perfil</Text>
                   </Pressable>
-                  <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
+                  <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 }}>
                     <Pressable onPress={() => irSeguro.libre('/lifebook-orders')} style={[styles.mainBtn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border }]}>
                       <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>📦 Pedidos</Text>
                     </Pressable>
@@ -642,7 +642,7 @@ function UserContent() {
                       puerta. NO hay botón de «Cupones»: desde la tanda Q los cupones se recogen y se
                       aplican EN LA CAJA (con su código), así que una pantalla aparte todavía no
                       tiene nada que enseñar; un botón que no lleva a nada es una trampa. */}
-                  <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
+                  <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 }}>
                     <Pressable onPress={() => irSeguro.libre('/lifebook-carrito')} style={[styles.mainBtn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border }]}>
                       <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>🛒 Carrito</Text>
                     </Pressable>
@@ -652,7 +652,7 @@ function UserContent() {
                   </View>
                 </>
               ) : (
-                <View style={{ flexDirection: 'row', gap: 8 }}>
+                <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                   <Pressable onPress={toggleFollow} style={[styles.mainBtn, { flex: 1.4, backgroundColor: rel.isFollowing ? colors.surface : colors.primary, borderColor: rel.isFollowing ? colors.border : colors.primary }]}>
                     {busyFollow ? <ActivityIndicator size="small" color={rel.isFollowing ? colors.textPrimary : brand.white} /> : (
                       <>
@@ -671,7 +671,7 @@ function UserContent() {
               {!rel.isSelf && profile.verified.seller && (
                 <Pressable
                   onPress={() => irSeguro.libre('/lifebook-store', { sellerId: profile.id })}
-                  style={[styles.mainBtn, { marginTop: 8, backgroundColor: alpha(colors.secondary, 0.1), borderColor: alpha(colors.secondary, 0.4) }]}
+                  style={[styles.mainBtn, { marginTop: espaciado.e8, backgroundColor: alpha(colors.secondary, 0.1), borderColor: alpha(colors.secondary, 0.4) }]}
                 >
                   <Text style={{ color: colors.secondary, fontSize: tipografia.body, fontWeight: '900' }}>🛍 Ver tienda</Text>
                 </Pressable>
@@ -679,7 +679,7 @@ function UserContent() {
             </View>
 
             {profile.ratingAvg != null && profile.ratingAvg > 0 ? (
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 16, marginTop: 8 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, paddingHorizontal: espaciado.e16, marginTop: espaciado.e8 }}>
                 <Star size={13} color={brand.warning} fill={brand.warning} />
                 <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body }}>{profile.ratingAvg.toFixed(1)}</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>valoración</Text>
@@ -690,7 +690,7 @@ function UserContent() {
                 responde la pregunta), reutilizando la pantalla de Descubrir grupos con el
                 código puesto: así no hay dos maneras distintas de entrar a un grupo. */}
             {enlacesGrupo.length > 0 && (
-              <View style={{ paddingHorizontal: 16, marginTop: 10, gap: 8 }}>
+              <View style={{ paddingHorizontal: espaciado.e16, marginTop: espaciado.e10, gap: espaciado.e8 }}>
                 {enlacesGrupo.map((g) => {
                   const ficha = fichas[g.code];
                   const cargando = ficha === undefined;
@@ -713,8 +713,8 @@ function UserContent() {
                       accessibilityRole="button"
                       accessibilityLabel={vivo ? `Abrir el grupo ${card?.title ?? g.label}` : (ficha?.motivo || 'Enlace de grupo')}
                       style={({ pressed }) => [{
-                        flexDirection: 'row' as const, alignItems: 'center' as const, gap: 10,
-                        backgroundColor: colors.surface, borderRadius: 14, padding: 10,
+                        flexDirection: 'row' as const, alignItems: 'center' as const, gap: espaciado.e10,
+                        backgroundColor: colors.surface, borderRadius: 14, padding: espaciado.e10,
                         opacity: pressed ? 0.8 : 1,
                         /* Fijado: se distingue igual que los chips fijados. */
                         ...(g.pinned ? { borderWidth: 1, borderColor: colors.primary } : {}),
@@ -731,7 +731,7 @@ function UserContent() {
                         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }} numberOfLines={1}>
                           {g.pinned ? '📌 ' : ''}{card?.title ?? g.label}
                         </Text>
-                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }} numberOfLines={1}>
+                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }} numberOfLines={1}>
                           {cargando
                             ? 'Comprobando el enlace…'
                             : vivo
@@ -754,7 +754,7 @@ function UserContent() {
               </View>
             )}
             {linksChip.length > 0 && (
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, paddingHorizontal: 16, marginTop: 10 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, paddingHorizontal: espaciado.e16, marginTop: espaciado.e10 }}>
                 {linksChip.map((l, i) => {
                   /* ESTABA ROTO: el editor de perfil guarda `{kind,label,value}` y aquí se
                      leía `l.url`, que no existe nunca → el enlace salía VACÍO y, además,
@@ -777,7 +777,7 @@ function UserContent() {
                   const abrible = !!href;
                   const chip = (
                     <View style={{
-                      backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 5,
+                      backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5,
                       /* Los fijados se distinguen del resto: borde del color de marca. */
                       ...(esFijado(o) ? { borderWidth: 1, borderColor: colors.primary } : {}),
                     }}>
@@ -809,7 +809,7 @@ function UserContent() {
                 tiene: quitarlas escondería publicaciones que hoy se pueden ver. A la derecha
                 del todo, la lupa. */}
             <View style={{ borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border, flexDirection: 'row', alignItems: 'center' }}>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingHorizontal: 14, paddingVertical: 10 }} style={{ flex: 1 }}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10 }} style={{ flex: 1 }}>
                 {[
                   { id: 'note', label: 'Notas' },
                   ...(shopId ? [{ id: 'productos', label: 'Productos' }] : []),
@@ -838,7 +838,7 @@ function UserContent() {
                 onPress={() => router.push({ pathname: '/lifebook-catalog', params: shopId ? { shopId } : {} } as never)}
                 hitSlop={10}
                 accessibilityLabel="Buscar productos"
-                style={{ paddingHorizontal: 14, paddingVertical: 10 }}
+                style={{ paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10 }}
               >
                 <Search size={18} color={colors.textSecondary} />
               </Pressable>
@@ -847,7 +847,7 @@ function UserContent() {
             {/* TANDA B — fila de CATEGORÍAS del tab «Productos»: «Todo» primero y seleccionada
                 por defecto, y solo las categorías que esta tienda usa de verdad. */}
             {tab === 'productos' && catsTienda.length > 0 ? (
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingHorizontal: 14, paddingTop: 10 }}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10 }}>
                 {[{ id: null as string | null, label: `Todo${totalTienda ? ` (${totalTienda})` : ''}` },
                   ...catsTienda.map((c) => ({ id: c.id as string | null, label: `${c.name} (${c.count})` }))].map((c) => {
                   const on = catSel === c.id;
@@ -867,7 +867,7 @@ function UserContent() {
               </ScrollView>
             ) : null}
             {loadingPosts && posts.length === 0 ? (
-              <ActivityIndicator color={colors.primary} style={{ marginTop: 30 }} />
+              <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e30 }} />
             ) : null}
           </View>
         }
@@ -887,11 +887,11 @@ function UserContent() {
         onEndReachedThreshold={0.4}
         ListEmptyComponent={
           !loadingPosts && posts.length === 0 ? (
-            <View style={{ alignItems: 'center', paddingTop: 44, gap: 6 }}>
+            <View style={{ alignItems: 'center', paddingTop: 44, gap: espaciado.e6 }}>
               <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 15 }}>
                 {tab === 'productos' ? 'Sin productos' : tab === 'coleccion' ? 'Sin guardados' : tab === 'note' ? 'Sin notas' : tab === 'video' ? 'Sin videos' : tab === 'podcast' ? 'Sin podcasts' : tab === 'serie' ? 'Sin series' : tab === 'sale' ? 'Sin ventas' : 'Sin publicaciones'}
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 30 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: espaciado.e30 }}>
                 {tab === 'productos' ? 'Esta tienda no tiene productos en esta categoría.' : tab === 'coleccion' ? 'Guarda productos con el marcador y aparecerán aquí.' : rel.isSelf ? 'Publica algo para que tu ciudad te vea.' : 'Este perfil todavía no ha publicado aquí.'}
               </Text>
             </View>
@@ -903,13 +903,13 @@ function UserContent() {
               onPress={() => void verMasProductos()}
               disabled={masProd}
               accessibilityLabel="Ver más productos"
-              style={{ alignItems: 'center', paddingVertical: 16 }}
+              style={{ alignItems: 'center', paddingVertical: espaciado.e16 }}
             >
               {masProd
                 ? <ActivityIndicator color={colors.primary} />
                 : <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body }}>Ver más productos</Text>}
             </Pressable>
-          ) : loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: 16 }} /> : <View style={{ height: 8 }} />
+          ) : loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e16 }} /> : <View style={{ height: 8 }} />
         }
       />
 
@@ -931,7 +931,7 @@ function UserContent() {
           >
             <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '700' }}>Usuarios bloqueados</Text>
           </Pressable>
-          <Pressable onPress={() => setUserMenuOpen(false)} style={{ paddingVertical: 10 }}>
+          <Pressable onPress={() => setUserMenuOpen(false)} style={{ paddingVertical: espaciado.e10 }}>
             <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
         </View>
@@ -978,7 +978,7 @@ function TarjetaProducto({ producto, colors, ancho, onPress }: {
     <Pressable
       onPress={onPress}
       accessibilityLabel={producto.title}
-      style={{ width: ancho, backgroundColor: colors.card, borderRadius: 14, borderWidth: 1, borderColor: alpha(colors.border, 0.5), padding: 8 }}
+      style={{ width: ancho, backgroundColor: colors.card, borderRadius: 14, borderWidth: 1, borderColor: alpha(colors.border, 0.5), padding: espaciado.e8 }}
     >
       {producto.coverUrl ? (
         <Image source={{ uri: absUrl(producto.coverUrl) }} style={styles.prodImg} resizeMode="cover" />
@@ -987,19 +987,19 @@ function TarjetaProducto({ producto, colors, ancho, onPress }: {
           <Package size={20} color={alpha(colors.primary, 0.5)} />
         </View>
       )}
-      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 6 }}>
+      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 }}>
         {producto.title}
       </Text>
-      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: 3 }}>
+      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e3 }}>
         {lbPriceLabel(producto.priceXaf, producto.priceMode, lbXaf)}
       </Text>
       {producto.shortDescription ? (
-        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 2 }}>
+        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
           {producto.shortDescription}
         </Text>
       ) : null}
       {producto.salesCount > 0 ? (
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '700', marginTop: 2 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '700', marginTop: espaciado.e2 }}>
           {producto.salesCount} vendido{producto.salesCount === 1 ? '' : 's'}
         </Text>
       ) : null}
@@ -1012,7 +1012,7 @@ const styles = StyleSheet.create({
   prodImg: { width: '100%', aspectRatio: 1, borderRadius: radios.md, backgroundColor: 'rgba(0,0,0,0.04)' },
 
   /* ── Tanda A: la tarjeta de la tienda ─────────────────────────────────────────── */
-  tiendaCard: { borderWidth: 1, borderRadius: 14, padding: 10 },
+  tiendaCard: { borderWidth: 1, borderRadius: 14, padding: espaciado.e10 },
   tiendaLogo: { width: 30, height: 30, borderRadius: radios.sm },
   /* Miniatura CASI cuadrada (la especificación pide «cuadradas o casi»). 96×96 para que
      quepan tres y se vea que hay más desplazando. */
@@ -1024,26 +1024,26 @@ const styles = StyleSheet.create({
      semitransparente para que se lea sobre una foto clara o oscura. */
   tiendaPrecio: {
     position: 'absolute', left: 0, right: 0, bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.55)', paddingHorizontal: 6, paddingVertical: 3,
+    backgroundColor: 'rgba(0,0,0,0.55)', paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e3,
     alignItems: 'center',
   },
 
-  topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12, paddingBottom: 8, borderBottomWidth: StyleSheet.hairlineWidth },
+  topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 },
-  topBarFloat: { position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12 },
+  topBarFloat: { position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5, flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12 },
   roundIcon: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
-  identity: { flexDirection: 'row', gap: 12 },
+  identity: { flexDirection: 'row', gap: espaciado.e12 },
   avatar: { width: 86, height: 86, borderRadius: 43, borderWidth: 3 },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
   fullName: { fontSize: tipografia.title, fontWeight: '900', flexShrink: 1 },
-  statsRow: { flexDirection: 'row', marginHorizontal: 16, marginTop: 12, borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, paddingVertical: 10 },
+  statsRow: { flexDirection: 'row', marginHorizontal: espaciado.e16, marginTop: espaciado.e12, borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e10 },
   stat: { flex: 1, alignItems: 'center' },
-  mainBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, borderRadius: radios.full, paddingVertical: 11, borderWidth: 1, borderColor: 'transparent' },
-  tabs: { flexDirection: 'row', marginTop: 14, borderBottomWidth: StyleSheet.hairlineWidth },
-  tab: { flex: 1, alignItems: 'center', paddingVertical: 10 },
-  tabPill: { borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 7, borderWidth: 1, borderColor: 'transparent' },
+  mainBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e7, borderRadius: radios.full, paddingVertical: espaciado.e11, borderWidth: 1, borderColor: 'transparent' },
+  tabs: { flexDirection: 'row', marginTop: espaciado.e14, borderBottomWidth: StyleSheet.hairlineWidth },
+  tab: { flex: 1, alignItems: 'center', paddingVertical: espaciado.e10 },
+  tabPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderWidth: 1, borderColor: 'transparent' },
   userMenuSheet: { ...formaHoja },
-  userMenuRow: { borderRadius: radios.md, paddingVertical: 13, paddingHorizontal: 12 },
+  userMenuRow: { borderRadius: radios.md, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e12 },
 });
 
 

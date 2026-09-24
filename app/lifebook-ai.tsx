@@ -20,7 +20,7 @@ import * as Clipboard from 'expo-clipboard';
 import { ExpoSpeechRecognitionModule, useSpeechRecognitionEvent } from 'expo-speech-recognition';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Check, CheckSquare, Clock, Copy, Heart, Mic, MoreHorizontal, Plus, Send, Sparkles, Store, ThumbsUp, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { pickImageFromCamera, pickImageFromLibrary, uriToBase64 } from '../core/pickImage';
@@ -396,7 +396,7 @@ function Contenido() {
   const Burbuja = ({ m }: { m: LbAiMensaje }) => {
     const mio = m.role === 'user';
     return (
-      <View style={{ alignItems: mio ? 'flex-end' : 'flex-start', marginBottom: 10 }}>
+      <View style={{ alignItems: mio ? 'flex-end' : 'flex-start', marginBottom: espaciado.e10 }}>
         <Pressable
           onPress={() => { if (enSeleccion) alternar(m.id); }}
           onLongPress={() => menuMensaje(m)}
@@ -410,7 +410,7 @@ function Contenido() {
         ]}>
           <Text style={{ color: mio ? brand.white : colors.textPrimary, fontSize: tipografia.body, lineHeight: 19 }}>{m.text}</Text>
         </Pressable>
-        {m.cards?.length ? (          <View style={{ marginTop: 8, gap: 8, alignSelf: 'stretch' }}>
+        {m.cards?.length ? (          <View style={{ marginTop: espaciado.e8, gap: espaciado.e8, alignSelf: 'stretch' }}>
             {m.cards.map((t) => (
               <Pressable
                 key={`${t.tipo}:${t.id}`}
@@ -425,13 +425,13 @@ function Contenido() {
                     <Store size={18} color={colors.primary} />
                   </View>
                 )}
-                <View style={{ flex: 1, marginLeft: 10 }}>
+                <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                   <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{t.titulo}</Text>
-                  <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                  <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                     {[t.subtitulo, t.ciudad].filter(Boolean).join(' · ')}
                   </Text>
                   {t.precioXaf !== null && t.precioXaf !== undefined ? (
-                    <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: 3 }}>{lbXaf(t.precioXaf)}</Text>
+                    <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e3 }}>{lbXaf(t.precioXaf)}</Text>
                   ) : null}
                 </View>
               </Pressable>
@@ -441,16 +441,16 @@ function Contenido() {
 
         {/* Tanda N — lo que se puede hacer con una RESPUESTA: copiarla y darle me gusta. */}
         {!mio ? (
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 6, marginLeft: 4 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e14, marginTop: espaciado.e6, marginLeft: espaciado.e4 }}>
             <Pressable onPress={() => { void copiar(m); }} accessibilityLabel="Copiar la respuesta" hitSlop={8}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+              style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
               {copiado === m.id
                 ? <><Check size={14} color={colors.success} /><Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: '700' }}>Copiado</Text></>
                 : <><Copy size={14} color={colors.textSecondary} /><Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>Copiar</Text></>}
             </Pressable>
             <Pressable onPress={() => { void gustar(m); }} accessibilityLabel={m.liked ? 'Quitar me gusta' : 'Me gusta'}
               accessibilityState={{ selected: !!m.liked }} hitSlop={8}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+              style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
               <Heart size={14} color={m.liked ? brand.like : colors.textSecondary} fill={m.liked ? brand.like : 'none'} />
               <Text style={{ color: m.liked ? brand.like : colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
                 {m.liked ? 'Te gustó' : 'Me gusta'}
@@ -469,12 +469,12 @@ function Contenido() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <X size={20} color={colors.textPrimary} />
         </Pressable>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7, flex: 1, marginLeft: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, flex: 1, marginLeft: espaciado.e10 }}>
           <Sparkles size={17} color={colors.primary} />
           <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>Cucucul</Text>
         </View>
         {quedan !== null ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginRight: 12 }}>{quedan} hoy</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginRight: espaciado.e12 }}>{quedan} hoy</Text>
         ) : null}
         {/* Historial y consejos: dos accesos pequeños, sin ruido. */}
         {/* Tanda N: un solo menú para lo secundario (consejos y selección). Antes eran dos iconos más
@@ -490,10 +490,10 @@ function Contenido() {
           ])}
           hitSlop={10}
           accessibilityLabel="Más opciones"
-          style={{ marginRight: 12 }}
+          style={{ marginRight: espaciado.e12 }}
         >
           <MoreHorizontal size={20} color={modo === 'consejo' ? colors.primary : colors.textPrimary} />
-        </Pressable>        <Pressable onPress={() => { void abrirHistorial(); }} hitSlop={10} accessibilityLabel="Historial de conversaciones" style={{ marginRight: 14 }}>
+        </Pressable>        <Pressable onPress={() => { void abrirHistorial(); }} hitSlop={10} accessibilityLabel="Historial de conversaciones" style={{ marginRight: espaciado.e14 }}>
           <Clock size={19} color={colors.textPrimary} />
         </Pressable>
 
@@ -503,7 +503,7 @@ function Contenido() {
           onPress={() => { void nueva(); }}
           hitSlop={10}
           accessibilityLabel="Abrir otra conversación"
-          style={{ flexDirection: 'row', alignItems: 'center', gap: 4, borderWidth: 1, borderColor: colors.primary, borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 5 }}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderWidth: 1, borderColor: colors.primary, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 }}
         >
           <Plus size={15} color={colors.primary} />
           <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '900' }}>Nueva</Text>
@@ -517,17 +517,17 @@ function Contenido() {
         <FlatList
           data={historico}
           keyExtractor={(c) => c.id}
-          contentContainerStyle={{ padding: 14, flexGrow: 1 }}
-          ListEmptyComponent={<Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', marginTop: 30 }}>Todavía no hay conversaciones.</Text>}
+          contentContainerStyle={{ padding: espaciado.e14, flexGrow: 1 }}
+          ListEmptyComponent={<Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', marginTop: espaciado.e30 }}>Todavía no hay conversaciones.</Text>}
           renderItem={({ item }) => (
             <Pressable
               onPress={() => { void abrirConversacion(item.id); }}
               accessibilityLabel={`Abrir ${item.title}`}
-              style={[styles.tarjeta, { backgroundColor: colors.surface, borderColor: alpha(colors.border, 0.8), marginBottom: 8 }]}
+              style={[styles.tarjeta, { backgroundColor: colors.surface, borderColor: alpha(colors.border, 0.8), marginBottom: espaciado.e8 }]}
             >
               <View style={{ flex: 1 }}>
                 <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{item.title}</Text>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
                   {item.messages} mensaje{item.messages === 1 ? '' : 's'} · {String(item.updatedAt).slice(0, 10)}
                 </Text>
               </View>
@@ -538,7 +538,7 @@ function Contenido() {
                 }}
                 hitSlop={10}
                 accessibilityLabel={`Borrar ${item.title}`}
-                style={{ padding: 8 }}
+                style={{ padding: espaciado.e8 }}
               >
                 <X size={16} color={colors.danger} />
               </Pressable>
@@ -550,7 +550,7 @@ function Contenido() {
           ref={listaRef}
           data={mensajes}
           keyExtractor={(m) => m.id}
-          contentContainerStyle={{ padding: 14, paddingBottom: 20, flexGrow: 1 }}
+          contentContainerStyle={{ padding: espaciado.e14, paddingBottom: espaciado.e20, flexGrow: 1 }}
           renderItem={({ item }) => <Burbuja m={item} />}
           ListEmptyComponent={(
             <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -565,7 +565,7 @@ function Contenido() {
                   <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', textAlign: 'center' }}>
                     ¿Qué buscas?
                   </Text>
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginTop: 14 }}>
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, justifyContent: 'center', marginTop: espaciado.e14 }}>
                     {SUGERENCIAS.map((s) => (
                       <Pressable
                         key={s}
@@ -585,17 +585,17 @@ function Contenido() {
       )}
 
       {error ? (
-        <Text style={{ color: colors.danger, fontSize: tipografia.caption, paddingHorizontal: 14, paddingBottom: 6 }}>{error}</Text>
+        <Text style={{ color: colors.danger, fontSize: tipografia.caption, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e6 }}>{error}</Text>
       ) : null}
 
       {/* Tanda N: barra de SELECCIÓN (solo cuando hay algo marcado). */}
       {enSeleccion ? (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, paddingBottom: 8 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 }}>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', flex: 1 }}>
             {seleccion.length} seleccionado{seleccion.length === 1 ? '' : 's'}
           </Text>
           <Pressable onPress={() => { void compartir(); }} accessibilityLabel="Compartir lo seleccionado"
-            style={{ backgroundColor: colors.primary, borderRadius: radios.full, paddingHorizontal: 16, paddingVertical: 9 }}>
+            style={{ backgroundColor: colors.primary, borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e9 }}>
             <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.body }}>Compartir</Text>
           </Pressable>
           <Pressable onPress={() => setSeleccion([])} accessibilityLabel="Cancelar la selección">
@@ -605,10 +605,10 @@ function Contenido() {
       ) : null}
       {/* ── Escribir (o el consejo: la misma barra, otro destino) ── */}
       {aviso ? (
-        <Text style={{ color: colors.success, fontSize: tipografia.caption, paddingHorizontal: 14, paddingBottom: 4 }}>{aviso}</Text>
+        <Text style={{ color: colors.success, fontSize: tipografia.caption, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e4 }}>{aviso}</Text>
       ) : null}
       {modo === 'consejo' ? (
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, paddingHorizontal: 14, paddingBottom: 4 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e4 }}>
           Tu consejo para Cucucul
         </Text>
       ) : null}
@@ -669,8 +669,8 @@ function Contenido() {
       {/* Tanda N: elegir UN producto de los que te gustan y mandarlo como tarjeta embebida. */}
       <Modal visible={eligiendo} transparent animationType="slide" onRequestClose={() => setEligiendo(false)}>
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' }} onPress={() => setEligiendo(false)}>
-          <Pressable style={{ backgroundColor: colors.background, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: 16, paddingBottom: insets.bottom + 16 }} onPress={() => { /* dentro no cierra */ }}>
-            <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15, marginBottom: 10 }}>Productos que te gustan</Text>
+          <Pressable style={{ backgroundColor: colors.background, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: insets.bottom + 16 }} onPress={() => { /* dentro no cierra */ }}>
+            <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15, marginBottom: espaciado.e10 }}>Productos que te gustan</Text>
             <FlatList
               data={guardados}
               keyExtractor={(p) => p.id}
@@ -679,7 +679,7 @@ function Contenido() {
                 <Pressable
                   onPress={() => { setEligiendo(false); void enviar('Mira este producto', { productId: item.id }); }}
                   accessibilityLabel={`Enviar ${item.title}`}
-                  style={[styles.tarjeta, { backgroundColor: colors.surface, borderColor: alpha(colors.border, 0.8), marginBottom: 8 }]}
+                  style={[styles.tarjeta, { backgroundColor: colors.surface, borderColor: alpha(colors.border, 0.8), marginBottom: espaciado.e8 }]}
                 >
                   {item.coverUrl ? (
                     <Image source={absUrl(item.coverUrl)} style={styles.foto} contentFit="cover" cachePolicy="memory-disk" transition={0} />
@@ -688,10 +688,10 @@ function Contenido() {
                       <Store size={18} color={colors.primary} />
                     </View>
                   )}
-                  <View style={{ flex: 1, marginLeft: 10 }}>
+                  <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                     <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{item.title}</Text>
                     {item.priceXaf !== null && item.priceXaf !== undefined ? (
-                      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: 3 }}>{lbXaf(item.priceXaf)}</Text>
+                      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e3 }}>{lbXaf(item.priceXaf)}</Text>
                     ) : null}
                   </View>
                 </Pressable>
@@ -707,23 +707,23 @@ function Contenido() {
 const styles = StyleSheet.create({
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  burbuja: { maxWidth: '86%', borderRadius: radios.lg, paddingHorizontal: 13, paddingVertical: 10 },
+  burbuja: { maxWidth: '86%', borderRadius: radios.lg, paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e10 },
   tarjeta: {
     flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 14, padding: 9,
+    borderRadius: 14, padding: espaciado.e9,
   },
   foto: { width: 54, height: 54, borderRadius: 10 },
-  aviso: { borderWidth: 1, borderRadius: 14, padding: 14 },
-  sugerencia: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: 13, paddingVertical: 9 },
+  aviso: { borderWidth: 1, borderRadius: 14, padding: espaciado.e14 },
+  sugerencia: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e9 },
   input: {
     flex: 1, maxHeight: 110, borderWidth: 1, borderRadius: radios.md,
-    paddingHorizontal: 12, paddingVertical: 9, fontSize: tipografia.body,
+    paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body,
   },
   barra: {
-    flexDirection: 'row', alignItems: 'flex-end', gap: 8, paddingHorizontal: 14, paddingTop: 8,
+    flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e8,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
   enviar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },

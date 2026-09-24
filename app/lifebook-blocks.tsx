@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Ban } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -44,7 +44,7 @@ function BlocksContent() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.topBar, { borderBottomColor: colors.border, paddingTop: insets.top + 6 }]}>
-        <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: 4 }}>
+        <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: espaciado.e4 }}>
           <ArrowLeft size={22} color={colors.textPrimary} />
         </Pressable>
         <Text style={[styles.topTitle, { color: colors.textPrimary }]}>Usuarios bloqueados</Text>
@@ -56,12 +56,12 @@ function BlocksContent() {
         <FlatList
           data={rows}
           keyExtractor={(r) => r.id}
-          contentContainerStyle={{ padding: 14, paddingBottom: insets.bottom + 20, flexGrow: 1 }}
+          contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 20, flexGrow: 1 }}
           ListEmptyComponent={
-            <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 90, gap: 8 }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 90, gap: espaciado.e8 }}>
               <Ban size={40} color={alpha(colors.primary, 0.4)} />
               <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>No tienes usuarios bloqueados.</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 30, lineHeight: 18 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: espaciado.e30, lineHeight: 18 }}>
                 Cuando bloquees a alguien desde su perfil, aparecerá aquí y no verás su contenido ni te podrá escribir.
               </Text>
             </View>
@@ -69,7 +69,7 @@ function BlocksContent() {
           ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
           renderItem={({ item }) => (
             <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                 {absUrl(item.avatarUrl) ? (
                   <Image source={{ uri: absUrl(item.avatarUrl) }} style={[styles.avatar, { backgroundColor: colors.surface }]} />
                 ) : (
@@ -98,9 +98,9 @@ function BlocksContent() {
 }
 
 const styles = StyleSheet.create({
-  topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12, paddingBottom: 8, borderBottomWidth: StyleSheet.hairlineWidth },
+  topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: 17, fontWeight: '900', flex: 1 },
-  card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: 12 },
+  card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   avatar: { width: 46, height: 46, borderRadius: 23 },
-  unblockBtn: { borderRadius: radios.full, paddingHorizontal: 13, paddingVertical: 8 },
+  unblockBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e8 },
 });

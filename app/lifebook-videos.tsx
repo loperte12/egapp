@@ -104,7 +104,7 @@ import { useVideoPlayer, VideoView } from 'expo-video';
 import {
   ArrowLeft, Bookmark, Heart, MessageCircle, Share2, ShoppingBag, Volume2, VolumeX,
 } from 'lucide-react-native';
-import { alpha, useTheme, EmptyState, InlineError, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, InlineError, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { absUrl } from '../api/config';
 import { ir as irSeguro } from '../constants/rutas';
 import { authApi } from '../api/auth';
@@ -1108,7 +1108,7 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
           {esLargo ? (
             <View style={s.largoBox} pointerEvents="none">
               <View style={s.largoPlay}>
-                <Text style={{ fontSize: 30, color: brand.white, marginLeft: 4 }}>▶</Text>
+                <Text style={{ fontSize: 30, color: brand.white, marginLeft: espaciado.e4 }}>▶</Text>
               </View>
               <Text style={s.largoTxt}>
                 Vídeo de {fmtDur(dur)}{'\n'}
@@ -1224,10 +1224,10 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
             En el flujo no puede pasar: el bloque está anclado abajo, así que este sticker se pinta
             siempre por encima del nombre, y al abrirse crece hacia arriba sin mover el texto. */}
         {productos.length > 0 ? (
-          <View style={{ alignSelf: 'flex-start', marginBottom: 10, maxWidth: '100%', zIndex: 6 }}>
+          <View style={{ alignSelf: 'flex-start', marginBottom: espaciado.e10, maxWidth: '100%', zIndex: 6 }}>
             {stickerAbierto ? (
-              <View style={{ backgroundColor: 'rgba(0,0,0,0.72)', borderRadius: 14, padding: 10, width: 216 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View style={{ backgroundColor: 'rgba(0,0,0,0.72)', borderRadius: 14, padding: espaciado.e10, width: 216 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                   {productos[0].coverUrl ? (
                     <Image source={{ uri: productos[0].coverUrl }} style={{ width: 42, height: 42, borderRadius: 9 }} />
                   ) : (
@@ -1237,28 +1237,28 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
                   )}
                   <View style={{ flex: 1 }}>
                     <Text numberOfLines={2} style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '800' }}>{productos[0].title}</Text>
-                    <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900', marginTop: 2 }}>
+                    <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900', marginTop: espaciado.e2 }}>
                       {productos[0].priceXaf === null ? 'A consultar' : lbXaf(productos[0].priceXaf)}
                     </Text>
                   </View>
                 </View>
                 {productos.length > 1 ? (
-                  <Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: 10.5, marginTop: 6 }}>
+                  <Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: 10.5, marginTop: espaciado.e6 }}>
                     y {productos.length - 1} producto{productos.length - 1 === 1 ? '' : 's'} más en esta publicación
                   </Text>
                 ) : null}
-                <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
+                <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 }}>
                   <Pressable
                     onPress={() => onOpenProduct(productos[0].id)}
                     accessibilityLabel={`Comprar ${productos[0].title}`}
-                    style={{ flex: 1, backgroundColor: brand.like, borderRadius: radios.full, paddingVertical: 7, alignItems: 'center' }}
+                    style={{ flex: 1, backgroundColor: brand.like, borderRadius: radios.full, paddingVertical: espaciado.e7, alignItems: 'center' }}
                   >
                     <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>Comprar</Text>
                   </Pressable>
                   <Pressable
                     onPress={() => setStickerAbierto(false)}
                     accessibilityLabel="Cerrar el producto"
-                    style={{ paddingHorizontal: 12, paddingVertical: 7 }}
+                    style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 }}
                   >
                     <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '800' }}>Cerrar</Text>
                   </Pressable>
@@ -1268,7 +1268,7 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
               <Pressable
                 onPress={() => setStickerAbierto(true)}
                 accessibilityLabel={`Producto del vídeo: ${productos[0].title}`}
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: radios.full, paddingLeft: 4, paddingRight: 12, paddingVertical: 4 }}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: radios.full, paddingLeft: espaciado.e4, paddingRight: espaciado.e12, paddingVertical: espaciado.e4 }}
               >
                 {productos[0].coverUrl ? (
                   <Image source={{ uri: productos[0].coverUrl }} style={{ width: 28, height: 28, borderRadius: 14 }} />
@@ -1348,10 +1348,10 @@ function fmtCount(n: number): string {
 
 const s = StyleSheet.create({
   root: { flex: 1 },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32, backgroundColor: '#000000' },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32, backgroundColor: '#000000' },
   topBar: {
     position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5,
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 14,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e14,
   },
   iconBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center' },
   moreBox: { position: 'absolute', left: 0, right: 0, bottom: 0, alignItems: 'center', zIndex: 4 },
@@ -1372,32 +1372,32 @@ const s = StyleSheet.create({
   tlTimeTxt: {
     color: brand.white, fontSize: tipografia.caption, fontWeight: '800',
     backgroundColor: 'rgba(0,0,0,0.55)', overflow: 'hidden',
-    paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10,
+    paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4, borderRadius: 10,
   },
   // El degradado inferior ya no es un estilo: se genera por franjas en `BottomScrim`.
-  actions: { position: 'absolute', right: 10, zIndex: 3, alignItems: 'center', gap: 16 },
+  actions: { position: 'absolute', right: 10, zIndex: 3, alignItems: 'center', gap: espaciado.e16 },
   actBtn: { alignItems: 'center' },
-  actN: { color: brand.white, fontSize: tipografia.micro, fontWeight: '800', marginTop: 3 },
+  actN: { color: brand.white, fontSize: tipografia.micro, fontWeight: '800', marginTop: espaciado.e3 },
   info: { position: 'absolute', left: 14, right: 74, bottom: 0, zIndex: 3 },
-  authorRow: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  authorRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 },
   avatar: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   author: { color: brand.white, fontSize: tipografia.body, fontWeight: '800', flexShrink: 1 },
-  durChip: { backgroundColor: 'rgba(0,0,0,0.45)', borderRadius: radios.sm, paddingHorizontal: 6, paddingVertical: 2 },
+  durChip: { backgroundColor: 'rgba(0,0,0,0.45)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
   durText: { color: brand.white, fontSize: 10.5, fontWeight: '800' },
-  title: { color: 'rgba(255,255,255,0.94)', fontSize: tipografia.body, lineHeight: 18, marginTop: 6 },
+  title: { color: 'rgba(255,255,255,0.94)', fontSize: tipografia.body, lineHeight: 18, marginTop: espaciado.e6 },
   // [P8] fila «Búsquedas relacionadas»
-  relBox: { marginTop: 9 },
-  relLabel: { color: 'rgba(255,255,255,0.62)', fontSize: 10.5, fontWeight: '800', marginBottom: 6 },
-  relRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  relBox: { marginTop: espaciado.e9 },
+  relLabel: { color: 'rgba(255,255,255,0.62)', fontSize: 10.5, fontWeight: '800', marginBottom: espaciado.e6 },
+  relRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 },
   relChip: {
     backgroundColor: 'rgba(255,255,255,0.16)', borderRadius: radios.md,
-    paddingHorizontal: 9, paddingVertical: 4, maxWidth: 190,
+    paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e4, maxWidth: 190,
   },
   relChipText: { color: brand.white, fontSize: tipografia.caption, fontWeight: '700' },
   pauseDot: {
     ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 3,
   },
-  largoBox: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 3, gap: 12 },
+  largoBox: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 3, gap: espaciado.e12 },
   largoPlay: {
     width: 70, height: 70, borderRadius: 35, alignItems: 'center', justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.55)', borderWidth: 2, borderColor: 'rgba(255,255,255,0.85)',

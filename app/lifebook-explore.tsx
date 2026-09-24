@@ -16,7 +16,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWindowDimensions } from 'react-native';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { RefreshCw, Search, SlidersHorizontal, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { Alert } from 'react-native';
@@ -158,7 +158,7 @@ function ExploreContent() {
           accessibilityLabel="Buscar en Life Book"
         >
           <Search size={16} color={colors.textSecondary} />
-          <Text style={{ flex: 1, marginLeft: 6, color: colors.textSecondary, fontSize: tipografia.body }}>
+          <Text style={{ flex: 1, marginLeft: espaciado.e6, color: colors.textSecondary, fontSize: tipografia.body }}>
             {query || 'Buscar comida, taxi, debates…'}
           </Text>
         </Pressable>
@@ -177,7 +177,7 @@ function ExploreContent() {
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{ maxHeight: 44, flexGrow: 0 }}
-        contentContainerStyle={{ paddingHorizontal: 12, gap: 8 }}
+        contentContainerStyle={{ paddingHorizontal: espaciado.e12, gap: espaciado.e8 }}
       >
         {LB_CHANNELS.map((c) => {
           const active = channel === c.id;
@@ -191,7 +191,7 @@ function ExploreContent() {
               style={[styles.chipChannel, { backgroundColor: active ? c.color : colors.surface }]}
             >
               <Icon size={13} color={active ? brand.white : colors.textSecondary} />
-              <Text style={{ color: active ? brand.white : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '600', marginLeft: 4 }}>
+              <Text style={{ color: active ? brand.white : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '600', marginLeft: espaciado.e4 }}>
                 {c.label}
               </Text>
             </Pressable>
@@ -204,7 +204,7 @@ function ExploreContent() {
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{ maxHeight: 38, flexGrow: 0 }}
-        contentContainerStyle={{ paddingHorizontal: 12, gap: 6, marginTop: 6, alignItems: 'center' }}
+        contentContainerStyle={{ paddingHorizontal: espaciado.e12, gap: espaciado.e6, marginTop: espaciado.e6, alignItems: 'center' }}
       >
         <Pressable
           onPress={() => setCity(null)}
@@ -228,7 +228,7 @@ function ExploreContent() {
 
       {/* Filtro activo */}
       {type ? (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 12, marginTop: 8 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingHorizontal: espaciado.e12, marginTop: espaciado.e8 }}>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
             Filtro: {TYPE_FILTERS.find((f) => f.id === type)?.label}
           </Text>
@@ -243,7 +243,7 @@ function ExploreContent() {
         <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
       ) : error ? (
         <View style={styles.center}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', textAlign: 'center', paddingHorizontal: 30 }}>{error}</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', textAlign: 'center', paddingHorizontal: espaciado.e30 }}>{error}</Text>
           <Pressable onPress={() => load('initial')} style={[styles.retry, { backgroundColor: colors.surface }]}>
             <RefreshCw size={15} color={colors.primary} />
             <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
@@ -294,7 +294,7 @@ function ExploreContent() {
               </Text>
             </View>
           }
-          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: 14 }} /> : null}
+          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e14 }} /> : null}
         />
       )}
 
@@ -306,7 +306,7 @@ function ExploreContent() {
             <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1 }}>Filtrar por tipo</Text>
             <Pressable onPress={() => setFiltersOpen(false)} hitSlop={10}><X size={20} color={colors.textSecondary} /></Pressable>
           </View>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
             {TYPE_FILTERS.map((f) => {
               const active = type === f.id;
               return (
@@ -343,17 +343,17 @@ function ExploreContent() {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 8, gap: 8 },
-  searchBox: { flex: 1, flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: 12, height: 38 },
+  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, gap: espaciado.e8 },
+  searchBox: { flex: 1, flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e12, height: 38 },
   filterBtn: { width: 38, height: 38, alignItems: 'center', justifyContent: 'center' },
-  chipChannel: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: 12, height: 32 },
-  chipCity: { borderRadius: radios.full, paddingHorizontal: 12, height: 28, alignItems: 'center', justifyContent: 'center' },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, paddingBottom: 60 },
-  retry: { flexDirection: 'row', alignItems: 'center', gap: 7, borderRadius: radios.full, paddingHorizontal: 16, paddingVertical: 9 },
-  masonryRow: { flexDirection: 'row', gap: 8 },
-  masonryCol: { flex: 1, gap: 8 },
+  chipChannel: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e12, height: 32 },
+  chipCity: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, height: 28, alignItems: 'center', justifyContent: 'center' },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12, paddingBottom: 60 },
+  retry: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e9 },
+  masonryRow: { flexDirection: 'row', gap: espaciado.e8 },
+  masonryCol: { flex: 1, gap: espaciado.e8 },
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
-  sheetHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 14 },
-  typeChip: { borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 9 },
+  sheetHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e14 },
+  typeChip: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e9 },
 });

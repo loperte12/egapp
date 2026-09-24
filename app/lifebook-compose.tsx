@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Globe, ImagePlus, Lock, MapPin, Package, Send, Users, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { authApi } from '../api/auth';
@@ -154,7 +154,7 @@ function ComposeContent() {
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         {/* Barra */}
         <View style={[styles.topBar, { borderBottomColor: colors.border, paddingTop: insets.top + 6 }]}>
-          <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: 4 }}>
+          <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: espaciado.e4 }}>
             <ArrowLeft size={22} color={colors.textPrimary} />
           </Pressable>
           <Text style={[styles.topTitle, { color: colors.textPrimary }]}>Publicar nota</Text>
@@ -163,7 +163,7 @@ function ComposeContent() {
           </Pressable>
         </View>
 
-        <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 30 }}>
+        <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }}>
           {error ? (
             <View style={[styles.errorBox, { backgroundColor: alpha(colors.danger, 0.09), borderColor: alpha(colors.danger, 0.4) }]}>
               <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>{error}</Text>
@@ -227,7 +227,7 @@ function ComposeContent() {
             onPress={() => { void abrirProductos(); }}
             accessibilityLabel="Elegir productos para esta nota"
             style={[styles.chip, {
-              marginTop: 14, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6,
+              marginTop: espaciado.e14, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
               backgroundColor: productos.length ? alpha(colors.primary, 0.14) : colors.surface,
               borderColor: productos.length ? alpha(colors.primary, 0.55) : colors.border,
             }]}
@@ -248,7 +248,7 @@ function ComposeContent() {
             onPress={() => setSitioOpen(true)}
             accessibilityLabel="Elegir el sitio de la nota"
             style={[styles.chip, {
-              marginTop: 10, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6,
+              marginTop: espaciado.e10, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
               backgroundColor: sitio ? alpha(colors.primary, 0.14) : colors.surface,
               borderColor: sitio ? alpha(colors.primary, 0.55) : colors.border,
             }]}
@@ -263,7 +263,7 @@ function ComposeContent() {
               </Pressable>
             ) : null}
           </Pressable>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 5, lineHeight: 15 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e5, lineHeight: 15 }}>
             Con un sitio exacto, tu nota aparece en «Ciudad» con su distancia (y en «cerca de mí»).
           </Text>
 
@@ -352,7 +352,7 @@ function ComposeContent() {
 
           {/* Visibilidad */}
           <Text style={styles.label}>VISIBILIDAD</Text>
-          <View style={{ flexDirection: 'row', gap: 8 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
             {LB_VISIBILITY_OPTIONS.map((o) => {
               const on = visibility === o.value;
               const Icon = o.value === 'public' ? Globe : o.value === 'followers' ? Users : Lock;
@@ -368,12 +368,12 @@ function ComposeContent() {
               );
             })}
           </View>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 6 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>
             {LB_VISIBILITY_OPTIONS.find((o) => o.value === visibility)?.hint}
           </Text>
 
           {/* Publicar */}
-          <Pressable onPress={publish} disabled={!canSend} style={[styles.bigPublish, { backgroundColor: canSend ? colors.primary : alpha(colors.textSecondary, 0.25), marginBottom: 8 }]}>
+          <Pressable onPress={publish} disabled={!canSend} style={[styles.bigPublish, { backgroundColor: canSend ? colors.primary : alpha(colors.textSecondary, 0.25), marginBottom: espaciado.e8 }]}>
             {sending ? <ActivityIndicator size="small" color={brand.white} /> : <Send size={18} color={brand.white} />}
             <Text style={{ color: brand.white, fontSize: tipografia.subtitle, fontWeight: '900' }}>Publicar nota</Text>
           </Pressable>
@@ -402,25 +402,25 @@ function ComposeContent() {
 }
 
 const styles = StyleSheet.create({
-  topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12, paddingBottom: 8, borderBottomWidth: StyleSheet.hairlineWidth },
+  topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 },
-  publishBtn: { borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 7, minWidth: 74, alignItems: 'center' },
-  label: { fontSize: tipografia.caption, fontWeight: '900', color: '#86909C', letterSpacing: 0.8, marginTop: 16, marginBottom: 6 },
-  textArea: { borderRadius: 14, borderWidth: 1, padding: 12, fontSize: 15, minHeight: 110, textAlignVertical: 'top' },
-  input: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 9, fontSize: tipografia.body },
-  counter: { fontSize: 10.5, textAlign: 'right', marginTop: 3 },
-  photoRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
+  publishBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 74, alignItems: 'center' },
+  label: { fontSize: tipografia.caption, fontWeight: '900', color: '#86909C', letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
+  textArea: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, fontSize: 15, minHeight: 110, textAlignVertical: 'top' },
+  input: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
+  counter: { fontSize: 10.5, textAlign: 'right', marginTop: espaciado.e3 },
+  photoRow: { flexDirection: 'row', gap: espaciado.e8, flexWrap: 'wrap' },
   photo: { width: 74, height: 74, borderRadius: radios.md, backgroundColor: '#EEE' },
   photoX: { position: 'absolute', top: -6, right: -6, borderRadius: 10, width: 20, height: 20, alignItems: 'center', justifyContent: 'center' },
-  coverBadge: { position: 'absolute', bottom: 4, left: 4, backgroundColor: 'rgba(0,0,0,0.6)', color: brand.white, fontSize: 9, fontWeight: '900', borderRadius: 6, overflow: 'hidden', paddingHorizontal: 5, paddingVertical: 1 },
-  addPhoto: { width: 74, height: 74, borderRadius: radios.md, borderWidth: 1, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', gap: 2 },
-  chipsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
-  chip: { borderRadius: radios.full, paddingHorizontal: 11, paddingVertical: 6, borderWidth: 1, borderColor: 'transparent' },
-  tagRow: { flexDirection: 'row', gap: 8, marginTop: 8 },
-  addTag: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 13, justifyContent: 'center' },
-  visBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: radios.md, paddingVertical: 10, borderWidth: 1 },
-  bigPublish: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderRadius: radios.full, paddingVertical: 14, marginTop: 22 },
-  errorBox: { borderRadius: radios.md, borderWidth: 1, padding: 10, marginBottom: 4 },
+  coverBadge: { position: 'absolute', bottom: 4, left: 4, backgroundColor: 'rgba(0,0,0,0.6)', color: brand.white, fontSize: 9, fontWeight: '900', borderRadius: 6, overflow: 'hidden', paddingHorizontal: espaciado.e5, paddingVertical: 1 },
+  addPhoto: { width: 74, height: 74, borderRadius: radios.md, borderWidth: 1, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', gap: espaciado.e2 },
+  chipsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6, borderWidth: 1, borderColor: 'transparent' },
+  tagRow: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 },
+  addTag: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e13, justifyContent: 'center' },
+  visBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: radios.md, paddingVertical: espaciado.e10, borderWidth: 1 },
+  bigPublish: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: radios.full, paddingVertical: espaciado.e14, marginTop: espaciado.e22 },
+  errorBox: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e4 },
 });
 
 

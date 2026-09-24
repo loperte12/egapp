@@ -27,7 +27,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, MapPin, Search, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { geocode, type GeoPlace } from '../api/geocode';
@@ -264,10 +264,10 @@ function GroupCreateContent() {
         ) : null}
       </View>
 
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }} keyboardShouldPersistTaps="handled">
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: espaciado.e16, paddingBottom: 120 }} keyboardShouldPersistTaps="handled">
         {/* ── 1. Formulario ── */}
         {step === 'form' ? (
-          <View style={{ gap: 16 }}>
+          <View style={{ gap: espaciado.e16 }}>
             <Field label="Nombre de la ruta" required hint={`${name.length}/${NAME_MAX}`} colors={colors}>
               <TextInput
                 value={name}
@@ -332,7 +332,7 @@ function GroupCreateContent() {
 
         {/* ── 2. Tipo de ruta ── */}
         {step === 'type' ? (
-          <View style={{ gap: 10 }}>
+          <View style={{ gap: espaciado.e10 }}>
             {ROUTE_TYPES.map((t) => (
               <OptionRow
                 key={t.id}
@@ -349,7 +349,7 @@ function GroupCreateContent() {
 
         {/* ── 3. Punto de encuentro ── */}
         {step === 'place' ? (
-          <View style={{ gap: 12 }}>
+          <View style={{ gap: espaciado.e12 }}>
             <View style={[styles.searchBox, { backgroundColor: colors.surface }]}>
               <Search size={16} color={colors.textSecondary} />
               <TextInput
@@ -357,7 +357,7 @@ function GroupCreateContent() {
                 onChangeText={setPlaceQuery}
                 placeholder="Buscar calle, avenida o sitio…"
                 placeholderTextColor={colors.textSecondary}
-                style={{ flex: 1, marginLeft: 8, color: colors.textPrimary, fontSize: tipografia.body }}
+                style={{ flex: 1, marginLeft: espaciado.e8, color: colors.textPrimary, fontSize: tipografia.body }}
               />
               {searching ? <ActivityIndicator size="small" color={colors.primary} /> : null}
             </View>
@@ -375,13 +375,13 @@ function GroupCreateContent() {
             </Pressable>
 
             {placeQuery.trim().length >= 2 && placeResults !== null && placeResults.length === 0 && !searching ? (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingVertical: 18 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingVertical: espaciado.e18 }}>
                 No hay sitios que coincidan. Prueba con el nombre de la calle.
               </Text>
             ) : null}
 
             {placeResults === null && placeQuery.trim().length < 2 ? (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: 14 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: espaciado.e14 }}>
                 Escribe al menos 2 letras. Busca calles, avenidas y sitios reales de Malabo y Bata.
               </Text>
             ) : null}
@@ -407,9 +407,9 @@ function GroupCreateContent() {
 
         {/* ── 4. Invitar compañeros ── */}
         {step === 'people' ? (
-          <View style={{ gap: 10 }}>
+          <View style={{ gap: espaciado.e10 }}>
             {pickedPeople.length > 0 ? (
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6 }}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e6 }}>
                 {pickedPeople.map((p) => (
                   <View key={p.id} style={[styles.chip, { backgroundColor: colors.surface }]}>
                     {p.avatarUrl ? (
@@ -435,7 +435,7 @@ function GroupCreateContent() {
                 onChangeText={setPeopleQuery}
                 placeholder="Buscar persona…"
                 placeholderTextColor={colors.textSecondary}
-                style={{ flex: 1, marginLeft: 8, color: colors.textPrimary, fontSize: tipografia.body }}
+                style={{ flex: 1, marginLeft: espaciado.e8, color: colors.textPrimary, fontSize: tipografia.body }}
               />
             </View>
 
@@ -444,9 +444,9 @@ function GroupCreateContent() {
             </Text>
 
             {peopleLoading ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: 20 }} />
+              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
             ) : followers.length === 0 && suggested.length === 0 ? (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingVertical: 20 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingVertical: espaciado.e20 }}>
                 No hay personas a las que invitar por ahora.
               </Text>
             ) : (
@@ -466,7 +466,7 @@ function GroupCreateContent() {
 
         {/* ── 5. Condición de ingreso ── */}
         {step === 'join' ? (
-          <View style={{ gap: 10 }}>
+          <View style={{ gap: espaciado.e10 }}>
             {JOIN_MODES.map((j) => (
               <OptionRow
                 key={j.id}
@@ -508,7 +508,7 @@ function GroupCreateContent() {
 
         {/* ── 6. Creada ── */}
         {step === 'success' && created ? (
-          <View style={{ alignItems: 'center', paddingTop: 24, gap: 14 }}>
+          <View style={{ alignItems: 'center', paddingTop: espaciado.e24, gap: espaciado.e14 }}>
             <View style={[styles.successCircle, { backgroundColor: alpha(colors.success, 0.15) }]}>
               <Text style={{ fontSize: 34 }}>✅</Text>
             </View>
@@ -524,7 +524,7 @@ function GroupCreateContent() {
             <Pressable onPress={() => goToGroup(true)} style={[styles.secondaryBtn, { borderColor: colors.border, backgroundColor: colors.surface }]}>
               <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 14.5 }}>Invitar a más personas</Text>
             </Pressable>
-            <Pressable onPress={() => router.back()} style={{ paddingVertical: 8 }} accessibilityLabel="Volver a Mensajes">
+            <Pressable onPress={() => router.back()} style={{ paddingVertical: espaciado.e8 }} accessibilityLabel="Volver a Mensajes">
               <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.body }}>Volver a Mensajes</Text>
             </Pressable>
           </View>
@@ -534,7 +534,7 @@ function GroupCreateContent() {
       {/* Pie con el botón del paso */}
       {step === 'type' || step === 'join' || step === 'people' ? (
         <View style={[styles.footer, { paddingBottom: insets.bottom + 12, backgroundColor: colors.card, borderTopColor: alpha(colors.border, 0.6) }]}>
-          {errText ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginBottom: 8 }}>{errText}</Text> : null}
+          {errText ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginBottom: espaciado.e8 }}>{errText}</Text> : null}
           {step === 'people' ? (
             <Pressable
               onPress={submit}
@@ -574,7 +574,7 @@ function Card({ children, colors, row }: { children: React.ReactNode; colors: an
   return (
     <View style={{
       borderRadius: 18, borderWidth: 1, borderColor: alpha(colors.border, 0.7), backgroundColor: colors.card,
-      padding: 14, gap: row ? 12 : 10, flexDirection: row ? 'row' : 'column', alignItems: row ? 'center' : 'stretch',
+      padding: espaciado.e14, gap: row ? 12 : 10, flexDirection: row ? 'row' : 'column', alignItems: row ? 'center' : 'stretch',
     }}>
       {children}
     </View>
@@ -585,7 +585,7 @@ function Field({ label, required, hint, children, colors }: {
   label: string; required?: boolean; hint?: string; children: React.ReactNode; colors: any;
 }) {
   return (
-    <View style={{ gap: 6 }}>
+    <View style={{ gap: espaciado.e6 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>
           {label}{required ? <Text style={{ color: colors.danger }}> *</Text> : null}
@@ -605,7 +605,7 @@ function PickRow({ label, value, onPress, colors, last }: {
       onPress={onPress}
       accessibilityLabel={label}
       style={{
-        flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 10,
+        flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e10,
         borderBottomWidth: last ? 0 : StyleSheet.hairlineWidth, borderBottomColor: alpha(colors.border, 0.6),
       }}
     >
@@ -627,7 +627,7 @@ function OptionRow({ icon, title, subtitle, selected, onPress, colors }: {
       accessibilityLabel={title}
       accessibilityState={{ selected }}
       style={{
-        flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: 18, borderWidth: 1.5,
+        flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, padding: espaciado.e14, borderRadius: 18, borderWidth: 1.5,
         borderColor: selected ? colors.primary : alpha(colors.border, 0.7),
         backgroundColor: selected ? alpha(colors.primary, 0.08) : colors.card,
       }}
@@ -651,7 +651,7 @@ function OptionRow({ icon, title, subtitle, selected, onPress, colors }: {
 
 function SectionTitle({ text, colors }: { text: string; colors: any }) {
   return (
-    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800', letterSpacing: 0.5, marginTop: 8 }}>
+    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800', letterSpacing: 0.5, marginTop: espaciado.e8 }}>
       {text.toUpperCase()}
     </Text>
   );
@@ -664,7 +664,7 @@ function SelectablePerson({ p, on, onPress, colors }: { p: Person; on: boolean; 
       accessibilityLabel={p.name}
       accessibilityState={{ selected: on }}
       style={{
-        flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 9,
+        flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e9,
         borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: alpha(colors.border, 0.5),
       }}
     >
@@ -693,20 +693,20 @@ function SelectablePerson({ p, on, onPress, colors }: { p: Person; on: boolean; 
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  input: { borderRadius: 14, paddingHorizontal: 14, paddingVertical: 11, fontSize: 14.5 },
+  input: { borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: 14.5 },
   textarea: { minHeight: 110, textAlignVertical: 'top' },
-  searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: 14, height: 40 },
-  option: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: radios.lg, borderWidth: 1 },
-  chip: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: radios.full, paddingHorizontal: 8, paddingVertical: 4 },
+  searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e14, height: 40 },
+  option: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, padding: espaciado.e14, borderRadius: radios.lg, borderWidth: 1 },
+  chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
   chipAvatar: { width: 18, height: 18, borderRadius: 9 },
   avatar: { width: 40, height: 40, borderRadius: 20 },
   center: { alignItems: 'center', justifyContent: 'center' },
-  primaryBtn: { borderRadius: radios.full, paddingVertical: 14, alignItems: 'center' },
+  primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e14, alignItems: 'center' },
   primaryText: { color: brand.white, fontWeight: '900', fontSize: 14.5 },
-  secondaryBtn: { borderRadius: radios.full, paddingVertical: 13, alignItems: 'center', borderWidth: 1, alignSelf: 'stretch' },
-  footer: { paddingHorizontal: 16, paddingTop: 10, borderTopWidth: StyleSheet.hairlineWidth },
+  secondaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', borderWidth: 1, alignSelf: 'stretch' },
+  footer: { paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   successCircle: { width: 84, height: 84, borderRadius: 42, alignItems: 'center', justifyContent: 'center' },
 });

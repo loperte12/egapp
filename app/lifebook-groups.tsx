@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, Compass, Lock, QrCode, Search, ShieldQuestion, Users, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -165,13 +165,13 @@ function GroupsContent() {
         <Pressable onPress={() => router.back()} hitSlop={8} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <View style={{ flex: 1, marginLeft: 10 }}>
+        <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
           <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900' }}>Descubrir grupos</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Rutas y comunidades abiertas cerca de ti</Text>
         </View>
         {/* Parte 28 (G4): entrar con el código que te hayan pasado */}
         <Pressable onPress={() => { setCodeOpen(true); setCodeError(null); }} hitSlop={8} accessibilityLabel="Tengo un código de ruta"
-          style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 6 }}>
+          style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 }}>
           <QrCode size={14} color={colors.primary} />
           <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Código</Text>
         </Pressable>
@@ -185,7 +185,7 @@ function GroupsContent() {
           onChangeText={setQuery}
           placeholder="Buscar grupos por nombre o descripción…"
           placeholderTextColor={colors.textSecondary}
-          style={{ flex: 1, marginLeft: 8, color: colors.textPrimary, fontSize: tipografia.body }}
+          style={{ flex: 1, marginLeft: espaciado.e8, color: colors.textPrimary, fontSize: tipografia.body }}
           accessibilityLabel="Buscar grupos"
         />
         {query.length > 0 ? (
@@ -202,7 +202,7 @@ function GroupsContent() {
         showsHorizontalScrollIndicator={false}
         data={[{ id: '__all__', label: 'Todas' }, ...LB_CITIES.map((c) => ({ id: c, label: c }))]}
         keyExtractor={(x) => x.id}
-        contentContainerStyle={{ gap: 6, paddingHorizontal: 14, paddingVertical: 10 }}
+        contentContainerStyle={{ gap: espaciado.e6, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10 }}
         renderItem={({ item }) => {
           const active = item.id === '__all__' ? city === null : city === item.id;
           return (
@@ -222,7 +222,7 @@ function GroupsContent() {
         showsHorizontalScrollIndicator={false}
         data={[{ id: '__all__', label: 'Todo' }, ...CATEGORIES]}
         keyExtractor={(x) => x.id}
-        contentContainerStyle={{ gap: 6, paddingHorizontal: 14, paddingVertical: 10 }}
+        contentContainerStyle={{ gap: espaciado.e6, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10 }}
         renderItem={({ item }) => {
           const active = item.id === '__all__' ? category === null : category === item.id;
           return (
@@ -244,7 +244,7 @@ function GroupsContent() {
         <FlatList
           data={groups}
           keyExtractor={(g) => g.id}
-          contentContainerStyle={{ padding: 14, gap: 10, paddingBottom: insets.bottom + 24 }}
+          contentContainerStyle={{ padding: espaciado.e14, gap: espaciado.e10, paddingBottom: insets.bottom + 24 }}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); void load(); }} tintColor={colors.primary} />}
           onEndReachedThreshold={0.4}
           onEndReached={() => {
@@ -254,7 +254,7 @@ function GroupsContent() {
           }}
           ListEmptyComponent={
             vacio ? (
-              <View style={{ alignItems: 'center', marginTop: 50, gap: 6 }}>
+              <View style={{ alignItems: 'center', marginTop: 50, gap: espaciado.e6 }}>
                 <Compass size={26} color={colors.textSecondary} />
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
                   No hay grupos públicos con esos filtros.{'\n'}Puedes crear el tuyo desde Mensajes → «Crear grupo».
@@ -262,7 +262,7 @@ function GroupsContent() {
               </View>
             ) : null
           }
-          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: 12 }} /> : null}
+          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e12 }} /> : null}
           renderItem={({ item }) => (
             <Pressable
               onPress={() => abrirFicha(item.id)}
@@ -280,7 +280,7 @@ function GroupsContent() {
               )}
               <View style={{ flex: 1 }}>
                 <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 14.5 }} numberOfLines={1}>{item.title}</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 3 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e3 }}>
                   <Users size={12} color={colors.textSecondary} />
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{item.membersCount}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }} numberOfLines={1}>
@@ -288,11 +288,11 @@ function GroupsContent() {
                   </Text>
                 </View>
                 {item.description ? (
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }} numberOfLines={2}>{item.description}</Text>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }} numberOfLines={2}>{item.description}</Text>
                 ) : null}
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 6 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e6 }}>
                   {item.myRole ? (
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
                       <Check size={12} color={colors.primary} />
                       <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>
                         {item.myRole === 'owner' ? 'Eres el organizador' : 'Ya estás dentro'}
@@ -301,7 +301,7 @@ function GroupsContent() {
                   ) : item.requestState === 'pending' ? (
                     <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '800' }}>Solicitud enviada</Text>
                   ) : (
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
                       {item.joinMode === 'open'
                         ? <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Entrada libre</Text>
                         : item.joinMode === 'approval'
@@ -335,16 +335,16 @@ function GroupsContent() {
       <Modal visible={codeOpen} transparent animationType="slide" onRequestClose={() => setCodeOpen(false)} statusBarTranslucent>
         <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={() => setCodeOpen(false)} />
         <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e10 }}>
             <QrCode size={18} color={colors.primary} />
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: 8 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: espaciado.e8 }}>
               Tengo un código de ruta
             </Text>
             <Pressable onPress={() => setCodeOpen(false)} hitSlop={10} accessibilityLabel="Cerrar">
               <X size={20} color={colors.textSecondary} />
             </Pressable>
           </View>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 8 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e8 }}>
             Escribe los 6 caracteres que te han pasado (o escanea su QR desde la cámara).
           </Text>
           <TextInput
@@ -357,7 +357,7 @@ function GroupsContent() {
             accessibilityLabel="Código del grupo"
             style={[styles.codeInput, { backgroundColor: colors.surface, color: colors.textPrimary }]}
           />
-          {codeError ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: 8 }}>{codeError}</Text> : null}
+          {codeError ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>{codeError}</Text> : null}
           <Pressable onPress={abrirPorCodigo} disabled={codeBusy} accessibilityLabel="Abrir el grupo con ese código"
             style={[styles.cta, { backgroundColor: colors.primary }]}>
             {codeBusy ? <ActivityIndicator size="small" color={brand.white} /> : (
@@ -371,20 +371,20 @@ function GroupsContent() {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth },
-  searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: 12, height: 42, marginHorizontal: 14, marginTop: 10 },
-  chip: { borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 7, borderWidth: 1, flexShrink: 0 },
+  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
+  searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 42, marginHorizontal: espaciado.e14, marginTop: espaciado.e10 },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderWidth: 1, flexShrink: 0 },
   // Fijar la fila: sin alto propio, el FlatList horizontal se comprime y el texto sale recortado
   // contra la fila contigua (medido en el móvil: 17 px de alto en ciudades vs 23 en categorías).
-  chipRow: { flexGrow: 0, flexShrink: 0, marginVertical: 5 },
-  groupRow: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: radios.lg, padding: 12 },
+  chipRow: { flexGrow: 0, flexShrink: 0, marginVertical: espaciado.e5 },
+  groupRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: radios.lg, padding: espaciado.e12 },
   groupPhoto: { width: 54, height: 54, borderRadius: 14 },
   center: { alignItems: 'center', justifyContent: 'center' },
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
   codeInput: {
-    borderRadius: 14, paddingHorizontal: 14, paddingVertical: 12, fontSize: 22, fontWeight: '900',
+    borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: 22, fontWeight: '900',
     letterSpacing: 6, textAlign: 'center',
   },
-  cta: { marginTop: 14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
+  cta: { marginTop: espaciado.e14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

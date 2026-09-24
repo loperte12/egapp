@@ -23,7 +23,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AlertCircle, ArrowLeft, Info, Wallet } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceOrdersApi, type LbSaldoTienda } from '../api/commerce';
@@ -66,7 +66,7 @@ function DineroContent() {
 
   if (error && !saldo) {
     return (
-      <View style={[styles.center, { backgroundColor: colors.background, padding: 24, gap: 12 }]}>
+      <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
         <AlertCircle size={34} color={colors.danger} />
         <Text style={{ color: colors.textPrimary, fontWeight: '800', textAlign: 'center' }}>{error}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
@@ -96,24 +96,24 @@ function DineroContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: 10, flex: 1 }} numberOfLines={1}>
+        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
           El dinero de mi tienda
         </Text>
         <Wallet size={18} color={colors.primary} />
       </View>
 
       <ScrollView
-        contentContainerStyle={{ padding: 16, paddingBottom: 28 }}
+        contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e28 }}
         refreshControl={<RefreshControl refreshing={cargando} onRefresh={() => cargar(saldo.shop.id)} tintColor={colors.primary} />}
       >
         <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: '900' }}>{saldo.shop.name}</Text>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
           {saldo.pedidos === 1 ? '1 pedido entregado' : `${saldo.pedidos} pedidos entregados`}
         </Text>
 
         {/* Si la cuenta tiene más de una tienda, se puede cambiar sin salir. */}
         {saldo.tiendas.length > 1 ? (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e12 }}>
             {saldo.tiendas.map((t) => (
               <Pressable
                 key={t.id}
@@ -132,10 +132,10 @@ function DineroContent() {
         ) : null}
 
         {/* Lo que hay que cobrar, en grande: es lo que el vendedor viene a ver. */}
-        <View style={[styles.tarjeta, { borderColor: alpha(colors.border, 0.6), marginTop: 14 }]}>
+        <View style={[styles.tarjeta, { borderColor: alpha(colors.border, 0.6), marginTop: espaciado.e14 }]}>
           {fila('Pendiente de cobrar', lbXaf(saldo.pendienteXaf), true)}
           {fila('En espera (7 días para reclamar)', lbXaf(saldo.enEsperaXaf))}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingTop: 12 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingTop: espaciado.e12 }}>
             <Info size={14} color={colors.textSecondary} />
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, flex: 1 }}>
               El dinero de un pedido entregado hace menos de 7 días espera a que el comprador ya no pueda
@@ -174,7 +174,7 @@ function DineroContent() {
           </View>
         )}
 
-        <View style={{ marginTop: 18 }}>
+        <View style={{ marginTop: espaciado.e18 }}>
           <GhostButton title="Ver mis pedidos" onPress={() => router.push('/lifebook-orders' as never)} />
         </View>
       </ScrollView>
@@ -185,14 +185,14 @@ function DineroContent() {
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  tarjeta: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: 14 },
+  tarjeta: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e14 },
   fila: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingVertical: 9, borderBottomWidth: StyleSheet.hairlineWidth, gap: 10,
+    paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth, gap: espaciado.e10,
   },
-  seccion: { fontSize: tipografia.body, fontWeight: '800', marginTop: 20, marginBottom: 8 },
-  chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 7 },
+  seccion: { fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e20, marginBottom: espaciado.e8 },
+  chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
 });
