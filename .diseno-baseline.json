@@ -5,7 +5,7 @@
     "borderRadius": 688,
     "fontWeight": 1948,
     "borderWidth": 528,
-    "espaciado": 4235,
+    "espaciado": 3716,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -141,7 +141,7 @@
       "borderRadius": 3,
       "fontWeight": 24,
       "borderWidth": 3,
-      "espaciado": 27,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/ecomerse-checkout.tsx": {
@@ -240,7 +240,7 @@
       "borderRadius": 13,
       "fontWeight": 51,
       "borderWidth": 12,
-      "espaciado": 121,
+      "espaciado": 6,
       "precioFigura": 0
     },
     "app/emergencia.tsx": {
@@ -384,7 +384,7 @@
       "borderRadius": 0,
       "fontWeight": 3,
       "borderWidth": 0,
-      "espaciado": 6,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/lifebook-ai.tsx": {
@@ -906,7 +906,7 @@
       "borderRadius": 17,
       "fontWeight": 43,
       "borderWidth": 9,
-      "espaciado": 98,
+      "espaciado": 6,
       "precioFigura": 0
     },
     "app/promo/[id].tsx": {
@@ -1041,7 +1041,7 @@
       "borderRadius": 14,
       "fontWeight": 21,
       "borderWidth": 4,
-      "espaciado": 66,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/work-gestion.tsx": {
@@ -1050,7 +1050,7 @@
       "borderRadius": 3,
       "fontWeight": 7,
       "borderWidth": 3,
-      "espaciado": 26,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/work-panel.tsx": {
@@ -1059,7 +1059,7 @@
       "borderRadius": 4,
       "fontWeight": 10,
       "borderWidth": 5,
-      "espaciado": 44,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/work-planes.tsx": {
@@ -1068,7 +1068,7 @@
       "borderRadius": 3,
       "fontWeight": 11,
       "borderWidth": 2,
-      "espaciado": 25,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/work-publish.tsx": {
@@ -1077,7 +1077,7 @@
       "borderRadius": 7,
       "fontWeight": 16,
       "borderWidth": 3,
-      "espaciado": 70,
+      "espaciado": 3,
       "precioFigura": 0
     },
     "app/work.tsx": {
@@ -1086,7 +1086,7 @@
       "borderRadius": 9,
       "fontWeight": 13,
       "borderWidth": 5,
-      "espaciado": 44,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "app/_layout.tsx": {
@@ -1140,7 +1140,7 @@
       "borderRadius": 4,
       "fontWeight": 8,
       "borderWidth": 1,
-      "espaciado": 9,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/EmergencyModal.tsx": {
