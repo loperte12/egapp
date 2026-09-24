@@ -5,7 +5,7 @@
     "borderRadius": 688,
     "fontWeight": 1948,
     "borderWidth": 528,
-    "espaciado": 1468,
+    "espaciado": 812,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -1167,7 +1167,7 @@
       "borderRadius": 1,
       "fontWeight": 5,
       "borderWidth": 1,
-      "espaciado": 18,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/AsistenteDeTalla.tsx": {
@@ -1176,7 +1176,7 @@
       "borderRadius": 1,
       "fontWeight": 10,
       "borderWidth": 2,
-      "espaciado": 18,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/AvatarsSeguidos.tsx": {
@@ -1185,7 +1185,7 @@
       "borderRadius": 2,
       "fontWeight": 2,
       "borderWidth": 0,
-      "espaciado": 7,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/BotonCucucul.tsx": {
@@ -1203,7 +1203,7 @@
       "borderRadius": 1,
       "fontWeight": 3,
       "borderWidth": 0,
-      "espaciado": 12,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/ChallengePlazaSheet.tsx": {
@@ -1212,7 +1212,7 @@
       "borderRadius": 3,
       "fontWeight": 19,
       "borderWidth": 1,
-      "espaciado": 39,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/lifebook/ChatOptionsSheet.tsx": {
@@ -1221,7 +1221,7 @@
       "borderRadius": 6,
       "fontWeight": 7,
       "borderWidth": 2,
-      "espaciado": 24,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/lifebook/ChatPlusPanel.tsx": {
@@ -1230,7 +1230,7 @@
       "borderRadius": 1,
       "fontWeight": 2,
       "borderWidth": 0,
-      "espaciado": 7,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/lifebook/CheckinSheet.tsx": {
@@ -1239,7 +1239,7 @@
       "borderRadius": 1,
       "fontWeight": 5,
       "borderWidth": 1,
-      "espaciado": 18,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/Chip.tsx": {
@@ -1248,7 +1248,7 @@
       "borderRadius": 0,
       "fontWeight": 1,
       "borderWidth": 2,
-      "espaciado": 5,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/CommentsSheet.tsx": {
@@ -1257,7 +1257,7 @@
       "borderRadius": 10,
       "fontWeight": 19,
       "borderWidth": 4,
-      "espaciado": 75,
+      "espaciado": 8,
       "precioFigura": 0
     },
     "components/lifebook/CreateGroupSheet.tsx": {
@@ -1266,7 +1266,7 @@
       "borderRadius": 4,
       "fontWeight": 6,
       "borderWidth": 1,
-      "espaciado": 28,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/lifebook/GroupCardSheet.tsx": {
@@ -1275,7 +1275,7 @@
       "borderRadius": 4,
       "fontWeight": 13,
       "borderWidth": 1,
-      "espaciado": 31,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/GroupManageSheet.tsx": {
@@ -1284,7 +1284,7 @@
       "borderRadius": 6,
       "fontWeight": 39,
       "borderWidth": 4,
-      "espaciado": 79,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/lifebook/LocationPickerSheet.tsx": {
@@ -1293,7 +1293,7 @@
       "borderRadius": 1,
       "fontWeight": 4,
       "borderWidth": 1,
-      "espaciado": 11,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/messaging-sheets.tsx": {
@@ -1302,7 +1302,7 @@
       "borderRadius": 2,
       "fontWeight": 4,
       "borderWidth": 2,
-      "espaciado": 24,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/OrderCardEnChat.tsx": {
@@ -1311,7 +1311,7 @@
       "borderRadius": 2,
       "fontWeight": 6,
       "borderWidth": 0,
-      "espaciado": 18,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/lifebook/OrderSheet.tsx": {
@@ -1320,7 +1320,7 @@
       "borderRadius": 3,
       "fontWeight": 3,
       "borderWidth": 1,
-      "espaciado": 15,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/PersonRow.tsx": {
@@ -1329,7 +1329,7 @@
       "borderRadius": 1,
       "fontWeight": 2,
       "borderWidth": 0,
-      "espaciado": 3,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/PostCard.tsx": {
@@ -1338,7 +1338,7 @@
       "borderRadius": 3,
       "fontWeight": 7,
       "borderWidth": 0,
-      "espaciado": 16,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/ProductoCard.tsx": {
@@ -1347,7 +1347,7 @@
       "borderRadius": 0,
       "fontWeight": 4,
       "borderWidth": 0,
-      "espaciado": 6,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/ProductoEnChatSheet.tsx": {
@@ -1356,7 +1356,7 @@
       "borderRadius": 6,
       "fontWeight": 16,
       "borderWidth": 3,
-      "espaciado": 30,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/PublicacionTarjeta.tsx": {
@@ -1365,7 +1365,7 @@
       "borderRadius": 2,
       "fontWeight": 1,
       "borderWidth": 1,
-      "espaciado": 4,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/publish/OptionGroupsEditor.tsx": {
@@ -1374,7 +1374,7 @@
       "borderRadius": 6,
       "fontWeight": 11,
       "borderWidth": 5,
-      "espaciado": 29,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/publish/PublishParts.tsx": {
@@ -1383,7 +1383,7 @@
       "borderRadius": 0,
       "fontWeight": 2,
       "borderWidth": 1,
-      "espaciado": 7,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/publish/SizeChartEditor.tsx": {
@@ -1392,7 +1392,7 @@
       "borderRadius": 2,
       "fontWeight": 4,
       "borderWidth": 2,
-      "espaciado": 16,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/publish/StepDetails.tsx": {
@@ -1401,7 +1401,7 @@
       "borderRadius": 2,
       "fontWeight": 0,
       "borderWidth": 1,
-      "espaciado": 8,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/publish/StepExtras.tsx": {
@@ -1410,7 +1410,7 @@
       "borderRadius": 2,
       "fontWeight": 1,
       "borderWidth": 2,
-      "espaciado": 6,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/publish/StepMedia.tsx": {
@@ -1419,7 +1419,7 @@
       "borderRadius": 1,
       "fontWeight": 0,
       "borderWidth": 1,
-      "espaciado": 2,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/publish/StepPreview.tsx": {
@@ -1428,7 +1428,7 @@
       "borderRadius": 1,
       "fontWeight": 3,
       "borderWidth": 0,
-      "espaciado": 5,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/publish/StepShop.tsx": {
@@ -1437,7 +1437,7 @@
       "borderRadius": 1,
       "fontWeight": 1,
       "borderWidth": 1,
-      "espaciado": 4,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/publish/StepType.tsx": {
@@ -1446,7 +1446,7 @@
       "borderRadius": 0,
       "fontWeight": 3,
       "borderWidth": 0,
-      "espaciado": 5,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/ReportSheet.tsx": {
@@ -1455,7 +1455,7 @@
       "borderRadius": 0,
       "fontWeight": 3,
       "borderWidth": 0,
-      "espaciado": 10,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/RuletaVertical.tsx": {
@@ -1464,7 +1464,7 @@
       "borderRadius": 0,
       "fontWeight": 1,
       "borderWidth": 3,
-      "espaciado": 1,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/SeguirViendo.tsx": {
@@ -1473,7 +1473,7 @@
       "borderRadius": 1,
       "fontWeight": 2,
       "borderWidth": 0,
-      "espaciado": 6,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/SelectorDeCupon.tsx": {
@@ -1482,7 +1482,7 @@
       "borderRadius": 2,
       "fontWeight": 3,
       "borderWidth": 1,
-      "espaciado": 6,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/SelectorDeProductos.tsx": {
@@ -1491,7 +1491,7 @@
       "borderRadius": 5,
       "fontWeight": 5,
       "borderWidth": 1,
-      "espaciado": 11,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/lifebook/SelectorDeVariante.tsx": {
@@ -1500,7 +1500,7 @@
       "borderRadius": 7,
       "fontWeight": 13,
       "borderWidth": 5,
-      "espaciado": 28,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/TarjetaAnuncio.tsx": {
@@ -1509,7 +1509,7 @@
       "borderRadius": 2,
       "fontWeight": 2,
       "borderWidth": 1,
-      "espaciado": 5,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/ui/Sheet.tsx": {
@@ -1518,7 +1518,7 @@
       "borderRadius": 3,
       "fontWeight": 1,
       "borderWidth": 0,
-      "espaciado": 4,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/VideoCoverSheet.tsx": {
@@ -1527,7 +1527,7 @@
       "borderRadius": 5,
       "fontWeight": 4,
       "borderWidth": 2,
-      "espaciado": 17,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "components/lifebook/ViewerControls.tsx": {
@@ -1536,7 +1536,7 @@
       "borderRadius": 1,
       "fontWeight": 0,
       "borderWidth": 0,
-      "espaciado": 1,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/lifebook/VoteSheet.tsx": {
@@ -1545,7 +1545,7 @@
       "borderRadius": 1,
       "fontWeight": 3,
       "borderWidth": 1,
-      "espaciado": 14,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/LocationBadge.tsx": {
