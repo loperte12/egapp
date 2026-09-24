@@ -16,7 +16,7 @@ import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Bus, CarTaxiFront, ChevronRight, Circle, ShieldCheck, Truck } from 'lucide-react-native';
-import { useTheme, alpha, GhostButton, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { driverApi } from '../api/driver';
 import { brand } from '@egrouteplan/ui-kit';
@@ -129,7 +129,7 @@ export default function ConductorHubScreen() {
                 title={isAuthenticated ? 'Empezar mi alta · crear perfil y documentos' : 'Iniciar sesión'}
                 onPress={() => (isAuthenticated ? router.push('/driver-onboarding' as any) : goAuth())}
               />
-              <Text style={{ textAlign: 'center', color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 4 }}>
+              <Text style={{ textAlign: 'center', color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e4 }}>
                 Aprobación por el administrador · Licencia, DIP y selfie
               </Text>
             </>
@@ -162,7 +162,7 @@ export default function ConductorHubScreen() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.success, fontWeight: '900', fontSize: tipografia.body }}>Conductor aprobado</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', marginTop: 2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e2 }}>
                 {vehicle || 'Vehículo no registrado'} · Modo actual: {mode === 'intercity' ? 'Ciudad a Ciudad' : mode === 'city' ? 'Taxi urbano' : 'Ambos'}
               </Text>
             </View>
@@ -186,7 +186,7 @@ export default function ConductorHubScreen() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>Taxi urbano</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2, lineHeight: 16 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>
                 Sal en línea, recibe solicitudes en la ciudad y gestiona tus carreras.
               </Text>
             </View>
@@ -206,7 +206,7 @@ export default function ConductorHubScreen() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>Ciudad a Ciudad</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2, lineHeight: 16 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>
                 Publica viajes interurbanos (Malabo ↔ Bata, etc.), reservas y cobros.
               </Text>
             </View>
@@ -220,7 +220,7 @@ export default function ConductorHubScreen() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>Mudanza</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2, lineHeight: 16 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>
                 Traslados de carga y mudanzas. Llegará pronto a tu zona.
               </Text>
             </View>
@@ -238,24 +238,24 @@ export default function ConductorHubScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
-    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 },
+    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
     title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
-    center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 28, gap: 12 },
+    center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e28, gap: espaciado.e12 },
     big: { fontSize: tipografia.title, fontWeight: '900', textAlign: 'center' },
     body: { fontSize: tipografia.body, lineHeight: 20, textAlign: 'center', fontWeight: '600' },
-    content: { padding: 20, gap: 12 },
-    statusCard: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: radios.lg, borderWidth: 1.5, padding: 14 },
+    content: { padding: espaciado.e20, gap: espaciado.e12 },
+    statusCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14 },
     statusIcon: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
-    question: { fontSize: 17, fontWeight: '900', marginTop: 8 },
+    question: { fontSize: 17, fontWeight: '900', marginTop: espaciado.e8 },
     sub: { fontSize: tipografia.caption, lineHeight: 18, fontWeight: '600', marginTop: -6 },
-    opt: { flexDirection: 'row', alignItems: 'center', gap: 14, borderRadius: 18, borderWidth: 1.5, padding: 16 },
+    opt: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14, borderRadius: 18, borderWidth: 1.5, padding: espaciado.e16 },
     optIcon: { width: 52, height: 52, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },
     // Checklist onboarding (estilo Uber Driver)
-    onboard: { padding: 16, gap: 12, flexGrow: 1 },
-    welcomeCard: { alignItems: 'center', borderRadius: 18, borderWidth: 1, padding: 20, gap: 6 },
-    welcomeTitle: { fontSize: 19, fontWeight: '900', textAlign: 'center', marginTop: 6 },
+    onboard: { padding: espaciado.e16, gap: espaciado.e12, flexGrow: 1 },
+    welcomeCard: { alignItems: 'center', borderRadius: 18, borderWidth: 1, padding: espaciado.e20, gap: espaciado.e6 },
+    welcomeTitle: { fontSize: 19, fontWeight: '900', textAlign: 'center', marginTop: espaciado.e6 },
     welcomeSub: { fontSize: tipografia.body, color: c.textSecondary, textAlign: 'center', lineHeight: 18, fontWeight: '600' },
-    checklistCard: { borderRadius: 18, borderWidth: 1, paddingHorizontal: 16, overflow: 'hidden' },
-    checklistHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 12, borderBottomWidth: 1 },
-    checkRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth },
+    checklistCard: { borderRadius: 18, borderWidth: 1, paddingHorizontal: espaciado.e16, overflow: 'hidden' },
+    checklistHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e12, borderBottomWidth: 1 },
+    checkRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },
   });

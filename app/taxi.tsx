@@ -28,7 +28,7 @@ import * as Location from 'expo-location';
 import {
   ArrowLeft, ArrowUpDown, Bus, CarFront, MapPin, Navigation, Pencil, RefreshCw, Star, Tag, Users, User, X,
 } from 'lucide-react-native';
-import { PrimaryButton, GhostButton, useTheme, elevation, tipografia, radios } from '@egrouteplan/ui-kit';
+import { elevation, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { EgMarkers, EgRoutePolyline, type Coord, type EgMapViewHandle } from '../packages/map';
 import { taxiApi, type TaxiMode } from '../api/taxi';
@@ -1127,7 +1127,7 @@ export default function TaxiScreen() {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={enMarcha
-          ? { position: 'absolute', left: 0, right: 0, bottom: 0, paddingTop: 2 }
+          ? { position: 'absolute', left: 0, right: 0, bottom: 0, paddingTop: espaciado.e2 }
           : [s.panel, { backgroundColor: colors.background }]}
         pointerEvents={enMarcha ? 'box-none' : 'auto'}
       >
@@ -1147,12 +1147,12 @@ export default function TaxiScreen() {
           {locBanner && (
             <View style={[s.banner, { backgroundColor: colors.surface }]}>
               <MapPin size={14} color={colors.textSecondary} />
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginLeft: 6, fontWeight: '600' }}>{locBanner}</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginLeft: espaciado.e6, fontWeight: '600' }}>{locBanner}</Text>
             </View>
           )}
           {/* FASE 2 DiDi: "Buscando taxi" con radar animado (nativo). */}
           {status === 'requested' && (
-            <View style={{ alignItems: 'center', gap: 8, paddingVertical: 6 }}>
+            <View style={{ alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e6 }}>
               <SearchRadar color={brand.secondary} />
               <Text style={{ color: brand.secondary, fontWeight: '800', fontSize: 15 }}>
                 {relaunching ? 'Re-lanzando solicitud…' : 'Buscando taxi…'}
@@ -1176,7 +1176,7 @@ export default function TaxiScreen() {
                   </Text>
                 </Pressable>
               ) : (
-                <View style={[s.card, { backgroundColor: colors.card, borderColor: colors.border, width: '100%', gap: 10 }]}>
+                <View style={[s.card, { backgroundColor: colors.card, borderColor: colors.border, width: '100%', gap: espaciado.e10 }]}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body }}>
                       Ajusta tu solicitud
@@ -1189,11 +1189,11 @@ export default function TaxiScreen() {
                     Se cancela esta búsqueda y se lanza una nueva con tus cambios.
                   </Text>
                   {relaunching ? (
-                    <ActivityIndicator color={colors.primary} style={{ marginVertical: 10 }} />
+                    <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e10 }} />
                   ) : (
                     <>
                       {modes.length > 0 && (
-                        <View style={{ gap: 6 }}>
+                        <View style={{ gap: espaciado.e6 }}>
                           {modes.map((item) => {
                             const active = modeId === item.id;
                             const cap = item.id === 'minibus' ? 6 : item.id === 'compartido' ? 3 : 0;
@@ -1233,7 +1233,7 @@ export default function TaxiScreen() {
                         <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '700' }}>Presupuesto</Text>
                         <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '700' }}>{userPrice ? `${up.toLocaleString('es')} XAF` : '—'}</Text>
                       </View>
-                      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                         {budgetOptions.slice(0, 8).map((v) => {
                           const active = Number(userPrice) === v;
                           return (
@@ -1277,7 +1277,7 @@ export default function TaxiScreen() {
           {live.lost && status === 'accepted' && (
             <View style={[s.banner, { backgroundColor: '#F53F3F14' }]} accessibilityLiveRegion="polite">
               <RefreshCw size={14} color={brand.danger} />
-              <Text style={{ color: brand.danger, fontSize: tipografia.caption, marginLeft: 6, fontWeight: '700' }}>
+              <Text style={{ color: brand.danger, fontSize: tipografia.caption, marginLeft: espaciado.e6, fontWeight: '700' }}>
                 Señal perdida — esperando al GPS del conductor…
               </Text>
             </View>
@@ -1287,7 +1287,7 @@ export default function TaxiScreen() {
               Tarjeta COMPLETA del conductor: foto, nombre, MATRÍCULA destacada,
               valoración/viajes, coche, precio, PIN y acciones. */}
           {approach && (
-            <View style={[s.card, { backgroundColor: '#27AE600F', borderColor: '#27AE6033', gap: 10 }]}>
+            <View style={[s.card, { backgroundColor: '#27AE600F', borderColor: '#27AE6033', gap: espaciado.e10 }]}>
               <Text style={{ color: brand.success, fontWeight: '900', fontSize: 15, textAlign: 'center' }}>🚕 Conductor en camino</Text>
               {(() => {
                 const t = (trip ?? {}) as Record<string, any>;
@@ -1314,7 +1314,7 @@ export default function TaxiScreen() {
                 };
                 return (
                   <>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }}>
                       {photo ? (
                         <Image source={{ uri: photo }} style={s.avatar} />
                       ) : (
@@ -1323,10 +1323,10 @@ export default function TaxiScreen() {
                         </View>
                       )}
                       <View style={{ flex: 1 }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                           <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.subtitle }} numberOfLines={1}>{name}</Text>
                           {(ratingOk || tripsOk) && (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e2 }}>
                               <Star size={12} color={brand.warning} fill={brand.warning} />
                               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }}>
                                 {ratingOk ? rating.toFixed(1) : '—'}
@@ -1337,14 +1337,14 @@ export default function TaxiScreen() {
                         </View>
                         {carPhoto ? (
                           <>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 }}>
                               <Image source={{ uri: carPhoto }} style={s.carThumb} resizeMode="cover" />
                               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', flex: 1 }} numberOfLines={1}>
                                 {carTxt || 'Coche asignado'}
                               </Text>
                             </View>
                             {color && (
-                              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 }}>
+                              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 }}>
                                 <View style={[s.colorSwatch, { backgroundColor: dotColor[color.toLowerCase()] ?? '#ccc' }]} />
                                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>{color}</Text>
                               </View>
@@ -1354,7 +1354,7 @@ export default function TaxiScreen() {
                           <>
                             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }} numberOfLines={1}>{carTxt || 'Coche asignado'}</Text>
                             {color && (
-                              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 }}>
+                              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 }}>
                                 <View style={[s.colorSwatch, { backgroundColor: dotColor[color.toLowerCase()] ?? '#ccc' }]} />
                                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>{color}</Text>
                               </View>
@@ -1382,7 +1382,7 @@ export default function TaxiScreen() {
                       {pinLast4(phone)}
                     </Text>
                     {(wa || tel) && (
-                      <View style={{ flexDirection: 'row', gap: 8 }}>
+                      <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                         {tel ? (
                           <Pressable
                             onPress={() => Linking.openURL(tel).catch(() => setError('No se pudo abrir el teléfono.'))}
@@ -1417,7 +1417,7 @@ export default function TaxiScreen() {
                   monedero SOLO si lo confirmas con PIN, y al cerrar cobra el
                   conductor el NETO (la comisión se la queda la plataforma). */}
               {sv && sv.state === 'proposed' && Number(sv.fare) > 0 && (
-                <View style={{ gap: 8 }}>
+                <View style={{ gap: espaciado.e8 }}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                       Comisión EG ({sv.city ?? fareCity}) · al conductor {Number(sv.net).toLocaleString('es')} XAF
@@ -1432,7 +1432,7 @@ export default function TaxiScreen() {
                     onPress={pagarEfectivo}
                     accessibilityRole="button"
                     accessibilityLabel="Pagar en efectivo al conductor"
-                    style={{ paddingVertical: 4, alignItems: 'center' }}
+                    style={{ paddingVertical: espaciado.e4, alignItems: 'center' }}
                   >
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', textDecorationLine: 'underline' }}>
                       Prefiero pagar en efectivo al llegar
@@ -1441,11 +1441,11 @@ export default function TaxiScreen() {
                 </View>
               )}
               {sv?.money.locked && !sv.money.released && (
-                <View style={{ padding: 10, borderRadius: radios.md, borderWidth: 1, borderColor: '#27AE6055', backgroundColor: '#27AE6010' }}>
+                <View style={{ padding: espaciado.e10, borderRadius: radios.md, borderWidth: 1, borderColor: '#27AE6055', backgroundColor: '#27AE6010' }}>
                   <Text style={{ color: brand.success, fontWeight: '900', fontSize: tipografia.body }}>
                     💳 {Number(sv.fare).toLocaleString('es')} XAF bloqueados con tu PIN
                   </Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                     {(() => {
                       const until = sv.timers.free_cancel_until ? new Date(sv.timers.free_cancel_until).getTime() : 0;
                       const mins = Math.max(0, Math.round((until - Date.now()) / 60000));
@@ -1477,7 +1477,7 @@ export default function TaxiScreen() {
               el servidor auto-cierra a los 10 min. Sin confirmación no hay
               payout; con disputa, el admin puede devolver el viaje entero. */}
           {arrived && (
-            <View style={[s.card, { backgroundColor: '#F6B1000F', borderColor: '#F6B10033', gap: 10 }]}>
+            <View style={[s.card, { backgroundColor: '#F6B1000F', borderColor: '#F6B10033', gap: espaciado.e10 }]}>
               <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15, textAlign: 'center' }}>
                 🏁 El conductor dice que habéis llegado
               </Text>
@@ -1501,8 +1501,8 @@ export default function TaxiScreen() {
               transparente: nombre del conductor, perfil y contacto. Sin PIN,
               sin cancelar ni editar. */}
           {enMarcha && (
-            <View pointerEvents="box-none" style={{ paddingVertical: 4 }}>
-              <View style={[s.card, { backgroundColor: 'rgba(15,20,28,0.45)', borderColor: 'rgba(255,255,255,0.18)', gap: 6, alignItems: 'center' }]}>
+            <View pointerEvents="box-none" style={{ paddingVertical: espaciado.e4 }}>
+              <View style={[s.card, { backgroundColor: 'rgba(15,20,28,0.45)', borderColor: 'rgba(255,255,255,0.18)', gap: espaciado.e6, alignItems: 'center' }]}>
                 <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.body }}>🚗 Viaje en marcha</Text>
                 {(() => {
                   const t = (trip ?? {}) as Record<string, any>;
@@ -1514,7 +1514,7 @@ export default function TaxiScreen() {
                   const tel = wa ? `tel:${wa}` : null;
                   return (
                     <>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                         {photo ? (
                           <Image source={{ uri: photo }} style={{ width: 40, height: 40, borderRadius: 20 }} />
                         ) : (
@@ -1530,7 +1530,7 @@ export default function TaxiScreen() {
                         </View>
                       </View>
                       {(wa || tel) ? (
-                        <View style={{ flexDirection: 'row', gap: 8, alignSelf: 'stretch' }}>
+                        <View style={{ flexDirection: 'row', gap: espaciado.e8, alignSelf: 'stretch' }}>
                           {tel ? (
                             <Pressable
                               onPress={() => Linking.openURL(tel).catch(() => setError('No se pudo abrir el teléfono.'))}
@@ -1577,7 +1577,7 @@ export default function TaxiScreen() {
           {status === 'idle' && routeError && (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <RefreshCw size={14} color={colors.danger} />
-              <Text style={{ fontSize: tipografia.caption, color: colors.danger, marginLeft: 4, flex: 1 }}>{routeError}</Text>
+              <Text style={{ fontSize: tipografia.caption, color: colors.danger, marginLeft: espaciado.e4, flex: 1 }}>{routeError}</Text>
             </View>
           )}
 
@@ -1585,20 +1585,20 @@ export default function TaxiScreen() {
           <>
           <Text style={s.sectionTitle}>Modalidad de viaje</Text>
           {modesLoading ? (
-            <ActivityIndicator style={{ marginVertical: 12 }} color={colors.primary} />
+            <ActivityIndicator style={{ marginVertical: espaciado.e12 }} color={colors.primary} />
           ) : modesError ? (
             <View style={[s.card, { backgroundColor: colors.danger + '08' }]}>
               <Text style={{ fontSize: tipografia.caption, color: colors.danger }}>{modesError}</Text>
               <GhostButton title="Reintentar" onPress={retryModes} />
             </View>
           ) : modes.length === 0 ? (
-            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginVertical: 8 }}>
+            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginVertical: espaciado.e8 }}>
               Sin modalidades para esta distancia todavía.
             </Text>
           ) : (
             // Lista vertical estilo DiDi: fila por modalidad con precio a la derecha
             // (ref. flow2.xml / flow3.xml de DiDi: 一口价 + descuento + selección).
-            <View style={{ gap: 8 }}>
+            <View style={{ gap: espaciado.e8 }}>
               {modes.map((item) => {
                 const active = modeId === item.id;
                 const Icon = MODE_ICON[item.id] ?? <CarFront size={20} color={colors.textSecondary} />;
@@ -1650,7 +1650,7 @@ export default function TaxiScreen() {
           {destCoord && (
             <View style={[s.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
               <Text style={s.sectionTitle}>Pasajeros</Text>
-              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 2 }}>
+              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e2 }}>
                 {isPool
                   ? `Precio por asiento × ${usedPax} · máx. ${poolCap} en ${mode?.label ?? 'esta modalidad'}`
                   : `Carrera privada · precio por coche${pax > 1 ? ` (${pax} pasajeros)` : ''}`}
@@ -1709,11 +1709,11 @@ export default function TaxiScreen() {
               })}
             </View>
             {userPrice !== '' && !userPriceOk && (
-              <Text style={{ fontSize: tipografia.micro, color: colors.danger, marginTop: 4 }}>
+              <Text style={{ fontSize: tipografia.micro, color: colors.danger, marginTop: espaciado.e4 }}>
                 El presupuesto debe estar entre {budgetMin} y {budgetMax.toLocaleString('es')} XAF
               </Text>
             )}
-            <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
               <View style={[s.priceBox, { backgroundColor: colors.surface }]}>
                 <Text style={{ fontSize: 17, fontWeight: '800', color: colors.textPrimary }}>
                   {suggestedTotal != null ? `${suggestedTotal.toLocaleString('es')} XAF` : '—'}
@@ -1738,10 +1738,10 @@ export default function TaxiScreen() {
           {(status === 'cancelled' || status === 'completed') && (
             <View style={[s.card, { backgroundColor: colors.card, borderColor: colors.border, alignItems: 'center' }]}>
               <Text style={{ fontSize: tipografia.subtitle, fontWeight: '800', color: colors.textPrimary }}>{st?.t}</Text>
-              {tripId && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 4 }}>Ref: {tripId.slice(0, 8)}</Text>}
+              {tripId && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>Ref: {tripId.slice(0, 8)}</Text>}
               {/* P1-c: resumen de la liquidación + puerta de disputa (7 días). */}
               {sv && (sv.state === 'settled' || sv.state === 'disputed') && sv.kind === 'WALLET' && (
-                <View style={{ alignSelf: 'stretch', gap: 4, padding: 10, borderRadius: 10, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, marginTop: 6 }}>
+                <View style={{ alignSelf: 'stretch', gap: espaciado.e4, padding: espaciado.e10, borderRadius: 10, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, marginTop: espaciado.e6 }}>
                   <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>
                     {sv.state === 'disputed' ? '⚖️ Viaje en disputa (en revisión)' : 'Liquidación del viaje'}
                   </Text>
@@ -1771,7 +1771,7 @@ export default function TaxiScreen() {
         {status === 'idle' && (
           <View style={[s.footer, { borderTopColor: colors.border }]}>
             {promoNote && (
-              <Text style={{ textAlign: 'center', fontSize: tipografia.caption, color: colors.success, fontWeight: '800', marginBottom: 6 }}>
+              <Text style={{ textAlign: 'center', fontSize: tipografia.caption, color: colors.success, fontWeight: '800', marginBottom: espaciado.e6 }}>
                 {promoNote}
               </Text>
             )}
@@ -1782,17 +1782,17 @@ export default function TaxiScreen() {
               loading={busy}
             />
             {!destCoord && destText.trim() !== '' && (
-              <Text style={{ textAlign: 'center', fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 6 }}>
+              <Text style={{ textAlign: 'center', fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e6 }}>
                 Toca el mapa para fijar el destino y poder confirmar.
               </Text>
             )}
             {!userPriceOk && (
-              <Text style={{ textAlign: 'center', fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 6 }}>
+              <Text style={{ textAlign: 'center', fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e6 }}>
                 Elige tu presupuesto ({budgetMin}–{budgetMax.toLocaleString('es')} XAF en {fareCity}) para confirmar.
               </Text>
             )}
             {!isAuthenticated && (
-              <Text style={{ textAlign: 'center', fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 6 }}>
+              <Text style={{ textAlign: 'center', fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e6 }}>
                 Al confirmar crearás tu cuenta.
               </Text>
             )}
@@ -1808,13 +1808,13 @@ export default function TaxiScreen() {
             <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', textAlign: 'center' }}>
               ¿Por qué cancelas el viaje?
             </Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: 4 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e4 }}>
               {cancelBusy ? 'Cancelando el viaje…' : 'Tu conductor será liberado y podrá atender a otros pasajeros.'}
             </Text>
             {cancelBusy ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: 18 }} />
+              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e18 }} />
             ) : (
-              <View style={{ gap: 8, marginTop: 14 }}>
+              <View style={{ gap: espaciado.e8, marginTop: espaciado.e14 }}>
                 {REJECT_REASONS.map((r) => (
                   <Pressable
                     key={r}
@@ -1840,10 +1840,10 @@ export default function TaxiScreen() {
             <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', textAlign: 'center' }}>
               ¿Cómo fue tu viaje?
             </Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: 4 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e4 }}>
               Valora a tu conductor (también le sirve de referencia a otros pasajeros).
             </Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 10, marginTop: 16 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', gap: espaciado.e10, marginTop: espaciado.e16 }}>
               {[1, 2, 3, 4, 5].map((n) => (
                 <Pressable
                   key={n}
@@ -1857,7 +1857,7 @@ export default function TaxiScreen() {
                 </Pressable>
               ))}
             </View>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center', marginTop: 6, fontWeight: '700' }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center', marginTop: espaciado.e6, fontWeight: '700' }}>
               {ratingScore >= 4 ? '¡Excelente! 🎉' : ratingScore === 3 ? 'Bien, gracias 😊' : 'Gracias por tu honestidad 🙏'}
             </Text>
             <TextInput
@@ -1869,7 +1869,7 @@ export default function TaxiScreen() {
               editable={!ratingBusy}
               maxLength={280}
             />
-            <View style={{ gap: 10, marginTop: 12 }}>
+            <View style={{ gap: espaciado.e10, marginTop: espaciado.e12 }}>
               <PrimaryButton
                 title={ratingBusy ? 'Enviando…' : 'Enviar valoración'}
                 onPress={async () => {
@@ -1907,14 +1907,14 @@ export default function TaxiScreen() {
             <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', textAlign: 'center' }}>
               Confirmar {Number(sv?.fare ?? 0).toLocaleString('es')} XAF
             </Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: 4 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e4 }}>
               {needSetPin
                 ? 'Primer pago: escribe tu contraseña y elige un PIN de 6 dígitos.'
                 : 'Introduce tu PIN para bloquear el importe en tu monedero.'}
             </Text>
             {needSetPin && (
               <TextInput
-                style={[s.ratingInput, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.textPrimary, marginTop: 12 }]}
+                style={[s.ratingInput, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.textPrimary, marginTop: espaciado.e12 }]}
                 placeholder="Contraseña de tu cuenta"
                 placeholderTextColor={colors.textSecondary}
                 value={pwdValue}
@@ -1937,12 +1937,12 @@ export default function TaxiScreen() {
               autoFocus
             />
             {payErr && (
-              <Text style={{ color: brand.danger, fontSize: tipografia.caption, textAlign: 'center', marginTop: 8 }}>{payErr}</Text>
+              <Text style={{ color: brand.danger, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e8 }}>{payErr}</Text>
             )}
             {payBusy ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: 18 }} />
+              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e18 }} />
             ) : (
-              <View style={{ gap: 10, marginTop: 14 }}>
+              <View style={{ gap: espaciado.e10, marginTop: espaciado.e14 }}>
                 <PrimaryButton
                   title={needSetPin ? 'Guardar PIN y pagar' : 'Pagar ahora'}
                   onPress={confirmarPago}
@@ -1962,11 +1962,11 @@ export default function TaxiScreen() {
             <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', textAlign: 'center' }}>
               Disputar este viaje
             </Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: 4 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e4 }}>
               Cuéntanos qué pasó. Mientras el soporte revisa la disputa el dinero no se mueve; si tienes razón, te devolvemos el importe completo.
             </Text>
             <TextInput
-              style={[s.ratingInput, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.textPrimary, marginTop: 12, minHeight: 72 }]}
+              style={[s.ratingInput, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.textPrimary, marginTop: espaciado.e12, minHeight: 72 }]}
               placeholder="Motivo (mínimo 10 caracteres)…"
               placeholderTextColor={colors.textSecondary}
               value={dispReason}
@@ -1976,9 +1976,9 @@ export default function TaxiScreen() {
               editable={!dispBusy}
             />
             {dispBusy ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: 18 }} />
+              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e18 }} />
             ) : (
-              <View style={{ gap: 10, marginTop: 12 }}>
+              <View style={{ gap: espaciado.e10, marginTop: espaciado.e12 }}>
                 <PrimaryButton title="Enviar disputa" onPress={disputar} disabled={dispReason.trim().length < 10} />
                 <GhostButton title="Volver" onPress={() => setDispOpen(false)} />
               </View>
@@ -1995,75 +1995,75 @@ export default function TaxiScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     root: { flex: 1, backgroundColor: c.background },
-    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 8 },
+    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8 },
     title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
-    banner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginHorizontal: 16, marginBottom: 4, borderRadius: radios.sm, paddingVertical: 8, paddingHorizontal: 12 },
-    statusChip: { alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: 16, paddingVertical: 8, marginBottom: 4 },
-    mapHint: { position: 'absolute', top: 120, alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 6 },
+    banner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginHorizontal: espaciado.e16, marginBottom: espaciado.e4, borderRadius: radios.sm, paddingVertical: espaciado.e8, paddingHorizontal: espaciado.e12 },
+    statusChip: { alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8, marginBottom: espaciado.e4 },
+    mapHint: { position: 'absolute', top: 120, alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e6 },
     // Tarjeta flotante origen → destino (DiDi): compacta, sobre el mapa.
     topCard: {
       position: 'absolute', top: 4, left: 10, right: 10,
-      borderRadius: 18, borderWidth: 1, paddingHorizontal: 8, paddingVertical: 4,
+      borderRadius: 18, borderWidth: 1, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4,
       ...elevation.md,
     },
-    topCardHeader: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-    backBtn: { padding: 2, marginRight: 2 },
-    topCardRow: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 27 },
+    topCardHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 },
+    backBtn: { padding: espaciado.e2, marginRight: espaciado.e2 },
+    topCardRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, minHeight: 27 },
     stopIconBox: { width: 15, alignItems: 'center' },
     stopDot: { width: 10, height: 10, borderRadius: 5 },
-    connectorRow: { width: 2, height: 8, marginLeft: 7, marginVertical: 1, borderRadius: 1 },
+    connectorRow: { width: 2, height: 8, marginLeft: espaciado.e7, marginVertical: 1, borderRadius: 1 },
     connectorGap: { height: 26, marginVertical: 0 },
     connectorCol: { width: 16, height: '100%', alignItems: 'center', justifyContent: 'center', position: 'relative' },
     connectorVLine: { position: 'absolute', left: 7, top: 0, bottom: 0, width: 2, borderRadius: 1 },
     swapBtn: { width: 24, height: 24, borderRadius: radios.md, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 3 },
     stopLabel: { fontSize: 9, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.4 },
-    stopValue: { fontSize: tipografia.body, fontWeight: '700', marginLeft: 2 },
-    stopValueDest: { fontSize: tipografia.body, fontWeight: '800', marginLeft: 2 },
-    mapPickBtn: { width: 28, height: 28, borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center', marginLeft: 4 },
+    stopValue: { fontSize: tipografia.body, fontWeight: '700', marginLeft: espaciado.e2 },
+    stopValueDest: { fontSize: tipografia.body, fontWeight: '800', marginLeft: espaciado.e2 },
+    mapPickBtn: { width: 28, height: 28, borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center', marginLeft: espaciado.e4 },
     // FAB centrar (abajo-derecha sobre el mapa, visible al colapsar panel)
     mapFabRow: { position: 'absolute', right: 14, bottom: 84 },
-    mapFab: { borderRadius: 30, borderWidth: 1, padding: 11, ...elevation.md },
+    mapFab: { borderRadius: 30, borderWidth: 1, padding: espaciado.e11, ...elevation.md },
     // Panel inferior superpuesto: NO empuja el mapa (DiDi).
     panel: {
       position: 'absolute', left: 0, right: 0, bottom: 0,
       maxHeight: '46%', borderTopLeftRadius: 22, borderTopRightRadius: 22,
-      paddingTop: 2,
+      paddingTop: espaciado.e2,
       ...elevation.lg,
     },
-    askDestBanner: { alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: 16, paddingVertical: 7, marginVertical: 6 },
-    summaryRow: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 9 },
+    askDestBanner: { alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e7, marginVertical: espaciado.e6 },
+    summaryRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: 14, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
     summaryOrigin: { fontSize: tipografia.body, fontWeight: '700' },
-    summaryDest: { fontSize: tipografia.body, fontWeight: '800', marginTop: 2 },
+    summaryDest: { fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e2 },
     summaryKm: { fontSize: 15, fontWeight: '800' },
-    content: { padding: 16, paddingBottom: 14, gap: 12 },
-    card: { borderRadius: radios.lg, padding: 14, borderWidth: 1 },
+    content: { padding: espaciado.e16, paddingBottom: espaciado.e14, gap: espaciado.e12 },
+    card: { borderRadius: radios.lg, padding: espaciado.e14, borderWidth: 1 },
     label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary },
-    input: { fontSize: 15, padding: 0, marginTop: 4 },
-    sectionTitle: { fontSize: 15, fontWeight: '800', color: c.textPrimary, marginTop: 2 },
-    modeRow: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: radios.lg, padding: 12 },
+    input: { fontSize: 15, padding: 0, marginTop: espaciado.e4 },
+    sectionTitle: { fontSize: 15, fontWeight: '800', color: c.textPrimary, marginTop: espaciado.e2 },
+    modeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: radios.lg, padding: espaciado.e12 },
     modeIconWrap: { width: 40, height: 40, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
     modeName: { fontSize: 15, fontWeight: '800' },
     modePrice: { fontSize: 17, fontWeight: '800' },
     avatar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
     carThumb: { width: 34, height: 26, borderRadius: 6, overflow: 'hidden', backgroundColor: '#EAEAEA' },
     colorSwatch: { width: 12, height: 12, borderRadius: 6, borderWidth: 0.6, borderColor: 'rgba(0,0,0,0.2)' },
-    waBtn: { borderRadius: 14, paddingVertical: 12, alignItems: 'center', marginTop: 2 },
-    cancelLink: { borderRadius: radios.full, borderWidth: 1, paddingVertical: 7, paddingHorizontal: 18, alignSelf: 'center', marginTop: 2 },
-    modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24 },
-    modalCard: { width: '100%', maxWidth: 420, borderRadius: 20, borderWidth: 1, padding: 20 },
-    ratingInput: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 10, fontSize: tipografia.body, marginTop: 12, minHeight: 46 },
-    reasonRow: { borderRadius: radios.md, borderWidth: 1, paddingVertical: 13, paddingHorizontal: 14 },
-    paxRow: { flexDirection: 'row', gap: 8, marginTop: 10 },
-    paxChip: { flex: 1, alignItems: 'center', borderRadius: radios.md, borderWidth: 1.5, paddingVertical: 8, gap: 1 },
+    waBtn: { borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e2 },
+    cancelLink: { borderRadius: radios.full, borderWidth: 1, paddingVertical: espaciado.e7, paddingHorizontal: espaciado.e18, alignSelf: 'center', marginTop: espaciado.e2 },
+    modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e24 },
+    modalCard: { width: '100%', maxWidth: 420, borderRadius: 20, borderWidth: 1, padding: espaciado.e20 },
+    ratingInput: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body, marginTop: espaciado.e12, minHeight: 46 },
+    reasonRow: { borderRadius: radios.md, borderWidth: 1, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e14 },
+    paxRow: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e10 },
+    paxChip: { flex: 1, alignItems: 'center', borderRadius: radios.md, borderWidth: 1.5, paddingVertical: espaciado.e8, gap: 1 },
     paxNum: { fontSize: tipografia.subtitle, fontWeight: '900' },
-    budgetWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 },
-    budgetChip: { borderRadius: radios.full, borderWidth: 1.2, paddingHorizontal: 12, paddingVertical: 7 },
+    budgetWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e8 },
+    budgetChip: { borderRadius: radios.full, borderWidth: 1.2, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
     budgetTxt: { fontSize: tipografia.body, fontWeight: '800' },
-    priceRow: { flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 8, marginTop: 6 },
-    priceBox: { flex: 1, borderRadius: radios.md, padding: 10, alignItems: 'center' },
+    priceRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, marginTop: espaciado.e6 },
+    priceBox: { flex: 1, borderRadius: radios.md, padding: espaciado.e10, alignItems: 'center' },
     // Matrícula DESTACADA del coche (estilo placa, P1).
-    plateBox: { alignSelf: 'center', borderWidth: 1.5, borderColor: '#2B2F36', borderRadius: 6, paddingHorizontal: 18, paddingVertical: 5, backgroundColor: '#F5F7FA', marginTop: 2 },
+    plateBox: { alignSelf: 'center', borderWidth: 1.5, borderColor: '#2B2F36', borderRadius: 6, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e5, backgroundColor: '#F5F7FA', marginTop: espaciado.e2 },
     plateTxt: { fontSize: 19, fontWeight: '900', letterSpacing: 2, color: '#14171C' },
-    footer: { padding: 14, paddingBottom: 18, borderTopWidth: 1 },
+    footer: { padding: espaciado.e14, paddingBottom: espaciado.e18, borderTopWidth: 1 },
     loading: { position: 'absolute', top: '50%', alignSelf: 'center' },
   });

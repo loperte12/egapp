@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowDownToLine, ArrowLeft, ArrowUpFromLine, ChevronRight, KeyRound, ShieldCheck, Wallet,
 } from 'lucide-react-native';
-import { EmptyState, useTheme, Tactil, tipografia, radios } from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, radios, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { walletApi, type WalletBalance, type WalletTx } from '../api/wallet';
 import { brand } from '@egrouteplan/ui-kit';
@@ -69,7 +69,7 @@ export function TxStatusChip({ status }: { status: string }) {
   );
 }
 const chipStyles = StyleSheet.create({
-  chip: { borderRadius: radios.full, paddingHorizontal: 8, paddingVertical: 3 },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
   txt: { fontSize: 10, fontWeight: '900' },
 });
 
@@ -112,31 +112,31 @@ function MonederoContent() {
         <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
       ) : error && !balance ? (
         <View style={styles.center}>
-          <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingHorizontal: 28 }}>{error}</Text>
+          <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>{error}</Text>
           <Tactil onPress={() => void cargar()} style={[styles.retryBtn, { backgroundColor: colors.primary }]} accessibilityRole="button">
             <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
           </Tactil>
         </View>
       ) : (
         <ScrollView
-          contentContainerStyle={{ padding: 16, paddingBottom: 40 }}
+          contentContainerStyle={{ padding: espaciado.e16, paddingBottom: 40 }}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); void cargar(true); }} tintColor={colors.primary} />}
         >
           {/* Saldo */}
           <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
               <Wallet size={16} color={colors.primary} />
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '700' }}>Saldo disponible</Text>
             </View>
-            <Text style={{ color: colors.textPrimary, fontSize: 34, fontWeight: '900', marginTop: 6 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: 34, fontWeight: '900', marginTop: espaciado.e6 }}>
               {fmtXaf(Number(balance?.balanceAvailable ?? 0))}
             </Text>
             {Number(balance?.balanceEscrow ?? 0) > 0 && (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: 4 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e4 }}>
                 En garantía: {fmtXaf(Number(balance?.balanceEscrow ?? 0))}
               </Text>
             )}
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 8 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, marginTop: espaciado.e8 }}>
               <ShieldCheck size={12} color={colors.textSecondary} />
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>
                 Hoy puedes recargar {fmtXaf(Number(balance?.today?.depositRemaining ?? balance?.dailyLimit ?? 0))} · retirar {fmtXaf(Number(balance?.today?.withdrawalRemaining ?? balance?.dailyLimit ?? 0))}
@@ -145,7 +145,7 @@ function MonederoContent() {
           </View>
 
           {/* Acciones — rail de efectivo (Muni Dinero llegará como segundo rail) */}
-          <View style={{ flexDirection: 'row', gap: 12, marginTop: 14 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e12, marginTop: espaciado.e14 }}>
             <Tactil
               style={[styles.action, { backgroundColor: colors.primary }]}
               onPress={() => router.push('/monedero-recargar')}
@@ -173,18 +173,18 @@ function MonederoContent() {
             accessibilityRole="button"
           >
             <KeyRound size={16} color={colors.textSecondary} />
-            <Text style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', marginLeft: 10 }}>PIN del monedero</Text>
+            <Text style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', marginLeft: espaciado.e10 }}>PIN del monedero</Text>
             <ChevronRight size={16} color={colors.textSecondary} />
           </Tactil>
 
           {/* Últimos movimientos */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 20, marginBottom: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e20, marginBottom: espaciado.e8 }}>
             <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>Últimos movimientos</Text>
             <Tactil onPress={() => router.push('/monedero-movimientos')} accessibilityRole="button">
               <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>Ver todos</Text>
             </Tactil>
           </View>
-          <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border, paddingVertical: 4 }]}>
+          <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border, paddingVertical: espaciado.e4 }]}>
             {txs.length === 0 ? (
               /* Vacío con salida (D-17): qué es, por qué está vacío y qué hacer ahora. */
               <EmptyState
@@ -200,11 +200,11 @@ function MonederoContent() {
                 <View key={t.id} style={[styles.txRow, { borderBottomColor: colors.border }]}>
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>{label}</Text>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: 2 }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e2 }}>
                       {new Date(t.createdAt).toLocaleString('es-GQ', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
                     </Text>
                   </View>
-                  <View style={{ alignItems: 'flex-end', gap: 4 }}>
+                  <View style={{ alignItems: 'flex-end', gap: espaciado.e4 }}>
                     <Text style={{ color: sign === '+' ? brand.successPressed : colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
                       {sign}{fmtXaf(Math.abs(Number(t.amount)))}
                     </Text>
@@ -224,18 +224,18 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   headerTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 },
-  retryBtn: { borderRadius: radios.full, paddingHorizontal: 18, paddingVertical: 10 },
-  card: { borderRadius: 18, borderWidth: 1, padding: 16 },
-  action: { flex: 1, borderRadius: 18, paddingVertical: 16, alignItems: 'center', gap: 4 },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12 },
+  retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
+  card: { borderRadius: 18, borderWidth: 1, padding: espaciado.e16 },
+  action: { flex: 1, borderRadius: 18, paddingVertical: espaciado.e16, alignItems: 'center', gap: espaciado.e4 },
   actionTxt: { color: brand.white, fontSize: 14.5, fontWeight: '900' },
   actionHint: { color: 'rgba(255,255,255,0.75)', fontSize: 10.5, fontWeight: '600' },
   rowItem: {
     flexDirection: 'row', alignItems: 'center', borderRadius: 14, borderWidth: 1,
-    paddingHorizontal: 14, paddingVertical: 13, marginTop: 14,
+    paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e13, marginTop: espaciado.e14,
   },
-  txRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth },
+  txRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },
 });

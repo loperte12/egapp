@@ -11,7 +11,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, KeyRound } from 'lucide-react-native';
-import { PrimaryButton, useTheme, InlineError, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, InlineError, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { fijarPin } from '../api/settlement';
 import { brand } from '@egrouteplan/ui-kit';
@@ -73,7 +73,7 @@ function Contenido() {
           <PrimaryButton title="Volver al monedero" onPress={() => ir.atras()} />
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
           <Text style={[styles.label, { color: colors.textSecondary }]}>Contraseña de tu cuenta</Text>
           <TextInput
             style={[styles.input, { backgroundColor: colors.card, borderColor: colors.border, color: colors.textPrimary }]}
@@ -86,7 +86,7 @@ function Contenido() {
             editable={!busy}
             accessibilityLabel="Contraseña de tu cuenta"
           />
-          <Text style={[styles.label, { color: colors.textSecondary, marginTop: 18 }]}>PIN nuevo (6 dígitos)</Text>
+          <Text style={[styles.label, { color: colors.textSecondary, marginTop: espaciado.e18 }]}>PIN nuevo (6 dígitos)</Text>
           <TextInput
             style={[styles.pinInput, { backgroundColor: colors.card, borderColor: colors.border, color: colors.textPrimary }]}
             placeholder="••••••"
@@ -99,7 +99,7 @@ function Contenido() {
             editable={!busy}
             accessibilityLabel="PIN nuevo, 6 dígitos"
           />
-          <Text style={[styles.label, { color: colors.textSecondary, marginTop: 14 }]}>Repite el PIN</Text>
+          <Text style={[styles.label, { color: colors.textSecondary, marginTop: espaciado.e14 }]}>Repite el PIN</Text>
           <TextInput
             style={[styles.pinInput, { backgroundColor: colors.card, borderColor: colors.border, color: colors.textPrimary }]}
             placeholder="••••••"
@@ -112,8 +112,8 @@ function Contenido() {
             editable={!busy}
             accessibilityLabel="Repite el PIN nuevo"
           />
-          {err ? <View style={{ marginTop: 10 }}><InlineError mensaje={err} /></View> : null}
-          <View style={{ marginTop: 24 }}>
+          {err ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={err} /></View> : null}
+          <View style={{ marginTop: espaciado.e24 }}>
             {busy
               ? <ActivityIndicator color={colors.primary} />
               : <PrimaryButton title="Guardar PIN" onPress={() => void guardar()} disabled={!listo} />}
@@ -128,15 +128,15 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   headerTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
-  label: { fontSize: tipografia.caption, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4, marginBottom: 8 },
-  input: { borderWidth: 1, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 11, fontSize: tipografia.body },
+  label: { fontSize: tipografia.caption, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4, marginBottom: espaciado.e8 },
+  input: { borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.body },
   pinInput: {
-    borderWidth: 1, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 11,
+    borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11,
     fontSize: 22, letterSpacing: 8, textAlign: 'center',
   },
-  doneWrap: { flex: 1, padding: 20, justifyContent: 'center', gap: 16 },
+  doneWrap: { flex: 1, padding: espaciado.e20, justifyContent: 'center', gap: espaciado.e16 },
   okIcon: { width: 60, height: 60, borderRadius: 20, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
 });

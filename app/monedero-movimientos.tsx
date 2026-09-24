@@ -8,7 +8,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft } from 'lucide-react-native';
-import { useTheme, Tactil, tipografia, radios } from '@egrouteplan/ui-kit';
+import { espaciado, radios, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { walletApi, type WalletTx } from '../api/wallet';
 import { fmtXaf, txLabel, TxStatusChip } from './monedero';
@@ -83,8 +83,8 @@ function Contenido() {
         <View style={{ width: 24 }} />
       </View>
 
-      <View style={{ paddingHorizontal: 16, paddingTop: 12 }}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+      <View style={{ paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8 }}>
           {FILTROS.map((f) => (
             <Tactil
               key={f.id}
@@ -102,7 +102,7 @@ function Contenido() {
         <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
       ) : error ? (
         <View style={styles.center}>
-          <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingHorizontal: 28 }}>{error}</Text>
+          <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>{error}</Text>
           <Tactil onPress={() => void cargar(filtro)} style={[styles.retryBtn, { backgroundColor: colors.primary }]} accessibilityRole="button">
             <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
           </Tactil>
@@ -116,8 +116,8 @@ function Contenido() {
         <FlatList
           data={items}
           keyExtractor={(t) => t.id}
-          style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border, margin: 16, flexGrow: 0 }]}
-          contentContainerStyle={{ paddingVertical: 4 }}
+          style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border, margin: espaciado.e16, flexGrow: 0 }]}
+          contentContainerStyle={{ paddingVertical: espaciado.e4 }}
           // Recicla lo que sale de pantalla y no monte todo de golpe.
           initialNumToRender={12}
           windowSize={7}
@@ -128,11 +128,11 @@ function Contenido() {
               <View style={[styles.txRow, { borderBottomColor: colors.border }]}>
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>{label}</Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: 2 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e2 }}>
                     {new Date(t.createdAt).toLocaleString('es-GQ', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                   </Text>
                 </View>
-                <View style={{ alignItems: 'flex-end', gap: 4 }}>
+                <View style={{ alignItems: 'flex-end', gap: espaciado.e4 }}>
                   <Text style={{ color: sign === '+' ? brand.successPressed : colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
                     {sign}{fmtXaf(Math.abs(Number(t.amount)))}
                   </Text>
@@ -169,13 +169,13 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   headerTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 },
-  retryBtn: { borderRadius: radios.full, paddingHorizontal: 18, paddingVertical: 10 },
-  filtro: { borderRadius: radios.full, borderWidth: 1, paddingHorizontal: 14, paddingVertical: 7 },
-  card: { borderRadius: 18, borderWidth: 1, padding: 16 },
-  txRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth },
-  masBtn: { borderRadius: 14, borderWidth: 1, paddingVertical: 12, alignItems: 'center', marginTop: 14 },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12 },
+  retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
+  filtro: { borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7 },
+  card: { borderRadius: 18, borderWidth: 1, padding: espaciado.e16 },
+  txRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },
+  masBtn: { borderRadius: 14, borderWidth: 1, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e14 },
 });

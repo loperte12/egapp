@@ -14,7 +14,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Bike, Check } from 'lucide-react-native';
-import { EmptyState, PrimaryButton, useTheme, Tactil, tipografia, radios } from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, PrimaryButton, radios, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { whatsappSoporte } from '../constants/soporte';
 import { AuthGate } from '../core/AuthGate';
 import { PinSheet } from '@egrouteplan/ui-kit';
@@ -113,7 +113,7 @@ function Contenido() {
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
               Enseña este código al agente junto con el efectivo:
             </Text>
-            <Text style={{ color: colors.primary, fontSize: 40, fontWeight: '900', letterSpacing: 10, textAlign: 'center', marginVertical: 14 }}>
+            <Text style={{ color: colors.primary, fontSize: 40, fontWeight: '900', letterSpacing: 10, textAlign: 'center', marginVertical: espaciado.e14 }}>
               {otp}
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', lineHeight: 17 }}>
@@ -123,7 +123,7 @@ function Contenido() {
           <PrimaryButton title="Entendido" onPress={() => ir.atras()} />
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
+        <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: 40 }}>
           <Text style={[styles.label, { color: colors.textSecondary }]}>Importe</Text>
           <View style={[styles.amountBox, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <TextInput
@@ -136,13 +136,13 @@ function Contenido() {
             />
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '800' }}>XAF</Text>
           </View>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: 6 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e6 }}>
             Hoy puedes recargar hasta {fmtXaf(restante)}.
           </Text>
 
-          <Text style={[styles.label, { color: colors.textSecondary, marginTop: 20 }]}>Agente de efectivo</Text>
+          <Text style={[styles.label, { color: colors.textSecondary, marginTop: espaciado.e20 }]}>Agente de efectivo</Text>
           {agents === null ? (
-            <ActivityIndicator color={colors.primary} style={{ marginTop: 12 }} />
+            <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e12 }} />
           ) : agents.length === 0 ? (
             /*
               Sin agente de efectivo no hay forma de ENTREGAR el dinero: un texto que solo informa
@@ -171,7 +171,7 @@ function Contenido() {
               <View style={[styles.agentIcon, { backgroundColor: colors.surface }]}>
                 <Bike size={18} color={colors.primary} />
               </View>
-              <View style={{ flex: 1, marginLeft: 10 }}>
+              <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{a.name}</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>{a.code} · {a.zone}</Text>
               </View>
@@ -179,7 +179,7 @@ function Contenido() {
             </Tactil>
           ))}
 
-          {formErr ? <View style={{ marginTop: 10 }}><InlineError mensaje={formErr} /></View> : null}
+          {formErr ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={formErr} /></View> : null}
           {/*
             AUDITORÍA DE DISEÑO (D-33): el monedero exige identidad verificada y el aviso solo
             pintaba texto. El usuario elegía importe, agente y PIN para descubrir al final que no
@@ -190,13 +190,13 @@ function Contenido() {
               onPress={() => router.push('/kyc')}
               accessibilityRole="button"
               accessibilityLabel="Verificar mi identidad"
-              style={{ marginTop: 10, alignSelf: 'flex-start' }}
+              style={{ marginTop: espaciado.e10, alignSelf: 'flex-start' }}
             >
               <Text style={[styles.label, { color: colors.primary, textTransform: 'none', letterSpacing: 0 }]}>Verificar mi identidad →</Text>
             </Tactil>
           )}
 
-          <View style={{ marginTop: 24 }}>
+          <View style={{ marginTop: espaciado.e24 }}>
             <PrimaryButton
               title={cantidad > 0 ? `Recargar ${fmtXaf(cantidad)}` : 'Recargar'}
               onPress={() => {
@@ -232,19 +232,19 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   headerTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
   label: { fontSize: tipografia.body, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4 },
   amountBox: {
-    flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: radios.lg, borderWidth: 1,
-    paddingHorizontal: 16, paddingVertical: 12, marginTop: 8,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.lg, borderWidth: 1,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, marginTop: espaciado.e8,
   },
   agentRow: {
     flexDirection: 'row', alignItems: 'center', borderRadius: radios.lg,
-    paddingHorizontal: 14, paddingVertical: 12, marginTop: 8,
+    paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, marginTop: espaciado.e8,
   },
   agentIcon: { width: 38, height: 38, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-  doneWrap: { flex: 1, padding: 20, justifyContent: 'center', gap: 18 },
-  otpCard: { borderRadius: 20, borderWidth: 1, padding: 22 },
+  doneWrap: { flex: 1, padding: espaciado.e20, justifyContent: 'center', gap: espaciado.e18 },
+  otpCard: { borderRadius: 20, borderWidth: 1, padding: espaciado.e22 },
 });

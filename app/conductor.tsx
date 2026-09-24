@@ -15,7 +15,7 @@ import {
   ArrowLeft, BadgeCheck, Banknote, Box, Bus, Camera, CarFront, CheckCircle2, ChevronDown, ChevronUp, Compass, Flag, MessageCircle, Navigation, Phone, ShieldCheck, Star, Tag,
   Users, User, UserRound, MapPin, Siren, Volume2, VolumeX, X,
 } from 'lucide-react-native';
-import {useTheme, CameraCapture, GhostButton, alpha, elevation, tipografia, radios, altura} from '@egrouteplan/ui-kit';
+import { alpha, altura, CameraCapture, elevation, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import EmergencyModal from '../components/EmergencyModal';
 import DriverHomeSheet, { type HomeTab } from '../components/DriverHomeSheet';
 import { EgMapView, EgCamera, EgMarkers, EgRoutePolyline, type EgMapViewHandle, type Coord } from '../packages/map';
@@ -1098,14 +1098,14 @@ export default function ConductorScreen() {
     <View style={{ flex: 1, backgroundColor: colors.background, paddingTop: insets.top }}>
       {/* Cargando estado del conductor */}
       {driverStatus === 'checking' && (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e10 }}>
           <ActivityIndicator color={colors.primary} />
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '600' }}>Comprobando tu cuenta de conductor…</Text>
         </View>
       )}
       {/* GATE: sin alta de conductor → onboarding (cuenta + documentos) */}
       {(driverStatus === 'none' || driverStatus === 'pending' || driverStatus === 'rejected') && (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24, gap: 12 }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24, gap: espaciado.e12 }}>
           <ShieldCheck size={44} color={colors.primary} />
           <Text style={{ fontSize: tipografia.title, fontWeight: '900', color: colors.textPrimary, textAlign: 'center' }}>
             {driverStatus === 'pending' ? 'Documentos en revisión' : driverStatus === 'rejected' ? 'Alta rechazada' : 'Aún no eres conductor'}
@@ -1116,7 +1116,7 @@ export default function ConductorScreen() {
               : 'Para aceptar viajes necesitas el alta de conductor: crea tu cuenta si no la tienes y sube licencia, DIP y selfie.'}
           </Text>
           {driverStatus !== 'pending' && (
-            <Pressable onPress={() => router.push('/driver-onboarding')} style={{ backgroundColor: colors.primary, borderRadius: radios.full, paddingVertical: 14, paddingHorizontal: 32 }}>
+            <Pressable onPress={() => router.push('/driver-onboarding')} style={{ backgroundColor: colors.primary, borderRadius: radios.full, paddingVertical: espaciado.e14, paddingHorizontal: espaciado.e32 }}>
               <Text style={{ color: brand.white, fontSize: tipografia.subtitle, fontWeight: '800' }}>Completar alta de conductor</Text>
             </Pressable>
           )}
@@ -1153,14 +1153,14 @@ export default function ConductorScreen() {
             } finally { setBusy(false); }
           }} />
           {busy && (
-            <View style={{ position: 'absolute', top: 64, alignSelf: 'center', backgroundColor: 'rgba(0,0,0,0.75)', borderRadius: radios.full, paddingHorizontal: 18, paddingVertical: 9 }}>
+            <View style={{ position: 'absolute', top: 64, alignSelf: 'center', backgroundColor: 'rgba(0,0,0,0.75)', borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e9 }}>
               <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Verificando identidad…</Text>
             </View>
           )}
           {selfieErr && !busy && (
-            <View style={{ position: 'absolute', bottom: 120, alignSelf: 'center', backgroundColor: 'rgba(245,63,63,0.92)', borderRadius: 14, paddingHorizontal: 18, paddingVertical: 12, marginHorizontal: 24 }}>
+            <View style={{ position: 'absolute', bottom: 120, alignSelf: 'center', backgroundColor: 'rgba(245,63,63,0.92)', borderRadius: 14, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e12, marginHorizontal: espaciado.e24 }}>
               <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body, textAlign: 'center' }}>{selfieErr}</Text>
-              <Text style={{ color: brand.white, opacity: 0.9, fontSize: tipografia.caption, textAlign: 'center', marginTop: 6 }}>
+              <Text style={{ color: brand.white, opacity: 0.9, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6 }}>
                 Pulsa el botón blanco para reintentar.
               </Text>
             </View>
@@ -1173,11 +1173,11 @@ export default function ConductorScreen() {
         <>
           {/* Cabecera */}
           <View style={s.topBar}>
-            <Pressable onPress={() => router.back()} hitSlop={12} style={{ padding: 4 }} accessibilityRole="button" accessibilityLabel="Volver">
+            <Pressable onPress={() => router.back()} hitSlop={12} style={{ padding: espaciado.e4 }} accessibilityRole="button" accessibilityLabel="Volver">
               <ArrowLeft size={22} color={colors.textPrimary} />
             </Pressable>
             <Text style={s.title}>👨‍✈️ Conductor</Text>
-            <View style={{ flexDirection: 'row', gap: 14 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e14 }}>
               {/* Perfil (P1): abre el bottom-sheet en la pestaña Perfil. El
                   logout SOLO vive dentro de ese Perfil (decisión del dueño). */}
               <Pressable onPress={() => { setHomeTab('perfil'); setHomeOpen(true); }} hitSlop={12} accessibilityRole="button" accessibilityLabel="Perfil y opciones">
@@ -1289,7 +1289,7 @@ export default function ConductorScreen() {
                     <View style={[s.statusDot, { backgroundColor: colors.danger }]} />
                     <View style={{ flex: 1 }}>
                       <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>No estás en línea</Text>
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                         {workMode === 'intercity'
                           ? 'Estás en modo Ciudad a Ciudad: no recibirás solicitudes de taxi. Publica tus viajes interurbanos.'
                           : 'Conéctate para recibir solicitudes de taxi en la ciudad.'}
@@ -1322,7 +1322,7 @@ export default function ConductorScreen() {
                     <View style={[s.statusDot, { backgroundColor: brand.warning }]} />
                     <View style={{ flex: 1 }}>
                       <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>Cobro pendiente de confirmar</Text>
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                         No recibirás solicitudes nuevas hasta confirmar que cobraste el último viaje en efectivo.
                       </Text>
                     </View>
@@ -1340,13 +1340,13 @@ export default function ConductorScreen() {
                 <View pointerEvents="box-none" style={s.waitRadarWrap}>
                   <View pointerEvents="none" style={[s.waitRadarCard, { borderColor: 'rgba(255,255,255,0.14)' }]}>
                     <SearchSpin color={resting ? brand.warning : brand.secondary} />
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 8 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8 }}>
                       {resting && <Text style={{ fontSize: tipografia.caption }}>☕</Text>}
                       <Text style={{ color: 'rgba(255,255,255,0.92)', fontSize: tipografia.caption, fontWeight: '800' }}>
                         {resting ? 'En descanso · sigues recibiendo solicitudes' : 'Buscando solicitudes…'}
                       </Text>
                     </View>
-                    <Text style={{ color: 'rgba(255,255,255,0.55)', fontSize: 10.5, fontWeight: '600', marginTop: 2 }}>
+                    <Text style={{ color: 'rgba(255,255,255,0.55)', fontSize: 10.5, fontWeight: '600', marginTop: espaciado.e2 }}>
                       Toca el mapa para fijar tu zona
                     </Text>
                   </View>
@@ -1383,7 +1383,7 @@ export default function ConductorScreen() {
                         <Text style={PK.avatarTxt}>{paxInitial}</Text>
                       </View>
                       <View style={{ flex: 1 }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 }}>
                           <Text style={PK.name} numberOfLines={1}>{current.passenger_name || 'Pasajero'}</Text>
                           {paxVerified ? (
                             <View style={PK.badgeGreen}>
@@ -1397,11 +1397,11 @@ export default function ConductorScreen() {
                             </View>
                           )}
                         </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 3 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e3 }}>
                           {stars.map((on, i) => (
                             <Star key={i} size={11} color={on ? brand.warning : 'rgba(255,255,255,0.22)'} fill={on ? brand.warning : 'transparent'} />
                           ))}
-                          <Text style={[PK.metaTxt, { marginLeft: 3 }]}>
+                          <Text style={[PK.metaTxt, { marginLeft: espaciado.e3 }]}>
                             {Number(current.passenger_rating) > 0 ? Number(current.passenger_rating).toFixed(1) : '—'}
                             {' · '}{paxTrips} viajes · {paxCount} {paxCount === 1 ? 'pasajero' : 'pasajeros'}
                           </Text>
@@ -1411,14 +1411,14 @@ export default function ConductorScreen() {
 
                     {/* Trayecto origen → destino + distancia/tiempo */}
                     <View style={s.routeInfo}>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 }}>
                         <MapPin size={14} color={brand.success} />
                         <Text style={[s.routeText, { color: brand.white }]} numberOfLines={1}>{pickup}</Text>
                       </View>
-                      <View style={{ paddingLeft: 13 }}>
+                      <View style={{ paddingLeft: espaciado.e13 }}>
                         <View style={PK.vLine} />
                       </View>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 }}>
                         <Flag size={14} color={brand.secondary} />
                         <Text style={[s.routeText, { color: brand.white }]} numberOfLines={1}>{dropoff}</Text>
                       </View>
@@ -1449,7 +1449,7 @@ export default function ConductorScreen() {
                         <Text style={s.bigAcceptSub}>Presupuesto del pasajero · ganas {netExact(userPrice) ? '' : '≈ '}{netOf(userPrice).toLocaleString('es')} XAF</Text>
                       </Pressable>
                     )}
-                    {busy && <ActivityIndicator color={brand.secondary} style={{ marginTop: 8 }} />}
+                    {busy && <ActivityIndicator color={brand.secondary} style={{ marginTop: espaciado.e8 }} />}
                   </ScrollView>
                 </View>
               )}
@@ -1459,7 +1459,7 @@ export default function ConductorScreen() {
               {online && phase === 'ruta' && (
                 <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
                   {/* Estado + pasajero (chip) */}
-                  <View pointerEvents="none" style={[s.dvState, { alignSelf: 'flex-start', marginTop: 4 }]}>
+                  <View pointerEvents="none" style={[s.dvState, { alignSelf: 'flex-start', marginTop: espaciado.e4 }]}>
                     <Text style={[s.dvStateText, { backgroundColor: colors.card, color: colors.textPrimary, borderColor: colors.border }]}>
                       {leg === 'trip' ? `Viaje en progreso · ${current?.passenger_name || 'Pasajero'}` : 'Yendo a por el pasajero'}
                     </Text>
@@ -1580,11 +1580,11 @@ export default function ConductorScreen() {
                       </View>
                       {tripExpanded && current && (
                         <View style={[s.dvTripMore, { backgroundColor: 'rgba(15,20,28,0.62)', borderColor: 'rgba(255,255,255,0.14)' }]}>
-                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                             <MapPin size={12} color={brand.success} />
                             <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: '600', flex: 1 }} numberOfLines={1}>{pickup}</Text>
                           </View>
-                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                             <Flag size={12} color={brand.secondary} />
                             <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: '600', flex: 1 }} numberOfLines={1}>{dropoff}</Text>
                           </View>
@@ -1600,12 +1600,12 @@ export default function ConductorScreen() {
                     <View pointerEvents="box-none" style={[s.dvCardA, { backgroundColor: 'rgba(15,20,28,0.5)', borderColor: 'rgba(255,255,255,0.14)' }]}>
                       <View style={{ flex: 1 }}>
                         <Text style={{ color: brand.success, fontSize: 10, fontWeight: '900', letterSpacing: 0.4 }}>🟢 CAMINO PARA RECOGER AL PASAJERO</Text>
-                        <Text numberOfLines={1} style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '800', marginTop: 2 }}>{pickup}</Text>
+                        <Text numberOfLines={1} style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e2 }}>{pickup}</Text>
                         {current?.passenger_name ? (
                           <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,0.62)', fontSize: tipografia.micro, fontWeight: '600', marginTop: 1 }}>👤 {current.passenger_name}</Text>
                         ) : null}
                       </View>
-                      <View style={{ flexDirection: 'row', gap: 8 }}>
+                      <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                         <Pressable
                           onPress={() => { const d = (current?.passenger_phone || '').replace(/\D/g, ''); if (d) Linking.openURL(`https://wa.me/${d}`).catch(() => {}); }}
                           disabled={!current?.passenger_phone}
@@ -1829,7 +1829,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
             ))}
           </View>
           {err ? <Text style={pps.errTxt}>Código incorrecto — vuelve a preguntarlo</Text> : null}
-          {checking ? <ActivityIndicator color={brand.success} style={{ marginVertical: 6 }} /> : null}
+          {checking ? <ActivityIndicator color={brand.success} style={{ marginVertical: espaciado.e6 }} /> : null}
 
           {/* Teclado */}
           <View style={pps.pad}>
@@ -1847,7 +1847,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
             )}
           </View>
 
-          <Pressable onPress={onCancel} disabled={busy} accessibilityRole="button" accessibilityLabel="Cancelar petición de código" style={{ marginTop: 10 }}>
+          <Pressable onPress={onCancel} disabled={busy} accessibilityRole="button" accessibilityLabel="Cancelar petición de código" style={{ marginTop: espaciado.e10 }}>
             <Text style={{ color: '#6B7280', fontSize: tipografia.body, fontWeight: '700' }}>Cancelar</Text>
           </Pressable>
         </View>
@@ -1857,15 +1857,15 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
 }
 
 const pps = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: 24 },
-  card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: 24, padding: 22, alignItems: 'center', gap: 6 },
-  iconCircle: { width: 54, height: 54, borderRadius: 27, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
+  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
+  card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: 24, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e6 },
+  iconCircle: { width: 54, height: 54, borderRadius: 27, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e2 },
   title: { color: '#111827', fontSize: 19, fontWeight: '900', textAlign: 'center' },
   sub: { color: '#6B7280', fontSize: tipografia.caption, fontWeight: '600', textAlign: 'center' },
-  boxRow: { flexDirection: 'row', gap: 12, marginVertical: 12 },
+  boxRow: { flexDirection: 'row', gap: espaciado.e12, marginVertical: espaciado.e12 },
   box: { width: 56, height: 64, borderRadius: radios.md, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
-  errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: 2 },
-  pad: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 8, marginTop: 8 },
+  errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e2 },
+  pad: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: espaciado.e8, marginTop: espaciado.e8 },
   key: { width: 76, height: altura.boton, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
 });
 
@@ -1911,113 +1911,113 @@ function CashFlowModal({ visible, amount, busy, onYes, onNo, onClose }: {
 }
 
 const cfm = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: 24 },
-  card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: 24, padding: 22, alignItems: 'center', gap: 8 },
-  iconCircle: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
+  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
+  card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: 24, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e8 },
+  iconCircle: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e4 },
   title: { color: '#111827', fontSize: tipografia.title, fontWeight: '900', textAlign: 'center' },
   sub: { color: '#6B7280', fontSize: tipografia.body, fontWeight: '600', textAlign: 'center' },
-  amount: { color: '#111827', fontSize: 34, fontWeight: '900', marginVertical: 6 },
-  btnYes: { width: '100%', backgroundColor: brand.success, borderRadius: radios.lg, paddingVertical: 15, alignItems: 'center', marginTop: 6, elevation: 3 },
+  amount: { color: '#111827', fontSize: 34, fontWeight: '900', marginVertical: espaciado.e6 },
+  btnYes: { width: '100%', backgroundColor: brand.success, borderRadius: radios.lg, paddingVertical: 15, alignItems: 'center', marginTop: espaciado.e6, elevation: 3 },
   btnYesTxt: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: '900' },
-  btnNo: { width: '100%', borderWidth: 1.5, borderColor: '#F53F3F55', borderRadius: radios.lg, paddingVertical: 12, alignItems: 'center', marginTop: 8, backgroundColor: '#F53F3F0C' },
+  btnNo: { width: '100%', borderWidth: 1.5, borderColor: '#F53F3F55', borderRadius: radios.lg, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e8, backgroundColor: '#F53F3F0C' },
   btnNoTxt: { color: brand.danger, fontSize: 14.5, fontWeight: '800' },
-  note: { color: '#9CA3AF', fontSize: tipografia.micro, fontWeight: '600', textAlign: 'center', marginTop: 6 },
+  note: { color: '#9CA3AF', fontSize: tipografia.micro, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e6 },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
-    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 },
+    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
     title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
-    error: { fontSize: tipografia.caption, fontWeight: '700', textAlign: 'center', marginHorizontal: 16 },
+    error: { fontSize: tipografia.caption, fontWeight: '700', textAlign: 'center', marginHorizontal: espaciado.e16 },
     mapWrap: { height: '50%', position: 'relative' },
     mapArea: { flex: 1, position: 'relative' },
-    overlayWrap: { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, justifyContent: 'flex-end', padding: 12 },
+    overlayWrap: { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, justifyContent: 'flex-end', padding: espaciado.e12 },
     bottomCard: {
       width: '100%', maxHeight: '36%', borderRadius: 24, borderWidth: 1,
-      padding: 14, gap: 10,
+      padding: espaciado.e14, gap: espaciado.e10,
       ...elevation.lg,
     },
-    offerContent: { gap: 12, paddingBottom: 6 },
-    warnStrip: { flexDirection: 'row', alignItems: 'center', gap: 7, marginHorizontal: 12, marginTop: 6, backgroundColor: '#F53F3F14', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 6 },
+    offerContent: { gap: espaciado.e12, paddingBottom: espaciado.e6 },
+    warnStrip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, marginHorizontal: espaciado.e12, marginTop: espaciado.e6, backgroundColor: '#F53F3F14', borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 },
     rutaNoticePill: {
-      alignSelf: 'center', marginTop: 8, borderRadius: radios.full, borderWidth: 1,
-      backgroundColor: 'rgba(15,20,28,0.82)', paddingHorizontal: 16, paddingVertical: 8,
+      alignSelf: 'center', marginTop: espaciado.e8, borderRadius: radios.full, borderWidth: 1,
+      backgroundColor: 'rgba(15,20,28,0.82)', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8,
     },
-    statusRow: { flexDirection: 'row', alignItems: 'center', gap: 12, width: '100%' },
+    statusRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, width: '100%' },
     statusDot: { width: 12, height: 12, borderRadius: 6 },
     goOnlineBtn: { width: '100%', backgroundColor: brand.success, borderRadius: 18, paddingVertical: 15, alignItems: 'center', elevation: 4 },
     goOnlineText: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: '900', letterSpacing: 0.2 },
-    followBtn: { position: 'absolute', top: 8, right: 10, flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: radios.full, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 6, elevation: 4 },
-    navRow: { flexDirection: 'row', alignItems: 'baseline', gap: 6, marginTop: 2 },
-    badge: { position: 'absolute', top: 64, alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: 16, paddingVertical: 6, elevation: 4 },
-    panel: { flex: 1, margin: 12, borderRadius: 20, borderWidth: 1, padding: 16, gap: 10, alignItems: 'center', justifyContent: 'center' },
-    waitText: { fontSize: tipografia.body, fontWeight: '600', marginTop: 8 },
-    countRow: { flexDirection: 'row', alignItems: 'center', gap: 10, width: '100%' },
+    followBtn: { position: 'absolute', top: 8, right: 10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, elevation: 4 },
+    navRow: { flexDirection: 'row', alignItems: 'baseline', gap: espaciado.e6, marginTop: espaciado.e2 },
+    badge: { position: 'absolute', top: 64, alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e6, elevation: 4 },
+    panel: { flex: 1, margin: espaciado.e12, borderRadius: 20, borderWidth: 1, padding: espaciado.e16, gap: espaciado.e10, alignItems: 'center', justifyContent: 'center' },
+    waitText: { fontSize: tipografia.body, fontWeight: '600', marginTop: espaciado.e8 },
+    countRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, width: '100%' },
     countTrack: { flex: 1, height: 6, borderRadius: 3, backgroundColor: c.border, overflow: 'hidden' },
     countFill: { height: 6, backgroundColor: brand.secondary, borderRadius: 3 },
     netLabel: { fontSize: tipografia.micro, fontWeight: '700', letterSpacing: 0.4 },
     netAmount: { fontSize: tipografia.display, fontWeight: '900' },
-    routeInfo: { width: '100%', gap: 4, marginTop: 4 },
+    routeInfo: { width: '100%', gap: espaciado.e4, marginTop: espaciado.e4 },
     routeText: { fontSize: tipografia.body, fontWeight: '700', flex: 1 },
-    meta: { fontSize: tipografia.caption, fontWeight: '600', marginTop: 4 },
-    priceRow: { flexDirection: 'row', gap: 10, width: '100%' },
-    priceChip: { flex: 1, borderRadius: 14, borderWidth: 1.5, padding: 10, alignItems: 'center', gap: 2 },
-    acceptBtn: { width: '100%', backgroundColor: brand.success, borderRadius: 18, paddingVertical: 15, alignItems: 'center', gap: 2, elevation: 4 },
+    meta: { fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e4 },
+    priceRow: { flexDirection: 'row', gap: espaciado.e10, width: '100%' },
+    priceChip: { flex: 1, borderRadius: 14, borderWidth: 1.5, padding: espaciado.e10, alignItems: 'center', gap: espaciado.e2 },
+    acceptBtn: { width: '100%', backgroundColor: brand.success, borderRadius: 18, paddingVertical: 15, alignItems: 'center', gap: espaciado.e2, elevation: 4 },
     acceptText: { color: brand.white, fontSize: 17, fontWeight: '900' },
-    bigAccept: { width: '100%', borderRadius: radios.lg, paddingVertical: 13, paddingHorizontal: 14, alignItems: 'center', gap: 2, elevation: 3 },
+    bigAccept: { width: '100%', borderRadius: radios.lg, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e14, alignItems: 'center', gap: espaciado.e2, elevation: 3 },
     bigAcceptTop: { color: brand.white, fontSize: 17, fontWeight: '900' },
     bigAcceptSub: { color: 'rgba(255,255,255,0.9)', fontSize: tipografia.caption, fontWeight: '600' },
     headerState: { fontSize: tipografia.subtitle, fontWeight: '800' },
-    passenger: { flexDirection: 'row', alignItems: 'center', gap: 10, width: '100%' },
+    passenger: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, width: '100%' },
     avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: brand.primary, alignItems: 'center', justifyContent: 'center' },
     roundBtn: { width: 46, height: 46, borderRadius: 23, alignItems: 'center', justifyContent: 'center' },
-    goBtn: { width: '100%', backgroundColor: brand.primary, borderRadius: radios.lg, paddingVertical: 13, alignItems: 'center' },
+    goBtn: { width: '100%', backgroundColor: brand.primary, borderRadius: radios.lg, paddingVertical: espaciado.e13, alignItems: 'center' },
     goText: { color: brand.white, fontSize: 15, fontWeight: '800' },
-    endBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', backgroundColor: brand.danger, borderRadius: radios.lg, paddingVertical: 14 },
+    endBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, width: '100%', backgroundColor: brand.danger, borderRadius: radios.lg, paddingVertical: espaciado.e14 },
     endText: { color: brand.white, fontSize: 15, fontWeight: '900' },
-    alertBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', borderWidth: 1, borderColor: '#F53F3F55', borderRadius: 14, paddingVertical: 11, backgroundColor: '#F53F3F10' },
+    alertBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, width: '100%', borderWidth: 1, borderColor: '#F53F3F55', borderRadius: 14, paddingVertical: espaciado.e11, backgroundColor: '#F53F3F10' },
     // ── Vista de conducción ──
-    dvState: { paddingHorizontal: 12, paddingVertical: 4, marginTop: 2 },
-    dvStateText: { fontSize: tipografia.caption, fontWeight: '800', paddingHorizontal: 12, paddingVertical: 6, borderRadius: radios.full, borderWidth: 1, overflow: 'hidden' },
+    dvState: { paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e4, marginTop: espaciado.e2 },
+    dvStateText: { fontSize: tipografia.caption, fontWeight: '800', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full, borderWidth: 1, overflow: 'hidden' },
     dvLane: { position: 'absolute', top: 92, left: 12, width: 74, height: 74, borderRadius: 37, alignItems: 'center', justifyContent: 'center', ...elevation.lg },
-    dvLanes: { position: 'absolute', top: 212, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+    dvLanes: { position: 'absolute', top: 212, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6 },
     dvLaneChip: { width: 36, height: 36, borderRadius: 9, alignItems: 'center', justifyContent: 'center', elevation: 4 },
     dvLaneGlyph2: { color: brand.white, fontSize: 19, fontWeight: '900' },
-    dvLaneDist2: { fontSize: tipografia.caption, fontWeight: '800', paddingHorizontal: 8, paddingVertical: 3, borderRadius: radios.sm, borderWidth: 1, color: brand.white, backgroundColor: 'rgba(10,16,28,0.7)', borderColor: 'transparent' },
+    dvLaneDist2: { fontSize: tipografia.caption, fontWeight: '800', paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.sm, borderWidth: 1, color: brand.white, backgroundColor: 'rgba(10,16,28,0.7)', borderColor: 'transparent' },
     dvLaneGlyph: { color: brand.white, fontSize: 34, fontWeight: '900' },
     dvLaneDist: { color: brand.white, fontSize: 10.5, fontWeight: '900', marginTop: -4 },
-    dvMvCard: { position: 'absolute', top: 150, alignSelf: 'center', maxWidth: '82%', flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: radios.full, backgroundColor: 'rgba(10,16,28,0.80)', paddingHorizontal: 10, paddingVertical: 6, ...elevation.lg },
+    dvMvCard: { position: 'absolute', top: 150, alignSelf: 'center', maxWidth: '82%', flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.full, backgroundColor: 'rgba(10,16,28,0.80)', paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, ...elevation.lg },
     dvMvGlyphBox: { width: 42, height: 42, borderRadius: 21, backgroundColor: 'rgba(255,255,255,0.16)', alignItems: 'center', justifyContent: 'center' },
     dvMvGlyphBig: { fontSize: 24, fontWeight: '900' },
     dvMvGlyphSmall: { fontSize: 15 },
     dvMvDist: { fontSize: 21, fontWeight: '900', color: brand.white },
     dvMvName: { fontSize: tipografia.caption, fontWeight: '700', color: 'rgba(255,255,255,0.85)', marginTop: 1 },
-    dvMvNext: { flexDirection: 'row', alignItems: 'center', gap: 4, borderLeftWidth: 1, borderLeftColor: 'rgba(255,255,255,0.3)', paddingLeft: 8, maxWidth: 90 },
+    dvMvNext: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderLeftWidth: 1, borderLeftColor: 'rgba(255,255,255,0.3)', paddingLeft: espaciado.e8, maxWidth: 90 },
     dvMvNextText: { fontSize: 10.5, fontWeight: '600', color: 'rgba(255,255,255,0.8)' },
-    dvCtrls: { position: 'absolute', top: 8, right: 10, gap: 8 },
-    dvDbg: { position: 'absolute', top: 210, right: 10, borderRadius: radios.sm, borderWidth: 1, paddingHorizontal: 8, paddingVertical: 4 },
+    dvCtrls: { position: 'absolute', top: 8, right: 10, gap: espaciado.e8 },
+    dvDbg: { position: 'absolute', top: 210, right: 10, borderRadius: radios.sm, borderWidth: 1, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
     dvBtn: { width: 42, height: 42, borderRadius: 21, borderWidth: 1, alignItems: 'center', justifyContent: 'center', elevation: 4 },
     dvSpeed: { position: 'absolute', bottom: 104, left: 14, width: 74, height: 74, borderRadius: 37, borderWidth: 2, alignItems: 'center', justifyContent: 'center', elevation: 5 },
     dvSpeedNum: { fontSize: 21, fontWeight: '900' },
     dvSpeedUnit: { fontSize: 9, fontWeight: '700' },
-    dvEta: { position: 'absolute', bottom: 96, right: 14, borderRadius: 14, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 8, elevation: 5 },
+    dvEta: { position: 'absolute', bottom: 96, right: 14, borderRadius: 14, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, elevation: 5 },
     dvEtaClock: { fontSize: tipografia.body, fontWeight: '900' },
     dvEtaSub: { fontSize: tipografia.micro, fontWeight: '600' },
-    dvActions: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingBottom: 8 },
-    dvPin: { position: 'absolute', bottom: 172, alignSelf: 'center', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 14, paddingVertical: 5, elevation: 5 },
+    dvActions: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 },
+    dvPin: { position: 'absolute', bottom: 172, alignSelf: 'center', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e5, elevation: 5 },
     // P4: tarjeta del viaje EN MARCHA (TOTAL efectivo + hora + "Más" expandible)
     dvTrip: {
       position: 'absolute', bottom: 96, right: 14, left: 118, borderRadius: 14, borderWidth: 1,
-      paddingHorizontal: 12, paddingVertical: 7, flexDirection: 'row', alignItems: 'center', gap: 8, elevation: 5,
+      paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, elevation: 5,
     },
     dvTripFare: { fontSize: 17, fontWeight: '900' },
-    dvMoreBtn: { flexDirection: 'column', alignItems: 'center', gap: 1, borderWidth: 1, borderRadius: 10, paddingHorizontal: 7, paddingVertical: 4 },
+    dvMoreBtn: { flexDirection: 'column', alignItems: 'center', gap: 1, borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e4 },
     dvTripMore: {
       position: 'absolute', bottom: 172, right: 14, left: 118, borderRadius: radios.md, borderWidth: 1,
-      padding: 8, gap: 5, elevation: 5,
+      padding: espaciado.e8, gap: espaciado.e5, elevation: 5,
     },
     dvCancel: { width: 48, height: 48, borderRadius: 24, borderWidth: 1, alignItems: 'center', justifyContent: 'center', elevation: 5 },
-    dvMain: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderRadius: 20, paddingVertical: 13, elevation: 6 },
+    dvMain: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: 20, paddingVertical: espaciado.e13, elevation: 6 },
     dvMainText: { color: brand.white, fontSize: 14.5, fontWeight: '900' },
     // P1: botón de perfil TRANSPARENTE abajo-derecha sobre el mapa (Home sheet)
     homeFab: {
@@ -2027,22 +2027,22 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     },
     heatChip: {
       position: 'absolute', top: 10, alignSelf: 'center', borderRadius: radios.full,
-      paddingHorizontal: 14, paddingVertical: 7, elevation: 5,
+      paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, elevation: 5,
     },
     // ── Espera: radar de búsqueda DENTRO del mapa (transparente) ──
     waitRadarWrap: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', paddingBottom: 60 },
     waitRadarCard: {
-      alignItems: 'center', borderRadius: 22, borderWidth: 1, paddingHorizontal: 22, paddingVertical: 14,
+      alignItems: 'center', borderRadius: 22, borderWidth: 1, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e14,
       backgroundColor: 'rgba(15,20,28,0.45)',
     },
     restPill: {
-      marginTop: 14, borderRadius: radios.full, borderWidth: 1, paddingHorizontal: 16, paddingVertical: 8,
+      marginTop: espaciado.e14, borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8,
       backgroundColor: 'rgba(15,20,28,0.45)',
     },
     // ── Ruta: tarjetas A/B compactas y translúcidas + botones ──
     dvCardA: {
       position: 'absolute', bottom: 96, right: 14, left: 118, borderRadius: 14, borderWidth: 1,
-      paddingHorizontal: 12, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 10, elevation: 5,
+      paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, elevation: 5,
     },
     contactBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', elevation: 3 },
   });
@@ -2051,18 +2051,18 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
 // el tema claro/oscuro de la app). El fondo/borde van inline sobre s.bottomCard. ──
 const PK = StyleSheet.create({
   countTxt: { color: 'rgba(255,255,255,0.85)', fontWeight: '700', fontSize: 15 },
-  paxRow: { flexDirection: 'row', alignItems: 'center', gap: 11, width: '100%' },
+  paxRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e11, width: '100%' },
   avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: brand.primary, alignItems: 'center', justifyContent: 'center' },
   avatarTxt: { color: brand.white, fontSize: tipografia.title, fontWeight: '900' },
   name: { color: brand.white, fontSize: 19, fontWeight: '900', flexShrink: 1 },
   badgeGreen: {
-    flexDirection: 'row', alignItems: 'center', gap: 3,
-    backgroundColor: 'rgba(43,194,106,0.16)', borderRadius: radios.full, paddingHorizontal: 7, paddingVertical: 2,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e3,
+    backgroundColor: 'rgba(43,194,106,0.16)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2,
   },
   badgeGreenTxt: { color: brand.success, fontSize: 10.5, fontWeight: '800' },
   badgeGray: {
-    flexDirection: 'row', alignItems: 'center', gap: 3,
-    backgroundColor: 'rgba(255,255,255,0.10)', borderRadius: radios.full, paddingHorizontal: 7, paddingVertical: 2,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e3,
+    backgroundColor: 'rgba(255,255,255,0.10)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2,
   },
   badgeGrayTxt: { color: 'rgba(255,255,255,0.6)', fontSize: 10.5, fontWeight: '700' },
   metaTxt: { color: 'rgba(255,255,255,0.66)', fontSize: tipografia.caption, fontWeight: '600' },
