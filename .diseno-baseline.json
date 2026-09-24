@@ -5,7 +5,7 @@
     "borderRadius": 688,
     "fontWeight": 1948,
     "borderWidth": 528,
-    "espaciado": 3716,
+    "espaciado": 3303,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -105,7 +105,7 @@
       "borderRadius": 4,
       "fontWeight": 17,
       "borderWidth": 5,
-      "espaciado": 27,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/conductor.tsx": {
@@ -114,7 +114,7 @@
       "borderRadius": 34,
       "fontWeight": 74,
       "borderWidth": 26,
-      "espaciado": 155,
+      "espaciado": 9,
       "precioFigura": 0
     },
     "app/documents.tsx": {
@@ -852,7 +852,7 @@
       "borderRadius": 2,
       "fontWeight": 6,
       "borderWidth": 3,
-      "espaciado": 19,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/monedero-pin.tsx": {
@@ -861,7 +861,7 @@
       "borderRadius": 3,
       "fontWeight": 3,
       "borderWidth": 2,
-      "espaciado": 15,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/monedero-recargar.tsx": {
@@ -870,7 +870,7 @@
       "borderRadius": 1,
       "fontWeight": 6,
       "borderWidth": 2,
-      "espaciado": 22,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/monedero-retirar.tsx": {
@@ -879,7 +879,7 @@
       "borderRadius": 2,
       "fontWeight": 6,
       "borderWidth": 3,
-      "espaciado": 26,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/monedero.tsx": {
@@ -888,7 +888,7 @@
       "borderRadius": 3,
       "fontWeight": 12,
       "borderWidth": 3,
-      "espaciado": 30,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/my-tickets.tsx": {
@@ -978,7 +978,7 @@
       "borderRadius": 20,
       "fontWeight": 71,
       "borderWidth": 18,
-      "espaciado": 138,
+      "espaciado": 5,
       "precioFigura": 0
     },
     "app/tienda/anuncios.tsx": {
