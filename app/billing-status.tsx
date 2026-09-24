@@ -22,7 +22,7 @@ import { SOPORTE, whatsappSoporte } from '../constants/soporte';
 import { mensajeDeError } from '../constants/errores';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, Clock, Package, Receipt, XCircle } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, Sheet, Aviso, EmptyState, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
+import { alpha, Aviso, EmptyState, espaciado, GhostButton, PrimaryButton, radios, ScreenHeader, Sheet, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { billingApi, BillingEntitlement } from '../api/billing';
 import { formatDate, formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -187,7 +187,7 @@ export default function BillingStatusScreen() {
     return (
       <View style={[s.root, { paddingTop: insets.top }]}>
         <SkeletonHeader colors={colors} />
-        <View style={{ padding: 16, gap: 10 }}>
+        <View style={{ padding: espaciado.e16, gap: espaciado.e10 }}>
           {[0, 1, 2].map((i) => (
             <View key={i} style={{ height: 86, borderRadius: radios.md, backgroundColor: colors.border, width: i === 1 ? '90%' : '100%' }} />
           ))}
@@ -206,17 +206,17 @@ export default function BillingStatusScreen() {
       />
 
       {error ? (
-        <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: 28 }}>
-          <Text style={{ fontSize: 38, marginBottom: 8 }}>📡</Text>
+        <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: espaciado.e28 }}>
+          <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
           <Text style={{ fontSize: 15, fontWeight: '800', color: colors.textPrimary, textAlign: 'center' }}>Algo salió mal</Text>
-          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 18 }}>{error}</Text>
-          <Pressable onPress={() => load('initial')} accessibilityRole="button" style={{ marginTop: 18, backgroundColor: brand.secondary, paddingHorizontal: 24, paddingVertical: 11, borderRadius: 22 }}>
+          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
+          <Pressable onPress={() => load('initial')} accessibilityRole="button" style={{ marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 }}>
             <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
         <ScrollView
-          contentContainerStyle={{ padding: 16, paddingBottom: 32 + insets.bottom }}
+          contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e32 + insets.bottom }}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => load('refresh')} tintColor={colors.primary} />}
         >
           {/* Avisos de ciclo de vida */}
@@ -280,13 +280,13 @@ export default function BillingStatusScreen() {
               const mod = e.module || moduleOf(e.code);
               return (
                 <View key={e.id} style={[s.entitleCard, { borderColor: brand.success, backgroundColor: alpha(brand.success, 0.06) }]}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                     <BadgeCheck size={16} color={brand.success} />
                     <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>
                       {entitlementLabel(e.code, e.module)}
                     </Text>
                   </View>
-                  <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 4 }}>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>
                     {MODULE_LABEL[mod] ?? 'Plan'}{e.expiresAt ? ` · vence el ${formatDate(e.expiresAt)}${e.daysLeft != null ? ` (${e.daysLeft} días)` : ''}` : ' · vigencia permanente'}
                   </Text>
                 </View>
@@ -295,7 +295,7 @@ export default function BillingStatusScreen() {
           )}
 
           {/* Órdenes */}
-          <Text style={[s.sectionTitle, { marginTop: 20 }]}>Mis órdenes</Text>
+          <Text style={[s.sectionTitle, { marginTop: espaciado.e20 }]}>Mis órdenes</Text>
           {orders.length === 0 ? (
             <EmptyState
               compacto
@@ -314,25 +314,25 @@ export default function BillingStatusScreen() {
                 : null;
               return (
                 <View key={o.id} style={[s.orderCard, { borderColor: colors.border }]}>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
                     <View style={{ flex: 1 }}>
                       <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>{o.planName}</Text>
-                      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }}>
+                      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>
                         {MODULE_LABEL[mod] ?? ''} · {formatXAF(o.amountXaf)} · {new Date(o.createdAt).toLocaleDateString('es-GQ')}
                       </Text>
                     </View>
-                    <View style={{ paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, backgroundColor: alpha(st.color, 0.12) }}>
+                    <View style={{ paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6, backgroundColor: alpha(st.color, 0.12) }}>
                       <Text style={{ fontSize: 10.5, fontWeight: '700', color: st.color }}>{st.label}</Text>
                     </View>
                   </View>
                   {o.status === 'rejected' && o.rejectionReason ? (
-                    <Text style={{ fontSize: tipografia.micro, color: brand.danger, fontWeight: '600', marginTop: 8 }}>Motivo: {o.rejectionReason}</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: brand.danger, fontWeight: '600', marginTop: espaciado.e8 }}>Motivo: {o.rejectionReason}</Text>
                   ) : null}
                   {reason ? (
-                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '600', marginTop: 8 }}>{reason}</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '600', marginTop: espaciado.e8 }}>{reason}</Text>
                   ) : null}
                   {(o.status === 'pending_payment' || o.status === 'rejected') && (
-                    <View style={{ marginTop: 10, gap: 8 }}>
+                    <View style={{ marginTop: espaciado.e10, gap: espaciado.e8 }}>
                       <PrimaryButton
                         title="Ir al pago / re-subir comprobante"
                         onPress={() => router.push({ pathname: '/billing-checkout', params: { orderId: o.id } } as any)}
@@ -344,7 +344,7 @@ export default function BillingStatusScreen() {
                           accessibilityRole="button"
                           accessibilityLabel="Cancelar orden"
                           testID={`billing-cancel-order-${o.id.slice(0, 8)}`}
-                          style={{ paddingVertical: 10, alignItems: 'center', opacity: cancellingOrderId ? 0.6 : 1 }}
+                          style={{ paddingVertical: espaciado.e10, alignItems: 'center', opacity: cancellingOrderId ? 0.6 : 1 }}
                         >
                           {cancellingOrderId === o.id ? (
                             <ActivityIndicator size="small" color={colors.danger} />
@@ -408,7 +408,7 @@ function ModulePlans() {
   const { colors } = useTheme();
   const router = useRouter();
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 8, marginTop: 14 }}>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: espaciado.e8, marginTop: espaciado.e14 }}>
       {Object.entries(MODULE_ROUTES).map(([mod, route]) => (
         <Pressable
           key={mod}
@@ -437,20 +437,20 @@ function RenewCard({ tone, icon, title, body, cta, onPress, testID }: {
   const titleColor = tone === 'warn' ? brand.warningText : tone === 'danger' ? brand.dangerText : colors.textPrimary;
   const bodyColor = tone === 'danger' ? brand.dangerText : colors.textSecondary;
   return (
-    <View style={[s_card.entitleCard, { borderColor: border, backgroundColor: bg, marginBottom: 10 }]}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+    <View style={[s_card.entitleCard, { borderColor: border, backgroundColor: bg, marginBottom: espaciado.e10 }]}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
         {icon}
         <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: '700', color: titleColor }}>{title}</Text>
       </View>
-      <Text style={{ fontSize: tipografia.caption, color: bodyColor, marginTop: 4 }}>{body}</Text>
-      <View style={{ marginTop: 8 }}><PrimaryButton title={cta} onPress={onPress} testID={testID} /></View>
+      <Text style={{ fontSize: tipografia.caption, color: bodyColor, marginTop: espaciado.e4 }}>{body}</Text>
+      <View style={{ marginTop: espaciado.e8 }}><PrimaryButton title={cta} onPress={onPress} testID={testID} /></View>
     </View>
   );
 }
 
 function SkeletonHeader({ colors }: { colors: ReturnType<typeof useTheme>['colors'] }) {
   return (
-    <View style={{ height: 46, justifyContent: 'center', paddingHorizontal: 16 }}>
+    <View style={{ height: 46, justifyContent: 'center', paddingHorizontal: espaciado.e16 }}>
       <View style={{ height: 16, borderRadius: 4, backgroundColor: colors.border, width: '55%', alignSelf: 'center' }} />
     </View>
 
@@ -458,15 +458,15 @@ function SkeletonHeader({ colors }: { colors: ReturnType<typeof useTheme>['color
 }
 
 const s_card = StyleSheet.create({
-  entitleCard: { borderRadius: radios.md, padding: 14, borderWidth: 1 },
-  planChip: { paddingHorizontal: 14, paddingVertical: 8, borderRadius: 18, borderWidth: 1 },
+  entitleCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: 1 },
+  planChip: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 18, borderWidth: 1 },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     root: { flex: 1, backgroundColor: c.background },
-    sectionTitle: { fontSize: 15, fontWeight: '800', color: c.textPrimary, marginBottom: 10 },
-    empty: { fontSize: tipografia.caption, color: c.textSecondary, textAlign: 'center', marginVertical: 16 },
-    entitleCard: { borderRadius: radios.md, padding: 14, borderWidth: 1, marginBottom: 8 },
-    orderCard: { borderRadius: radios.md, padding: 14, borderWidth: 1, marginBottom: 10 },
+    sectionTitle: { fontSize: 15, fontWeight: '800', color: c.textPrimary, marginBottom: espaciado.e10 },
+    empty: { fontSize: tipografia.caption, color: c.textSecondary, textAlign: 'center', marginVertical: espaciado.e16 },
+    entitleCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: 1, marginBottom: espaciado.e8 },
+    orderCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: 1, marginBottom: espaciado.e10 },
   });

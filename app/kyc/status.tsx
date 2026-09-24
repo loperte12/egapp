@@ -8,7 +8,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SOPORTE, whatsappSoporte } from '../../constants/soporte';
-import { StepHeader, KycStatusBanner, PrimaryButton, GhostButton, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, GhostButton, KycStatusBanner, PrimaryButton, StepHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { kycApi, type SubmissionState, KYC_TERMINAL_STATUSES } from '../../api/kyc';
 import { ApiError } from '../../api/auth';
 import { KYC_STATUS_TO_STEP } from '@egrouteplan/contracts';
@@ -60,7 +60,7 @@ export default function KycStatusScreen() {
 
   if (error && !state) {
     return (
-      <View style={[styles.center, { backgroundColor: colors.background, padding: 24 }]}>
+      <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24 }]}>
         <KycStatusBanner tone="error" title="Error de conexión" message={error} />
       </View>
     );
@@ -168,10 +168,10 @@ export default function KycStatusScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, paddingHorizontal: 24, paddingTop: 16, paddingBottom: 32 },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
-  header: { marginBottom: 24 },
-  body: { flex: 1, gap: 16 },
+  root: { flex: 1, paddingHorizontal: espaciado.e24, paddingTop: espaciado.e16, paddingBottom: espaciado.e32 },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
+  header: { marginBottom: espaciado.e24 },
+  body: { flex: 1, gap: espaciado.e16 },
   text: { fontSize: tipografia.body, fontWeight: '600', textAlign: 'center' },
-  footer: { marginTop: 20 },
+  footer: { marginTop: espaciado.e20 },
 });

@@ -13,7 +13,7 @@ import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { FormField, GhostButton, OtpInput, PrimaryButton, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, FormField, GhostButton, OtpInput, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, ShieldCheck } from 'lucide-react-native';
 import { authApi, ApiError } from '../api/auth';
 import { useSession } from '../state/session';
@@ -137,7 +137,7 @@ export default function OnboardingAuthScreen() {
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.background }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + 8, paddingBottom: insets.bottom + 24 }]} keyboardShouldPersistTaps="handled">
         <View style={styles.header}>
-          <Pressable onPress={() => (mode === 'terms' ? router.back() : setMode('terms'))} hitSlop={12} style={{ padding: 4 }}>
+          <Pressable onPress={() => (mode === 'terms' ? router.back() : setMode('terms'))} hitSlop={12} style={{ padding: espaciado.e4 }}>
             <ArrowLeft size={22} color={colors.textPrimary} />
           </Pressable>
           <Text style={[styles.headerTitle, { color: colors.textPrimary }]}>
@@ -246,14 +246,14 @@ export default function OnboardingAuthScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { padding: 24, paddingBottom: 48, gap: 16 },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
+  content: { padding: espaciado.e24, paddingBottom: 48, gap: espaciado.e16 },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e8 },
   headerTitle: { fontSize: 17, fontWeight: '800' },
-  block: { gap: 12, alignItems: 'stretch' },
-  iconWrap: { width: 80, height: 80, borderRadius: 40, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: 12 },
+  block: { gap: espaciado.e12, alignItems: 'stretch' },
+  iconWrap: { width: 80, height: 80, borderRadius: 40, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: espaciado.e12 },
   title: { fontSize: tipografia.title, fontWeight: '800', textAlign: 'center' },
   body: { fontSize: tipografia.body, lineHeight: 20, textAlign: 'center', fontWeight: '600' },
-  actions: { gap: 10, marginTop: 8 },
+  actions: { gap: espaciado.e10, marginTop: espaciado.e8 },
   gap: { height: 8 },
   error: { fontSize: tipografia.body, fontWeight: '700', textAlign: 'center' },
 });

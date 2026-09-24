@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { FormField, PrimaryButton, StepHeader, KycStatusBanner, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, FormField, KycStatusBanner, PrimaryButton, StepHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useSession } from '../../state/session';
 import { kycApi, type SubmissionState } from '../../api/kyc';
 import { ApiError } from '../../api/auth';
@@ -97,7 +97,7 @@ export default function KycStartScreen() {
 
   if (existing?.status === 'APPROVED_L2') {
     return (
-      <View style={[styles.center, { backgroundColor: colors.background, padding: 24 }]}>
+      <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24 }]}>
         <KycStatusBanner
           tone="success"
           title="Identidad verificada"
@@ -174,9 +174,9 @@ export default function KycStartScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
-  scroll: { flexGrow: 1, paddingHorizontal: 24, paddingTop: 16, paddingBottom: 40 },
-  field: { marginTop: 14 },
-  hint: { fontSize: tipografia.micro, marginTop: 6, fontWeight: '600' },
-  button: { marginTop: 32 },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
+  scroll: { flexGrow: 1, paddingHorizontal: espaciado.e24, paddingTop: espaciado.e16, paddingBottom: 40 },
+  field: { marginTop: espaciado.e14 },
+  hint: { fontSize: tipografia.micro, marginTop: espaciado.e6, fontWeight: '600' },
+  button: { marginTop: espaciado.e32 },
 });

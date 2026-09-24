@@ -37,7 +37,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Lock } from 'lucide-react-native';
-import { alpha, PrimaryButton, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { biometricAvailable, biometricVerify } from './biometric';
 import { useSession } from '../state/session';
 
@@ -105,25 +105,25 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
         <View style={[styles.candado, { backgroundColor: alpha(colors.primary, 0.1) }]}>
           <Lock size={26} color={colors.primary} />
         </View>
-        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', marginTop: 14 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', marginTop: espaciado.e14 }}>
           Gestión de tu negocio
         </Text>
         <Text style={{
           color: colors.textSecondary, fontSize: tipografia.body, lineHeight: 19,
-          textAlign: 'center', marginTop: 7, paddingHorizontal: 34,
+          textAlign: 'center', marginTop: espaciado.e7, paddingHorizontal: 34,
         }}>
           Aquí están tu dinero, tus reservas y los datos de tus clientes. Confirma que eres tú
           para entrar.
         </Text>
         {fallo ? (
-          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 10 }}>
+          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e10 }}>
             {fallo}
           </Text>
         ) : null}
-        <View style={{ marginTop: 18, minWidth: 230 }}>
+        <View style={{ marginTop: espaciado.e18, minWidth: 230 }}>
           <PrimaryButton title="Desbloquear" onPress={() => void desbloquear()} />
         </View>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 12, textAlign: 'center', paddingHorizontal: 40 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, textAlign: 'center', paddingHorizontal: 40 }}>
           Se pide una vez cada 5 minutos, no en cada pantalla.
         </Text>
       </View>
@@ -138,7 +138,7 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
           backgroundColor: alpha(colors.secondary, 0.1),
           borderBottomWidth: StyleSheet.hairlineWidth,
           borderBottomColor: alpha(colors.secondary, 0.3),
-          paddingHorizontal: 14, paddingVertical: 7,
+          paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7,
         }}>
           <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700' }}>
             Este móvil no tiene huella ni PIN configurados: la gestión entra sin cerradura.
@@ -151,6 +151,6 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
 }
 
 const styles = StyleSheet.create({
-  centro: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
+  centro: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
   candado: { width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center' },
 });

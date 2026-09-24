@@ -29,7 +29,7 @@ import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera, Check, Info, RefreshCw, X, XCircle } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, FormField, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { billingApi, BillingOrder, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -248,23 +248,23 @@ export default function BillingCheckoutScreen() {
     return (
       <View style={[s.center, { backgroundColor: colors.background }]}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={{ marginTop: 12, color: colors.textSecondary }}>Cargando…</Text>
+        <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary }}>Cargando…</Text>
       </View>
     );
   }
   if (error && !plan) {
     return (
-      <View style={[s.center, { backgroundColor: colors.background, padding: 24 }]}>
+      <View style={[s.center, { backgroundColor: colors.background, padding: espaciado.e24 }]}>
         <XCircle size={48} color={colors.danger} />
-        <Text style={{ color: colors.danger, fontWeight: '700', marginTop: 12, textAlign: 'center' }}>{error}</Text>
-        <View style={{ marginTop: 16 }}><GhostButton title="Reintentar" onPress={() => load('initial')} /></View>
-        <View style={{ marginTop: 8 }}><GhostButton title="Volver" onPress={() => router.back()} /></View>
+        <Text style={{ color: colors.danger, fontWeight: '700', marginTop: espaciado.e12, textAlign: 'center' }}>{error}</Text>
+        <View style={{ marginTop: espaciado.e16 }}><GhostButton title="Reintentar" onPress={() => load('initial')} /></View>
+        <View style={{ marginTop: espaciado.e8 }}><GhostButton title="Volver" onPress={() => router.back()} /></View>
       </View>
     );
   }
   if (!plan) {
     return (
-      <View style={[s.center, { backgroundColor: colors.background, padding: 24 }]}>
+      <View style={[s.center, { backgroundColor: colors.background, padding: espaciado.e24 }]}>
         <Text style={{ color: colors.danger, fontWeight: '700' }}>Plan no encontrado</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
@@ -285,17 +285,17 @@ export default function BillingCheckoutScreen() {
       />
 
       <ScrollView
-        contentContainerStyle={{ padding: 16, paddingBottom: 24 + insets.bottom }}
+        contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e24 + insets.bottom }}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
         {error && (
-          <View style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), marginBottom: 12 }]}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <View style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), marginBottom: espaciado.e12 }]}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
               <XCircle size={16} color={colors.danger} />
               <Text style={{ flex: 1, color: colors.danger, fontWeight: '600', fontSize: tipografia.body }}>{error}</Text>
             </View>
-            <Pressable onPress={() => load('initial')} style={{ marginTop: 8, alignSelf: 'flex-start' }} accessibilityRole="button">
+            <Pressable onPress={() => load('initial')} style={{ marginTop: espaciado.e8, alignSelf: 'flex-start' }} accessibilityRole="button">
               <Text style={{ color: colors.primary, fontWeight: '700', fontSize: tipografia.caption }}>Reintentar</Text>
             </Pressable>
           </View>
@@ -303,16 +303,16 @@ export default function BillingCheckoutScreen() {
 
         {/* Plan */}
         <View style={[s.card, { borderColor: colors.border }]}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
             <Text style={{ fontSize: tipografia.subtitle, fontWeight: '700', color: colors.textPrimary, flex: 1 }}>{plan.name}</Text>
             <Text style={{ fontSize: 18, fontWeight: '800', color: colors.primary }}>{formatXAF(plan.priceXaf)}</Text>
           </View>
-          {plan.description ? <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 4 }}>{plan.description}</Text> : null}
+          {plan.description ? <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e4 }}>{plan.description}</Text> : null}
         </View>
 
         {/* Orden */}
         {!order ? (
-          <View style={{ marginTop: 16, gap: 10 }}>
+          <View style={{ marginTop: espaciado.e16, gap: espaciado.e10 }}>
             <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, lineHeight: 18 }}>
               Al confirmar se creará tu orden de compra. El precio lo calcula el servidor (no es editable). Después recibirás las instrucciones de pago y podrás subir el comprobante.
             </Text>
@@ -322,16 +322,16 @@ export default function BillingCheckoutScreen() {
         ) : (
           <>
             {/* Estado */}
-            <View style={[s.card, { borderColor: st.color, backgroundColor: alpha(st.color, 0.06), marginTop: 14 }]}>
+            <View style={[s.card, { borderColor: st.color, backgroundColor: alpha(st.color, 0.06), marginTop: espaciado.e14 }]}>
               <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: st.color }}>{st.label}</Text>
-              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 4 }}>
+              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>
                 Orden {order.id.slice(0, 8)}… · {formatXAF(order.amountXaf)} · vence{' '}
                 {order.expiresAt
                   ? new Date(order.expiresAt).toLocaleString('es-GQ', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                   : '—'}
               </Text>
               {order.rejectionReason ? (
-                <View style={{ marginTop: 8, flexDirection: 'row', alignItems: 'flex-start', gap: 6 }}>
+                <View style={{ marginTop: espaciado.e8, flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e6 }}>
                   <XCircle size={14} color={brand.danger} />
                   <Text style={{ flex: 1, fontSize: tipografia.caption, color: brand.danger, fontWeight: '600' }}>Motivo: {order.rejectionReason}</Text>
                 </View>
@@ -340,8 +340,8 @@ export default function BillingCheckoutScreen() {
 
             {/* Instrucciones de pago */}
             {(order.status === 'pending_payment' || order.status === 'rejected') && (
-              <View style={[s.card, { borderColor: colors.border, marginTop: 12 }]}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+              <View style={[s.card, { borderColor: colors.border, marginTop: espaciado.e12 }]}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginBottom: espaciado.e6 }}>
                   <Info size={14} color={colors.primary} />
                   <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Instrucciones de pago</Text>
                 </View>
@@ -353,12 +353,12 @@ export default function BillingCheckoutScreen() {
 
             {/* Subir comprobante */}
             {(order.status === 'pending_payment' || order.status === 'rejected') && (
-              <View style={{ marginTop: 16, gap: 10 }}>
+              <View style={{ marginTop: espaciado.e16, gap: espaciado.e10 }}>
                 <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>
                   {order.status === 'rejected' ? 'Sube un nuevo comprobante' : 'Sube tu comprobante de pago'}
                 </Text>
                 {proofUri ? (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                     <RNImage source={{ uri: proofUri }} style={{ width: 56, height: 56, borderRadius: radios.sm, backgroundColor: colors.surface }} />
                     <View style={{ flex: 1 }}>
                       <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: '700' }}>Comprobante adjunto</Text>
@@ -379,7 +379,7 @@ export default function BillingCheckoutScreen() {
                     style={({ pressed }) => [s.proofBox, { backgroundColor: colors.surface, borderColor: colors.border, opacity: pressed ? 0.8 : 1 }]}
                   >
                     <Camera size={18} color={colors.primary} />
-                    <Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: '700', marginLeft: 8 }}>Foto del comprobante (cámara o galería)</Text>
+                    <Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: '700', marginLeft: espaciado.e8 }}>Foto del comprobante (cámara o galería)</Text>
                   </Pressable>
                 )}
 
@@ -419,13 +419,13 @@ export default function BillingCheckoutScreen() {
             )}
 
             {(order.status === 'proof_submitted' || order.status === 'under_review') && (
-              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 12, textAlign: 'center', lineHeight: 16 }}>
+              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e12, textAlign: 'center', lineHeight: 16 }}>
                 Tu comprobante está en revisión (2–24 h). Cuando lo aprueben, tu derecho quedará activo aquí mismo.
               </Text>
             )}
 
             {order.status === 'approved' && (
-              <View style={{ marginTop: 16 }}>
+              <View style={{ marginTop: espaciado.e16 }}>
                 <PrimaryButton title="Ver mis derechos" onPress={() => router.push('/billing-status' as any)} testID="billing-view-rights" />
               </View>
             )}
@@ -455,8 +455,8 @@ export default function BillingCheckoutScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
-    card: { borderRadius: radios.md, padding: 14, borderWidth: 1 },
-    proofBox: { flexDirection: 'row', alignItems: 'center', padding: 14, borderRadius: 10, borderWidth: 1 },
-    refreshRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 16, paddingVertical: 8 },
+    card: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: 1 },
+    proofBox: { flexDirection: 'row', alignItems: 'center', padding: espaciado.e14, borderRadius: 10, borderWidth: 1 },
+    refreshRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, marginTop: espaciado.e16, paddingVertical: espaciado.e8 },
     center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   });

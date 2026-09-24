@@ -8,7 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { CameraCapture, KycStatusBanner, PrimaryButton, StepHeader, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { CameraCapture, espaciado, KycStatusBanner, PrimaryButton, StepHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { kycApi, base64ToBytes, hashBytes } from '../../api/kyc';
 import { ApiError } from '../../api/auth';
 import { KYC_STATUS_TO_STEP } from '@egrouteplan/contracts';
@@ -120,10 +120,10 @@ export default function KycCaptureScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, paddingHorizontal: 20, paddingTop: 12, paddingBottom: 24 },
-  header: { marginBottom: 12 },
-  banner: { marginBottom: 12 },
+  root: { flex: 1, paddingHorizontal: espaciado.e20, paddingTop: espaciado.e12, paddingBottom: espaciado.e24 },
+  header: { marginBottom: espaciado.e12 },
+  banner: { marginBottom: espaciado.e12 },
   camera: { flex: 1, borderRadius: 24, overflow: 'hidden' },
-  footer: { marginTop: 16, gap: 10 },
+  footer: { marginTop: espaciado.e16, gap: espaciado.e10 },
   legal: { fontSize: tipografia.micro, textAlign: 'center', fontWeight: '600' },
 });
