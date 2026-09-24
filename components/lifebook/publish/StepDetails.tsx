@@ -10,7 +10,7 @@
  */
 import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
-import { alpha, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { LB_CITIES } from '../../../constants/lifebook';
 import { LB_CONDITIONS, LB_PRICE_MODES, LB_STOCK_MODES } from '../../../constants/commerce';
 import { usePublishStore } from '../../../state/commercePublish';
@@ -67,7 +67,7 @@ export default function StepDetails() {
           ))}
         </ChipRow>
         {form.priceMode !== 'on_request' ? (
-          <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 }}>
             <TextInput
               value={form.price}
               onChangeText={(v) => setForm({ price: v.replace(/[^\d]/g, '') })}
@@ -86,7 +86,7 @@ export default function StepDetails() {
             />
           </View>
         ) : (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 8 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>
             El cliente te escribe y le das presupuesto. Ideal para oficios, mudanzas o alquileres.
           </Text>
         )}
@@ -105,7 +105,7 @@ export default function StepDetails() {
             keyboardType="number-pad"
             placeholder="¿Cuántas unidades tienes?"
             placeholderTextColor={colors.textSecondary}
-            style={[input, { marginTop: 8 }]}
+            style={[input, { marginTop: espaciado.e8 }]}
           />
         ) : null}
       </StepBlock>
@@ -130,7 +130,7 @@ export default function StepDetails() {
           placeholder="Barrio o referencia (opcional)"
           placeholderTextColor={colors.textSecondary}
           maxLength={60}
-          style={[input, { marginTop: 8 }]}
+          style={[input, { marginTop: espaciado.e8 }]}
         />
       </StepBlock>
 
@@ -154,7 +154,7 @@ export default function StepDetails() {
 }
 
 const styles = StyleSheet.create({
-  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 10, fontSize: tipografia.body },
+  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   area: { minHeight: 96, textAlignVertical: 'top' },
-  priceHint: { borderRadius: 10, padding: 10 },
+  priceHint: { borderRadius: 10, padding: espaciado.e10 },
 });

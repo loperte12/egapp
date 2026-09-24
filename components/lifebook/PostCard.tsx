@@ -21,7 +21,7 @@ import { Image } from 'expo-image';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { runOnJS } from 'react-native-reanimated';
 import { Heart, MoreHorizontal, Play } from 'lucide-react-native';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { LB_CARD_DEFAULT_RATIO, type LbPostCard } from '../../api/lifebook';
 import { lbXaf } from '../../constants/lifebook';
 import { brand } from '@egrouteplan/ui-kit';
@@ -172,7 +172,7 @@ export const PostCard = memo(function PostCard({ post, width, onPress, onMore, o
       </GestureDetector>
       {/* ── Título ── */}
       {footerText ? (
-        <Text numberOfLines={2} style={[styles.title, { color: colors.textPrimary, marginTop: 6 }]}>
+        <Text numberOfLines={2} style={[styles.title, { color: colors.textPrimary, marginTop: espaciado.e6 }]}>
           {footerText}
         </Text>
       ) : null}
@@ -242,20 +242,20 @@ function formatCount(n: number): string {
 }
 
 const styles = StyleSheet.create({
-  card: { borderRadius: 10, overflow: 'hidden', paddingBottom: 8 },
-  noMedia: { borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
+  card: { borderRadius: 10, overflow: 'hidden', paddingBottom: espaciado.e8 },
+  noMedia: { borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e10 },
   noMediaText: { fontSize: tipografia.caption, fontWeight: '700', lineHeight: 17, textAlign: 'center' },
-  title: { fontSize: tipografia.body, fontWeight: '600', lineHeight: 18, paddingHorizontal: 6 },
-  meta: { fontSize: tipografia.micro, fontWeight: '500', paddingHorizontal: 6, marginTop: 2 },
-  footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 6, marginTop: 6 },
-  authorRow: { flexDirection: 'row', alignItems: 'center', gap: 5, flex: 1, marginRight: 6 },
+  title: { fontSize: tipografia.body, fontWeight: '600', lineHeight: 18, paddingHorizontal: espaciado.e6 },
+  meta: { fontSize: tipografia.micro, fontWeight: '500', paddingHorizontal: espaciado.e6, marginTop: espaciado.e2 },
+  footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e6, marginTop: espaciado.e6 },
+  authorRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, flex: 1, marginRight: espaciado.e6 },
   avatar: { width: 18, height: 18, borderRadius: 9 },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
   socialRow: { flexDirection: 'row', alignItems: 'center' },
-  socialBtn: { flexDirection: 'row', alignItems: 'center', gap: 3, paddingHorizontal: 4, paddingVertical: 2 },
+  socialBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, paddingHorizontal: espaciado.e4, paddingVertical: espaciado.e2 },
   heartPop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' },
-  socialN: { color: '#8A8F99', fontSize: tipografia.micro, fontWeight: '600', marginLeft: 3 },
-  chip: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: radios.full, paddingHorizontal: 7, paddingVertical: 2 },
+  socialN: { color: '#8A8F99', fontSize: tipografia.micro, fontWeight: '600', marginLeft: espaciado.e3 },
+  chip: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2 },
   chipText: { color: brand.white, fontSize: 10.5, fontWeight: '800' },
   chipTL: { top: 6, left: 6 },
   pricePill: { bottom: 8, left: 8 },

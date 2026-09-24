@@ -16,7 +16,7 @@ import {
   Camera, Image as ImageIcon, Share2, Paperclip, ShoppingBag, Tag, Hash,
   Map, CalendarCheck, ListOrdered, Vote, Megaphone, ScrollText,
 } from 'lucide-react-native';
-import { useTheme, alpha } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, useTheme } from '@egrouteplan/ui-kit';
 import type { LbChatAction } from '../../api/messages';
 import { brand } from '@egrouteplan/ui-kit';
 
@@ -82,11 +82,11 @@ export function ChatPlusPanel({ visible, isGroup = false, onAction }: Props) {
 const styles = StyleSheet.create({
   panel: {
     flexDirection: 'row', flexWrap: 'wrap',
-    paddingHorizontal: 10, paddingTop: 12, paddingBottom: 14,
+    paddingHorizontal: espaciado.e10, paddingTop: espaciado.e12, paddingBottom: espaciado.e14,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
-  cell: { width: '25%', alignItems: 'center', marginBottom: 14, paddingHorizontal: 4 },
+  cell: { width: '25%', alignItems: 'center', marginBottom: espaciado.e14, paddingHorizontal: espaciado.e4 },
   iconBox: { width: 52, height: 52, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  label: { fontSize: 10.5, fontWeight: '600', textAlign: 'center', marginTop: 6, lineHeight: 13 },
+  label: { fontSize: 10.5, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e6, lineHeight: 13 },
   pronto: { fontSize: 9, fontWeight: '800', marginTop: 1 },
 });

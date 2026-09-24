@@ -17,7 +17,7 @@
 import React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { alpha, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 import { absUrl } from '../../api/config';
 import type { LbAdjuntoRef } from '../../api/lifebookComentarios';
 
@@ -78,8 +78,8 @@ export function PublicacionTarjeta({ data, tint, colors, compacta = false }: {
       onPress={abrir}
       accessibilityLabel={`Abrir ${ETIQUETA_PUBLICACION[data.type] ?? 'publicación'}: ${titulo}, de ${deQuien}`}
       style={{
-        flexDirection: 'row', alignItems: 'center', gap: 10,
-        marginTop: 6, padding: 7, borderRadius: radios.md,
+        flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+        marginTop: espaciado.e6, padding: espaciado.e7, borderRadius: radios.md,
         backgroundColor: alpha(colors.textPrimary, 0.05),
         borderWidth: 1, borderColor: alpha(colors.textPrimary, 0.08),
       }}
@@ -96,7 +96,7 @@ export function PublicacionTarjeta({ data, tint, colors, compacta = false }: {
         <Text numberOfLines={2} style={{ fontSize: compacta ? 12.5 : 13, fontWeight: '800', color: colors.textPrimary, lineHeight: compacta ? 17 : 18 }}>
           {titulo}
         </Text>
-        <Text numberOfLines={1} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }}>
+        <Text numberOfLines={1} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>
           {ETIQUETA_PUBLICACION[data.type] ?? 'Publicación'} · de {deQuien}
           {data.priceXaf ? ` · ${data.priceXaf.toLocaleString('fr-FR')} XAF` : ''}
         </Text>

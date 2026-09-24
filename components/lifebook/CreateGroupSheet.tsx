@@ -18,7 +18,7 @@ import {
   ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { Check, Search, Users, X } from 'lucide-react-native';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Sheet, SheetHeader } from './ui/Sheet';
 import { PersonRow } from './PersonRow';
 import { lifebookInboxApi, type LbFollowerItem, type LbSuggestedUser } from '../../api/lifebook';
@@ -162,7 +162,7 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
             placeholderTextColor={colors.textSecondary}
             style={[styles.titleInput, { backgroundColor: colors.surface, color: colors.textPrimary }]}
           />
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 2 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
             {picked.length + 1} / 200 miembros · {visibility === 'public' ? 'Grupo público' : 'Grupo privado'}
           </Text>
         </View>
@@ -170,7 +170,7 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
 
       {/* ── Chips de seleccionados ── */}
       {pickedPeople.length > 0 && (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 8 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: espaciado.e8 }}>
           {pickedPeople.map((p) => (
             <View key={p.id} style={[styles.chip, { backgroundColor: colors.surface }]}>
               {p.avatarUrl ? (
@@ -195,13 +195,13 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
         <TextInput
           value={query} onChangeText={setQuery}
           placeholder="Buscar persona…" placeholderTextColor={colors.textSecondary}
-          style={{ flex: 1, marginLeft: 6, color: colors.textPrimary, fontSize: tipografia.body }}
+          style={{ flex: 1, marginLeft: espaciado.e6, color: colors.textPrimary, fontSize: tipografia.body }}
         />
       </View>
 
       {/* ── Contexto local (EG ROUTE PLAN) ── */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 8 }}>
-        <View style={{ flexDirection: 'row', gap: 6 }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: espaciado.e8 }}>
+        <View style={{ flexDirection: 'row', gap: espaciado.e6 }}>
           {LB_CITIES.map((c) => {
             const on = city === c;
             return (
@@ -213,8 +213,8 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
           })}
         </View>
       </ScrollView>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 6 }}>
-        <View style={{ flexDirection: 'row', gap: 6 }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: espaciado.e6 }}>
+        <View style={{ flexDirection: 'row', gap: espaciado.e6 }}>
           {CATEGORIES.map((c) => {
             const on = category === c.id;
             return (
@@ -229,13 +229,13 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
 
       {/* ── Lista de personas ── */}
       {loading ? (
-        <ActivityIndicator color={colors.primary} style={{ marginVertical: 24 }} />
+        <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />
       ) : followers.length === 0 && suggested.length === 0 ? (
-        <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: 24, fontSize: tipografia.body }}>
+        <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e24, fontSize: tipografia.body }}>
           No hay personas para invitar por ahora.
         </Text>
       ) : (
-        <ScrollView style={{ maxHeight: 260, marginTop: 10 }} keyboardShouldPersistTaps="handled">
+        <ScrollView style={{ maxHeight: 260, marginTop: espaciado.e10 }} keyboardShouldPersistTaps="handled">
           {visibleFollowers.length > 0 && (
             <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>Seguidores</Text>
           )}
@@ -252,7 +252,7 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
       )}
 
       {/* ── Error inline ── */}
-      {errText ? <Text style={{ color: brand.like, fontSize: tipografia.caption, marginTop: 6 }}>{errText}</Text> : null}
+      {errText ? <Text style={{ color: brand.like, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>{errText}</Text> : null}
 
       {/* ── Botón crear ── */}
       <Pressable disabled={!canCreate} onPress={submit}
@@ -313,28 +313,28 @@ function SelectablePerson({ p, on, onPress, colors }: {
 }
 
 const styles = StyleSheet.create({
-  identity: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10 },
+  identity: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginBottom: espaciado.e10 },
   groupAvatar: {
     width: 56, height: 56, borderRadius: radios.lg,
     alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
   },
   collage: { flexDirection: 'row', flexWrap: 'wrap', width: 48, justifyContent: 'center' },
   collageImg: { width: 22, height: 22, borderRadius: 6, margin: 1 },
-  titleInput: { borderRadius: 10, paddingHorizontal: 12, paddingVertical: 9, fontSize: tipografia.body, fontWeight: '700' },
+  titleInput: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body, fontWeight: '700' },
   chip: {
-    flexDirection: 'row', alignItems: 'center', gap: 5,
-    borderRadius: radios.full, paddingHorizontal: 8, paddingVertical: 4, marginRight: 6,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e5,
+    borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, marginRight: espaciado.e6,
   },
   chipAvatar: { width: 18, height: 18, borderRadius: 9 },
   searchBox: {
     flexDirection: 'row', alignItems: 'center', borderRadius: radios.full,
-    paddingHorizontal: 12, height: 36, marginTop: 8,
+    paddingHorizontal: espaciado.e12, height: 36, marginTop: espaciado.e8,
   },
-  optChip: { borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 6 },
-  sectionTitle: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', marginTop: 10, marginBottom: 4, letterSpacing: 0.5 },
+  optChip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6 },
+  sectionTitle: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', marginTop: espaciado.e10, marginBottom: espaciado.e4, letterSpacing: 0.5 },
   check: {
     width: 20, height: 20, borderRadius: 10, borderWidth: 1.5,
     alignItems: 'center', justifyContent: 'center',
   },
-  primaryBtn: { borderRadius: radios.full, paddingVertical: 13, alignItems: 'center', marginTop: 12 },
+  primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e12 },
 });

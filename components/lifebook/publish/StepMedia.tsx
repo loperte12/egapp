@@ -14,7 +14,7 @@ import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Camera, X } from 'lucide-react-native';
-import { alpha, GhostButton, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { lifebookMediaApi } from '../../../api/lifebook';
 import { pickImagesFromLibrary } from '../../../core/pickImage';
 import { usePublishStore } from '../../../state/commercePublish';
@@ -91,7 +91,7 @@ export default function StepMedia() {
               style={[styles.add, { borderColor: alpha(colors.border, 0.9), backgroundColor: colors.surface }]}
             >
               {uploading ? <ActivityIndicator color={colors.primary} /> : <Camera size={22} color={colors.primary} />}
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 5, textAlign: 'center' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e5, textAlign: 'center' }}>
                 {uploading ? 'Subiendo…' : 'Añadir'}
               </Text>
             </Pressable>
@@ -111,7 +111,7 @@ export default function StepMedia() {
 }
 
 const styles = StyleSheet.create({
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
   thumb: { width: 92, height: 92, borderRadius: radios.md, overflow: 'hidden', backgroundColor: '#eee' },
   del: {
     position: 'absolute', top: 5, right: 5, width: 22, height: 22, borderRadius: 11,

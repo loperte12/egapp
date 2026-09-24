@@ -28,7 +28,7 @@
 import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, useTheme } from '@egrouteplan/ui-kit';
 import { X } from 'lucide-react-native';
 
 /**
@@ -48,7 +48,7 @@ export const formaHoja = {
   bottom: 0,
   borderTopLeftRadius: 22,
   borderTopRightRadius: 22,
-  padding: 18,
+  padding: espaciado.e18,
 } as const;
 
 /** El tirador de la hoja: la barrita que dice «esto se arrastra». Tres sitios el 24/09/2026. */
@@ -57,7 +57,7 @@ export const formaTirador = {
   height: 4,
   borderRadius: 2,
   alignSelf: 'center',
-  marginBottom: 14,
+  marginBottom: espaciado.e14,
 } as const;
 
 export function Sheet({ visible, onClose, children }: {
@@ -90,7 +90,7 @@ export const sheetStyles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
   handle: { ...formaTirador },
-  sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
+  sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e10 },
 });
 
 const styles = sheetStyles;

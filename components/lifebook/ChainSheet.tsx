@@ -10,7 +10,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Link2, X } from 'lucide-react-native';
 import { formaHoja } from './ui/Sheet';
 
@@ -59,7 +59,7 @@ export function ChainSheet({ visible, onClose, onSubmit }: Props) {
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
           <Link2 size={18} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: 8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: espaciado.e8 }}>
             Crear cadena
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -76,7 +76,7 @@ export function ChainSheet({ visible, onClose, onSubmit }: Props) {
           accessibilityLabel="Título de la cadena"
           style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary }]}
         />
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5, textAlign: 'right', marginTop: 4 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: 10.5, textAlign: 'right', marginTop: espaciado.e4 }}>
           {title.length}/{TITLE_MAX}
         </Text>
 
@@ -88,10 +88,10 @@ export function ChainSheet({ visible, onClose, onSubmit }: Props) {
           maxLength={NOTE_MAX}
           multiline
           accessibilityLabel="Detalles de la cadena"
-          style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary, minHeight: 60, marginTop: 8 }]}
+          style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary, minHeight: 60, marginTop: espaciado.e8 }]}
         />
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, gap: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e12, gap: espaciado.e10 }}>
           <View style={{ flex: 1 }}>
             <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Tope de plazas</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
@@ -108,11 +108,11 @@ export function ChainSheet({ visible, onClose, onSubmit }: Props) {
             keyboardType="number-pad"
             maxLength={3}
             accessibilityLabel="Número de plazas"
-            style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary, marginTop: 10, width: 110 }]}
+            style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary, marginTop: espaciado.e10, width: 110 }]}
           />
         ) : null}
 
-        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: 10 }}>{error}</Text> : null}
+        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
 
         <Pressable
           onPress={submit}
@@ -133,7 +133,7 @@ export function ChainSheet({ visible, onClose, onSubmit }: Props) {
 const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
-  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
-  input: { borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 10, fontSize: tipografia.body },
-  cta: { marginTop: 16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
+  header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 },
+  input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
+  cta: { marginTop: espaciado.e16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

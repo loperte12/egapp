@@ -30,7 +30,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Minus, Plus, X } from 'lucide-react-native';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { absUrl } from '../../api/config';
 import { avisoStockApi, commerceApi, type LbOptionGroup, type LbProduct, type LbProductVariant, type LbSizeChart } from '../../api/commerce';
 import { lbXaf } from '../../constants/lifebook';
@@ -242,8 +242,8 @@ export default function SelectorDeVariante({
 
   /** Un bloque de eje (color con foto, o valores como botones). */
   const Eje = ({ g }: { g: LbOptionGroup }) => (
-    <View style={{ marginTop: 14 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginBottom: 7 }}>
+    <View style={{ marginTop: espaciado.e14 }}>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginBottom: espaciado.e7 }}>
         {g.label}{sel[g.code] ? <Text style={{ color: colors.textSecondary, fontWeight: '600' }}>{`  ${sel[g.code]}`}</Text> : null}
       </Text>
       <View style={styles.valores}>
@@ -283,7 +283,7 @@ export default function SelectorDeVariante({
                     <Text style={{ fontSize: 9.5, color: colors.textSecondary }}>sin foto</Text>
                   </View>
                 )}
-                <Text numberOfLines={1} style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.micro, fontWeight: '700', marginTop: 4, maxWidth: 68, textAlign: 'center' }}>
+                <Text numberOfLines={1} style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.micro, fontWeight: '700', marginTop: espaciado.e4, maxWidth: 68, textAlign: 'center' }}>
                   {v.value}
                 </Text>
                 {agotadoAqui ? <Text style={{ color: colors.danger, fontSize: 9.5, fontWeight: '800' }}>agotado</Text> : null}
@@ -316,7 +316,7 @@ export default function SelectorDeVariante({
 
       {/* El enlace del asistente, solo si la tienda tiene tabla para ese tipo de prenda. */}
       {g.code === grupoTalla?.code && tablaDelGrupo ? (
-        <Pressable onPress={() => setModo('talla')} accessibilityLabel="No sé mi talla" style={{ marginTop: 8 }}>
+        <Pressable onPress={() => setModo('talla')} accessibilityLabel="No sé mi talla" style={{ marginTop: espaciado.e8 }}>
           <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>¿No sabes tu talla?</Text>
         </Pressable>
       ) : null}
@@ -361,21 +361,21 @@ export default function SelectorDeVariante({
                 <Text style={{ fontSize: 26 }}>📦</Text>
               </View>
             )}
-            <View style={{ flex: 1, marginLeft: 12 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 8 }}>
+            <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8 }}>
                 <Text numberOfLines={1} style={{ color: colors.primary, fontSize: 19, fontWeight: '900', flexShrink: 1 }}>
                   {precioTexto}
                 </Text>
                 {precioAntiguo ? (
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textDecorationLine: 'line-through', marginBottom: 2 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textDecorationLine: 'line-through', marginBottom: espaciado.e2 }}>
                     {lbXaf(precioAntiguo)}
                   </Text>
                 ) : null}
               </View>
-              <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: 3, lineHeight: 17 }}>
+              <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: espaciado.e3, lineHeight: 17 }}>
                 {resumen}
               </Text>
-              <Text style={{ color: agotada ? colors.danger : colors.textSecondary, fontSize: tipografia.caption, marginTop: 4 }}>
+              <Text style={{ color: agotada ? colors.danger : colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4 }}>
                 {stockTexto}
               </Text>
             </View>
@@ -385,8 +385,8 @@ export default function SelectorDeVariante({
           </View>
 
           {modo === 'talla' && grupoTalla ? (
-            <View style={{ marginTop: 10 }}>
-              <Pressable onPress={() => setModo('elegir')} accessibilityLabel="Volver a las opciones" style={{ marginBottom: 8 }}>
+            <View style={{ marginTop: espaciado.e10 }}>
+              <Pressable onPress={() => setModo('elegir')} accessibilityLabel="Volver a las opciones" style={{ marginBottom: espaciado.e8 }}>
                 <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>← Volver a las opciones</Text>
               </Pressable>
               <AsistenteDeTalla
@@ -405,10 +405,10 @@ export default function SelectorDeVariante({
                 {grupos.map((g) => <Eje key={g.code} g={g} />)}
 
                 {/* ── Cantidad, con el tope real ── */}
-                <View style={{ marginTop: 16, flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ marginTop: espaciado.e16, flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Cantidad</Text>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 2 }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
                       {product.stockMode === 'exact' ? `Máx. ${tope || 0}` : ''}
                     </Text>
                   </View>
@@ -434,14 +434,14 @@ export default function SelectorDeVariante({
                 </View>
 
                 {faltan.length ? (
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 10 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>
                     Elige: {faltan.join(' · ')}
                   </Text>
                 ) : null}
               </ScrollView>
 
               {/* ── Los botones: el de la acción con la que se abrió, en grande ── */}
-              <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e14 }}>
                 <Pressable
                   onPress={() => (secundario === 'carrito'
                     ? onCarrito({ variant: elegida, cantidad: cant })
@@ -485,17 +485,17 @@ export default function SelectorDeVariante({
 
 const styles = StyleSheet.create({
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' },
-  sheet: { borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingHorizontal: 16, paddingBottom: 24 },
-  tiradorZona: { paddingVertical: 8, alignItems: 'center' },
+  sheet: { borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e24 },
+  tiradorZona: { paddingVertical: espaciado.e8, alignItems: 'center' },
   tirador: { width: 44, height: 4, borderRadius: 2 },
   foto: { width: 92, height: 92, borderRadius: radios.md, borderWidth: 1, overflow: 'hidden' },
-  valores: { flexDirection: 'row', flexWrap: 'wrap', gap: 9 },
-  colorCaja: { alignItems: 'center', borderRadius: radios.md, padding: 5 },
+  valores: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e9 },
+  colorCaja: { alignItems: 'center', borderRadius: radios.md, padding: espaciado.e5 },
   colorImg: { width: 58, height: 58, borderRadius: 9 },
-  chip: { borderWidth: 1, borderRadius: 10, paddingHorizontal: 13, minHeight: 44, minWidth: 46, alignItems: 'center', justifyContent: 'center' },
-  stepper: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderRadius: 10, paddingHorizontal: 4, minHeight: 44 },
+  chip: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e13, minHeight: 44, minWidth: 46, alignItems: 'center', justifyContent: 'center' },
+  stepper: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e4, minHeight: 44 },
   stepBtn: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center' },
-  aviso: { flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1, borderRadius: 10, padding: 9, marginTop: 8 },
-  secBtn: { flex: 1, height: 46, borderRadius: radios.md, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8 },
-  priBtn: { flex: 1.4, height: 46, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
+  aviso: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1, borderRadius: 10, padding: espaciado.e9, marginTop: espaciado.e8 },
+  secBtn: { flex: 1, height: 46, borderRadius: radios.md, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e8 },
+  priBtn: { flex: 1.4, height: 46, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e10 },
 });

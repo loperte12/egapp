@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import {
   Eraser, ImageOff, Lock, LogOut, MoreHorizontal, Palette, Pencil, Search, ShieldAlert, UserX, Users, X,
 } from 'lucide-react-native';
@@ -256,7 +256,7 @@ export function ChatOptionsSheet({
         {step === 'history' ? (
           <>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="handled"
-              contentContainerStyle={{ gap: 8, paddingBottom: 10 }}>
+              contentContainerStyle={{ gap: espaciado.e8, paddingBottom: espaciado.e10 }}>
               {CHAT_SEARCH_TABS.map((t) => {
                 const on = t.kind === tab;
                 return (
@@ -280,7 +280,7 @@ export function ChatOptionsSheet({
         {/* ── Fondo del chat ── */}
         {step === 'background' ? (
           <>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 10 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e10 }}>
               El fondo es solo para ti: la otra persona no lo ve.
             </Text>
             <ScrollView style={{ maxHeight: 380 }} keyboardShouldPersistTaps="handled">
@@ -309,7 +309,7 @@ export function ChatOptionsSheet({
         {/* ── Reclamación por estafa ── */}
         {step === 'claim' ? (
           <>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 10 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e10 }}>
               Cuéntale a moderación qué pasó (dinero, pedido, engaño). Si hay un pedido entre
               vosotros, la reclamación se enlaza automáticamente.
             </Text>
@@ -374,10 +374,10 @@ function Row({ icon, label, hint, right, onPress, danger }: {
 function HistoryList({ tab, rows, colors, onOpenImage }: {
   tab: ChatSearchTab; rows: LbMessage[] | null; colors: any; onOpenImage: (url: string) => void;
 }) {
-  if (rows === null) return <ActivityIndicator color={colors.primary} style={{ marginVertical: 24 }} />;
+  if (rows === null) return <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />;
   if (rows.length === 0) {
     return (
-      <View style={{ alignItems: 'center', paddingVertical: 26, gap: 6 }}>
+      <View style={{ alignItems: 'center', paddingVertical: espaciado.e26, gap: espaciado.e6 }}>
         <ImageOff size={22} color={colors.textSecondary} />
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>{tab.empty}</Text>
         {tab.soon ? (
@@ -410,7 +410,7 @@ function HistoryList({ tab, rows, colors, onOpenImage }: {
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }} numberOfLines={2}>
                 {m.fileRef?.name ?? m.postRef?.title ?? m.text ?? tab.label}
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
                 {who} · {lbTimeAgo(m.createdAt)}
                 {m.postRef?.priceXaf ? ` · ${m.postRef.priceXaf.toLocaleString('fr-FR')} XAF` : ''}
               </Text>
@@ -425,16 +425,16 @@ function HistoryList({ tab, rows, colors, onOpenImage }: {
 const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja, maxHeight: '84%' },
-  sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 8 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 14, paddingVertical: 9, paddingHorizontal: 8 },
+  sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginBottom: espaciado.e8 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: 14, paddingVertical: espaciado.e9, paddingHorizontal: espaciado.e8 },
   rowIcon: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
-  chip: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 7 },
-  bgRow: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1.5, borderRadius: 14, padding: 10, marginBottom: 8 },
+  chip: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
+  bgRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: 1.5, borderRadius: 14, padding: espaciado.e10, marginBottom: espaciado.e8 },
   bgSwatch: { width: 40, height: 40, borderRadius: 10, borderWidth: 1, overflow: 'hidden' },
   bgAccent: { position: 'absolute', right: -10, bottom: -10, width: 34, height: 34, borderRadius: 17, opacity: 0.8 },
-  noteInput: { borderRadius: 14, minHeight: 96, padding: 12, fontSize: tipografia.body, textAlignVertical: 'top' },
-  primaryBtn: { borderRadius: radios.full, paddingVertical: 13, alignItems: 'center', marginTop: 14 },
-  histRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 9, borderBottomWidth: StyleSheet.hairlineWidth },
+  noteInput: { borderRadius: 14, minHeight: 96, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
+  primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e14 },
+  histRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth },
   histThumb: { width: 46, height: 46, borderRadius: radios.sm },
   center: { alignItems: 'center', justifyContent: 'center' },
 });

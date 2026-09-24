@@ -25,7 +25,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import {
   Check, ChevronRight, Crown, LogOut, MoreHorizontal, Pencil, QrCode, Search, Shield, Trash2, UserPlus, X,
 } from 'lucide-react-native';
@@ -410,11 +410,11 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
         </View>
 
         {group === null ? (
-          <ActivityIndicator color={colors.primary} style={{ marginVertical: 24 }} />
+          <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />
         ) : step === 'manage' ? (
           <ScrollView style={{ maxHeight: 520 }} keyboardShouldPersistTaps="handled">
             {/* 1 · Cabecera */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingBottom: 12 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingBottom: espaciado.e12 }}>
               {group.photoUrl ? (
                 <Image source={{ uri: group.photoUrl }} style={styles.groupAvatar} />
               ) : (
@@ -449,7 +449,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               <Text style={{ fontSize: 18 }}>📣</Text>
               <View style={{ flex: 1 }}>
                 <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Anuncio del grupo</Text>
-                <Text numberOfLines={2} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                <Text numberOfLines={2} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                   {group.announcement?.trim() || (canManage ? 'Toca para escribir un anuncio' : 'Sin anuncio')}
                 </Text>
               </View>
@@ -468,7 +468,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 <Text style={{ fontSize: 18 }}>🙋</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Solicitudes para entrar</Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                     {pendingCount > 0
                       ? `${pendingCount} persona${pendingCount === 1 ? '' : 's'} esperando tu respuesta`
                       : 'Nadie ha pedido entrar todavía'}
@@ -491,9 +491,9 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 style={styles.row}
               >
                 <QrCode size={18} color={colors.primary} />
-                <View style={{ flex: 1, marginLeft: 10 }}>
+                <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                   <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Código de ruta y QR</Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                     Invita sin buscador: comparte el código o el QR
                   </Text>
                 </View>
@@ -506,7 +506,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               <Text style={{ fontSize: 18 }}>👥</Text>
               <View style={{ flex: 1 }}>
                 <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Miembros</Text>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                   Ver, invitar, hacer administrador o expulsar
                 </Text>
               </View>
@@ -590,7 +590,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
             />
             {group.autoRemoveInactive ? (
               <>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e6 }}>
                   {[7, 15, 30, 60].map((d) => {
                     const activo = Number(group.inactiveDays ?? 30) === d;
                     return (
@@ -616,7 +616,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                     onPress={revisarInactivos}
                     disabled={busy === 'sweep'}
                     accessibilityLabel="Revisar ahora los miembros inactivos"
-                    style={[styles.primaryBtn, { backgroundColor: alpha(colors.secondary, 0.14), marginTop: 10 }]}
+                    style={[styles.primaryBtn, { backgroundColor: alpha(colors.secondary, 0.14), marginTop: espaciado.e10 }]}
                   >
                     {busy === 'sweep' ? <ActivityIndicator size="small" color={colors.secondary} /> : (
                       <Text style={{ color: colors.secondary, fontWeight: '900', fontSize: tipografia.body }}>Revisar ahora</Text>
@@ -633,7 +633,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 <Trash2 size={17} color={colors.danger} />
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: colors.danger, fontWeight: '800', fontSize: tipografia.body }}>Disolver el grupo</Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                     Borra el grupo, sus miembros y todos los mensajes
                   </Text>
                 </View>
@@ -644,7 +644,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 <LogOut size={17} color={colors.danger} />
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: colors.danger, fontWeight: '800', fontSize: tipografia.body }}>Salir del grupo</Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>Dejarás de recibir sus mensajes</Text>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>Dejarás de recibir sus mensajes</Text>
                 </View>
                 {busy === 'leave' ? <ActivityIndicator size="small" color={colors.danger} /> : null}
               </Pressable>
@@ -657,7 +657,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               <TextInput
                 value={query} onChangeText={setQuery}
                 placeholder="Buscar miembro…" placeholderTextColor={colors.textSecondary}
-                style={{ flex: 1, marginLeft: 8, color: colors.textPrimary, fontSize: tipografia.body }}
+                style={{ flex: 1, marginLeft: espaciado.e8, color: colors.textPrimary, fontSize: tipografia.body }}
               />
             </View>
 
@@ -667,7 +667,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                   <Pressable
                     onPress={() => router.push({ pathname: '/lifebook-user', params: { id: m.id } } as never)}
                     accessibilityLabel={`Perfil de ${m.fullName ?? 'miembro'}`}
-                    style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}
+                    style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, flex: 1 }}
                   >
                     {m.avatarUrl ? (
                       <Image source={{ uri: m.avatarUrl }} style={styles.avatar} />
@@ -682,7 +682,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                       <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>
                         {m.fullName ?? 'Usuario'}
                       </Text>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 1 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 }}>
                         {m.role === 'owner' ? <Crown size={11} color={brand.warningPressed} /> : null}
                         {m.role === 'admin' ? <Shield size={11} color={colors.primary} /> : null}
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>
@@ -708,7 +708,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 </View>
               ))}
               {filtered.length === 0 ? (
-                <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: 22, fontSize: tipografia.body }}>
+                <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e22, fontSize: tipografia.body }}>
                   Nadie coincide con «{query}».
                 </Text>
               ) : null}
@@ -716,7 +716,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
 
             {/* Acciones sobre el miembro elegido */}
             {detailMember ? (
-              <View style={{ gap: 8, paddingTop: 10 }}>
+              <View style={{ gap: espaciado.e8, paddingTop: espaciado.e10 }}>
                 {isOwner && detailMember.role === 'member' ? (
                   <SheetAction icon={<Shield size={16} color={colors.primary} />} text="Hacer administrador" colors={colors}
                     onPress={() => makeAdmin(detailMember)} busy={busy === detailMember.id} />
@@ -733,7 +733,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                   <SheetAction icon={<Trash2 size={16} color={colors.danger} />} text="Expulsar del grupo" colors={colors} danger
                     onPress={() => expel(detailMember)} busy={busy === detailMember.id} />
                 ) : null}
-                <Pressable onPress={() => setDetailMember(null)} style={{ paddingVertical: 8, alignItems: 'center' }}>
+                <Pressable onPress={() => setDetailMember(null)} style={{ paddingVertical: espaciado.e8, alignItems: 'center' }}>
                   <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.body }}>Cerrar</Text>
                 </Pressable>
               </View>
@@ -741,7 +741,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               <Pressable
                 onPress={() => { setStep('add'); loadPeople(); }}
                 accessibilityLabel="Añadir miembros"
-                style={[styles.primaryBtn, { backgroundColor: colors.primary, marginTop: 10 }]}
+                style={[styles.primaryBtn, { backgroundColor: colors.primary, marginTop: espaciado.e10 }]}
               >
                 <UserPlus size={16} color={brand.white} />
                 <Text style={{ color: brand.white, fontWeight: '900', fontSize: 14.5 }}>Añadir miembros</Text>
@@ -751,9 +751,9 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
         ) : step === 'add' ? (
           <>
             {people === null ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: 24 }} />
+              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />
             ) : people.length === 0 ? (
-              <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: 24, fontSize: tipografia.body }}>
+              <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e24, fontSize: tipografia.body }}>
                 No hay más personas que puedas añadir por ahora.
               </Text>
             ) : (
@@ -785,7 +785,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               onPress={addMembers}
               disabled={picked.length === 0 || busy === 'add'}
               accessibilityLabel="Añadir al grupo"
-              style={[styles.primaryBtn, { backgroundColor: picked.length ? colors.primary : alpha(colors.primary, 0.3), marginTop: 10 }]}
+              style={[styles.primaryBtn, { backgroundColor: picked.length ? colors.primary : alpha(colors.primary, 0.3), marginTop: espaciado.e10 }]}
             >
               {busy === 'add' ? <ActivityIndicator size="small" color={brand.white} /> : (
                 <Text style={{ color: brand.white, fontWeight: '900', fontSize: 14.5 }}>Añadir{picked.length ? ` (${picked.length})` : ''}</Text>
@@ -794,16 +794,16 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
           </>
         ) : step === 'edit' ? (
           <>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 6 }}>Nombre del grupo</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e6 }}>Nombre del grupo</Text>
             <TextInput
               value={title} onChangeText={setTitle} maxLength={90}
               placeholder="Nombre del grupo" placeholderTextColor={colors.textSecondary}
               style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary }]}
             />
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 14, marginBottom: 6 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e14, marginBottom: espaciado.e6 }}>
               Componentes que se pueden enviar
             </Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
               {KINDS.map((k) => {
                 const on = kinds.includes(k.id);
                 return (
@@ -825,7 +825,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
           </>
         ) : step === 'code' ? (
           <>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 10 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e10 }}>
               Quien tenga este código puede abrir el grupo desde <Text style={{ fontWeight: '800' }}>Descubrir grupos → Tengo un código</Text>.
               El QR lleva al mismo sitio.
             </Text>
@@ -834,13 +834,13 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 <Text style={{ color: colors.textPrimary, fontSize: 34, fontWeight: '900', letterSpacing: 6 }}>
                   {inviteCode.code}
                 </Text>
-                <View style={{ backgroundColor: brand.white, padding: 14, borderRadius: radios.lg, marginTop: 12 }}>
+                <View style={{ backgroundColor: brand.white, padding: espaciado.e14, borderRadius: radios.lg, marginTop: espaciado.e12 }}>
                   <QRCode value={inviteCode.link} size={170} color="#10202E" backgroundColor={brand.white} />
                 </View>
                 {/* Antes este texto decía que el código valía «mientras el grupo exista».
                     Ya no es verdad: caduca (7 días) y además puede tener tope de entradas.
                     Un texto que miente es peor que no ponerlo. */}
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 10, textAlign: 'center' }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e10, textAlign: 'center' }}>
                   {inviteCode.expiresAt
                     ? `Caduca el ${new Date(inviteCode.expiresAt).toLocaleDateString()}. Si se pasa, pide otro aquí mismo.`
                     : 'Caduca a los 7 días. Si se pasa, pide otro aquí mismo.'}
@@ -849,7 +849,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                     : ''}
                 </Text>
                 <Pressable onPress={copiarCodigo} accessibilityLabel="Copiar el código del grupo"
-                  style={[styles.primaryBtn, { backgroundColor: colors.primary, marginTop: 14, alignSelf: 'stretch' }]}>
+                  style={[styles.primaryBtn, { backgroundColor: colors.primary, marginTop: espaciado.e14, alignSelf: 'stretch' }]}>
                   <Text style={{ color: brand.white, fontWeight: '900', fontSize: 14.5 }}>Copiar el código</Text>
                 </Pressable>
 
@@ -857,11 +857,11 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                     El enlace puede admitir solo a un número de personas, como el enlace de
                     invitación de Telegram. Al cambiarlo se crea un enlace NUEVO: el
                     contador empieza de cero y el anterior deja de funcionar. */}
-                <View style={{ alignSelf: 'stretch', marginTop: 16 }}>
+                <View style={{ alignSelf: 'stretch', marginTop: espaciado.e16 }}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
                     ¿Cuánta gente puede entrar con este enlace?
                   </Text>
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 }}>
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e8 }}>
                     {[
                       { v: null as number | null, t: 'Sin límite' },
                       { v: 1, t: '1' },
@@ -878,7 +878,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                           accessibilityState={{ selected: activo }}
                           accessibilityLabel={`Tope de ${o.t}`}
                           style={{
-                            paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.full,
+                            paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.full,
                             borderWidth: 1,
                             borderColor: activo ? colors.primary : colors.border,
                             backgroundColor: activo ? alpha(colors.primary, 0.12) : colors.surface,
@@ -896,7 +896,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                       onPress={aplicarTope}
                       disabled={aplicandoTope}
                       accessibilityLabel="Crear un enlace nuevo con este tope"
-                      style={[styles.primaryBtn, { backgroundColor: colors.surface, marginTop: 10, alignSelf: 'stretch', borderWidth: 1, borderColor: colors.primary }]}
+                      style={[styles.primaryBtn, { backgroundColor: colors.surface, marginTop: espaciado.e10, alignSelf: 'stretch', borderWidth: 1, borderColor: colors.primary }]}
                     >
                       {aplicandoTope ? <ActivityIndicator size="small" color={colors.primary} /> : (
                         <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body }}>
@@ -905,7 +905,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                       )}
                     </Pressable>
                   ) : (
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 8 }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>
                       {inviteCode.maxUses === null
                         ? 'Ahora mismo el enlace no tiene tope: entra quien lo tenga, hasta que caduque.'
                         : `Ahora mismo el enlace admite ${inviteCode.maxUses} entrada${inviteCode.maxUses === 1 ? '' : 's'} en total.`}
@@ -914,26 +914,26 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 </View>
               </View>
             ) : (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: 24 }} />
+              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />
             )}
           </>
         ) : step === 'requests' ? (
           <>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 8 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e8 }}>
               Quien quiera entrar en un grupo con aprobación o con pregunta aparece aquí. Al aceptar, entra en el
               grupo y recibe el mensaje de bienvenida.
             </Text>
             {requests === null ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: 20 }} />
+              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
             ) : requests.length === 0 ? (
-              <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: 22, fontSize: tipografia.body }}>
+              <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e22, fontSize: tipografia.body }}>
                 No hay solicitudes.
               </Text>
             ) : (
               <ScrollView style={{ maxHeight: 400 }} keyboardShouldPersistTaps="handled">
                 {requests.map((r) => (
                   <View key={r.userId} style={[styles.requestRow, { backgroundColor: colors.surface }]}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                       {r.avatarUrl ? (
                         <Image source={{ uri: absUrl(r.avatarUrl) }} style={styles.reqAvatar} />
                       ) : (
@@ -953,7 +953,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                         </Text>
                       </View>
                       {r.state === 'pending' ? (
-                        <View style={{ flexDirection: 'row', gap: 6 }}>
+                        <View style={{ flexDirection: 'row', gap: espaciado.e6 }}>
                           <Pressable
                             onPress={() => decidir(r.userId, 'approve')}
                             disabled={deciding === r.userId}
@@ -976,12 +976,12 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                       ) : null}
                     </View>
                     {r.answer ? (
-                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: 8 }}>
+                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>
                         Respondió: «{r.answer}»
                       </Text>
                     ) : null}
                     {r.note ? (
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 4 }}>{r.note}</Text>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4 }}>{r.note}</Text>
                     ) : null}
                   </View>
                 ))}
@@ -990,7 +990,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
           </>
         ) : step === 'topic' ? (
           <>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 6 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e6 }}>
               El tema aparece bajo el nombre del grupo y queda como aviso en el chat. Máx. 60 caracteres.
             </Text>
             <TextInput
@@ -1009,7 +1009,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
           </>
         ) : step === 'announcement' ? (
           <>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 6 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e6 }}>
               Lo ve todo el grupo arriba del chat. Máx. 500 caracteres.
             </Text>
             <TextInput
@@ -1027,7 +1027,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
           </>
         ) : (
           <>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 6 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e6 }}>
               Se envía como aviso del sistema cuando alguien entra al grupo.
             </Text>
             <TextInput
@@ -1064,10 +1064,10 @@ function SettingRow({ title, subtitle, colors, right, onPress, disabled, chip }:
     >
       <View style={{ flex: 1 }}>
         <Text style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.body }}>{title}</Text>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>{subtitle}</Text>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{subtitle}</Text>
       </View>
       {chip ? (
-        <View style={{ backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 4 }}>
+        <View style={{ backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4 }}>
           <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>{chip}</Text>
         </View>
       ) : null}
@@ -1095,30 +1095,30 @@ function SheetAction({ icon, text, colors, onPress, busy, danger }: {
 const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
-  sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10 },
+  sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginBottom: espaciado.e10 },
   row: {
-    flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1,
-    borderColor: 'transparent', borderRadius: 14, paddingVertical: 11, paddingHorizontal: 10, marginTop: 6,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1,
+    borderColor: 'transparent', borderRadius: 14, paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e10, marginTop: espaciado.e6,
   },
-  sectionTitle: { fontSize: tipografia.caption, fontWeight: '800', letterSpacing: 0.6, marginTop: 16, marginBottom: 2 },
+  sectionTitle: { fontSize: tipografia.caption, fontWeight: '800', letterSpacing: 0.6, marginTop: espaciado.e16, marginBottom: espaciado.e2 },
   groupAvatar: { width: 52, height: 52, borderRadius: radios.lg },
   avatar: { width: 40, height: 40, borderRadius: 20 },
   center: { alignItems: 'center', justifyContent: 'center' },
   /** Parte 27 (G3): solicitudes para entrar. */
-  requestRow: { borderRadius: 14, padding: 12, marginBottom: 8 },
+  requestRow: { borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8 },
   reqAvatar: { width: 36, height: 36, borderRadius: 18 },
-  reqBtn: { borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8, minWidth: 74, alignItems: 'center', justifyContent: 'center' },
-  badge: { minWidth: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 5 },
+  reqBtn: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, minWidth: 74, alignItems: 'center', justifyContent: 'center' },
+  badge: { minWidth: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e5 },
   iconBtn: { width: 32, height: 32, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,128,255,0.10)' },
   iconBtnDanger: { width: 32, height: 32, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },
-  memberRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 9, borderBottomWidth: StyleSheet.hairlineWidth },
+  memberRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth },
   check: { width: 24, height: 24, borderRadius: radios.md, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
-  searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: 12, height: 38, marginBottom: 8 },
-  input: { borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 10, fontSize: 14.5 },
+  searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e12, height: 38, marginBottom: espaciado.e8 },
+  input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: 14.5 },
   area: { minHeight: 84, textAlignVertical: 'top' },
-  chip: { borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 7 },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   primaryBtn: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
-    borderRadius: radios.full, paddingVertical: 13, marginTop: 14,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8,
+    borderRadius: radios.full, paddingVertical: espaciado.e13, marginTop: espaciado.e14,
   },
 });

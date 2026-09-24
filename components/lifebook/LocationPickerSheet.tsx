@@ -13,7 +13,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Crosshair, MapPin, Radio, Search, X } from 'lucide-react-native';
 import * as Location from 'expo-location';
 import { geocode, pickReverseLabel, reverseGeocode, type GeoPlace } from '../../api/geocode';
@@ -172,24 +172,24 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
             onChangeText={setQuery}
             placeholder="Buscar calle, avenida o sitio…"
             placeholderTextColor={colors.textSecondary}
-            style={{ flex: 1, marginLeft: 8, color: colors.textPrimary, fontSize: tipografia.body }}
+            style={{ flex: 1, marginLeft: espaciado.e8, color: colors.textPrimary, fontSize: tipografia.body }}
             accessibilityLabel="Buscar un sitio"
           />
           {searching ? <ActivityIndicator size="small" color={colors.primary} /> : null}
         </View>
 
         {error ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: 10 }}>{error}</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text>
         ) : null}
 
         {results === null && query.trim().length < 2 ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: 16 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: espaciado.e16 }}>
             Escribe al menos 2 letras: busca calles, avenidas y sitios reales de Malabo y Bata.
           </Text>
         ) : null}
 
         {results !== null && results.length === 0 && !searching ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingVertical: 18 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingVertical: espaciado.e18 }}>
             No hay sitios que coincidan. Prueba con el nombre de la calle.
           </Text>
         ) : null}
@@ -225,11 +225,11 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
 const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
-  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
+  header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 },
   myLoc: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    borderWidth: 1, borderRadius: 14, padding: 12, marginBottom: 12,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+    borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e12,
   },
-  searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: 12, height: 42 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 11, borderBottomWidth: StyleSheet.hairlineWidth },
+  searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 42 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e11, borderBottomWidth: StyleSheet.hairlineWidth },
 });

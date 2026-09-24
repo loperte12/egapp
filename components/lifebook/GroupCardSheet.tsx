@@ -12,7 +12,7 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Check, Clock, LogIn, ShieldQuestion, Users, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { lifebookGroupsApi, type LbGroupCard } from '../../api/lifebook';
@@ -111,7 +111,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
         </View>
 
         <ScrollView style={{ maxHeight: 460 }} keyboardShouldPersistTaps="handled">
-          <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e12, alignItems: 'center' }}>
             {group.photoUrl ? (
               <Image source={{ uri: absUrl(group.photoUrl) }} style={styles.photo} />
             ) : (
@@ -123,27 +123,27 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
             )}
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }} numberOfLines={2}>{group.title}</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e4 }}>
                 <Users size={13} color={colors.textSecondary} />
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{group.membersCount} miembros</Text>
               </View>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 {[group.city, group.barrio, group.category].filter(Boolean).join(' · ') || 'Sin ubicación'}
               </Text>
             </View>
           </View>
 
           {group.topic ? (
-            <View style={[styles.chipRow, { backgroundColor: alpha(colors.primary, 0.08), marginTop: 12 }]}>
+            <View style={[styles.chipRow, { backgroundColor: alpha(colors.primary, 0.08), marginTop: espaciado.e12 }]}>
               <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>📌 {group.topic}</Text>
             </View>
           ) : null}
 
           {group.description ? (
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, lineHeight: 19, marginTop: 12 }}>{group.description}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, lineHeight: 19, marginTop: espaciado.e12 }}>{group.description}</Text>
           ) : null}
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e12 }}>
             {group.joinMode === 'open'
               ? <LogIn size={14} color={colors.textSecondary} />
               : group.joinMode === 'approval' ? <Clock size={14} color={colors.textSecondary} /> : <ShieldQuestion size={14} color={colors.textSecondary} />}
@@ -154,7 +154,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
               enlace tiene tope se dice cuántas quedan; si no tiene, no se dice nada (no
               hay nada que contar). */}
           {invitacion && invitacion.usesLeft !== null ? (
-            <Text style={{ color: invitacion.usesLeft === 0 ? colors.danger : colors.textSecondary, fontSize: tipografia.caption, marginTop: 6 }}>
+            <Text style={{ color: invitacion.usesLeft === 0 ? colors.danger : colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>
               {invitacion.usesLeft === 0
                 ? 'Este enlace ya no admite a más gente'
                 : `Quedan ${invitacion.usesLeft} entrada${invitacion.usesLeft === 1 ? '' : 's'} por este enlace`}
@@ -163,15 +163,15 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
           ) : null}
 
           {group.placeName ? (
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 6 }}>📍 Punto de encuentro: {group.placeName}</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>📍 Punto de encuentro: {group.placeName}</Text>
           ) : null}
 
           {group.ownerName ? (
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 6 }}>👑 Organiza {group.ownerName}</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>👑 Organiza {group.ownerName}</Text>
           ) : null}
 
           {(group.members ?? []).length > 0 ? (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 12 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e12 }}>
               {(group.members ?? []).map((m) => (
                 <View key={m.id} style={[styles.memberChip, { backgroundColor: colors.surface }]}>
                   {m.avatarUrl ? (
@@ -189,9 +189,9 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
 
           {/* Pregunta de ingreso */}
           {!soyMiembro && group.joinMode === 'question' && group.joinQuestion && !pendiente ? (
-            <View style={{ marginTop: 14 }}>
+            <View style={{ marginTop: espaciado.e14 }}>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }}>PREGUNTA DEL ORGANIZADOR</Text>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, marginTop: 4 }}>{group.joinQuestion}</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, marginTop: espaciado.e4 }}>{group.joinQuestion}</Text>
               <TextInput
                 value={answer}
                 onChangeText={(v) => { setAnswer(v); setError(null); }}
@@ -199,7 +199,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
                 placeholderTextColor={colors.textSecondary}
                 maxLength={200}
                 accessibilityLabel="Respuesta a la pregunta de ingreso"
-                style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary, marginTop: 8 }]}
+                style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary, marginTop: espaciado.e8 }]}
               />
             </View>
           ) : null}
@@ -225,7 +225,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
             </View>
           ) : null}
 
-          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: 10 }}>{error}</Text> : null}
+          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
         </ScrollView>
 
         {/* Botón según el estado */}
@@ -280,7 +280,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
 /** Marca de «ya dentro» reutilizable (la usa la lista de descubrimiento). */
 export function JoinedBadge({ colors, label }: { colors: any; label: string }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
       <Check size={13} color={colors.primary} />
       <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>{label}</Text>
     </View>
@@ -290,13 +290,13 @@ export function JoinedBadge({ colors, label }: { colors: any; label: string }) {
 const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
-  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
+  header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e10 },
   photo: { width: 56, height: 56, borderRadius: 14 },
   center: { alignItems: 'center', justifyContent: 'center' },
-  chipRow: { borderRadius: 10, paddingHorizontal: 10, paddingVertical: 8 },
-  input: { borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 10, fontSize: tipografia.body },
-  memberChip: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: radios.full, paddingHorizontal: 8, paddingVertical: 4 },
+  chipRow: { borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8 },
+  input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
+  memberChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
   memberAvatar: { width: 18, height: 18, borderRadius: 9 },
-  stateBox: { flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderRadius: radios.md, padding: 10, marginTop: 12 },
-  cta: { marginTop: 14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
+  stateBox: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: 1, borderRadius: radios.md, padding: espaciado.e10, marginTop: espaciado.e12 },
+  cta: { marginTop: espaciado.e14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

@@ -26,7 +26,7 @@ import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Clapperboard, X } from 'lucide-react-native';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { extraerFrames, type VideoFrame } from '../../core/videoFrames';
 import { fmtDur } from '../../constants/lifebook';
 
@@ -99,7 +99,7 @@ export function VideoCoverSheet({
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
       <Pressable style={s.backdrop} onPress={onClose} accessibilityViewIsModal>
         <Pressable
-          style={[s.card, { backgroundColor: colors.card, paddingBottom: 16 + insets.bottom }]}
+          style={[s.card, { backgroundColor: colors.card, paddingBottom: espaciado.e16 + insets.bottom }]}
           onPress={() => undefined}
         >
           <View style={s.head}>
@@ -113,7 +113,7 @@ export function VideoCoverSheet({
           {loading ? (
             <View style={s.center}>
               <ActivityIndicator color={colors.primary} />
-              <Text style={[s.hint, { color: colors.textSecondary, marginTop: 10 }]}>
+              <Text style={[s.hint, { color: colors.textSecondary, marginTop: espaciado.e10 }]}>
                 Extrayendo fotogramas del vídeo…
               </Text>
             </View>
@@ -127,13 +127,13 @@ export function VideoCoverSheet({
             </View>
           ) : (
             <>
-              <Text style={[s.hint, { color: colors.textSecondary, marginBottom: 10 }]}>
+              <Text style={[s.hint, { color: colors.textSecondary, marginBottom: espaciado.e10 }]}>
                 Toca el fotograma que quieres como portada. {frames.length} momentos del vídeo.
               </Text>
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ gap: 8, paddingRight: 8 }}
+                contentContainerStyle={{ gap: espaciado.e8, paddingRight: espaciado.e8 }}
               >
                 {frames.map((f, i) => {
                   const activo = selected === i;
@@ -166,7 +166,7 @@ export function VideoCoverSheet({
 
               {/* Vista grande del elegido: permite ver de verdad qué se publica. */}
               {selected !== null && frames[selected] ? (
-                <View style={{ alignItems: 'center', marginTop: 14 }}>
+                <View style={{ alignItems: 'center', marginTop: espaciado.e14 }}>
                   <Image
                     source={{ uri: frames[selected].dataUrl }}
                     style={[s.preview, { borderColor: colors.border }]}
@@ -195,21 +195,21 @@ export function VideoCoverSheet({
 
 const s = StyleSheet.create({
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
-  card: { borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingHorizontal: 16, paddingTop: 16 },
-  head: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
+  card: { borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e16 },
+  head: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e12 },
   title: { flex: 1, fontSize: tipografia.subtitle, fontWeight: '800' },
   center: { alignItems: 'center', paddingVertical: 34 },
   hint: { fontSize: tipografia.caption, lineHeight: 16 },
-  errorBox: { borderRadius: 10, borderWidth: 1, padding: 10, marginBottom: 8 },
+  errorBox: { borderRadius: 10, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e8 },
   thumbWrap: { borderRadius: 10, overflow: 'hidden' },
   thumb: { width: 96, height: 128, backgroundColor: 'rgba(0,0,0,0.08)' },
   thumbTime: {
     position: 'absolute', left: 4, bottom: 4, borderRadius: 6,
-    backgroundColor: 'rgba(0,0,0,0.62)', paddingHorizontal: 5, paddingVertical: 1,
+    backgroundColor: 'rgba(0,0,0,0.62)', paddingHorizontal: espaciado.e5, paddingVertical: 1,
   },
   thumbTimeText: { color: brand.white, fontSize: 10, fontWeight: '800' },
   preview: { width: 170, height: 226, borderRadius: radios.md, borderWidth: 1, backgroundColor: '#000000' },
-  confirm: { borderRadius: radios.md, paddingVertical: 13, alignItems: 'center', marginTop: 16 },
+  confirm: { borderRadius: radios.md, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e16 },
   confirmText: { color: brand.white, fontSize: 14.5, fontWeight: '900' },
 });
 

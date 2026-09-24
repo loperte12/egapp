@@ -19,7 +19,7 @@
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { commerceApi, tallasApi, type LbMeasurements, type LbOptionGroup, type LbProduct, type LbSizeChart, type LbSizeKind, type LbSizeSuggestion } from '../../api/commerce';
 import { NUMEROS_CALZADO, cmDeNumero, numeroDeCm } from '../../constants/tallas';
 import { Chip, ChipRow } from './Chip';
@@ -224,9 +224,9 @@ export default function AsistenteDeTalla({
 
   if (tablas === null) {
     return (
-      <View style={{ paddingVertical: 26, alignItems: 'center' }}>
+      <View style={{ paddingVertical: espaciado.e26, alignItems: 'center' }}>
         <ActivityIndicator color={colors.primary} />
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 8 }}>Mirando la tabla de esta tienda…</Text>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>Mirando la tabla de esta tienda…</Text>
       </View>
     );
   }
@@ -234,7 +234,7 @@ export default function AsistenteDeTalla({
   if (!tabla) {
     return (
       <View>
-        <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: 6 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: espaciado.e6 }}>
           Esta tienda todavía no tiene tabla de tallas
         </Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18 }}>
@@ -265,7 +265,7 @@ export default function AsistenteDeTalla({
        * también se deslizan, en la práctica no existe. Así que el pie va FIJO, fuera del scroll.
        */}
       <ScrollView showsVerticalScrollIndicator={false} style={{ maxHeight: 250 }} nestedScrollEnabled scrollEnabled={!arrastrando}>
-        <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: 10 }}>Tu talla</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: espaciado.e10 }}>Tu talla</Text>
 
         {/* Sexo: las tablas son distintas, y si la de la tienda es unisex vale para los dos. */}
         <ChipRow>
@@ -294,7 +294,7 @@ export default function AsistenteDeTalla({
         </View>
 
         {!verOpcionales ? (
-          <Pressable onPress={() => setVerOpcionales(true)} accessibilityLabel="Añadir pecho, cintura o cadera" style={{ marginTop: 8 }}>
+          <Pressable onPress={() => setVerOpcionales(true)} accessibilityLabel="Añadir pecho, cintura o cadera" style={{ marginTop: espaciado.e8 }}>
             <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>+ Pecho · Cintura · Cadera</Text>
           </Pressable>
         ) : null}
@@ -315,7 +315,7 @@ export default function AsistenteDeTalla({
               <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>
                 Tu talla: {tallaRecomendada}{resultado?.fit ? ` · ajuste ${resultado.fit}` : ''}
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginTop: 4 }}>{resultado?.reason}</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginTop: espaciado.e4 }}>{resultado?.reason}</Text>
               {tallaEnEsteProducto ? (
                 <Pressable
                   onPress={() => onUsarTalla(tallaEnEsteProducto)}
@@ -325,7 +325,7 @@ export default function AsistenteDeTalla({
                   <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '900' }}>Usar esta talla</Text>
                 </Pressable>
               ) : (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '800', marginTop: 8 }}>
+                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e8 }}>
                   La tabla recomienda la {tallaRecomendada}, pero este producto no la tiene entre sus tallas. Elige la más cercana.
                 </Text>
               )}
@@ -336,7 +336,7 @@ export default function AsistenteDeTalla({
         </View>
       ) : null}
 
-      <View style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
+      <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e10 }}>
         <Pressable
           onPress={() => { if (!calculando) void verMiTalla(); }}
           disabled={calculando}
@@ -363,7 +363,7 @@ export default function AsistenteDeTalla({
         </Pressable>
       </View>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 6, gap: 10 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: espaciado.e6, gap: espaciado.e10 }}>
         {deGuardadas ? (
           <Pressable onPress={borrar} accessibilityLabel="Borrar mis medidas">
             <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '800' }}>Borrar mis medidas</Text>
@@ -375,9 +375,9 @@ export default function AsistenteDeTalla({
 }
 
 const styles = StyleSheet.create({
-  ruletas: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 12, marginBottom: 4 },
-  tarjeta: { borderWidth: 1.5, borderRadius: radios.md, padding: 11, marginTop: 12 },
-  usar: { marginTop: 10, height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  ruletas: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10, marginTop: espaciado.e12, marginBottom: espaciado.e4 },
+  tarjeta: { borderWidth: 1.5, borderRadius: radios.md, padding: espaciado.e11, marginTop: espaciado.e12 },
+  usar: { marginTop: espaciado.e10, height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   /** Los botones del pie fijo: la misma altura que los del panel, para que la fila cuadre. */
-  botonPie: { height: 46, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
+  botonPie: { height: 46, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e10 },
 });

@@ -10,7 +10,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Plus, Trash2, Vote, X } from 'lucide-react-native';
 import { formaHoja } from './ui/Sheet';
 
@@ -65,7 +65,7 @@ export function VoteSheet({ visible, onClose, onSubmit }: Props) {
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
           <Vote size={18} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: 8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: espaciado.e8 }}>
             Crear votación
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -83,13 +83,13 @@ export function VoteSheet({ visible, onClose, onSubmit }: Props) {
           accessibilityLabel="Pregunta de la votación"
           style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary, minHeight: 46 }]}
         />
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5, textAlign: 'right', marginTop: 4 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: 10.5, textAlign: 'right', marginTop: espaciado.e4 }}>
           {question.length}/{QUESTION_MAX}
         </Text>
 
         <ScrollView style={{ maxHeight: 280 }} keyboardShouldPersistTaps="handled">
           {options.map((o, i) => (
-            <View key={`opt-${i}`} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 8 }}>
+            <View key={`opt-${i}`} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8 }}>
               <TextInput
                 value={o}
                 onChangeText={(v) => setOption(i, v.slice(0, OPTION_MAX))}
@@ -115,17 +115,17 @@ export function VoteSheet({ visible, onClose, onSubmit }: Props) {
             style={({ pressed }) => [styles.addRow, { borderColor: alpha(colors.border, 0.9), opacity: pressed ? 0.7 : 1 }]}
           >
             <Plus size={16} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.body, marginLeft: 6 }}>
+            <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.body, marginLeft: espaciado.e6 }}>
               Añadir opción ({options.length}/{OPTIONS_MAX})
             </Text>
           </Pressable>
         ) : (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 10 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>
             Máximo {OPTIONS_MAX} opciones.
           </Text>
         )}
 
-        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: 10 }}>{error}</Text> : null}
+        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
 
         <Pressable
           onPress={submit}
@@ -146,8 +146,8 @@ export function VoteSheet({ visible, onClose, onSubmit }: Props) {
 const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
-  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
-  input: { borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 10, fontSize: tipografia.body },
-  addRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderStyle: 'dashed', borderRadius: radios.md, paddingVertical: 10, marginTop: 12 },
-  cta: { marginTop: 16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
+  header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 },
+  input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
+  addRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderStyle: 'dashed', borderRadius: radios.md, paddingVertical: espaciado.e10, marginTop: espaciado.e12 },
+  cta: { marginTop: espaciado.e16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

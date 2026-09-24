@@ -15,7 +15,7 @@
 import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Plus } from 'lucide-react-native';
-import { alpha, GhostButton, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { LB_COVERAGE, LB_TRANSPORT } from '../../../constants/commerce';
 import { usePublishStore } from '../../../state/commercePublish';
 import type { LbCategory, LbOptionSuggestion, LbSizeKind } from '../../../api/commerce';
@@ -76,8 +76,8 @@ export default function StepExtras({ categories }: { categories: LbCategory[] })
           : 'Añade los detalles que quieras (marca, medidas, garantía…).'}
       >
         {sugeridos.map((a) => (
-          <View key={a.key} style={{ marginBottom: 8 }}>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: 4 }}>
+          <View key={a.key} style={{ marginBottom: espaciado.e8 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e4 }}>
               {a.label ?? a.key}{a.type === 'select' && a.options?.length ? ` (${a.options.join(' / ')})` : ''}
             </Text>
             <TextInput
@@ -91,7 +91,7 @@ export default function StepExtras({ categories }: { categories: LbCategory[] })
         ))}
 
         {/* Detalle libre */}
-        <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center', marginTop: 4 }}>
+        <View style={{ flexDirection: 'row', gap: espaciado.e8, alignItems: 'center', marginTop: espaciado.e4 }}>
           <TextInput
             value={nuevoDetalle.key}
             onChangeText={(v) => setNuevoDetalle((p) => ({ ...p, key: v }))}
@@ -182,7 +182,7 @@ export default function StepExtras({ categories }: { categories: LbCategory[] })
 }
 
 const styles = StyleSheet.create({
-  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: 11, paddingVertical: 9, fontSize: tipografia.body },
+  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e9, fontSize: tipografia.body },
   addBtn: {
     width: 40, height: 40, borderRadius: 10, borderWidth: 1.5,
     alignItems: 'center', justifyContent: 'center',

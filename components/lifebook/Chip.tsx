@@ -9,7 +9,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Check } from 'lucide-react-native';
-import { alpha, useTheme, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, useTheme } from '@egrouteplan/ui-kit';
 
 export function Chip({ label, active, onPress, icon, disabled, compact }: {
   label: string;
@@ -58,11 +58,11 @@ export function ChipRow({ children }: { children: React.ReactNode }) {
 const styles = StyleSheet.create({
   chip: {
     flexDirection: 'row', alignItems: 'center', borderWidth: 1,
-    borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 8,
+    borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8,
   },
   chipCompact: {
     flexDirection: 'row', alignItems: 'center', borderWidth: 1,
-    borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 5,
+    borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5,
   },
-  row: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
+  row: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
 });

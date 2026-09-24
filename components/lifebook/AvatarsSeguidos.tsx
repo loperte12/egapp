@@ -13,7 +13,7 @@
  */
 import React from 'react';
 import { FlatList, Image, Pressable, Text, View } from 'react-native';
-import { alpha, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia } from '@egrouteplan/ui-kit';
 import { absUrl } from '../../api/config';
 import type { LbSeguido } from '../../api/lifebookSeguidos';
 
@@ -25,10 +25,10 @@ export function AvatarsSeguidos({ gente, colors, onOpen }: {
   if (gente.length === 0) return null;
 
   return (
-    <View style={{ paddingTop: 8, paddingBottom: 6 }}>
+    <View style={{ paddingTop: espaciado.e8, paddingBottom: espaciado.e6 }}>
       <Text style={{
         fontSize: tipografia.micro, fontWeight: '900', letterSpacing: 0.4,
-        color: colors.textSecondary, paddingHorizontal: 14, paddingBottom: 6,
+        color: colors.textSecondary, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e6,
       }}>
         A QUIEN SIGUES
       </Text>
@@ -37,7 +37,7 @@ export function AvatarsSeguidos({ gente, colors, onOpen }: {
         data={gente}
         keyExtractor={(x) => x.id}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 12, gap: 14 }}
+        contentContainerStyle={{ paddingHorizontal: espaciado.e12, gap: espaciado.e14 }}
         renderItem={({ item }) => {
           const nombre = item.fullName?.trim() || 'Usuario';
           const inicial = nombre.slice(0, 1).toUpperCase() || 'U';
@@ -67,7 +67,7 @@ export function AvatarsSeguidos({ gente, colors, onOpen }: {
               )}
               <Text
                 numberOfLines={1}
-                style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 5, maxWidth: 62, textAlign: 'center' }}
+                style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e5, maxWidth: 62, textAlign: 'center' }}
               >
                 {nombre.split(' ')[0]}
               </Text>

@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { alpha, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
 
 export function PersonRow({ name, avatarUrl, subtitle, actions }: {
   name: string; avatarUrl?: string | null; subtitle?: string; actions: React.ReactNode;
@@ -24,13 +24,13 @@ export function PersonRow({ name, avatarUrl, subtitle, actions }: {
         <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.body }}>{name}</Text>
         {subtitle ? <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{subtitle}</Text> : null}
       </View>
-      <View style={{ flexDirection: 'row', gap: 6 }}>{actions}</View>
+      <View style={{ flexDirection: 'row', gap: espaciado.e6 }}>{actions}</View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  personRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth },
+  personRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
   personAvatar: { width: 40, height: 40, borderRadius: 20 },
   center: { alignItems: 'center', justifyContent: 'center' },
 });

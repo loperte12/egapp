@@ -7,7 +7,7 @@
  */
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
-import { alpha, PrimaryButton, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { commerceApi } from '../../../api/commerce';
 import { LB_CITIES } from '../../../constants/lifebook';
 import { LB_PAY_METHODS, LB_REGIONS } from '../../../constants/commerce';
@@ -146,13 +146,13 @@ export default function StepShop({ onCreated }: { onCreated: (name: string) => v
             keyboardType="number-pad"
             placeholder="Coste de entrega en XAF (0 = a consultar)"
             placeholderTextColor={colors.textSecondary}
-            style={[styles.input, { marginTop: 8, color: colors.textPrimary, borderColor: colors.border, backgroundColor: colors.surface }]}
+            style={[styles.input, { marginTop: espaciado.e8, color: colors.textPrimary, borderColor: colors.border, backgroundColor: colors.surface }]}
           />
         ) : null}
       </StepBlock>
 
       <PrimaryButton title="Abrir mi tienda" loading={busy} onPress={crear} />
-      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: 8 }}>
+      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e8 }}>
         Podrás cambiar todo esto después desde «Mi tienda».
       </Text>
     </View>
@@ -160,6 +160,6 @@ export default function StepShop({ onCreated }: { onCreated: (name: string) => v
 }
 
 const styles = StyleSheet.create({
-  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 10, fontSize: tipografia.body },
+  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   area: { minHeight: 80, textAlignVertical: 'top' },
 });

@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Heart, MessageCircle, Pencil, Plus, Send, Trash2, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { lifebookApi, lifebookActionsApi, type LbCommentItem, type LbPostBase } from '../../api/lifebook';
@@ -111,7 +111,7 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
   };
 
   return (
-    <View style={{ flexDirection: 'row', gap: 10, paddingVertical: isReply ? 7 : 10, paddingLeft: isReply ? 26 : 0 }}>
+    <View style={{ flexDirection: 'row', gap: espaciado.e10, paddingVertical: isReply ? 7 : 10, paddingLeft: isReply ? 26 : 0 }}>
       <Pressable onPress={openProfile} accessibilityLabel={`Perfil de ${name}`} hitSlop={6}>
         {avatar ? (
           <Image source={{ uri: avatar }} style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: alpha(colors.textPrimary, 0.08) }} />
@@ -124,12 +124,12 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
 
       <View style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, flex: 1 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, flex: 1 }}>
             <Pressable onPress={openProfile} hitSlop={6}>
               <Text numberOfLines={1} style={{ fontSize: isReply ? 12 : 12.5, fontWeight: '800', color: colors.textSecondary }}>{name}</Text>
             </Pressable>
             {mine ? (
-              <View style={{ backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: 6, paddingVertical: 1 }}>
+              <View style={{ backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e6, paddingVertical: 1 }}>
                 <Text style={{ color: colors.primary, fontSize: 9.5, fontWeight: '900' }}>TÚ</Text>
               </View>
             ) : null}
@@ -141,12 +141,12 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
 
         {/* A quién responde: sin esto no se sabía de qué comentario era la respuesta */}
         {isReply && c.replyToName ? (
-          <Text style={{ fontSize: tipografia.caption, color: colors.primary, marginTop: 2, fontWeight: '700' }}>
+          <Text style={{ fontSize: tipografia.caption, color: colors.primary, marginTop: espaciado.e2, fontWeight: '700' }}>
             → {c.replyToName}
           </Text>
         ) : null}
 
-        <Text style={{ fontSize: isReply ? 13.5 : 14, lineHeight: isReply ? 19 : 20, color: colors.textPrimary, marginTop: 3 }}>
+        <Text style={{ fontSize: isReply ? 13.5 : 14, lineHeight: isReply ? 19 : 20, color: colors.textPrimary, marginTop: espaciado.e3 }}>
           {c.body}
         </Text>
 
@@ -161,18 +161,18 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
           <PublicacionTarjeta data={(c as LbComentarioConAdjunto).ref!} tint={tint} colors={colors} compacta={isReply} />
         ) : null}
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 6 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e14, marginTop: espaciado.e6 }}>
           <Pressable onPress={onReply} hitSlop={8} accessibilityLabel={`Responder a ${name}`}>
             <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textSecondary }}>Responder</Text>
           </Pressable>
           {mine && onEdit ? (
-            <Pressable onPress={onEdit} hitSlop={8} accessibilityLabel="Editar mi comentario" style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+            <Pressable onPress={onEdit} hitSlop={8} accessibilityLabel="Editar mi comentario" style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
               <Pencil size={11} color={colors.textSecondary} />
               <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textSecondary }}>Editar</Text>
             </Pressable>
           ) : null}
           {mine && onDelete ? (
-            <Pressable onPress={onDelete} hitSlop={8} accessibilityLabel="Eliminar mi comentario" style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+            <Pressable onPress={onDelete} hitSlop={8} accessibilityLabel="Eliminar mi comentario" style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
               <Trash2 size={11} color={colors.danger} />
               <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.danger }}>Eliminar</Text>
             </Pressable>
@@ -184,11 +184,11 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
         onPress={onLike}
         hitSlop={8}
         accessibilityLabel={`Me gusta del comentario${likes ? `, ${likes}` : ''}`}
-        style={{ alignItems: 'center', justifyContent: 'flex-start', paddingTop: 4, minWidth: 28 }}
+        style={{ alignItems: 'center', justifyContent: 'flex-start', paddingTop: espaciado.e4, minWidth: 28 }}
       >
         <Heart size={16} color={c.likedByMe ? brand.like : colors.textSecondary} fill={c.likedByMe ? brand.like : 'transparent'} />
         {likes > 0 ? (
-          <Text style={{ marginTop: 3, fontSize: 10.5, fontWeight: '800', color: colors.textSecondary }}>{likes}</Text>
+          <Text style={{ marginTop: espaciado.e3, fontSize: 10.5, fontWeight: '800', color: colors.textSecondary }}>{likes}</Text>
         ) : null}
       </Pressable>
     </View>
@@ -260,8 +260,8 @@ export function CommentsSheet({
   /** Chip «Adjuntando: …» con su aspa. Lo usan las DOS cajas (comentario y respuesta). */
   const chipAdjunto = () => (adjunto ? (
     <View style={{
-      flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 7,
-      backgroundColor: alpha(colors.primary, 0.10), borderRadius: radios.md, paddingHorizontal: 10, paddingVertical: 6,
+      flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e7,
+      backgroundColor: alpha(colors.primary, 0.10), borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6,
     }}>
       <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.caption, fontWeight: '800', color: colors.primary }}>
         Adjuntando: {adjunto.title?.trim() || 'publicación'}
@@ -441,7 +441,7 @@ export function CommentsSheet({
     return (
       <View>
         {isEditing ? (
-          <View style={{ paddingVertical: 10 }}>
+          <View style={{ paddingVertical: espaciado.e10 }}>
             <TextInput
               value={editing.text}
               onChangeText={(t) => setEditing({ id: item.id, text: t })}
@@ -450,17 +450,17 @@ export function CommentsSheet({
               autoFocus
               style={{
                 color: colors.textPrimary, fontSize: tipografia.body, minHeight: 40,
-                backgroundColor: alpha(colors.textPrimary, 0.06), borderRadius: radios.md, padding: 10,
+                backgroundColor: alpha(colors.textPrimary, 0.06), borderRadius: radios.md, padding: espaciado.e10,
               }}
             />
-            <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
-              <Pressable onPress={() => setEditing(null)} style={{ flex: 1, alignItems: 'center', paddingVertical: 8 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 }}>
+              <Pressable onPress={() => setEditing(null)} style={{ flex: 1, alignItems: 'center', paddingVertical: espaciado.e8 }}>
                 <Text style={{ color: colors.textSecondary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
               </Pressable>
               <Pressable
                 onPress={submit}
                 accessibilityLabel="Guardar cambios del comentario"
-                style={{ flex: 1.4, alignItems: 'center', paddingVertical: 8, backgroundColor: colors.primary, borderRadius: radios.full }}
+                style={{ flex: 1.4, alignItems: 'center', paddingVertical: espaciado.e8, backgroundColor: colors.primary, borderRadius: radios.full }}
               >
                 <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.body }}>Guardar</Text>
               </Pressable>
@@ -482,7 +482,7 @@ export function CommentsSheet({
         {/* Caja de respuesta EN LÍNEA, justo debajo del comentario (como YouTube) */}
         {replyTo?.id === item.id ? (
           <View style={{
-            marginLeft: 44, marginBottom: 10, paddingLeft: 10,
+            marginLeft: 44, marginBottom: espaciado.e10, paddingLeft: espaciado.e10,
             borderLeftWidth: 2, borderLeftColor: alpha(colors.primary, 0.35),
           }}>
             {/* A quién se responde: AQUÍ, en su propia línea.
@@ -492,14 +492,14 @@ export function CommentsSheet({
                 enviar quedaba apretujado contra el borde. El dueño lo describió tal cual.
                 `numberOfLines={1}` para que un nombre larguísimo recorte en vez de empujar
                 el campo fuera de la pantalla. */}
-            <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginBottom: 6 }}>
+            <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginBottom: espaciado.e6 }}>
               Respondiendo a @{replyTo.name}
             </Text>
             {chipAdjunto()}
             <View style={{
-              flexDirection: 'row', alignItems: 'flex-end', gap: 8,
+              flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8,
               backgroundColor: alpha(colors.textPrimary, 0.06), borderRadius: 20,
-              paddingLeft: 6, paddingRight: 6, paddingVertical: 5,
+              paddingLeft: espaciado.e6, paddingRight: espaciado.e6, paddingVertical: espaciado.e5,
             }}>
               {meId ? (
                 <Pressable
@@ -524,7 +524,7 @@ export function CommentsSheet({
                 multiline
                 maxLength={1000}
                 autoFocus
-                style={{ flex: 1, maxHeight: 90, minHeight: 34, color: colors.textPrimary, fontSize: tipografia.body, paddingVertical: 6 }}
+                style={{ flex: 1, maxHeight: 90, minHeight: 34, color: colors.textPrimary, fontSize: tipografia.body, paddingVertical: espaciado.e6 }}
               />
               {/* 36 en vez de 32: el botón de enviar es la acción de esta caja y estaba
                   escondido. Es lo único que empuja la fila, y el campo se queda con todo
@@ -542,14 +542,14 @@ export function CommentsSheet({
                 {sending ? <ActivityIndicator size="small" color={brand.white} /> : <Send size={16} color={replyDraft.trim() ? brand.white : colors.textSecondary} />}
               </Pressable>
             </View>
-            <Pressable onPress={() => { setReplyTo(null); setReplyDraft(''); }} style={{ paddingVertical: 6 }} accessibilityLabel="Cancelar respuesta">
+            <Pressable onPress={() => { setReplyTo(null); setReplyDraft(''); }} style={{ paddingVertical: espaciado.e6 }} accessibilityLabel="Cancelar respuesta">
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }}>Cancelar</Text>
             </Pressable>
           </View>
         ) : null}
 
         {(item.repliesCount ?? 0) > 0 ? (
-          <Pressable onPress={() => toggleReplies(item.id)} style={{ paddingLeft: 44, paddingBottom: 8 }} accessibilityLabel="Ver respuestas">
+          <Pressable onPress={() => toggleReplies(item.id)} style={{ paddingLeft: 44, paddingBottom: espaciado.e8 }} accessibilityLabel="Ver respuestas">
             <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>
               {openReplies[item.id] ? 'Ocultar respuestas' : `Ver ${item.repliesCount} respuesta${item.repliesCount === 1 ? '' : 's'}`}
             </Text>
@@ -558,11 +558,11 @@ export function CommentsSheet({
 
         {openReplies[item.id] ? (
           <View style={{
-            marginLeft: 17, paddingLeft: 14,
+            marginLeft: 17, paddingLeft: espaciado.e14,
             borderLeftWidth: 2, borderLeftColor: alpha(colors.textPrimary, 0.10),
           }}>
             {(replies[item.id] ?? []).length === 0 ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: 8 }} />
+              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e8 }} />
             ) : (
               (replies[item.id] ?? []).map((r) => (
                 <View key={r.id}>
@@ -578,7 +578,7 @@ export function CommentsSheet({
                     onDelete={() => confirmDelete(r)}
                   />
                   {replyTo?.id === item.id && replyTo.name === (r.author?.fullName ?? 'Usuario') ? (
-                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', paddingLeft: 38, paddingBottom: 6 }}>
+                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', paddingLeft: 38, paddingBottom: espaciado.e6 }}>
                       Escribiendo la respuesta arriba ↑
                     </Text>
                   ) : null}
@@ -605,9 +605,9 @@ export function CommentsSheet({
           maxHeight: `${maxHeightPct}%`,
           paddingBottom: insets.bottom + 8,
         }}>
-          <View style={{ height: 4, width: 44, borderRadius: radios.full, backgroundColor: alpha(colors.textPrimary, 0.14), alignSelf: 'center', marginTop: 10 }} />
+          <View style={{ height: 4, width: 44, borderRadius: radios.full, backgroundColor: alpha(colors.textPrimary, 0.14), alignSelf: 'center', marginTop: espaciado.e10 }} />
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e10 }}>
             <Text style={{ fontSize: 15, fontWeight: '900', color: colors.textPrimary }}>{title} · {total}</Text>
             <Pressable
               onPress={onClose}
@@ -628,23 +628,23 @@ export function CommentsSheet({
               keyExtractor={(item) => item.id}
               keyboardShouldPersistTaps="handled"
               style={{ flexGrow: 0, flexShrink: 1 }}
-              contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
+              contentContainerStyle={{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8 }}
               onEndReached={loadMore}
               onEndReachedThreshold={0.4}
               ListEmptyComponent={
                 <View style={{ paddingVertical: 34, alignItems: 'center' }}>
                   <MessageCircle size={28} color={colors.textSecondary} />
-                  <Text style={{ marginTop: 10, color: colors.textSecondary, fontWeight: '800' }}>
+                  <Text style={{ marginTop: espaciado.e10, color: colors.textSecondary, fontWeight: '800' }}>
                     {allowComments ? 'Todavía no hay comentarios' : 'Los comentarios están desactivados'}
                   </Text>
-                  <Text style={{ marginTop: 4, color: alpha(colors.textSecondary, 0.8), fontSize: tipografia.caption, textAlign: 'center' }}>
+                  <Text style={{ marginTop: espaciado.e4, color: alpha(colors.textSecondary, 0.8), fontSize: tipografia.caption, textAlign: 'center' }}>
                     {allowComments
                       ? 'Escribe el primero para abrir la conversación.'
                       : 'El autor desactivó los comentarios de esta publicación.'}
                   </Text>
                 </View>
               }
-              ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: 12 }} /> : null}
+              ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e12 }} /> : null}
               renderItem={({ item, index }) => (
                 <>
                   {renderComment(item)}
@@ -662,7 +662,7 @@ export function CommentsSheet({
           )}
 
           {notice ? (
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption, paddingHorizontal: 16, paddingBottom: 6 }}>{notice}</Text>
+            <Text style={{ color: colors.danger, fontSize: tipografia.caption, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e6 }}>{notice}</Text>
           ) : null}
 
           {/*
@@ -680,12 +680,12 @@ export function CommentsSheet({
             este compositor: **un solo sitio donde escribir a la vez**.
           */}
           {allowComments && !editing && !replyTo ? (
-            <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingHorizontal: 12, paddingTop: 10, paddingBottom: 6 }}>
+            <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, paddingBottom: espaciado.e6 }}>
               {chipAdjunto()}
               <View style={{
-                flexDirection: 'row', alignItems: 'flex-end', gap: 8,
+                flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8,
                 backgroundColor: alpha(colors.textPrimary, 0.07), borderRadius: 24,
-                paddingLeft: 6, paddingRight: 6, paddingVertical: 6,
+                paddingLeft: espaciado.e6, paddingRight: espaciado.e6, paddingVertical: espaciado.e6,
               }}>
                 {/* Adjuntar una publicación: el «+» va a la izquierda del campo, como el
                     botón de adjuntar de un chat. Solo aparece si sabemos quién eres
@@ -712,7 +712,7 @@ export function CommentsSheet({
                   placeholderTextColor={colors.textSecondary}
                   multiline
                   maxLength={1000}
-                  style={{ flex: 1, maxHeight: 100, minHeight: 34, color: colors.textPrimary, fontSize: tipografia.body, paddingVertical: 6 }}
+                  style={{ flex: 1, maxHeight: 100, minHeight: 34, color: colors.textPrimary, fontSize: tipografia.body, paddingVertical: espaciado.e6 }}
                 />
                 <Pressable
                   onPress={submit}
@@ -731,7 +731,7 @@ export function CommentsSheet({
               </View>
             </View>
           ) : !allowComments ? (
-            <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingHorizontal: 16, paddingVertical: 12, alignItems: 'center' }}>
+            <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, alignItems: 'center' }}>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Los comentarios están desactivados</Text>
             </View>
           ) : null}
@@ -761,24 +761,24 @@ export function CommentsSheet({
             borderTopLeftRadius: 22, borderTopRightRadius: 22,
             maxHeight: '62%', paddingBottom: insets.bottom + 10,
           }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 14, paddingBottom: 6 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e14, paddingBottom: espaciado.e6 }}>
               <Text style={{ fontSize: 15, fontWeight: '900', color: colors.textPrimary }}>Adjuntar una publicación</Text>
               <Pressable onPress={() => setPickerOpen(false)} hitSlop={10} accessibilityLabel="Cerrar el selector">
                 <X size={18} color={colors.textSecondary} />
               </Pressable>
             </View>
-            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, paddingHorizontal: 16, paddingBottom: 8 }}>
+            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e8 }}>
               Se adjunta como referencia: si la borras, tu comentario se queda tal cual.
             </Text>
 
             {misPosts === null ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: 26 }} />
+              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e26 }} />
             ) : misPosts.length === 0 ? (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, paddingHorizontal: 16, paddingBottom: 22 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e22 }}>
                 Todavía no has publicado nada.
               </Text>
             ) : (
-              <ScrollView style={{ paddingHorizontal: 12 }}>
+              <ScrollView style={{ paddingHorizontal: espaciado.e12 }}>
                 {misPosts.map((p) => {
                   const elegida = adjunto?.id === p.id;
                   return (
@@ -790,8 +790,8 @@ export function CommentsSheet({
                       }}
                       accessibilityLabel={`Adjuntar ${p.title ?? 'publicación'}`}
                       style={{
-                        flexDirection: 'row', alignItems: 'center', gap: 10,
-                        paddingVertical: 11, paddingHorizontal: 10, borderRadius: radios.md,
+                        flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+                        paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e10, borderRadius: radios.md,
                         backgroundColor: elegida ? alpha(colors.primary, 0.12) : 'transparent',
                       }}
                     >

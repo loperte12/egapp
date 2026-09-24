@@ -10,7 +10,7 @@
 import React from 'react';
 import { Pressable, View } from 'react-native';
 import { Maximize2, Minus, Plus } from 'lucide-react-native';
-import { brand } from '@egrouteplan/ui-kit';
+import { brand, espaciado } from '@egrouteplan/ui-kit';
 
 export function ViewerButton({ children, onPress, label }: {
   children: React.ReactNode;
@@ -42,7 +42,7 @@ export function ViewerZoomControls({ bottom, onZoomOut, onFit, onZoomIn }: {
   onZoomIn: () => void;
 }) {
   return (
-    <View style={{ position: 'absolute', left: 16, bottom, flexDirection: 'row', gap: 10 }}>
+    <View style={{ position: 'absolute', left: 16, bottom, flexDirection: 'row', gap: espaciado.e10 }}>
       <ViewerButton label="Alejar la foto" onPress={onZoomOut}>
         <Minus size={18} color={brand.white} />
       </ViewerButton>

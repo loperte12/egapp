@@ -19,7 +19,7 @@
  */
 import React, { useEffect, useRef } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 
 const ALTO_FILA = 40;
 const FILAS_VISIBLES = 5;
@@ -59,7 +59,7 @@ export default function RuletaVertical({
 
   return (
     <View style={{ width: ancho, alignItems: 'center' }}>
-      <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700', marginBottom: 4, textAlign: 'center' }}>
+      <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700', marginBottom: espaciado.e4, textAlign: 'center' }}>
         {etiqueta}
       </Text>
       <View style={[styles.caja, { borderColor: alpha(colors.border, 0.8), backgroundColor: colors.surface }]}>

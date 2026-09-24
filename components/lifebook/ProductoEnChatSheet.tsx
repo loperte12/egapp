@@ -22,7 +22,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ChevronDown, Minus, Plus, ShoppingCart, Store, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { commerceApi, type LbProduct, type LbProductVariant } from '../../api/commerce';
@@ -120,7 +120,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
           <View style={[styles.handle, { backgroundColor: colors.border }]} />
         </Pressable>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 6 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e6 }}>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 }} numberOfLines={1}>
             {expandido ? 'Confirmar la compra' : 'Producto'}
           </Text>
@@ -133,10 +133,10 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
           <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
         ) : error ? (
           <View style={styles.center}>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingHorizontal: 30 }}>{error}</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingHorizontal: espaciado.e30 }}>{error}</Text>
           </View>
         ) : producto ? (
-          <ScrollView contentContainerStyle={{ padding: 14, paddingTop: 4, gap: 10 }} keyboardShouldPersistTaps="handled">
+          <ScrollView contentContainerStyle={{ padding: espaciado.e14, paddingTop: espaciado.e4, gap: espaciado.e10 }} keyboardShouldPersistTaps="handled">
             {/* Foto (en el nivel 2 se enseña más pequeña: el protagonismo pasa al resumen) */}
             {foto ? (
               <Image
@@ -156,11 +156,11 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                 {producto.title}
               </Text>
               {!expandido && producto.shortDescription ? (
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }} numberOfLines={2}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }} numberOfLines={2}>
                   {producto.shortDescription}
                 </Text>
               ) : null}
-              <Text style={{ color: colors.primary, fontSize: 19, fontWeight: '900', marginTop: 6 }}>
+              <Text style={{ color: colors.primary, fontSize: 19, fontWeight: '900', marginTop: espaciado.e6 }}>
                 {lbPriceLabel(precioUnitario, producto.priceMode, lbXaf)}
                 {cantidad > 1 && precioUnitario !== null ? (
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
@@ -169,7 +169,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                 ) : null}
               </Text>
               {producto.shop?.name ? (
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 6 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e6 }}>
                   <Store size={12} color={colors.textSecondary} />
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }} numberOfLines={1}>{producto.shop.name}</Text>
                 </View>
@@ -179,10 +179,10 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
             {/* Variantes: se eligen aquí mismo, sin salir del chat. */}
             {Array.isArray(producto.variants) && producto.variants.length > 0 ? (
               <View>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', marginBottom: 6 }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', marginBottom: espaciado.e6 }}>
                   Elige una opción{necesitaVariante ? ' (obligatorio)' : ''}
                 </Text>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
                   {producto.variants.map((v) => {
                     const on = variante?.id === v.id;
                     return (
@@ -208,7 +208,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
             ) : null}
 
             {/* Cantidad */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', flex: 1 }}>Cantidad</Text>
               <Pressable onPress={() => setCantidad((n) => Math.max(1, n - 1))} accessibilityLabel="Quitar una unidad" style={[styles.paso, { borderColor: colors.border }]}>
                 <Minus size={14} color={colors.textPrimary} />
@@ -221,7 +221,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
 
             {/* NIVEL 2: resumen, desglose y pagar */}
             {expandido ? (
-              <View style={{ gap: 6, marginTop: 4 }}>
+              <View style={{ gap: espaciado.e6, marginTop: espaciado.e4 }}>
                 <View style={[styles.linea, { borderTopColor: alpha(colors.border, 0.6) }]}>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Producto</Text>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>
@@ -240,7 +240,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Cupón</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>se elige en la caja</Text>
                 </View>
-                <View style={[styles.linea, { marginTop: 4 }]}>
+                <View style={[styles.linea, { marginTop: espaciado.e4 }]}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>Total a pagar</Text>
                   <Text style={{ color: colors.primary, fontSize: 17, fontWeight: '900' }}>{total === null ? 'A consultar' : lbXaf(total)}</Text>
                 </View>
@@ -265,7 +265,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                     Pagar{total !== null ? ` ${lbXaf(total)}` : ''}
                   </Text>
                 </Pressable>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center', marginTop: 2 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center', marginTop: espaciado.e2 }}>
                   La dirección y la forma de pago se eligen en la caja. Al pagar volverás aquí.
                 </Text>
               </View>
@@ -317,15 +317,15 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
 const styles = StyleSheet.create({
   backdrop: { flex: 1 },
   sheet: { borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden' },
-  handleWrap: { alignItems: 'center', paddingTop: 8, paddingBottom: 2 },
+  handleWrap: { alignItems: 'center', paddingTop: espaciado.e8, paddingBottom: espaciado.e2 },
   handle: { width: 38, height: 4, borderRadius: 2 },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 7 },
+  chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   paso: { width: 30, height: 30, borderRadius: radios.sm, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
-  linea: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },
-  pagar: { borderRadius: 14, paddingVertical: 14, alignItems: 'center', marginTop: 6 },
-  acciones: { flexDirection: 'row', gap: 10, padding: 12, borderTopWidth: StyleSheet.hairlineWidth },
-  accionSec: { flex: 1, borderWidth: 1.5, borderRadius: 14, paddingVertical: 12, alignItems: 'center' },
-  accionPri: { flex: 1, borderRadius: 14, paddingVertical: 12, alignItems: 'center' },
-  encoger: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingVertical: 12, borderTopWidth: StyleSheet.hairlineWidth },
+  linea: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e10 },
+  pagar: { borderRadius: 14, paddingVertical: espaciado.e14, alignItems: 'center', marginTop: espaciado.e6 },
+  acciones: { flexDirection: 'row', gap: espaciado.e10, padding: espaciado.e12, borderTopWidth: StyleSheet.hairlineWidth },
+  accionSec: { flex: 1, borderWidth: 1.5, borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center' },
+  accionPri: { flex: 1, borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center' },
+  encoger: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, paddingVertical: espaciado.e12, borderTopWidth: StyleSheet.hairlineWidth },
 });

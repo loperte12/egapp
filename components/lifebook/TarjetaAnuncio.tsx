@@ -19,7 +19,7 @@
 import React, { useEffect } from 'react';
 import { Image, Linking, Pressable, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { alpha, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 import { adsApi, type HomeAd } from '../../api/ads';
 import { absUrl } from '../../api/config';
 import { ir as irSeguro } from '../../constants/rutas';
@@ -70,18 +70,18 @@ export function TarjetaAnuncio({ ad, tint, colors }: { ad: HomeAd; tint: string;
   const imagen = ad.imageUrl ? absUrl(ad.imageUrl) : '';
 
   return (
-    <View style={{ marginTop: 8 }}>
+    <View style={{ marginTop: espaciado.e8 }}>
       {/* La etiqueta NO es opcional: sin ella el anuncio se lee como un comentario
           de alguien, y eso es engañar a quien lee. */}
-      <Text style={{ fontSize: 10, fontWeight: '900', letterSpacing: 0.6, color: colors.textSecondary, marginBottom: 4 }}>
+      <Text style={{ fontSize: 10, fontWeight: '900', letterSpacing: 0.6, color: colors.textSecondary, marginBottom: espaciado.e4 }}>
         PUBLICIDAD
       </Text>
       <Pressable
         onPress={abrir}
         accessibilityLabel={`Publicidad: ${ad.title}. ${ad.subtitle ?? ''}`}
         style={{
-          flexDirection: 'row', alignItems: 'center', gap: 10,
-          padding: 9, borderRadius: radios.md,
+          flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+          padding: espaciado.e9, borderRadius: radios.md,
           backgroundColor: alpha(ad.color?.startsWith('#') ? ad.color : tint, 0.10),
           borderWidth: 1, borderColor: alpha(colors.textPrimary, 0.08),
         }}
@@ -98,7 +98,7 @@ export function TarjetaAnuncio({ ad, tint, colors }: { ad: HomeAd; tint: string;
             {ad.title}
           </Text>
           {ad.subtitle ? (
-            <Text numberOfLines={1} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }}>
+            <Text numberOfLines={1} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>
               {ad.subtitle}{ad.discountPct ? ` · -${ad.discountPct} %` : ''}
             </Text>
           ) : null}

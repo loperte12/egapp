@@ -10,7 +10,7 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, radios, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Flag, ShieldAlert, UserX, X } from 'lucide-react-native';
 import { LB_REPORT_REASONS } from '../../constants/lifebook';
 import { lifebookBlocksApi, type LbPostCard } from '../../api/lifebook';
@@ -65,10 +65,10 @@ export function ReportSheet({ post, onClose, onReport, onBlocked }: Props) {
           <Text style={[styles.title, { color: colors.textPrimary }]}>Reportar publicación</Text>
           <Pressable onPress={onClose} hitSlop={10}><X size={20} color={colors.textSecondary} /></Pressable>
         </View>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 8, paddingHorizontal: 2 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e8, paddingHorizontal: espaciado.e2 }}>
           ¿Por qué quieres reportar esto? Lo revisará el equipo de moderación.
         </Text>
-        {busy && <ActivityIndicator color={colors.primary} style={{ marginVertical: 6 }} />}
+        {busy && <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e6 }} />}
 
         {LB_REPORT_REASONS.map((r) => (
           <Pressable
@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
   handle: { ...formaTirador },
-  header: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 },
+  header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e4 },
   title: { fontSize: 17, fontWeight: '900', flex: 1 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(128,128,140,0.15)' },
-  blockBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderRadius: radios.md, padding: 14, marginTop: 12 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(128,128,140,0.15)' },
+  blockBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: radios.md, padding: espaciado.e14, marginTop: espaciado.e12 },
 });

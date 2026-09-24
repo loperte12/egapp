@@ -14,7 +14,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { CalendarCheck, Clock, X } from 'lucide-react-native';
 import type { LbPickedLocation } from './LocationPickerSheet';
 import { formaHoja } from './ui/Sheet';
@@ -87,7 +87,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
           <CalendarCheck size={18} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: 8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: espaciado.e8 }}>
             ¿Cuándo es la quedada?
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -107,7 +107,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
           </View>
         </View>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 14 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e14 }}>
           <Clock size={15} color={colors.textSecondary} />
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }}>HORA</Text>
         </View>
@@ -128,7 +128,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
             </Pressable>
           ))}
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8 }}>
             <TextInput
               value={custom}
               onChangeText={(v) => { setCustom(v); setError(null); }}
@@ -149,8 +149,8 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
           </View>
         </ScrollView>
 
-        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: 10 }}>{error}</Text> : null}
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 10 }}>
+        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e10 }}>
           En el mensaje, quien quiera ir pulsa «Voy» (tú también cuentas).
         </Text>
       </View>
@@ -161,9 +161,9 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
 const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
-  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
-  placeRow: { flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1, borderRadius: 14, padding: 12 },
-  opt: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 12, marginTop: 8 },
-  input: { borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 10, fontSize: tipografia.body },
-  smallCta: { borderRadius: radios.md, paddingHorizontal: 16, paddingVertical: 11 },
+  header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 },
+  placeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1, borderRadius: 14, padding: espaciado.e12 },
+  opt: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12, marginTop: espaciado.e8 },
+  input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
+  smallCta: { borderRadius: radios.md, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e11 },
 });

@@ -10,7 +10,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { alpha, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { absUrl } from '../../../api/config';
 import { lbXaf } from '../../../constants/lifebook';
 import { LB_CONDITIONS, LB_PAY_STATUS_LABEL, lbCoverageLabel, lbPayLabel, lbPriceLabel, lbServiceLabel, lbTransportLabel } from '../../../constants/commerce';
@@ -43,19 +43,19 @@ export default function StepPreview({ categories, shop }: { categories: LbCatego
             <Text style={{ fontSize: 30 }}>📦</Text>
           </View>
         )}
-        <View style={{ padding: 12 }}>
+        <View style={{ padding: espaciado.e12 }}>
           <Text style={{ color: colors.primary, fontSize: 19, fontWeight: '900' }}>
             {lbPriceLabel(form.priceMode === 'on_request' ? null : Number(form.price.replace(/\D/g, '')), form.priceMode, lbXaf)}
           </Text>
-          <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '800', marginTop: 4 }} numberOfLines={3}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '800', marginTop: espaciado.e4 }} numberOfLines={3}>
             {form.title || '(sin título)'}
           </Text>
           {form.shortDescription ? (
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 4 }} numberOfLines={2}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4 }} numberOfLines={2}>
               {form.shortDescription}
             </Text>
           ) : null}
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 6 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>
             {[lbServiceLabel(form.serviceType), sub?.name, form.city, form.barrio].filter(Boolean).join(' · ')}
           </Text>
         </View>
@@ -102,7 +102,7 @@ export default function StepPreview({ categories, shop }: { categories: LbCatego
 }
 
 const styles = StyleSheet.create({
-  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, overflow: 'hidden', marginBottom: 16 },
+  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, overflow: 'hidden', marginBottom: espaciado.e16 },
   cover: { width: '100%', height: 190 },
   coverEmpty: { alignItems: 'center', justifyContent: 'center' },
 });

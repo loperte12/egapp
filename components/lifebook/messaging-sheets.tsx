@@ -12,7 +12,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Check, FileScan, QrCode, Search, UserPlus } from 'lucide-react-native';
 import { lifebookApi, lifebookInboxApi, type LbFollowerItem, type LbSuggestedUser } from '../../api/lifebook';
 import { messagesApi, type LbConversation, type LbConversationCard, toConversationCard } from '../../api/messages';
@@ -50,13 +50,13 @@ export function SearchChatsSheet({ visible, onClose, convos, onPick }: {
           onChangeText={setQ}
           placeholder="Nombre o mensaje…"
           placeholderTextColor={colors.textSecondary}
-          style={{ flex: 1, marginLeft: 6, color: colors.textPrimary, fontSize: tipografia.body }}
+          style={{ flex: 1, marginLeft: espaciado.e6, color: colors.textPrimary, fontSize: tipografia.body }}
           autoFocus
         />
       </View>
       <ScrollView style={{ maxHeight: 340 }} keyboardShouldPersistTaps="handled">
         {rows.length === 0 ? (
-          <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: 20, fontSize: tipografia.body }}>
+          <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e20, fontSize: tipografia.body }}>
             {convos.length === 0 ? 'Todavía no tienes conversaciones.' : 'Nada coincide.'}
           </Text>
         ) : rows.map((c) => (
@@ -121,13 +121,13 @@ export function AddFriendSheet({ visible, onClose, onOpenChat }: {
   return (
     <Sheet visible={visible} onClose={onClose}>
       <SheetHeader title="Añadir amigo" onClose={onClose} />
-      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 10 }}>
+      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e10 }}>
         Personas que te siguen o que publican cerca de ti. Puedes seguirlas o escribirles.
       </Text>
       {people === null ? (
-        <ActivityIndicator color={colors.primary} style={{ marginVertical: 20 }} />
+        <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
       ) : people.length === 0 ? (
-        <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: 20, fontSize: tipografia.body }}>
+        <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e20, fontSize: tipografia.body }}>
           No hay recomendaciones por ahora.
         </Text>
       ) : (
@@ -204,18 +204,18 @@ const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
   handle: { ...formaTirador },
-  sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
+  sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e10 },
   center: { alignItems: 'center', justifyContent: 'center' },
-  searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: 12, height: 38, marginBottom: 10 },
-  personRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth },
+  searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e12, height: 38, marginBottom: espaciado.e10 },
+  personRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
   personAvatar: { width: 40, height: 40, borderRadius: 20 },
-  badge: { borderRadius: radios.full, minWidth: 18, height: 18, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 5 },
+  badge: { borderRadius: radios.full, minWidth: 18, height: 18, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e5 },
   badgeText: { color: brand.white, fontSize: 10, fontWeight: '800' },
-  smallBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 7, minWidth: 78, justifyContent: 'center' },
+  smallBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, minWidth: 78, justifyContent: 'center' },
   smallBtnText: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800' },
   check: { width: 24, height: 24, borderRadius: radios.md, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
-  notice: { borderRadius: radios.md, padding: 10, marginBottom: 10 },
-  titleInput: { borderRadius: radios.md, paddingHorizontal: 12, height: 44, fontSize: 14.5, marginBottom: 8 },
-  primaryBtn: { borderRadius: radios.full, paddingVertical: 13, alignItems: 'center', marginTop: 12 },
-  optionRow: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 14, padding: 14, marginBottom: 8 },
+  notice: { borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e10 },
+  titleInput: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 44, fontSize: 14.5, marginBottom: espaciado.e8 },
+  primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e12 },
+  optionRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e8 },
 });

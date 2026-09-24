@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import type { LbCategory, LbServiceType } from '../../../api/commerce';
 
 /**
@@ -37,12 +37,12 @@ export function raizYCategoria(
 export function StepBlock({ title, hint, children }: { title?: string; hint?: string; children: React.ReactNode }) {
   const { colors } = useTheme();
   return (
-    <View style={{ marginBottom: 16 }}>
+    <View style={{ marginBottom: espaciado.e16 }}>
       {title ? (
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginBottom: 7 }}>{title}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginBottom: espaciado.e7 }}>{title}</Text>
       ) : null}
       {hint ? (
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 8 }}>{hint}</Text>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e8 }}>{hint}</Text>
       ) : null}
       {children}
     </View>
@@ -77,6 +77,6 @@ export function SummaryRow({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
-  notice: { borderWidth: 1, borderRadius: radios.md, padding: 11, marginBottom: 14 },
-  row: { flexDirection: 'row', justifyContent: 'space-between', gap: 12, paddingVertical: 6 },
+  notice: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e14 },
+  row: { flexDirection: 'row', justifyContent: 'space-between', gap: espaciado.e12, paddingVertical: espaciado.e6 },
 });

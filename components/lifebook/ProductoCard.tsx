@@ -14,7 +14,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { alpha, useTheme, radios, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Package, ShieldCheck, Store } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { lbXaf } from '../../constants/lifebook';
@@ -73,10 +73,10 @@ export function ProductoCard({ item, onPress, pie, apagado }: {
           <Package size={22} color={alpha(colors.primary, 0.5)} />
         </View>
       )}
-      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 5 }}>
+      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e5 }}>
         {item.title}
       </Text>
-      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: 2 }}>
+      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e2 }}>
         {lbPriceLabel(item.priceXaf, item.priceMode as never, lbXaf)}
         {item.oldPriceXaf ? (
           <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '700', textDecorationLine: 'line-through' }}>
@@ -87,11 +87,11 @@ export function ProductoCard({ item, onPress, pie, apagado }: {
       {/* La rejilla pide DESCRIPCIÓN CORTA (una línea, en gris). Antes aquí iba la ciudad, que no
           ayuda a decidir y hacía la tarjeta más alta. */}
       {item.shortDescription ? (
-        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: 2 }}>
+        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e2 }}>
           {item.shortDescription}
         </Text>
       ) : null}
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 3 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e3 }}>
         {item.shop.isVerified ? <ShieldCheck size={11} color={colors.success} /> : <Store size={11} color={colors.textSecondary} />}
         <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, flex: 1 }}>{item.shop.name}</Text>
         {ventas > 0 ? (
@@ -107,6 +107,6 @@ export function ProductoCard({ item, onPress, pie, apagado }: {
 
 const styles = StyleSheet.create({
   /* Tarjeta de la rejilla: MÁS PEQUEÑA que antes (el dueño la veía enorme y con razón). */
-  card: { flex: 1, maxWidth: '50%', borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, padding: 7 },
+  card: { flex: 1, maxWidth: '50%', borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e7 },
   cardImg: { width: '100%', height: 108, borderRadius: radios.sm },
 });

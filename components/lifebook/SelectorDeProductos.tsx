@@ -15,7 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Package, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { productosEnNotaApi, MAX_PRODUCTOS_POR_NOTA } from '../../api/lifebookProductos';
@@ -63,25 +63,25 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
       <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={onClose} />
-      <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: 16, paddingBottom: insets.bottom + 16, maxHeight: '80%' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+      <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: insets.bottom + 16, maxHeight: '80%' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e4 }}>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 }}>{titulo}</Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
             <X size={20} color={colors.textSecondary} />
           </Pressable>
         </View>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 10 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
           {ayuda} (máximo {max}). Solo puedes enganchar productos de tu propia tienda.
         </Text>
 
         {misProds === null ? (
-          <ActivityIndicator color={colors.primary} style={{ marginVertical: 26 }} />
+          <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e26 }} />
         ) : misProds.length === 0 ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: 22 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: espaciado.e22 }}>
             No tienes productos activos. Publica uno en tu tienda y podrás enseñarlo dentro de tus publicaciones.
           </Text>
         ) : (
-          <ScrollView contentContainerStyle={{ gap: 8 }} style={{ maxHeight: 400 }}>
+          <ScrollView contentContainerStyle={{ gap: espaciado.e8 }} style={{ maxHeight: 400 }}>
             {misProds.map((p) => {
               const puesto = seleccion.indexOf(p.id);
               const on = puesto >= 0;
@@ -93,7 +93,7 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
                   accessibilityState={{ checked: on }}
                   accessibilityLabel={`Producto ${p.title}`}
                   style={{
-                    flexDirection: 'row', alignItems: 'center', gap: 10, padding: 8, borderRadius: radios.md, borderWidth: 1,
+                    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, padding: espaciado.e8, borderRadius: radios.md, borderWidth: 1,
                     borderColor: on ? colors.primary : alpha(colors.border, 0.6),
                     backgroundColor: on ? alpha(colors.primary, 0.08) : colors.surface,
                   }}
@@ -140,5 +140,5 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
 
 const styles = StyleSheet.create({
   mini: { width: 44, height: 44, borderRadius: 10 },
-  listo: { borderRadius: 14, paddingVertical: 13, alignItems: 'center', justifyContent: 'center', marginTop: 12 },
+  listo: { borderRadius: 14, paddingVertical: espaciado.e13, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e12 },
 });

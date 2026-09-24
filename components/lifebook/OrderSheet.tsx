@@ -15,7 +15,7 @@ import {
   StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, radios, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ShoppingCart, X } from 'lucide-react-native';
 import { lbXaf } from '../../constants/lifebook';
 import { lifebookOrdersApi } from '../../api/lifebook';
@@ -61,9 +61,9 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
         <Pressable style={{ ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={onClose} />
 
         <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 26, borderTopRightRadius: 26, paddingBottom: insets.bottom + 14 }}>
-          <View style={{ height: 4, width: 44, borderRadius: radios.full, backgroundColor: alpha(colors.textPrimary, 0.14), alignSelf: 'center', marginTop: 10 }} />
+          <View style={{ height: 4, width: 44, borderRadius: radios.full, backgroundColor: alpha(colors.textPrimary, 0.14), alignSelf: 'center', marginTop: espaciado.e10 }} />
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 }}>
             <ShoppingCart size={18} color={colors.primary} />
             <Text style={{ fontSize: 15.5, fontWeight: '900', color: colors.textPrimary, flex: 1 }}>Confirmar pedido</Text>
             <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar pedido"
@@ -72,7 +72,7 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
             </Pressable>
           </View>
 
-          <View style={{ paddingHorizontal: 16, paddingTop: 6 }}>
+          <View style={{ paddingHorizontal: espaciado.e16, paddingTop: espaciado.e6 }}>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
               Vas a pedir este artículo por <Text style={{ color: colors.primary, fontWeight: '900' }}>{lbXaf(priceXaf)}</Text>
               {negotiable ? ' · el precio es negociable' : ''}
@@ -80,7 +80,7 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
 
             {negotiable ? (
               <>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 12 }}>TU OFERTA (XAF)</Text>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12 }}>TU OFERTA (XAF)</Text>
                 <TextInput
                   value={price}
                   onChangeText={(t) => setPrice(t.replace(/[^0-9]/g, '').slice(0, 9))}
@@ -92,7 +92,7 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
               </>
             ) : null}
 
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 12 }}>MENSAJE PARA EL VENDEDOR (opcional)</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12 }}>MENSAJE PARA EL VENDEDOR (opcional)</Text>
             <TextInput
               value={msg}
               onChangeText={setMsg}
@@ -103,13 +103,13 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
               style={[styles.input, styles.area, { backgroundColor: colors.surface, color: colors.textPrimary, borderColor: colors.border }]}
             />
 
-            {err ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: 8 }}>{err}</Text> : null}
+            {err ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>{err}</Text> : null}
 
             <Pressable
               onPress={confirm}
               disabled={busy}
               accessibilityLabel="Enviar pedido"
-              style={{ borderRadius: radios.full, paddingVertical: 14, alignItems: 'center', backgroundColor: busy ? alpha(colors.primary, 0.5) : colors.primary, marginTop: 14 }}
+              style={{ borderRadius: radios.full, paddingVertical: espaciado.e14, alignItems: 'center', backgroundColor: busy ? alpha(colors.primary, 0.5) : colors.primary, marginTop: espaciado.e14 }}
             >
               {busy
                 ? <ActivityIndicator size="small" color={brand.white} />
@@ -123,6 +123,6 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
 }
 
 const styles = StyleSheet.create({
-  input: { borderRadius: 14, borderWidth: 1, paddingHorizontal: 14, paddingVertical: 10, fontSize: 14.5, marginTop: 6 },
+  input: { borderRadius: 14, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, fontSize: 14.5, marginTop: espaciado.e6 },
   area: { minHeight: 70, textAlignVertical: 'top' },
 });

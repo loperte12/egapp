@@ -19,7 +19,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Package } from 'lucide-react-native';
 import type { LbMessageOrderRef } from '../../api/messages';
 import { LB_ORDER_META, lbXaf } from '../../constants/lifebook';
@@ -113,13 +113,13 @@ export function OrderCardEnChat({ pedido, onOpen }: {
       ) : null}
 
       {resto > 0 ? (
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: 5 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e5 }}>
           y {resto} {resto === 1 ? 'artículo más' : 'artículos más'}
         </Text>
       ) : null}
 
       {pedido.social && pedido.code ? (
-        <Text style={{ color: colors.textSecondary, fontSize: 10, marginTop: 5 }} numberOfLines={1}>
+        <Text style={{ color: colors.textSecondary, fontSize: 10, marginTop: espaciado.e5 }} numberOfLines={1}>
           Pedido {pedido.code}{pedido.shopName ? ` · ${pedido.shopName}` : ''}
         </Text>
       ) : null}
@@ -167,7 +167,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
         </Text>
       </View>
 
-      <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: 3 }} numberOfLines={2}>
+      <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e3 }} numberOfLines={2}>
         {quePasaAhora(pedido)}
       </Text>
 
@@ -185,18 +185,18 @@ export function OrderCardEnChat({ pedido, onOpen }: {
 }
 
 const styles = StyleSheet.create({
-  card: { width: 236, borderRadius: 14, padding: 10, flexShrink: 1 },
-  cabecera: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  pill: { borderRadius: radios.full, paddingHorizontal: 7, paddingVertical: 3, maxWidth: 120 },
-  linea: { flexDirection: 'row', gap: 8, marginTop: 8, alignItems: 'center' },
+  card: { width: 236, borderRadius: 14, padding: espaciado.e10, flexShrink: 1 },
+  cabecera: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 },
+  pill: { borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3, maxWidth: 120 },
+  linea: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8, alignItems: 'center' },
   foto: { width: 46, height: 46, borderRadius: 9 },
   total: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8,
-    marginTop: 9, paddingTop: 7, borderTopWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8,
+    marginTop: espaciado.e9, paddingTop: espaciado.e7, borderTopWidth: StyleSheet.hairlineWidth,
   },
   /** El bloque del ticket: nombre, pago, entrega y nota. */
-  ticket: { marginTop: 8, paddingTop: 6, borderTopWidth: StyleSheet.hairlineWidth, gap: 2 },
+  ticket: { marginTop: espaciado.e8, paddingTop: espaciado.e6, borderTopWidth: StyleSheet.hairlineWidth, gap: espaciado.e2 },
   ticketLinea: { fontSize: 10.5, lineHeight: 14 },
   ticketEtiqueta: { color: '#86909C', fontSize: 10, fontWeight: '900' },
-  boton: { marginTop: 8, borderRadius: radios.full, paddingVertical: 7, alignItems: 'center' },
+  boton: { marginTop: espaciado.e8, borderRadius: radios.full, paddingVertical: espaciado.e7, alignItems: 'center' },
 });

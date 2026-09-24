@@ -19,7 +19,7 @@
  */
 import React, { useMemo, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { alpha, GhostButton, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import type { LbSizeGender, LbSizeKind } from '../../../api/commerce';
 import { TALLAS_CALZADO } from '../../../constants/tallas';
 import { usePublishStore, type PublishSizeChartDraft, type PublishSizeRow } from '../../../state/commercePublish';
@@ -148,8 +148,8 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
     setSizeChart({ gender, kind, notes, rows });
 
   return (
-    <View style={{ marginTop: 4 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginBottom: 6 }}>
+    <View style={{ marginTop: espaciado.e4 }}>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginBottom: espaciado.e6 }}>
         Tabla de tallas
       </Text>
 
@@ -184,25 +184,25 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
             const rows = chart?.rows ?? [];
             const campos = masMedidas ? EXTRA : CAMPOS[abierto];
             return (
-              <View style={{ marginTop: 10 }}>
+              <View style={{ marginTop: espaciado.e10 }}>
                 {rows.length === 0 ? (
                   <>
                     <Notice>
                       No hay tabla de {SEXOS.find((s) => s.id === gender)?.label.toLowerCase()} · {TIPOS.find((t) => t.id === abierto)?.label.toLowerCase()} para este producto.
                     </Notice>
-                    <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+                    <View style={{ flexDirection: 'row', gap: espaciado.e8, flexWrap: 'wrap' }}>
                       <GhostButton title="Rellenar tallas típicas" onPress={() => guardar(abierto, gender, tipicas(gender, abierto))} />
                       <GhostButton title="Empezar vacía" onPress={() => guardar(abierto, gender, [fila('')])} />
                     </View>
                   </>
                 ) : (
                   <>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700', marginBottom: 6 }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700', marginBottom: espaciado.e6 }}>
                       {rows.length} {rows.length === 1 ? 'talla' : 'tallas'} · medidas en cm{abierto === 'top' || abierto === 'bottom' || abierto === 'dress' ? ' y kg' : ''}
                     </Text>
                     {rows.map((r, i) => (
                       <View key={`${r.sizeLabel}-${i}`} style={[styles.fila, { borderBottomColor: alpha(colors.border, 0.6) }]}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                           <TextInput
                             value={r.sizeLabel}
                             onChangeText={(t) => guardar(abierto, gender, rows.map((x, j) => (j === i ? { ...x, sizeLabel: t } : x)), chart?.notes)}
@@ -253,7 +253,7 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
                         })}
                       </View>
                     ))}
-                    <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+                    <View style={{ flexDirection: 'row', gap: espaciado.e8, flexWrap: 'wrap', marginTop: espaciado.e8 }}>
                       <GhostButton title="Añadir talla" onPress={() => guardar(abierto, gender, [...rows, fila('')], chart?.notes)} />
                       <GhostButton
                         title={masMedidas ? 'Menos medidas' : 'Más medidas'}
@@ -267,7 +267,7 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
                         ])}
                       />
                     </View>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 8, lineHeight: 16 }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e8, lineHeight: 16 }}>
                       Valores orientativos: revísalos con tu prenda.
                     </Text>
                   </>
@@ -282,9 +282,9 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
 }
 
 const styles = StyleSheet.create({
-  input: { borderWidth: 1, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 7, fontSize: tipografia.caption },
+  input: { borderWidth: 1, borderRadius: 9, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e7, fontSize: tipografia.caption },
   mini: { width: 58 },
-  card: { borderWidth: 1, borderRadius: 14, padding: 12, marginTop: 10 },
-  fila: { borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: 8 },
-  medida: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 5 },
+  card: { borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e10 },
+  fila: { borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e8 },
+  medida: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e5 },
 });

@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ImagePlus, Megaphone, X } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { messagesApi } from '../../api/messages';
@@ -119,7 +119,7 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
           <Megaphone size={18} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: 8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: espaciado.e8 }}>
             Anuncio del grupo
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -127,7 +127,7 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
           </Pressable>
         </View>
 
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 8 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e8 }}>
           {left === null
             ? 'Máximo 15 anuncios por persona y día.'
             : left === 0
@@ -153,9 +153,9 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
             maxLength={TEXT_MAX}
             multiline
             accessibilityLabel="Texto del anuncio"
-            style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary, minHeight: 80, marginTop: 8 }]}
+            style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary, minHeight: 80, marginTop: espaciado.e8 }]}
           />
-          <View style={{ flexDirection: 'row', gap: 8, marginTop: 8, alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8, alignItems: 'center' }}>
             <TextInput
               value={price}
               onChangeText={setPrice}
@@ -178,12 +178,12 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
                 ? <ActivityIndicator size="small" color={colors.primary} />
                 : photo
                   ? <Image source={{ uri: photo }} style={styles.thumb} />
-                  : <><ImagePlus size={16} color={colors.primary} /><Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginLeft: 6 }}>Foto</Text></>}
+                  : <><ImagePlus size={16} color={colors.primary} /><Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginLeft: espaciado.e6 }}>Foto</Text></>}
             </Pressable>
           </View>
 
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 12, fontWeight: '800' }}>ENLAZAR UN SERVICIO (OPCIONAL)</Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, fontWeight: '800' }}>ENLAZAR UN SERVICIO (OPCIONAL)</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e6 }}>
             {LINKS.map((l) => {
               const active = linkType === l.type;
               return (
@@ -203,7 +203,7 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
           </View>
         </ScrollView>
 
-        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: 10 }}>{error}</Text> : null}
+        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
 
         <Pressable
           onPress={submit}
@@ -224,13 +224,13 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
 const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
-  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
-  input: { borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 10, fontSize: tipografia.body },
+  header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e8 },
+  input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   photoBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    borderRadius: radios.md, paddingHorizontal: 12, height: 42, minWidth: 78,
+    borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 42, minWidth: 78,
   },
   thumb: { width: 34, height: 34, borderRadius: radios.sm },
-  chip: { borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 6, borderWidth: 1 },
-  cta: { marginTop: 16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderWidth: 1 },
+  cta: { marginTop: espaciado.e16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });
