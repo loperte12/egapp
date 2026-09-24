@@ -5,7 +5,7 @@
     "borderRadius": 688,
     "fontWeight": 1948,
     "borderWidth": 528,
-    "espaciado": 5239,
+    "espaciado": 4964,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -150,7 +150,7 @@
       "borderRadius": 0,
       "fontWeight": 18,
       "borderWidth": 3,
-      "espaciado": 58,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/ecomerse-detail.tsx": {
@@ -159,7 +159,7 @@
       "borderRadius": 0,
       "fontWeight": 20,
       "borderWidth": 8,
-      "espaciado": 57,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/ecomerse-docs.tsx": {
@@ -168,7 +168,7 @@
       "borderRadius": 0,
       "fontWeight": 6,
       "borderWidth": 4,
-      "espaciado": 21,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/ecomerse-favorites.tsx": {
@@ -177,7 +177,7 @@
       "borderRadius": 0,
       "fontWeight": 4,
       "borderWidth": 2,
-      "espaciado": 22,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/ecomerse-orders.tsx": {
@@ -186,7 +186,7 @@
       "borderRadius": 0,
       "fontWeight": 13,
       "borderWidth": 7,
-      "espaciado": 46,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "app/ecomerse-planes.tsx": {
@@ -195,7 +195,7 @@
       "borderRadius": 0,
       "fontWeight": 14,
       "borderWidth": 5,
-      "espaciado": 46,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/ecomerse-subcategoria.tsx": {
@@ -204,7 +204,7 @@
       "borderRadius": 0,
       "fontWeight": 0,
       "borderWidth": 0,
-      "espaciado": 5,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/ecomerse-tienda.tsx": {
@@ -213,7 +213,7 @@
       "borderRadius": 0,
       "fontWeight": 0,
       "borderWidth": 0,
-      "espaciado": 2,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/ecomerse-tiendas.tsx": {
@@ -222,7 +222,7 @@
       "borderRadius": 0,
       "fontWeight": 0,
       "borderWidth": 0,
-      "espaciado": 5,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/ecomerse.tsx": {
@@ -231,7 +231,7 @@
       "borderRadius": 0,
       "fontWeight": 0,
       "borderWidth": 0,
-      "espaciado": 8,
+      "espaciado": 5,
       "precioFigura": 0
     },
     "app/edit-profile.tsx": {
@@ -1125,40 +1125,13 @@
       "espaciado": 2,
       "precioFigura": 0
     },
-    "components/ecomerse/CabeceraTienda.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 6,
-      "precioFigura": 0
-    },
-    "components/ecomerse/EditorDeCombinaciones.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 1,
-      "precioFigura": 0
-    },
-    "components/ecomerse/SelectorDeVariante.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 2,
-      "precioFigura": 0
-    },
     "components/ecomerse/TarjetaProducto.tsx": {
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 0,
       "fontWeight": 1,
       "borderWidth": 0,
-      "espaciado": 11,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/EditProfileModal.tsx": {
