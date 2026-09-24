@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, tipografia } from '@egrouteplan/ui-kit';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -42,10 +42,10 @@ export default function ServiceDetailStub() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, paddingHorizontal: 20 },
+  root: { flex: 1, paddingHorizontal: espaciado.e20 },
   back: { width: 40, height: 40, justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: '800', marginTop: 8 },
-  query: { fontSize: tipografia.body, marginTop: 4 },
-  card: { marginTop: 20, borderRadius: 18, borderWidth: 1, padding: 18 },
+  title: { fontSize: 24, fontWeight: '800', marginTop: espaciado.e8 },
+  query: { fontSize: tipografia.body, marginTop: espaciado.e4 },
+  card: { marginTop: espaciado.e20, borderRadius: 18, borderWidth: 1, padding: espaciado.e18 },
   cardText: { fontSize: tipografia.body, lineHeight: 19 },
 });

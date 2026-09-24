@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, tipografia } from '@egrouteplan/ui-kit';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -42,11 +42,11 @@ export default function PromoDetailStub() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, paddingHorizontal: 20 },
+  root: { flex: 1, paddingHorizontal: espaciado.e20 },
   back: { width: 40, height: 40, justifyContent: 'center' },
-  hero: { marginTop: 12, borderRadius: 20, borderWidth: 1, padding: 22, alignItems: 'center' },
+  hero: { marginTop: espaciado.e12, borderRadius: 20, borderWidth: 1, padding: espaciado.e22, alignItems: 'center' },
   emoji: { fontSize: 46 },
-  title: { fontSize: tipografia.title, fontWeight: '800', marginTop: 10, textAlign: 'center' },
-  subtitle: { fontSize: tipografia.body, marginTop: 6, textAlign: 'center' },
-  note: { fontSize: tipografia.caption, lineHeight: 18, marginTop: 18, textAlign: 'center' },
+  title: { fontSize: tipografia.title, fontWeight: '800', marginTop: espaciado.e10, textAlign: 'center' },
+  subtitle: { fontSize: tipografia.body, marginTop: espaciado.e6, textAlign: 'center' },
+  note: { fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e18, textAlign: 'center' },
 });
