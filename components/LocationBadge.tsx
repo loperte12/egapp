@@ -10,7 +10,7 @@
  */
 
 import React from 'react';
-import { radios, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 import { Platform, Pressable, StyleSheet, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MapPin, ChevronDown } from 'lucide-react-native';
@@ -70,9 +70,9 @@ const styles = StyleSheet.create({
     zIndex: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 9,
+    gap: espaciado.e6,
+    paddingHorizontal: espaciado.e12,
+    paddingVertical: espaciado.e9,
     borderRadius: radios.full,
     borderWidth: StyleSheet.hairlineWidth,
     ...Platform.select({

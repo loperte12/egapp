@@ -13,7 +13,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import { tipografia, radios } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SERVICES, type ServiceItem } from '../constants/data';
@@ -165,7 +165,7 @@ export default function ServiceGrid({ onEmergencyPress, glass = false }: {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ gap: 10, paddingVertical: 2 }}
+          contentContainerStyle={{ gap: espaciado.e10, paddingVertical: espaciado.e2 }}
         >
           {more.map((item) => {
             const isEmergency = item.tone === 'emergency';
@@ -224,7 +224,7 @@ export default function ServiceGrid({ onEmergencyPress, glass = false }: {
                 </View>
               </Pressable>
             ))}
-            <Pressable onPress={() => setChoosing(null)} accessibilityRole="button" accessibilityLabel="Cancelar" style={{ paddingVertical: 12 }}>
+            <Pressable onPress={() => setChoosing(null)} accessibilityRole="button" accessibilityLabel="Cancelar" style={{ paddingVertical: espaciado.e12 }}>
               <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: '700' }}>Cancelar</Text>
             </Pressable>
           </View>
@@ -235,40 +235,40 @@ export default function ServiceGrid({ onEmergencyPress, glass = false }: {
 }
 
 const styles = StyleSheet.create({
-  row: { marginTop: 14, flexDirection: 'row', rowGap: 16 },
-  rowGapTop: { marginTop: 6 },
-  cell: { alignItems: 'center', gap: 5 },
+  row: { marginTop: espaciado.e14, flexDirection: 'row', rowGap: 16 },
+  rowGapTop: { marginTop: espaciado.e6 },
+  cell: { alignItems: 'center', gap: espaciado.e5 },
   circle: {
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: StyleSheet.hairlineWidth,
   },
-  label: { fontSize: tipografia.micro, fontWeight: '800', textAlign: 'center', lineHeight: 13, paddingHorizontal: 2 },
+  label: { fontSize: tipografia.micro, fontWeight: '800', textAlign: 'center', lineHeight: 13, paddingHorizontal: espaciado.e2 },
   comingSoon: { fontSize: 7.5, fontWeight: '800', color: '#86909C', letterSpacing: 0.2, textTransform: 'uppercase' },
   moreBlock: {
-    marginTop: 16,
+    marginTop: espaciado.e16,
     borderRadius: radios.lg,
     borderWidth: StyleSheet.hairlineWidth,
-    paddingVertical: 10,
-    paddingLeft: 12,
+    paddingVertical: espaciado.e10,
+    paddingLeft: espaciado.e12,
   },
-  moreTitle: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 8 },
+  moreTitle: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e8 },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: espaciado.e6,
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: radios.full,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: espaciado.e12,
+    paddingVertical: espaciado.e8,
   },
   chipLabel: { fontSize: tipografia.caption, fontWeight: '700' },
   backdrop: { flex: 1, backgroundColor: 'rgba(10,15,31,0.55)', justifyContent: 'flex-end' },
-  sheet: { borderTopLeftRadius: 22, borderTopRightRadius: 22, padding: 20, paddingBottom: 28 },
-  sheetTitle: { fontSize: 17, fontWeight: '900', textAlign: 'center', marginBottom: 4 },
-  sheetHint: { fontSize: tipografia.caption, textAlign: 'center', marginBottom: 14, lineHeight: 17 },
-  roleRow: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderRadius: 14, padding: 14, marginBottom: 10 },
+  sheet: { borderTopLeftRadius: 22, borderTopRightRadius: 22, padding: espaciado.e20, paddingBottom: espaciado.e28 },
+  sheetTitle: { fontSize: 17, fontWeight: '900', textAlign: 'center', marginBottom: espaciado.e4 },
+  sheetHint: { fontSize: tipografia.caption, textAlign: 'center', marginBottom: espaciado.e14, lineHeight: 17 },
+  roleRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: 1, borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e10 },
   roleEmoji: { fontSize: tipografia.display },
   roleLabel: { fontSize: 14.5, fontWeight: '800' },
-  roleHint: { fontSize: tipografia.caption, marginTop: 2, lineHeight: 15 },
+  roleHint: { fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 15 },
 });

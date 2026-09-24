@@ -30,7 +30,7 @@ import { useStatusStore } from '../state/statusStore';
 import StatusRingAvatar from './status/StatusRingAvatar';
 import StatusChip from './status/StatusChip';
 import StatusDetailModal from './status/StatusDetailModal';
-import { brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 
 /** Altura del banner (25 % de la pantalla, acotada). */
 const BANNER_H_RATIO = 0.25;
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   bannerArea: { position: 'absolute', left: 0, right: 0, overflow: 'hidden' },
   coverImg: { resizeMode: 'cover' },
   coverFallback: { overflow: 'hidden' },
-  identity: { position: 'absolute', flexDirection: 'row', alignItems: 'center', gap: 8, zIndex: 30 },
+  identity: { position: 'absolute', flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, zIndex: 30 },
   avatar: {
     width: 40, height: 40, borderRadius: 20, overflow: 'hidden',
     alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.30)',
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
   },
   avatarImg: { width: '100%', height: '100%' },
   driverName: { fontSize: tipografia.body, fontWeight: '900', maxWidth: 180 },
-  onlineRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 1 },
+  onlineRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 },
   onlineDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: brand.success, borderWidth: 1, borderColor: 'rgba(255,255,255,0.7)' },
   onlineTxt: { fontSize: 10.5, fontWeight: '900' },
   adCopy: { position: 'absolute', left: 14, right: 60, bottom: 10 },
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
   adTag: {
     position: 'absolute', top: 10, right: 40,
     backgroundColor: 'rgba(0,0,0,0.62)', borderRadius: 6,
-    paddingHorizontal: 7, paddingVertical: 3,
+    paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3,
   },
   adTagTxt: { color: brand.white, fontSize: 9, fontWeight: '900', letterSpacing: 0.4 },
   closeBtn: {
@@ -297,12 +297,12 @@ const styles = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(255,255,255,0.35)', zIndex: 50,
   },
   cityBtn: {
-    position: 'absolute', left: 14, flexDirection: 'row', alignItems: 'center', gap: 5,
+    position: 'absolute', left: 14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5,
     borderRadius: radios.full,
     // Degradado OSCURO + letra AZUL (estilo previo del pill de ciudad).
     backgroundColor: 'rgba(10,16,24,0.78)',
     borderWidth: 1, borderColor: 'rgba(79,168,255,0.5)',
-    paddingHorizontal: 11, paddingVertical: 6,
+    paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6,
     zIndex: 30,
     elevation: 3,
   },

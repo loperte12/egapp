@@ -14,7 +14,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MapPin, ChevronDown, Search, Mic } from 'lucide-react-native';
 import { useTheme } from '../theme/ThemeContext';
-import { elevation, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { brand, elevation, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 
 export default function SearchHeader({
   city,
@@ -91,22 +91,22 @@ function alpha(hex: string, opacity: number): string {
 }
 
 const styles = StyleSheet.create({
-  locationRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 2 },
+  locationRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e2 },
   originDot: { width: 11, height: 11, borderRadius: 6 },
   locationText: { fontSize: 15, fontWeight: '800', letterSpacing: 0.1 },
   cityName: { fontSize: tipografia.caption, fontWeight: '600', marginTop: 1 },
   destBox: {
-    marginTop: 12,
+    marginTop: espaciado.e12,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: espaciado.e10,
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 18,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: espaciado.e12,
+    paddingVertical: espaciado.e8,
     ...elevation.sm,
   },
   searchIconWrap: { width: 34, height: 34, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-  destText: { flex: 1, fontSize: tipografia.subtitle, fontWeight: '700', paddingVertical: 4 },
+  destText: { flex: 1, fontSize: tipografia.subtitle, fontWeight: '700', paddingVertical: espaciado.e4 },
   micWrap: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
 });

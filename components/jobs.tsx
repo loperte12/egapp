@@ -7,7 +7,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { BadgeCheck, Briefcase, Search, ShieldCheck, X } from 'lucide-react-native';
-import { useTheme, alpha, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import type { WorkJob } from '../api/work';
 import { brand } from '@egrouteplan/ui-kit';
 
@@ -39,13 +39,13 @@ export function WorkJobCard({ job, onPress }: { job: WorkJob; onPress: () => voi
   return (
     <Pressable onPress={onPress} style={[s.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
       {/* Fila 1: título IZQ + salario naranja DER (patrón BOSS) */}
-      <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: espaciado.e10 }}>
         <Text style={[s.title, { color: colors.textPrimary }]} numberOfLines={2}>{job.title}</Text>
         <Text style={s.salary} numberOfLines={1}>{salaryShort(job)}</Text>
       </View>
 
       {/* Fila 2: empresa + verificada */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e4 }}>
         <Text style={[s.company, { color: colors.textSecondary }]} numberOfLines={1}>{job.company}</Text>
         {job.companyVerified && <BadgeCheck size={13} color={brand.success} />}
         {job.isUrgent && (
@@ -54,7 +54,7 @@ export function WorkJobCard({ job, onPress }: { job: WorkJob; onPress: () => voi
       </View>
 
       {/* Fila 3: chips de requisitos */}
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e8 }}>
         {chips.map((chip, i) => (
           <View key={`${chip}-${i}`} style={[s.chip, { backgroundColor: alpha(colors.textSecondary, 0.07), borderColor: colors.border }]}>
             <Text style={[s.chipText, { color: colors.textSecondary }]} numberOfLines={1}>{chip}</Text>
@@ -64,7 +64,7 @@ export function WorkJobCard({ job, onPress }: { job: WorkJob; onPress: () => voi
 
       {/* Fila 4: reclutador + antigüedad */}
       <View style={[s.footer, { borderTopColor: colors.border }]}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
           <View style={[s.avatar, { backgroundColor: job.recruiter?.avatarColor ?? alpha(colors.primary, 0.15) }]}>
             <Text style={[s.avatarText, { color: colors.primary }]}>
               {(recruiterName || job.company || '?').charAt(0).toUpperCase()}
@@ -92,7 +92,7 @@ export function WorkSearchBar({ value, onChange, placeholder }: { value: string;
   const { colors } = useTheme();
   return (
     <View style={[s.search, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-      <Search size={18} color={colors.textSecondary} style={{ marginRight: 8 }} />
+      <Search size={18} color={colors.textSecondary} style={{ marginRight: espaciado.e8 }} />
       <TextInput
         style={[s.searchInput, { color: colors.textPrimary }]}
         value={value}
@@ -115,7 +115,7 @@ export function WorkSortBar({ value, onChange }: { value: SortKey; onChange: (k:
     { key: 'recent', label: 'Recientes' }, { key: 'salary', label: 'Mejor paga' }, { key: 'distance', label: 'Más cerca' },
   ];
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingBottom: 8, gap: 6 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e8, gap: espaciado.e6 }}>
       {OPTIONS.map((o) => (
         <Pressable key={o.key} onPress={() => onChange(o.key)} style={[s.sortBtn, { backgroundColor: value === o.key ? alpha(colors.primary, 0.15) : 'transparent' }]}>
           <Text style={{ fontSize: tipografia.micro, color: value === o.key ? colors.primary : colors.textSecondary, fontWeight: value === o.key ? '800' : '600' }}>{o.label}</Text>
@@ -128,7 +128,7 @@ export function WorkSortBar({ value, onChange }: { value: SortKey; onChange: (k:
 export function WorkResultCount({ count, query }: { count: number; query: string }) {
   const { colors } = useTheme();
   return (
-    <Text style={{ paddingHorizontal: 16, paddingVertical: 4, fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '600' }}>
+    <Text style={{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e4, fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '600' }}>
       {query ? `${count} resultados para "${query}"` : `${count} ofertas disponibles`}
     </Text>
   );
@@ -137,14 +137,14 @@ export function WorkResultCount({ count, query }: { count: number; query: string
 export function WorkEmptyState({ title, subtitle, actionLabel, onAction }: { title: string; subtitle: string; actionLabel?: string; onAction?: () => void }) {
   const { colors } = useTheme();
   return (
-    <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32, paddingVertical: 60 }}>
+    <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32, paddingVertical: 60 }}>
       <View style={[s.emptyIcon, { backgroundColor: colors.surface }]}>
         <Briefcase size={38} color={colors.textSecondary} />
       </View>
       <Text style={{ fontSize: 15, fontWeight: '700', color: colors.textPrimary, textAlign: 'center' }}>{title}</Text>
-      <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 18 }}>{subtitle}</Text>
+      <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{subtitle}</Text>
       {actionLabel && onAction && (
-        <Pressable onPress={onAction} style={{ marginTop: 16, paddingHorizontal: 18, paddingVertical: 10, backgroundColor: colors.primary, borderRadius: 10 }}>
+        <Pressable onPress={onAction} style={{ marginTop: espaciado.e16, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10, backgroundColor: colors.primary, borderRadius: 10 }}>
           <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '700' }}>{actionLabel}</Text>
         </Pressable>
       )}
@@ -156,7 +156,7 @@ export function WorkEmptyState({ title, subtitle, actionLabel, onAction }: { tit
 export function WorkSafetyNotice() {
   const { colors } = useTheme();
   return (
-    <View style={{ marginHorizontal: 16, marginBottom: 8, backgroundColor: alpha(colors.danger, 0.08), borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+    <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), borderRadius: 10, padding: espaciado.e10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
       <ShieldCheck size={16} color={colors.danger} />
       <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', flex: 1 }}>
         Empleo seguro: NUNCA pagues por un trabajo. Reporta cualquier oferta sospechosa.
@@ -166,19 +166,19 @@ export function WorkSafetyNotice() {
 }
 
 const s = StyleSheet.create({
-  card: { marginHorizontal: 16, marginBottom: 10, borderRadius: 14, padding: 13, borderWidth: 1 },
+  card: { marginHorizontal: espaciado.e16, marginBottom: espaciado.e10, borderRadius: 14, padding: espaciado.e13, borderWidth: 1 },
   title: { fontSize: tipografia.subtitle, fontWeight: '800', flex: 1, lineHeight: 20 },
   salary: { fontSize: tipografia.subtitle, fontWeight: '900', color: brand.secondary },
   company: { fontSize: tipografia.body, fontWeight: '600', flexShrink: 1 },
-  urgentBadge: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4, backgroundColor: brand.danger },
+  urgentBadge: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: 4, backgroundColor: brand.danger },
   urgentText: { color: brand.white, fontSize: 8.5, fontWeight: '800', letterSpacing: 0.4 },
-  chip: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6, borderWidth: StyleSheet.hairlineWidth },
+  chip: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, borderWidth: StyleSheet.hairlineWidth },
   chipText: { fontSize: 10.5, fontWeight: '600' },
-  footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 10, paddingTop: 10, borderTopWidth: StyleSheet.hairlineWidth },
+  footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e10, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   avatar: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   avatarText: { fontSize: tipografia.body, fontWeight: '900' },
-  search: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: 12, height: 44, marginHorizontal: 16, marginVertical: 8, borderWidth: 1 },
+  search: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 44, marginHorizontal: espaciado.e16, marginVertical: espaciado.e8, borderWidth: 1 },
   searchInput: { flex: 1, fontSize: tipografia.body, padding: 0 },
-  sortBtn: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 14 },
-  emptyIcon: { width: 80, height: 80, borderRadius: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 16 },
+  sortBtn: { paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14 },
+  emptyIcon: { width: 80, height: 80, borderRadius: 40, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e16 },
 });

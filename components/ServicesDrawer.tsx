@@ -20,7 +20,7 @@ import {
   ScanLine, Settings, ShoppingBag, ShoppingCart, Siren, Sparkles, StickyNote, Store,
   Ticket, UserCog, UserPlus, UserRound, Utensils, UtensilsCrossed, Wallet, Wrench,
 } from 'lucide-react-native';
-import { useTheme, alpha, elevation, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, elevation, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { absUrl } from '../api/config';
 import { useMisNegocios, type VerticalNegocio } from '../core/useMisNegocios';
 import { useSoyAgente } from '../core/useSoyAgente';
@@ -151,7 +151,7 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
                     {n.detalle}
                   </Text>
                   {n.nota ? (
-                    <Text style={{ color: colors.secondary, fontSize: tipografia.micro, fontWeight: '700', marginTop: 2 }} numberOfLines={2}>
+                    <Text style={{ color: colors.secondary, fontSize: tipografia.micro, fontWeight: '700', marginTop: espaciado.e2 }} numberOfLines={2}>
                       {n.nota}
                     </Text>
                   ) : null}
@@ -344,7 +344,7 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
             </Pressable>
           </View>
 
-          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 12 }}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: espaciado.e12 }}>
             {/* TU CUENTA, primero: la puerta a tu perfil de Life Book tiene que verse sin
                 desplazar. Antes iba en «Cuenta y actividad», dos desplazamientos más abajo. */}
             {renderGroup('Tu cuenta', S0)}
@@ -419,32 +419,32 @@ const styles = StyleSheet.create({
     ...elevation.lg,
   },
   header: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    paddingHorizontal: 14, paddingBottom: 12, borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+    paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   headerAvatar: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   headerAvatarImg: { width: '100%', height: '100%' },
   headerAvatarTxt: { fontSize: 17, fontWeight: '900' },
   headerName: { fontSize: 14.5, fontWeight: '800' },
   headerRole: { fontSize: tipografia.micro, fontWeight: '600', marginTop: 1 },
-  closeBtn: { padding: 4 },
-  groupTitle: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: 14, marginBottom: 6, paddingHorizontal: 16 },
-  groupCard: { borderRadius: 14, overflow: 'hidden', marginHorizontal: 10 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12, paddingVertical: 11 },
+  closeBtn: { padding: espaciado.e4 },
+  groupTitle: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e14, marginBottom: espaciado.e6, paddingHorizontal: espaciado.e16 },
+  groupCard: { borderRadius: 14, overflow: 'hidden', marginHorizontal: espaciado.e10 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e11 },
   rowIcon: { width: 30, height: 30, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center' },
   rowLabel: { flex: 1, fontSize: tipografia.body, fontWeight: '700' },
   /** Enlace de «ver todos los servicios» (divulgación progresiva del grupo Servicios). */
-  verTodos: { marginHorizontal: 10, marginTop: 6, paddingVertical: 8, alignItems: 'center' },
-  soonBadge: { fontSize: 9.5, fontWeight: '800', paddingHorizontal: 7, paddingVertical: 2, borderRadius: 6, overflow: 'hidden' },
+  verTodos: { marginHorizontal: espaciado.e10, marginTop: espaciado.e6, paddingVertical: espaciado.e8, alignItems: 'center' },
+  soonBadge: { fontSize: 9.5, fontWeight: '800', paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, borderRadius: 6, overflow: 'hidden' },
   emergencyRow: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    marginHorizontal: 10, marginTop: 12, borderRadius: 14,
-    paddingHorizontal: 12, paddingVertical: 11,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+    marginHorizontal: espaciado.e10, marginTop: espaciado.e12, borderRadius: 14,
+    paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e11,
   },
-  footer: { borderTopWidth: StyleSheet.hairlineWidth, paddingHorizontal: 10, paddingTop: 10 },
+  footer: { borderTopWidth: StyleSheet.hairlineWidth, paddingHorizontal: espaciado.e10, paddingTop: espaciado.e10 },
   settingsBtn: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 12,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+    borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12,
   },
   settingsTxt: { flex: 1, fontSize: tipografia.body, fontWeight: '800' },
 });

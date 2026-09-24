@@ -29,7 +29,7 @@ import {
 } from '../packages/map';
 import { useTheme } from '../theme/ThemeContext';
 import { ISLAND_CENTER, ISLAND_ZOOM } from '../constants/geo';
-import { brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 
 const LOAD_TIMEOUT_MS = 12000;
 
@@ -110,7 +110,7 @@ const MapBackground = forwardRef<EgMapViewHandle, MapBackgroundProps>(function M
       {!ready && !timedOut && (
         <View style={[styles.overlay, { backgroundColor: isDark ? '#0B1220' : '#E9EEF4' }]} pointerEvents="none">
           <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={{ marginTop: 12, color: colors.textSecondary, fontSize: tipografia.body }}>Cargando mapa…</Text>
+          <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontSize: tipografia.body }}>Cargando mapa…</Text>
         </View>
       )}
 
@@ -128,7 +128,7 @@ const MapBackground = forwardRef<EgMapViewHandle, MapBackgroundProps>(function M
             style={({ pressed }) => [styles.retryBtn, { backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
           >
             <RefreshCw size={16} color={brand.white} />
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body, marginLeft: 6 }}>Reintentar</Text>
+            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body, marginLeft: espaciado.e6 }}>Reintentar</Text>
           </Pressable>
         </View>
       )}
@@ -142,6 +142,6 @@ const styles = StyleSheet.create({
   fill: { flex: 1, overflow: 'hidden' },
   overlay: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 40 },
   errTitle: { fontSize: tipografia.title, fontWeight: '700', letterSpacing: 0.3, textAlign: 'center' },
-  errHint: { fontSize: tipografia.body, textAlign: 'center', lineHeight: 18, marginTop: 4 },
-  retryBtn: { flexDirection: 'row', alignItems: 'center', marginTop: 16, paddingHorizontal: 18, paddingVertical: 11, borderRadius: radios.md },
+  errHint: { fontSize: tipografia.body, textAlign: 'center', lineHeight: 18, marginTop: espaciado.e4 },
+  retryBtn: { flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e16, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e11, borderRadius: radios.md },
 });

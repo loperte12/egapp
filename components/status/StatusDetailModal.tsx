@@ -20,7 +20,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Clock, Flag, MapPin, Share2, X, ZoomIn } from 'lucide-react-native';
-import { useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import type { MeProfile } from '../../api/auth';
 import type { UserStatus, StatusMediaItem } from '../../api/status';
 import { absUrl } from '../../api/config';
@@ -182,7 +182,7 @@ export default function StatusDetailModal({
               size={38}
               ringWidth={3}
             />
-            <View style={{ flex: 1, marginLeft: 8 }}>
+            <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
               <Text style={styles.heroName} numberOfLines={1}>{author?.fullName ?? 'Mi estado'}</Text>
               {remainingMs > 0 && (
                 <View style={styles.timeRow}>
@@ -260,7 +260,7 @@ export default function StatusDetailModal({
                     <Text style={[styles.reportRowTxt, { color: colors.textPrimary }]}>{r.label}</Text>
                   </Pressable>
                 ))}
-                <Pressable onPress={() => setReportOpen(false)} accessibilityRole="button" style={{ paddingVertical: 10 }}>
+                <Pressable onPress={() => setReportOpen(false)} accessibilityRole="button" style={{ paddingVertical: espaciado.e10 }}>
                   <Text style={[styles.reportCancel, { color: colors.textSecondary }]}>Cancelar</Text>
                 </Pressable>
               </View>
@@ -387,7 +387,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center',
   },
   heroName: { color: brand.white, fontSize: 15, fontWeight: '900', textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
-  timeRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 1 },
+  timeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 },
   timeTxt: { color: 'rgba(255,255,255,0.95)', fontSize: tipografia.micro, fontWeight: '700', textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   iconBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.35)' },
   overlayText: { position: 'absolute', left: 18, right: 18 },
@@ -396,24 +396,24 @@ const styles = StyleSheet.create({
     color: brand.white, fontSize: 22, fontWeight: '900', lineHeight: 29,
     textShadowColor: 'rgba(0,0,0,0.7)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 6,
   },
-  dots: { position: 'absolute', bottom: 10, alignSelf: 'center', flexDirection: 'row', gap: 6 },
+  dots: { position: 'absolute', bottom: 10, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e6 },
   dot: { width: 7, height: 7, borderRadius: 4 },
-  footer: { flex: 1, paddingHorizontal: 18, paddingTop: 14 },
-  locRow: { flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 8 },
+  footer: { flex: 1, paddingHorizontal: espaciado.e18, paddingTop: espaciado.e14 },
+  locRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, marginBottom: espaciado.e8 },
   locTxt: { fontSize: tipografia.caption, fontWeight: '600' },
-  zoomHintRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 12 },
+  zoomHintRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginBottom: espaciado.e12 },
   zoomHint: { fontSize: tipografia.caption, fontWeight: '600', fontStyle: 'italic' },
-  serviceBtn: { borderRadius: 14, paddingVertical: 12, paddingHorizontal: 14, marginBottom: 12, alignItems: 'center' },
-  actions: { flexDirection: 'row', gap: 10 },
-  action: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 14, paddingVertical: 12 },
+  serviceBtn: { borderRadius: 14, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e14, marginBottom: espaciado.e12, alignItems: 'center' },
+  actions: { flexDirection: 'row', gap: espaciado.e10 },
+  action: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: 14, paddingVertical: espaciado.e12 },
   actionTxt: { fontSize: tipografia.body, fontWeight: '800' },
-  reportBox: { borderRadius: 14, padding: 12, marginTop: 14 },
-  reportTitle: { fontSize: tipografia.body, fontWeight: '900', marginBottom: 4 },
-  reportRow: { paddingVertical: 11, borderBottomWidth: 1 },
+  reportBox: { borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e14 },
+  reportTitle: { fontSize: tipografia.body, fontWeight: '900', marginBottom: espaciado.e4 },
+  reportRow: { paddingVertical: espaciado.e11, borderBottomWidth: 1 },
   reportRowTxt: { fontSize: tipografia.body, fontWeight: '600' },
-  reportCancel: { fontSize: tipografia.body, fontWeight: '700', textAlign: 'center', marginTop: 4 },
+  reportCancel: { fontSize: tipografia.body, fontWeight: '700', textAlign: 'center', marginTop: espaciado.e4 },
   lightbox: { flex: 1, backgroundColor: '#000000' },
   lightboxClose: { position: 'absolute', right: 16, zIndex: 10, width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' },
-  lightboxCounter: { position: 'absolute', left: 18, zIndex: 10, backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 4 },
+  lightboxCounter: { position: 'absolute', left: 18, zIndex: 10, backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4 },
   lightboxCounterTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: '900' },
 });

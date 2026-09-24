@@ -13,7 +13,7 @@
  */
 
 import React, { useMemo } from 'react';
-import { tipografia, radios } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MapPin, X, Check } from 'lucide-react-native';
@@ -52,7 +52,7 @@ export default function LocationModal({
         <View style={[styles.backdrop, { backgroundColor: colors.overlay }]}>
           <View style={[styles.card, { backgroundColor: colors.card, paddingBottom: insets.bottom + 24 }]}>
             <Text style={[styles.title, { color: colors.textPrimary }]}>Elige tu ciudad</Text>
-            <Text style={{ color: colors.textSecondary, textAlign: 'center', marginTop: 20 }}>No hay ciudades disponibles.</Text>
+            <Text style={{ color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e20 }}>No hay ciudades disponibles.</Text>
           </View>
         </View>
       </Modal>
@@ -131,15 +131,15 @@ const styles = StyleSheet.create({
   card: {
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    paddingHorizontal: 20,
-    paddingTop: 18,
+    paddingHorizontal: espaciado.e20,
+    paddingTop: espaciado.e18,
     maxHeight: '85%',
   },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e10 },
   title: { fontSize: 17, fontWeight: '800' },
-  sectionHeader: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4, marginTop: 10, marginBottom: 2, marginLeft: 8 },
-  row: { flexDirection: 'row', alignItems: 'center', paddingVertical: 11, paddingHorizontal: 8, borderRadius: 14, marginBottom: 4 },
+  sectionHeader: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4, marginTop: espaciado.e10, marginBottom: espaciado.e2, marginLeft: espaciado.e8 },
+  row: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e8, borderRadius: 14, marginBottom: espaciado.e4 },
   pinWrap: { width: 34, height: 34, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-  rowText: { flex: 1, marginLeft: 12 },
+  rowText: { flex: 1, marginLeft: espaciado.e12 },
   cityName: { fontSize: 15 },
 });

@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { tipografia, radios } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { CarTaxiFront, BadgeInfo } from 'lucide-react-native';
 import { mobilityApi, fmtXaf, type FareQuote } from '../api/mobility';
@@ -66,21 +66,21 @@ export default function FareQuoteCard({ distanceKm = 3.5, city = 'Malabo' }: { d
 
 const styles = StyleSheet.create({
   card: {
-    marginTop: 16,
+    marginTop: espaciado.e16,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: radios.lg,
-    padding: 12,
-    gap: 10,
+    padding: espaciado.e12,
+    gap: espaciado.e10,
   },
   iconWrap: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   body: { flex: 1 },
   title: { fontSize: tipografia.body, fontWeight: '800' },
-  subtitle: { fontSize: tipografia.micro, marginTop: 2 },
+  subtitle: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
   priceBlock: { alignItems: 'flex-end' },
   price: { fontSize: 15, fontWeight: '800' },
-  bandRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 2 },
+  bandRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e2 },
   band: { fontSize: 9.5, fontWeight: '600' },
-  loadingText: { fontSize: tipografia.caption, fontWeight: '600', marginLeft: 8 },
+  loadingText: { fontSize: tipografia.caption, fontWeight: '600', marginLeft: espaciado.e8 },
 });

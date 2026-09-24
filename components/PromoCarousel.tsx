@@ -15,7 +15,7 @@ import { ChevronRight } from 'lucide-react-native';
 import { adsApi, type HomeAd } from '../api/ads';
 import { alpha } from '../constants/colors';
 import { useTheme } from '../theme/ThemeContext';
-import { brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const H_PADDING = 20;
@@ -142,30 +142,30 @@ export default function PromoCarousel() {
 }
 
 const styles = StyleSheet.create({
-  wrap: { marginTop: 20 },
+  wrap: { marginTop: espaciado.e20 },
   card: {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 18,
     borderWidth: 1,
-    padding: 14,
+    padding: espaciado.e14,
     minHeight: 92,
   },
-  emoji: { fontSize: 34, marginRight: 12 },
+  emoji: { fontSize: 34, marginRight: espaciado.e12 },
   cardBody: { flex: 1 },
   cardTitle: { fontSize: 14.5, fontWeight: '800' },
-  cardSubtitle: { fontSize: tipografia.caption, marginTop: 2 },
+  cardSubtitle: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   ctaChip: {
-    marginTop: 8,
+    marginTop: espaciado.e8,
     alignSelf: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 2,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    gap: espaciado.e2,
+    paddingHorizontal: espaciado.e10,
+    paddingVertical: espaciado.e5,
     borderRadius: radios.full,
   },
   ctaText: { color: brand.white, fontSize: tipografia.micro, fontWeight: '800' },
-  dots: { flexDirection: 'row', justifyContent: 'center', gap: 5, marginTop: 12 },
+  dots: { flexDirection: 'row', justifyContent: 'center', gap: espaciado.e5, marginTop: espaciado.e12 },
   dot: { height: 6, width: 6, borderRadius: 3 },
 });

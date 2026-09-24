@@ -18,7 +18,7 @@ import { useRouter } from 'expo-router';
 import { LocateFixed, ScanLine, Cross } from 'lucide-react-native';
 import { alpha } from '../constants/colors';
 import { useTheme } from '../theme/ThemeContext';
-import { brand } from '@egrouteplan/ui-kit';
+import { brand, espaciado } from '@egrouteplan/ui-kit';
 
 export default function MapTools({ onRecenter, recenterLabel = 'Centrar en mi ubicación', topOffset = 10, onEmergency }: {
   onRecenter: () => void;
@@ -99,7 +99,7 @@ function ToolButton({ label, hint, onPress, colors, danger, icon, testID }: {
 }
 
 const styles = StyleSheet.create({
-  stack: { position: 'absolute', right: 16, zIndex: 20, gap: 10 },
+  stack: { position: 'absolute', right: 16, zIndex: 20, gap: espaciado.e10 },
   button: {
     width: 48,
     height: 48,

@@ -15,7 +15,7 @@ import {
   BarChart3, ChevronRight, FileText, Globe, History, LogOut, Moon, ShieldCheck, ShoppingBag, Star,
   UserRound, Utensils, Wallet,
 } from 'lucide-react-native';
-import { useTheme, alpha, GhostButton, elevation, InlineError, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, elevation, espaciado, GhostButton, InlineError, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { driverApi } from '../api/driver';
 import { intercityApi } from '../api/intercity';
@@ -100,13 +100,13 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
           <ScrollView contentContainerStyle={dh.content} showsVerticalScrollIndicator={false}>
             {/* ── FLUJO DIARIO ─────────────────────────────────────────── */}
             {activeTab === 'flujo' && (
-              <View style={{ gap: 12 }}>
-                <View style={[s.card, { borderColor: colors.border, gap: 10 }]}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View style={{ gap: espaciado.e12 }}>
+                <View style={[s.card, { borderColor: colors.border, gap: espaciado.e10 }]}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                     <Wallet size={18} color={colors.primary} />
                     <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>Ganancias</Text>
                   </View>
-                  <View style={{ flexDirection: 'row', gap: 8 }}>
+                  <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                     {PERIODS.map((p) => (
                       <Pressable key={p.key} onPress={() => setPeriod(p.key)} style={[s.chip, { flex: 1, borderColor: period === p.key ? colors.primary : colors.border, backgroundColor: period === p.key ? alpha(colors.primary, 0.08) : 'transparent' }]}>
                         <Text style={{ color: period === p.key ? colors.primary : colors.textSecondary, fontWeight: '800', fontSize: tipografia.caption }}>{p.label}</Text>
@@ -114,10 +114,10 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     ))}
                   </View>
                   {loadingE && <ActivityIndicator color={colors.primary} />}
-                  {errE ? <View style={{ marginTop: 10 }}><InlineError mensaje={errE} /></View> : null}
+                  {errE ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={errE} /></View> : null}
                   {!loadingE && !errE && earnings && (
                     <>
-                      <View style={{ alignItems: 'center', gap: 2 }}>
+                      <View style={{ alignItems: 'center', gap: espaciado.e2 }}>
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700' }}>NETO ({period === 'all' ? 'total' : period})</Text>
                         <Text style={{ color: colors.success, fontSize: 30, fontWeight: '900' }}>{xaf(earnings.totalNet)}</Text>
                       </View>
@@ -146,7 +146,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                 </View>
 
                 {/* Resumen de puntuación (honesto: solo si hay valoraciones) */}
-                <View style={[s.card, { borderColor: colors.border, flexDirection: 'row', alignItems: 'center', gap: 12 }]}>
+                <View style={[s.card, { borderColor: colors.border, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }]}>
                   <View style={[dh.ratingBox, { backgroundColor: alpha(brand.warning, 0.14) }]}>
                     <Star size={22} color={brand.warning} fill={brand.warning} />
                   </View>
@@ -165,7 +165,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
 
             {/* ── VIDA: comida y comercio (tarjetas con imagen) ─────────── */}
             {activeTab === 'vida' && (
-              <View style={{ gap: 12 }}>
+              <View style={{ gap: espaciado.e12 }}>
                 <Pressable onPress={() => { onClose(); router.push('/food' as any); }} style={[s.vidaCard, { backgroundColor: brand.secondary }]}>
                   <View style={dh.vidaTextWrap}>
                     <Text style={dh.vidaTitle}>🍔 Comida Rápida</Text>
@@ -195,7 +195,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
 
             {/* ── PERFIL: tema · idioma · normas · logout SOLO aquí ─────── */}
             {activeTab === 'perfil' && (
-              <View style={{ gap: 12 }}>
+              <View style={{ gap: espaciado.e12 }}>
                 <View style={[s.card, { borderColor: colors.border, gap: 0 }]}>
                   <View style={[dh.row, { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border }]}>
                     <Moon size={18} color={colors.primary} />
@@ -219,7 +219,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     <ChevronRight size={16} color={colors.textSecondary} />
                   </Pressable>
                   {rulesOpen && (
-                    <View style={{ padding: 12, gap: 6 }}>
+                    <View style={{ padding: espaciado.e12, gap: espaciado.e6 }}>
                       {[
                         'Conduce con respeto y prudencia: la seguridad del pasajero es lo primero.',
                         'Respeta la tarifa de la app (algoritmo o presupuesto del pasajero): es el precio final.',
@@ -230,15 +230,15 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                       ].map((r) => (
                         <Text key={r} style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', lineHeight: 18 }}>• {r}</Text>
                       ))}
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600', marginTop: 4 }}>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600', marginTop: espaciado.e4 }}>
                         Al usar EG Route Plan como conductor aceptas estos términos (versión v1.0).
                       </Text>
                     </View>
                   )}
                 </View>
 
-                <View style={[s.card, { borderColor: colors.border, gap: 6 }]}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <View style={[s.card, { borderColor: colors.border, gap: espaciado.e6 }]}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                     <ShieldCheck size={18} color={colors.primary} />
                     <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Conductor verificado</Text>
                   </View>
@@ -247,7 +247,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                   </Text>
                 </View>
 
-                <Pressable onPress={handleLogout} accessibilityRole="button" accessibilityLabel="Cerrar sesión" style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), flexDirection: 'row', alignItems: 'center', gap: 10 }]}>
+                <Pressable onPress={handleLogout} accessibilityRole="button" accessibilityLabel="Cerrar sesión" style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }]}>
                   <LogOut size={18} color={colors.danger} />
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.danger, fontWeight: '900', fontSize: 15 }}>Cerrar sesión</Text>
@@ -269,14 +269,14 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
 const dh = StyleSheet.create({
   overlay: { flex: 1, justifyContent: 'flex-end' },
   backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.35)' },
-  handle: { width: 44, height: 5, borderRadius: 3, alignSelf: 'center', marginTop: 10, marginBottom: 4 },
-  content: { padding: 16, paddingBottom: 36, gap: 12 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 13 },
+  handle: { width: 44, height: 5, borderRadius: 3, alignSelf: 'center', marginTop: espaciado.e10, marginBottom: espaciado.e4 },
+  content: { padding: espaciado.e16, paddingBottom: 36, gap: espaciado.e12 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e13 },
   ratingBox: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
-  vidaTextWrap: { flex: 1, gap: 2 },
+  vidaTextWrap: { flex: 1, gap: espaciado.e2 },
   vidaTitle: { color: brand.white, fontSize: 21, fontWeight: '900' },
   vidaSub: { color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: '600' },
-  vidaCta: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800', marginTop: 6, textDecorationLine: 'underline' },
+  vidaCta: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e6, textDecorationLine: 'underline' },
   vidaArt: { width: 72, height: 72, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
 });
 
@@ -287,15 +287,15 @@ const dhStyles = (c: ReturnType<typeof useTheme>['colors']) =>
       maxHeight: '86%', minHeight: 240,
       ...elevation.lg,
     },
-    tabs: { flexDirection: 'row', gap: 8, marginHorizontal: 16, marginTop: 8, borderRadius: 14, padding: 5 },
-    tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 10, paddingVertical: 9 },
-    card: { borderRadius: radios.lg, borderWidth: 1.5, padding: 14 },
-    chip: { borderRadius: 10, borderWidth: 1.5, paddingVertical: 7, alignItems: 'center' },
-    statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 9 },
-    linkRow: { flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 12 },
+    tabs: { flexDirection: 'row', gap: espaciado.e8, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, borderRadius: 14, padding: espaciado.e5 },
+    tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: 10, paddingVertical: espaciado.e9 },
+    card: { borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14 },
+    chip: { borderRadius: 10, borderWidth: 1.5, paddingVertical: espaciado.e7, alignItems: 'center' },
+    statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
+    linkRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12 },
     vidaCard: {
-      borderRadius: 20, padding: 18, flexDirection: 'row', alignItems: 'center', gap: 14,
+      borderRadius: 20, padding: espaciado.e18, flexDirection: 'row', alignItems: 'center', gap: espaciado.e14,
       ...elevation.md,
     },
-    vidaRow: { borderRadius: 14, borderWidth: 1.5, padding: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+    vidaRow: { borderRadius: 14, borderWidth: 1.5, padding: espaciado.e13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   });

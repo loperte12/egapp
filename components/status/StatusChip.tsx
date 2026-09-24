@@ -13,7 +13,7 @@ import { useTheme } from '../../theme/ThemeContext';
 import { statusBgColors, remainingShort } from '../../constants/status';
 import { useServerClock, formatRemainingMs } from '../../hooks/useServerClock';
 import type { UserStatus } from '../../api/status';
-import { brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 
 export default function StatusChip({
   status,
@@ -86,20 +86,20 @@ export default function StatusChip({
 
 const styles = StyleSheet.create({
   chip: {
-    flexDirection: 'row', alignItems: 'center', gap: 5,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e5,
     alignSelf: 'flex-start',
     borderRadius: radios.full,
     borderWidth: 1,
-    paddingHorizontal: 10, paddingVertical: 5,
-    marginTop: 4,
+    paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5,
+    marginTop: espaciado.e4,
   },
-  chipCompact: { paddingHorizontal: 8, paddingVertical: 2.5, marginTop: 2 },
+  chipCompact: { paddingHorizontal: espaciado.e8, paddingVertical: 2.5, marginTop: espaciado.e2 },
   dot: { width: 7, height: 7, borderRadius: 4 },
   emoji: { fontSize: tipografia.body },
   emojiCompact: { fontSize: 10 },
   text: { fontSize: tipografia.caption, fontWeight: '800', maxWidth: 180 },
   textCompact: { fontSize: 10.5, maxWidth: 140 },
-  timeRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginLeft: 2 },
+  timeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginLeft: espaciado.e2 },
   time: { fontSize: 10, fontWeight: '700' },
   timeCompact: { fontSize: 8.5 },
 });

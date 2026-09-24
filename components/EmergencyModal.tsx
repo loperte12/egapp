@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { tipografia, radios } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
 import { Linking, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Siren, Phone, X, type LucideIcon } from 'lucide-react-native';
 import { EMERGENCY_CONTACTS, type EmergencyContact } from '../constants/data';
@@ -98,28 +98,28 @@ const styles = StyleSheet.create({
   card: {
     borderTopLeftRadius: 26,
     borderTopRightRadius: 26,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingHorizontal: espaciado.e20,
+    paddingTop: espaciado.e20,
     paddingBottom: 34,
   },
-  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
+  header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e16 },
   sirenWrap: { width: 44, height: 44, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },
-  headerText: { flex: 1, marginLeft: 12 },
+  headerText: { flex: 1, marginLeft: espaciado.e12 },
   title: { fontSize: 19, fontWeight: '800' },
-  subtitle: { fontSize: tipografia.caption, marginTop: 2 },
+  subtitle: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   contactRow: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: radios.lg,
-    padding: 12,
-    marginBottom: 10,
+    padding: espaciado.e12,
+    marginBottom: espaciado.e10,
   },
   contactIcon: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  contactText: { flex: 1, marginLeft: 12 },
+  contactText: { flex: 1, marginLeft: espaciado.e12 },
   contactLabel: { fontSize: 14.5, fontWeight: '800' },
   contactNote: { fontSize: tipografia.micro, marginTop: 1 },
   contactNumber: { fontSize: 15, fontWeight: '800' },
-  cancelBtn: { marginTop: 6, alignItems: 'center', paddingVertical: 13, borderRadius: 14 },
+  cancelBtn: { marginTop: espaciado.e6, alignItems: 'center', paddingVertical: espaciado.e13, borderRadius: 14 },
   cancelText: { fontSize: tipografia.body, fontWeight: '700' },
 });

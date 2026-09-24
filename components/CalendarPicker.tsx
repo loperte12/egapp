@@ -20,7 +20,7 @@
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useTheme, alpha, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import {
   DOW_SHORT, addDaysIso, dowMondayFirst, isWeekendNight, longDate, monthGrid,
   monthIndex, monthLabel, nightsBetween, nightsList, parseIso, shiftMonth, todayIso, xaf,
@@ -352,29 +352,29 @@ function Leyenda({ color, texto, colors }: { color: string; texto: string; color
 }
 
 const styles = StyleSheet.create({
-  wrap: { borderWidth: 1, borderRadius: 18, paddingVertical: 12, paddingHorizontal: 10 },
-  head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 4 },
+  wrap: { borderWidth: 1, borderRadius: 18, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e10 },
+  head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e4 },
   headMid: { flex: 1, alignItems: 'center' },
   nav: { width: 38, height: 38, borderRadius: radios.md, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   navTxt: { fontSize: 22, fontWeight: '800', lineHeight: 24 },
   mes: { fontSize: tipografia.subtitle, fontWeight: '800', textTransform: 'capitalize' },
-  cargando: { fontSize: tipografia.micro, marginTop: 2 },
-  dowRow: { flexDirection: 'row', marginTop: 10, marginBottom: 4 },
+  cargando: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
+  dowRow: { flexDirection: 'row', marginTop: espaciado.e10, marginBottom: espaciado.e4 },
   dow: { flex: 1, textAlign: 'center', fontSize: tipografia.caption, fontWeight: '700' },
   grid: { flexDirection: 'row', flexWrap: 'wrap' },
   cell: {
-    width: `${100 / 7}%`, minHeight: 56, borderRadius: radios.md, paddingVertical: 4,
+    width: `${100 / 7}%`, minHeight: 56, borderRadius: radios.md, paddingVertical: espaciado.e4,
     alignItems: 'center', justifyContent: 'flex-start', borderWidth: 0,
   },
   dia: { fontSize: tipografia.body, fontWeight: '700' },
   precio: { fontSize: 9.5, fontWeight: '600', marginTop: 1 },
   min: { fontSize: 8.5, marginTop: 0 },
-  leyenda: { gap: 12, paddingVertical: 8, paddingHorizontal: 2, alignItems: 'center' },
-  leyendaItem: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  leyenda: { gap: espaciado.e12, paddingVertical: espaciado.e8, paddingHorizontal: espaciado.e2, alignItems: 'center' },
+  leyendaItem: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 },
   punto: { width: 9, height: 9, borderRadius: 5 },
   leyendaTxt: { fontSize: 10.5 },
-  resumen: { borderTopWidth: 1, paddingTop: 10, paddingHorizontal: 4, gap: 2 },
+  resumen: { borderTopWidth: 1, paddingTop: espaciado.e10, paddingHorizontal: espaciado.e4, gap: espaciado.e2 },
   resumenTxt: { fontSize: tipografia.body, fontWeight: '700' },
   resumenSub: { fontSize: tipografia.caption },
-  total: { fontSize: 14.5, fontWeight: '800', marginTop: 2 },
+  total: { fontSize: 14.5, fontWeight: '800', marginTop: espaciado.e2 },
 });

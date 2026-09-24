@@ -17,7 +17,7 @@
  */
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { alpha, useTheme, brand, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import type { HotelRoom, HotelSearchResult } from '../api/hotel';
 import { xaf } from '../utils/datetime';
 import { LazyImage } from './rental/LazyImage';
@@ -89,7 +89,7 @@ export function HotelResultCard({
         </View>
       </Pressable>
 
-      <View style={{ gap: 8, marginTop: 10 }}>
+      <View style={{ gap: espaciado.e8, marginTop: espaciado.e10 }}>
         {mejores.map((r) => {
           // Con fechas, la disponibilidad es la del servidor para TODO el rango y para
           // las habitaciones pedidas; sin fechas no se puede afirmar nada.
@@ -126,7 +126,7 @@ export function HotelResultCard({
                   </Text>
                 ) : null}
               </View>
-              <View style={{ alignItems: 'flex-end', gap: 4 }}>
+              <View style={{ alignItems: 'flex-end', gap: espaciado.e4 }}>
                 {listo ? (
                   <Text style={[styles.habLibre, { color: libre ? colors.success : colors.textSecondary }]}>
                     {libre
@@ -160,24 +160,24 @@ export function HotelResultCard({
 }
 
 const styles = StyleSheet.create({
-  tarjeta: { borderWidth: 1, borderRadius: 18, padding: 12 },
-  tarjetaCab: { flexDirection: 'row', gap: 10, alignItems: 'center' },
+  tarjeta: { borderWidth: 1, borderRadius: 18, padding: espaciado.e12 },
+  tarjetaCab: { flexDirection: 'row', gap: espaciado.e10, alignItems: 'center' },
   // Foto del alojamiento en la fila (92×92, redondeada, con hueco gris si no hay).
   portada: { width: 92, height: 92, borderRadius: 14, borderWidth: 1, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   portadaImg: { width: '100%', height: '100%' },
   tarjetaTitulo: { fontSize: 15.5, fontWeight: '800' },
-  tarjetaSub: { fontSize: tipografia.caption, marginTop: 2 },
+  tarjetaSub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   precio: { fontSize: 15, fontWeight: '800' },
   precioSub: { fontSize: 10.5 },
-  habitacion: { borderWidth: 1, borderRadius: 14, padding: 10, flexDirection: 'row', gap: 10, alignItems: 'center' },
+  habitacion: { borderWidth: 1, borderRadius: 14, padding: espaciado.e10, flexDirection: 'row', gap: espaciado.e10, alignItems: 'center' },
   // Foto de la habitación en su fila (56×56): «fotos reales de las habitaciones».
   habFoto: { width: 56, height: 56, borderRadius: 10, borderWidth: 1, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   habFotoImg: { width: '100%', height: '100%' },
   habNombre: { fontSize: tipografia.body, fontWeight: '800' },
-  habDatos: { fontSize: tipografia.micro, marginTop: 2 },
-  habTotal: { fontSize: tipografia.caption, fontWeight: '700', marginTop: 4 },
-  habAviso: { fontSize: tipografia.micro, marginTop: 2 },
+  habDatos: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
+  habTotal: { fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e4 },
+  habAviso: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
   habLibre: { fontSize: tipografia.micro, fontWeight: '700' },
-  reservarBtn: { borderRadius: 10, paddingHorizontal: 12, paddingVertical: 7 },
+  reservarBtn: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   reservarTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800' },
 });

@@ -16,7 +16,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import {
   LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions,
 } from 'react-native';
-import { useTheme, alpha, brand, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { absUrl } from '../api/config';
 import { LazyImage } from './rental/LazyImage';
 
@@ -102,7 +102,7 @@ export function PhotoGallery({
         {urls.length === 0 ? (
           <View style={[{ width: ancho, height: alto, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }]}>
             <Text style={{ fontSize: 36 }}>{emptyIcon}</Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 6 }}>{emptyLabel}</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>{emptyLabel}</Text>
           </View>
         ) : (
           urls.map((u, i) => (
@@ -125,9 +125,9 @@ export function PhotoGallery({
 }
 
 const styles = StyleSheet.create({
-  dots: { position: 'absolute', bottom: 12, alignSelf: 'center', flexDirection: 'row', gap: 6 },
+  dots: { position: 'absolute', bottom: 12, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e6 },
   dot: { width: 7, height: 7, borderRadius: 4 },
   dotActive: { width: 18 },
-  contador: { position: 'absolute', top: 12, right: 12, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
+  contador: { position: 'absolute', top: 12, right: 12, borderRadius: 10, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
   contadorTxt: { color: brand.white, fontSize: tipografia.micro, fontWeight: '700' },
 });
