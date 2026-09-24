@@ -1,11 +1,11 @@
 {
   "total": {
     "hex": 189,
-    "fontSize": 663,
+    "fontSize": 649,
     "borderRadius": 688,
-    "fontWeight": 1970,
-    "borderWidth": 548,
-    "espaciado": 5402,
+    "fontWeight": 1948,
+    "borderWidth": 528,
+    "espaciado": 5239,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -38,29 +38,29 @@
     },
     "app/alquiler-planes.tsx": {
       "hex": 0,
-      "fontSize": 5,
+      "fontSize": 4,
       "borderRadius": 4,
-      "fontWeight": 10,
-      "borderWidth": 4,
-      "espaciado": 27,
+      "fontWeight": 9,
+      "borderWidth": 3,
+      "espaciado": 25,
       "precioFigura": 0
     },
     "app/alquiler-publicar.tsx": {
       "hex": 1,
-      "fontSize": 11,
+      "fontSize": 10,
       "borderRadius": 8,
-      "fontWeight": 21,
-      "borderWidth": 6,
-      "espaciado": 73,
+      "fontWeight": 20,
+      "borderWidth": 5,
+      "espaciado": 71,
       "precioFigura": 0
     },
     "app/alquiler.tsx": {
       "hex": 0,
       "fontSize": 3,
       "borderRadius": 11,
-      "fontWeight": 15,
-      "borderWidth": 5,
-      "espaciado": 62,
+      "fontWeight": 14,
+      "borderWidth": 4,
+      "espaciado": 59,
       "precioFigura": 0
     },
     "app/auth.tsx": {
@@ -69,25 +69,25 @@
       "borderRadius": 1,
       "fontWeight": 4,
       "borderWidth": 0,
-      "espaciado": 9,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/billing-checkout.tsx": {
       "hex": 0,
-      "fontSize": 3,
+      "fontSize": 2,
       "borderRadius": 1,
-      "fontWeight": 14,
-      "borderWidth": 3,
-      "espaciado": 35,
+      "fontWeight": 13,
+      "borderWidth": 2,
+      "espaciado": 0,
       "precioFigura": 1
     },
     "app/billing-status.tsx": {
       "hex": 0,
-      "fontSize": 5,
+      "fontSize": 4,
       "borderRadius": 4,
-      "fontWeight": 12,
-      "borderWidth": 5,
-      "espaciado": 41,
+      "fontWeight": 11,
+      "borderWidth": 4,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/buscar.tsx": {
@@ -148,18 +148,18 @@
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 0,
-      "fontWeight": 20,
-      "borderWidth": 4,
-      "espaciado": 60,
+      "fontWeight": 18,
+      "borderWidth": 3,
+      "espaciado": 58,
       "precioFigura": 0
     },
     "app/ecomerse-detail.tsx": {
       "hex": 1,
       "fontSize": 0,
       "borderRadius": 0,
-      "fontWeight": 22,
-      "borderWidth": 9,
-      "espaciado": 59,
+      "fontWeight": 20,
+      "borderWidth": 8,
+      "espaciado": 57,
       "precioFigura": 0
     },
     "app/ecomerse-docs.tsx": {
@@ -175,27 +175,27 @@
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 0,
-      "fontWeight": 5,
-      "borderWidth": 3,
-      "espaciado": 24,
+      "fontWeight": 4,
+      "borderWidth": 2,
+      "espaciado": 22,
       "precioFigura": 0
     },
     "app/ecomerse-orders.tsx": {
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 0,
-      "fontWeight": 14,
-      "borderWidth": 8,
-      "espaciado": 48,
+      "fontWeight": 13,
+      "borderWidth": 7,
+      "espaciado": 46,
       "precioFigura": 0
     },
     "app/ecomerse-planes.tsx": {
       "hex": 1,
       "fontSize": 0,
       "borderRadius": 0,
-      "fontWeight": 15,
-      "borderWidth": 6,
-      "espaciado": 48,
+      "fontWeight": 14,
+      "borderWidth": 5,
+      "espaciado": 46,
       "precioFigura": 0
     },
     "app/ecomerse-subcategoria.tsx": {
@@ -254,20 +254,20 @@
     },
     "app/food-checkout.tsx": {
       "hex": 0,
-      "fontSize": 9,
+      "fontSize": 8,
       "borderRadius": 5,
-      "fontWeight": 23,
-      "borderWidth": 7,
-      "espaciado": 57,
+      "fontWeight": 22,
+      "borderWidth": 6,
+      "espaciado": 55,
       "precioFigura": 4
     },
     "app/food-menu.tsx": {
       "hex": 1,
-      "fontSize": 9,
+      "fontSize": 8,
       "borderRadius": 15,
-      "fontWeight": 14,
-      "borderWidth": 5,
-      "espaciado": 49,
+      "fontWeight": 13,
+      "borderWidth": 4,
+      "espaciado": 47,
       "precioFigura": 1
     },
     "app/food-orders.tsx": {
@@ -281,29 +281,29 @@
     },
     "app/food-owner.tsx": {
       "hex": 1,
-      "fontSize": 11,
+      "fontSize": 10,
       "borderRadius": 8,
-      "fontWeight": 27,
-      "borderWidth": 10,
-      "espaciado": 83,
+      "fontWeight": 26,
+      "borderWidth": 9,
+      "espaciado": 80,
       "precioFigura": 1
     },
     "app/food-rider.tsx": {
       "hex": 1,
-      "fontSize": 9,
+      "fontSize": 8,
       "borderRadius": 13,
-      "fontWeight": 34,
-      "borderWidth": 11,
-      "espaciado": 96,
+      "fontWeight": 33,
+      "borderWidth": 10,
+      "espaciado": 94,
       "precioFigura": 4
     },
     "app/food.tsx": {
       "hex": 0,
-      "fontSize": 7,
+      "fontSize": 6,
       "borderRadius": 6,
-      "fontWeight": 10,
-      "borderWidth": 5,
-      "espaciado": 34,
+      "fontWeight": 9,
+      "borderWidth": 4,
+      "espaciado": 31,
       "precioFigura": 0
     },
     "app/index.tsx": {
@@ -317,11 +317,11 @@
     },
     "app/intercity-planes.tsx": {
       "hex": 0,
-      "fontSize": 5,
+      "fontSize": 4,
       "borderRadius": 8,
-      "fontWeight": 12,
-      "borderWidth": 4,
-      "espaciado": 33,
+      "fontWeight": 11,
+      "borderWidth": 3,
+      "espaciado": 31,
       "precioFigura": 0
     },
     "app/intercity-publish.tsx": {
@@ -348,7 +348,7 @@
       "borderRadius": 1,
       "fontWeight": 1,
       "borderWidth": 0,
-      "espaciado": 7,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/kyc/index.tsx": {
@@ -357,7 +357,7 @@
       "borderRadius": 0,
       "fontWeight": 1,
       "borderWidth": 0,
-      "espaciado": 8,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/kyc/liveness.tsx": {
@@ -366,7 +366,7 @@
       "borderRadius": 1,
       "fontWeight": 2,
       "borderWidth": 0,
-      "espaciado": 6,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/kyc/status.tsx": {
@@ -375,16 +375,16 @@
       "borderRadius": 0,
       "fontWeight": 1,
       "borderWidth": 0,
-      "espaciado": 8,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/landlord-profile.tsx": {
       "hex": 0,
-      "fontSize": 1,
+      "fontSize": 0,
       "borderRadius": 0,
-      "fontWeight": 4,
-      "borderWidth": 1,
-      "espaciado": 8,
+      "fontWeight": 3,
+      "borderWidth": 0,
+      "espaciado": 6,
       "precioFigura": 0
     },
     "app/lifebook-ai.tsx": {
@@ -1037,11 +1037,11 @@
     },
     "app/work-detail.tsx": {
       "hex": 0,
-      "fontSize": 10,
+      "fontSize": 9,
       "borderRadius": 14,
-      "fontWeight": 22,
-      "borderWidth": 5,
-      "espaciado": 68,
+      "fontWeight": 21,
+      "borderWidth": 4,
+      "espaciado": 66,
       "precioFigura": 0
     },
     "app/work-gestion.tsx": {
@@ -1064,20 +1064,20 @@
     },
     "app/work-planes.tsx": {
       "hex": 1,
-      "fontSize": 5,
+      "fontSize": 4,
       "borderRadius": 3,
-      "fontWeight": 12,
-      "borderWidth": 3,
-      "espaciado": 27,
+      "fontWeight": 11,
+      "borderWidth": 2,
+      "espaciado": 25,
       "precioFigura": 0
     },
     "app/work-publish.tsx": {
       "hex": 0,
-      "fontSize": 6,
+      "fontSize": 5,
       "borderRadius": 7,
-      "fontWeight": 17,
-      "borderWidth": 4,
-      "espaciado": 72,
+      "fontWeight": 16,
+      "borderWidth": 3,
+      "espaciado": 70,
       "precioFigura": 0
     },
     "app/work.tsx": {
@@ -1788,7 +1788,7 @@
       "borderRadius": 1,
       "fontWeight": 2,
       "borderWidth": 0,
-      "espaciado": 6,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "core/PanelGate.tsx": {
@@ -1797,7 +1797,7 @@
       "borderRadius": 1,
       "fontWeight": 3,
       "borderWidth": 0,
-      "espaciado": 10,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "constants/commerce.ts": {

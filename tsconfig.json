@@ -16,6 +16,13 @@
    * servidor (NestJS) que se bajan aquí para poder leerlos y anclarlos con precisión en los
    * parches. No forman parte de la app: si se incluyen, el chequeo de tipos de la app se llena
    * de errores de `@nestjs/*` y decoradores.
+   *
+   * `_respaldo-espaciado` es el respaldo que escribe el codemod de la Fase 3 antes de tocar un
+   * fichero. Son COPIAS con la misma extension que el original, asi que el `include` de arriba las
+   * recogia y el chequeo se llenaba de errores de modulos que no existen desde esa carpeta
+   * (`../api/billing`). Medido: 31 errores que no eran de la app. Se excluye, y el respaldo
+   * sigue entero en el disco. (Sin comodines en este comentario a proposito: el cierre de bloque
+   * que llevan dentro cerraria el comentario y rompe el JSON.)
    */
-  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js", "backend/server-src", "backend/server-patch"]
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js", "backend/server-src", "backend/server-patch", "_respaldo-espaciado"]
 }
