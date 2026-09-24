@@ -5,7 +5,7 @@
     "borderRadius": 688,
     "fontWeight": 1948,
     "borderWidth": 528,
-    "espaciado": 1957,
+    "espaciado": 1468,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -411,7 +411,7 @@
       "borderRadius": 3,
       "fontWeight": 21,
       "borderWidth": 5,
-      "espaciado": 42,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "app/lifebook-carrito.tsx": {
@@ -420,7 +420,7 @@
       "borderRadius": 6,
       "fontWeight": 28,
       "borderWidth": 6,
-      "espaciado": 49,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/lifebook-catalog.tsx": {
@@ -429,7 +429,7 @@
       "borderRadius": 0,
       "fontWeight": 10,
       "borderWidth": 2,
-      "espaciado": 38,
+      "espaciado": 3,
       "precioFigura": 0
     },
     "app/lifebook-chat/[id].tsx": {
@@ -447,7 +447,7 @@
       "borderRadius": 3,
       "fontWeight": 11,
       "borderWidth": 2,
-      "espaciado": 28,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/lifebook-compose.tsx": {
@@ -672,7 +672,7 @@
       "borderRadius": 0,
       "fontWeight": 8,
       "borderWidth": 3,
-      "espaciado": 27,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/lifebook-merchant-products.tsx": {
@@ -681,7 +681,7 @@
       "borderRadius": 0,
       "fontWeight": 15,
       "borderWidth": 1,
-      "espaciado": 44,
+      "espaciado": 3,
       "precioFigura": 0
     },
     "app/lifebook-merchant-settings.tsx": {
@@ -690,7 +690,7 @@
       "borderRadius": 0,
       "fontWeight": 4,
       "borderWidth": 1,
-      "espaciado": 22,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/lifebook-merchant.tsx": {
@@ -699,7 +699,7 @@
       "borderRadius": 0,
       "fontWeight": 12,
       "borderWidth": 0,
-      "espaciado": 53,
+      "espaciado": 3,
       "precioFigura": 0
     },
     "app/lifebook-message-search.tsx": {
@@ -726,7 +726,7 @@
       "borderRadius": 7,
       "fontWeight": 19,
       "borderWidth": 5,
-      "espaciado": 48,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/lifebook-orders.tsx": {
@@ -735,7 +735,7 @@
       "borderRadius": 1,
       "fontWeight": 14,
       "borderWidth": 2,
-      "espaciado": 36,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/lifebook-player.tsx": {
@@ -762,7 +762,7 @@
       "borderRadius": 6,
       "fontWeight": 19,
       "borderWidth": 4,
-      "espaciado": 50,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/lifebook-scan.tsx": {
@@ -789,7 +789,7 @@
       "borderRadius": 0,
       "fontWeight": 2,
       "borderWidth": 0,
-      "espaciado": 9,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/lifebook-shop/[id].tsx": {
@@ -798,7 +798,7 @@
       "borderRadius": 4,
       "fontWeight": 9,
       "borderWidth": 1,
-      "espaciado": 34,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "app/lifebook-store.tsx": {
@@ -807,7 +807,7 @@
       "borderRadius": 0,
       "fontWeight": 10,
       "borderWidth": 2,
-      "espaciado": 26,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/lifebook-user.tsx": {
