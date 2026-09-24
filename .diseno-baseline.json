@@ -5,7 +5,7 @@
     "borderRadius": 688,
     "fontWeight": 1948,
     "borderWidth": 528,
-    "espaciado": 2892,
+    "espaciado": 2601,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -1077,7 +1077,7 @@
       "borderRadius": 2,
       "fontWeight": 7,
       "borderWidth": 5,
-      "espaciado": 17,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "components/DriverHomeSheet.tsx": {
@@ -1086,7 +1086,7 @@
       "borderRadius": 11,
       "fontWeight": 29,
       "borderWidth": 6,
-      "espaciado": 42,
+      "espaciado": 3,
       "precioFigura": 0
     },
     "components/DriverLiveMap.tsx": {
@@ -1095,7 +1095,7 @@
       "borderRadius": 0,
       "fontWeight": 1,
       "borderWidth": 0,
-      "espaciado": 2,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/ecomerse/TarjetaProducto.tsx": {
@@ -1122,7 +1122,7 @@
       "borderRadius": 4,
       "fontWeight": 4,
       "borderWidth": 1,
-      "espaciado": 12,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "components/FareQuoteCard.tsx": {
@@ -1131,7 +1131,7 @@
       "borderRadius": 1,
       "fontWeight": 4,
       "borderWidth": 1,
-      "espaciado": 7,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/FloatingFooter.tsx": {
@@ -1140,7 +1140,7 @@
       "borderRadius": 1,
       "fontWeight": 3,
       "borderWidth": 2,
-      "espaciado": 3,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/HotelResultCard.tsx": {
@@ -1149,7 +1149,7 @@
       "borderRadius": 5,
       "fontWeight": 6,
       "borderWidth": 4,
-      "espaciado": 13,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/jobs.tsx": {
@@ -1158,7 +1158,7 @@
       "borderRadius": 8,
       "fontWeight": 13,
       "borderWidth": 2,
-      "espaciado": 38,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "components/lifebook/AdSheet.tsx": {
@@ -1554,7 +1554,7 @@
       "borderRadius": 0,
       "fontWeight": 1,
       "borderWidth": 0,
-      "espaciado": 3,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/LocationModal.tsx": {
@@ -1563,7 +1563,7 @@
       "borderRadius": 3,
       "fontWeight": 2,
       "borderWidth": 0,
-      "espaciado": 11,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/MapBackground.tsx": {
@@ -1572,7 +1572,7 @@
       "borderRadius": 0,
       "fontWeight": 2,
       "borderWidth": 0,
-      "espaciado": 7,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/MapTools.tsx": {
@@ -1581,7 +1581,7 @@
       "borderRadius": 1,
       "fontWeight": 0,
       "borderWidth": 0,
-      "espaciado": 1,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/PhotoGallery.tsx": {
@@ -1590,7 +1590,7 @@
       "borderRadius": 2,
       "fontWeight": 1,
       "borderWidth": 0,
-      "espaciado": 4,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/PromoCarousel.tsx": {
@@ -1599,7 +1599,7 @@
       "borderRadius": 2,
       "fontWeight": 2,
       "borderWidth": 1,
-      "espaciado": 10,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/rental/Badge.tsx": {
@@ -1662,7 +1662,7 @@
       "borderRadius": 3,
       "fontWeight": 3,
       "borderWidth": 0,
-      "espaciado": 8,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/ServiceGrid.tsx": {
@@ -1671,7 +1671,7 @@
       "borderRadius": 3,
       "fontWeight": 7,
       "borderWidth": 1,
-      "espaciado": 22,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/ServicesDrawer.tsx": {
@@ -1680,7 +1680,7 @@
       "borderRadius": 4,
       "fontWeight": 9,
       "borderWidth": 1,
-      "espaciado": 30,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "components/SocialHomeHeader.tsx": {
@@ -1689,7 +1689,7 @@
       "borderRadius": 4,
       "fontWeight": 6,
       "borderWidth": 4,
-      "espaciado": 9,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "components/status/StatusChip.tsx": {
@@ -1698,7 +1698,7 @@
       "borderRadius": 1,
       "fontWeight": 2,
       "borderWidth": 1,
-      "espaciado": 9,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/status/StatusDetailModal.tsx": {
@@ -1707,7 +1707,7 @@
       "borderRadius": 6,
       "fontWeight": 11,
       "borderWidth": 2,
-      "espaciado": 24,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "components/status/StatusEditorModal.tsx": {
@@ -1716,7 +1716,7 @@
       "borderRadius": 12,
       "fontWeight": 14,
       "borderWidth": 8,
-      "espaciado": 38,
+      "espaciado": 2,
       "precioFigura": 0
     },
     "components/status/StatusRingAvatar.tsx": {
