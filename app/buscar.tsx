@@ -21,7 +21,7 @@ import {
 } from 'lucide-react-native';
 import { CITIES, SERVICES, type City } from '../constants/data';
 import { alpha } from '../constants/colors';
-import { useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { geocode, type GeoPlace } from '../api/geocode';
 import { setGeoPick } from '../state/geoPick';
 import { brand } from '@egrouteplan/ui-kit';
@@ -305,7 +305,7 @@ export default function BuscarScreen() {
         keyExtractor={(s, i) => `${s.kind}-${i}`}
         renderItem={renderRow}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: insets.bottom + 24 }}
+        contentContainerStyle={{ paddingHorizontal: espaciado.e16, paddingBottom: insets.bottom + 24 }}
         ListHeaderComponent={
           <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>
             {q.trim() ? 'Resultados' : 'Para ti'}
@@ -323,19 +323,19 @@ export default function BuscarScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  header: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingBottom: 8 },
-  backBtn: { padding: 4 },
+  header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 },
+  backBtn: { padding: espaciado.e4 },
   searchBox: {
-    flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8,
-    borderWidth: 1, borderRadius: 14, paddingHorizontal: 12, height: 48,
+    flex: 1, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
+    borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e12, height: 48,
   },
   input: { flex: 1, fontSize: tipografia.subtitle, fontWeight: '600', paddingVertical: 0 },
-  shortcuts: { flexDirection: 'row', gap: 10, paddingHorizontal: 16, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth },
-  shortcut: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 7, borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 8, paddingVertical: 9 },
+  shortcuts: { flexDirection: 'row', gap: espaciado.e10, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
+  shortcut: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e9 },
   shortcutIcon: { width: 30, height: 30, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   shortcutLabel: { fontSize: tipografia.caption, fontWeight: '800', flexShrink: 1 },
-  sectionTitle: { fontSize: tipografia.caption, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 6, marginTop: 8, marginLeft: 4 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10 },
+  sectionTitle: { fontSize: tipografia.caption, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e6, marginTop: espaciado.e8, marginLeft: espaciado.e4 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e10 },
   iconWrap: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   rowBody: { flex: 1 },
   rowTitle: { fontSize: 15, fontWeight: '700' },

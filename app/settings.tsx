@@ -16,7 +16,7 @@ import {
   ArrowLeft, Ban, Bell, Check, ChevronRight, Clock, Eye, FileWarning, Flag, Globe, Headset,
   HelpCircle, Languages, LogOut, Mail, MapPin, Moon, Phone, Siren, Type, X,
 } from 'lucide-react-native';
-import { useTheme, alpha, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Volver } from '../components/Volver';
 import { AuthGate } from '../core/AuthGate';
 import { useSession } from '../state/session';
@@ -269,7 +269,7 @@ function SettingsContent() {
         </Pressable>
 
         {/* SESIÓN */}
-        <View style={[styles.group, { marginTop: 16, backgroundColor: colors.card }]}>
+        <View style={[styles.group, { marginTop: espaciado.e16, backgroundColor: colors.card }]}>
           <Row icon={LogOut} label="Cerrar sesión" danger centered onPress={() => setConfirmLogout(true)} last />
         </View>
 
@@ -282,7 +282,7 @@ function SettingsContent() {
           <View style={[styles.confirmCard, { backgroundColor: colors.card }]}>
             <Text style={[styles.confirmTitle, { color: colors.textPrimary }]}>¿Cerrar sesión?</Text>
             <Text style={[styles.confirmBody, { color: colors.textSecondary }]}>Podrás volver a entrar con tu teléfono y contraseña cuando quieras.</Text>
-            <View style={{ flexDirection: 'row', gap: 10, marginTop: 16 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e16 }}>
               <Pressable onPress={() => setConfirmLogout(false)} style={[styles.confirmBtn, { backgroundColor: colors.surface }]}>
                 <Text style={{ color: colors.textPrimary, fontWeight: '800' }}>Cancelar</Text>
               </Pressable>
@@ -317,7 +317,7 @@ function SettingsContent() {
               <Text style={[styles.sheetTitle, { color: colors.textPrimary }]}>{lbPick.title}</Text>
               <Pressable onPress={() => setLbPick(null)} hitSlop={10}><X size={20} color={colors.textSecondary} /></Pressable>
             </View>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 6 }}>Elige quién puede…</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e6 }}>Elige quién puede…</Text>
             {lbPick.options.map((o) => {
               const active = o.value === lbPick.current;
               return (
@@ -346,7 +346,7 @@ function SettingsContent() {
             <Text style={[styles.sheetTitle, { color: colors.textPrimary }]}>Ciudades preferidas</Text>
             <Pressable onPress={() => setCityOpen(false)} hitSlop={10}><X size={20} color={colors.textSecondary} /></Pressable>
           </View>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 6 }}>Verás primero el contenido de estas ciudades</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e6 }}>Verás primero el contenido de estas ciudades</Text>
           {LB_CITIES.map((c) => {
             const active = (lb?.content.cities ?? []).includes(c);
             return (
@@ -365,7 +365,7 @@ function SettingsContent() {
               </Pressable>
             );
           })}
-          <Pressable onPress={() => setCityOpen(false)} style={{ marginTop: 8, alignSelf: 'center' }}>
+          <Pressable onPress={() => setCityOpen(false)} style={{ marginTop: espaciado.e8, alignSelf: 'center' }}>
             <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body }}>Listo</Text>
           </Pressable>
         </View>
@@ -409,29 +409,29 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   topBar: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 12, paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   topTitle: { fontSize: 17, fontWeight: '900' },
-  content: { padding: 16, gap: 6 },
-  groupTitle: { fontSize: tipografia.micro, fontWeight: '800', color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: 8, marginBottom: 2 },
+  content: { padding: espaciado.e16, gap: espaciado.e6 },
+  groupTitle: { fontSize: tipografia.micro, fontWeight: '800', color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e8, marginBottom: espaciado.e2 },
   group: { borderRadius: radios.lg, overflow: 'hidden' },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, paddingVertical: 12 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12 },
   rowIcon: { width: 32, height: 32, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   rowLabel: { flex: 1, fontSize: tipografia.body, fontWeight: '700' },
   rowHint: { fontSize: tipografia.caption, fontWeight: '600', color: '#8E8E93', maxWidth: '52%' },
   emergency: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
-    borderRadius: 14, paddingVertical: 13, marginTop: 10,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8,
+    borderRadius: 14, paddingVertical: espaciado.e13, marginTop: espaciado.e10,
   },
-  version: { textAlign: 'center', fontSize: tipografia.micro, marginTop: 16, fontWeight: '600' },
+  version: { textAlign: 'center', fontSize: tipografia.micro, marginTop: espaciado.e16, fontWeight: '600' },
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheetCard: { ...formaHoja },
-  sheetHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
+  sheetHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e8 },
   sheetTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
-  sheetRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 13 },
+  sheetRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e13 },
   sheetRowTxt: { fontSize: 14.5, fontWeight: '700' },
-  confirmCard: { width: '84%', maxWidth: 340, borderRadius: 20, padding: 20 },
+  confirmCard: { width: '84%', maxWidth: 340, borderRadius: 20, padding: espaciado.e20 },
   confirmTitle: { fontSize: 17, fontWeight: '900', textAlign: 'center' },
-  confirmBody: { fontSize: tipografia.body, fontWeight: '600', textAlign: 'center', marginTop: 8, lineHeight: 19 },
-  confirmBtn: { flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: radios.md, paddingVertical: 12 },
+  confirmBody: { fontSize: tipografia.body, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e8, lineHeight: 19 },
+  confirmBtn: { flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: radios.md, paddingVertical: espaciado.e12 },
 });

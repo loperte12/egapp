@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, tipografia } from '@egrouteplan/ui-kit';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -35,9 +35,9 @@ export default function ScannerStub() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, paddingHorizontal: 20 },
+  root: { flex: 1, paddingHorizontal: espaciado.e20 },
   back: { width: 40, height: 40, justifyContent: 'center' },
-  frame: { marginTop: 24, borderRadius: 24, borderWidth: 1.5, borderStyle: 'dashed', padding: 30, alignItems: 'center' },
-  title: { fontSize: 18, fontWeight: '800', marginTop: 14 },
-  note: { fontSize: tipografia.caption, lineHeight: 18, marginTop: 8, textAlign: 'center' },
+  frame: { marginTop: espaciado.e24, borderRadius: 24, borderWidth: 1.5, borderStyle: 'dashed', padding: espaciado.e30, alignItems: 'center' },
+  title: { fontSize: 18, fontWeight: '800', marginTop: espaciado.e14 },
+  note: { fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e8, textAlign: 'center' },
 });

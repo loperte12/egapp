@@ -43,7 +43,7 @@ import { takeGeoPick } from '../state/geoPick';
 import { getCurrentGqPosition, nearestCityName as nearestCityOf } from '../api/locate';
 import { reverseGeocode, pickReverseLabel } from '../api/geocode';
 import { ir as irSeguro } from '../constants/rutas';
-import { elevation } from '@egrouteplan/ui-kit';
+import { elevation, espaciado } from '@egrouteplan/ui-kit';
 
 // Única fuente de verdad de los snap points.
 const SNAP = ['36%', '64%', '92%'] as const;
@@ -225,7 +225,7 @@ export default function HomeScreen() {
         keyboardBlurBehavior="restore"
       >
         <BottomSheetScrollView
-          contentContainerStyle={[styles.sheetContent, { paddingBottom: 24 + insets.bottom }]}
+          contentContainerStyle={[styles.sheetContent, { paddingBottom: espaciado.e24 + insets.bottom }]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
@@ -291,8 +291,8 @@ const styles = StyleSheet.create({
     ...elevation.lg,
   },
   sheetContent: {
-    paddingHorizontal: 20,
-    paddingTop: 6,
+    paddingHorizontal: espaciado.e20,
+    paddingTop: espaciado.e6,
   },
 });
 

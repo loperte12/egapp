@@ -14,7 +14,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CameraView, useCameraPermissions, type BarcodeScanningResult } from 'expo-camera';
 import { ArrowLeft, Check, QrCode } from 'lucide-react-native';
-import { PrimaryButton, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { brand, espaciado, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { agentApi } from '../api/agent';
 
@@ -82,7 +82,7 @@ function Contenido() {
           <View style={[styles.okIcon, { backgroundColor: colors.surface }]}>
             <Check size={26} color={colors.primary} />
           </View>
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '800', textAlign: 'center', paddingHorizontal: 28 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '800', textAlign: 'center', paddingHorizontal: espaciado.e28 }}>
             {hecho}
           </Text>
           <PrimaryButton title="Volver al panel" onPress={() => router.back()} />
@@ -92,7 +92,7 @@ function Contenido() {
       ) : !permiso.granted ? (
         <View style={[styles.center, { backgroundColor: colors.background }]}>
           <QrCode size={34} color={colors.textSecondary} />
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingHorizontal: 30 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingHorizontal: espaciado.e30 }}>
             Para leer el código hace falta la cámara.
           </Text>
           <PrimaryButton title="Permitir cámara" onPress={() => void pedirPermiso()} />
@@ -121,7 +121,7 @@ function Contenido() {
             <View style={styles.errorBox}>
               <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '700', textAlign: 'center' }}>{error}</Text>
               <Pressable onPress={() => { setError(null); yaLeido.current = false; }} accessibilityRole="button">
-                <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900', textDecorationLine: 'underline', marginTop: 8 }}>
+                <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900', textDecorationLine: 'underline', marginTop: espaciado.e8 }}>
                   Reintentar
                 </Text>
               </Pressable>
@@ -137,17 +137,17 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   headerTitle: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: '900' },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 14 },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e14 },
   okIcon: { width: 60, height: 60, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
-  overlay: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', gap: 16 },
+  overlay: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', gap: espaciado.e16 },
   marco: { width: 230, height: 230, borderRadius: 24, borderWidth: 3, borderColor: 'rgba(255,255,255,0.9)' },
   ayuda: { color: brand.white, fontSize: tipografia.body, fontWeight: '800' },
   busy: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.45)' },
   errorBox: {
     position: 'absolute', left: 20, right: 20, bottom: 40, borderRadius: radios.lg,
-    backgroundColor: 'rgba(217,54,54,0.92)', padding: 14, alignItems: 'center',
+    backgroundColor: 'rgba(217,54,54,0.92)', padding: espaciado.e14, alignItems: 'center',
   },
 });

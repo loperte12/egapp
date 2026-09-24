@@ -11,7 +11,7 @@ import { Image, ScrollView, StyleSheet, Text, View, Pressable } from 'react-nati
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Camera, CheckCircle2, ShieldCheck, ChevronRight, FileText, User, Truck, Receipt } from 'lucide-react-native';
-import { FormField, PrimaryButton, GhostButton, CameraCapture, useTheme, brand, InlineError, tipografia, radios } from '@egrouteplan/ui-kit';
+import { brand, CameraCapture, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { absUrl } from '../api/config';
 import { driverApi, DocCategoryApi, DocRequirementApi } from '../api/driver';
@@ -271,7 +271,7 @@ export default function DriverOnboardingScreen() {
             {/* Nacionalidad: el permiso de residencia depende de ella */}
             <View style={[s.vehicleBox, { borderColor: colors.border }]}>
               <Text style={s.label}>¿Eres ecuatoguineano?</Text>
-              <View style={{ flexDirection: 'row', gap: 8 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                 {([['national', 'Sí'], ['foreign', 'No (extranjero)']] as const).map(([v, l]) => (
                   <Pressable key={v} onPress={() => setNationality(v)} style={[s.chip, { borderColor: nationality === v ? colors.primary : colors.border }]}>
                     <Text style={{ color: colors.textPrimary, fontWeight: '700' }}>{l}</Text>
@@ -289,7 +289,7 @@ export default function DriverOnboardingScreen() {
             {cat.code === 'vehiculo' && (
               <View style={[s.vehicleBox, { borderColor: colors.border }]}>
                 <Text style={s.label}>Datos del vehículo</Text>
-                <View style={{ flexDirection: 'row', gap: 8 }}>
+                <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                   {['car', 'van', 'truck'].map((t) => (
                     <Pressable key={t} onPress={() => setVehicle((v) => ({ ...v, vehicleType: t }))} style={[s.chip, { borderColor: vehicle.vehicleType === t ? colors.primary : colors.border }]}>
                       <Text style={{ color: colors.textPrimary, fontWeight: '700' }}>{t === 'car' ? 'Coche' : t === 'van' ? 'Furgoneta' : 'Camión'}</Text>
@@ -321,7 +321,7 @@ export default function DriverOnboardingScreen() {
                 {/* P1a: FOTO REAL del coche (obligatoria, 1 foto) */}
                 <Text style={s.label}>Foto real del coche *</Text>
                 {vehiclePhotoPreview ? (
-                  <View style={{ gap: 6 }}>
+                  <View style={{ gap: espaciado.e6 }}>
                     <Image style={[s.vehiclePreview, { borderColor: colors.border }]} source={{ uri: vehiclePhotoPreview }} resizeMode="cover" />
                     <GhostButton title="Cambiar foto" onPress={() => setCapturing({ code: 'vehicle_photo', side: 'front', label: 'Foto real del coche' })} />
                   </View>
@@ -354,7 +354,7 @@ export default function DriverOnboardingScreen() {
                 <View key={d.code}>
                   <Pressable onPress={() => openCapture(d)} style={[s.docRow, { borderColor: colors.border, backgroundColor: done ? colors.success + '14' : colors.card }]}>
                     <View style={{ flex: 1 }}>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                         <Text style={[s.docLabel, { color: colors.textPrimary }]}>{d.label}</Text>
                         <View style={[s.badge, { backgroundColor: req ? colors.danger + '22' : colors.border }]}>
                           <Text style={{ fontSize: 10, fontWeight: '800', color: req ? colors.danger : colors.textSecondary }}>
@@ -363,7 +363,7 @@ export default function DriverOnboardingScreen() {
                         </View>
                       </View>
                       {d.note && <Text style={[s.docNote, { color: colors.textSecondary }]}>{d.note}</Text>}
-                      <Text style={{ color: done ? colors.success : colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 2 }}>
+                      <Text style={{ color: done ? colors.success : colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e2 }}>
                         {done ? `✓ ${d.photos === 2 ? 'frente + reverso' : 'foto'}` : 'Toca para fotografiar'}
                       </Text>
                     </View>
@@ -381,7 +381,7 @@ export default function DriverOnboardingScreen() {
               );
             })}
 
-            {error ? <View style={{ marginTop: 10 }}><InlineError mensaje={error} /></View> : null}
+            {error ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={error} /></View> : null}
 
             <PrimaryButton
               title={busy ? 'Guardando…' : 'Continuar'}
@@ -411,7 +411,7 @@ export default function DriverOnboardingScreen() {
             ) : (
               <PrimaryButton title="Tomar selfie" onPress={() => setCapturing({ code: 'selfie', side: 'front', label: 'Selfie de identidad' })} loading={busy} />
             )}
-            {error ? <View style={{ marginTop: 10 }}><InlineError mensaje={error} /></View> : null}
+            {error ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={error} /></View> : null}
           </View>
         )}
 
@@ -427,7 +427,7 @@ export default function DriverOnboardingScreen() {
         {/* Cámara de captura (documento) */}
         {capturing && step === 'docs' && (
           <View style={s.cameraBox}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 6 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingBottom: espaciado.e6 }}>
               <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>{capturing.label}</Text>
               <Pressable onPress={() => setCapturing(null)} hitSlop={10}>
                 <Text style={{ color: colors.danger, fontWeight: '800' }}>Cancelar</Text>
@@ -447,25 +447,25 @@ export default function DriverOnboardingScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
-    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 },
+    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
     title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
-    content: { padding: 20, gap: 16 },
-    block: { gap: 12 },
+    content: { padding: espaciado.e20, gap: espaciado.e16 },
+    block: { gap: espaciado.e12 },
     big: { fontSize: tipografia.title, fontWeight: '900', color: c.textPrimary, textAlign: 'center' },
     body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: '600' },
     label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary },
-    stepsRow: { flexDirection: 'row', justifyContent: 'center', gap: 10 },
+    stepsRow: { flexDirection: 'row', justifyContent: 'center', gap: espaciado.e10 },
     stepDot: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
-    vehicleBox: { gap: 10, borderWidth: 1.5, borderRadius: radios.lg, padding: 14 },
-    chip: { flex: 1, borderRadius: radios.md, borderWidth: 1.5, paddingVertical: 10, alignItems: 'center' },
-    colorRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
-    colorChip: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: radios.full, borderWidth: 1.2, paddingHorizontal: 10, paddingVertical: 6 },
+    vehicleBox: { gap: espaciado.e10, borderWidth: 1.5, borderRadius: radios.lg, padding: espaciado.e14 },
+    chip: { flex: 1, borderRadius: radios.md, borderWidth: 1.5, paddingVertical: espaciado.e10, alignItems: 'center' },
+    colorRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
+    colorChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, borderWidth: 1.2, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 },
     colorDot: { width: 16, height: 16, borderRadius: radios.sm, borderWidth: 1 },
     colorTxt: { fontSize: tipografia.caption, fontWeight: '800', maxWidth: 74 },
     vehiclePreview: { height: 150, borderRadius: 14, borderWidth: 1 },
-    docRow: { flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1.5, borderRadius: 14, padding: 12 },
+    docRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1.5, borderRadius: 14, padding: espaciado.e12 },
     docLabel: { fontSize: tipografia.body, fontWeight: '800', flexShrink: 1 },
-    docNote: { fontSize: tipografia.caption, fontWeight: '600', marginTop: 2 },
-    badge: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: 6 },
+    docNote: { fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e2 },
+    badge: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: 6 },
     cameraBox: { borderRadius: 20, overflow: 'hidden', height: 380 },
   });

@@ -17,7 +17,7 @@ import {
   ArrowLeft, BadgeCheck, CircleAlert, CircleX, CreditCard, FileText, IdCard,
   OctagonAlert, Phone, ShieldCheck, Truck,
 } from 'lucide-react-native';
-import { useTheme, alpha, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { authApi, type MeProfile } from '../api/auth';
 import { driverApi } from '../api/driver';
@@ -53,7 +53,7 @@ function Badge({ state }: { state: DocState }) {
 }
 
 const badgeStyles = StyleSheet.create({
-  badge: { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: radios.full, paddingHorizontal: 8, paddingVertical: 3 },
+  badge: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
   txt: { fontSize: 10.5, fontWeight: '900' },
 });
 
@@ -192,15 +192,15 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   topBar: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 12, paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   topTitle: { fontSize: 17, fontWeight: '900' },
-  content: { padding: 16, gap: 8 },
-  groupTitle: { fontSize: tipografia.micro, fontWeight: '800', color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 2 },
+  content: { padding: espaciado.e16, gap: espaciado.e8 },
+  groupTitle: { fontSize: tipografia.micro, fontWeight: '800', color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e2 },
   group: { borderRadius: radios.lg, overflow: 'hidden' },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, paddingVertical: 13 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e13 },
   rowIcon: { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   rowLabel: { fontSize: tipografia.body, fontWeight: '800' },
-  rowHint: { fontSize: tipografia.micro, fontWeight: '600', marginTop: 2 },
-  note: { fontSize: tipografia.caption, fontWeight: '600', textAlign: 'center', marginTop: 8, lineHeight: 17 },
+  rowHint: { fontSize: tipografia.micro, fontWeight: '600', marginTop: espaciado.e2 },
+  note: { fontSize: tipografia.caption, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e8, lineHeight: 17 },
 });

@@ -9,7 +9,7 @@ import { FlatList, Linking, StyleSheet, Text, View, Pressable } from 'react-nati
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { ArrowLeft, Ticket, ChevronDown, ChevronUp } from 'lucide-react-native';
-import { useTheme, GhostButton, alpha, InlineError, EmptyState, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, GhostButton, InlineError, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { intercityApi, IcTicket } from '../api/intercity';
 import { brand } from '@egrouteplan/ui-kit';
@@ -74,10 +74,10 @@ export default function MyTicketsScreen() {
           /*
           Un `View` con el hueco del contenedor, y no un fragmento: el `gap` de
           `contentContainerStyle` separa CELDAS, y `ListHeaderComponent` es UNA celda. Con un
-          fragmento, todo lo de aquí dentro quedaba pegado (era gap: 12 antes de virtualizar).
+          fragmento, todo lo de aquí dentro quedaba pegado (era gap: espaciado.e12 antes de virtualizar).
           */
-          <View style={{ gap: 12 }}>
-            {error ? <View style={{ marginTop: 10 }}><InlineError mensaje={error} /></View> : null}
+          <View style={{ gap: espaciado.e12 }}>
+            {error ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={error} /></View> : null}
             {loading && <Text style={{ color: colors.textSecondary, fontWeight: '700', textAlign: 'center' }}>Cargando…</Text>}
           </View>
         }
@@ -140,10 +140,10 @@ export default function MyTicketsScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
-    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 },
+    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
     title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
-    content: { padding: 20, gap: 12 },
-    card: { borderRadius: radios.lg, borderWidth: 1.5, padding: 14, gap: 5 },
-    qrBox: { alignItems: 'center', gap: 6, borderWidth: 2, borderStyle: 'dashed', borderRadius: 14, padding: 16, marginTop: 8 },
-    waBtn: { borderRadius: 10, paddingHorizontal: 14, paddingVertical: 8, marginTop: 4 },
+    content: { padding: espaciado.e20, gap: espaciado.e12 },
+    card: { borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14, gap: espaciado.e5 },
+    qrBox: { alignItems: 'center', gap: espaciado.e6, borderWidth: 2, borderStyle: 'dashed', borderRadius: 14, padding: espaciado.e16, marginTop: espaciado.e8 },
+    waBtn: { borderRadius: 10, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, marginTop: espaciado.e4 },
   });

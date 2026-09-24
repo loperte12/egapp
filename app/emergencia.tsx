@@ -17,7 +17,7 @@ import React from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Home, Phone, Siren } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { EMERGENCY_CONTACTS } from '../constants/data';
@@ -50,12 +50,12 @@ function EmergenciaContent() {
         <Pressable onPress={() => ir.atras()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.danger, fontWeight: '900', fontSize: 17, flex: 1, marginLeft: 10 }}>
+        <Text style={{ color: colors.danger, fontWeight: '900', fontSize: 17, flex: 1, marginLeft: espaciado.e10 }}>
           Emergencia
         </Text>
       </View>
 
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 24, gap: 12 }}>
+      <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 24, gap: espaciado.e12 }}>
         <View style={[styles.aviso, { backgroundColor: alpha(colors.danger, 0.08), borderColor: alpha(colors.danger, 0.35) }]}>
           <Siren size={22} color={colors.danger} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, lineHeight: 18, flex: 1 }}>
@@ -80,11 +80,11 @@ function EmergenciaContent() {
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>{c.label}</Text>
               {c.note ? (
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>{c.note}</Text>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{c.note}</Text>
               ) : null}
-              <Text style={{ color: colors.danger, fontSize: 22, fontWeight: '900', marginTop: 4 }}>{c.number}</Text>
+              <Text style={{ color: colors.danger, fontSize: 22, fontWeight: '900', marginTop: espaciado.e4 }}>{c.number}</Text>
             </View>
-            <View style={{ paddingHorizontal: 14, paddingVertical: 9, borderRadius: radios.full, backgroundColor: colors.danger }}>
+            <View style={{ paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e9, borderRadius: radios.full, backgroundColor: colors.danger }}>
               <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '900' }}>Llamar</Text>
             </View>
           </Pressable>
@@ -95,7 +95,7 @@ function EmergenciaContent() {
           envía tu ubicación automáticamente en una emergencia: dilo tú cuando contesten.
         </Text>
 
-        <View style={{ flexDirection: 'row', gap: 10, marginTop: 4 }}>
+        <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e4 }}>
           <Pressable
             onPress={() => ir.atras()}
             accessibilityLabel="Volver"
@@ -119,9 +119,9 @@ function EmergenciaContent() {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12, paddingBottom: 8, borderBottomWidth: StyleSheet.hairlineWidth },
-  aviso: { flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1, borderRadius: radios.md, padding: 12 },
-  tarjeta: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderRadius: 14, padding: 12 },
+  header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
+  aviso: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1, borderRadius: radios.md, padding: espaciado.e12 },
+  tarjeta: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: 1, borderRadius: 14, padding: espaciado.e12 },
   icono: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
-  salida: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderWidth: 1, borderRadius: radios.md, paddingVertical: 12 },
+  salida: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderWidth: 1, borderRadius: radios.md, paddingVertical: espaciado.e12 },
 });

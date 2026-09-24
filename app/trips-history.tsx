@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ArrowLeft, CarTaxiFront, Star, XCircle } from 'lucide-react-native';
-import { useTheme, EmptyState, tipografia, radios } from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { taxiApi, TripHistoryItem } from '../api/taxi';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -65,7 +65,7 @@ export default function TripsHistoryScreen() {
       {loading ? (
         <View style={s.center}><ActivityIndicator color={colors.primary} /></View>
       ) : error ? (
-        <View style={[s.center, { gap: 10 }]}>
+        <View style={[s.center, { gap: espaciado.e10 }]}>
           <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', textAlign: 'center' }}>{error}</Text>
           <Pressable onPress={load} style={[s.retry, { borderColor: colors.border }]}>
             <Text style={{ color: colors.primary, fontWeight: '800' }}>Reintentar</Text>
@@ -83,7 +83,7 @@ export default function TripsHistoryScreen() {
           windowSize={7}
           removeClippedSubviews
           ListHeaderComponent={
-            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '600', marginBottom: 6 }}>
+            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '600', marginBottom: espaciado.e6 }}>
               {asDriver ? 'Como CONDUCTOR' : 'Como PASAJERO'} · {trips.length} viaje{trips.length === 1 ? '' : 's'}
             </Text>
           }
@@ -99,7 +99,7 @@ export default function TripsHistoryScreen() {
             const done = t.status === 'completed';
             return (
               <View style={[s.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                   {done ? <CarTaxiFront size={16} color={brand.success} /> : <XCircle size={16} color={brand.danger} />}
                   <Text style={{ color: done ? brand.success : brand.danger, fontWeight: '900', fontSize: tipografia.body, flex: 1 }}>
                     {done ? 'Completado' : 'Cancelado'}
@@ -107,7 +107,7 @@ export default function TripsHistoryScreen() {
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>{fmtDate(done ? t.completed_at : t.cancelled_at) || fmtDate(t.created_at)}</Text>
                 </View>
 
-                <View style={{ marginTop: 6, gap: 2 }}>
+                <View style={{ marginTop: espaciado.e6, gap: espaciado.e2 }}>
                   <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600' }} numberOfLines={1}>
                     🟢 {t.pickup_address || 'Origen'}
                   </Text>
@@ -116,7 +116,7 @@ export default function TripsHistoryScreen() {
                   </Text>
                 </View>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e8 }}>
                   <View style={{ flex: 1 }}>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '700' }}>
                       {asDriver ? 'Pasajero' : 'Conductor'}: {t.counterpart_name || '—'}
@@ -127,7 +127,7 @@ export default function TripsHistoryScreen() {
                       </Text>
                     )}
                     {!done && t.cancelled_reason && (
-                      <Text style={{ fontSize: tipografia.micro, color: brand.danger, fontWeight: '700', marginTop: 2 }}>
+                      <Text style={{ fontSize: tipografia.micro, color: brand.danger, fontWeight: '700', marginTop: espaciado.e2 }}>
                         Motivo: {t.cancelled_reason}
                       </Text>
                     )}
@@ -142,7 +142,7 @@ export default function TripsHistoryScreen() {
                   const fare = Number(t.final_price ?? 0);
                   if (kind === 'CASH') {
                     return (
-                      <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '700', marginTop: 6 }}>
+                      <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '700', marginTop: espaciado.e6 }}>
                         💵 Pagado en efectivo al conductor · sin cargo en el monedero
                       </Text>
                     );
@@ -153,7 +153,7 @@ export default function TripsHistoryScreen() {
                   const disputed = !!t.disputed_at;
                   const resolvedDisp = !!set.dispute?.resolved_at;
                   return (
-                    <View style={{ marginTop: 6, padding: 8, borderRadius: 10, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, gap: 2 }}>
+                    <View style={{ marginTop: espaciado.e6, padding: espaciado.e8, borderRadius: 10, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, gap: espaciado.e2 }}>
                       <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: '800' }}>
                         Liquidación ({t.city ?? '—'}) · monedero
                       </Text>
@@ -182,13 +182,13 @@ export default function TripsHistoryScreen() {
                 })()}
 
                 {done && (
-                  <View style={{ marginTop: 8, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 6, flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                  <View style={{ marginTop: espaciado.e8, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e6, flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
                     {t.my_rating != null ? (
                       <>
                         {[1, 2, 3, 4, 5].map((n) => (
                           <Star key={n} size={14} color={n <= Number(t.my_rating) ? brand.warning : colors.border} fill={n <= Number(t.my_rating) ? brand.warning : 'transparent'} />
                         ))}
-                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginLeft: 4, fontWeight: '600' }}>
+                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginLeft: espaciado.e4, fontWeight: '600' }}>
                           {asDriver ? 'Te puntuaron' : 'Tu valoración'}
                         </Text>
                       </>
@@ -211,10 +211,10 @@ export default function TripsHistoryScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     root: { flex: 1, backgroundColor: c.background },
-    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 },
+    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
     title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
-    center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
-    retry: { borderRadius: radios.full, borderWidth: 1, paddingHorizontal: 22, paddingVertical: 10 },
-    content: { padding: 16, gap: 10, paddingBottom: 40 },
-    card: { borderRadius: radios.lg, borderWidth: 1, padding: 12 },
+    center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
+    retry: { borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
+    content: { padding: espaciado.e16, gap: espaciado.e10, paddingBottom: 40 },
+    card: { borderRadius: radios.lg, borderWidth: 1, padding: espaciado.e12 },
   });

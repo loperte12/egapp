@@ -16,7 +16,7 @@ import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Compass, Home, MapPinOff } from 'lucide-react-native';
 import { ir } from '../constants/rutas';
 
@@ -27,31 +27,31 @@ export default function RutaFallidaScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 24, paddingBottom: insets.bottom + 24 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: espaciado.e24, paddingBottom: insets.bottom + 24 }}>
         <View style={[styles.icono, { backgroundColor: alpha(colors.primary, 0.1) }]}>
           <MapPinOff size={30} color={colors.primary} />
         </View>
 
-        <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: '900', textAlign: 'center', marginTop: 14 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: '900', textAlign: 'center', marginTop: espaciado.e14 }}>
           No pudimos abrir esa pantalla
         </Text>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, lineHeight: 19, textAlign: 'center', marginTop: 8 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, lineHeight: 19, textAlign: 'center', marginTop: espaciado.e8 }}>
           {motivo
             ? String(motivo)
             : 'El enlace que has tocado no lleva a ninguna parte de la app.'}
         </Text>
 
         {destino ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: 10 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e10 }}>
             Destino: {String(destino)}
           </Text>
         ) : null}
 
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, textAlign: 'center', marginTop: 14 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, textAlign: 'center', marginTop: espaciado.e14 }}>
           Nada se ha roto en tu cuenta. Puedes volver a donde estabas o empezar desde el inicio.
         </Text>
 
-        <View style={{ gap: 10, marginTop: 22 }}>
+        <View style={{ gap: espaciado.e10, marginTop: espaciado.e22 }}>
           <Pressable
             onPress={() => ir.inicio(true)}
             accessibilityLabel="Ir al inicio"
@@ -76,5 +76,5 @@ export default function RutaFallidaScreen() {
 
 const styles = StyleSheet.create({
   icono: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
-  boton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderRadius: 14, paddingVertical: 14 },
+  boton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: 14, paddingVertical: espaciado.e14 },
 });

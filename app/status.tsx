@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowLeft, Bell, Clock, Eye, Globe, Heart, Lock, Plus, Search, Store, Users,
 } from 'lucide-react-native';
-import { useTheme, alpha, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { useStatusStore } from '../state/statusStore';
 import StatusRingAvatar from '../components/status/StatusRingAvatar';
@@ -78,7 +78,7 @@ function StatusContent() {
               <Text style={styles.groupTitle}>ESTADO ACTUAL</Text>
               {status ? (
                 <>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }}>
                     <StatusRingAvatar
                       avatarUrl={profile?.avatarUrl ?? null}
                       name={profile?.fullName}
@@ -88,12 +88,12 @@ function StatusContent() {
                     />
                     <View style={{ flex: 1 }}>
                       <StatusChip status={status} onPress={() => setDetailOpen(true)} onExpired={refresh} />
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 4 }}>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4 }}>
                         Expira automáticamente en 24 h · visibilidad: {status.visibility === 'public' ? 'Todos' : status.visibility === 'followers' ? 'Seguidores' : 'Solo yo'}
                       </Text>
                     </View>
                   </View>
-                  <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}>
+                  <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e14 }}>
                     <Pressable onPress={() => setEditorOpen(true)} style={[styles.actionBtn, { backgroundColor: colors.surface }]}>
                       <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Cambiar estado</Text>
                     </Pressable>
@@ -187,31 +187,31 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   topBar: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: 1,
   },
   topTitle: { fontSize: 17, fontWeight: '900' },
-  center: { alignItems: 'center', paddingVertical: 60, gap: 14 },
-  retry: { borderRadius: radios.md, paddingHorizontal: 22, paddingVertical: 10 },
-  card: { marginHorizontal: 16, borderRadius: 18, borderWidth: 1, padding: 14 },
+  center: { alignItems: 'center', paddingVertical: 60, gap: espaciado.e14 },
+  retry: { borderRadius: radios.md, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
+  card: { marginHorizontal: espaciado.e16, borderRadius: 18, borderWidth: 1, padding: espaciado.e14 },
   groupTitle: {
     fontSize: tipografia.micro, fontWeight: '900', letterSpacing: 1, color: '#8E8E93',
-    textTransform: 'uppercase', marginTop: 18, marginBottom: 6, marginHorizontal: 18,
+    textTransform: 'uppercase', marginTop: espaciado.e18, marginBottom: espaciado.e6, marginHorizontal: espaciado.e18,
   },
-  actionBtn: { flex: 1, alignItems: 'center', borderRadius: radios.md, paddingVertical: 11 },
+  actionBtn: { flex: 1, alignItems: 'center', borderRadius: radios.md, paddingVertical: espaciado.e11 },
   addStatus: {
-    flexDirection: 'row', alignItems: 'center', gap: 12,
-    borderRadius: radios.lg, borderWidth: 1.5, padding: 14,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
+    borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14,
   },
   addIcon: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  subLabel: { fontSize: 10, fontWeight: '900', letterSpacing: 0.8, marginBottom: 8 },
-  visRowWrap: { flexDirection: 'row', gap: 8, marginBottom: 14 },
+  subLabel: { fontSize: 10, fontWeight: '900', letterSpacing: 0.8, marginBottom: espaciado.e8 },
+  visRowWrap: { flexDirection: 'row', gap: espaciado.e8, marginBottom: espaciado.e14 },
   visChip: {
-    flexDirection: 'row', alignItems: 'center', gap: 6,
-    borderWidth: 1, borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 8,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
+    borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8,
   },
   prefRow: {
-    flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 10,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10,
   },
   prefIcon: { width: 32, height: 32, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
-  infoBox: { flexDirection: 'row', alignItems: 'center', gap: 8, margin: 16, borderRadius: 14, padding: 12 },
+  infoBox: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, margin: espaciado.e16, borderRadius: 14, padding: espaciado.e12 },
 });
