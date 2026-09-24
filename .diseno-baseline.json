@@ -5,7 +5,7 @@
     "borderRadius": 688,
     "fontWeight": 1948,
     "borderWidth": 528,
-    "espaciado": 3303,
+    "espaciado": 3026,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -15,7 +15,7 @@
       "borderRadius": 2,
       "fontWeight": 5,
       "borderWidth": 1,
-      "espaciado": 8,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/agente.tsx": {
@@ -24,7 +24,7 @@
       "borderRadius": 3,
       "fontWeight": 12,
       "borderWidth": 3,
-      "espaciado": 28,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/alquiler-detalle.tsx": {
@@ -96,7 +96,7 @@
       "borderRadius": 3,
       "fontWeight": 4,
       "borderWidth": 2,
-      "espaciado": 21,
+      "espaciado": 3,
       "precioFigura": 0
     },
     "app/conductor-hub.tsx": {
@@ -123,7 +123,7 @@
       "borderRadius": 1,
       "fontWeight": 6,
       "borderWidth": 0,
-      "espaciado": 14,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/driver-onboarding.tsx": {
@@ -132,7 +132,7 @@
       "borderRadius": 5,
       "fontWeight": 17,
       "borderWidth": 6,
-      "espaciado": 27,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/driver-profile.tsx": {
@@ -249,7 +249,7 @@
       "borderRadius": 2,
       "fontWeight": 6,
       "borderWidth": 3,
-      "espaciado": 18,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/food-checkout.tsx": {
@@ -312,7 +312,7 @@
       "borderRadius": 1,
       "fontWeight": 0,
       "borderWidth": 0,
-      "espaciado": 3,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/intercity-planes.tsx": {
@@ -897,7 +897,7 @@
       "borderRadius": 2,
       "fontWeight": 9,
       "borderWidth": 2,
-      "espaciado": 16,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/profile.tsx": {
@@ -924,7 +924,7 @@
       "borderRadius": 2,
       "fontWeight": 17,
       "borderWidth": 6,
-      "espaciado": 58,
+      "espaciado": 3,
       "precioFigura": 0
     },
     "app/ruta-fallida.tsx": {
@@ -933,7 +933,7 @@
       "borderRadius": 2,
       "fontWeight": 3,
       "borderWidth": 1,
-      "espaciado": 9,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/scanner.tsx": {
@@ -942,7 +942,7 @@
       "borderRadius": 1,
       "fontWeight": 1,
       "borderWidth": 1,
-      "espaciado": 5,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/service/[id].tsx": {
@@ -960,7 +960,7 @@
       "borderRadius": 3,
       "fontWeight": 14,
       "borderWidth": 0,
-      "espaciado": 25,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/status.tsx": {
@@ -969,7 +969,7 @@
       "borderRadius": 4,
       "fontWeight": 10,
       "borderWidth": 4,
-      "espaciado": 31,
+      "espaciado": 3,
       "precioFigura": 0
     },
     "app/taxi.tsx": {
@@ -1032,7 +1032,7 @@
       "borderRadius": 1,
       "fontWeight": 19,
       "borderWidth": 4,
-      "espaciado": 25,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/work-detail.tsx": {
