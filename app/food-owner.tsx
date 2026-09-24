@@ -26,8 +26,8 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, BadgeCheck, Camera, Eye, EyeOff, Plus, Trash2, X, XCircle } from 'lucide-react-native';
-import {useTheme, alpha, PrimaryButton, FormField, Sheet, tipografia, radios, altura} from '@egrouteplan/ui-kit';
+import { BadgeCheck, Camera, Eye, EyeOff, Plus, Trash2, X, XCircle } from 'lucide-react-native';
+import {useTheme, alpha, PrimaryButton, FormField, Sheet, tipografia, radios, altura, ScreenHeader, Tactil} from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodOwnerMe, SPICE_LABEL, SPICE_ICON, SIDES_MAX, type SpiceLevel } from '../api/food';
 import { formatXAF } from '../utils/formatHelpers';
 import { foodHoursError } from '../utils/foodHours';
@@ -418,21 +418,23 @@ export default function FoodOwnerScreen() {
   const s = styles(colors);
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
-      {/* Header */}
-      <View style={s.header}>
-        <Pressable onPress={() => (dirty ? confirmLeave() : router.back())} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={22} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={s.headerTitle}>Mi restaurante</Text>
-        <View style={{ flexDirection: 'row', gap: 12 }}>
-          <Pressable onPress={() => router.push('/food-rider' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Pantalla de repartidor">
-            <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>Repartir</Text>
-          </Pressable>
-          <Pressable onPress={() => router.push('/food-orders?as=owner' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Pedidos recibidos">
-            <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>Pedidos</Text>
-          </Pressable>
-        </View>
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. El volver PREGUNTA antes de salir si hay cambios
+          sin guardar (`dirty ? confirmLeave() : router.back()`): por eso el kit recibe la función
+          en vez de navegar él. Las dos acciones de la derecha van en `accion`. */}
+      <ScreenHeader
+        titulo="Mi restaurante"
+        alVolver={() => (dirty ? confirmLeave() : router.back())}
+        accion={
+          <>
+            <Tactil onPress={() => router.push('/food-rider' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Pantalla de repartidor">
+              <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>Repartir</Text>
+            </Tactil>
+            <Tactil onPress={() => router.push('/food-orders?as=owner' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Pedidos recibidos">
+              <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>Pedidos</Text>
+            </Tactil>
+          </>
+        }
+      />
 
       {loading && !me ? (
         <OwnerSkeleton colors={colors} />
@@ -908,8 +910,6 @@ const s_center = StyleSheet.create({
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '800', color: c.textPrimary },
   reqBox: { borderRadius: radios.md, padding: 12, marginBottom: 14 },
   sectionTitle: { fontSize: tipografia.body, fontWeight: '800', marginBottom: 10 },
   photo: { width: 84, height: 84, borderRadius: 14 },

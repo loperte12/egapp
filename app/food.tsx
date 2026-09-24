@@ -14,8 +14,8 @@ import { ActivityIndicator, FlatList, Pressable, ScrollView, StyleSheet, Text, T
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, Bike, Search, Utensils } from 'lucide-react-native';
-import { useTheme, alpha, EmptyState, tipografia, radios } from '@egrouteplan/ui-kit';
+import { Bike, Search, Utensils } from 'lucide-react-native';
+import { useTheme, alpha, EmptyState, tipografia, radios, ScreenHeader, Tactil } from '@egrouteplan/ui-kit';
 import { foodApi, FoodCuisine, FoodRestaurant, FoodRestaurantsPage } from '../api/food';
 import { brand } from '@egrouteplan/ui-kit';
 
@@ -155,21 +155,21 @@ export default function FoodScreen() {
   const s = styles(colors);
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
-      {/* Header */}
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={22} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={s.headerTitle}>Comida Rápida</Text>
-        <View style={{ flexDirection: 'row', gap: 12 }}>
-          <Pressable onPress={() => router.push('/food-rider' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Ser repartidor">
-            <Bike size={20} color={colors.primary} />
-          </Pressable>
-          <Pressable onPress={() => router.push('/food-owner' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Mi restaurante">
-            <Utensils size={20} color={colors.primary} />
-          </Pressable>
-        </View>
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. Las dos acciones van en `accion`. */}
+      <ScreenHeader
+        titulo="Comida Rápida"
+        alVolver={() => router.back()}
+        accion={
+          <>
+            <Tactil onPress={() => router.push('/food-rider' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Ser repartidor">
+              <Bike size={20} color={colors.primary} />
+            </Tactil>
+            <Tactil onPress={() => router.push('/food-owner' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Mi restaurante">
+              <Utensils size={20} color={colors.primary} />
+            </Tactil>
+          </>
+        }
+      />
 
       <FlatList
         data={listData}
@@ -391,8 +391,6 @@ const s_sk = StyleSheet.create({
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-  headerTitle: { fontSize: 17, fontWeight: '800', color: c.textPrimary },
   searchBox: { flexDirection: 'row', alignItems: 'center', marginTop: 12, backgroundColor: c.surface, borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 10, borderWidth: 1, borderColor: c.border },
   searchInput: { flex: 1, color: c.textPrimary, fontSize: tipografia.body, marginLeft: 8 },
   resultsLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, marginTop: 14, marginBottom: 10 },

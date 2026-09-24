@@ -16,8 +16,8 @@ import React, { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, Check, X } from 'lucide-react-native';
-import { useTheme, alpha, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { Check, X } from 'lucide-react-native';
+import { useTheme, alpha, brand, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
 import { rentalApi, type RentalPlan, type LandlordMe } from '../api/rental';
 import { billingApi } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
@@ -215,13 +215,12 @@ export default function AlquilerPlanesScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background, paddingTop: insets.top }}>
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={24} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={{ flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '700', color: colors.textPrimary }} numberOfLines={1}>Planes de suscripción</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026 (unificación de las 21 cabeceras). La clave local
+          `header` se retira; el título sube de 700 a `peso.maximo` y el icono de 24 se queda igual. */}
+      <ScreenHeader
+        titulo="Planes de suscripción"
+        alVolver={() => router.back()}
+      />
 
       <ScrollView
         contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 40 }}
@@ -326,7 +325,6 @@ export default function AlquilerPlanesScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
   title: { fontSize: 22, fontWeight: '800', color: c.textPrimary, marginBottom: 6 },
   subtitle: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 19, marginBottom: 18 },
   planCard: { backgroundColor: c.card, borderRadius: radios.lg, padding: 18, marginBottom: 16, borderWidth: 1 },

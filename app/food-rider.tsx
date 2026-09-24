@@ -23,8 +23,8 @@ import {
 } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, BadgeCheck, MapPin, Navigation, Phone, XCircle } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, FormField, tipografia, radios } from '@egrouteplan/ui-kit';
+import { BadgeCheck, MapPin, Navigation, Phone, XCircle } from 'lucide-react-native';
+import { useTheme, alpha, PrimaryButton, FormField, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
 import { foodApi, FoodDelivery, FoodRiderMe, ContabilidadRepartidor } from '../api/food';
 import { getGqPositionIfAllowed } from '../api/locate';
 import { formatXAF } from '../utils/formatHelpers';
@@ -247,14 +247,8 @@ export default function FoodRiderScreen() {
   const rider = me?.rider;
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
-      {/* Header */}
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={22} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={s.headerTitle}>Repartidor</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. */}
+      <ScreenHeader titulo="Repartidor" alVolver={() => router.back()} />
 
       {loading && !me ? (
         <View style={{ padding: 16, gap: 10 }}>
@@ -681,8 +675,6 @@ const s_center = StyleSheet.create({
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '800', color: c.textPrimary },
   reqBox: { borderRadius: radios.md, padding: 12, marginBottom: 14 },
   sectionTitle: { fontSize: tipografia.body, fontWeight: '800', marginBottom: 10 },
   rejectedBox: { borderRadius: 10, padding: 10, marginTop: 12 },

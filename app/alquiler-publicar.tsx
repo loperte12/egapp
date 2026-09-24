@@ -17,8 +17,8 @@ import { ActivityIndicator, Alert, Image, Pressable, ScrollView, StyleSheet, Swi
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
-import { ArrowLeft, ImageIcon, X } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, FormField, brand, InlineError, EmptyState, tipografia, radios } from '@egrouteplan/ui-kit';
+import { ImageIcon, X } from 'lucide-react-native';
+import { useTheme, alpha, PrimaryButton, GhostButton, FormField, brand, InlineError, EmptyState, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { rentalApi, type LandlordMe, type RentalProperty, type RentalCatalog } from '../api/rental';
 import { formatXAF } from '../utils/formatHelpers';
@@ -260,13 +260,11 @@ export default function AlquilerPublicarScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background, paddingTop: insets.top }}>
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={24} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={{ flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '700', color: colors.textPrimary }} numberOfLines={1}>Buscar Alquiler</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026 (unificación de las 21 cabeceras). */}
+      <ScreenHeader
+        titulo="Buscar Alquiler"
+        alVolver={() => router.back()}
+      />
 
       <View style={{ flexDirection: 'row', paddingHorizontal: 16, gap: 8, marginVertical: 12 }}>
         <TabBtn active={tab === 'publish'} label="Publicar" onPress={() => setTab('publish')} />
@@ -595,7 +593,6 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
   planBanner: { borderRadius: radios.md, padding: 14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textPrimary, marginTop: 14, marginBottom: 6 },
   counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: 4 },

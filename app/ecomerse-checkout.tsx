@@ -14,8 +14,8 @@ import {
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, Banknote, CreditCard, MapPin, Pencil, ShoppingCart, Trash2, Wallet } from 'lucide-react-native';
-import { useTheme, alpha, peso, PrimaryButton, FormField, MasOpciones, tipografia, radios, trazo, ilustracion } from '@egrouteplan/ui-kit';
+import { Banknote, CreditCard, MapPin, Pencil, ShoppingCart, Trash2, Wallet } from 'lucide-react-native';
+import { useTheme, alpha, peso, PrimaryButton, FormField, MasOpciones, tipografia, radios, trazo, ilustracion, ScreenHeader } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseAddress, EcomerseDeliveryZone, EcomerseProduct } from '../api/ecomerse';
 import { walletApi } from '../api/wallet';
 import { fijarPin } from '../api/settlement';
@@ -360,11 +360,7 @@ export default function EcomerseCheckoutScreen() {
   if (!soloMode && cart.length === 0) {
     return (
       <View style={[stylesRoot(colors).root, { paddingTop: insets.top }]}>
-        <View style={s.header}>
-          <Pressable onPress={() => ir.atras()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver"><ArrowLeft size={22} color={colors.textPrimary} /></Pressable>
-          <Text style={{ flex: 1, textAlign: 'center', fontSize: tipografia.subtitle, fontWeight: '800', color: colors.textPrimary }}>Confirmar pedido</Text>
-          <View style={{ width: 24 }} />
-        </View>
+        <ScreenHeader titulo="Confirmar pedido" alVolver={() => ir.atras()} />
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
           <Text style={{ fontSize: ilustracion.md, marginBottom: 10 }}>🛒</Text>
           <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>Tu carrito está vacío</Text>
@@ -381,11 +377,7 @@ export default function EcomerseCheckoutScreen() {
 
   return (
     <View style={[stylesRoot(colors).root, { paddingTop: insets.top }]}>
-      <View style={s.header}>
-        <Pressable onPress={() => ir.atras()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver"><ArrowLeft size={22} color={colors.textPrimary} /></Pressable>
-        <Text style={{ flex: 1, textAlign: 'center', fontSize: tipografia.subtitle, fontWeight: '800', color: colors.textPrimary }}>Confirmar pedido</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      <ScreenHeader titulo="Confirmar pedido" alVolver={() => ir.atras()} />
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={8}>
         <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 24 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
@@ -685,7 +677,6 @@ function Row({ label, value, big }: { label: string; value: string; big?: boolea
 const stylesRoot = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({ root: { flex: 1, backgroundColor: c.background } });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
   label: { fontSize: tipografia.body, fontWeight: '700', color: c.textPrimary, marginTop: 14, marginBottom: 6 },
   methodCard: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: 14, backgroundColor: c.surface },
   /* Las direcciones guardadas se pintan como tarjetas elegibles, no como cromo decorativo: la

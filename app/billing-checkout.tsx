@@ -28,8 +28,8 @@ import {
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
-import { ArrowLeft, Camera, Check, Info, RefreshCw, X, XCircle } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, FormField, tipografia, radios } from '@egrouteplan/ui-kit';
+import { Camera, Check, Info, RefreshCw, X, XCircle } from 'lucide-react-native';
+import { useTheme, alpha, PrimaryButton, GhostButton, FormField, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
 import { billingApi, BillingOrder, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -276,14 +276,13 @@ export default function BillingCheckoutScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={{ flex: 1, backgroundColor: colors.background }}
     >
-      <View style={[s.header, { paddingTop: insets.top }]}>
-        <Pressable onPress={() => router.back()} hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-          accessibilityRole="button" accessibilityLabel="Volver" accessibilityHint="Regresa a la pantalla anterior">
-          <ArrowLeft size={24} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={s.headerTitle}>Checkout</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. El `paddingTop` de la zona segura va por `style`,
+          que es exactamente para lo que el componente lo admite. */}
+      <ScreenHeader
+        titulo="Checkout"
+        alVolver={() => router.back()}
+        style={{ paddingTop: insets.top }}
+      />
 
       <ScrollView
         contentContainerStyle={{ padding: 16, paddingBottom: 24 + insets.bottom }}
@@ -456,8 +455,6 @@ export default function BillingCheckoutScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
-    header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-    headerTitle: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '800', color: c.textPrimary },
     card: { borderRadius: radios.md, padding: 14, borderWidth: 1 },
     proofBox: { flexDirection: 'row', alignItems: 'center', padding: 14, borderRadius: 10, borderWidth: 1 },
     refreshRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 16, paddingVertical: 8 },

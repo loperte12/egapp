@@ -17,8 +17,8 @@ import React, { useState } from 'react';
 import { ActivityIndicator, FlatList, Modal, Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, View, RefreshControl } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, Plus, SlidersHorizontal, Check, X, ShieldAlert, MapPin, RefreshCw, WifiOff } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { Plus, SlidersHorizontal, Check, X, ShieldAlert, MapPin, RefreshCw, WifiOff } from 'lucide-react-native';
+import { useTheme, alpha, PrimaryButton, GhostButton, brand, tipografia, radios, ScreenHeader, Tactil } from '@egrouteplan/ui-kit';
 import { PropertyCard } from '../components/rental/PropertyCard';
 import { usePropertySearch } from '../hooks/rental/usePropertySearch';
 import type { SortOrder } from '../hooks/rental/usePropertyFilters';
@@ -69,19 +69,20 @@ export default function AlquilerScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background, paddingTop: insets.top }}>
-      {/* Header */}
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={22} color={colors.textPrimary} />
-        </Pressable>
-        <View style={{ flex: 1, alignItems: 'center', paddingHorizontal: 6 }}>
-          <Text style={{ fontSize: tipografia.subtitle, fontWeight: '800', color: colors.textPrimary }} numberOfLines={1}>Alquileres en Guinea Ecuatorial</Text>
-          <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>{filtered.length} anuncios</Text>
-        </View>
-        <Pressable onPress={() => router.push('/alquiler-publicar' as never)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Publicar propiedad">
-          <Plus size={22} color={colors.primary} />
-        </Pressable>
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026 (unificación de las 21 cabeceras).
+          `lineasTitulo={2}` porque «Alquileres en Guinea Ecuatorial» son 31 caracteres y el ancho
+          útil del título es 280 dp (~22,9 caracteres a `subCabecera`): en una línea se corta. */}
+      <ScreenHeader
+        titulo="Alquileres en Guinea Ecuatorial"
+        subtitulo={`${filtered.length} anuncios`}
+        alVolver={() => router.back()}
+        lineasTitulo={2}
+        accion={
+          <Tactil onPress={() => router.push('/alquiler-publicar' as never)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Publicar propiedad">
+            <Plus size={22} color={colors.primary} />
+          </Tactil>
+        }
+      />
 
       {/* Buscador + botón filtros */}
       <View style={{ paddingHorizontal: 16, gap: 8, marginBottom: 6 }}>
@@ -342,7 +343,6 @@ function SwitchRow({ label, value, onChange }: { label: string; value: boolean; 
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
   fLabel: { fontSize: tipografia.caption, fontWeight: '800', color: c.textPrimary, marginTop: 14, marginBottom: 8 },
   errIcon: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: 14 },
 });

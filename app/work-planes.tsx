@@ -16,8 +16,8 @@ import React, { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { ArrowLeft, Check, X } from 'lucide-react-native';
-import { useTheme, alpha, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { Check, X } from 'lucide-react-native';
+import { useTheme, alpha, brand, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
 import { billingApi, BillingPlan } from '../api/billing';
 import { workApi, WorkPlan } from '../api/work';
 import { formatXAF } from '../utils/formatHelpers';
@@ -179,13 +179,8 @@ export default function WorkPlanesScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={24} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={s.headerTitle} numberOfLines={1}>Planes Buscar Work</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. */}
+      <ScreenHeader titulo="Planes Buscar Work" alVolver={() => router.back()} />
 
       <ScrollView
         contentContainerStyle={{ padding: 16, paddingTop: insets.top + 16, paddingBottom: insets.bottom + 40 }}
@@ -292,8 +287,6 @@ export default function WorkPlanesScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '700', color: c.textPrimary },
   title: { fontSize: 22, fontWeight: '800', color: c.textPrimary, marginBottom: 6 },
   subtitle: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 19, marginBottom: 18 },
   planCard: { borderRadius: radios.lg, padding: 18, marginBottom: 16 },

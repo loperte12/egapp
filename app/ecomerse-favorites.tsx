@@ -33,8 +33,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft } from 'lucide-react-native';
-import { useTheme, EmptyState, tipografia, radios, ilustracion } from '@egrouteplan/ui-kit';
+import { useTheme, EmptyState, tipografia, radios, ilustracion, ScreenHeader } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseCategory, EcomerseProduct } from '../api/ecomerse';
 import { useEcomerseStore } from '../state/ecomerse';
 import { useSession } from '../state/session';
@@ -180,11 +179,7 @@ export default function EcomerseFavoritesScreen() {
 
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver"><ArrowLeft size={22} color={colors.textPrimary} /></Pressable>
-        <Text style={s.headerTitle}>Seguido</Text>
-        <View style={{ width: 22 }} />
-      </View>
+      <ScreenHeader titulo="Seguido" alVolver={() => router.back()} />
 
       {/* Pestañas */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.tabs}>
@@ -286,8 +281,6 @@ function SubChip({ label, active, onPress }: { label: string; active: boolean; o
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-  headerTitle: { fontSize: tipografia.subtitle, fontWeight: '800', color: c.textPrimary },
   tabs: { gap: 8, paddingHorizontal: 16, paddingVertical: 12 },
   tab: { paddingHorizontal: 14, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: c.surface, borderWidth: 1, borderColor: c.border },
   tabText: { fontSize: tipografia.caption, fontWeight: '800' },

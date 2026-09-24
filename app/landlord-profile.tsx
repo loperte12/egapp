@@ -10,8 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { ArrowLeft } from 'lucide-react-native';
-import { useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { useTheme, tipografia, ScreenHeader } from '@egrouteplan/ui-kit';
 import { LandlordCard, type LandlordCardData } from '../components/rental/LandlordCard';
 import { rentalApi, type RentalProperty } from '../api/rental';
 import { PropertyCard } from '../components/rental/PropertyCard';
@@ -76,11 +75,12 @@ export default function LandlordProfileScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12}><ArrowLeft size={24} color={colors.textPrimary} /></Pressable>
-        <Text style={{ flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '700', color: colors.textPrimary }}>Perfil del anunciante</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. Esta era la ÚNICA de las 20 cuyo botón de volver no
+          llevaba `accessibilityRole` ni etiqueta: al pasar al kit gana las dos. */}
+      <ScreenHeader
+        titulo="Perfil del anunciante"
+        alVolver={() => router.back()}
+      />
 
       <ScrollView contentContainerStyle={{ padding: 16, paddingTop: insets.top + 16, paddingBottom: insets.bottom + 40 }} showsVerticalScrollIndicator={false}>
         <LandlordCard
@@ -110,6 +110,5 @@ export default function LandlordProfileScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
   sectionTitle: { fontSize: tipografia.subtitle, fontWeight: '700', color: c.textPrimary, marginBottom: 10 },
 });

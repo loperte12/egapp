@@ -13,8 +13,8 @@ import { FlatList, Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Tex
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, PackageSearch, ShieldCheck, Star, Truck } from 'lucide-react-native';
-import { useTheme, alpha, GhostButton, EmptyState, Sheet, Precio, tipografia, radios, EstadoDinero, type EtapaDinero, ilustracion } from '@egrouteplan/ui-kit';
+import { PackageSearch, ShieldCheck, Star, Truck } from 'lucide-react-native';
+import { useTheme, alpha, GhostButton, EmptyState, Sheet, Precio, tipografia, radios, EstadoDinero, type EtapaDinero, ilustracion, ScreenHeader } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseOrder } from '../api/ecomerse';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -394,11 +394,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
 
   return (
     <View style={[stylesRoot(colors).root, { paddingTop: insets.top }]}>
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver"><ArrowLeft size={22} color={colors.textPrimary} /></Pressable>
-        <Text style={{ flex: 1, textAlign: 'center', fontSize: tipografia.subtitle, fontWeight: '800', color: colors.textPrimary }}>{enZona ? 'Pedidos' : 'Mis pedidos'}</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      <ScreenHeader titulo={enZona ? 'Pedidos' : 'Mis pedidos'} alVolver={() => router.back()} />
 
       {/* Toggle Compras / Ventas — se oculta dentro de la zona del comerciante (`ocultarSegmento=1`) */}
       {!enZona && (
@@ -756,7 +752,6 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
 const stylesRoot = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({ root: { flex: 1, backgroundColor: c.background } });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
   seg: { flexDirection: 'row', marginHorizontal: 16, marginTop: 12, backgroundColor: c.surface, borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: 3 },
   segBtn: { flex: 1, alignItems: 'center', paddingVertical: 8, borderRadius: radios.sm },
   segText: { fontSize: tipografia.body, fontWeight: '800' },

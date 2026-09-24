@@ -15,9 +15,9 @@ import { ActivityIndicator, Alert, Linking, Pressable, ScrollView, StyleSheet, S
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useRouter } from 'expo-router';
 import {
-  ArrowLeft, Check, Crown, MapPin, MessageSquare, Phone, RefreshCw, Users, X,
+  Check, Crown, MapPin, MessageSquare, Phone, RefreshCw, Users, X,
 } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, FormField, InlineError, tipografia, radios } from '@egrouteplan/ui-kit';
+import { useTheme, alpha, PrimaryButton, GhostButton, FormField, InlineError, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { workApi, type WorkCatalog, type WorkJob, type WorkPlan } from '../api/work';
 import { billingApi } from '../api/billing';
@@ -207,13 +207,8 @@ export default function WorkPublishScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={24} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={s.headerTitle} numberOfLines={1}>Buscar Work</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. */}
+      <ScreenHeader titulo="Buscar Work" alVolver={() => router.back()} />
 
       <View style={{ flexDirection: 'row', paddingHorizontal: 16, gap: 8, marginVertical: 12 }}>
         <TabBtn active={tab === 'publish'} label="Publicar oferta" onPress={() => setTab('publish')} />
@@ -518,8 +513,6 @@ function MiniBtn({ label, bg, onPress, disabled, children }: { label: string; bg
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '700', color: c.textPrimary },
   hint: { fontSize: tipografia.caption, color: c.textSecondary, marginBottom: 16, lineHeight: 18 },
   label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textPrimary, marginTop: 14, marginBottom: 6 },
   counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: 4 },

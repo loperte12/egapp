@@ -14,10 +14,10 @@ import { ActivityIndicator, Alert, Linking, Pressable, ScrollView, Share, StyleS
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
-  ArrowLeft, Bookmark, Briefcase, Calendar, Check, Flag, Lock, MapPin,
+  Bookmark, Briefcase, Calendar, Check, Flag, Lock, MapPin,
   MessageSquare, Phone, Send, Share2, ShieldCheck, type LucideIcon,
 } from 'lucide-react-native';
-import { useTheme, alpha, GhostButton, tipografia, radios } from '@egrouteplan/ui-kit';
+import { useTheme, alpha, GhostButton, tipografia, radios, ScreenHeader, Tactil } from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { EgCamera, EgMarkers } from '../packages/map';
 import { workApi, WorkJob } from '../api/work';
@@ -250,20 +250,21 @@ export default function WorkDetailScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={24} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={s.headerTitle} numberOfLines={1}>Detalle de oferta</Text>
-        <Pressable
-          onPress={toggleBookmark}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel={bookmarked ? 'Quitar de guardados' : 'Guardar oferta'}
-        >
-          <Bookmark size={20} color={bookmarked ? colors.primary : colors.textSecondary} fill={bookmarked ? colors.primary : 'transparent'} />
-        </Pressable>
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. La acción es el marcador de guardados. */}
+      <ScreenHeader
+        titulo="Detalle de oferta"
+        alVolver={() => router.back()}
+        accion={
+          <Tactil
+            onPress={toggleBookmark}
+            hitSlop={12}
+            accessibilityRole="button"
+            accessibilityLabel={bookmarked ? 'Quitar de guardados' : 'Guardar oferta'}
+          >
+            <Bookmark size={20} color={bookmarked ? colors.primary : colors.textSecondary} fill={bookmarked ? colors.primary : 'transparent'} />
+          </Tactil>
+        }
+      />
 
       <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: insets.bottom + 132 }} showsVerticalScrollIndicator={false}>
         {/* JobHeader */}
@@ -484,8 +485,6 @@ export default function WorkDetailScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '700', color: c.textPrimary },
   card: { borderRadius: 14, padding: 16, borderWidth: 1, marginBottom: 16 },
   badge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 4 },
   badgeText: { color: brand.white, fontSize: 10, fontWeight: '800', letterSpacing: 0.3 },

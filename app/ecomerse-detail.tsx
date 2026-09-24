@@ -16,8 +16,8 @@ import {
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, Eye, Flag, Heart, MapPin, ShieldCheck, ShoppingCart, Star } from 'lucide-react-native';
-import { useTheme, alpha, espaciado, peso, tipografia, radios, trazo, Sheet, EstadoDinero, ilustracion, Precio } from '@egrouteplan/ui-kit';
+import { Eye, Flag, Heart, MapPin, ShieldCheck, ShoppingCart, Star } from 'lucide-react-native';
+import { useTheme, alpha, espaciado, peso, tipografia, radios, trazo, Sheet, EstadoDinero, ilustracion, Precio, ScreenHeader, Tactil } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseProduct, EcomerseProductVariant } from '../api/ecomerse';
 import { useAccionesProducto } from '../components/ecomerse/useAccionesProducto';
 import SelectorDeVariante, { type Eleccion, type ModoSelector } from '../components/ecomerse/SelectorDeVariante';
@@ -120,7 +120,9 @@ export default function EcomerseDetailScreen() {
     // Carga: skeleton ligero (sin hang si id inválido: load ya setea error)
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, paddingTop: insets.top }}>
-        <View style={s.header}><View style={{ width: 22 }} /><Text style={{ fontSize: tipografia.subtitle, fontWeight: '800', color: colors.textPrimary }}>Producto</Text><View style={{ width: 22 }} /></View>
+        {/* Esqueleto: sin `alVolver` el componente deja el hueco del ancho del icono, así que el
+            título sigue centrado exactamente igual que antes. */}
+        <ScreenHeader titulo="Producto" />
         <View style={{ height: 280, backgroundColor: colors.surface }} />
         <View style={{ padding: 16, gap: 10 }}>
           <View style={{ height: 26, borderRadius: radios.sm, backgroundColor: colors.border, width: '40%' }} />
@@ -323,16 +325,16 @@ export default function EcomerseDetailScreen() {
 
   return (
     <View style={[stylesRoot(colors).root, { paddingTop: insets.top }]}>
-      {/* Header */}
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={22} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={{ flex: 1, textAlign: 'center', fontSize: tipografia.subtitle, fontWeight: '800', color: colors.textPrimary }} numberOfLines={1}>Producto</Text>
-        <Pressable onPress={() => setReportOpen(true)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Reportar anuncio">
-          <Flag size={18} color={colors.textSecondary} />
-        </Pressable>
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. La acción de la derecha es el aviso de reporte. */}
+      <ScreenHeader
+        titulo="Producto"
+        alVolver={() => router.back()}
+        accion={
+          <Tactil onPress={() => setReportOpen(true)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Reportar anuncio">
+            <Flag size={18} color={colors.textSecondary} />
+          </Tactil>
+        }
+      />
 
       <ScrollView contentContainerStyle={{ paddingBottom: 130 }} showsVerticalScrollIndicator={false}>
         {/* Galería swipe (ScrollView paging, sin FlatList anidado) */}
@@ -663,7 +665,6 @@ function Metric({ icon, label }: { icon: React.ReactNode; label: string }) {
 const stylesRoot = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({ root: { flex: 1, backgroundColor: c.background } });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
   photoCounter: { position: 'absolute', right: 12, bottom: 12, backgroundColor: 'rgba(0,0,0,0.55)', paddingHorizontal: 8, paddingVertical: 3, borderRadius: radios.full },
   tagFeat: { backgroundColor: 'rgba(255,107,53,0.14)', borderRadius: radios.sm, paddingHorizontal: 7, paddingVertical: 3 },
   tagFeatText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: '800' },

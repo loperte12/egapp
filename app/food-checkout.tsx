@@ -34,8 +34,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, Banknote, Bike, CreditCard, MapPin, Minus, Plus, Store, Trash2, Wallet } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, FormField, MasOpciones, tipografia, radios } from '@egrouteplan/ui-kit';
+import { Banknote, Bike, CreditCard, MapPin, Minus, Plus, Store, Trash2, Wallet } from 'lucide-react-native';
+import { useTheme, alpha, PrimaryButton, FormField, MasOpciones, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
 import { foodApi, FoodRestaurantDetail } from '../api/food';
 import { walletApi } from '../api/wallet';
 import { fijarPin } from '../api/settlement';
@@ -265,14 +265,8 @@ export default function FoodCheckoutScreen() {
   const s = styles(colors);
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
-      {/* Header */}
-      <View style={s.header}>
-        <Pressable onPress={() => ir.atras()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={22} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={s.headerTitle}>Confirmar pedido</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. */}
+      <ScreenHeader titulo="Confirmar pedido" alVolver={() => ir.atras()} />
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView
@@ -627,8 +621,6 @@ const s_center = StyleSheet.create({
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '800', color: c.textPrimary },
   label: { fontSize: tipografia.body, fontWeight: '700', color: c.textPrimary, marginTop: 14, marginBottom: 6 },
   restCard: { borderRadius: radios.md, borderWidth: 1, padding: 12, marginBottom: 4 },
   breakdown: { backgroundColor: c.surface, borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: 12, marginTop: 10 },

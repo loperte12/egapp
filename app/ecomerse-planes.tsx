@@ -13,8 +13,8 @@ import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, Check, X } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, brand, EmptyState, Precio, tipografia, radios, ilustracion } from '@egrouteplan/ui-kit';
+import { Check, X } from 'lucide-react-native';
+import { useTheme, alpha, PrimaryButton, brand, EmptyState, Precio, tipografia, radios, ilustracion, ScreenHeader } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseProduct, EcomerseShopPlan } from '../api/ecomerse';
 import { billingApi, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
@@ -141,7 +141,8 @@ export default function EcomersePlanesScreen() {
   if (loading) {
     return (
       <View style={[s.root, { paddingTop: insets.top }]}>
-        <View style={s.header}><View style={{ width: 22 }} /><Text style={s.headerTitle}>Tu tienda</Text><View style={{ width: 22 }} /></View>
+        {/* Esqueleto: sin `alVolver` el título queda centrado igual. */}
+        <ScreenHeader titulo="Tu tienda" />
         <View style={{ padding: 16, gap: 12 }}>
           {[0, 1, 2, 3].map((i) => (
             <View key={i} style={{ height: 120, borderRadius: radios.lg, backgroundColor: colors.border, opacity: 0.6 }} />
@@ -154,7 +155,7 @@ export default function EcomersePlanesScreen() {
   if (error) {
     return (
       <View style={[s.root, { paddingTop: insets.top }]}>
-        <View style={s.header}><Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver"><ArrowLeft size={22} color={colors.textPrimary} /></Pressable><Text style={s.headerTitle}>Tu tienda</Text><View style={{ width: 22 }} /></View>
+        <ScreenHeader titulo="Tu tienda" alVolver={() => router.back()} />
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
           <Text style={{ fontSize: ilustracion.md, marginBottom: 8 }}>📡</Text>
           <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>No pudimos cargar tu tienda</Text>
@@ -170,7 +171,7 @@ export default function EcomersePlanesScreen() {
   if (!hasShop) {
     return (
       <View style={[s.root, { paddingTop: insets.top }]}>
-        <View style={s.header}><Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver"><ArrowLeft size={22} color={colors.textPrimary} /></Pressable><Text style={s.headerTitle}>Tu tienda</Text><View style={{ width: 22 }} /></View>
+        <ScreenHeader titulo="Tu tienda" alVolver={() => router.back()} />
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
           {/* Al kit. La acción se conserva y va PRIMARIA: es LA acción de esta pantalla. */}
           <EmptyState
@@ -188,11 +189,7 @@ export default function EcomersePlanesScreen() {
 
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
-      <View style={s.header}>
-        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver"><ArrowLeft size={22} color={colors.textPrimary} /></Pressable>
-        <Text style={s.headerTitle}>Tu tienda</Text>
-        <View style={{ width: 22 }} />
-      </View>
+      <ScreenHeader titulo="Tu tienda" alVolver={() => router.back()} />
 
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
         {/* Estado actual */}
@@ -364,8 +361,6 @@ function FeatureRow({ ok, label }: { ok: boolean; label: string }) {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-  headerTitle: { fontSize: tipografia.subtitle, fontWeight: '800', color: c.textPrimary },
   current: { borderRadius: radios.md, padding: 12, marginBottom: 16 },
   sectionTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary, marginBottom: 8 },
   label: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary },

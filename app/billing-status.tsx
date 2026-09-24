@@ -21,8 +21,8 @@ import { useRouter } from 'expo-router';
 import { SOPORTE, whatsappSoporte } from '../constants/soporte';
 import { mensajeDeError } from '../constants/errores';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, BadgeCheck, Clock, Package, Receipt, XCircle } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, Sheet, Aviso, EmptyState, tipografia, radios } from '@egrouteplan/ui-kit';
+import { BadgeCheck, Clock, Package, Receipt, XCircle } from 'lucide-react-native';
+import { useTheme, alpha, PrimaryButton, GhostButton, Sheet, Aviso, EmptyState, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
 import { billingApi, BillingEntitlement } from '../api/billing';
 import { formatDate, formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -198,14 +198,12 @@ export default function BillingStatusScreen() {
 
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
-      {/* Header */}
-      <View style={s.header}>
-        <Pressable onPress={() => ir.atras()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
-          <ArrowLeft size={24} color={colors.textPrimary} />
-        </Pressable>
-        <Text style={s.headerTitle}>Mis compras y derechos</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      {/* Cabecera del kit desde el 24/09/2026. Aquí el volver es `ir.atras()` (el ayudante), no
+          `router.back()`: son las dos formas que convivían en las 21 copias. */}
+      <ScreenHeader
+        titulo="Mis compras y derechos"
+        alVolver={() => ir.atras()}
+      />
 
       {error ? (
         <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: 28 }}>
@@ -467,8 +465,6 @@ const s_card = StyleSheet.create({
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     root: { flex: 1, backgroundColor: c.background },
-    header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.border },
-    headerTitle: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '800', color: c.textPrimary },
     sectionTitle: { fontSize: 15, fontWeight: '800', color: c.textPrimary, marginBottom: 10 },
     empty: { fontSize: tipografia.caption, color: c.textSecondary, textAlign: 'center', marginVertical: 16 },
     entitleCard: { borderRadius: radios.md, padding: 14, borderWidth: 1, marginBottom: 8 },
