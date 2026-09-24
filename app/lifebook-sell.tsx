@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, PrimaryButton, StepHeader, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, StepHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceApi, type LbCategory, type LbShop } from '../api/commerce';
@@ -236,7 +236,7 @@ function SellContent() {
         <Pressable onPress={atras} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, flex: 1, marginLeft: 10 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, flex: 1, marginLeft: espaciado.e10 }}>
           {editId ? 'Editar publicación' : 'Publicar en mi tienda'}
         </Text>
         {shopName ? (
@@ -244,7 +244,7 @@ function SellContent() {
             onPress={() => irSeguro.libre('/lifebook-merchant')}
             hitSlop={8}
             accessibilityLabel="Ir al panel de mi tienda"
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}
           >
             <Store size={13} color={colors.primary} />
             <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', maxWidth: 120 }}>{shopName}</Text>
@@ -252,7 +252,7 @@ function SellContent() {
         ) : null}
       </View>
 
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 24 }} keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e24 }} keyboardShouldPersistTaps="handled">
         <StepHeader
           step={idx + 1}
           total={pasos.length}
@@ -296,11 +296,11 @@ function SellContent() {
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   footer: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    paddingHorizontal: 14, paddingTop: 10, borderTopWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+    paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth,
   },
 });

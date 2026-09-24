@@ -17,7 +17,7 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, PrimaryButton, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AlertCircle, ArrowLeft, Camera, CheckCircle2, MessageCircle, Package, Truck } from 'lucide-react-native';
 import { AuthGate } from '../../core/AuthGate';
 import { absUrl } from '../../api/config';
@@ -271,7 +271,7 @@ function OrderContent() {
 
   if (error && !order) {
     return (
-      <View style={[styles.center, { backgroundColor: colors.background, padding: 24, gap: 12 }]}>
+      <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
         <AlertCircle size={34} color={colors.danger} />
         <Text style={{ color: colors.textPrimary, fontWeight: '800', textAlign: 'center' }}>{error}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
@@ -314,15 +314,15 @@ function OrderContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: 10, flex: 1 }} numberOfLines={1}>
+        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
           Pedido {order.code}
         </Text>
         <Text style={{ color: meta.color, fontWeight: '900', fontSize: tipografia.caption }}>{meta.label}</Text>
       </View>
 
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 24 }}>
+      <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e24 }}>
         {/* Cabecera según el ESTADO (no siempre «éxito») */}
-        <View style={{ alignItems: 'center', paddingVertical: 6, gap: 6 }}>
+        <View style={{ alignItems: 'center', paddingVertical: espaciado.e6, gap: espaciado.e6 }}>
           {cancelado ? <AlertCircle size={40} color={colors.danger} />
             : enDisputa ? <AlertCircle size={40} color={colors.secondary} />
               : order.status === 'delivered' ? <CheckCircle2 size={40} color={colors.success} />
@@ -344,7 +344,7 @@ function OrderContent() {
             {LB_ORDER_FLOW.map((f, i) => {
               const activo = pasoActual >= i;
               return (
-                <View key={f.status} style={{ flex: 1, alignItems: 'center', gap: 5 }}>
+                <View key={f.status} style={{ flex: 1, alignItems: 'center', gap: espaciado.e5 }}>
                   <View style={[styles.dot, { backgroundColor: activo ? colors.primary : alpha(colors.border, 0.8) }]} />
                   <Text numberOfLines={2} style={{ color: activo ? colors.textPrimary : colors.textSecondary, fontSize: 9.5, fontWeight: '700', textAlign: 'center' }}>
                     {f.label}
@@ -424,7 +424,7 @@ function OrderContent() {
 
         {/* Con qué se dio por cobrado: la referencia de la tienda y el justificante. Lo ven las dos partes. */}
         {order.paymentStatus === 'paid' && order.paymentNote ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 8 }}>Cobro: {order.paymentNote}</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>Cobro: {order.paymentNote}</Text>
         ) : null}
         {order.paymentStatus === 'paid' && order.paymentProofUrl ? (
           <Pressable
@@ -432,13 +432,13 @@ function OrderContent() {
             accessibilityRole="button"
             accessibilityLabel="Ver el justificante del cobro"
           >
-            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 6 }}>Ver el justificante</Text>
+            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 }}>Ver el justificante</Text>
           </Pressable>
         ) : null}
 
         {/* TANDA T (T.7b): la reclamación y su motivo, para que lo vean los dos. */}
         {order.disputeReason ? (
-          <View style={{ marginTop: 8 }}>
+          <View style={{ marginTop: espaciado.e8 }}>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
               {esComprador ? 'Tu reclamación' : 'Reclamación del comprador'}
             </Text>
@@ -448,7 +448,7 @@ function OrderContent() {
 
         {/* TANDA T (T.7): la valoración, si ya está escrita. La ven el comprador y la tienda. */}
         {order.review ? (
-          <View style={{ marginTop: 8 }}>
+          <View style={{ marginTop: espaciado.e8 }}>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
               {esComprador ? 'Tu valoración' : 'Valoración del comprador'}:{' '}
               <Text style={{ color: brand.warning, fontSize: tipografia.body }}>
@@ -456,7 +456,7 @@ function OrderContent() {
               </Text>
             </Text>
             {order.review.comment ? (
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: 2 }}>«{order.review.comment}»</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>«{order.review.comment}»</Text>
             ) : null}
           </View>
         ) : null}
@@ -502,7 +502,7 @@ function OrderContent() {
           hasta que se escriban (y dice por qué).
         */}
         {puedeReclamar ? (
-          <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: 16 }]}>
+          <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: espaciado.e16 }]}>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', textAlign: 'center' }}>
               ¿Algo ha ido mal?
             </Text>
@@ -535,7 +535,7 @@ function OrderContent() {
         */}
         {!esComprador && !cancelado && !enDisputa && order.status !== 'delivered'
           && order.deliveryMode !== 'pickup' && order.paymentStatus !== 'paid' ? (
-          <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: 16 }]}>
+          <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: espaciado.e16 }]}>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', textAlign: 'center' }}>
               El reparto ({lbTransportLabel(order.deliveryMode)})
             </Text>
@@ -570,7 +570,7 @@ function OrderContent() {
           pueden quedar debajo del pliegue por una caja secundaria.
         */}
         {!esComprador && !cancelado && !enDisputa && order.paymentStatus !== 'paid' ? (
-          <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: 16 }]}>
+          <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: espaciado.e16 }]}>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', textAlign: 'center' }}>
               ¿Ya te han pagado? ({lbPayLabel(order.paymentMethod)})
             </Text>
@@ -616,14 +616,14 @@ function OrderContent() {
           escribía nadie.
         */}
         {esComprador && order.status === 'delivered' && !order.review ? (
-          <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: 16 }]}>
+          <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: espaciado.e16 }]}>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', textAlign: 'center' }}>
               ¿Cómo fue la compra?
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center' }}>
               Tu nota cuenta para la tienda y para el producto. Solo se puede valorar una vez.
             </Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 4, marginVertical: 2 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', gap: espaciado.e4, marginVertical: espaciado.e2 }}>
               {[1, 2, 3, 4, 5].map((n) => (
                 <Pressable
                   key={n}
@@ -656,7 +656,7 @@ function OrderContent() {
           </View>
         ) : null}
 
-        <View style={{ marginTop: 18 }}>
+        <View style={{ marginTop: espaciado.e18 }}>
           <GhostButton title={esComprador ? 'Escribir a la tienda' : 'Escribir al comprador'} onPress={hablar} />
         </View>
       </ScrollView>
@@ -673,7 +673,7 @@ function OrderContent() {
           <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '800' }}>Justificante del cobro</Text>
           {order.paymentProofUrl ? (
             justificanteFalla ? (
-              <Text style={{ color: brand.white, fontSize: tipografia.body, textAlign: 'center', paddingHorizontal: 24 }}>
+              <Text style={{ color: brand.white, fontSize: tipografia.body, textAlign: 'center', paddingHorizontal: espaciado.e24 }}>
                 No se pudo cargar el justificante.{'\n'}La tienda lo tiene en su teléfono.
               </Text>
             ) : (
@@ -707,39 +707,39 @@ function OrderContent() {
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  flow: { flexDirection: 'row', marginTop: 14, marginBottom: 6 },
+  flow: { flexDirection: 'row', marginTop: espaciado.e14, marginBottom: espaciado.e6 },
   dot: { width: 10, height: 10, borderRadius: 5 },
-  codeBox: { borderWidth: 1.5, borderRadius: 14, padding: 14, marginTop: 10, gap: 8, alignItems: 'center' },
+  codeBox: { borderWidth: 1.5, borderRadius: 14, padding: espaciado.e14, marginTop: espaciado.e10, gap: espaciado.e8, alignItems: 'center' },
   codeInput: {
-    borderWidth: 1, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8,
+    borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8,
     fontSize: 22, fontWeight: '900', letterSpacing: 8, textAlign: 'center', width: 140,
   },
   /** TANDA R (R.5b): la referencia del cobro y el botón del justificante. */
   notaInput: {
-    borderWidth: 1, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 9, fontSize: tipografia.body,
+    borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body,
   },
   adjunto: {
-    flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderRadius: 10,
-    paddingHorizontal: 12, paddingVertical: 10,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: 1, borderRadius: 10,
+    paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10,
   },
   /** TANDA T (T.7): una estrella de la valoración (se toca para puntuar). */
-  estrella: { paddingHorizontal: 3 },
+  estrella: { paddingHorizontal: espaciado.e3 },
   /** El visor del justificante (TANDA S): oscuro, la foto entera y un botón para cerrar. */
-  modalFondo: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, padding: 20, backgroundColor: 'rgba(0,0,0,0.92)' },
+  modalFondo: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12, padding: espaciado.e20, backgroundColor: 'rgba(0,0,0,0.92)' },
   justificante: { width: '100%', height: '74%', borderRadius: radios.md },
   cerrarModal: {
     borderWidth: 1, borderColor: 'rgba(255,255,255,0.45)', borderRadius: 10,
-    paddingHorizontal: 20, paddingVertical: 10,
+    paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e10,
   },
-  section: { fontSize: tipografia.body, fontWeight: '800', marginTop: 20, marginBottom: 8 },
-  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: 12 },
-  itemRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10 },
+  section: { fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e20, marginBottom: espaciado.e8 },
+  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e12 },
+  itemRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginBottom: espaciado.e10 },
   thumb: { width: 48, height: 48, borderRadius: radios.sm },
   footer: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    paddingHorizontal: 14, paddingTop: 10, borderTopWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+    paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth,
   },
 });

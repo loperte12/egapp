@@ -22,7 +22,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, PinSheet, brand, MasOpciones, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, MasOpciones, PinSheet, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, Store } from 'lucide-react-native';
 import * as Crypto from 'expo-crypto';
 import { AuthGate } from '../core/AuthGate';
@@ -312,7 +312,7 @@ function CheckoutContent() {
   /* ── Pago exitoso ──────────────────────────────────────────────────────────── */
   if (exito) {
     return (
-      <View style={[styles.center, { backgroundColor: colors.background, padding: 24, gap: 10 }]}>
+      <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e10 }]}>
         <View style={[styles.okIcono, { backgroundColor: alpha(colors.success, 0.15) }]}>
           <Check size={30} color={colors.success} />
         </View>
@@ -326,12 +326,12 @@ function CheckoutContent() {
         <Pressable
           onPress={() => irSeguro.libre('/lifebook-orders', undefined, true)}
           accessibilityLabel="Ver pedido"
-          style={[styles.cta, { backgroundColor: colors.primary, marginTop: 10, paddingHorizontal: 26 }]}
+          style={[styles.cta, { backgroundColor: colors.primary, marginTop: espaciado.e10, paddingHorizontal: espaciado.e26 }]}
         >
           <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: '900' }}>Ver pedido</Text>
         </Pressable>
         <Pressable onPress={() => irSeguro.libre('/lifebook-catalog')} accessibilityLabel="Seguir comprando">
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800', marginTop: 6 }}>Seguir comprando</Text>
+          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e6 }}>Seguir comprando</Text>
         </Pressable>
       </View>
     );
@@ -352,12 +352,12 @@ function CheckoutContent() {
         <Pressable onPress={() => irSeguro.atras()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: 10 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10 }}>
           Confirmar pedido
         </Text>
       </View>
 
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 14, paddingBottom: 30 }} keyboardShouldPersistTaps="handled">
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: espaciado.e14, paddingBottom: espaciado.e30 }} keyboardShouldPersistTaps="handled">
         {error ? (
           <View style={[styles.aviso, { backgroundColor: alpha(colors.danger, 0.1), borderColor: alpha(colors.danger, 0.4) }]}>
             <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700' }}>{error}</Text>
@@ -381,7 +381,7 @@ function CheckoutContent() {
               key={clave}
               style={[styles.bloque, { backgroundColor: colors.card, borderColor: alpha(colors.border, 0.6) }]}
             >
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 }}>
                 <Store size={14} color={colors.primary} />
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', flex: 1 }} numberOfLines={1}>
                   {g.shop?.name ?? 'Tienda'}
@@ -392,7 +392,7 @@ function CheckoutContent() {
               </View>
 
               {g.items.map((i) => (
-                <View key={i.id} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 8 }}>
+                <View key={i.id} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8 }}>
                   <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, flex: 1 }}>
                     {i.quantity} × {i.title}{i.variantName ? ` · ${i.variantName}` : ''}
                   </Text>
@@ -403,7 +403,7 @@ function CheckoutContent() {
               ))}
 
               <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>CÓMO LO RECIBES</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 7 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 }}>
                 {(g.deliveryModes?.length ? g.deliveryModes : ['pickup']).map((m) => {
                   const on = modo === m;
                   return (
@@ -422,7 +422,7 @@ function CheckoutContent() {
               </View>
 
               <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>CÓMO PAGAS</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 7 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 }}>
                 {metodos.length === 0 ? (
                   <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700' }}>
                     Esta tienda no tiene formas de pago configuradas.
@@ -487,14 +487,14 @@ function CheckoutContent() {
                 onRecoger={(code) => recogerCupon(clave, code)}
               />
 
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e10 }}>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>Envío</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>
                   {modo === 'pickup' ? 'Recoges en la tienda' : envio === null ? 'a acordar con la tienda' : lbXaf(envio)}
                 </Text>
               </View>
               {descuentoDeCupon(cuponDe(g), g.subtotalXaf) > 0 ? (
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 4 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
                   <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: '800' }}>
                     Cupón {cuponPorTienda[clave]}
                   </Text>
@@ -503,7 +503,7 @@ function CheckoutContent() {
                   </Text>
                 </View>
               ) : null}
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 4 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>Total de este pedido</Text>
                 <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>
                   {lbXaf(Math.max(0, g.subtotalXaf + (envio ?? 0) - descuentoDeCupon(cuponDe(g), g.subtotalXaf)))}
@@ -518,7 +518,7 @@ function CheckoutContent() {
           <View style={[styles.bloque, { backgroundColor: colors.card, borderColor: alpha(colors.border, 0.6) }]}>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>Dirección de entrega</Text>
             <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>CIUDAD</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 7 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 }}>
               {LB_CITIES.map((c) => {
                 const on = ciudad === c;
                 return (
@@ -539,7 +539,7 @@ function CheckoutContent() {
               placeholder="Barrio o zona (Ej: Ela Nguema)"
               placeholderTextColor={colors.textSecondary}
               maxLength={60}
-              style={[input, { marginTop: 8 }]}
+              style={[input, { marginTop: espaciado.e8 }]}
             />
             <TextInput
               value={referencia}
@@ -547,15 +547,15 @@ function CheckoutContent() {
               placeholder="Punto de referencia (Ej: portón azul, junto al mercado)"
               placeholderTextColor={colors.textSecondary}
               maxLength={200}
-              style={[input, { marginTop: 8 }]}
+              style={[input, { marginTop: espaciado.e8 }]}
             />
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: 6 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e6 }}>
               El teléfono y el punto exacto se comparten con la tienda por el chat del pedido.
             </Text>
           </View>
         ) : null}
 
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, lineHeight: 17, marginTop: 2 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, lineHeight: 17, marginTop: espaciado.e2 }}>
           {bloques.length > 1
             ? `Se crearán ${bloques.length} pedidos (uno por tienda): cada tienda prepara y entrega lo suyo.`
             : 'La tienda confirma el pedido y te escribe por el chat.'}
@@ -571,7 +571,7 @@ function CheckoutContent() {
       }}>
         {/* EL MOTIVO, EN EL PIE: arriba se queda fuera de la pantalla y el botón parece muerto. */}
         {error ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', paddingHorizontal: 14, paddingTop: 9 }}>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', paddingHorizontal: espaciado.e14, paddingTop: espaciado.e9 }}>
             {error}
           </Text>
         ) : null}
@@ -640,15 +640,15 @@ function CheckoutContent() {
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  bloque: { borderRadius: 14, borderWidth: 1, padding: 12, marginBottom: 12 },
-  etiqueta: { fontSize: 10.5, fontWeight: '900', letterSpacing: 0.7, marginTop: 12, marginBottom: 6 },
-  chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: 11, paddingVertical: 7 },
-  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 9, fontSize: tipografia.body },
-  pie: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, paddingTop: 10, borderTopWidth: StyleSheet.hairlineWidth },
-  cta: { borderRadius: radios.full, paddingHorizontal: 18, paddingVertical: 12, alignItems: 'center', justifyContent: 'center' },
+  bloque: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e12 },
+  etiqueta: { fontSize: 10.5, fontWeight: '900', letterSpacing: 0.7, marginTop: espaciado.e12, marginBottom: espaciado.e6 },
+  chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
+  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
+  pie: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
+  cta: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e12, alignItems: 'center', justifyContent: 'center' },
   okIcono: { width: 62, height: 62, borderRadius: 31, alignItems: 'center', justifyContent: 'center' },
-  aviso: { borderRadius: radios.md, borderWidth: 1, padding: 10, marginBottom: 12 },
+  aviso: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e12 },
 });

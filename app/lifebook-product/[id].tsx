@@ -19,7 +19,7 @@ import {
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import {
   Banknote, Building2, CheckCircle2, Clock, Eye, Heart, MapPin, MessageCircle, Package, ShoppingCart,
   Plane, ShieldCheck, Ship, Store, Truck, Wallet, X,
@@ -221,7 +221,7 @@ function ProductContent() {
 
   if (error || !product) {
     return (
-      <View style={[styles.center, { backgroundColor: colors.background, padding: 24, gap: 12 }]}>
+      <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
         <Text style={{ color: colors.textPrimary, fontWeight: '800', textAlign: 'center' }}>{error ?? 'Publicación no encontrada'}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
@@ -354,7 +354,7 @@ function ProductContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <X size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 15, flex: 1, marginLeft: 10 }}>
+        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 15, flex: 1, marginLeft: espaciado.e10 }}>
           {lbServiceLabel(p.serviceType)}
         </Text>
         <Pressable onPress={toggleSave} hitSlop={10} accessibilityLabel={saved ? 'Quitar de guardados' : 'Guardar'}>
@@ -398,7 +398,7 @@ function ProductContent() {
           </View>
         )}
 
-        <View style={{ padding: 16 }}>
+        <View style={{ padding: espaciado.e16 }}>
           {/* ── Aviso para el dueño (moderación) ── */}
           {p.isMine && estado ? (
             <View style={[styles.notice, { backgroundColor: alpha(estado.tone === 'ok' ? colors.success : colors.primary, 0.1) }]}>
@@ -406,7 +406,7 @@ function ProductContent() {
                 {estado.label} · {estado.hint}
               </Text>
               {p.status === 'rejected' && p.rejectionReason ? (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: 3 }}>{p.rejectionReason}</Text>
+                <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>{p.rejectionReason}</Text>
               ) : null}
             </View>
           ) : null}
@@ -419,7 +419,7 @@ function ProductContent() {
               <Text style={{ color: brand.warning, fontWeight: '900', fontSize: tipografia.caption }}>
                 🔔 {p.waitingCount} {p.waitingCount === 1 ? 'persona espera' : 'personas esperan'} este producto
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3, lineHeight: 16 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3, lineHeight: 16 }}>
                 Al reponer existencias se les avisa solos por el chat con la tienda.
               </Text>
             </View>
@@ -437,7 +437,7 @@ function ProductContent() {
 
           <Text style={[styles.title, { color: colors.textPrimary }]}>{p.title}</Text>
           {p.shortDescription ? (
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: 4 }}>{p.shortDescription}</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e4 }}>{p.shortDescription}</Text>
           ) : null}
 
           {/* ── Insignias de confianza ── */}
@@ -484,7 +484,7 @@ function ProductContent() {
                       <Package size={16} color={colors.primary} />
                     </View>
                   )}
-                  <View style={{ flex: 1, marginLeft: 10 }}>
+                  <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                     <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
                       {resumenEleccion || 'Elegir talla y color'}
                     </Text>
@@ -585,9 +585,9 @@ function ProductContent() {
                 <Store size={20} color={colors.primary} />
               </View>
             )}
-            <View style={{ flex: 1, marginHorizontal: 10 }}>
+            <View style={{ flex: 1, marginHorizontal: espaciado.e10 }}>
               <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>{p.shop.name}</Text>
-              <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+              <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 {[p.shop.city, lbRegionLabel(p.shop.region), p.shop.ratingCount > 0 ? `★ ${p.shop.rating.toFixed(1)} (${p.shop.ratingCount})` : null]
                   .filter(Boolean).join(' · ')}
               </Text>
@@ -605,18 +605,18 @@ function ProductContent() {
           <Pressable
             onPress={() => irSeguro.libre('/lifebook-shop/[id]', { id: p.shop.id })}
             accessibilityLabel="Ver la tienda"
-            style={{ marginTop: 10, alignItems: 'center' }}
+            style={{ marginTop: espaciado.e10, alignItems: 'center' }}
           >
             <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>Ver todos los productos de la tienda →</Text>
           </Pressable>
 
           {/* ── Mis acciones (dueño) ── */}
           {p.isMine ? (
-            <View style={{ marginTop: 18, gap: 8 }}>
+            <View style={{ marginTop: espaciado.e18, gap: espaciado.e8 }}>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
                 {p.salesCount} ventas · {p.savesCount} guardados · {p.ratingCount} valoraciones
               </Text>
-              <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e8, flexWrap: 'wrap' }}>
                 <GhostButton title="Editar" onPress={() => irSeguro.libre('/lifebook-sell', { editId: p.id })} />
                 {/* Parte 39: el día a día (precio y existencias) se ajusta en el panel
                     sin devolver la publicación a revisión. */}
@@ -804,15 +804,15 @@ function Badge({ colors, icon, text }: { colors: any; icon: React.ReactNode; tex
   return (
     <View style={[styles.badge, { borderColor: alpha(colors.border, 0.8), backgroundColor: colors.surface }]}>
       {icon}
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.micro, fontWeight: '700', marginLeft: 4 }}>{text}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.micro, fontWeight: '700', marginLeft: espaciado.e4 }}>{text}</Text>
     </View>
   );
 }
 
 function Section({ colors, title, children }: { colors: any; title: string; children: React.ReactNode }) {
   return (
-    <View style={{ marginTop: 20 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '800', marginBottom: 8 }}>{title}</Text>
+    <View style={{ marginTop: espaciado.e20 }}>
+      <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '800', marginBottom: espaciado.e8 }}>{title}</Text>
       {children}
     </View>
   );
@@ -820,9 +820,9 @@ function Section({ colors, title, children }: { colors: any; title: string; chil
 
 function InfoLine({ colors, icon, text }: { colors: any; icon: React.ReactNode; text: string }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 7 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e7 }}>
       {icon}
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginLeft: 8, flex: 1 }}>{text}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginLeft: espaciado.e8, flex: 1 }}>{text}</Text>
     </View>
   );
 }
@@ -830,33 +830,33 @@ function InfoLine({ colors, icon, text }: { colors: any; icon: React.ReactNode; 
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   heroEmpty: { width: SCREEN_W, height: HERO_H * 0.6, alignItems: 'center', justifyContent: 'center' },
-  counter: { position: 'absolute', bottom: 10, right: 12, borderRadius: radios.full, paddingHorizontal: 9, paddingVertical: 3 },
-  priceRow: { flexDirection: 'row', alignItems: 'flex-end', gap: 10 },
+  counter: { position: 'absolute', bottom: 10, right: 12, borderRadius: radios.full, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e3 },
+  priceRow: { flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e10 },
   price: { fontSize: 24, fontWeight: '900' },
-  oldPrice: { fontSize: tipografia.body, textDecorationLine: 'line-through', marginBottom: 3 },
-  title: { fontSize: 18.5, fontWeight: '800', marginTop: 6, lineHeight: 24 },
-  badges: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 12 },
+  oldPrice: { fontSize: tipografia.body, textDecorationLine: 'line-through', marginBottom: espaciado.e3 },
+  title: { fontSize: 18.5, fontWeight: '800', marginTop: espaciado.e6, lineHeight: 24 },
+  badges: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e12 },
   badge: {
     flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: radios.full, paddingHorizontal: 9, paddingVertical: 5,
+    borderRadius: radios.full, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e5,
   },
-  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 9 },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
+  chip: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
   attrRow: {
-    flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 7,
+    flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e7,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  notice: { borderRadius: radios.md, padding: 10, marginBottom: 12 },
-  shopCard: { flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: 12, marginTop: 22 },
+  notice: { borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e12 },
+  shopCard: { flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e22 },
   shopLogo: { width: 44, height: 44, borderRadius: 22 },
-  followBtn: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 7 },
+  followBtn: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7 },
   bottomBar: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    paddingHorizontal: 14, paddingTop: 10, borderTopWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+    paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth,
   },
   iconBtn: {
     width: 44, height: 44, borderRadius: 22, borderWidth: StyleSheet.hairlineWidth,
@@ -867,13 +867,13 @@ const styles = StyleSheet.create({
    * la barra inferior, donde el carrito ya tiene su icono. Alto 40 dp y ancho el del texto.
    */
   anadirBtn: {
-    alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7,
-    height: 40, borderRadius: radios.full, borderWidth: 1.5, paddingHorizontal: 14, marginTop: 12,
+    alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: espaciado.e7,
+    height: 40, borderRadius: radios.full, borderWidth: 1.5, paddingHorizontal: espaciado.e14, marginTop: espaciado.e12,
   },
   /** TANDA K: la fila que enseña lo elegido (con la foto del color) y abre el selector. */
   elegirRow: {
     flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderRadius: radios.md,
-    padding: 9, marginTop: 12,
+    padding: espaciado.e9, marginTop: espaciado.e12,
   },
   elegirFoto: { width: 40, height: 40, borderRadius: 9 },
   /**
@@ -882,13 +882,13 @@ const styles = StyleSheet.create({
    * recorta con puntos suspensivos antes que romper la fila.
    */
   ctaBtn: {
-    flex: 1, height: 44, borderRadius: radios.full, paddingHorizontal: 12,
+    flex: 1, height: 44, borderRadius: radios.full, paddingHorizontal: espaciado.e12,
     alignItems: 'center', justifyContent: 'center',
   },
   /* TANDA D: el globito con cuántas cosas llevas en el carrito. */
   cartBadge: {
     position: 'absolute', top: -2, right: -2, minWidth: 17, height: 17, borderRadius: 9,
-    alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3,
+    alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e3,
   },
   viewerClose: {
     position: 'absolute', right: 16, width: 36, height: 36, borderRadius: 18,

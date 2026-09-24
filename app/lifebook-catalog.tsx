@@ -10,7 +10,7 @@ import { ActivityIndicator, FlatList, Pressable, ScrollView, StyleSheet, Text, T
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Heart, Package, Search, ShoppingCart, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceApi, type LbProductCard } from '../api/commerce';
@@ -110,7 +110,7 @@ function CatalogContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, flex: 1, marginLeft: 10 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, flex: 1, marginLeft: espaciado.e10 }}>
           Tiendas y servicios
         </Text>
         {/* MIS GUARDADOS, en la puerta del mercado: para volver a un producto no hace falta entrar en
@@ -119,7 +119,7 @@ function CatalogContent() {
           onPress={() => router.push('/lifebook-guardados' as never)}
           hitSlop={8}
           accessibilityLabel="Mis guardados"
-          style={{ marginRight: 12 }}
+          style={{ marginRight: espaciado.e12 }}
         >
           <Heart size={20} color={colors.textPrimary} />
         </Pressable>
@@ -130,7 +130,7 @@ function CatalogContent() {
           onPress={() => irSeguro.libre('/lifebook-carrito')}
           hitSlop={8}
           accessibilityLabel={`Carrito${carrito ? `, ${carrito} producto${carrito === 1 ? '' : 's'}` : ''}`}
-          style={{ marginRight: 10 }}
+          style={{ marginRight: espaciado.e10 }}
         >
           <ShoppingCart size={20} color={colors.textPrimary} />
           {carrito > 0 ? (
@@ -156,7 +156,7 @@ function CatalogContent() {
           onChangeText={setQ}
           placeholder="Busca producto, comida o servicio…"
           placeholderTextColor={colors.textSecondary}
-          style={{ flex: 1, marginLeft: 8, color: colors.textPrimary, fontSize: tipografia.body, paddingVertical: 0 }}
+          style={{ flex: 1, marginLeft: espaciado.e8, color: colors.textPrimary, fontSize: tipografia.body, paddingVertical: 0 }}
           returnKeyType="search"
           autoCorrect={false}
           accessibilityLabel="Buscar en el catálogo"
@@ -179,7 +179,7 @@ function CatalogContent() {
         horizontal
         showsHorizontalScrollIndicator={false}
         style={styles.chipRow}
-        contentContainerStyle={{ paddingHorizontal: 14, gap: 8, alignItems: 'center' }}
+        contentContainerStyle={{ paddingHorizontal: espaciado.e14, gap: espaciado.e8, alignItems: 'center' }}
       >
         {chips.map((c) => {
           const active = serviceType === c.id;
@@ -203,8 +203,8 @@ function CatalogContent() {
       </ScrollView>
 
       {/* Ciudad + orden */}
-      <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 14, paddingBottom: 8 }}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6 }}>
+      <View style={{ flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e6 }}>
           <Pressable
             onPress={() => setCity('')}
             style={[styles.miniChip, { borderColor: city === '' ? colors.primary : alpha(colors.border, 0.7), backgroundColor: city === '' ? alpha(colors.primary, 0.12) : 'transparent' }]}
@@ -222,7 +222,7 @@ function CatalogContent() {
           ))}
         </ScrollView>
       </View>
-      <View style={{ flexDirection: 'row', gap: 6, paddingHorizontal: 14, paddingBottom: 8 }}>
+      <View style={{ flexDirection: 'row', gap: espaciado.e6, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 }}>
         {SORTS.map((s) => (
           <Pressable key={s.id} onPress={() => setSort(s.id)} accessibilityRole="tab" accessibilityState={{ selected: sort === s.id }}>
             <Text style={{ color: sort === s.id ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800', textDecorationLine: sort === s.id ? 'underline' : 'none' }}>
@@ -235,7 +235,7 @@ function CatalogContent() {
       {/* Resultados: se DICE qué está pasando. Antes, al escribir, la lista seguía enseñando los
           resultados viejos sin ninguna pista de que estaba buscando (y al no encontrar nada,
           tampoco lo decía). */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 8 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 }}>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', flex: 1 }} numberOfLines={1}>
           {debouncedQ
             ? (loading ? `Buscando «${debouncedQ}»…` : `${items.length} resultado${items.length === 1 ? '' : 's'} para «${debouncedQ}»`)
@@ -252,20 +252,20 @@ function CatalogContent() {
           data={items}
           keyExtractor={(p) => p.id}
           numColumns={2}
-          columnWrapperStyle={{ gap: 10, paddingHorizontal: 14 }}
-          contentContainerStyle={{ paddingBottom: insets.bottom + 30, gap: 12, flexGrow: 1 }}
+          columnWrapperStyle={{ gap: espaciado.e10, paddingHorizontal: espaciado.e14 }}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 30, gap: espaciado.e12, flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           onEndReached={() => cursor && load('more')}
           onEndReachedThreshold={0.6}
-          ListFooterComponent={more ? <ActivityIndicator color={colors.primary} style={{ marginVertical: 14 }} /> : null}
+          ListFooterComponent={more ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e14 }} /> : null}
           ListEmptyComponent={
-            <View style={{ alignItems: 'center', paddingTop: 60, gap: 10 }}>
+            <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e10 }}>
               <Package size={40} color={alpha(colors.primary, 0.35)} />
               <Text style={{ color: colors.textPrimary, fontWeight: '800' }}>Todavía no hay nada publicado aquí</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 40 }}>
                 Abre tu tienda y publica tu primer producto o servicio: es gratis y se hace desde el móvil.
               </Text>
-              <Pressable onPress={() => irSeguro.libre('/lifebook-sell')} style={[styles.sellBtn, { backgroundColor: colors.primary, paddingHorizontal: 18, paddingVertical: 10 }]}>
+              <Pressable onPress={() => irSeguro.libre('/lifebook-sell')} style={[styles.sellBtn, { backgroundColor: colors.primary, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 }]}>
                 <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '900' }}>Abrir mi tienda</Text>
               </Pressable>
             </View>
@@ -295,28 +295,28 @@ function CatalogContent() {
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  sellBtn: { borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 7 },
+  sellBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   searchWrap: {
-    flexDirection: 'row', alignItems: 'center', marginHorizontal: 14, marginTop: 10,
-    borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 10,
+    flexDirection: 'row', alignItems: 'center', marginHorizontal: espaciado.e14, marginTop: espaciado.e10,
+    borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10,
   },
   /* La fila de chips NO se estira ni se encoge: alto propio (ver el comentario del JSX). */
-  chipRow: { flexGrow: 0, flexShrink: 0, minHeight: 46, paddingVertical: 8 },
+  chipRow: { flexGrow: 0, flexShrink: 0, minHeight: 46, paddingVertical: espaciado.e8 },
   chip: {
-    borderWidth: 1, borderRadius: radios.full, paddingHorizontal: 13, minHeight: 32,
+    borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 32,
     /* ANCHO MÍNIMO: medido en pantalla, el primer chip («✨ Todo») salía de 26 dp con el texto
        cortado mientras los demás salían de 114/103/93 dp. Con un mínimo, todos miden lo mismo
        de ancho como mínimo y la etiqueta se lee entera. */
     minWidth: 78,
     alignItems: 'center', justifyContent: 'center',
   },
-  miniChip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 5 },
+  miniChip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 },
   /** El globito del carrito en la cabecera. */
   globito: {
     position: 'absolute', top: -5, right: -7, minWidth: 16, height: 16, borderRadius: radios.sm,
-    alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3,
+    alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e3,
   },
 });

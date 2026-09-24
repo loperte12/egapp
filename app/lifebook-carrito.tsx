@@ -28,7 +28,7 @@ import { Image } from 'expo-image';
 import { Swipeable } from 'react-native-gesture-handler';
 import { useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, altura, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, ChevronRight, Minus, Plus, ShoppingCart, Store, Trash2, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -279,17 +279,17 @@ function CarritoContent() {
         {cabecera}
         <View style={styles.center}>
           <ShoppingCart size={46} color={alpha(colors.primary, 0.35)} />
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', marginTop: 12 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', marginTop: espaciado.e12 }}>
             Tu carrito está vacío
           </Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 44, marginTop: 6, lineHeight: 18 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 44, marginTop: espaciado.e6, lineHeight: 18 }}>
             Lo que añadas desde la ficha de un producto o desde el chat con una tienda aparece aquí,
             en tu cuenta: da igual desde qué móvil entres.
           </Text>
           <Pressable
             onPress={() => irSeguro.libre('/lifebook-catalog')}
             accessibilityLabel="Ir al mercado"
-            style={[styles.ctaPagar, { backgroundColor: colors.primary, marginTop: 16, paddingHorizontal: 22 }]}
+            style={[styles.ctaPagar, { backgroundColor: colors.primary, marginTop: espaciado.e16, paddingHorizontal: espaciado.e22 }]}
           >
             <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: '900' }}>Ir al mercado</Text>
           </Pressable>
@@ -304,7 +304,7 @@ function CarritoContent() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       {cabecera}
 
-      <ScrollView contentContainerStyle={{ padding: 12, paddingBottom: pieAltura + insets.bottom, gap: 12 }}>
+      <ScrollView contentContainerStyle={{ padding: espaciado.e12, paddingBottom: pieAltura + insets.bottom, gap: espaciado.e12 }}>
         {grupos.map((g) => {
           const clave = g.shop?.id ?? 'sin-tienda';
           const idsBloque = g.items.filter((i) => i.available).map((i) => i.id);
@@ -378,7 +378,7 @@ function CarritoContent() {
                       )}
                     </Pressable>
 
-                    <View style={{ flex: 1, gap: 3 }}>
+                    <View style={{ flex: 1, gap: espaciado.e3 }}>
                       <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
                         {l.title}
                       </Text>
@@ -396,7 +396,7 @@ function CarritoContent() {
                       </Pressable>
 
                       {/* Etiquetas de estado (solo las que de verdad aplican) */}
-                      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 5 }}>
+                      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5 }}>
                         {l.statusLabel ? (
                           <Text style={{ color: colors.danger, fontSize: 10.5, fontWeight: '900' }}>{l.statusLabel}</Text>
                         ) : null}
@@ -419,7 +419,7 @@ function CarritoContent() {
                       </View>
 
                       {/* Precio (rojo) con el anterior tachado si cambió */}
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                         <Text style={{ color: l.available ? colors.danger : colors.textSecondary, fontSize: 14.5, fontWeight: '900' }}>
                           {l.priceXaf === null ? 'A consultar' : lbXaf(l.priceXaf)}
                         </Text>
@@ -431,7 +431,7 @@ function CarritoContent() {
                       </View>
 
                       {/* Cantidad */}
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 2 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e2 }}>
                         <Pressable
                           onPress={() => void cambiarCantidad(l, l.quantity - 1)}
                           disabled={l.quantity <= 1 || ocupado === l.id}
@@ -458,7 +458,7 @@ function CarritoContent() {
                           <Plus size={13} color={colors.textPrimary} />
                         </Pressable>
                         {l.lineTotalXaf !== null && l.quantity > 1 ? (
-                          <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginLeft: 2 }}>
+                          <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginLeft: espaciado.e2 }}>
                             = {lbXaf(l.lineTotalXaf)}
                           </Text>
                         ) : null}
@@ -469,7 +469,7 @@ function CarritoContent() {
                       onPress={() => confirmarQuitar(l)}
                       hitSlop={8}
                       accessibilityLabel={`Quitar ${l.title} del carrito`}
-                      style={{ alignSelf: 'flex-start', padding: 4 }}
+                      style={{ alignSelf: 'flex-start', padding: espaciado.e4 }}
                     >
                       <X size={15} color={colors.textSecondary} />
                     </Pressable>
@@ -498,7 +498,7 @@ function CarritoContent() {
                 );
               })}
 
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 8, textAlign: 'right' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e8, textAlign: 'right' }}>
                 {g.count} ud · {lbXaf(g.subtotalXaf)}
               </Text>
             </View>
@@ -522,12 +522,12 @@ function CarritoContent() {
       {/* ── Barra inferior fija ────────────────────────────────────────────────── */}
       <View style={[styles.pie, { backgroundColor: colors.background, borderTopColor: alpha(colors.border, 0.7), paddingBottom: insets.bottom + 10 }]}>
         {editando ? (
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
             <Pressable
               onPress={marcarTodo}
               hitSlop={8}
               accessibilityLabel="Seleccionar todo"
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}
             >
               <Casilla estado={todoMarcado ? 'on' : 'off'} onPress={marcarTodo} etiqueta="Todo" />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>Todo</Text>
@@ -553,8 +553,8 @@ function CarritoContent() {
             </Pressable>
           </View>
         ) : (
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-            <Pressable onPress={marcarTodo} hitSlop={8} accessibilityLabel="Seleccionar todo" style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
+            <Pressable onPress={marcarTodo} hitSlop={8} accessibilityLabel="Seleccionar todo" style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
               <Casilla estado={todoMarcado ? 'on' : 'off'} onPress={marcarTodo} etiqueta="Todo" />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>Todo</Text>
             </Pressable>
@@ -589,17 +589,17 @@ function CarritoContent() {
       {/* ── Hoja para cambiar la variante sin ir a la ficha ───────────────────── */}
       <Modal visible={!!varianteDe} transparent animationType="slide" onRequestClose={() => setVarianteDe(null)} statusBarTranslucent>
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={() => setVarianteDe(null)} />
-        <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: 16, paddingBottom: insets.bottom + 16 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900', marginBottom: 4 }}>
+        <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: insets.bottom + 16 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900', marginBottom: espaciado.e4 }}>
             Opción de «{varianteDe?.title}»
           </Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 10 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e10 }}>
             Cambiarla aquí no te saca del carrito. El precio se actualiza al de la opción que elijas.
           </Text>
           {variantes === null ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: 20 }} />
+            <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
           ) : (
-            <View style={{ gap: 8 }}>
+            <View style={{ gap: espaciado.e8 }}>
               {variantes.map((v) => {
                 const activa = varianteDe?.variantId === v.id;
                 const sinStock = v.stockQuantity !== null && v.stockQuantity !== undefined && v.stockQuantity <= 0;
@@ -610,7 +610,7 @@ function CarritoContent() {
                     disabled={sinStock}
                     accessibilityLabel={`Opción ${v.name}`}
                     style={{
-                      flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: radios.md, borderWidth: 1, padding: 10,
+                      flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10,
                       borderColor: activa ? colors.primary : alpha(colors.border, 0.7),
                       backgroundColor: activa ? alpha(colors.primary, 0.08) : colors.surface,
                       opacity: sinStock ? 0.45 : 1,
@@ -625,13 +625,13 @@ function CarritoContent() {
                 );
               })}
               {variantes.length === 0 ? (
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: 12 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: espaciado.e12 }}>
                   Este producto no tiene opciones.
                 </Text>
               ) : null}
             </View>
           )}
-          <Pressable onPress={() => setVarianteDe(null)} style={{ alignItems: 'center', paddingVertical: 12 }}>
+          <Pressable onPress={() => setVarianteDe(null)} style={{ alignItems: 'center', paddingVertical: espaciado.e12 }}>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '800' }}>Cerrar</Text>
           </Pressable>
         </View>
@@ -642,7 +642,7 @@ function CarritoContent() {
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
@@ -650,17 +650,17 @@ const styles = StyleSheet.create({
   toque: { width: altura.punto, height: altura.punto, alignItems: 'center', justifyContent: 'center' },
   /** El círculo VISIBLE. No se toca: sigue midiendo 21, que es lo que pide el diseño. */
   casilla: { width: 21, height: 21, borderRadius: 11, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
-  bloque: { borderRadius: 14, borderWidth: 1, padding: 10, gap: 10 },
-  cabeceraTienda: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  bloque: { borderRadius: 14, borderWidth: 1, padding: espaciado.e10, gap: espaciado.e10 },
+  cabeceraTienda: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
   /** Aviso de «no llega a tu zona»: naranja, bajo la cabecera de la tienda. */
-  avisoZona: { borderRadius: 10, paddingHorizontal: 10, paddingVertical: 7, marginTop: 6 },
+  avisoZona: { borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7, marginTop: espaciado.e6 },
   logoTienda: { width: 24, height: 24, borderRadius: radios.md },
-  linea: { flexDirection: 'row', alignItems: 'flex-start', gap: 9, paddingVertical: 4 },
+  linea: { flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e9, paddingVertical: espaciado.e4 },
   foto: { width: 78, height: 78, borderRadius: 10 },
-  pildora: { alignSelf: 'flex-start', borderWidth: 1, borderRadius: radios.full, paddingHorizontal: 8, paddingVertical: 3, maxWidth: '100%' },
+  pildora: { alignSelf: 'flex-start', borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, maxWidth: '100%' },
   paso: { width: 26, height: 26, borderRadius: radios.sm, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
-  accionDeslizar: { width: 78, alignItems: 'center', justifyContent: 'center', gap: 2, borderRadius: radios.md, marginVertical: 4 },
-  pie: { paddingHorizontal: 12, paddingTop: 10, borderTopWidth: StyleSheet.hairlineWidth },
-  ctaPagar: { borderRadius: radios.full, paddingHorizontal: 16, paddingVertical: 11, alignItems: 'center', justifyContent: 'center' },
-  accionEditar: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 9 },
+  accionDeslizar: { width: 78, alignItems: 'center', justifyContent: 'center', gap: espaciado.e2, borderRadius: radios.md, marginVertical: espaciado.e4 },
+  pie: { paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
+  ctaPagar: { borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e11, alignItems: 'center', justifyContent: 'center' },
+  accionEditar: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
 });

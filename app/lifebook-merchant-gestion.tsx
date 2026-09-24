@@ -21,7 +21,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, useTheme, useScreenGuard, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useScreenGuard, useTheme } from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, ChevronRight, Package, Settings, ShoppingBag, Store, TriangleAlert,
 } from 'lucide-react-native';
@@ -133,23 +133,23 @@ function Contenido() {
       </View>
 
       {error ? (
-        <View style={{ padding: 16 }}>
-          <Text style={{ color: colors.textSecondary, marginBottom: 12 }}>{error}</Text>
+        <View style={{ padding: espaciado.e16 }}>
+          <Text style={{ color: colors.textSecondary, marginBottom: espaciado.e12 }}>{error}</Text>
           <GhostButton title="Reintentar" onPress={() => void cargar()} />
         </View>
       ) : (
         <ScrollView
-          contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 30 }}
+          contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }}
           refreshControl={<RefreshControl refreshing={refrescando} onRefresh={() => { setRefrescando(true); void cargar(true); }} tintColor={colors.primary} />}
         >
           {!tienda ? (
             <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.surface }]}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>Todavía no tienes tienda</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 5, lineHeight: 18 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e5, lineHeight: 18 }}>
                 Abre tu negocio para publicar productos y recibir pedidos. Aparecerá en el catálogo
                 de Life Book y desde aquí llevarás su gestión.
               </Text>
-              <View style={{ marginTop: 12 }}>
+              <View style={{ marginTop: espaciado.e12 }}>
                 <GhostButton title="Abrir mi negocio" onPress={() => irSeguro.libre('/lifebook-sell')} />
               </View>
             </View>
@@ -160,7 +160,7 @@ function Contenido() {
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>
                   {p?.total ?? 0} publicación(es)
                 </Text>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 4, lineHeight: 18 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 18 }}>
                   {p?.active ?? 0} a la venta
                   {p && p.hidden > 0 ? ` · ${p.hidden} oculta(s)` : ''}
                   {p && p.soldOut > 0 ? ` · ${p.soldOut} agotada(s)` : ''}
@@ -170,10 +170,10 @@ function Contenido() {
 
               {/* LO QUE FALTA: la razón de ser de esta pantalla */}
               {pendientes.length ? (
-                <View style={{ marginTop: 18 }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+                <View style={{ marginTop: espaciado.e18 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e8 }}>
                     <TriangleAlert size={16} color={colors.secondary} />
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginLeft: 7 }}>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginLeft: espaciado.e7 }}>
                       Te falta por completar ({pendientes.length})
                     </Text>
                   </View>
@@ -198,18 +198,18 @@ function Contenido() {
                     >
                       <View style={{ flex: 1 }}>
                         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{x.texto}</Text>
-                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3, lineHeight: 17 }}>{x.porque}</Text>
+                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3, lineHeight: 17 }}>{x.porque}</Text>
                       </View>
                       <ChevronRight size={18} color={colors.secondary} />
                     </Pressable>
                   ))}
                 </View>
               ) : (
-                <View style={[styles.resumen, { borderColor: alpha(colors.success, 0.35), backgroundColor: alpha(colors.success, 0.07), marginTop: 18 }]}>
+                <View style={[styles.resumen, { borderColor: alpha(colors.success, 0.35), backgroundColor: alpha(colors.success, 0.07), marginTop: espaciado.e18 }]}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
                     ✓ Tu catálogo está al día
                   </Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
                     Sin publicaciones rechazadas, sin borradores a medias y con existencias.
                   </Text>
                 </View>
@@ -218,7 +218,7 @@ function Contenido() {
           )}
 
           {/* A dónde se va desde aquí */}
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginTop: 22, marginBottom: 8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e22, marginBottom: espaciado.e8 }}>
             Configurar
           </Text>
 
@@ -253,8 +253,8 @@ function Contenido() {
             onPress={() => irSeguro.libre('/lifebook-sell')}
           />
 
-          <View style={{ marginTop: 22 }}>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 8 }}>
+          <View style={{ marginTop: espaciado.e22 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e8 }}>
               Lo del día —pedidos nuevos, preparación, cobros y mensajes— está en la otra parte, «Hoy».
             </Text>
             <GhostButton title="Ir a «Hoy» (pedidos)" onPress={() => irSeguro.libre('/lifebook-merchant')} />
@@ -280,7 +280,7 @@ function Fila({ icono, titulo, detalle, onPress }: {
       <View style={[styles.filaIcono, { backgroundColor: alpha(colors.primary, 0.12) }]}>{icono}</View>
       <View style={{ flex: 1 }}>
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{titulo}</Text>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2, lineHeight: 17 }}>{detalle}</Text>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 17 }}>{detalle}</Text>
       </View>
       <ChevronRight size={18} color={colors.textSecondary} />
     </Pressable>
@@ -289,18 +289,18 @@ function Fila({ icono, titulo, detalle, onPress }: {
 
 const styles = StyleSheet.create({
   cabecera: {
-    flexDirection: 'row', alignItems: 'center', gap: 6,
-    paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
+    paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
-  resumen: { borderWidth: 1, borderRadius: radios.lg, padding: 13 },
+  resumen: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e13 },
   pendiente: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    borderWidth: 1, borderRadius: radios.md, padding: 12, marginBottom: 8, minHeight: 56,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+    borderWidth: 1, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
   },
   fila: {
-    flexDirection: 'row', alignItems: 'center', gap: 11,
-    borderWidth: 1, borderRadius: radios.lg, padding: 12, marginBottom: 8, minHeight: 56,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
+    borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
   },
   filaIcono: { width: 34, height: 34, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
 });

@@ -16,7 +16,7 @@ import { Image } from 'expo-image';
 import * as Crypto from 'expo-crypto';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, PrimaryButton, useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Banknote, Building2, MapPin, Package, Store, Truck, Wallet } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -280,7 +280,7 @@ function CheckoutContent() {
   }
   if (!product) {
     return (
-      <View style={[styles.center, { backgroundColor: colors.background, padding: 24, gap: 12 }]}>
+      <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
         <Text style={{ color: colors.textPrimary, fontWeight: '800', textAlign: 'center' }}>{error ?? 'No se pudo cargar'}</Text>
         <GhostButton title="Volver" onPress={() => irSeguro.atras()} />
       </View>
@@ -307,7 +307,7 @@ function CheckoutContent() {
         <Pressable onPress={() => irSeguro.atras()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: 10 }}>Finalizar pedido</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10 }}>Finalizar pedido</Text>
       </View>
 
       {/*
@@ -317,7 +317,7 @@ function CheckoutContent() {
         interfaz). Comprobado aislándolo: un texto de prueba *dentro* del `ScrollView` tampoco salía, y
         el mismo texto *fuera* sí. Con un `View` se pinta todo. Ver `TANDA-R`.
       */}
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 24 }} keyboardShouldPersistTaps="handled">
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: espaciado.e16, paddingTop: espaciado.e16, paddingBottom: espaciado.e24 }} keyboardShouldPersistTaps="handled">
         {error ? <Notice tone="error">{error}</Notice> : null}
 
         {/* Artículo */}
@@ -351,7 +351,7 @@ function CheckoutContent() {
         </ChipRow>
 
         {deliveryMode !== 'pickup' ? (
-          <View style={{ gap: 8, marginTop: 10 }}>
+          <View style={{ gap: espaciado.e8, marginTop: espaciado.e10 }}>
             <Text style={[styles.label, { color: colors.textSecondary }]}>Ciudad</Text>
             <ChipRow>
               {LB_CITIES.map((c) => (
@@ -362,7 +362,7 @@ function CheckoutContent() {
               placeholderTextColor={colors.textSecondary} maxLength={60} style={input} />
             <TextInput value={reference} onChangeText={setReference} placeholder="Punto de referencia (Ej: portón azul, junto al mercado)"
               placeholderTextColor={colors.textSecondary} maxLength={200} style={input} />
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
               <MapPin size={15} color={colors.primary} />
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, flex: 1 }}>
                 El pin del mapa y el teléfono se comparten con la tienda por el chat.
@@ -370,7 +370,7 @@ function CheckoutContent() {
             </View>
           </View>
         ) : (
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e10 }}>
             <Store size={15} color={colors.primary} />
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>
               Recoges en {product.shop.name}{product.shop.barrio ? ` · ${product.shop.barrio}` : ''}
@@ -380,13 +380,13 @@ function CheckoutContent() {
 
         {/* Pago */}
         <Text style={[styles.section, { color: colors.textPrimary }]}>¿Cómo pagas?</Text>
-        <View style={{ gap: 8 }}>
+        <View style={{ gap: espaciado.e8 }}>
           {(product.paymentMethods ?? []).map((pm) => {
             const meta = LB_PAY_METHODS.find((p) => p.id === pm.method);
             const selectable = pm.status === 'active';
             const active = paymentMethod === pm.method && selectable;
             return (
-              <View key={pm.method} style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              <View key={pm.method} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                 <Chip
                   label={meta?.label ?? lbPayLabel(pm.method)}
                   icon={PAY_ICON[pm.method]}
@@ -445,7 +445,7 @@ function CheckoutContent() {
           multiline
           style={[input, styles.area]}
         />
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: 6 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e6 }}>
           No pongas teléfonos ni enlaces: el contacto va por el chat de Life Book.
         </Text>
       </ScrollView>
@@ -462,7 +462,7 @@ function CheckoutContent() {
           abajo, así que el botón parecía no hacer nada: es el fallo que reportó el dueño.
         */}
         {error ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', paddingHorizontal: 16, paddingTop: 9 }}>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e9 }}>
             {error}
           </Text>
         ) : null}
@@ -538,18 +538,18 @@ function CheckoutContent() {
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  card: { flexDirection: 'row', gap: 12, alignItems: 'center', borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: 12 },
+  card: { flexDirection: 'row', gap: espaciado.e12, alignItems: 'center', borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e12 },
   thumb: { width: 64, height: 64, borderRadius: 10 },
   /** Las secciones van juntas: el cuerpo no se desplaza, así que el hueco cuenta. */
-  section: { fontSize: tipografia.body, fontWeight: '800', marginTop: 13, marginBottom: 8 },
+  section: { fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e13, marginBottom: espaciado.e8 },
   label: { fontSize: tipografia.body, fontWeight: '700' },
-  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 10, fontSize: tipografia.body },
+  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   area: { minHeight: 70, textAlignVertical: 'top' },
   footer: {
-    flexDirection: 'row', alignItems: 'center', gap: 12,
-    paddingHorizontal: 16, paddingTop: 10, borderTopWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
+    paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth,
   },
 });

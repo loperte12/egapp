@@ -10,7 +10,7 @@ import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from '
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, PrimaryButton, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, MapPin, MessageCircle, Package, ShieldCheck, Store, Truck, Wrench,
 } from 'lucide-react-native';
@@ -188,7 +188,7 @@ function ShopContent() {
 
   if (!shop) {
     return (
-      <View style={[styles.center, { backgroundColor: colors.background, padding: 24, gap: 12 }]}>
+      <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
         <Store size={40} color={alpha(colors.primary, 0.4)} />
         <Text style={{ color: colors.textPrimary, fontWeight: '800' }}>Esta tienda no está disponible</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
@@ -205,8 +205,8 @@ function ShopContent() {
         data={tab === 'info' ? [] : visibles}
         keyExtractor={(p) => p.id}
         numColumns={2}
-        columnWrapperStyle={{ gap: 10, paddingHorizontal: 14 }}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 100, gap: 12 }}
+        columnWrapperStyle={{ gap: espaciado.e10, paddingHorizontal: espaciado.e14 }}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 100, gap: espaciado.e12 }}
         showsVerticalScrollIndicator={false}
         /* Si el índice aún no está medido (fila alta, recién pintada), FlatList avisa: se
            corrige bajando a ojo, para que el atajo nunca deje al visitante arriba del todo. */
@@ -233,7 +233,7 @@ function ShopContent() {
               </Pressable>
             </View>
 
-            <View style={{ paddingHorizontal: 16, marginTop: -34 }}>
+            <View style={{ paddingHorizontal: espaciado.e16, marginTop: -34 }}>
               <View style={[styles.logoWrap, { borderColor: colors.background, backgroundColor: colors.surface }]}>
                 {shop.logoUrl ? (
                   <Image source={absUrl(shop.logoUrl)} style={styles.logo} contentFit="cover" cachePolicy="memory-disk" transition={0} />
@@ -244,17 +244,17 @@ function ShopContent() {
                 )}
               </View>
 
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e10 }}>
                 <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: '900', flex: 1 }} numberOfLines={1}>
                   {shop.name}
                 </Text>
                 {shop.isVerified ? <ShieldCheck size={16} color={colors.success} /> : null}
               </View>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e2 }}>
                 {nivel.icon} {nivel.label}
                 {shop.ecomerse ? ' · Tienda Ecomerse' : ''}
               </Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 6, flexWrap: 'wrap' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e6, flexWrap: 'wrap' }}>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                   {[shop.city, shop.barrio, lbRegionLabel(shop.region)].filter(Boolean).join(' · ')}
                 </Text>
@@ -264,11 +264,11 @@ function ShopContent() {
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{shop.stats?.followers ?? shop.followersCount} seguidores</Text>
               </View>
               {shop.description ? (
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, marginTop: 8, lineHeight: 19 }}>{shop.description}</Text>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, marginTop: espaciado.e8, lineHeight: 19 }}>{shop.description}</Text>
               ) : null}
 
               {/* ── Acciones ── */}
-              <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
                 {esMia ? (
                   // Parte 39: si la tienda es tuya, lo que quieres es administrarla.
                   <View style={{ flex: 1 }}>
@@ -310,7 +310,7 @@ function ShopContent() {
 
             {/* ── Información ── */}
             {tab === 'info' ? (
-              <View style={{ paddingHorizontal: 16, paddingTop: 14 }}>
+              <View style={{ paddingHorizontal: espaciado.e16, paddingTop: espaciado.e14 }}>
                 {shop.addressReference ? (
                   <InfoRow colors={colors} icon={<MapPin size={16} color={colors.primary} />} text={shop.addressReference} />
                 ) : null}
@@ -324,10 +324,10 @@ function ShopContent() {
                     }${sp.costMode === 'on_request' ? ' · coste a consultar' : ` · desde ${lbXaf(sp.baseCostXaf)}`}`}
                   />
                 ))}
-                <View style={{ marginTop: 8 }}>
-                  <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body, marginBottom: 6 }}>Pagos aceptados</Text>
+                <View style={{ marginTop: espaciado.e8 }}>
+                  <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body, marginBottom: espaciado.e6 }}>Pagos aceptados</Text>
                   {shop.paymentMethods.map((pm) => (
-                    <Text key={pm.method} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 3 }}>
+                    <Text key={pm.method} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e3 }}>
                       · {lbPayLabel(pm.method)}{pm.status !== 'active' ? ` (${LB_PAY_STATUS_LABEL[pm.status] ?? pm.status})` : ''}
                     </Text>
                   ))}
@@ -335,7 +335,7 @@ function ShopContent() {
                 <Pressable
                   onPress={() => shop.owner && irSeguro.libre('/lifebook-user', { id: shop.owner.id })}
                   accessibilityLabel="Ver el perfil del vendedor"
-                  style={{ marginTop: 16 }}
+                  style={{ marginTop: espaciado.e16 }}
                 >
                   <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>Ver el perfil de {shop.owner?.name ?? 'el vendedor'} →</Text>
                 </Pressable>
@@ -345,7 +345,7 @@ function ShopContent() {
         }
         ListEmptyComponent={
           tab === 'info' ? null : (
-            <View style={{ alignItems: 'center', paddingTop: 40, gap: 8 }}>
+            <View style={{ alignItems: 'center', paddingTop: 40, gap: espaciado.e8 }}>
               {tab === 'services' ? <Wrench size={34} color={alpha(colors.primary, 0.4)} /> : <Package size={34} color={alpha(colors.primary, 0.4)} />}
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
                 {tab === 'services' ? 'Esta tienda aún no ofrece servicios.' : 'Esta tienda aún no tiene productos publicados.'}
@@ -379,7 +379,7 @@ function ShopContent() {
                 <Package size={22} color={alpha(colors.primary, 0.5)} />
               </View>
             )}
-            <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 6 }}>
+            <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 }}>
               {item.title}
             </Text>
             {/* Marca visible del atajo: si se ha entrado desde la tarjeta del perfil, el
@@ -387,14 +387,14 @@ function ShopContent() {
                 un borde de color, que no se puede ni leer con un lector de pantalla (y que yo
                 tampoco podía comprobar en el teléfono). */}
             {resaltado === item.id ? (
-              <Text style={{ color: colors.primary, fontSize: 10.5, fontWeight: '900', marginTop: 2 }}>
+              <Text style={{ color: colors.primary, fontSize: 10.5, fontWeight: '900', marginTop: espaciado.e2 }}>
                 📍 Es el que tocaste
               </Text>
             ) : null}
-            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: 3 }}>
+            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e3 }}>
               {lbPriceLabel(item.priceXaf, item.priceMode, lbXaf)}
             </Text>
-            <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 2 }}>
+            <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
               {[item.originCity, item.shipsInternational ? 'envía al extranjero' : null].filter(Boolean).join(' · ')}
             </Text>
             {/* «X vendidos»: el dato ya venía (`salesCount`) y no se pintaba. Solo si hay
@@ -413,9 +413,9 @@ function ShopContent() {
 
 function InfoRow({ colors, icon, text }: { colors: any; icon: React.ReactNode; text: string }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 8 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: espaciado.e8 }}>
       {icon}
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginLeft: 8, flex: 1, lineHeight: 18 }}>{text}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginLeft: espaciado.e8, flex: 1, lineHeight: 18 }}>{text}</Text>
     </View>
   );
 }
@@ -429,9 +429,9 @@ const styles = StyleSheet.create({
   },
   logoWrap: { width: 74, height: 74, borderRadius: 37, borderWidth: 3, overflow: 'hidden' },
   logo: { width: '100%', height: '100%', borderRadius: 37 },
-  tabs: { flexDirection: 'row', gap: 18, borderBottomWidth: StyleSheet.hairlineWidth, marginTop: 16 },
-  tab: { paddingBottom: 8, alignItems: 'center' },
-  tabLine: { height: 2.5, width: 26, borderRadius: 2, marginTop: 5 },
-  card: { flex: 1, borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, padding: 8, maxWidth: '50%' },
+  tabs: { flexDirection: 'row', gap: espaciado.e18, borderBottomWidth: StyleSheet.hairlineWidth, marginTop: espaciado.e16 },
+  tab: { paddingBottom: espaciado.e8, alignItems: 'center' },
+  tabLine: { height: 2.5, width: 26, borderRadius: 2, marginTop: espaciado.e5 },
+  card: { flex: 1, borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e8, maxWidth: '50%' },
   cardImg: { width: '100%', height: 120, borderRadius: radios.sm },
 });

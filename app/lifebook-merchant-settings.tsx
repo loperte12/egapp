@@ -15,7 +15,7 @@ import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleS
 import { Image } from 'expo-image';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, FormField, PrimaryButton, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -165,10 +165,10 @@ function SettingsContent() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Cabecera onBack={() => router.back()} colors={colors} insets={insets} />
-        <View style={{ alignItems: 'center', paddingTop: 70, gap: 10 }}>
+        <View style={{ alignItems: 'center', paddingTop: 70, gap: espaciado.e10 }}>
           <Store size={42} color={alpha(colors.primary, 0.45)} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>Todavía no tienes tienda</Text>
-          <View style={{ minWidth: 220, marginTop: 8 }}>
+          <View style={{ minWidth: 220, marginTop: espaciado.e8 }}>
             <PrimaryButton title="Abrir mi tienda" onPress={() => irSeguro.libre('/lifebook-sell', undefined, true)} />
           </View>
         </View>
@@ -180,7 +180,7 @@ function SettingsContent() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <Cabecera onBack={() => router.back()} colors={colors} insets={insets} />
       <ScrollView
-        contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 26 }}
+        contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 26 }}
         refreshControl={<RefreshControl refreshing={refrescando} onRefresh={() => cargar()} tintColor={colors.primary} />}
       >
         {guardado ? <Notice tone="ok">Cambios guardados. Los productos ya publicados mantienen su entrega y su estado.</Notice> : null}
@@ -192,7 +192,7 @@ function SettingsContent() {
           ) : (
             <View style={[styles.cover, { backgroundColor: alpha(colors.primary, 0.12) }]} />
           )}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: -22, paddingHorizontal: 12 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginTop: -22, paddingHorizontal: espaciado.e12 }}>
             {logoUrl ? (
               <Image source={absUrl(logoUrl)} style={[styles.logo, { borderColor: colors.background }]} contentFit="cover" cachePolicy="memory-disk" transition={0} />
             ) : (
@@ -224,7 +224,7 @@ function SettingsContent() {
               <Chip key={c} label={c} active={city === c} onPress={() => setCity(c)} compact />
             ))}
           </ChipRow>
-          <View style={{ marginTop: 8 }}>
+          <View style={{ marginTop: espaciado.e8 }}>
             <FormField label="" value={city} onChangeText={setCity} maxLength={60} placeholder="Otra ciudad" />
           </View>
         </StepBlock>
@@ -263,7 +263,7 @@ function SettingsContent() {
               />
             ))}
           </ChipRow>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 8 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e8 }}>
             Contra entrega es la única que cobra con código de 4 dígitos al recibir.
           </Text>
         </StepBlock>
@@ -271,28 +271,28 @@ function SettingsContent() {
         <StepBlock title="Entrega" hint="Se edita en su sitio: los productos ya publicados no se quedan sin entrega.">
           <FormField label="Nombre de la tarifa" value={envioNombre} onChangeText={setEnvioNombre} maxLength={60} placeholder="Mismo día" />
 
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 12, marginBottom: 6 }}>Cobertura</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, marginBottom: espaciado.e6 }}>Cobertura</Text>
           <ChipRow>
             {LB_COVERAGE.map((c) => (
               <Chip key={c.id} label={c.label} active={cobertura.includes(c.id)} onPress={() => alternar(cobertura, setCobertura, c.id)} compact />
             ))}
           </ChipRow>
 
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 12, marginBottom: 6 }}>Cómo se transporta</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, marginBottom: espaciado.e6 }}>Cómo se transporta</Text>
           <ChipRow>
             {LB_TRANSPORT.map((t) => (
               <Chip key={t.id} label={t.label} active={transportes.includes(t.id)} onPress={() => alternar(transportes, setTransportes, t.id)} compact />
             ))}
           </ChipRow>
 
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 12, marginBottom: 6 }}>Coste de la entrega</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, marginBottom: espaciado.e6 }}>Coste de la entrega</Text>
           <ChipRow>
             {LB_COST_MODES.map((m) => (
               <Chip key={m.id} label={m.label} active={costMode === m.id} onPress={() => setCostMode(m.id)} compact />
             ))}
           </ChipRow>
 
-          <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e10 }}>
             <View style={{ flex: 1 }}>
               <FormField label="Coste base (XAF)" value={coste} onChangeText={(v) => setCoste(v.replace(/\D/g, ''))} keyboardType="number-pad" placeholder="1500" />
             </View>
@@ -303,7 +303,7 @@ function SettingsContent() {
             ) : null}
           </View>
 
-          <View style={{ marginTop: 10 }}>
+          <View style={{ marginTop: espaciado.e10 }}>
             <FormField label="Tiempo estimado" value={tiempo} onChangeText={setTiempo} maxLength={40} placeholder="2-4 h" />
           </View>
         </StepBlock>
@@ -312,7 +312,7 @@ function SettingsContent() {
 
         <Pressable
           onPress={() => irSeguro.libre('/lifebook-merchant-products')}
-          style={{ marginTop: 18, alignItems: 'center' }}
+          style={{ marginTop: espaciado.e18, alignItems: 'center' }}
         >
           <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Ir a mis publicaciones →</Text>
         </Pressable>
@@ -327,7 +327,7 @@ function Cabecera({ onBack, colors, insets }: { onBack: () => void; colors: any;
       <Pressable onPress={onBack} hitSlop={10} accessibilityLabel="Volver">
         <ArrowLeft size={20} color={colors.textPrimary} />
       </Pressable>
-      <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: 10, flex: 1 }}>
+      <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }}>
         Ajustes de la tienda
       </Text>
     </View>
@@ -336,10 +336,10 @@ function Cabecera({ onBack, colors, insets }: { onBack: () => void; colors: any;
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  preview: { borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.lg, overflow: 'hidden', marginBottom: 18 },
+  preview: { borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.lg, overflow: 'hidden', marginBottom: espaciado.e18 },
   cover: { width: '100%', height: 96 },
   logo: { width: 52, height: 52, borderRadius: radios.lg, borderWidth: 3 },
 });

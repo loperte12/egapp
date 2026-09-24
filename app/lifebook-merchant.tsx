@@ -17,7 +17,7 @@ import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, T
 import { Image } from 'expo-image';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, PrimaryButton, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, BarChart3, BedDouble, Bookmark, ChevronRight, MessageCircle, Package, Settings,
@@ -123,7 +123,7 @@ function MerchantContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: 10, flex: 1 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }}>
           Mi tienda
         </Text>
         {shop ? (
@@ -134,11 +134,11 @@ function MerchantContent() {
       </View>
 
       <ScrollView
-        contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 28 }}
+        contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 28 }}
         refreshControl={<RefreshControl refreshing={refrescando} onRefresh={() => load()} tintColor={colors.primary} />}
       >
         {error ? (
-          <View style={[styles.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), marginBottom: 14 }]}>
+          <View style={[styles.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), marginBottom: espaciado.e14 }]}>
             <Text style={{ color: colors.danger, fontSize: tipografia.caption }}>{error}</Text>
           </View>
         ) : null}
@@ -164,8 +164,8 @@ function MerchantContent() {
             accessibilityRole="button"
             accessibilityLabel="Gestión: publicaciones, existencias y ajustes de la tienda"
             style={[styles.card, {
-              flexDirection: 'row', alignItems: 'center', gap: 11,
-              borderColor: colors.border, backgroundColor: colors.card, marginBottom: 14, minHeight: 56,
+              flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
+              borderColor: colors.border, backgroundColor: colors.card, marginBottom: espaciado.e14, minHeight: 56,
             }]}
           >
             <View style={[styles.iconoSeccion, { backgroundColor: alpha(colors.primary, 0.12) }]}>
@@ -173,7 +173,7 @@ function MerchantContent() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Gestión</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 Publicaciones, existencias, precios y ajustes de la tienda
               </Text>
             </View>
@@ -182,7 +182,7 @@ function MerchantContent() {
         ) : null}
 
         {shop && hotel?.isHotel ? (
-          <View style={[styles.card, { borderColor: alpha(colors.primary, 0.35), backgroundColor: alpha(colors.primary, 0.06), marginBottom: 14 }]}>
+          <View style={[styles.card, { borderColor: alpha(colors.primary, 0.35), backgroundColor: alpha(colors.primary, 0.06), marginBottom: espaciado.e14 }]}>
             {/*
               Las DOS PARTES del panel del comerciante (decisión del dueño, 2026-09-12).
               No son dos apps: es el mismo trabajo con dos naturalezas distintas, y mezclarlas
@@ -192,7 +192,7 @@ function MerchantContent() {
               Aquí, en la puerta, se ofrecen las dos por igual para que el hotelero sepa que
               existen y no tenga que adivinar dónde está cada cosa.
             */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e9 }}>
               <View style={[styles.iconoSeccion, { backgroundColor: alpha(colors.primary, 0.16) }]}>
                 <BedDouble size={17} color={colors.primary} />
               </View>
@@ -200,13 +200,13 @@ function MerchantContent() {
                 Tu alojamiento
               </Text>
             </View>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 7, lineHeight: 18 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e7, lineHeight: 18 }}>
               {hotel.rooms
                 ? `${hotel.rooms} tipo(s) de habitación · ${hotel.publicadas} se puede(n) reservar ya`
                 : 'Todavía no has creado ninguna habitación'}
             </Text>
 
-            <View style={{ flexDirection: 'row', gap: 8, marginTop: 12 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e12 }}>
               <View style={{ flex: 1 }}>
                 <PrimaryButton title="Hoy" onPress={() => ir('/lifebook-hotel-panel')} />
               </View>
@@ -214,7 +214,7 @@ function MerchantContent() {
                 <GhostButton title="Gestión" onPress={() => ir('/lifebook-hotel-gestion')} />
               </View>
             </View>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 8, lineHeight: 16 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8, lineHeight: 16 }}>
               «Hoy»: llegadas, salidas, cobros y reservas. «Gestión»: ficha, habitaciones y precios.
             </Text>
           </View>
@@ -222,13 +222,13 @@ function MerchantContent() {
 
         {/* Sin tienda: el panel no existe todavía, se ofrece abrirla. */}
         {!shop ? (
-          <View style={{ alignItems: 'center', paddingTop: 60, gap: 10 }}>
+          <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e10 }}>
             <Store size={44} color={alpha(colors.primary, 0.45)} />
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>Todavía no tienes tienda</Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 30 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: espaciado.e30 }}>
               Abre tu tienda para vender productos, comida o servicios y gestionar tus pedidos desde aquí.
             </Text>
-            <View style={{ marginTop: 8, minWidth: 220 }}>
+            <View style={{ marginTop: espaciado.e8, minWidth: 220 }}>
               <PrimaryButton title="Abrir mi tienda" onPress={() => ir('/lifebook-sell')} />
             </View>
           </View>
@@ -236,7 +236,7 @@ function MerchantContent() {
           <>
             {/* ── Ficha de la tienda ── */}
             <View style={[styles.card, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }}>
                 {shop.logoUrl ? (
                   <Image source={absUrl(shop.logoUrl)} style={styles.logo} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                 ) : (
@@ -246,30 +246,30 @@ function MerchantContent() {
                 )}
                 <View style={{ flex: 1 }}>
                   <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>{shop.name}</Text>
-                  <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                  <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                     {LB_VERIFICATION[shop.verificationLevel]?.icon} {LB_VERIFICATION[shop.verificationLevel]?.label}
                     {shop.city ? ` · ${shop.city}${shop.barrio ? ` (${shop.barrio})` : ''}` : ''}
                   </Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 4 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e4 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
                       <Star size={12} color={brand.secondary} />
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                         {shop.ratingCount > 0 ? `${shop.rating.toFixed(1)} (${shop.ratingCount})` : 'Sin valoraciones'}
                       </Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
                       <Bookmark size={12} color={colors.textSecondary} />
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{shop.followersCount} seguidores</Text>
                     </View>
                   </View>
                 </View>
                 {!shop.isActive ? (
-                  <View style={{ backgroundColor: alpha(colors.danger, 0.12), borderRadius: radios.full, paddingHorizontal: 8, paddingVertical: 3 }}>
+                  <View style={{ backgroundColor: alpha(colors.danger, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
                     <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: '900' }}>PAUSADA</Text>
                   </View>
                 ) : null}
               </View>
-              <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
                 <View style={{ flex: 1 }}>
                   <GhostButton title="Ver como cliente" onPress={() => ir(`/lifebook-shop/${shop.id}`)} />
                 </View>
@@ -281,7 +281,7 @@ function MerchantContent() {
 
             {/* ── Avisos: solo lo que requiere una acción hoy ── */}
             {data?.alerts ? (
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 6 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginBottom: espaciado.e6 }}>
                 {data.alerts.newOrders > 0 ? (
                   <Aviso icon={<ShoppingBag size={13} color={brand.white} />} color={colors.primary}
                     texto={`${data.alerts.newOrders} pedido${data.alerts.newOrders === 1 ? '' : 's'} nuevo${data.alerts.newOrders === 1 ? '' : 's'}`}
@@ -309,14 +309,14 @@ function MerchantContent() {
             <Seccion titulo="Caja" icono={<BarChart3 size={15} color={colors.textPrimary} />}>
               <View style={[styles.card, { borderColor: colors.border }]}>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Cobrado hoy</Text>
-                <Text style={{ color: colors.success, fontSize: tipografia.display, fontWeight: '900', marginTop: 2 }}>
+                <Text style={{ color: colors.success, fontSize: tipografia.display, fontWeight: '900', marginTop: espaciado.e2 }}>
                   {lbXaf(data?.money?.paidTodayXaf ?? 0)}
                 </Text>
-                <View style={{ flexDirection: 'row', gap: 16, marginTop: 12 }}>
+                <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e12 }}>
                   <Mini label="Este mes" valor={lbXaf(data?.money?.paidMonthXaf ?? 0)} />
                   <Mini label="Por cobrar" valor={lbXaf(data?.money?.pendingCodXaf ?? 0)} />
                 </View>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 10, lineHeight: 15 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e10, lineHeight: 15 }}>
                   Solo cuenta lo entregado y cobrado. «Por cobrar» es lo pendiente de contra entrega.
                   Día del servidor: {data?.serverDay ?? '—'} (hora de Malabo{data?.serverTime ? `, ${data.serverTime}` : ''}).
                 </Text>
@@ -332,7 +332,7 @@ function MerchantContent() {
                   <Mini label="Entregados" valor={String(data?.orders?.delivered ?? 0)} />
                   <Mini label="Cancelados" valor={String(data?.orders?.cancelled ?? 0)} />
                 </View>
-                <View style={{ marginTop: 12 }}>
+                <View style={{ marginTop: espaciado.e12 }}>
                   <GhostButton title="Ver pedidos de la tienda" onPress={() => ir('/lifebook-orders', { side: 'seller' })} />
                 </View>
                 {/*
@@ -340,7 +340,7 @@ function MerchantContent() {
                   si gana dinero dentro de la app». Lo que ha vendido, la comisión, lo que le queda por
                   cobrar y lo que espera a que venza la ventana de reclamación.
                 */}
-                <View style={{ marginTop: 10 }}>
+                <View style={{ marginTop: espaciado.e10 }}>
                   <PrimaryButton title="El dinero de mi tienda" onPress={() => ir('/lifebook-dinero')} />
                 </View>
               </View>
@@ -355,7 +355,7 @@ function MerchantContent() {
                   <Mini label="Agotados" valor={String(data?.products?.soldOut ?? 0)} />
                   <Mini label="Borradores" valor={String(data?.products?.draft ?? 0)} />
                 </View>
-                <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}>
+                <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
                   <View style={{ flex: 1 }}>
                     <GhostButton title="Gestionar" onPress={() => ir('/lifebook-merchant-products')} />
                   </View>
@@ -375,7 +375,7 @@ function MerchantContent() {
               </View>
             </Seccion>
 
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center', marginTop: 8 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center', marginTop: espaciado.e8 }}>
               Los datos son de tu tienda y se cargan con tu sesión · se actualiza cada {REFRESCO_MS / 1000} s
             </Text>
           </>
@@ -390,8 +390,8 @@ function MerchantContent() {
 function Seccion({ titulo, icono, children }: { titulo: string; icono: React.ReactNode; children: React.ReactNode }) {
   const { colors } = useTheme();
   return (
-    <View style={{ marginTop: 16 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+    <View style={{ marginTop: espaciado.e16 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginBottom: espaciado.e8 }}>
         {icono}
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>{titulo}</Text>
       </View>
@@ -423,8 +423,8 @@ function Aviso({ icon, color, texto, onPress }: { icon: React.ReactNode; color: 
 function Futuro({ titulo, detalle }: { titulo: string; detalle: string }) {
   const { colors } = useTheme();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8, paddingVertical: 6 }}>
-      <View style={{ backgroundColor: alpha(colors.textSecondary, 0.15), borderRadius: radios.full, paddingHorizontal: 8, paddingVertical: 2, marginTop: 1 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e8, paddingVertical: espaciado.e6 }}>
+      <View style={{ backgroundColor: alpha(colors.textSecondary, 0.15), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e2, marginTop: 1 }}>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '900' }}>PRÓXIMAMENTE</Text>
       </View>
       <View style={{ flex: 1 }}>
@@ -438,12 +438,12 @@ function Futuro({ titulo, detalle }: { titulo: string; detalle: string }) {
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.lg, padding: 14 },
+  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.lg, padding: espaciado.e14 },
   iconoSeccion: { width: 30, height: 30, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   logo: { width: 52, height: 52, borderRadius: radios.md },
-  fila: { flexDirection: 'row', gap: 10 },
-  aviso: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: radios.full, paddingHorizontal: 11, paddingVertical: 6 },
+  fila: { flexDirection: 'row', gap: espaciado.e10 },
+  aviso: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6 },
 });

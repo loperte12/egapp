@@ -20,7 +20,7 @@ import {
 import { Image } from 'expo-image';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, PrimaryButton, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Eye, Package, Pencil, Plus, Star, Trash2, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -209,7 +209,7 @@ function ProductsContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: 10, flex: 1 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }}>
           Mis publicaciones
         </Text>
         <Pressable onPress={() => irSeguro.libre('/lifebook-sell')} hitSlop={10} accessibilityLabel="Publicar algo nuevo">
@@ -217,14 +217,14 @@ function ProductsContent() {
         </Pressable>
       </View>
 
-      <View style={{ paddingHorizontal: 14, paddingTop: 10 }}>
+      <View style={{ paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10 }}>
         {/* TANDA A — los 3 DESTACADOS que salen en la tarjeta de mi tienda en el perfil.
             El comerciante decide qué se ve primero (es su escaparate), así que el selector
             vive aquí, junto a sus publicaciones, y no escondido en los ajustes. */}
         <Pressable
           onPress={() => { void abrirDestacados(); }}
           accessibilityLabel="Elegir los productos destacados de mi perfil"
-          style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 8 }}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e8 }}
         >
           <Star size={16} color={brand.warning} fill={brand.warning} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
@@ -247,13 +247,13 @@ function ProductsContent() {
         <View style={[styles.center, { flex: 1 }]}><ActivityIndicator color={colors.primary} /></View>
       ) : (
         <ScrollView
-          contentContainerStyle={{ padding: 14, paddingBottom: insets.bottom + 24, flexGrow: 1 }}
+          contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 24, flexGrow: 1 }}
           refreshControl={<RefreshControl refreshing={refrescando} onRefresh={() => load()} tintColor={colors.primary} />}
         >
           {error ? <Notice tone="error">{error}</Notice> : null}
 
           {visibles.length === 0 ? (
-            <View style={{ alignItems: 'center', paddingTop: 60, gap: 8 }}>
+            <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e8 }}>
               <Package size={42} color={alpha(colors.primary, 0.45)} />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
                 {filtro === 'todos' ? 'Todavía no vendes nada' : 'Nada en este estado'}
@@ -261,7 +261,7 @@ function ProductsContent() {
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 40 }}>
                 Publica un producto, comida o servicio: pasa por revisión y, al aprobarse, aparece en el catálogo.
               </Text>
-              <View style={{ marginTop: 8, minWidth: 220 }}>
+              <View style={{ marginTop: espaciado.e8, minWidth: 220 }}>
                 <PrimaryButton title="Publicar algo nuevo" onPress={() => irSeguro.libre('/lifebook-sell')} />
               </View>
             </View>
@@ -273,7 +273,7 @@ function ProductsContent() {
               const rapida = LB_QUICK_EDITABLE.includes(p.status);
               return (
                 <View key={p.id} style={[styles.card, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-                  <View style={{ flexDirection: 'row', gap: 10 }}>
+                  <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
                     {p.coverUrl ? (
                       <Image source={absUrl(p.coverUrl)} style={styles.thumb} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                     ) : (
@@ -283,18 +283,18 @@ function ProductsContent() {
                     )}
                     <View style={{ flex: 1 }}>
                       <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{p.title}</Text>
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                         {lbServiceIcon(p.serviceType)} {lbServiceLabel(p.serviceType)} · {p.variants > 0 ? `${p.variants} opciones · ` : ''}
                         {p.stockMode === 'exact' || p.stockMode === 'approximate'
                           ? `${p.stockQuantity} disp.${esAgotado(p) ? ' (agotado)' : ''}`
                           : lbStockModeLabel(p.stockMode)}
                       </Text>
-                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginTop: 3 }}>
+                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e3 }}>
                         {p.priceMode === 'on_request' || p.priceXaf === null ? 'A consultar' : lbXaf(p.priceXaf)}
                       </Text>
                     </View>
-                    <View style={{ alignItems: 'flex-end', gap: 6 }}>
-                      <View style={{ backgroundColor: alpha(tone, 0.13), borderRadius: radios.full, paddingHorizontal: 8, paddingVertical: 3 }}>
+                    <View style={{ alignItems: 'flex-end', gap: espaciado.e6 }}>
+                      <View style={{ backgroundColor: alpha(tone, 0.13), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
                         <Text style={{ color: tone, fontSize: tipografia.micro, fontWeight: '900' }}>{meta.label}</Text>
                       </View>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>👁 {p.viewsCount} · ❤ {p.savesCount}</Text>
@@ -309,15 +309,15 @@ function ProductsContent() {
                   </View>
 
                   {p.status === 'rejected' && p.rejectionReason ? (
-                    <View style={{ marginTop: 8 }}>
+                    <View style={{ marginTop: espaciado.e8 }}>
                       <Notice tone="error">{p.rejectionReason}</Notice>
                     </View>
                   ) : null}
                   {meta.hint && p.status !== 'active' ? (
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 6 }}>{meta.hint}</Text>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e6 }}>{meta.hint}</Text>
                   ) : null}
 
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e10 }}>
                     {acciones.map((a) => (
                       <Chip
                         key={a.action}
@@ -355,8 +355,8 @@ function ProductsContent() {
       {destacadosOpen ? (
         <Modal visible transparent animationType="slide" onRequestClose={() => setDestacadosOpen(false)} statusBarTranslucent>
           <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={() => setDestacadosOpen(false)} />
-          <View style={{ backgroundColor: colors.card, borderTopLeftRadius: radios.lg, borderTopRightRadius: radios.lg, padding: 16, paddingBottom: insets.bottom + 16, maxHeight: '82%' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+          <View style={{ backgroundColor: colors.card, borderTopLeftRadius: radios.lg, borderTopRightRadius: radios.lg, padding: espaciado.e16, paddingBottom: insets.bottom + 16, maxHeight: '82%' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e4 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 }}>
                 Destacados en mi perfil
               </Text>
@@ -364,12 +364,12 @@ function ProductsContent() {
                 <X size={20} color={colors.textSecondary} />
               </Pressable>
             </View>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 10 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
               Hasta 3. El número es el ORDEN en que se verán en la tarjeta de tu tienda (el 1
               primero). Si no destacas ninguno, la tarjeta solo enseña el nombre y la puntuación.
             </Text>
 
-            <ScrollView style={{ maxHeight: 420 }} contentContainerStyle={{ gap: 8 }}>
+            <ScrollView style={{ maxHeight: 420 }} contentContainerStyle={{ gap: espaciado.e8 }}>
               {(items ?? [])
                 .filter((p) => p.status === 'active')
                 .map((p) => {
@@ -383,7 +383,7 @@ function ProductsContent() {
                       accessibilityState={{ checked: activo }}
                       accessibilityLabel={`Destacar ${p.title}`}
                       style={{
-                        flexDirection: 'row', alignItems: 'center', gap: 10, padding: 8,
+                        flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, padding: espaciado.e8,
                         borderRadius: radios.md, borderWidth: 1,
                         borderColor: activo ? colors.primary : alpha(colors.border, 0.6),
                         backgroundColor: activo ? alpha(colors.primary, 0.08) : colors.surface,
@@ -415,14 +415,14 @@ function ProductsContent() {
                   );
                 })}
               {(items ?? []).filter((p) => p.status === 'active').length === 0 ? (
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: 20 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: espaciado.e20 }}>
                   No tienes publicaciones activas todavía. Cuando las tengas, podrás elegir cuáles
                   se ven primero en tu perfil.
                 </Text>
               ) : null}
             </ScrollView>
 
-            <View style={{ marginTop: 12 }}>
+            <View style={{ marginTop: espaciado.e12 }}>
               <PrimaryButton
                 title={guardandoDest ? 'Guardando…' : 'Guardar destacados'}
                 onPress={() => { if (!guardandoDest) void guardarDestacados(); }}
@@ -458,9 +458,9 @@ function EdicionRapida({
         <Pressable style={StyleSheet.absoluteFill} onPress={onCerrar} accessibilityLabel="Cerrar" />
         <View style={[styles.sheet, { backgroundColor: colors.background, borderColor: colors.border, paddingBottom: insets.bottom + 16 }]}>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>Precio y existencias</Text>
-          <Text numberOfLines={2} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>{producto.title}</Text>
+          <Text numberOfLines={2} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{producto.title}</Text>
 
-          <View style={{ marginTop: 14 }}>
+          <View style={{ marginTop: espaciado.e14 }}>
             <Notice>
               Esto es un ajuste del día a día: <Text style={{ fontWeight: '900' }}>no pasa por revisión</Text> y la
               publicación sigue igual de visible. Para cambiar el título, las fotos o la descripción, usa «Editar todo».
@@ -469,7 +469,7 @@ function EdicionRapida({
 
           {producto.priceMode !== 'on_request' ? (
             <>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 6 }}>Precio (XAF)</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e6 }}>Precio (XAF)</Text>
               <TextInput
                 value={precio}
                 onChangeText={(v) => setPrecio(v.replace(/\D/g, '').slice(0, 9))}
@@ -483,7 +483,7 @@ function EdicionRapida({
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Esta publicación es «a consultar»: no lleva precio.</Text>
           )}
 
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 14, marginBottom: 6 }}>Existencias</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e14, marginBottom: espaciado.e6 }}>Existencias</Text>
           <ChipRow>
             {LB_STOCK_MODES.map((m) => (
               <Chip key={m.id} label={m.label} active={stockMode === m.id} onPress={() => setStockMode(m.id)} />
@@ -497,11 +497,11 @@ function EdicionRapida({
               keyboardType="number-pad"
               placeholder="0"
               placeholderTextColor={colors.textSecondary}
-              style={[styles.input, { marginTop: 10, color: colors.textPrimary, borderColor: colors.border, backgroundColor: colors.surface }]}
+              style={[styles.input, { marginTop: espaciado.e10, color: colors.textPrimary, borderColor: colors.border, backgroundColor: colors.surface }]}
             />
           ) : null}
 
-          <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e18 }}>
             <View style={{ flex: 1 }}>
               <GhostButton title="Cancelar" onPress={onCerrar} />
             </View>
@@ -522,15 +522,15 @@ function EdicionRapida({
 const styles = StyleSheet.create({
   center: { alignItems: 'center', justifyContent: 'center' },
   header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingBottom: 10,
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.lg, padding: 12, marginBottom: 10 },
+  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.lg, padding: espaciado.e12, marginBottom: espaciado.e10 },
   thumb: { width: 62, height: 62, borderRadius: radios.md },
   overlay: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.45)' },
-  sheet: { borderTopWidth: StyleSheet.hairlineWidth, borderTopLeftRadius: radios.lg, borderTopRightRadius: radios.lg, padding: 18 },
+  sheet: { borderTopWidth: StyleSheet.hairlineWidth, borderTopLeftRadius: radios.lg, borderTopRightRadius: radios.lg, padding: espaciado.e18 },
   input: {
-    borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 9,
+    borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9,
     fontSize: tipografia.body, fontWeight: '700',
   },
 });
