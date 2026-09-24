@@ -10,7 +10,7 @@ import { Alert, Image, ScrollView, StyleSheet, Text, View, Pressable } from 'rea
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Wallet, FileWarning, Truck, Siren, ChevronRight, ShieldCheck, Percent } from 'lucide-react-native';
-import { useTheme, GhostButton, alpha, brand, InlineError, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, InlineError, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { driverApi, DocExpiry } from '../api/driver';
 import { intercityApi, DriverEarnings } from '../api/intercity';
 import { absUrl } from '../api/config';
@@ -96,7 +96,7 @@ export default function DriverProfileScreen() {
 
       <ScrollView contentContainerStyle={[s.content, { paddingTop: insets.top + 20, paddingBottom: insets.bottom + 20 }]}>
         {/* Identidad */}
-        <View style={[s.card, { borderColor: colors.border, alignItems: 'center', gap: 6 }]}>
+        <View style={[s.card, { borderColor: colors.border, alignItems: 'center', gap: espaciado.e6 }]}>
           <View style={[s.avatar, { backgroundColor: alpha(colors.primary, 0.15) }]}>
             <ShieldCheck size={26} color={colors.primary} />
           </View>
@@ -113,7 +113,7 @@ export default function DriverProfileScreen() {
                 </Text>
               )}
               {vehicle.vehicle_photo_url && !vehicle.vehicle_photo_url.startsWith('captured://') && (
-                <View style={{ width: 120, height: 84, borderRadius: 10, overflow: 'hidden', marginTop: 2, borderWidth: 1, borderColor: colors.border }}>
+                <View style={{ width: 120, height: 84, borderRadius: 10, overflow: 'hidden', marginTop: espaciado.e2, borderWidth: 1, borderColor: colors.border }}>
                   <Image source={{ uri: absUrl(vehicle.vehicle_photo_url) }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                 </View>
               )}
@@ -122,22 +122,22 @@ export default function DriverProfileScreen() {
         </View>
 
         {/* Ganancias */}
-        <View style={[s.card, { borderColor: colors.border, gap: 12 }]}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <View style={[s.card, { borderColor: colors.border, gap: espaciado.e12 }]}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
             <Wallet size={18} color={colors.primary} />
             <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>Mis ganancias</Text>
           </View>
-          <View style={{ flexDirection: 'row', gap: 8 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
             {PERIODS.map((p) => (
               <Pressable key={p.key} onPress={() => setPeriod(p.key)} style={[s.chip, { borderColor: period === p.key ? colors.primary : colors.border, backgroundColor: period === p.key ? alpha(colors.primary, 0.08) : colors.card }]}>
                 <Text style={{ color: period === p.key ? colors.primary : colors.textPrimary, fontWeight: '800', fontSize: tipografia.caption }}>{p.label}</Text>
               </Pressable>
             ))}
           </View>
-          {error ? <View style={{ marginTop: 10 }}><InlineError mensaje={error} /></View> : null}
+          {error ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={error} /></View> : null}
           {earnings && (
             <>
-              <View style={{ alignItems: 'center', gap: 2 }}>
+              <View style={{ alignItems: 'center', gap: espaciado.e2 }}>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700' }}>NETO ({period === 'all' ? 'total' : period})</Text>
                 <Text style={{ color: colors.success, fontSize: 30, fontWeight: '900' }}>{xaf(earnings.totalNet)}</Text>
               </View>
@@ -155,7 +155,7 @@ export default function DriverProfileScreen() {
                 </Text>
               )}
               {earnings.commissionDebt && earnings.commissionDebt.pendingXaf > 0 && (
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e4 }}>
                   <Percent size={14} color={colors.danger} />
                   <Text style={{ color: colors.danger, fontWeight: '800', fontSize: tipografia.caption, flex: 1 }}>
                     Comisión por liquidar (5% intercity): {xaf(earnings.commissionDebt.pendingXaf)}
@@ -169,7 +169,7 @@ export default function DriverProfileScreen() {
                         Alert.alert('Liquidar comisión', e instanceof Error ? e.message : 'No se pudo iniciar');
                       }
                     }}
-                    style={{ backgroundColor: colors.primary, paddingHorizontal: 10, paddingVertical: 6, borderRadius: radios.sm }}
+                    style={{ backgroundColor: colors.primary, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderRadius: radios.sm }}
                   >
                     <Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: '800' }}>Liquidar</Text>
                   </Pressable>
@@ -180,12 +180,12 @@ export default function DriverProfileScreen() {
         </View>
 
         {/* Modo del día */}
-        <View style={[s.card, { borderColor: colors.border, gap: 10 }]}>
+        <View style={[s.card, { borderColor: colors.border, gap: espaciado.e10 }]}>
           <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>Modo del día</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
             ¿Qué servicio harás hoy? Se recuerda hasta que lo cambies. Si eliges Ciudad a Ciudad, no recibirás solicitudes de taxi de ciudad.
           </Text>
-          <View style={{ flexDirection: 'row', gap: 8 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
             {([['city', '🚕 Taxi ciudad'], ['intercity', '🚌 Ciudad a Ciudad'], ['both', '🔄 Ambos']] as const).map(([v, l]) => (
               <Pressable key={v} onPress={() => changeMode(v)} style={[s.chip, { flex: 1, borderColor: workMode === v ? colors.primary : colors.border, backgroundColor: workMode === v ? alpha(colors.primary, 0.08) : colors.card }]}>
                 <Text style={{ color: workMode === v ? colors.primary : colors.textPrimary, fontWeight: '800', fontSize: tipografia.caption, textAlign: 'center' }}>{l}</Text>
@@ -195,8 +195,8 @@ export default function DriverProfileScreen() {
         </View>
 
         {/* Documentos */}
-        <View style={[s.card, { borderColor: colors.border, gap: 8 }]}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <View style={[s.card, { borderColor: colors.border, gap: espaciado.e8 }]}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
             <FileWarning size={18} color={expCount > 0 ? colors.danger : colors.primary} />
             <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>Documentos</Text>
           </View>
@@ -210,7 +210,7 @@ export default function DriverProfileScreen() {
         </View>
 
         {/* Emergencia */}
-        <Pressable onPress={() => setEmergencyOpen(true)} style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.05), flexDirection: 'row', alignItems: 'center', gap: 10 }]}>
+        <Pressable onPress={() => setEmergencyOpen(true)} style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.05), flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }]}>
           <Siren size={20} color={colors.danger} />
           <Text style={{ color: colors.danger, fontWeight: '900', fontSize: 15, flex: 1 }}>Emergencia · marcación directa 24/7</Text>
           <ChevronRight size={18} color={colors.danger} />
@@ -218,7 +218,7 @@ export default function DriverProfileScreen() {
 
         {/* Cerrar sesión: SOLO en Perfil (bottom-sheet Home del conductor) —
             decisión del dueño 2026-09-08. Aquí se muestra un aviso. */}
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600', textAlign: 'center', marginTop: 2 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e2 }}>
           🔒 Cerrar sesión: disponible en Perfil del conductor (menú Home, pestaña Perfil).
         </Text>
       </ScrollView>
@@ -230,11 +230,11 @@ export default function DriverProfileScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
-    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 },
+    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
     title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
-    content: { padding: 20, gap: 14 },
-    card: { borderRadius: radios.lg, borderWidth: 1.5, padding: 16 },
+    content: { padding: espaciado.e20, gap: espaciado.e14 },
+    card: { borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e16 },
     avatar: { width: 56, height: 56, borderRadius: 28, alignItems: 'center', justifyContent: 'center' },
-    chip: { borderRadius: radios.md, borderWidth: 1.5, paddingHorizontal: 14, paddingVertical: 8 },
-    statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 10 },
+    chip: { borderRadius: radios.md, borderWidth: 1.5, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8 },
+    statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10 },
   });

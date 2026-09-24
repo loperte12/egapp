@@ -17,7 +17,7 @@ import { useNavigation, useRouter } from 'expo-router';
 import {
   Check, Crown, MapPin, MessageSquare, Phone, RefreshCw, Users, X,
 } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, FormField, InlineError, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { workApi, type WorkCatalog, type WorkJob, type WorkPlan } from '../api/work';
 import { billingApi } from '../api/billing';
@@ -210,26 +210,26 @@ export default function WorkPublishScreen() {
       {/* Cabecera del kit desde el 24/09/2026. */}
       <ScreenHeader titulo="Buscar Work" alVolver={() => router.back()} />
 
-      <View style={{ flexDirection: 'row', paddingHorizontal: 16, gap: 8, marginVertical: 12 }}>
+      <View style={{ flexDirection: 'row', paddingHorizontal: espaciado.e16, gap: espaciado.e8, marginVertical: espaciado.e12 }}>
         <TabBtn active={tab === 'publish'} label="Publicar oferta" onPress={() => setTab('publish')} />
         <TabBtn active={tab === 'mine'} label={`Mis ofertas (${mine.length})`} onPress={() => setTab('mine')} />
       </View>
 
-      <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: insets.top + 12, paddingBottom: insets.bottom + 48 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerStyle={{ paddingHorizontal: espaciado.e16, paddingTop: insets.top + 12, paddingBottom: insets.bottom + 48 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         {tab === 'publish' ? (
           catError ? (
-            <View style={{ alignItems: 'center', paddingVertical: 60, paddingHorizontal: 24 }}>
+            <View style={{ alignItems: 'center', paddingVertical: 60, paddingHorizontal: espaciado.e24 }}>
               <Text style={{ color: colors.danger, fontWeight: '700', textAlign: 'center' }}>No se pudo cargar el catálogo de categorías y ciudades.</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: 6, marginBottom: 14 }}>Comprueba tu conexión e inténtalo de nuevo.</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e14 }}>Comprueba tu conexión e inténtalo de nuevo.</Text>
               <Pressable onPress={() => void loadCatalog()} accessibilityRole="button" accessibilityLabel="Reintentar cargar el catálogo"
-                style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
-                <RefreshCw size={15} color={brand.white} /><Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body, marginLeft: 6 }}>Reintentar</Text>
+                style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
+                <RefreshCw size={15} color={brand.white} /><Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body, marginLeft: espaciado.e6 }}>Reintentar</Text>
               </Pressable>
             </View>
           ) : !cat ? (
             <View style={{ alignItems: 'center', paddingVertical: 60 }}>
               <ActivityIndicator color={colors.primary} />
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 10 }}>Cargando catálogo…</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>Cargando catálogo…</Text>
             </View>
           ) : (
             <>
@@ -237,10 +237,10 @@ export default function WorkPublishScreen() {
               <Pressable
                 onPress={() => router.push('/work-planes' as never)}
                 accessibilityRole="button" accessibilityLabel="Ver planes y mejorar tu cuota"
-                style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: 12, marginBottom: 14, opacity: pressed ? 0.85 : 1 }]}
+                style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14, opacity: pressed ? 0.85 : 1 }]}
               >
                 <Crown size={18} color={colors.primary} />
-                <View style={{ flex: 1, marginLeft: 10 }}>
+                <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                   <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>
                     {plan ? `${plan.planName} · ${plan.activeJobs}/${plan.offerLimit} ofertas activas` : 'Cargando tu plan…'}
                   </Text>
@@ -260,13 +260,13 @@ export default function WorkPublishScreen() {
               <Text style={s.label}>Empresa *</Text>
               <FormField value={company} onChangeText={(t) => setCompany(t.slice(0, 120))} placeholder="Nombre de la empresa" />
               <Text style={s.label}>Categoría *</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                 {cat.categories.map((ct) => (
                   <Chip key={ct.id} label={ct.label} active={category === ct.id} onPress={() => setCategory(category === ct.id ? '' : ct.id)} />
                 ))}
               </View>
               <Text style={s.label}>Ciudad *</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                 {cat.cities.map((ct) => (
                   <Chip key={ct.id} label={ct.label} active={cityId === ct.id} onPress={() => setCityId(cityId === ct.id ? '' : ct.id)} />
                 ))}
@@ -274,15 +274,15 @@ export default function WorkPublishScreen() {
               <Text style={s.label}>Zona / dirección</Text>
               <FormField value={location} onChangeText={(t) => setLocation(t.slice(0, 160))} placeholder="Ej: Zona Industrial, Malabo II" />
               <Text style={s.label}>Ubicación en el mapa (opcional)</Text>
-              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: 6 }}>
+              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: espaciado.e6 }}>
                 Toca el mapa para fijar la empresa: el detalle mostrará el pin y los candidatos verán la distancia.
               </Text>
-              <View style={{ height: 170, borderRadius: 14, overflow: 'hidden', marginBottom: 6 }}>
+              <View style={{ height: 170, borderRadius: 14, overflow: 'hidden', marginBottom: espaciado.e6 }}>
                 <MapBackground onMapPress={(c) => setLatlng([c[0], c[1]])} pin={latlng}>
                   <MapPinBadge />
                 </MapBackground>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e4 }}>
                 {latlng ? (
                   <Text style={{ fontSize: tipografia.micro, color: colors.success, fontWeight: '700' }}>Punto fijado ✓</Text>
                 ) : (
@@ -295,7 +295,7 @@ export default function WorkPublishScreen() {
                 )}
               </View>
 
-              <View style={{ flexDirection: 'row', gap: 10 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
                 <View style={{ flex: 1 }}>
                   <Text style={s.label}>Salario mín (XAF) *</Text>
                   <FormField value={salaryMin} onChangeText={(t) => setSalaryMin(DIGITS(t))} placeholder="200000" keyboardType="number-pad" />
@@ -305,24 +305,24 @@ export default function WorkPublishScreen() {
                   <FormField value={salaryMax} onChangeText={(t) => setSalaryMax(DIGITS(t))} placeholder="350000" keyboardType="number-pad" />
                 </View>
               </View>
-              <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 4 }}>Solo números, sin puntos ni espacios. Ej: 300000</Text>
+              <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4 }}>Solo números, sin puntos ni espacios. Ej: 300000</Text>
               <Text style={s.label}>Etiqueta de salario (opcional)</Text>
               <FormField value={salaryLabel} onChangeText={(t) => setSalaryLabel(t.slice(0, 60))} placeholder="Ej: Negociable según experiencia" />
 
               <Text style={s.label}>Tipo de contrato</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                 {Object.keys(CONTRACT_LABELS).map((k) => (
                   <Chip key={k} label={CONTRACT_LABELS[k]} active={contractType === k} onPress={() => setContractType(k)} />
                 ))}
               </View>
               <Text style={s.label}>Experiencia requerida</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                 {EXPERIENCE_LEVELS.map(([v, l]) => (
                   <Chip key={v} label={l} active={experience === v} onPress={() => setExperience(experience === v ? 0 : v)} />
                 ))}
               </View>
               <Text style={s.label}>Beneficios</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                 {BENEFITS.map((b) => (
                   <Chip key={b} label={BENEFIT_LABELS[b] ?? b} active={benefits.includes(b)} onPress={() => toggleBenefit(b)} />
                 ))}
@@ -338,14 +338,14 @@ export default function WorkPublishScreen() {
               <Text style={s.counter}>{requirements.length}/{MAX_LINES}</Text>
 
               <Text style={s.label}>Datos de contacto (reclutador)</Text>
-              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: 6 }}>
+              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: espaciado.e6 }}>
                 Los candidatos solo ven este teléfono/WhatsApp después de postularse a tu oferta.
               </Text>
-              <View style={{ flexDirection: 'row', gap: 10 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
                 <View style={{ flex: 1 }}><FormField value={recruiterName} onChangeText={(t) => setRecruiterName(t.slice(0, 120))} placeholder="Nombre" /></View>
                 <View style={{ flex: 1 }}><FormField value={recruiterPhone} onChangeText={(t) => setRecruiterPhone(t.slice(0, 20))} placeholder="Teléfono / WhatsApp" keyboardType="phone-pad" /></View>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 10 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: espaciado.e10 }}>
                 <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600' }}>Marcar como urgente</Text>
                 <Switch
                   value={urgent}
@@ -356,7 +356,7 @@ export default function WorkPublishScreen() {
                   accessibilityState={{ checked: urgent }}
                 />
               </View>
-              {error ? <View style={{ marginTop: 10 }}><InlineError mensaje={error} /></View> : null}
+              {error ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={error} /></View> : null}
               <PrimaryButton title={busy ? 'Publicando…' : 'Publicar oferta'} onPress={publish} disabled={busy} testID="work-publish-submit" />
             </>
           )
@@ -364,24 +364,24 @@ export default function WorkPublishScreen() {
           <>
             <Text style={s.hint}>Tus ofertas y candidatos. Al seleccionar a un candidato se le notifica por SMS y WhatsApp.</Text>
             {loadingMine && (
-              <View style={{ alignItems: 'center', paddingVertical: 24 }}>
-                <ActivityIndicator color={colors.primary} /><Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 8 }}>Cargando…</Text>
+              <View style={{ alignItems: 'center', paddingVertical: espaciado.e24 }}>
+                <ActivityIndicator color={colors.primary} /><Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>Cargando…</Text>
               </View>
             )}
             {!loadingMine && mineError && (
-              <View style={{ alignItems: 'center', paddingVertical: 30, paddingHorizontal: 24 }}>
+              <View style={{ alignItems: 'center', paddingVertical: espaciado.e30, paddingHorizontal: espaciado.e24 }}>
                 <Text style={{ color: colors.danger, fontWeight: '700', textAlign: 'center' }}>{mineError}</Text>
                 <Pressable onPress={() => void loadMine()} accessibilityRole="button" accessibilityLabel="Reintentar cargar tus ofertas"
-                  style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', marginTop: 12, paddingHorizontal: 16, paddingVertical: 9, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
-                  <RefreshCw size={14} color={brand.white} /><Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.caption, marginLeft: 6 }}>Reintentar</Text>
+                  style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e12, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e9, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
+                  <RefreshCw size={14} color={brand.white} /><Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.caption, marginLeft: espaciado.e6 }}>Reintentar</Text>
                 </Pressable>
               </View>
             )}
             {!loadingMine && !mineError && mine.length === 0 && (
-              <Text style={{ color: colors.textSecondary, textAlign: 'center', marginTop: 30 }}>Aún no has publicado ofertas.</Text>
+              <Text style={{ color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e30 }}>Aún no has publicado ofertas.</Text>
             )}
             {mine.map((j) => (
-              <View key={j.id} style={{ backgroundColor: colors.surface, borderRadius: radios.md, padding: 12, marginBottom: 12 }}>
+              <View key={j.id} style={{ backgroundColor: colors.surface, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e12 }}>
                 <Pressable
                   onPress={() => setExpanded(expanded === j.id ? null : j.id)}
                   accessibilityRole="button"
@@ -389,33 +389,33 @@ export default function WorkPublishScreen() {
                   accessibilityLabel={`${j.title}, ${j.company}, ${j.status === 'closed' ? 'cerrada' : 'activa'}. ${(j.applicants ?? []).length} candidatos`}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <View style={{ flex: 1, paddingRight: 8 }}>
+                    <View style={{ flex: 1, paddingRight: espaciado.e8 }}>
                       <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>{j.title}</Text>
-                      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }} numberOfLines={1}>{j.company} · {j.city} · {j.salary}</Text>
+                      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }} numberOfLines={1}>{j.company} · {j.city} · {j.salary}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.1), paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10 }}>
-                        <Users size={11} color={colors.primary} /><Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: '700', marginLeft: 3 }}>{j.applicantsCount}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.1), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 10 }}>
+                        <Users size={11} color={colors.primary} /><Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: '700', marginLeft: espaciado.e3 }}>{j.applicantsCount}</Text>
                       </View>
                       <Text style={{ fontSize: tipografia.micro, color: j.status === 'closed' ? colors.danger : colors.success, fontWeight: '700' }}>{j.status === 'closed' ? 'Cerrada' : 'Activa'}</Text>
                     </View>
                   </View>
                 </Pressable>
                 {expanded === j.id && (
-                  <View style={{ marginTop: 12, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 10 }}>
+                  <View style={{ marginTop: espaciado.e12, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e10 }}>
                     {(j.applicants ?? []).length === 0 && <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Sin candidatos todavía.</Text>}
                     {(j.applicants ?? []).map((a) => {
                       const phone = a.phone ?? null;
                       return (
-                        <View key={a.id} style={{ backgroundColor: colors.background, borderRadius: 10, padding: 10, marginBottom: 8 }}>
-                          <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
+                        <View key={a.id} style={{ backgroundColor: colors.background, borderRadius: 10, padding: espaciado.e10, marginBottom: espaciado.e8 }}>
+                          <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: espaciado.e8 }}>
                             <View style={{ flex: 1 }}>
                               <Text style={{ fontSize: tipografia.body, fontWeight: '600', color: colors.textPrimary }}>{a.fullName || 'Sin nombre'}</Text>
-                              {a.documentType && <Text style={{ fontSize: 10, color: colors.textSecondary, marginTop: 2 }}>DIP: {a.documentType} · {a.documentNumber}</Text>}
-                              {a.note && <Text style={{ fontSize: tipografia.micro, color: colors.textPrimary, marginTop: 4, fontStyle: 'italic' }}>«{a.note}»</Text>}
-                              <Text style={{ fontSize: 10, color: colors.textSecondary, marginTop: 4 }}>{new Date(a.createdAt).toLocaleDateString('es')} · {STATUS_LABEL[a.status] ?? a.status}</Text>
+                              {a.documentType && <Text style={{ fontSize: 10, color: colors.textSecondary, marginTop: espaciado.e2 }}>DIP: {a.documentType} · {a.documentNumber}</Text>}
+                              {a.note && <Text style={{ fontSize: tipografia.micro, color: colors.textPrimary, marginTop: espaciado.e4, fontStyle: 'italic' }}>«{a.note}»</Text>}
+                              <Text style={{ fontSize: 10, color: colors.textSecondary, marginTop: espaciado.e4 }}>{new Date(a.createdAt).toLocaleDateString('es')} · {STATUS_LABEL[a.status] ?? a.status}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, justifyContent: 'flex-end' }}>
+                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, justifyContent: 'flex-end' }}>
                               {phone && (
                                 <>
                                   <MiniBtn label={`Llamar a ${a.fullName || 'candidato'}`} bg={alpha(colors.primary, 0.12)} onPress={() => openTel(phone)} disabled={appBusy === a.id}>
@@ -441,7 +441,7 @@ export default function WorkPublishScreen() {
                         </View>
                       );
                     })}
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e6 }}>
                       <GhostButton title="Duplicar" onPress={() => void duplicateJob(j.id)} />
                       <GhostButton title="Destacar" onPress={() => void featureJob(j.id)} />
                       {j.status !== 'closed' && <GhostButton title="Cerrar oferta" onPress={() => closeJob(j.id)} />}
@@ -460,9 +460,9 @@ export default function WorkPublishScreen() {
 function MapPinBadge() {
   const { colors } = useTheme();
   return (
-    <View style={{ position: 'absolute', top: 10, right: 10, flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.textPrimary, 0.75), paddingHorizontal: 8, paddingVertical: 4, borderRadius: 10 }}>
+    <View style={{ position: 'absolute', top: 10, right: 10, flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.textPrimary, 0.75), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 10 }}>
       <MapPin size={11} color={brand.white} />
-      <Text style={{ color: brand.white, fontSize: 10, fontWeight: '700', marginLeft: 3 }}>Toca el mapa</Text>
+      <Text style={{ color: brand.white, fontSize: 10, fontWeight: '700', marginLeft: espaciado.e3 }}>Toca el mapa</Text>
     </View>
   );
 }
@@ -475,7 +475,7 @@ function TabBtn({ active, label, onPress }: { active: boolean; label: string; on
       accessibilityRole="button"
       accessibilityState={{ selected: active }}
       accessibilityLabel={label}
-      style={({ pressed }) => [{ flex: 1, paddingVertical: 9, borderRadius: radios.sm, alignItems: 'center', backgroundColor: active ? colors.primary : colors.surface, opacity: pressed ? 0.85 : 1 }]}
+      style={({ pressed }) => [{ flex: 1, paddingVertical: espaciado.e9, borderRadius: radios.sm, alignItems: 'center', backgroundColor: active ? colors.primary : colors.surface, opacity: pressed ? 0.85 : 1 }]}
     >
       <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: active ? brand.white : colors.textSecondary }}>{label}</Text>
     </Pressable>
@@ -490,7 +490,7 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
       accessibilityRole="button"
       accessibilityState={{ selected: active }}
       accessibilityLabel={label}
-      style={({ pressed }) => [{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
+      style={({ pressed }) => [{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
     >
       <Text style={{ fontSize: tipografia.caption, fontWeight: active ? '700' : '500', color: active ? brand.white : colors.textPrimary }}>{label}</Text>
     </Pressable>
@@ -513,8 +513,8 @@ function MiniBtn({ label, bg, onPress, disabled, children }: { label: string; bg
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  hint: { fontSize: tipografia.caption, color: c.textSecondary, marginBottom: 16, lineHeight: 18 },
-  label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textPrimary, marginTop: 14, marginBottom: 6 },
-  counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: 4 },
-  area: { minHeight: 80, borderRadius: 10, borderWidth: 1, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: 10, fontSize: tipografia.body, textAlignVertical: 'top' },
+  hint: { fontSize: tipografia.caption, color: c.textSecondary, marginBottom: espaciado.e16, lineHeight: 18 },
+  label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
+  counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: espaciado.e4 },
+  area: { minHeight: 80, borderRadius: 10, borderWidth: 1, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
 });

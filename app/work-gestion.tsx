@@ -26,7 +26,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, useTheme, useScreenGuard, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useScreenGuard, useTheme } from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, Briefcase, ChevronRight, Clock, CreditCard, Plus, TriangleAlert, Users,
 } from 'lucide-react-native';
@@ -142,20 +142,20 @@ function Contenido() {
       </View>
 
       {error ? (
-        <View style={{ padding: 16 }}>
-          <Text style={{ color: colors.textSecondary, marginBottom: 12 }}>{error}</Text>
+        <View style={{ padding: espaciado.e16 }}>
+          <Text style={{ color: colors.textSecondary, marginBottom: espaciado.e12 }}>{error}</Text>
           <GhostButton title="Reintentar" onPress={() => void cargar()} />
         </View>
       ) : (
         <ScrollView
-          contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 30 }}
+          contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }}
           refreshControl={<RefreshControl refreshing={refrescando} onRefresh={() => { setRefrescando(true); void cargar(true); }} tintColor={colors.primary} />}
         >
           <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.surface }]}>
             <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>
               {activas.length} oferta(s) activa(s){cerradas ? ` · ${cerradas} cerrada(s)` : ''}
             </Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 4, lineHeight: 18 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 18 }}>
               {totalCandidaturas} candidatura(s) en total
               {plan ? ` · plan ${plan.planName}: ${plan.activeJobs}/${plan.offerLimit} ofertas` : ' · sin plan contratado'}
               {plan?.expiresAt ? ` · vence el ${new Date(plan.expiresAt).toLocaleDateString('fr-FR')}` : ''}
@@ -163,10 +163,10 @@ function Contenido() {
           </View>
 
           {pendientes.length ? (
-            <View style={{ marginTop: 18 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+            <View style={{ marginTop: espaciado.e18 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e8 }}>
                 <TriangleAlert size={16} color={colors.secondary} />
-                <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginLeft: 7 }}>
+                <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginLeft: espaciado.e7 }}>
                   Te falta por completar ({pendientes.length})
                 </Text>
               </View>
@@ -177,23 +177,23 @@ function Contenido() {
                 >
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{x.texto}</Text>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3, lineHeight: 17 }}>{x.porque}</Text>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3, lineHeight: 17 }}>{x.porque}</Text>
                   </View>
                 </View>
               ))}
             </View>
           ) : ofertas.length ? (
-            <View style={[styles.resumen, { borderColor: alpha(colors.success, 0.35), backgroundColor: alpha(colors.success, 0.07), marginTop: 18 }]}>
+            <View style={[styles.resumen, { borderColor: alpha(colors.success, 0.35), backgroundColor: alpha(colors.success, 0.07), marginTop: espaciado.e18 }]}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
                 ✓ Tus ofertas están en orden
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
                 Sin vencidas abiertas, dentro del plan y con candidaturas.
               </Text>
             </View>
           ) : null}
 
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: 22, marginBottom: 8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: espaciado.e22, marginBottom: espaciado.e8 }}>
             Configurar
           </Text>
 
@@ -228,14 +228,14 @@ function Contenido() {
             onPress={() => router.push('/work-publish' as never)}
           />
 
-          <View style={{ marginTop: 22 }}>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 8 }}>
+          <View style={{ marginTop: espaciado.e22 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e8 }}>
               Quién ha escrito y sigue sin respuesta está en la otra parte, «Hoy».
             </Text>
             <GhostButton title="Ir a «Hoy» (candidaturas)" onPress={() => router.push('/work-panel' as never)} />
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 18 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, marginTop: espaciado.e18 }}>
             <Clock size={14} color={colors.textSecondary} />
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, flex: 1 }}>
               Trabajo vive hoy fuera de Life Book (módulo propio). Traerlo al catálogo —oferta como
@@ -262,7 +262,7 @@ function Fila({ icono, titulo, detalle, onPress }: {
       <View style={[styles.filaIcono, { backgroundColor: alpha(colors.primary, 0.12) }]}>{icono}</View>
       <View style={{ flex: 1 }}>
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{titulo}</Text>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2, lineHeight: 17 }}>{detalle}</Text>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 17 }}>{detalle}</Text>
       </View>
       <ChevronRight size={18} color={colors.textSecondary} />
     </Pressable>
@@ -271,15 +271,15 @@ function Fila({ icono, titulo, detalle, onPress }: {
 
 const styles = StyleSheet.create({
   cabecera: {
-    flexDirection: 'row', alignItems: 'center', gap: 6,
-    paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
+    paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
-  resumen: { borderWidth: 1, borderRadius: 14, padding: 13 },
-  pendiente: { borderWidth: 1, borderRadius: radios.md, padding: 12, marginBottom: 8, minHeight: 56 },
+  resumen: { borderWidth: 1, borderRadius: 14, padding: espaciado.e13 },
+  pendiente: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56 },
   fila: {
-    flexDirection: 'row', alignItems: 'center', gap: 11,
-    borderWidth: 1, borderRadius: 14, padding: 12, marginBottom: 8, minHeight: 56,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
+    borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
   },
   filaIcono: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
 });

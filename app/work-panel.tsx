@@ -26,7 +26,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, PrimaryButton, useTheme, useScreenGuard, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useScreenGuard, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Briefcase, ChevronRight, Phone, Settings, Users } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -156,13 +156,13 @@ function Contenido() {
       </View>
 
       {error ? (
-        <View style={{ padding: 16 }}>
-          <Text style={{ color: colors.textSecondary, marginBottom: 12 }}>{error}</Text>
+        <View style={{ padding: espaciado.e16 }}>
+          <Text style={{ color: colors.textSecondary, marginBottom: espaciado.e12 }}>{error}</Text>
           <GhostButton title="Reintentar" onPress={() => void cargar()} />
         </View>
       ) : (
         <ScrollView
-          contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 30 }}
+          contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }}
           refreshControl={<RefreshControl refreshing={refrescando} onRefresh={() => { setRefrescando(true); void cargar(true); }} tintColor={colors.primary} />}
         >
           {/*
@@ -180,7 +180,7 @@ function Contenido() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Gestión</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 Mis ofertas, publicar, cerrar y plan
               </Text>
             </View>
@@ -194,11 +194,11 @@ function Contenido() {
           ) : null}
 
           {/* Resumen del día */}
-          <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.surface, marginTop: 14 }]}>
+          <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.surface, marginTop: espaciado.e14 }]}>
             <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>
               {activas.length} oferta(s) activa(s){cerradas ? ` · ${cerradas} cerrada(s)` : ''}
             </Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 4, lineHeight: 18 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 18 }}>
               {porContestar.length
                 ? `${porContestar.length} candidatura(s) sin responder`
                 : 'No tienes candidaturas sin responder'}
@@ -208,10 +208,10 @@ function Contenido() {
           </View>
 
           {/* ── LO QUE CADUCA: gente esperando respuesta ── */}
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: 20, marginBottom: 3 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: espaciado.e20, marginBottom: espaciado.e3 }}>
             Por contestar ({porContestar.length})
           </Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 10 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
             Alguien ha escrito para tu oferta y sigue sin respuesta.
           </Text>
 
@@ -223,25 +223,25 @@ function Contenido() {
               <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '900' }}>
                 {candidato.fullName ?? 'Candidato sin nombre'}
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }} numberOfLines={2}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }} numberOfLines={2}>
                 {oferta.title} · {oferta.city}
               </Text>
               {candidato.phone ? (
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 6 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e6 }}>
                   <Phone size={13} color={colors.textSecondary} />
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{candidato.phone}</Text>
                 </View>
               ) : null}
               {candidato.note ? (
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, lineHeight: 18, marginTop: 6 }} numberOfLines={4}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e6 }} numberOfLines={4}>
                   «{candidato.note}»
                 </Text>
               ) : null}
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 6 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>
                 Escribió el {new Date(candidato.createdAt).toLocaleDateString('fr-FR')}
               </Text>
 
-              <View style={{ flexDirection: 'row', gap: 8, marginTop: 12 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e12 }}>
                 <View style={{ flex: 1 }}>
                   <PrimaryButton
                     title={ocupado === candidato.id ? 'Guardando…' : 'Seleccionar'}
@@ -263,7 +263,7 @@ function Contenido() {
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
                 ✓ No hay nadie esperando respuesta
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
                 Todas las candidaturas están contestadas.
               </Text>
             </View>
@@ -272,10 +272,10 @@ function Contenido() {
           {/* ── Ofertas que vencen: dejan de recibir candidaturas ── */}
           {porVencer.length ? (
             <>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: 22, marginBottom: 3 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: espaciado.e22, marginBottom: espaciado.e3 }}>
                 Se te acaban ({porVencer.length})
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 10 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
                 Cuando una oferta vence deja de aparecer y deja de recibir candidaturas.
               </Text>
               {porVencer.map(({ o, dias }) => (
@@ -290,7 +290,7 @@ function Contenido() {
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }} numberOfLines={2}>
                       {o.title}
                     </Text>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
                       {o.city} · {o.applicantsCount} candidatura(s) ·{' '}
                       {dias !== null && dias >= 0 ? `vence en ${dias} día(s)` : 'vencida'}
                     </Text>
@@ -302,25 +302,25 @@ function Contenido() {
           ) : null}
 
           {!ofertas.length ? (
-            <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.card, marginTop: 18 }]}>
+            <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.card, marginTop: espaciado.e18 }]}>
               <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>
                 Todavía no has publicado ninguna oferta
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18, marginTop: 6 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e6 }}>
                 Una oferta es lo que ve quien busca trabajo: el puesto, lo que se pide, el salario y
                 la ciudad. Aquí llegarán las candidaturas y desde aquí las contestarás.
               </Text>
-              <View style={{ marginTop: 12 }}>
+              <View style={{ marginTop: espaciado.e12 }}>
                 <GhostButton title="Publicar una oferta" onPress={() => router.push('/work-publish' as never)} />
               </View>
             </View>
           ) : null}
 
-          <View style={{ marginTop: 22 }}>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 8 }}>
+          <View style={{ marginTop: espaciado.e22 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e8 }}>
               Publicar, editar, cerrar o duplicar una oferta está en «Gestión».
             </Text>
-            <View style={{ flexDirection: 'row', gap: 8 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
               <View style={{ flex: 1 }}>
                 <GhostButton title="Gestión de ofertas" onPress={() => router.push('/work-gestion' as never)} />
               </View>
@@ -330,14 +330,14 @@ function Contenido() {
             </View>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 18 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, marginTop: espaciado.e18 }}>
             <Briefcase size={14} color={colors.textSecondary} />
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, flex: 1 }}>
               Las ofertas y sus candidaturas se gestionan en Buscar Work. Conectarlas al catálogo de
               Life Book es el paso siguiente del estándar.
             </Text>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 6 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, marginTop: espaciado.e6 }}>
             <Users size={14} color={colors.textSecondary} />
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, flex: 1 }}>
               Descartar no avisa a la persona: el aviso al candidato es decisión de producto.
@@ -351,20 +351,20 @@ function Contenido() {
 
 const styles = StyleSheet.create({
   cabecera: {
-    flexDirection: 'row', alignItems: 'center', gap: 6,
-    paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
+    paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   puente: {
-    flexDirection: 'row', alignItems: 'center', gap: 11,
-    borderWidth: 1, borderRadius: 14, padding: 12, minHeight: 56,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
+    borderWidth: 1, borderRadius: 14, padding: espaciado.e12, minHeight: 56,
   },
   puenteIcono: { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  aviso: { borderWidth: 1, borderRadius: radios.md, padding: 11, marginTop: 12 },
-  resumen: { borderWidth: 1, borderRadius: 14, padding: 13 },
-  tarjeta: { borderWidth: 1, borderRadius: 14, padding: 13, marginBottom: 10 },
+  aviso: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e11, marginTop: espaciado.e12 },
+  resumen: { borderWidth: 1, borderRadius: 14, padding: espaciado.e13 },
+  tarjeta: { borderWidth: 1, borderRadius: 14, padding: espaciado.e13, marginBottom: espaciado.e10 },
   pendiente: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    borderWidth: 1, borderRadius: radios.md, padding: 12, marginBottom: 8, minHeight: 56,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+    borderWidth: 1, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
   },
 });

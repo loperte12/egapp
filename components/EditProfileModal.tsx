@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { X } from 'lucide-react-native';
-import { FormField, PrimaryButton, GhostButton, useTheme, alpha, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { authApi, type MeProfile } from '../api/auth';
 import { absUrl } from '../api/config';
 import { pickImageFromCamera, pickImageFromLibrary } from '../core/pickImage';
@@ -103,7 +103,7 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
                 </Text>
               )}
             </View>
-            <View style={{ flex: 1, gap: 8 }}>
+            <View style={{ flex: 1, gap: espaciado.e8 }}>
               <Pressable
                 onPress={pickFromCamera}
                 disabled={busy || picking !== null}
@@ -143,7 +143,7 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
 
           {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>{error}</Text> : null}
 
-          <View style={{ flexDirection: 'row', gap: 10, marginTop: 4 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e4 }}>
             <View style={{ flex: 1 }}>
               <GhostButton title="Cancelar" onPress={onClose} disabled={busy} />
             </View>
@@ -160,14 +160,14 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
 const styles = StyleSheet.create({
   modalRoot: { flex: 1, justifyContent: 'flex-end' },
   modalBackdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.45)' },
-  modalCard: { borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, paddingBottom: 30, gap: 14 },
+  modalCard: { borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: espaciado.e20, paddingBottom: espaciado.e30, gap: espaciado.e14 },
   modalHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   modalTitle: { fontSize: 17, fontWeight: '900' },
-  avatarEditRow: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  avatarEditRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14 },
   avatarLg: { width: 82, height: 82, borderRadius: 41, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   avatarLgImg: { width: '100%', height: '100%' },
   avatarLgText: { fontSize: 32, fontWeight: '900' },
   avatarHint: { fontSize: tipografia.caption, fontWeight: '600' },
-  pickBtn: { borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, minHeight: 44 },
-  pickBusy: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  pickBtn: { borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e12, minHeight: 44 },
+  pickBusy: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
 });

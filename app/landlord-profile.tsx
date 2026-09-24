@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useTheme, tipografia, ScreenHeader } from '@egrouteplan/ui-kit';
+import { espaciado, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { LandlordCard, type LandlordCardData } from '../components/rental/LandlordCard';
 import { rentalApi, type RentalProperty } from '../api/rental';
 import { PropertyCard } from '../components/rental/PropertyCard';
@@ -66,9 +66,9 @@ export default function LandlordProfileScreen() {
   }
   if (!landlord) {
     return (
-      <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }}>
         <Text style={{ color: colors.danger, fontWeight: '700' }}>{error ?? 'Arrendador no encontrado'}</Text>
-        <Pressable onPress={() => router.back()} style={{ marginTop: 12 }}><Text style={{ color: colors.primary, fontWeight: '700' }}>Volver</Text></Pressable>
+        <Pressable onPress={() => router.back()} style={{ marginTop: espaciado.e12 }}><Text style={{ color: colors.primary, fontWeight: '700' }}>Volver</Text></Pressable>
       </View>
     );
   }
@@ -82,7 +82,7 @@ export default function LandlordProfileScreen() {
         alVolver={() => router.back()}
       />
 
-      <ScrollView contentContainerStyle={{ padding: 16, paddingTop: insets.top + 16, paddingBottom: insets.bottom + 40 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingTop: insets.top + 16, paddingBottom: insets.bottom + 40 }} showsVerticalScrollIndicator={false}>
         <LandlordCard
           landlord={landlord}
           variant="detail"
@@ -92,7 +92,7 @@ export default function LandlordProfileScreen() {
 
         {/* Anuncios del arrendador */}
         {properties.length > 0 && (
-          <View style={{ marginTop: 20 }}>
+          <View style={{ marginTop: espaciado.e20 }}>
             <Text style={s.sectionTitle}>Anuncios de {landlord.name}</Text>
             {properties.map((p) => (
               <PropertyCard key={p.id} property={p} onPress={() => router.push({ pathname: '/alquiler-detalle', params: { id: p.id } } as any)} onViewLandlord={(l) => router.push({ pathname: '/landlord-profile', params: { landlordId: l.id ?? '' } } as any)} />
@@ -101,7 +101,7 @@ export default function LandlordProfileScreen() {
         )}
 
         {/* Nota de respuesta */}
-        <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, textAlign: 'center', marginTop: 12 }}>
+        <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e12 }}>
           {landlord.responseTimeHours != null ? `Tiempo medio de respuesta: ${landlord.responseTimeHours < 1 ? 'menos de 1 h' : `~${Math.round(landlord.responseTimeHours)} h`}` : ''}
         </Text>
       </ScrollView>
@@ -110,5 +110,5 @@ export default function LandlordProfileScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  sectionTitle: { fontSize: tipografia.subtitle, fontWeight: '700', color: c.textPrimary, marginBottom: 10 },
+  sectionTitle: { fontSize: tipografia.subtitle, fontWeight: '700', color: c.textPrimary, marginBottom: espaciado.e10 },
 });

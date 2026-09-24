@@ -17,7 +17,7 @@ import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleS
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { Check, X } from 'lucide-react-native';
-import { useTheme, alpha, brand, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { billingApi, BillingPlan } from '../api/billing';
 import { workApi, WorkPlan } from '../api/work';
 import { formatXAF } from '../utils/formatHelpers';
@@ -172,7 +172,7 @@ export default function WorkPlanesScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={{ marginTop: 12, color: colors.textSecondary, fontWeight: '700' }}>Cargando planes…</Text>
+        <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: '700' }}>Cargando planes…</Text>
       </View>
     );
   }
@@ -183,7 +183,7 @@ export default function WorkPlanesScreen() {
       <ScreenHeader titulo="Planes Buscar Work" alVolver={() => router.back()} />
 
       <ScrollView
-        contentContainerStyle={{ padding: 16, paddingTop: insets.top + 16, paddingBottom: insets.bottom + 40 }}
+        contentContainerStyle={{ padding: espaciado.e16, paddingTop: insets.top + 16, paddingBottom: insets.bottom + 40 }}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} colors={[colors.primary]} />}
       >
@@ -193,12 +193,12 @@ export default function WorkPlanesScreen() {
         </Text>
 
         {myPlan && (
-          <View style={{ backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: 12, marginBottom: 14 }}>
+          <View style={{ backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14 }}>
             <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>
               Tu plan: {myPlan.planName} · {activeJobs}/{myPlan.offerLimit} ofertas activas
             </Text>
             {myPlan.expiresAt && (
-              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }}>
+              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>
                 Vence: {new Date(myPlan.expiresAt).toLocaleDateString('es')}
               </Text>
             )}
@@ -206,12 +206,12 @@ export default function WorkPlanesScreen() {
         )}
 
         {error && ordered.length === 0 && (
-          <View style={{ alignItems: 'center', paddingVertical: 30, paddingHorizontal: 24 }}>
+          <View style={{ alignItems: 'center', paddingVertical: espaciado.e30, paddingHorizontal: espaciado.e24 }}>
             <Text style={{ color: colors.danger, fontWeight: '700', textAlign: 'center' }}>{error}</Text>
             <Pressable
               onPress={() => void load()}
               accessibilityRole="button" accessibilityLabel="Reintentar cargar los planes"
-              style={({ pressed }) => [{ marginTop: 12, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
+              style={({ pressed }) => [{ marginTop: espaciado.e12, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
             >
               <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
             </Pressable>
@@ -229,8 +229,8 @@ export default function WorkPlanesScreen() {
               key={plan.code}
               style={[s.planCard, { borderColor: isCurrent ? colors.primary : colors.border, borderWidth: isCurrent ? 2 : 1, backgroundColor: isCurrent ? alpha(colors.primary, 0.05) : colors.card }]}
             >
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
-                <View style={{ flex: 1, paddingRight: 10 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: espaciado.e14 }}>
+                <View style={{ flex: 1, paddingRight: espaciado.e10 }}>
                   <Text style={[s.planName, { color: colors.primary }]}>{plan.name}</Text>
                   {isCurrent && (
                     <View style={[s.currentBadge, { backgroundColor: colors.primary }]}>
@@ -244,7 +244,7 @@ export default function WorkPlanesScreen() {
                 </View>
               </View>
 
-              <View style={{ marginBottom: 14 }}>
+              <View style={{ marginBottom: espaciado.e14 }}>
                 {FEATURE_LABELS.map((f) => renderFeature(plan, f.key))}
               </View>
 
@@ -287,20 +287,20 @@ export default function WorkPlanesScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  title: { fontSize: 22, fontWeight: '800', color: c.textPrimary, marginBottom: 6 },
-  subtitle: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 19, marginBottom: 18 },
-  planCard: { borderRadius: radios.lg, padding: 18, marginBottom: 16 },
+  title: { fontSize: 22, fontWeight: '800', color: c.textPrimary, marginBottom: espaciado.e6 },
+  subtitle: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 19, marginBottom: espaciado.e18 },
+  planCard: { borderRadius: radios.lg, padding: espaciado.e18, marginBottom: espaciado.e16 },
   planName: { fontSize: 18, fontWeight: '700' },
-  currentBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6, marginTop: 6, alignSelf: 'flex-start' },
+  currentBadge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
   currentBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: '600' },
   price: { fontSize: tipografia.title, fontWeight: '800', color: c.textPrimary },
   period: { fontSize: tipografia.body, color: c.textSecondary },
-  featureRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: c.border },
+  featureRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: espaciado.e6, borderBottomWidth: 1, borderBottomColor: c.border },
   featureLabel: { fontSize: tipografia.body, color: c.textSecondary, flex: 1 },
   featureValue: { fontSize: tipografia.body, fontWeight: '600', color: c.textPrimary },
-  selectButton: { borderRadius: 10, paddingVertical: 14, alignItems: 'center' },
+  selectButton: { borderRadius: 10, paddingVertical: espaciado.e14, alignItems: 'center' },
   selectButtonText: { color: brand.white, fontSize: 15, fontWeight: '700' },
-  paymentNote: { backgroundColor: c.card, borderRadius: radios.md, padding: 16, marginTop: 8, borderWidth: 1 },
-  paymentNoteTitle: { fontSize: 15, fontWeight: '700', color: c.textPrimary, marginBottom: 8 },
+  paymentNote: { backgroundColor: c.card, borderRadius: radios.md, padding: espaciado.e16, marginTop: espaciado.e8, borderWidth: 1 },
+  paymentNoteTitle: { fontSize: 15, fontWeight: '700', color: c.textPrimary, marginBottom: espaciado.e8 },
   paymentNoteText: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 22 },
 });
