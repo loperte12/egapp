@@ -33,7 +33,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme, EmptyState, tipografia, radios, ilustracion, ScreenHeader } from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, ilustracion, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseCategory, EcomerseProduct } from '../api/ecomerse';
 import { useEcomerseStore } from '../state/ecomerse';
 import { useSession } from '../state/session';
@@ -218,16 +218,16 @@ export default function EcomerseFavoritesScreen() {
         data={listData}
         keyExtractor={(item) => item.id}
         numColumns={2}
-        columnWrapperStyle={{ gap: 10, paddingHorizontal: 16 }}
-        contentContainerStyle={{ gap: 10, paddingBottom: 32 }}
+        columnWrapperStyle={{ gap: espaciado.e10, paddingHorizontal: espaciado.e16 }}
+        contentContainerStyle={{ gap: espaciado.e10, paddingBottom: espaciado.e32 }}
         ListEmptyComponent={
           error ? (
-            <View style={{ alignItems: 'center', paddingTop: 48, paddingHorizontal: 32 }}>
-              <Text style={{ fontSize: ilustracion.md, marginBottom: 8 }}>📡</Text>
+            <View style={{ alignItems: 'center', paddingTop: 48, paddingHorizontal: espaciado.e32 }}>
+              <Text style={{ fontSize: ilustracion.md, marginBottom: espaciado.e8 }}>📡</Text>
               <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>Algo salió mal</Text>
-              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 18 }}>{error}</Text>
-              <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
-                <Pressable onPress={() => isAuthenticated ? load() : router.push('/auth' as any)} style={{ backgroundColor: colors.primary, paddingHorizontal: 18, paddingVertical: 11, borderRadius: radios.full }}>
+              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
+              <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e18 }}>
+                <Pressable onPress={() => isAuthenticated ? load() : router.push('/auth' as any)} style={{ backgroundColor: colors.primary, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e11, borderRadius: radios.full }}>
                   <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>{isAuthenticated ? 'Reintentar' : 'Iniciar sesión'}</Text>
                 </Pressable>
               </View>
@@ -273,7 +273,7 @@ function SubChip({ label, active, onPress }: { label: string; active: boolean; o
   const { colors } = useTheme();
   return (
     <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label}
-      style={{ paddingHorizontal: 12, paddingVertical: 6, borderRadius: radios.full, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border }}>
+      style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border }}>
       <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: active ? brand.white : colors.textPrimary }}>{label}</Text>
     </Pressable>
   );
@@ -281,8 +281,8 @@ function SubChip({ label, active, onPress }: { label: string; active: boolean; o
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  tabs: { gap: 8, paddingHorizontal: 16, paddingVertical: 12 },
-  tab: { paddingHorizontal: 14, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: c.surface, borderWidth: 1, borderColor: c.border },
+  tabs: { gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12 },
+  tab: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: c.surface, borderWidth: 1, borderColor: c.border },
   tabText: { fontSize: tipografia.caption, fontWeight: '800' },
-  catRow: { gap: 8, paddingHorizontal: 16, paddingBottom: 10 },
+  catRow: { gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e10 },
 });

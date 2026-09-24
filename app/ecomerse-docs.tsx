@@ -27,7 +27,7 @@ import { ActivityIndicator, Alert, FlatList, Linking, Pressable, RefreshControl,
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, ExternalLink, ShieldCheck, XCircle } from 'lucide-react-native';
-import { useTheme, alpha, GhostButton, PrimaryButton, EmptyState, InlineError, Sheet, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, GhostButton, InlineError, PrimaryButton, radios, Sheet, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ecomerseApi, type EcomerseDocPendiente } from '../api/ecomerse';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -98,21 +98,21 @@ export default function EcomerseDocsScreen() {
         <View style={{ width: 22 }} />
       </View>
 
-      <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, paddingHorizontal: 16, paddingTop: 10 }}>
+      <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10 }}>
         Revisa los documentos que han subido los vendedores. El comprador los ve como «En revisión» hasta que alguien los mira.
       </Text>
 
       {loading ? (
         <View style={s.centro}><ActivityIndicator color={colors.primary} /></View>
       ) : error ? (
-        <View style={{ padding: 16 }}>
+        <View style={{ padding: espaciado.e16 }}>
           <InlineError mensaje={error} onReintentar={load} />
         </View>
       ) : (
         <FlatList
           data={docs}
           keyExtractor={(d) => d.id}
-          contentContainerStyle={{ padding: 16, paddingBottom: 40 }}
+          contentContainerStyle={{ padding: espaciado.e16, paddingBottom: 40 }}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
           ListEmptyComponent={
             <EmptyState
@@ -126,10 +126,10 @@ export default function EcomerseDocsScreen() {
               <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>
                 {DOC_LABEL[item.docType] ?? item.docType}
               </Text>
-              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 4 }}>
+              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e4 }}>
                 {item.producto.title} · {formatXAF(item.producto.priceXaf)} · {item.producto.city}
               </Text>
-              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }}>
+              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>
                 Tienda: {item.producto.sellerName ?? '—'}
                 {item.docNumber ? ` · Nº ${item.docNumber}` : ''}
                 {item.amountXaf !== null && item.amountXaf !== undefined ? ` · ${formatXAF(item.amountXaf)}` : ''}
@@ -138,7 +138,7 @@ export default function EcomerseDocsScreen() {
               {/* El importe de la factura frente al del anuncio: es la comprobación más útil y la
                   que no se puede hacer desde un listado de papeles sueltos. */}
               {item.amountXaf !== null && item.amountXaf !== undefined && item.amountXaf !== item.producto.priceXaf ? (
-                <Text style={{ fontSize: tipografia.micro, color: brand.warningText, fontWeight: '700', marginTop: 4 }}>
+                <Text style={{ fontSize: tipografia.micro, color: brand.warningText, fontWeight: '700', marginTop: espaciado.e4 }}>
                   ⚠ El importe de la factura no coincide con el precio del anuncio.
                 </Text>
               ) : null}
@@ -147,13 +147,13 @@ export default function EcomerseDocsScreen() {
                 onPress={() => Linking.openURL(item.url).catch(() => Alert.alert('Documento', 'No se pudo abrir el documento.'))}
                 accessibilityRole="button"
                 accessibilityLabel="Ver el documento"
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10 }}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e10 }}
               >
                 <ExternalLink size={14} color={colors.primary} />
                 <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.primary }}>Ver el documento</Text>
               </Pressable>
 
-              <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
                 <View style={{ flex: 1 }}>
                   <Pressable
                     onPress={() => decidir(item, true)}
@@ -196,7 +196,7 @@ export default function EcomerseDocsScreen() {
         subtitle="El vendedor verá este motivo y podrá corregirlo."
         onClose={() => setRechazando(null)}
       >
-        <View style={{ padding: 16, gap: 12 }}>
+        <View style={{ padding: espaciado.e16, gap: espaciado.e12 }}>
           <TextInput
             value={motivo}
             onChangeText={setMotivo}
@@ -219,11 +219,11 @@ export default function EcomerseDocsScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1 },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1 },
-  back: { padding: 2 },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: 1 },
+  back: { padding: espaciado.e2 },
   title: { fontSize: tipografia.body, fontWeight: '800' },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  card: { borderRadius: radios.lg, borderWidth: 1, padding: 12, marginBottom: 12 },
-  btn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, minHeight: 40, borderRadius: radios.md },
-  motivo: { minHeight: 80, borderRadius: radios.md, borderWidth: 1, padding: 10, textAlignVertical: 'top' },
+  card: { borderRadius: radios.lg, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e12 },
+  btn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, minHeight: 40, borderRadius: radios.md },
+  motivo: { minHeight: 80, borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, textAlignVertical: 'top' },
 });

@@ -31,7 +31,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ChevronRight, Phone, ShieldCheck } from 'lucide-react-native';
-import { alpha, brand, peso, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, peso, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import type { EcomerseSellerBrief } from '../../api/ecomerse';
 
 export interface CabeceraTiendaProps {
@@ -127,15 +127,15 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
     alignItems: 'center',
     borderRadius: radios.md,
     borderWidth: trazo.fino,
-    padding: 12,
+    padding: espaciado.e12,
   },
   avatar: { width: 44, height: 44, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   inicial: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
-  textos: { flex: 1, marginLeft: 12 },
-  filaNombre: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  textos: { flex: 1, marginLeft: espaciado.e12 },
+  filaNombre: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 },
   nombre: { flexShrink: 1, fontSize: tipografia.body, fontWeight: peso.fuerte, color: c.textPrimary },
-  meta: { fontSize: tipografia.micro, color: c.textSecondary, marginTop: 2 },
-  tagPro: { backgroundColor: alpha(brand.primary, 0.12), borderRadius: radios.sm, paddingHorizontal: 7, paddingVertical: 3 },
+  meta: { fontSize: tipografia.micro, color: c.textSecondary, marginTop: espaciado.e2 },
+  tagPro: { backgroundColor: alpha(brand.primary, 0.12), borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
   /** `fuerte` (700) y no el 800 que llevaba la ficha: el 800 no está en la escala `peso`, y meterlo
    *  aquí habría subido la deuda del trinquete para pintar tres letras. La diferencia entre 700 y
    *  800 en un sello de 11 dp no se ve; la deuda, sí. */

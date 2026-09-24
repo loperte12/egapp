@@ -261,18 +261,18 @@ const s = StyleSheet.create({
    * el `stretch` de la fila no pise la proporción.
    */
   card: { alignSelf: 'flex-start', borderRadius: radios.lg, overflow: 'hidden', borderWidth: trazo.fino },
-  etiquetas: { position: 'absolute', top: 8, left: 8, right: 8, alignItems: 'flex-start', gap: 4 },
-  chipNaranja: { backgroundColor: 'rgba(255,107,53,0.92)', borderRadius: radios.sm, paddingHorizontal: 6, paddingVertical: 2, alignSelf: 'flex-start' },
+  etiquetas: { position: 'absolute', top: 8, left: 8, right: 8, alignItems: 'flex-start', gap: espaciado.e4 },
+  chipNaranja: { backgroundColor: 'rgba(255,107,53,0.92)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, alignSelf: 'flex-start' },
   chipEmoji: { fontSize: tipografia.micro },
-  chipAzul: { backgroundColor: 'rgba(0,132,255,0.92)', borderRadius: radios.sm, paddingHorizontal: 6, paddingVertical: 2, alignSelf: 'flex-start' },
+  chipAzul: { backgroundColor: 'rgba(0,132,255,0.92)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, alignSelf: 'flex-start' },
   chipPro: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.5 },
   /* El estado del artículo y la etiqueta del sitio van sobre fondo oscuro TRASLÚCIDO y no con un
      color del tema: van sobre una foto cualquiera, y es el mismo recurso que el corazón. */
-  chipOscuro: { maxWidth: '100%', alignSelf: 'flex-start', backgroundColor: 'rgba(0,0,0,0.55)', borderRadius: radios.sm, paddingHorizontal: 6, paddingVertical: 2 },
+  chipOscuro: { maxWidth: '100%', alignSelf: 'flex-start', backgroundColor: 'rgba(0,0,0,0.55)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
   chipTexto: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte },
-  acciones: { position: 'absolute', top: 8, right: 8, flexDirection: 'row', alignItems: 'center', gap: 6 },
-  interes: { overflow: 'hidden', fontSize: tipografia.micro, fontWeight: peso.fuerte, color: brand.white, backgroundColor: 'rgba(0,0,0,0.42)', borderRadius: radios.lg, paddingHorizontal: 7, paddingVertical: 3 },
-  botonIcono: { padding: 5, borderRadius: radios.full, backgroundColor: 'rgba(0,0,0,0.42)' },
+  acciones: { position: 'absolute', top: 8, right: 8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 },
+  interes: { overflow: 'hidden', fontSize: tipografia.micro, fontWeight: peso.fuerte, color: brand.white, backgroundColor: 'rgba(0,0,0,0.42)', borderRadius: radios.lg, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
+  botonIcono: { padding: espaciado.e5, borderRadius: radios.full, backgroundColor: 'rgba(0,0,0,0.42)' },
   /** El contenido, pegado al pie sobre el velo. `none` porque dentro no hay nada interactivo. */
   cuerpo: { position: 'absolute', left: 0, right: 0, bottom: 0, padding: espaciado.e8 },
   /** Blanco fijo y no `colors.textPrimary`: el texto va sobre el velo oscuro, en los dos temas. La

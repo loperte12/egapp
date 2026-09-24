@@ -15,7 +15,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Banknote, CreditCard, MapPin, Pencil, ShoppingCart, Trash2, Wallet } from 'lucide-react-native';
-import { useTheme, alpha, peso, PrimaryButton, FormField, MasOpciones, tipografia, radios, trazo, ilustracion, ScreenHeader } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, ilustracion, MasOpciones, peso, PrimaryButton, radios, ScreenHeader, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseAddress, EcomerseDeliveryZone, EcomerseProduct } from '../api/ecomerse';
 import { walletApi } from '../api/wallet';
 import { fijarPin } from '../api/settlement';
@@ -361,13 +361,13 @@ export default function EcomerseCheckoutScreen() {
     return (
       <View style={[stylesRoot(colors).root, { paddingTop: insets.top }]}>
         <ScreenHeader titulo="Confirmar pedido" alVolver={() => ir.atras()} />
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
-          <Text style={{ fontSize: ilustracion.md, marginBottom: 10 }}>🛒</Text>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32 }}>
+          <Text style={{ fontSize: ilustracion.md, marginBottom: espaciado.e10 }}>🛒</Text>
           <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>Tu carrito está vacío</Text>
-          <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 18 }}>
+          <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>
             Explora el mercado y añade productos: pago en efectivo o por la app.
           </Text>
-          <Pressable onPress={() => router.replace('/ecomerse' as any)} style={{ marginTop: 18, backgroundColor: brand.secondary, paddingHorizontal: 20, paddingVertical: 11, borderRadius: radios.full }}>
+          <Pressable onPress={() => router.replace('/ecomerse' as any)} style={{ marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e11, borderRadius: radios.full }}>
             <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Explorar el mercado</Text>
           </Pressable>
         </View>
@@ -380,19 +380,19 @@ export default function EcomerseCheckoutScreen() {
       <ScreenHeader titulo="Confirmar pedido" alVolver={() => ir.atras()} />
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={8}>
-        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 24 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e24 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
           {/* Líneas del pedido */}
           {productLoading && (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderRadius: radios.md, padding: 12, marginBottom: 8 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, backgroundColor: colors.surface, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8 }}>
               <View style={{ width: 48, height: 48, borderRadius: radios.sm, backgroundColor: colors.border }} />
-              <View style={{ flex: 1, gap: 6 }}>
+              <View style={{ flex: 1, gap: espaciado.e6 }}>
                 <View style={{ height: 12, borderRadius: radios.sm, backgroundColor: colors.border, width: '80%' }} />
                 <View style={{ height: 12, borderRadius: radios.sm, backgroundColor: colors.border, width: '40%' }} />
               </View>
             </View>
           )}
           {lines.map((l) => (
-            <View key={claveLinea(l)} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: radios.md, padding: 12, marginBottom: 8 }}>
+            <View key={claveLinea(l)} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8 }}>
               {l.photo ? (
                 <Image source={{ uri: l.photo }} style={{ width: 48, height: 48, borderRadius: radios.sm, backgroundColor: colors.border }} contentFit="cover" />
               ) : (
@@ -400,20 +400,20 @@ export default function EcomerseCheckoutScreen() {
                   <Text style={{ fontSize: ilustracion.sm }}>📦</Text>
                 </View>
               )}
-              <View style={{ flex: 1, marginLeft: 10 }}>
+              <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                 <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>{l.title}</Text>
                 {/* La combinación, debajo del título: es lo que distingue dos líneas del MISMO anuncio. */}
                 {l.variantName ? (
-                  <Text numberOfLines={1} style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textSecondary, marginTop: 2 }}>
+                  <Text numberOfLines={1} style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textSecondary, marginTop: espaciado.e2 }}>
                     {l.variantName}
                   </Text>
                 ) : null}
-                <Text style={{ fontSize: tipografia.body, fontWeight: '900', color: brand.secondary, marginTop: 2 }}>
+                <Text style={{ fontSize: tipografia.body, fontWeight: '900', color: brand.secondary, marginTop: espaciado.e2 }}>
                   {formatXAF(l.priceXaf)}{l.qty > 1 ? ` × ${l.qty} = ${formatXAF(l.priceXaf * l.qty)}` : ''}
                 </Text>
               </View>
               {!soloMode ? (
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                   <Pressable onPress={() => setQty(claveLinea(l), Math.max(1, l.qty - 1))} hitSlop={10} accessibilityRole="button" accessibilityLabel="Quitar uno" style={qtyBtn(colors)}>
                     <Text style={{ color: colors.textPrimary, fontWeight: '900' }}>−</Text>
                   </Pressable>
@@ -438,7 +438,7 @@ export default function EcomerseCheckoutScreen() {
 
           {/* Tiene agenda, pero de OTRA ciudad. Se DICE en vez de esconderla sin explicar nada. */}
           {enOtraCiudad && !manual ? (
-            <View style={{ backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: 10, marginBottom: 8 }}>
+            <View style={{ backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e8 }}>
               <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>
                 Tus direcciones guardadas son de otra ciudad. Aquí se entrega en {cityForZones ?? 'esta ciudad'}: escribe dónde o guárdala desde «Mis direcciones».
               </Text>
@@ -458,7 +458,7 @@ export default function EcomerseCheckoutScreen() {
                     accessibilityLabel={`Entregar en la dirección de ${d.recipient}`}
                     style={[s.addrCard, { backgroundColor: colors.surface, borderColor: elegida ? colors.primary : colors.border, borderWidth: elegida ? trazo.fuerte : trazo.fino }]}
                   >
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, flexWrap: 'wrap' }}>
                       <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }} numberOfLines={1}>
                         {d.recipient}
                       </Text>
@@ -473,15 +473,15 @@ export default function EcomerseCheckoutScreen() {
                         </View>
                       ) : null}
                     </View>
-                    <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 2 }}>{d.phone}</Text>
-                    <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, marginTop: 4 }} numberOfLines={2}>
+                    <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e2 }}>{d.phone}</Text>
+                    <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, marginTop: espaciado.e4 }} numberOfLines={2}>
                       {textoDeDireccion(d)}
                     </Text>
                     {/* La zona que se HEREDA se dice: es lo que decide la tarifa del agente. */}
                     {d.zoneLabel ? (
-                      <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 2 }}>Zona: {d.zoneLabel}</Text>
+                      <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e2 }}>Zona: {d.zoneLabel}</Text>
                     ) : (
-                      <Text style={{ fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.fuerte, marginTop: 2 }}>
+                      <Text style={{ fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
                         Sin zona: elige abajo la tarifa.
                       </Text>
                     )}
@@ -506,7 +506,7 @@ export default function EcomerseCheckoutScreen() {
                   onPress={() => setManual(false)}
                   accessibilityRole="button"
                   accessibilityLabel="Usar una de mis direcciones guardadas"
-                  style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingBottom: 6 }}
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingBottom: espaciado.e6 }}
                 >
                   <MapPin size={14} color={colors.primary} />
                   <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.primary }}>Usar una de mis direcciones guardadas</Text>
@@ -529,7 +529,7 @@ export default function EcomerseCheckoutScreen() {
           <Pressable onPress={() => setMethod('cash')} accessibilityRole="radio" accessibilityState={{ checked: method === 'cash' }}
             style={[s.methodCard, { borderColor: method === 'cash' ? brand.secondary : colors.border, borderWidth: method === 'cash' ? 2 : 1 }]}>
             <Banknote size={18} color={brand.secondary} />
-            <View style={{ flex: 1, marginLeft: 10 }}>
+            <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
               <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Efectivo a la entrega</Text>
               <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>
                 Pagas al {fulfillment === 'agent' ? 'agente' : 'vendedor'} al recibir. EG Route Plan no retiene el dinero; la garantía de 7 días aplica solo con pago Billing.
@@ -537,9 +537,9 @@ export default function EcomerseCheckoutScreen() {
             </View>
           </Pressable>
           <Pressable onPress={() => setMethod('billing')} accessibilityRole="radio" accessibilityState={{ checked: method === 'billing' }}
-            style={[s.methodCard, { borderColor: method === 'billing' ? brand.secondary : colors.border, borderWidth: method === 'billing' ? 2 : 1, marginTop: 8 }]}>
+            style={[s.methodCard, { borderColor: method === 'billing' ? brand.secondary : colors.border, borderWidth: method === 'billing' ? 2 : 1, marginTop: espaciado.e8 }]}>
             <CreditCard size={18} color={colors.primary} />
-            <View style={{ flex: 1, marginLeft: 10 }}>
+            <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
               <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Pago Billing (transferencia)</Text>
               <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>
                 Genera una orden de {formatXAF(totalFinal)} XAF; sube tu comprobante y el admin la aprueba (habitual 2–24 h). El pedido no se mueve hasta aprobarse.
@@ -548,15 +548,15 @@ export default function EcomerseCheckoutScreen() {
           </Pressable>
           {/* PAGO CON EL MONEDERO (parche 101): era la tarjeta «Eg Pay · Próximamente». */}
           <Pressable onPress={() => setMethod('likebook_wallet')} accessibilityRole="radio" accessibilityState={{ checked: method === 'likebook_wallet' }}
-            style={[s.methodCard, { borderColor: method === 'likebook_wallet' ? brand.secondary : colors.border, borderWidth: method === 'likebook_wallet' ? 2 : 1, marginTop: 8 }]}>
+            style={[s.methodCard, { borderColor: method === 'likebook_wallet' ? brand.secondary : colors.border, borderWidth: method === 'likebook_wallet' ? 2 : 1, marginTop: espaciado.e8 }]}>
             <Wallet size={18} color={colors.primary} />
-            <View style={{ flex: 1, marginLeft: 10 }}>
+            <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
               <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Monedero</Text>
               <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>
                 Confirmas con tu PIN y los {formatXAF(totalFinal)} quedan en garantía hasta que recibas el pedido.
               </Text>
               {method === 'likebook_wallet' && saldoMonedero !== null ? (
-                <Text style={{ fontSize: tipografia.body, fontWeight: '800', marginTop: 3, color: saldoMonedero >= totalFinal ? brand.success : brand.dangerPressed }}>
+                <Text style={{ fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e3, color: saldoMonedero >= totalFinal ? brand.success : brand.dangerPressed }}>
                   Tienes {formatXAF(saldoMonedero)}{saldoMonedero >= totalFinal ? '' : ' · no llega'}
                 </Text>
               ) : null}
@@ -572,7 +572,7 @@ export default function EcomerseCheckoutScreen() {
             </View>
           </Pressable>
           <Pressable onPress={() => setFulfillment('agent')} accessibilityRole="radio" accessibilityState={{ checked: fulfillment === 'agent' }}
-            style={[s.methodCard, { borderColor: fulfillment === 'agent' ? brand.secondary : colors.border, borderWidth: fulfillment === 'agent' ? 2 : 1, marginTop: 8 }]}>
+            style={[s.methodCard, { borderColor: fulfillment === 'agent' ? brand.secondary : colors.border, borderWidth: fulfillment === 'agent' ? 2 : 1, marginTop: espaciado.e8 }]}>
             <View style={{ flex: 1 }}>
               <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Entrega por agente 🚚</Text>
               <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Un agente local recoge y entrega con seguimiento. Se aplica la tarifa de tu zona.</Text>
@@ -581,28 +581,28 @@ export default function EcomerseCheckoutScreen() {
 
           {/* Zona → tarifa (nunca un 500 fantasma) */}
           {fulfillment === 'agent' && (
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: espaciado.e10 }}>
               <Text style={s.label}>Zona de entrega * (define la tarifa)</Text>
               {zonesLoading ? (
                 <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Cargando zonas…</Text>
               ) : zonesError || zones.length === 0 ? (
-                <View style={{ backgroundColor: alpha(colors.danger, 0.08), borderRadius: radios.md, padding: 10 }}>
+                <View style={{ backgroundColor: alpha(colors.danger, 0.08), borderRadius: radios.md, padding: espaciado.e10 }}>
                   <Text style={{ fontSize: tipografia.body, color: colors.danger, fontWeight: '700' }}>
                     No hay agentes disponibles en {cityForZones ?? 'esta ciudad'} ahora mismo. Usa la entrega directa del vendedor.
                   </Text>
                 </View>
               ) : (
                 <>
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                     {zones.map((z) => (
                       <Pressable key={z.id} onPress={() => setZoneId(z.id)} accessibilityRole="button" accessibilityLabel={z.label}
-                        style={{ paddingHorizontal: 10, paddingVertical: 6, borderRadius: radios.md, backgroundColor: zoneId === z.id ? colors.primary : colors.surface, borderWidth: 1, borderColor: zoneId === z.id ? colors.primary : colors.border }}>
+                        style={{ paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderRadius: radios.md, backgroundColor: zoneId === z.id ? colors.primary : colors.surface, borderWidth: 1, borderColor: zoneId === z.id ? colors.primary : colors.border }}>
                         <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: zoneId === z.id ? brand.white : colors.textPrimary }}>{z.label}</Text>
                       </Pressable>
                     ))}
                   </View>
                   {zone && (
-                    <View style={{ marginTop: 8 }}>
+                    <View style={{ marginTop: espaciado.e8 }}>
                       <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>
                         Tarifa base {formatXAF(zone.baseFeeXaf)} + {formatXAF(zone.perKmXaf)}/km · por defecto {zone.kmDefault} km
                       </Text>
@@ -630,12 +630,12 @@ export default function EcomerseCheckoutScreen() {
             <Row label="Total a pagar" value={formatXAF(totalFinal)} big />
           </View>
           {fulfillment === 'agent' && !zone && (
-            <Text style={{ fontSize: tipografia.body, color: colors.danger, fontWeight: '700', marginTop: 6 }}>
+            <Text style={{ fontSize: tipografia.body, color: colors.danger, fontWeight: '700', marginTop: espaciado.e6 }}>
               Elige la zona para calcular el total. No se aplican cargos ocultos.
             </Text>
           )}
 
-          <View style={{ marginTop: 16 }}>
+          <View style={{ marginTop: espaciado.e16 }}>
             <PrimaryButton
               title={busy ? 'Creando pedido…' : `Confirmar · ${formatXAF(totalFinal)}`}
               /* Sin envolver: el botón pasa el EVENTO como primer argumento y se colaría
@@ -667,7 +667,7 @@ export default function EcomerseCheckoutScreen() {
 function Row({ label, value, big }: { label: string; value: string; big?: boolean }) {
   const { colors } = useTheme();
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 4 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: espaciado.e4 }}>
       <Text style={{ fontSize: big ? 15 : 13, fontWeight: big ? '900' : '600', color: colors.textPrimary }}>{label}</Text>
       <Text style={{ fontSize: big ? 17 : 13, fontWeight: '900', color: big ? brand.secondary : colors.textPrimary }}>{value}</Text>
     </View>
@@ -677,16 +677,16 @@ function Row({ label, value, big }: { label: string; value: string; big?: boolea
 const stylesRoot = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({ root: { flex: 1, backgroundColor: c.background } });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  label: { fontSize: tipografia.body, fontWeight: '700', color: c.textPrimary, marginTop: 14, marginBottom: 6 },
-  methodCard: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: 14, backgroundColor: c.surface },
+  label: { fontSize: tipografia.body, fontWeight: '700', color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
+  methodCard: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e14, backgroundColor: c.surface },
   /* Las direcciones guardadas se pintan como tarjetas elegibles, no como cromo decorativo: la
      marcada se distingue por el borde (2 px + primario), la misma señal que los métodos de pago. */
-  addrCard: { borderRadius: radios.md, padding: 12, marginBottom: 8 },
-  sello: { borderRadius: radios.sm, borderWidth: trazo.fino, paddingHorizontal: 6, paddingVertical: 1 },
-  addrLink: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 8 },
-  kmInput: { marginTop: 8, borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 9, fontSize: tipografia.body },
-  summary: { borderRadius: radios.md, borderWidth: 1, padding: 12, marginTop: 18 },
-  divider: { height: 1, marginVertical: 6 },
+  addrCard: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8 },
+  sello: { borderRadius: radios.sm, borderWidth: trazo.fino, paddingHorizontal: espaciado.e6, paddingVertical: 1 },
+  addrLink: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingVertical: espaciado.e8 },
+  kmInput: { marginTop: espaciado.e8, borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
+  summary: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e12, marginTop: espaciado.e18 },
+  divider: { height: 1, marginVertical: espaciado.e6 },
 });
 
 const qtyBtn = (c: ReturnType<typeof useTheme>['colors']) => ({

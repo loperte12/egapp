@@ -276,9 +276,9 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   /** El nombre de la subclase. `fuerte` (700) y no `titulo` (900) para no competir con la cabecera,
    *  que también va en `subtitle`: la jerarquía la marca el peso, no el tamaño. */
   subclase: { fontSize: tipografia.subtitle, fontWeight: peso.fuerte, color: c.textPrimary, paddingHorizontal: espaciado.e16, marginTop: espaciado.e16, marginBottom: espaciado.e8 },
-  fila: { flexDirection: 'row', gap: 10, paddingHorizontal: espaciado.e16, marginBottom: 10 },
+  fila: { flexDirection: 'row', gap: espaciado.e10, paddingHorizontal: espaciado.e16, marginBottom: espaciado.e10 },
   hueco: { flex: 1 },
-  esqueleto: { gap: 10, paddingTop: espaciado.e8 },
-  filaEsqueleto: { flexDirection: 'row', gap: 10, paddingHorizontal: espaciado.e16 },
+  esqueleto: { gap: espaciado.e10, paddingTop: espaciado.e8 },
+  filaEsqueleto: { flexDirection: 'row', gap: espaciado.e10, paddingHorizontal: espaciado.e16 },
   centrado: { paddingTop: 40, paddingHorizontal: espaciado.e32 },
 });

@@ -795,7 +795,7 @@ const s_home = StyleSheet.create({
   rejillaContenido: { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: espaciado.e12, paddingTop: espaciado.e12 },
   celda: {
     width: `${100 / COLUMNAS_REJILLA}%`, minHeight: ALTO_CELDA_FAMILIA,
-    alignItems: 'center', justifyContent: 'center', paddingHorizontal: 2, paddingVertical: espaciado.e4,
+    alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e2, paddingVertical: espaciado.e4,
   },
   celdaFoto: { width: DIAM_FOTO_FAMILIA, height: DIAM_FOTO_FAMILIA, borderRadius: radios.md, marginBottom: espaciado.e6 },
   /** `rotulo` (9) y no `micro` (11): el peldaño de la escala que existe para esta celda. El porqué
@@ -826,7 +826,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
    */
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8, backgroundColor: c.background, borderBottomWidth: trazo.fino, borderBottomColor: c.border, zIndex: 2, elevation: 2 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14 },
-  cartBadge: { position: 'absolute', top: -6, right: -8, minWidth: 16, height: 16, borderRadius: radios.sm, backgroundColor: brand.like, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3 },
+  cartBadge: { position: 'absolute', top: -6, right: -8, minWidth: 16, height: 16, borderRadius: radios.sm, backgroundColor: brand.like, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e3 },
   cartBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.titulo },
   /**
    * La barra de búsqueda, en la cabecera. `height: 40` en vez de `paddingVertical`: es lo que la
@@ -859,6 +859,6 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   photoBanner: { marginHorizontal: espaciado.e16, marginTop: espaciado.e12, borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e14, alignItems: 'center' },
   photoBannerTitle: { fontSize: tipografia.body, fontWeight: peso.maximo },
   photoBannerSub: { fontSize: tipografia.caption, marginTop: espaciado.e4 },
-  photoBack: { marginTop: espaciado.e10, paddingHorizontal: espaciado.e14, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: c.primary },
+  photoBack: { marginTop: espaciado.e10, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: c.primary },
   photoBackText: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo },
 });

@@ -14,7 +14,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Check, X } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, brand, EmptyState, Precio, tipografia, radios, ilustracion, ScreenHeader } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, ilustracion, Precio, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseProduct, EcomerseShopPlan } from '../api/ecomerse';
 import { billingApi, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
@@ -143,7 +143,7 @@ export default function EcomersePlanesScreen() {
       <View style={[s.root, { paddingTop: insets.top }]}>
         {/* Esqueleto: sin `alVolver` el título queda centrado igual. */}
         <ScreenHeader titulo="Tu tienda" />
-        <View style={{ padding: 16, gap: 12 }}>
+        <View style={{ padding: espaciado.e16, gap: espaciado.e12 }}>
           {[0, 1, 2, 3].map((i) => (
             <View key={i} style={{ height: 120, borderRadius: radios.lg, backgroundColor: colors.border, opacity: 0.6 }} />
           ))}
@@ -156,11 +156,11 @@ export default function EcomersePlanesScreen() {
     return (
       <View style={[s.root, { paddingTop: insets.top }]}>
         <ScreenHeader titulo="Tu tienda" alVolver={() => router.back()} />
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
-          <Text style={{ fontSize: ilustracion.md, marginBottom: 8 }}>📡</Text>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32 }}>
+          <Text style={{ fontSize: ilustracion.md, marginBottom: espaciado.e8 }}>📡</Text>
           <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>No pudimos cargar tu tienda</Text>
-          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 18 }}>{error}</Text>
-          <Pressable onPress={load} style={{ marginTop: 18, backgroundColor: colors.primary, paddingHorizontal: 20, paddingVertical: 11, borderRadius: radios.full }}>
+          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
+          <Pressable onPress={load} style={{ marginTop: espaciado.e18, backgroundColor: colors.primary, paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e11, borderRadius: radios.full }}>
             <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
@@ -172,7 +172,7 @@ export default function EcomersePlanesScreen() {
     return (
       <View style={[s.root, { paddingTop: insets.top }]}>
         <ScreenHeader titulo="Tu tienda" alVolver={() => router.back()} />
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32 }}>
           {/* Al kit. La acción se conserva y va PRIMARIA: es LA acción de esta pantalla. */}
           <EmptyState
             emoji="🏪"
@@ -191,19 +191,19 @@ export default function EcomersePlanesScreen() {
     <View style={[s.root, { paddingTop: insets.top }]}>
       <ScreenHeader titulo="Tu tienda" alVolver={() => router.back()} />
 
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
         {/* Estado actual */}
         <View style={[s.current, { backgroundColor: alpha(colors.primary, 0.06) }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>🏪 {plan?.name ?? 'Tienda'}</Text>
             {expiresTxt && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Activo hasta {expiresTxt}</Text>}
           </View>
-          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 4 }}>
+          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e4 }}>
             {plan ? `${quotaUsed} de ${quotaLimit} publicaciones activas` : ''}
             {isPro && (plan?.freeFeaturedLeft ?? 0) > 0 ? ` · ⭐ ${plan.freeFeaturedLeft} destacado gratis este mes` : ''}
           </Text>
           {nearLimit && (
-            <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: brand.secondary, marginTop: 4 }}>
+            <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: brand.secondary, marginTop: espaciado.e4 }}>
               Estás al {Math.round((quotaUsed / quotaLimit) * 100)}% del límite: sube de plan para seguir publicando.
             </Text>
           )}
@@ -211,7 +211,7 @@ export default function EcomersePlanesScreen() {
 
         {/* Niveles de tienda (misma tabla de features en los 4) */}
         <Text style={s.sectionTitle}>Niveles de tienda</Text>
-        <View style={{ gap: 10 }}>
+        <View style={{ gap: espaciado.e10 }}>
           {shopPlans.map((pl) => {
             const f = (pl.features ?? {}) as Record<string, unknown>;
             const current = isCurrent(pl);
@@ -221,7 +221,7 @@ export default function EcomersePlanesScreen() {
             return (
               <View key={pl.code} style={[s.card, { borderColor: current ? colors.primary : colors.border }]}>
                 <View style={s.cardHead}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flex: 1, flexWrap: 'wrap' }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, flex: 1, flexWrap: 'wrap' }}>
                     <Text style={s.cardName}>{pl.name}</Text>
                     {current && <View style={s.tagCurrent}><Text style={s.tagCurrentText}>Actual</Text></View>}
                     {recommended && !current && <View style={s.tagRec}><Text style={s.tagRecText}>Recomendado</Text></View>}
@@ -241,15 +241,15 @@ export default function EcomersePlanesScreen() {
                 <FeatureRow ok={!!f.priority} label="Prioridad en búsquedas" />
                 <FeatureRow ok={Number(f.monthlyFeatured) > 0} label={`${Number(f.monthlyFeatured) || 0} destacado gratis al mes`} />
                 {isFree ? (
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textSecondary, marginTop: 10 }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textSecondary, marginTop: espaciado.e10 }}>
                     ✓ Incluida · {quota} publicaciones
                   </Text>
                 ) : current ? (
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.primary, marginTop: 10 }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.primary, marginTop: espaciado.e10 }}>
                     ✓ Plan actual{expiresTxt ? ` · renueva ${expiresTxt}` : ''}
                   </Text>
                 ) : (
-                  <View style={{ marginTop: 10 }}>
+                  <View style={{ marginTop: espaciado.e10 }}>
                     <PrimaryButton title={`Pasar a ${pl.name} · ${formatXAF(pl.priceXaf)}/mes`} onPress={() => chooseShop(pl)} />
                   </View>
                 )}
@@ -257,25 +257,25 @@ export default function EcomersePlanesScreen() {
             );
           })}
         </View>
-        <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 8 }}>
+        <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e8 }}>
           ¿Quieres bajar de plan o cancelar la renovación? Escribe a soporte y lo gestionamos.
         </Text>
 
         {/* Destacar anuncio */}
-        <Text style={[s.sectionTitle, { marginTop: 22 }]}>🔥 Destacar un anuncio</Text>
+        <Text style={[s.sectionTitle, { marginTop: espaciado.e22 }]}>🔥 Destacar un anuncio</Text>
         <View style={[s.card, { borderColor: colors.border }]}>
-          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, lineHeight: 17, marginBottom: 8 }}>
+          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, lineHeight: 17, marginBottom: espaciado.e8 }}>
             Elige el anuncio y el nivel. Aparece arriba de los resultados y en Recomendados durante la duración.
           </Text>
 
           {/* Picker de producto (radios) */}
-          <Text style={[s.label, { marginBottom: 4 }]}>1 · Elige el anuncio</Text>
+          <Text style={[s.label, { marginBottom: espaciado.e4 }]}>1 · Elige el anuncio</Text>
           {myProducts.length === 0 ? (
-            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginBottom: 8 }}>
+            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginBottom: espaciado.e8 }}>
               No tienes anuncios activos. Publica primero para poder destacarlo.
             </Text>
           ) : (
-            <View style={{ gap: 6, marginBottom: 10 }}>
+            <View style={{ gap: espaciado.e6, marginBottom: espaciado.e10 }}>
               {myProducts.map((p) => {
                 const on = productId === p.id;
                 return (
@@ -288,7 +288,7 @@ export default function EcomersePlanesScreen() {
                         <Text style={{ fontSize: ilustracion.sm }}>{p.categoryIcon ?? '📦'}</Text>
                       </View>
                     )}
-                    <View style={{ flex: 1, marginLeft: 8 }}>
+                    <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
                       <Text numberOfLines={1} style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>{p.title}</Text>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>
                         {p.city}{p.isFeatured ? ' · 🔥 ya destacado (se extiende)' : ''}
@@ -315,8 +315,8 @@ export default function EcomersePlanesScreen() {
           )}
 
           {/* Escalera de niveles */}
-          <Text style={[s.label, { marginBottom: 4, marginTop: 6 }]}>2 · Elige el nivel</Text>
-          <View style={{ gap: 4 }}>
+          <Text style={[s.label, { marginBottom: espaciado.e4, marginTop: espaciado.e6 }]}>2 · Elige el nivel</Text>
+          <View style={{ gap: espaciado.e4 }}>
             {featPlans.map((fp) => (
               <Pressable key={fp.code} onPress={() => chooseFeatured(fp)} disabled={!selected}
                 accessibilityRole="button" accessibilityState={{ disabled: !selected }}
@@ -335,8 +335,8 @@ export default function EcomersePlanesScreen() {
         </View>
 
         {/* Cómo funciona (sin promesas falsas) */}
-        <Text style={[s.sectionTitle, { marginTop: 22 }]}>Cómo funciona</Text>
-        <View style={{ backgroundColor: colors.surface, borderRadius: radios.md, padding: 12 }}>
+        <Text style={[s.sectionTitle, { marginTop: espaciado.e22 }]}>Cómo funciona</Text>
+        <View style={{ backgroundColor: colors.surface, borderRadius: radios.md, padding: espaciado.e12 }}>
           <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, lineHeight: 18 }}>
             1. Eliges tu nivel o un destacado → se crea tu pedido de pago (XAF).{'\n'}
             2. Pagas por transferencia ahora (Mobile Money en activación) y subes el comprobante.{'\n'}
@@ -352,31 +352,31 @@ export default function EcomersePlanesScreen() {
 function FeatureRow({ ok, label }: { ok: boolean; label: string }) {
   const { colors } = useTheme();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 3 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e3 }}>
       {ok ? <Check size={14} color={brand.success} /> : <X size={14} color="#CBD5E1" />}
-      <Text style={{ fontSize: tipografia.caption, color: ok ? colors.textPrimary : colors.textSecondary, marginLeft: 7, flex: 1 }}>{label}</Text>
+      <Text style={{ fontSize: tipografia.caption, color: ok ? colors.textPrimary : colors.textSecondary, marginLeft: espaciado.e7, flex: 1 }}>{label}</Text>
     </View>
   );
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  current: { borderRadius: radios.md, padding: 12, marginBottom: 16 },
-  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary, marginBottom: 8 },
+  current: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e16 },
+  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary, marginBottom: espaciado.e8 },
   label: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary },
-  card: { backgroundColor: c.card, borderRadius: radios.lg, borderWidth: 1.5, padding: 14 },
-  cardHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
+  card: { backgroundColor: c.card, borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14 },
+  cardHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e8 },
   cardName: { fontSize: tipografia.body, fontWeight: '900', color: c.textPrimary },
   /* `cardPrice` y `cardPeriod` se fueron con la primitiva `Precio`: el par cifra+unidad y el
      `/mes` ya no se escriben aquí. Eran, además, el último sitio del módulo que se construía el
      periodo a mano. */
-  tagCurrent: { backgroundColor: 'rgba(16,185,129,0.12)', borderRadius: radios.sm, paddingHorizontal: 6, paddingVertical: 2 },
+  tagCurrent: { backgroundColor: 'rgba(16,185,129,0.12)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
   tagCurrentText: { color: brand.success, fontSize: tipografia.micro, fontWeight: '900' },
-  tagRec: { backgroundColor: 'rgba(255,107,53,0.14)', borderRadius: radios.sm, paddingHorizontal: 6, paddingVertical: 2 },
+  tagRec: { backgroundColor: 'rgba(255,107,53,0.14)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
   tagRecText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: '900' },
-  prodRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: 8 },
+  prodRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: espaciado.e8 },
   radio: { width: 18, height: 18, borderRadius: radios.full, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
   radioDot: { width: 10, height: 10, borderRadius: radios.full },
-  freeBtn: { borderWidth: 1, borderRadius: radios.md, paddingVertical: 9, alignItems: 'center', marginBottom: 8 },
-  featRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 9, borderBottomWidth: 1 },
+  freeBtn: { borderWidth: 1, borderRadius: radios.md, paddingVertical: espaciado.e9, alignItems: 'center', marginBottom: espaciado.e8 },
+  featRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e9, borderBottomWidth: 1 },
 });

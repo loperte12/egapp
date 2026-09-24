@@ -177,7 +177,7 @@ export default function EcomerseTiendaScreen() {
               <ActivityIndicator color={colors.primary} />
             </View>
           ) : error ? (
-            <View style={{ paddingTop: 24 }}>
+            <View style={{ paddingTop: espaciado.e24 }}>
               <InlineError mensaje={error} onReintentar={load} />
             </View>
           ) : vacia ? (

@@ -14,7 +14,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PackageSearch, ShieldCheck, Star, Truck } from 'lucide-react-native';
-import { useTheme, alpha, GhostButton, EmptyState, Sheet, Precio, tipografia, radios, EstadoDinero, type EtapaDinero, ilustracion, ScreenHeader } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, EstadoDinero, GhostButton, ilustracion, Precio, radios, ScreenHeader, Sheet, tipografia, type EtapaDinero, useTheme } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseOrder } from '../api/ecomerse';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -457,7 +457,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
       <FlatList
         data={orders}
         keyExtractor={(o) => o.id}
-        contentContainerStyle={{ padding: 16, paddingBottom: 40 }}
+        contentContainerStyle={{ padding: espaciado.e16, paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
         initialNumToRender={8}
@@ -483,18 +483,18 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
         ListHeaderComponent={
           <>
             {error && (
-              <View style={{ alignItems: 'center', paddingVertical: 40, paddingHorizontal: 32 }}>
-                <Text style={{ fontSize: ilustracion.md, marginBottom: 8 }}>📡</Text>
+              <View style={{ alignItems: 'center', paddingVertical: 40, paddingHorizontal: espaciado.e32 }}>
+                <Text style={{ fontSize: ilustracion.md, marginBottom: espaciado.e8 }}>📡</Text>
                 <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>Algo salió mal</Text>
-                <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 18 }}>{error}</Text>
-                <Pressable onPress={load} style={{ marginTop: 18, backgroundColor: colors.primary, paddingHorizontal: 20, paddingVertical: 11, borderRadius: radios.full }}>
+                <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
+                <Pressable onPress={load} style={{ marginTop: espaciado.e18, backgroundColor: colors.primary, paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e11, borderRadius: radios.full }}>
                   <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
                 </Pressable>
               </View>
             )}
 
             {!error && loading && orders.length === 0 && (
-              <View style={{ gap: 12 }}>
+              <View style={{ gap: espaciado.e12 }}>
                 {[0, 1].map((i) => <View key={i} style={{ height: 140, borderRadius: radios.lg, backgroundColor: colors.border, opacity: 0.5 }} />)}
               </View>
             )}
@@ -544,7 +544,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
           const closed = o.status === 'cancelled' || o.status === 'disputed';
           const timelineIdx = TIMELINE.indexOf(o.status);
           return (
-            <View key={o.id} style={{ backgroundColor: colors.surface, borderRadius: radios.lg, padding: 14, marginBottom: 12, borderWidth: 1, borderColor: colors.border }}>
+            <View key={o.id} style={{ backgroundColor: colors.surface, borderRadius: radios.lg, padding: espaciado.e14, marginBottom: espaciado.e12, borderWidth: 1, borderColor: colors.border }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flex: 1 }}>
                   <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>
@@ -572,13 +572,13 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
                     <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>… y {(o.items?.length ?? 0) - 3} más</Text>
                   )}
                 </View>
-                <View style={{ backgroundColor: alpha(colorOf(o.status), 0.12), paddingHorizontal: 8, paddingVertical: 3, borderRadius: radios.sm }}>
+                <View style={{ backgroundColor: alpha(colorOf(o.status), 0.12), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.sm }}>
                   <Text style={{ fontSize: tipografia.micro, fontWeight: '800', color: colorOf(o.status) }}>{labelOf(o.status)}</Text>
                 </View>
               </View>
 
               {/* Desglose: total naranja + datos del servicio */}
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 6 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: espaciado.e6 }}>
                 <View style={{ flex: 1 }}>
                   <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>
                     {role === 'buyer' ? `Vendedor: ${o.sellerName ?? '—'}` : `Comprador: #${(o.buyerId || '').slice(-4)}`} · {pagoLabel(o.paymentMethod)}
@@ -601,7 +601,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
 
               {/* Timeline (solo si no está cerrado) */}
               {!closed && (
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 14 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e14 }}>
                   {TIMELINE.map((stName, i) => (
                     <React.Fragment key={stName}>
                       {i > 0 && <View style={{ flex: 1, height: 2, backgroundColor: i <= timelineIdx ? brand.secondary : colors.border }} />}
@@ -619,7 +619,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
                     · monedero → se enseña en qué punto está el dinero, con su estado real.
                     · efectivo → el aviso dice la verdad: no pasa por la app.
                     · billing → mantiene la garantía de 7 días que ya mostraba. */}
-              <View style={{ marginTop: 10 }}>
+              <View style={{ marginTop: espaciado.e10 }}>
                 {esMonedero(o.paymentMethod) ? (
                   <EstadoDinero
                     activo={dineroDePedido(o) ?? 'retenido'}
@@ -630,9 +630,9 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
                       : undefined}
                   />
                 ) : o.status === 'delivered' ? (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(o.paymentMethod === 'billing' ? brand.success : brand.warning, 0.08), borderRadius: radios.sm, padding: 8 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(o.paymentMethod === 'billing' ? brand.success : brand.warning, 0.08), borderRadius: radios.sm, padding: espaciado.e8 }}>
                     <ShieldCheck size={14} color={o.paymentMethod === 'billing' ? brand.success : brand.warning} />
-                    <Text style={{ fontSize: tipografia.micro, color: o.paymentMethod === 'billing' ? brand.success : brand.warning, fontWeight: '700', marginLeft: 6, flex: 1 }}>
+                    <Text style={{ fontSize: tipografia.micro, color: o.paymentMethod === 'billing' ? brand.success : brand.warning, fontWeight: '700', marginLeft: espaciado.e6, flex: 1 }}>
                       {o.paymentMethod === 'billing'
                         ? (warrantyOk ? `Garantía de 7 días hasta ${new Date(o.warrantyExpiresAt!).toLocaleDateString('es')}` : 'Garantía vencida.')
                         : 'Pago en efectivo: EG Route Plan media si hay problema (sin reembolso por la app).'}
@@ -643,7 +643,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
 
               {/* Seguimiento de envío (agente) */}
               {ship && (
-                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.sm, padding: 8, marginTop: 10, flexWrap: 'wrap', gap: 6 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.sm, padding: espaciado.e8, marginTop: espaciado.e10, flexWrap: 'wrap', gap: espaciado.e6 }}>
                   <Truck size={14} color={colors.primary} />
                   <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: '700', flex: 1 }}>
                     Envío {ship.trackingCode} · {ship.agentName ?? 'agente'} · {labelOf(ship.status)}
@@ -660,8 +660,8 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
 
               {/* Actividad (acotada) */}
               {events.length > 0 && (
-                <View style={{ marginTop: 10, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8 }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginBottom: 4 }}>
+                <View style={{ marginTop: espaciado.e10, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e8 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginBottom: espaciado.e4 }}>
                     <PackageSearch size={12} color={colors.textSecondary} />
                     <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '700' }}>ACTIVIDAD</Text>
                   </View>
@@ -676,7 +676,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
               )}
 
               {/* Acciones */}
-              <View style={{ flexDirection: 'row', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e12, flexWrap: 'wrap' }}>
                 {role === 'seller' && o.status === 'pending' && (
                   <GhostButton title="Confirmar" onPress={() => confirmAct(o.id, 'confirmed', 'Confirmar pedido', 'Confirmas que aceptas el pedido. El comprador recibirá el aviso.')} />
                 )}
@@ -715,7 +715,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
         onClose={() => setModal(null)}
       >
         {modal === 'review' ? (
-          <View style={{ flexDirection: 'row', gap: 8, justifyContent: 'center', paddingVertical: 8 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e8, justifyContent: 'center', paddingVertical: espaciado.e8 }}>
             {[1, 2, 3, 4, 5].map((n) => (
               <Pressable key={n} onPress={() => setRating(n)} accessibilityRole="button" accessibilityLabel={`${n} estrellas`} hitSlop={8}>
                 <Star size={34} color={n <= rating ? brand.warning : colors.border} fill={n <= rating ? brand.warning : 'transparent'} />
@@ -734,7 +734,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
           />
         )}
 
-        <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}>
+        <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
           <Pressable onPress={() => { if (!modalBusyRef.current) setModal(null); }} style={[s.modalBtn, { borderWidth: 1, borderColor: colors.border }]}>
             <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
@@ -752,8 +752,8 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
 const stylesRoot = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({ root: { flex: 1, backgroundColor: c.background } });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  seg: { flexDirection: 'row', marginHorizontal: 16, marginTop: 12, backgroundColor: c.surface, borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: 3 },
-  segBtn: { flex: 1, alignItems: 'center', paddingVertical: 8, borderRadius: radios.sm },
+  seg: { flexDirection: 'row', marginHorizontal: espaciado.e16, marginTop: espaciado.e12, backgroundColor: c.surface, borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: espaciado.e3 },
+  segBtn: { flex: 1, alignItems: 'center', paddingVertical: espaciado.e8, borderRadius: radios.sm },
   segText: { fontSize: tipografia.body, fontWeight: '800' },
   /**
    * FILA DE CHIPS DE ESTADO (tanda B; corregida DOS veces el 18/09 tras verla en el aparato).
@@ -772,11 +772,11 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
    * llegan datos. El texto (12 px) cabe de sobra: 36 px es más del doble.
    */
   filtros: { height: 56, flexGrow: 0 },
-  filtrosContenido: { gap: 8, paddingHorizontal: 16, alignItems: 'center' },
-  filtroChip: { height: 36, justifyContent: 'center', paddingHorizontal: 12, borderRadius: radios.full, borderWidth: 1 },
+  filtrosContenido: { gap: espaciado.e8, paddingHorizontal: espaciado.e16, alignItems: 'center' },
+  filtroChip: { height: 36, justifyContent: 'center', paddingHorizontal: espaciado.e12, borderRadius: radios.full, borderWidth: 1 },
   filtroText: { fontSize: tipografia.caption, fontWeight: '700' },
   /** Botón de «ver más»: solo aparece si quedan pedidos. */
-  masBtn: { marginTop: 14, marginHorizontal: 16, paddingVertical: 12, borderRadius: radios.md, borderWidth: 1, alignItems: 'center' },
-  modalInput: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 10, minHeight: 88, textAlignVertical: 'top', fontSize: tipografia.body },
-  modalBtn: { paddingVertical: 12, paddingHorizontal: 16, borderRadius: radios.md, alignItems: 'center' },
+  masBtn: { marginTop: espaciado.e14, marginHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderRadius: radios.md, borderWidth: 1, alignItems: 'center' },
+  modalInput: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, minHeight: 88, textAlignVertical: 'top', fontSize: tipografia.body },
+  modalBtn: { paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e16, borderRadius: radios.md, alignItems: 'center' },
 });

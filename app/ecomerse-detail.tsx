@@ -124,7 +124,7 @@ export default function EcomerseDetailScreen() {
             título sigue centrado exactamente igual que antes. */}
         <ScreenHeader titulo="Producto" />
         <View style={{ height: 280, backgroundColor: colors.surface }} />
-        <View style={{ padding: 16, gap: 10 }}>
+        <View style={{ padding: espaciado.e16, gap: espaciado.e10 }}>
           <View style={{ height: 26, borderRadius: radios.sm, backgroundColor: colors.border, width: '40%' }} />
           <View style={{ height: 16, borderRadius: radios.sm, backgroundColor: colors.border, width: '85%' }} />
           <View style={{ height: 12, borderRadius: radios.sm, backgroundColor: colors.border, width: '60%' }} />
@@ -135,15 +135,15 @@ export default function EcomerseDetailScreen() {
 
   if (!product) {
     return (
-      <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32, paddingTop: insets.top }}>
-        <Text style={{ fontSize: ilustracion.md, marginBottom: 8 }}>📦</Text>
+      <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32, paddingTop: insets.top }}>
+        <Text style={{ fontSize: ilustracion.md, marginBottom: espaciado.e8 }}>📦</Text>
         <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>No pudimos cargar el producto</Text>
-        <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 18 }}>{error}</Text>
-        <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
-          <Pressable onPress={load} style={{ backgroundColor: brand.secondary, paddingHorizontal: 18, paddingVertical: 11, borderRadius: radios.full }}>
+        <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
+        <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e18 }}>
+          <Pressable onPress={load} style={{ backgroundColor: brand.secondary, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e11, borderRadius: radios.full }}>
             <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
-          <Pressable onPress={() => router.back()} style={{ paddingHorizontal: 18, paddingVertical: 11, borderRadius: radios.full, borderWidth: 1, borderColor: colors.border }}>
+          <Pressable onPress={() => router.back()} style={{ paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e11, borderRadius: radios.full, borderWidth: 1, borderColor: colors.border }}>
             <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Volver</Text>
           </Pressable>
         </View>
@@ -361,9 +361,9 @@ export default function EcomerseDetailScreen() {
           )}
         </View>
 
-        <View style={{ padding: 16 }}>
+        <View style={{ padding: espaciado.e16 }}>
           {/* Etiquetas */}
-          <View style={{ flexDirection: 'row', gap: 6, marginBottom: 8 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e6, marginBottom: espaciado.e8 }}>
             {isFeat && <View style={s.tagFeat}><Text style={s.tagFeatText}>🔥 Destacado</Text></View>}
             {product.seller?.badge === 'Pro' && <View style={s.tagPro}><Text style={s.tagProText}>Tienda PRO</Text></View>}
             {product.isNegotiable && <View style={s.tagSoft}><Text style={s.tagSoftText}>💰 Negociable</Text></View>}
@@ -382,7 +382,7 @@ export default function EcomerseDetailScreen() {
             {created && <Metric icon={<Text style={{ fontSize: tipografia.micro }}>🗓</Text>} label={created} />}
           </View>
           {product.categoryLabel && (
-            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 6 }}>
+            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e6 }}>
               {product.categoryIcon} {product.categoryLabel}{product.subcategoryLabel ? ` · ${product.subcategoryLabel}` : ''}
             </Text>
           )}
@@ -400,7 +400,7 @@ export default function EcomerseDetailScreen() {
           ) : (
             <View style={[s.warranty, { backgroundColor: alpha(colors.primary, 0.06), borderColor: colors.border }]}>
               <ShieldCheck size={16} color={colors.primary} />
-              <Text style={{ flex: 1, marginLeft: 8, fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: '700' }}>
+              <Text style={{ flex: 1, marginLeft: espaciado.e8, fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: '700' }}>
                 Este anuncio no admite compra in-app ahora mismo.
               </Text>
             </View>
@@ -435,7 +435,7 @@ export default function EcomerseDetailScreen() {
           ) : (
             <View style={s.qtyRow}>
               <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>Cantidad</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }}>
                 <Pressable onPress={() => setQty((q) => Math.max(1, q - 1))} hitSlop={8} accessibilityRole="button" accessibilityLabel="Menos"
                   style={[s.qtyBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                   <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>−</Text>
@@ -458,7 +458,7 @@ export default function EcomerseDetailScreen() {
               que distingue esta llamada de la que se hace desde la tienda: aquí se sabe de qué
               anuncio viene el interés, allí no. Y solo se registra si de verdad se abrió el
               marcador (`llamarTelefono` devuelve `false` con un número inválido). */}
-          <View style={{ marginTop: 18 }}>
+          <View style={{ marginTop: espaciado.e18 }}>
             <Text style={s.sectionTitle}>Tienda</Text>
             <CabeceraTienda
               seller={product.seller}
@@ -497,15 +497,15 @@ export default function EcomerseDetailScreen() {
           {/* FICHA TÉCNICA: lo que el formulario recoge y el comprador necesita saber. Va después de
               la descripción y antes del vendedor: primero el artículo, después quién lo vende. */}
           {ficha.length > 0 && (
-            <View style={{ marginTop: 18 }}>
+            <View style={{ marginTop: espaciado.e18 }}>
               <Text style={s.sectionTitle}>Características</Text>
               <View style={{ borderRadius: radios.md, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' }}>
                 {ficha.map((f, i) => (
                   <View
                     key={f.label}
                     style={{
-                      flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12,
-                      paddingHorizontal: 12, paddingVertical: 9,
+                      flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e12,
+                      paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9,
                       borderTopWidth: i === 0 ? 0 : 1, borderTopColor: colors.border,
                     }}
                   >
@@ -525,16 +525,16 @@ export default function EcomerseDetailScreen() {
               el comprador ve si el papel está aprobado por la plataforma o todavía en revisión, en
               vez de un escudo que promete más de lo que se ha comprobado. */}
           {(product.docs?.length ?? 0) > 0 && (
-            <View style={{ marginTop: 18 }}>
+            <View style={{ marginTop: espaciado.e18 }}>
               <Text style={s.sectionTitle}>Documentación</Text>
-              <View style={{ gap: 6 }}>
+              <View style={{ gap: espaciado.e6 }}>
                 {product.docs!.map((d) => {
                   const etiqueta = DOC_LABEL[d.docType] ?? d.docType;
                   const aprobado = d.status === 'approved';
                   const rechazado = d.status === 'rejected';
                   const color = aprobado ? colors.success : rechazado ? colors.danger : colors.textSecondary;
                   return (
-                    <View key={d.id} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <View key={d.id} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                       <ShieldCheck size={14} color={color} />
                       <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.textPrimary }}>
                         {etiqueta}
@@ -553,7 +553,7 @@ export default function EcomerseDetailScreen() {
 
           {/* Descripción */}
           {product.description ? (
-            <View style={{ marginTop: 18 }}>
+            <View style={{ marginTop: espaciado.e18 }}>
               <Text style={s.sectionTitle}>Descripción</Text>
               <Text style={{ fontSize: tipografia.body, lineHeight: 20, color: colors.textSecondary }}>{product.description}</Text>
             </View>
@@ -638,7 +638,7 @@ export default function EcomerseDetailScreen() {
           multiline
           style={[s.reportInput, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.textPrimary }]}
         />
-        <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}>
+        <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
           <Pressable onPress={() => setReportOpen(false)} style={[s.modalBtn, { borderWidth: 1, borderColor: colors.border }]}>
             <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
@@ -655,7 +655,7 @@ export default function EcomerseDetailScreen() {
 function Metric({ icon, label }: { icon: React.ReactNode; label: string }) {
   const { colors } = useTheme();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
       {icon}
       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>{label}</Text>
     </View>
@@ -665,32 +665,32 @@ function Metric({ icon, label }: { icon: React.ReactNode; label: string }) {
 const stylesRoot = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({ root: { flex: 1, backgroundColor: c.background } });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  photoCounter: { position: 'absolute', right: 12, bottom: 12, backgroundColor: 'rgba(0,0,0,0.55)', paddingHorizontal: 8, paddingVertical: 3, borderRadius: radios.full },
-  tagFeat: { backgroundColor: 'rgba(255,107,53,0.14)', borderRadius: radios.sm, paddingHorizontal: 7, paddingVertical: 3 },
+  photoCounter: { position: 'absolute', right: 12, bottom: 12, backgroundColor: 'rgba(0,0,0,0.55)', paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.full },
+  tagFeat: { backgroundColor: 'rgba(255,107,53,0.14)', borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
   tagFeatText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: '800' },
   /* `avatar` y `roundBtn` se fueron con el bloque de la tienda: viven en `CabeceraTienda`, que es
      donde se pintan ahora. Dejar aquí sus copias era garantizar que un día se cambie una sí y otra
      no. */
-  tagPro: { backgroundColor: 'rgba(0,132,255,0.12)', borderRadius: radios.sm, paddingHorizontal: 7, paddingVertical: 3 },
+  tagPro: { backgroundColor: 'rgba(0,132,255,0.12)', borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
   tagProText: { color: brand.primary, fontSize: tipografia.micro, fontWeight: '800' },
-  tagSoft: { backgroundColor: 'rgba(16,185,129,0.12)', borderRadius: radios.sm, paddingHorizontal: 7, paddingVertical: 3 },
+  tagSoft: { backgroundColor: 'rgba(16,185,129,0.12)', borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
   tagSoftText: { color: brand.success, fontSize: tipografia.micro, fontWeight: '800' },
-  title: { fontSize: tipografia.subtitle, fontWeight: '800', color: c.textPrimary, marginTop: 6, lineHeight: 23 },
-  metrics: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 10 },
-  warranty: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: 10, marginTop: 12 },
-  qtyRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 14 },
+  title: { fontSize: tipografia.subtitle, fontWeight: '800', color: c.textPrimary, marginTop: espaciado.e6, lineHeight: 23 },
+  metrics: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e12, marginTop: espaciado.e10 },
+  warranty: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginTop: espaciado.e12 },
+  qtyRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e14 },
   qtyBtn: { width: 34, height: 34, borderRadius: radios.md, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
-  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary, marginBottom: 8 },
-  bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 14, paddingTop: 8, borderTopWidth: 1, gap: 6 },
+  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary, marginBottom: espaciado.e8 },
+  bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e8, borderTopWidth: 1, gap: espaciado.e6 },
   /** Nota de alcance de la garantía: encima de las acciones, a sangre dentro de la barra. */
   notaFuera: { textAlign: 'center', fontSize: tipografia.micro },
   /** Fila de acciones: antes era la barra entera; ahora la nota va arriba y esto debajo. */
-  acciones: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  iconCol: { alignItems: 'center', justifyContent: 'center', paddingHorizontal: 2 },
+  acciones: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
+  iconCol: { alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e2 },
   /** Añadir: secundaria de contorno. Antes era un bloque relleno ('#FFD8C4') que pesaba como el CTA. */
-  cartBtn: { borderRadius: radios.md, borderWidth: 1.5, paddingVertical: 12, paddingHorizontal: 16, alignItems: 'center' },
+  cartBtn: { borderRadius: radios.md, borderWidth: 1.5, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e16, alignItems: 'center' },
   /** Comprar: la única acción dominante. Crece para quedarse con el espacio sobrante. */
-  buyBtn: { flex: 1, borderRadius: radios.md, paddingVertical: 14, alignItems: 'center' },
-  reportInput: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 10, minHeight: 90, textAlignVertical: 'top', fontSize: tipografia.body },
-  modalBtn: { paddingVertical: 12, paddingHorizontal: 16, borderRadius: radios.md, alignItems: 'center' },
+  buyBtn: { flex: 1, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center' },
+  reportInput: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, minHeight: 90, textAlignVertical: 'top', fontSize: tipografia.body },
+  modalBtn: { paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e16, borderRadius: radios.md, alignItems: 'center' },
 });

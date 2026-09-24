@@ -114,7 +114,7 @@ export default function EcomerseTiendasScreen() {
               <View style={[s.iconoMiTienda, { backgroundColor: alpha(colors.primary, 0.15) }]}>
                 <Store size={20} color={colors.primary} />
               </View>
-              <View style={{ flex: 1, marginLeft: 12 }}>
+              <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
                 <Text style={[s.miTiendaTitulo, { color: colors.textPrimary }]}>Mi tienda</Text>
                 <Text style={[s.miTiendaSub, { color: colors.textSecondary }]}>Publica y gestiona tus anuncios</Text>
               </View>
@@ -126,10 +126,10 @@ export default function EcomerseTiendasScreen() {
           loading ? (
             <View style={{ alignItems: 'center', paddingTop: 48 }}>
               <ActivityIndicator color={colors.primary} />
-              <Text style={[s.miTiendaSub, { color: colors.textSecondary, marginTop: 10 }]}>Cargando tiendas…</Text>
+              <Text style={[s.miTiendaSub, { color: colors.textSecondary, marginTop: espaciado.e10 }]}>Cargando tiendas…</Text>
             </View>
           ) : error ? (
-            <View style={{ paddingTop: 24 }}>
+            <View style={{ paddingTop: espaciado.e24 }}>
               <InlineError mensaje={error} onReintentar={load} />
             </View>
           ) : (
@@ -164,5 +164,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   miTienda: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e12, marginBottom: espaciado.e8 },
   iconoMiTienda: { width: 44, height: 44, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   miTiendaTitulo: { fontSize: tipografia.body, fontWeight: peso.fuerte },
-  miTiendaSub: { fontSize: tipografia.micro, marginTop: 2 },
+  miTiendaSub: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
 });

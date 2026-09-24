@@ -963,7 +963,7 @@ const estilos = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create(
   seccion: { fontSize: tipografia.body, fontWeight: peso.titulo, color: c.textPrimary, marginTop: espaciado.e24, marginBottom: espaciado.e4 },
   etiqueta: { fontSize: tipografia.micro, fontWeight: peso.fuerte, color: c.textSecondary, letterSpacing: 0.4, marginBottom: espaciado.e4 },
   tituloBloque: { fontSize: tipografia.body, fontWeight: peso.titulo, color: c.textPrimary },
-  nota: { fontSize: tipografia.micro, color: c.textSecondary, lineHeight: 16, marginTop: 2 },
+  nota: { fontSize: tipografia.micro, color: c.textSecondary, lineHeight: 16, marginTop: espaciado.e2 },
   tarjeta: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e12, marginTop: espaciado.e12 },
   aviso: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e8, marginTop: espaciado.e8 },
   avisoTexto: { fontSize: tipografia.micro, lineHeight: 16 },

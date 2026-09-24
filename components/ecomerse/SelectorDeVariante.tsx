@@ -327,7 +327,7 @@ export default function SelectorDeVariante({
         )}
         <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
           {/* El nombre, aquí y a una línea: ver el porqué de `altoLista`. */}
-          <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: 2 }}>
+          <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e2 }}>
             {product.title}
           </Text>
           {precioElegido !== null || !hayRango ? (
@@ -364,7 +364,7 @@ export default function SelectorDeVariante({
         <View style={{ marginTop: espaciado.e16, flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>Cantidad</Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 2 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
               {elegida ? `Máx. ${tope}` : ''}
             </Text>
           </View>
