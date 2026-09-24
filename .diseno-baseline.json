@@ -5,7 +5,7 @@
     "borderRadius": 688,
     "fontWeight": 1948,
     "borderWidth": 528,
-    "espaciado": 194,
+    "espaciado": 183,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -915,7 +915,7 @@
       "borderRadius": 1,
       "fontWeight": 1,
       "borderWidth": 1,
-      "espaciado": 6,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/reserva.tsx": {
@@ -951,7 +951,7 @@
       "borderRadius": 1,
       "fontWeight": 1,
       "borderWidth": 1,
-      "espaciado": 5,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/settings.tsx": {
