@@ -15,7 +15,7 @@ import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Bike, Search, Utensils } from 'lucide-react-native';
-import { useTheme, alpha, EmptyState, tipografia, radios, ScreenHeader, Tactil } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, radios, ScreenHeader, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { foodApi, FoodCuisine, FoodRestaurant, FoodRestaurantsPage } from '../api/food';
 import { brand } from '@egrouteplan/ui-kit';
 
@@ -198,7 +198,7 @@ export default function FoodScreen() {
             </View>
 
             {/* Ciudad */}
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingRight: 16 }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8, paddingRight: espaciado.e16 }}>
               <Chip label="📍 Todas" active={city === ''} onPress={() => setCity('')} />
               {FOOD_CITIES.map((c) => (
                 <Chip key={c} label={c} active={city === c} onPress={() => setCity(city === c ? '' : c)} />
@@ -206,7 +206,7 @@ export default function FoodScreen() {
             </ScrollView>
 
             {/* Cocina */}
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 8 }} contentContainerStyle={{ gap: 8, paddingRight: 16 }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: espaciado.e8 }} contentContainerStyle={{ gap: espaciado.e8, paddingRight: espaciado.e16 }}>
               <Chip label="✨ Todas" active={cuisine === ''} onPress={() => setCuisine('')} />
               {cuisines.map((c) => (
                 <Chip key={c.id} label={c.label} icon={c.icon} active={cuisine === c.id}
@@ -314,7 +314,7 @@ function RestaurantCard({ item, onPress }: { item: FoodRestaurant; onPress: () =
           )}
         </View>
         {/* Fila badges estilo Meituan: estado + cocina */}
-        <View style={[s_card.badgeRow, { marginTop: 4 }]}>
+        <View style={[s_card.badgeRow, { marginTop: espaciado.e4 }]}>
           {item.isOpen !== null && (
             <View style={[s_card.chip, { backgroundColor: item.isOpen ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.1)' }]}>
               <View style={[s_card.dot, { backgroundColor: item.isOpen ? brand.success : brand.danger }]} />
@@ -330,7 +330,7 @@ function RestaurantCard({ item, onPress }: { item: FoodRestaurant; onPress: () =
           )}
         </View>
         {/* Línea de ciudad + meta de entrega (patrón Meituan) */}
-        <Text numberOfLines={1} style={[s_card.sub, { color: colors.textSecondary, marginTop: 4 }]}>
+        <Text numberOfLines={1} style={[s_card.sub, { color: colors.textSecondary, marginTop: espaciado.e4 }]}>
           📍 {item.city}{item.address ? ` · ${item.address}` : ''}
         </Text>
         <View style={s_card.metaRow}>
@@ -352,7 +352,7 @@ function RestaurantSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['c
   return (
     <View style={[s_sk.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
       <View style={{ width: 90, height: 90, backgroundColor: colors.border }} />
-      <View style={{ flex: 1, padding: 12, gap: 8 }}>
+      <View style={{ flex: 1, padding: espaciado.e12, gap: espaciado.e8 }}>
         <View style={{ height: 12, borderRadius: 4, backgroundColor: colors.border, width: '72%' }} />
         <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '46%' }} />
         <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '60%' }} />
@@ -363,38 +363,38 @@ function RestaurantSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['c
 
 
 const s_chip = StyleSheet.create({
-  base: { paddingHorizontal: 14, paddingVertical: 8, borderRadius: 18, flexDirection: 'row', alignItems: 'center', gap: 5, borderWidth: 1 },
+  base: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 18, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderWidth: 1 },
 });
 
 const s_card = StyleSheet.create({
-  card: { flexDirection: 'row', borderRadius: radios.lg, overflow: 'hidden', borderWidth: 1, marginBottom: 10 },
+  card: { flexDirection: 'row', borderRadius: radios.lg, overflow: 'hidden', borderWidth: 1, marginBottom: espaciado.e10 },
   img: { width: 104, height: 104 },
   imgFallback: { backgroundColor: 'rgba(255,107,53,0.08)', alignItems: 'center', justifyContent: 'center' },
-  body: { flex: 1, padding: 12 },
-  titleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  body: { flex: 1, padding: espaciado.e12 },
+  titleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8 },
   name: { fontSize: 15.5, fontWeight: '800', flex: 1 },
   rating: { fontSize: tipografia.body, fontWeight: '900' },
-  badgeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
-  chip: { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: radios.sm, paddingHorizontal: 7, paddingVertical: 3, maxWidth: '60%' },
+  badgeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 },
+  chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3, maxWidth: '60%' },
   dot: { width: 6, height: 6, borderRadius: 3 },
   chipText: { fontSize: 10.5, fontWeight: '800', flexShrink: 1 },
   sub: { fontSize: tipografia.micro, fontWeight: '600' },
-  metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 6 },
+  metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8, marginTop: espaciado.e6 },
   meta: { fontSize: tipografia.caption, fontWeight: '800', flexShrink: 1 },
 });
 
 const s_sk = StyleSheet.create({
-  card: { flexDirection: 'row', borderRadius: 14, overflow: 'hidden', borderWidth: 1, marginBottom: 10 },
+  card: { flexDirection: 'row', borderRadius: 14, overflow: 'hidden', borderWidth: 1, marginBottom: espaciado.e10 },
 });
 
 
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  searchBox: { flexDirection: 'row', alignItems: 'center', marginTop: 12, backgroundColor: c.surface, borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 10, borderWidth: 1, borderColor: c.border },
-  searchInput: { flex: 1, color: c.textPrimary, fontSize: tipografia.body, marginLeft: 8 },
-  resultsLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, marginTop: 14, marginBottom: 10 },
-  listContent: { paddingHorizontal: 16, paddingBottom: 32 },
-  footerNote: { paddingVertical: 16, alignItems: 'center' },
+  searchBox: { flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e12, backgroundColor: c.surface, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderWidth: 1, borderColor: c.border },
+  searchInput: { flex: 1, color: c.textPrimary, fontSize: tipografia.body, marginLeft: espaciado.e8 },
+  resultsLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, marginTop: espaciado.e14, marginBottom: espaciado.e10 },
+  listContent: { paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e32 },
+  footerNote: { paddingVertical: espaciado.e16, alignItems: 'center' },
   footerText: { fontSize: tipografia.caption, fontWeight: '700' },
 });

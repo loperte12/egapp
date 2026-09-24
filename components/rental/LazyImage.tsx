@@ -10,7 +10,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Animated, Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle, type ImageStyle } from 'react-native';
-import { useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Image as ExpoImage, type ImageContentFit } from 'expo-image';
 
 /** El `Animated.Image` de React Native no entiende `contentFit`: se envuelve el de expo-image. */
@@ -145,10 +145,10 @@ export function LazyImage({
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   container: { position: 'relative', overflow: 'hidden', backgroundColor: c.surface },
   placeholder: { backgroundColor: c.surface, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
-  placeholderInner: { alignItems: 'center', justifyContent: 'center', gap: 6 },
+  placeholderInner: { alignItems: 'center', justifyContent: 'center', gap: espaciado.e6 },
   placeholderEmoji: { fontSize: 26 },
   placeholderText: { fontSize: tipografia.micro, color: c.textSecondary, fontWeight: '600' },
-  retryBtn: { marginTop: 2, backgroundColor: c.primary, paddingHorizontal: 14, paddingVertical: 6, borderRadius: radios.sm },
+  retryBtn: { marginTop: espaciado.e2, backgroundColor: c.primary, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e6, borderRadius: radios.sm },
   retryText: { color: brand.white, fontSize: tipografia.caption, fontWeight: '700' },
   loading: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center' },
 });

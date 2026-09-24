@@ -35,7 +35,7 @@ import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleShee
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Banknote, Bike, CreditCard, MapPin, Minus, Plus, Store, Trash2, Wallet } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, FormField, MasOpciones, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, MasOpciones, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { foodApi, FoodRestaurantDetail } from '../api/food';
 import { walletApi } from '../api/wallet';
 import { fijarPin } from '../api/settlement';
@@ -270,13 +270,13 @@ export default function FoodCheckoutScreen() {
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView
-          contentContainerStyle={{ padding: 16, paddingBottom: 40 + insets.bottom }}
+          contentContainerStyle={{ padding: espaciado.e16, paddingBottom: 40 + insets.bottom }}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
           {empty ? (
             <View style={s_center.wrap}>
-              <Text style={{ fontSize: 40, marginBottom: 10 }}>{empty.emoji}</Text>
+              <Text style={{ fontSize: 40, marginBottom: espaciado.e10 }}>{empty.emoji}</Text>
               <Text style={[s_center.title, { color: colors.textPrimary }]}>{empty.title}</Text>
               <Text style={[s_center.sub, { color: colors.textSecondary }]}>{empty.sub}</Text>
               <Pressable onPress={() => ir.atras()} accessibilityRole="button" style={s_center.btnPrimary}>
@@ -289,15 +289,15 @@ export default function FoodCheckoutScreen() {
               {detail && (
                 <View style={[s.restCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                   <Text style={{ fontSize: 14.5, fontWeight: '800', color: colors.textPrimary }}>{detail.businessName}</Text>
-                  <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: 2 }}>
+                  <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e2 }}>
                     {detail.cuisineLabel ?? 'Restaurante'} · {detail.city}
                   </Text>
-                  {detail.hours ? <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: 2 }}>🕐 {detail.hours}</Text> : null}
+                  {detail.hours ? <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e2 }}>🕐 {detail.hours}</Text> : null}
                   {detail.address ? (
-                    <Text numberOfLines={2} style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: 2 }}>📍 {detail.address}</Text>
+                    <Text numberOfLines={2} style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e2 }}>📍 {detail.address}</Text>
                   ) : null}
                   {detail.isOpen === false && (
-                    <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.danger, marginTop: 4 }}>
+                    <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.danger, marginTop: espaciado.e4 }}>
                       Cerrado ahora · tu pedido quedará en cola y lo confirmarán cuando abra.
                     </Text>
                   )}
@@ -313,7 +313,7 @@ export default function FoodCheckoutScreen() {
                   <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.danger }}>
                     {missing.length === 1 ? 'Un plato ya no está disponible' : `${missing.length} platos ya no están disponibles`}
                   </Text>
-                  <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: 3, lineHeight: 15 }}>
+                  <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e3, lineHeight: 15 }}>
                     {missing.map((m) => m.name).join(', ')} · quítalo{missing.length === 1 ? '' : 's'} del pedido para poder confirmar.
                   </Text>
                 </View>
@@ -325,11 +325,11 @@ export default function FoodCheckoutScreen() {
                     El restaurante cambió algún precio
                   </Text>
                   {priceChanges.map((c) => (
-                    <Text key={c.name} style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: 2, lineHeight: 15 }}>
+                    <Text key={c.name} style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e2, lineHeight: 15 }}>
                       {c.name}: {formatXAF(c.antes)} → <Text style={{ fontWeight: '800', color: brand.warningText }}>{formatXAF(c.ahora)}</Text>
                     </Text>
                   ))}
-                  <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 3 }}>
+                  <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e3 }}>
                     Los importes de abajo ya están actualizados.
                   </Text>
                 </View>
@@ -343,7 +343,7 @@ export default function FoodCheckoutScreen() {
                   <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.danger }}>
                     Para reparto el pedido mínimo es {formatXAF(minimoReparto)}
                   </Text>
-                  <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: 3, lineHeight: 15 }}>
+                  <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e3, lineHeight: 15 }}>
                     Llevas {formatXAF(total)}. Añade algo más o cambia a recoger en el local.
                   </Text>
                 </View>
@@ -372,7 +372,7 @@ export default function FoodCheckoutScreen() {
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Envío</Text>
                   <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.primary }}>Gratis</Text>
                 </View>
-                <View style={[s.brRow, { marginTop: 4 }]}>
+                <View style={[s.brRow, { marginTop: espaciado.e4 }]}>
                   <Text style={{ fontSize: 15, fontWeight: '800', color: colors.textPrimary }}>Total</Text>
                   <Text style={{ fontSize: tipografia.title, fontWeight: '900', color: ACCENT }}>{formatXAF(total)}</Text>
                 </View>
@@ -383,7 +383,7 @@ export default function FoodCheckoutScreen() {
                     (`wallet.food_commission_config`) y `mapRestaurant` no la devuelve — ver el
                     parche `CHECKOUT-fees-y-minimo.md`. Hasta que se exponga, se explica sin cifras
                     en vez de inventar un cálculo que podría no coincidir con el del servidor. */}
-                <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 4, lineHeight: 14 }}>
+                <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4, lineHeight: 14 }}>
                   El reparto es gratis para ti. Las comisiones de la plataforma y del reparto las
                   paga el restaurante: van incluidas en estos precios, no se te suman.
                 </Text>
@@ -395,16 +395,16 @@ export default function FoodCheckoutScreen() {
                 accessibilityLabel="Recoger en el local"
                 style={[s.modeCard, { borderColor: pickup === 'pickup' ? ACCENT : colors.border, borderWidth: pickup === 'pickup' ? 2 : 1 }]}>
                 <Store size={18} color={ACCENT} />
-                <View style={{ flex: 1, marginLeft: 10 }}>
+                <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                   <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Recoger en el local</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Pasa a recoger tu pedido.</Text>
                 </View>
               </Pressable>
               <Pressable onPress={() => setPickup('delivery')} accessibilityRole="radio" accessibilityState={{ checked: pickup === 'delivery' }}
                 accessibilityLabel="A domicilio"
-                style={[s.modeCard, { borderColor: pickup === 'delivery' ? ACCENT : colors.border, borderWidth: pickup === 'delivery' ? 2 : 1, marginTop: 8 }]}>
+                style={[s.modeCard, { borderColor: pickup === 'delivery' ? ACCENT : colors.border, borderWidth: pickup === 'delivery' ? 2 : 1, marginTop: espaciado.e8 }]}>
                 <Bike size={18} color={ACCENT} />
-                <View style={{ flex: 1, marginLeft: 10 }}>
+                <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                   <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>A domicilio</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Reparto a tu dirección.</Text>
                 </View>
@@ -442,7 +442,7 @@ export default function FoodCheckoutScreen() {
                     disabled={ubicando}
                     accessibilityRole="button"
                     accessibilityLabel="Añadir mi ubicación exacta para el reparto"
-                    style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 8, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 10, borderWidth: 1, borderColor: pin ? alpha(colors.success, 0.5) : colors.border, backgroundColor: pin ? alpha(colors.success, 0.08) : 'transparent' }}
+                    style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10, borderWidth: 1, borderColor: pin ? alpha(colors.success, 0.5) : colors.border, backgroundColor: pin ? alpha(colors.success, 0.08) : 'transparent' }}
                   >
                     <MapPin size={15} color={pin ? colors.success : colors.textPrimary} />
                     <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: '700', color: pin ? colors.success : colors.textPrimary }}>
@@ -455,7 +455,7 @@ export default function FoodCheckoutScreen() {
                     ) : null}
                   </Pressable>
                   {pin ? (
-                    <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 4 }}>
+                    <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4 }}>
                       Se envía solo con este pedido y el repartidor lo usa para llegar.
                     </Text>
                   ) : null}
@@ -488,16 +488,16 @@ export default function FoodCheckoutScreen() {
                 accessibilityLabel="Efectivo al recoger o recibir"
                 style={[s.modeCard, { borderColor: method === 'cash' ? ACCENT : colors.border, borderWidth: method === 'cash' ? 2 : 1 }]}>
                 <Banknote size={18} color={ACCENT} />
-                <View style={{ flex: 1, marginLeft: 10 }}>
+                <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                   <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Efectivo al recoger/recibir</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Paga al recoger o recibir · EG no retiene el dinero.</Text>
                 </View>
               </Pressable>
               <Pressable onPress={() => setMethod('billing')} accessibilityRole="radio" accessibilityState={{ checked: method === 'billing' }}
                 accessibilityLabel="Pago Billing por transferencia"
-                style={[s.modeCard, { borderColor: method === 'billing' ? ACCENT : colors.border, borderWidth: method === 'billing' ? 2 : 1, marginTop: 8 }]}>
+                style={[s.modeCard, { borderColor: method === 'billing' ? ACCENT : colors.border, borderWidth: method === 'billing' ? 2 : 1, marginTop: espaciado.e8 }]}>
                 <CreditCard size={18} color={ACCENT} />
-                <View style={{ flex: 1, marginLeft: 10 }}>
+                <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                   <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Pago Billing (transferencia)</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Orden de pago con comprobante · aprobación 2–24 h.</Text>
                 </View>
@@ -505,22 +505,22 @@ export default function FoodCheckoutScreen() {
               {/* PAGO CON EL MONEDERO (parche 98): retiene el importe y el restaurante cobra al entregar. */}
               <Pressable onPress={() => setMethod('likebook_wallet')} accessibilityRole="radio" accessibilityState={{ checked: method === 'likebook_wallet' }}
                 accessibilityLabel="Pagar con el monedero"
-                style={[s.modeCard, { borderColor: method === 'likebook_wallet' ? ACCENT : colors.border, borderWidth: method === 'likebook_wallet' ? 2 : 1, marginTop: 8 }]}>
+                style={[s.modeCard, { borderColor: method === 'likebook_wallet' ? ACCENT : colors.border, borderWidth: method === 'likebook_wallet' ? 2 : 1, marginTop: espaciado.e8 }]}>
                 <Wallet size={18} color={ACCENT} />
-                <View style={{ flex: 1, marginLeft: 10 }}>
+                <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                   <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Monedero</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>
                     Confirmas con tu PIN y el importe queda en garantía hasta que recibas el pedido.
                   </Text>
                   {method === 'likebook_wallet' && saldoMonedero !== null ? (
-                    <Text style={{ fontSize: tipografia.body, fontWeight: '800', marginTop: 3, color: saldoMonedero >= total ? brand.success : brand.dangerPressed }}>
+                    <Text style={{ fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e3, color: saldoMonedero >= total ? brand.success : brand.dangerPressed }}>
                       Tienes {formatXAF(saldoMonedero)}{saldoMonedero >= total ? '' : ' · no llega'}
                     </Text>
                   ) : null}
                 </View>
               </Pressable>
               {method === 'billing' && (
-                <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: 6, lineHeight: 15 }}>
+                <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e6, lineHeight: 15 }}>
                   Tras confirmar crearás una orden de pago y subirás el comprobante. El restaurante prepara tu pedido
                   cuando el pago esté aprobado (revisión 2–24 h).
                 </Text>
@@ -528,14 +528,14 @@ export default function FoodCheckoutScreen() {
 
               {/* Error persistente */}
               {submitError ? (
-                <View style={{ marginBottom: 12 }}>
+                <View style={{ marginBottom: espaciado.e12 }}>
                   {/* Error EN LA PANTALLA, no encima: el usuario no pierde lo que estaba haciendo. */}
                   <InlineError mensaje={submitError} />
                 </View>
               ) : null}
 
               {/* CTA con TOTAL visible antes de confirmar */}
-              <View style={{ marginTop: 20 }}>
+              <View style={{ marginTop: espaciado.e20 }}>
                 <PrimaryButton
                   title={busy ? 'Enviando pedido…' : `Confirmar pedido · ${formatXAF(total)}`}
                   /* Sin envolver: el botón pasa el EVENTO como primer argumento y se colaría
@@ -579,7 +579,7 @@ function CartLineRow({ name, price, qty, lineTotal, onDec, onInc, onRemove }: {
   return (
     <View style={[s_line.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
       <View style={{ flex: 1 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8 }}>
           <Text numberOfLines={2} style={{ flex: 1, fontSize: tipografia.body, color: colors.textPrimary }}>{name}</Text>
           <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>{formatXAF(lineTotal)}</Text>
         </View>
@@ -605,28 +605,28 @@ function CartLineRow({ name, price, qty, lineTotal, onDec, onInc, onRemove }: {
 }
 
 const s_line = StyleSheet.create({
-  card: { borderRadius: radios.md, borderWidth: 1, padding: 10, marginBottom: 6 },
-  controls: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 8 },
+  card: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e6 },
+  controls: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8 },
   iconBtn: { width: 28, height: 28, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center' },
   stepBtn: { width: 28, height: 28, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center' },
   qty: { fontSize: tipografia.body, fontWeight: '800', minWidth: 16, textAlign: 'center' },
 });
 
 const s_center = StyleSheet.create({
-  wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: 28 },
+  wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: espaciado.e28 },
   title: { fontSize: 15, fontWeight: '800', textAlign: 'center' },
-  sub: { fontSize: tipografia.body, textAlign: 'center', marginTop: 6, lineHeight: 18 },
-  btnPrimary: { marginTop: 18, backgroundColor: brand.secondary, paddingHorizontal: 28, paddingVertical: 11, borderRadius: 22 },
+  sub: { fontSize: tipografia.body, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
+  btnPrimary: { marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e28, paddingVertical: espaciado.e11, borderRadius: 22 },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  label: { fontSize: tipografia.body, fontWeight: '700', color: c.textPrimary, marginTop: 14, marginBottom: 6 },
-  restCard: { borderRadius: radios.md, borderWidth: 1, padding: 12, marginBottom: 4 },
-  breakdown: { backgroundColor: c.surface, borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: 12, marginTop: 10 },
-  brRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 2 },
-  modeCard: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: 14, backgroundColor: c.surface },
-  warnBox: { borderRadius: 10, borderWidth: 1, padding: 10, marginBottom: 10 },
-  area: { minHeight: 64, borderRadius: 14, borderWidth: 1, padding: 12, fontSize: tipografia.body, textAlignVertical: 'top' },
-  errorBox: { borderRadius: 10, padding: 10, marginTop: 14 },
+  label: { fontSize: tipografia.body, fontWeight: '700', color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
+  restCard: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e4 },
+  breakdown: { backgroundColor: c.surface, borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e10 },
+  brRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e2 },
+  modeCard: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e14, backgroundColor: c.surface },
+  warnBox: { borderRadius: 10, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e10 },
+  area: { minHeight: 64, borderRadius: 14, borderWidth: 1, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
+  errorBox: { borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e14 },
 });

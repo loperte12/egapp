@@ -14,7 +14,7 @@ import { ActivityIndicator, Alert, LayoutChangeEvent, Linking, Pressable, Scroll
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Flag, Heart, MapPin, MessageSquare, Phone, Share2, ShieldAlert } from 'lucide-react-native';
-import { useTheme, alpha, GhostButton, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { rentalApi, RentalProperty } from '../api/rental';
 import { ApiError } from '../api/httpClient';
 import { LazyImage } from '../components/rental/LazyImage';
@@ -136,7 +136,7 @@ function FeatureItem({ value, label }: { value: string | number; label: string }
   return (
     <View style={styles(colors).featureItem}>
       <Text style={{ fontSize: 18, fontWeight: '700', color: colors.textPrimary }}>{value}</Text>
-      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }}>{label}</Text>
+      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{label}</Text>
     </View>
   );
 }
@@ -340,23 +340,23 @@ export default function AlquilerDetalleScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={{ marginTop: 12, color: colors.textSecondary, fontWeight: '700' }}>{TEXTS.loading}</Text>
+        <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: '700' }}>{TEXTS.loading}</Text>
       </View>
     );
   }
   // ---------- Error ----------
   if (!prop) {
     return (
-      <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }}>
         <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><Flag size={26} color={colors.danger} /></View>
         <Text style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.subtitle, textAlign: 'center' }}>{TEXTS.loadErrorTitle}</Text>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: 6, marginBottom: 16 }}>{error}</Text>
-        <View style={{ flexDirection: 'row', gap: 10 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e16 }}>{error}</Text>
+        <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
           <GhostButton title="Volver" onPress={() => router.back()} />
           <Pressable
             onPress={() => void load()}
             accessibilityRole="button" accessibilityLabel={TEXTS.retry}
-            style={({ pressed }) => [{ paddingHorizontal: 16, paddingVertical: 10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
+            style={({ pressed }) => [{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
           >
             <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>{TEXTS.retry}</Text>
           </Pressable>
@@ -389,7 +389,7 @@ export default function AlquilerDetalleScreen() {
             {safeData.photos.length === 0 ? (
               <View style={{ width: galleryWidth, height: heroHeight, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 40 }}>{getPropertyTypeEmoji(prop.type)}</Text>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 6 }}>{TEXTS.noPhotos}</Text>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>{TEXTS.noPhotos}</Text>
               </View>
             ) : safeData.photos.map((ph, i) => (
               <LazyImage
@@ -404,10 +404,10 @@ export default function AlquilerDetalleScreen() {
           <GalleryDots total={safeData.photos.length} activeIndex={activePhoto} />
 
           {/* Badges */}
-          <View style={{ position: 'absolute', top: insets.top + 8, left: 56, flexDirection: 'row', gap: 6 }}>
+          <View style={{ position: 'absolute', top: insets.top + 8, left: 56, flexDirection: 'row', gap: espaciado.e6 }}>
             {prop.isFeatured && <FeaturedBadge />}
             {prop.isPremium && <PremiumBadge />}
-            {prop.isSocialHousing && <View style={{ backgroundColor: brand.success, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 }}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: '700' }}>Vivienda social</Text></View>}
+            {prop.isSocialHousing && <View style={{ backgroundColor: brand.success, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 }}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: '700' }}>Vivienda social</Text></View>}
           </View>
 
           {/* Acciones: atrás + favorito + compartir */}
@@ -419,7 +419,7 @@ export default function AlquilerDetalleScreen() {
           >
             <ArrowLeft size={18} color={brand.white} />
           </Pressable>
-          <View style={{ position: 'absolute', top: insets.top + 8, right: 12, flexDirection: 'row', gap: 8 }}>
+          <View style={{ position: 'absolute', top: insets.top + 8, right: 12, flexDirection: 'row', gap: espaciado.e8 }}>
             <Pressable
               onPress={() => void handleFavorite()}
               hitSlop={10}
@@ -444,7 +444,7 @@ export default function AlquilerDetalleScreen() {
         {/* Contenido */}
         <View style={[s.content, { paddingBottom: 120 + insets.bottom }]}>
           {/* Precio + verificación */}
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, gap: 8 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e8, gap: espaciado.e8 }}>
             <Text style={[s.price, { color: colors.textPrimary }]} numberOfLines={2} adjustsFontSizeToFit>{priceLabel}</Text>
             <VerificationBadge level={prop.verificationLevel} />
           </View>
@@ -452,7 +452,7 @@ export default function AlquilerDetalleScreen() {
           <Text style={[s.title, { color: colors.textPrimary }]}>{prop.title}</Text>
 
           {locationLabel ? (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginBottom: 4 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginBottom: espaciado.e4 }}>
               <MapPin size={13} color={colors.textSecondary} />
               <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, flex: 1 }}>{locationLabel}{prop.location?.address ? ` · ${prop.location.address}` : ''}</Text>
             </View>
@@ -489,9 +489,9 @@ export default function AlquilerDetalleScreen() {
           {availableServices.length > 0 && (
             <View style={s.section}>
               <Text style={[s.sectionTitle, { color: colors.textPrimary }]}>{TEXTS.services}</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
                 {availableServices.map(([k]) => (
-                  <View key={k} style={{ backgroundColor: colors.surface, paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, borderWidth: 1, borderColor: colors.border }}>
+                  <View key={k} style={{ backgroundColor: colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: 20, borderWidth: 1, borderColor: colors.border }}>
                     <Text style={{ fontSize: tipografia.body, color: colors.textPrimary }}>{SERVICE_LABELS[k] ?? k}</Text>
                   </View>
                 ))}
@@ -543,7 +543,7 @@ export default function AlquilerDetalleScreen() {
           ) : null}
 
           {/* Aviso anti-estafa */}
-          <View style={{ marginBottom: 14, flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: alpha(colors.danger, 0.07), padding: 12, borderRadius: 10 }}>
+          <View style={{ marginBottom: espaciado.e14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.07), padding: espaciado.e12, borderRadius: 10 }}>
             <ShieldAlert size={16} color={colors.danger} />
             <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: '600', lineHeight: 16 }}>
               No pagues por adelantado ni envíes documentación antes de visitar el inmueble. Si algo parece sospechoso, repórtalo.
@@ -552,7 +552,7 @@ export default function AlquilerDetalleScreen() {
 
           {/* Actualización */}
           {prop.lastUpdated ? (
-            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 8 }}>{TEXTS.updated} {getTimeAgo(prop.lastUpdated)}</Text>
+            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e8 }}>{TEXTS.updated} {getTimeAgo(prop.lastUpdated)}</Text>
           ) : null}
 
           {/* Reportar */}
@@ -560,7 +560,7 @@ export default function AlquilerDetalleScreen() {
             onPress={handleReport}
             accessibilityRole="button"
             accessibilityLabel={TEXTS.reportTitle}
-            style={({ pressed }) => [{ alignSelf: 'center', marginTop: 12, paddingVertical: 8, paddingHorizontal: 12, borderRadius: 10, flexDirection: 'row', alignItems: 'center', gap: 5, opacity: pressed ? 0.7 : 1 }]}
+            style={({ pressed }) => [{ alignSelf: 'center', marginTop: espaciado.e12, paddingVertical: espaciado.e8, paddingHorizontal: espaciado.e12, borderRadius: 10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, opacity: pressed ? 0.7 : 1 }]}
           >
             <Flag size={13} color={colors.textSecondary} />
             <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '600' }}>{TEXTS.reportTitle}</Text>
@@ -574,7 +574,7 @@ export default function AlquilerDetalleScreen() {
           onPress={() => void handleContact('call')}
           disabled={busy || !hasPhone}
           accessibilityRole="button" accessibilityLabel={TEXTS.call}
-          style={({ pressed }) => [{ flex: 1, borderRadius: radios.md, paddingVertical: 14, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: 6, backgroundColor: colors.surface, opacity: busy || !hasPhone ? 0.5 : pressed ? 0.85 : 1 }]}
+          style={({ pressed }) => [{ flex: 1, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: espaciado.e6, backgroundColor: colors.surface, opacity: busy || !hasPhone ? 0.5 : pressed ? 0.85 : 1 }]}
         >
           <Phone size={15} color={colors.textPrimary} />
           <Text style={{ fontSize: 15, fontWeight: '700', color: colors.textPrimary }}>{TEXTS.call}</Text>
@@ -583,7 +583,7 @@ export default function AlquilerDetalleScreen() {
           onPress={() => void handleContact('whatsapp')}
           disabled={busy || !hasPhone}
           accessibilityRole="button" accessibilityLabel={TEXTS.whatsapp}
-          style={({ pressed }) => [{ flex: 2, backgroundColor: brand.whatsapp, borderRadius: radios.md, paddingVertical: 14, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: 6, opacity: busy || !hasPhone ? 0.6 : pressed ? 0.85 : 1 }]}
+          style={({ pressed }) => [{ flex: 2, backgroundColor: brand.whatsapp, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: espaciado.e6, opacity: busy || !hasPhone ? 0.6 : pressed ? 0.85 : 1 }]}
         >
           {busy ? <ActivityIndicator size="small" color={brand.white} /> : <MessageSquare size={15} color={brand.white} />}
           <Text style={{ fontSize: 15, fontWeight: '700', color: brand.white }}>{busy ? '…' : TEXTS.whatsapp}</Text>
@@ -594,21 +594,21 @@ export default function AlquilerDetalleScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  content: { padding: 16 },
+  content: { padding: espaciado.e16 },
   price: { flexShrink: 1, fontSize: 24, fontWeight: '800' },
-  title: { fontSize: tipografia.title, fontWeight: '700', marginBottom: 6 },
-  typeLabel: { fontSize: tipografia.body, marginBottom: 16 },
-  featuresGrid: { flexDirection: 'row', borderRadius: radios.md, padding: 14, marginBottom: 20, gap: 8, borderWidth: 1 },
+  title: { fontSize: tipografia.title, fontWeight: '700', marginBottom: espaciado.e6 },
+  typeLabel: { fontSize: tipografia.body, marginBottom: espaciado.e16 },
+  featuresGrid: { flexDirection: 'row', borderRadius: radios.md, padding: espaciado.e14, marginBottom: espaciado.e20, gap: espaciado.e8, borderWidth: 1 },
   featureItem: { flex: 1, alignItems: 'center' },
-  section: { marginBottom: 22 },
-  sectionTitle: { fontSize: tipografia.subtitle, fontWeight: '700', marginBottom: 10 },
-  costRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 1, gap: 12 },
+  section: { marginBottom: espaciado.e22 },
+  sectionTitle: { fontSize: tipografia.subtitle, fontWeight: '700', marginBottom: espaciado.e10 },
+  costRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: 1, gap: espaciado.e12 },
   costLabel: { fontSize: tipografia.body, flex: 1 },
-  poiRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 1, gap: 12 },
+  poiRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: 1, gap: espaciado.e12 },
   poiName: { fontSize: tipografia.body, flex: 1 },
-  dotsContainer: { position: 'absolute', bottom: 12, alignSelf: 'center', flexDirection: 'row', gap: 6 },
+  dotsContainer: { position: 'absolute', bottom: 12, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e6 },
   dot: { width: 7, height: 7, borderRadius: 4 },
   iconButton: { width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(16,24,40,0.45)', justifyContent: 'center', alignItems: 'center' },
-  errIcon: { width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginBottom: 14 },
-  bottomBar: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', paddingHorizontal: 12, paddingTop: 10, borderTopWidth: 1, gap: 10 },
+  errIcon: { width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
+  bottomBar: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, borderTopWidth: 1, gap: espaciado.e10 },
 });

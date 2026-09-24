@@ -19,7 +19,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { ArrowLeft, Truck, Plus, RefreshCw, ImageIcon, Siren, Crown, X } from 'lucide-react-native';
-import { FormField, PrimaryButton, GhostButton, useTheme, alpha, brand, tipografia, radios, EmptyState } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import EmergencyModal from '../components/EmergencyModal';
 import { useSession } from '../state/session';
 import { driverApi } from '../api/driver';
@@ -307,10 +307,10 @@ export default function IntercityPublishScreen() {
         <Pressable
           onPress={() => router.push('/intercity-planes' as never)}
           accessibilityRole="button" accessibilityLabel="Ver planes"
-          style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: 12, marginBottom: 14, opacity: pressed ? 0.85 : 1 }]}
+          style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14, opacity: pressed ? 0.85 : 1 }]}
         >
           <Crown size={18} color={colors.primary} />
-          <View style={{ flex: 1, marginLeft: 10 }}>
+          <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
             <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>
               {`${plan.planName} · ${plan.monthlyTrips === -1 ? 'viajes ilimitados' : `${plan.monthlyUsed}/${plan.monthlyTrips} viajes este mes`}`}
             </Text>
@@ -332,7 +332,7 @@ export default function IntercityPublishScreen() {
           <ArrowLeft size={22} color={colors.textPrimary} />
         </Pressable>
         <Text style={s.title}>Publicar viaje</Text>
-        <View style={{ flexDirection: 'row', gap: 14 }}>
+        <View style={{ flexDirection: 'row', gap: espaciado.e14 }}>
           <Pressable onPress={() => setEmergencyOpen(true)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Emergencia">
             <Siren size={20} color={colors.danger} />
           </Pressable>
@@ -376,7 +376,7 @@ export default function IntercityPublishScreen() {
         <SectionList
           sections={groups.map(([titulo, data]) => ({ titulo, data })).filter((s) => s.data.length > 0)}
           keyExtractor={(t) => t.id}
-          contentContainerStyle={[s.content, { gap: 12, paddingBottom: insets.bottom + 24 }]}
+          contentContainerStyle={[s.content, { gap: espaciado.e12, paddingBottom: insets.bottom + 24 }]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           stickySectionHeadersEnabled={false}
@@ -420,7 +420,7 @@ export default function IntercityPublishScreen() {
                     )}
                   </View>
                   {b.fareStatus === 'proposed' && (
-                    <View style={{ flexDirection: 'row', gap: 6 }}>
+                    <View style={{ flexDirection: 'row', gap: espaciado.e6 }}>
                       <Pressable onPress={() => void act(() => intercityApi.decideFare(b.id, 'accept'))} accessibilityRole="button" accessibilityLabel="Aceptar tarifa"
                         style={[s.miniBtn, { backgroundColor: colors.success }]}>
                         <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.caption }}>Aceptar</Text>
@@ -446,7 +446,7 @@ export default function IntercityPublishScreen() {
                 </View>
               ))}
               {editId === t.id && (
-                <View style={{ gap: 8, marginTop: 4 }}>
+                <View style={{ gap: espaciado.e8, marginTop: espaciado.e4 }}>
                   <FormField label="Precio por asiento (XAF)" value={editF.price} onChangeText={(v) => setEditF((p) => ({ ...p, price: v }))} keyboardType="numeric" />
                   <FormField label="Asientos totales" value={editF.seats} onChangeText={(v) => setEditF((p) => ({ ...p, seats: v }))} keyboardType="numeric" />
                   <FormField label="Alquiler vehículo (XAF; vacío = quitar)" value={editF.rentalPrice} onChangeText={(v) => setEditF((p) => ({ ...p, rentalPrice: v }))} keyboardType="numeric" />
@@ -457,7 +457,7 @@ export default function IntercityPublishScreen() {
                   <GhostButton title="Cancelar" onPress={() => { setEditId(null); setError(null); }} />
                 </View>
               )}
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e6 }}>
                 {t.status === 'scheduled' && (
                   <>
                     <GhostButton title="En ruta" onPress={() => confirmAction('Iniciar ruta', 'Los pasajeros recibirán el aviso de salida. ¿Continuar?', false, () => intercityApi.tripStatus(t.id, 'in_transit'))} />
@@ -484,7 +484,7 @@ export default function IntercityPublishScreen() {
                 </Pressable>
               </View>
               {pendingFares > 0 && (
-                <View style={{ backgroundColor: alpha(colors.secondary, 0.12), borderRadius: radios.md, padding: 10 }}>
+                <View style={{ backgroundColor: alpha(colors.secondary, 0.12), borderRadius: radios.md, padding: espaciado.e10 }}>
                   <Text style={{ color: colors.secondary, fontWeight: '900', fontSize: tipografia.body }}>🔔 {pendingFares} tarifa(s) propuesta(s) pendiente(s) de tu respuesta</Text>
                 </View>
               )}
@@ -552,7 +552,7 @@ export default function IntercityPublishScreen() {
                   <FormField label="Modelo del vehículo" placeholder="Toyota Hiace" value={f.model} onChangeText={(v) => set('model', v)} />
 
                   <Text style={s.label}>Fotos del vehículo (opcional, máx. {MAX_PHOTOS})</Text>
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10 }}>
                     {f.carPhotos.map((p, i) => (
                       <View key={i} style={{ position: 'relative' }}>
                         <Image source={{ uri: p }} style={{ width: 64, height: 64, borderRadius: 10, backgroundColor: colors.border }} />
@@ -575,11 +575,11 @@ export default function IntercityPublishScreen() {
 
                   {error && <Text style={s.err}>{error}</Text>}
                   {Number(f.price) > 0 && (
-                    <View style={{ backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: 12 }}>
+                    <View style={{ backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: espaciado.e12 }}>
                       <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>
                         {f.oDist && f.dDist ? `${f.oDist} → ${f.dDist}` : 'Tu ruta'} · {f.seats} asientos × {Number(f.price).toLocaleString('es')} XAF
                       </Text>
-                      <Text style={{ color: priceColor, fontWeight: '900', fontSize: 17, marginTop: 2 }}>
+                      <Text style={{ color: priceColor, fontWeight: '900', fontSize: 17, marginTop: espaciado.e2 }}>
                         = {(f.seats * Number(f.price)).toLocaleString('es')} XAF por viaje
                         {f.days.length > 0 ? ` · × ${f.days.length} día${f.days.length === 1 ? '' : 's'}/semana` : ''}
                       </Text>
@@ -614,18 +614,18 @@ function Chip({ label, active, onPress, a11y }: { label: string; active: boolean
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
-    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 },
+    topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
     title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
-    content: { padding: 20, gap: 16 },
-    block: { gap: 12 },
+    content: { padding: espaciado.e20, gap: espaciado.e16 },
+    block: { gap: espaciado.e12 },
     big: { fontSize: tipografia.title, fontWeight: '900', color: c.textPrimary, textAlign: 'center' },
     body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: '600' },
-    label: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary, marginTop: 4 },
-    chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-    chip: { borderRadius: radios.md, borderWidth: 1.5, paddingHorizontal: 12, paddingVertical: 8 },
-    card: { borderWidth: 1.5, borderRadius: 14, padding: 12, gap: 6 },
-    bookingRow: { flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 10, padding: 8 },
-    miniBtn: { borderRadius: radios.sm, paddingHorizontal: 12, paddingVertical: 9 },
-    photoAdd: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderWidth: 1.5, borderStyle: 'dashed', borderRadius: radios.md, paddingVertical: 12 },
+    label: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary, marginTop: espaciado.e4 },
+    chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
+    chip: { borderRadius: radios.md, borderWidth: 1.5, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
+    card: { borderWidth: 1.5, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
+    bookingRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: 10, padding: espaciado.e8 },
+    miniBtn: { borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
+    photoAdd: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderWidth: 1.5, borderStyle: 'dashed', borderRadius: radios.md, paddingVertical: espaciado.e12 },
     err: { color: c.danger, fontSize: tipografia.body, fontWeight: '700' },
   });

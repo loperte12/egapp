@@ -18,7 +18,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { ImageIcon, X } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, FormField, brand, InlineError, EmptyState, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { rentalApi, type LandlordMe, type RentalProperty, type RentalCatalog } from '../api/rental';
 import { formatXAF } from '../utils/formatHelpers';
@@ -253,7 +253,7 @@ export default function AlquilerPublicarScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', paddingTop: insets.top }}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={{ marginTop: 12, color: colors.textSecondary, fontWeight: '700' }}>Cargando tus datos…</Text>
+        <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: '700' }}>Cargando tus datos…</Text>
       </View>
     );
   }
@@ -266,45 +266,45 @@ export default function AlquilerPublicarScreen() {
         alVolver={() => router.back()}
       />
 
-      <View style={{ flexDirection: 'row', paddingHorizontal: 16, gap: 8, marginVertical: 12 }}>
+      <View style={{ flexDirection: 'row', paddingHorizontal: espaciado.e16, gap: espaciado.e8, marginVertical: espaciado.e12 }}>
         <TabBtn active={tab === 'publish'} label="Publicar" onPress={() => setTab('publish')} />
         <TabBtn active={tab === 'mine'} label={`Mis anuncios (${mine.length})`} onPress={() => setTab('mine')} />
       </View>
 
       {landlordError && !landlord ? (
-        <View style={{ alignItems: 'center', paddingVertical: 50, paddingHorizontal: 24 }}>
+        <View style={{ alignItems: 'center', paddingVertical: 50, paddingHorizontal: espaciado.e24 }}>
           <Text style={{ color: colors.danger, fontWeight: '700', textAlign: 'center' }}>No se pudieron cargar tus datos.</Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: 6, marginBottom: 14 }}>{landlordError}</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e14 }}>{landlordError}</Text>
           <Pressable onPress={() => void loadLandlord()} accessibilityRole="button" accessibilityLabel="Reintentar"
-            style={({ pressed }) => [{ paddingHorizontal: 16, paddingVertical: 10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
+            style={({ pressed }) => [{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
             <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: insets.bottom + 48 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={{ paddingHorizontal: espaciado.e16, paddingBottom: insets.bottom + 48 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
           {/* Banner de plan */}
           <View style={[s.planBanner, { backgroundColor: colors.textPrimary }]}>
             <View style={{ flex: 1 }}>
               <Text style={{ color: brand.white, fontSize: 15, fontWeight: '700' }}>Plan actual: {planLabel}</Text>
-              <Text style={{ color: '#94a3b8', fontSize: tipografia.caption, marginTop: 2 }}>
+              <Text style={{ color: '#94a3b8', fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 {activeProps}/{plan.properties} propiedades · {photos.length}/{plan.photos} fotos
                 {landlord?.verificationLevel ? ` · Nivel ${landlord.verificationLevel}` : ''}
               </Text>
             </View>
-            <View style={{ flexDirection: 'row', gap: 8 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
               <Pressable onPress={() => router.push('/billing-status' as never)} accessibilityRole="button" accessibilityLabel="Mis compras"
-                style={({ pressed }) => [{ backgroundColor: brand.success, paddingHorizontal: 10, paddingVertical: 8, borderRadius: radios.sm, opacity: pressed ? 0.85 : 1 }]}>
+                style={({ pressed }) => [{ backgroundColor: brand.success, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8, borderRadius: radios.sm, opacity: pressed ? 0.85 : 1 }]}>
                 <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '700' }}>Mis compras</Text>
               </Pressable>
               <Pressable onPress={() => router.push('/alquiler-planes' as never)} accessibilityRole="button" accessibilityLabel="Mejorar plan"
-                style={({ pressed }) => [{ backgroundColor: colors.primary, paddingHorizontal: 12, paddingVertical: 8, borderRadius: radios.sm, opacity: pressed ? 0.85 : 1 }]}>
+                style={({ pressed }) => [{ backgroundColor: colors.primary, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: radios.sm, opacity: pressed ? 0.85 : 1 }]}>
                 <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '700' }}>Mejorar plan</Text>
               </Pressable>
             </View>
           </View>
 
           {approved && atPlanLimit && (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: alpha(colors.danger, 0.08), padding: 12, borderRadius: 10, marginBottom: 14 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), padding: espaciado.e12, borderRadius: 10, marginBottom: espaciado.e14 }}>
               <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: '600', lineHeight: 17 }}>
                 Has alcanzado el límite de tu plan ({plan.properties} anuncio(s) activos). Cierra alguno o mejora tu plan para seguir publicando.
               </Text>
@@ -313,17 +313,17 @@ export default function AlquilerPublicarScreen() {
 
           {tab === 'publish' ? (
             !approved ? (
-              <View style={{ gap: 12 }}>
+              <View style={{ gap: espaciado.e12 }}>
                 {applyOpen ? (
                   <>
-                    <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary, marginTop: 8 }}>Alta de arrendador</Text>
+                    <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary, marginTop: espaciado.e8 }}>Alta de arrendador</Text>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, lineHeight: 17 }}>
                       Para publicar necesitas verificar tu identidad (DIP/pasaporte). El administrador la revisará.
                     </Text>
                     <Text style={s.label}>Nombre completo *</Text>
                     <FormField value={llName} onChangeText={(t) => setLlName(t.slice(0, 120))} placeholder="Tu nombre" />
                     <Text style={s.label}>Tipo de documento *</Text>
-                    <View style={{ flexDirection: 'row', gap: 6, flexWrap: 'wrap' }}>
+                    <View style={{ flexDirection: 'row', gap: espaciado.e6, flexWrap: 'wrap' }}>
                       {([['dip', 'DIP'], ['passport', 'Pasaporte'], ['residence_permit', 'Permiso de residencia']] as const).map(([v, l]) => (
                         <Chip key={v} label={l} active={llDocType === v} onPress={() => setLlDocType(v)} />
                       ))}
@@ -332,13 +332,13 @@ export default function AlquilerPublicarScreen() {
                     <FormField value={llDocNumber} onChangeText={(t) => setLlDocNumber(t.slice(0, 50))} placeholder="Ej: DIP-123456" />
                     <Text style={s.label}>Foto del documento *</Text>
                     {llDocPhoto ? (
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                         <View style={{ width: 64, height: 64, borderRadius: radios.sm, overflow: 'hidden', backgroundColor: colors.surface }}>
                           <Image source={{ uri: llDocPhoto }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                         </View>
                         <View style={{ flex: 1 }}>
                           <Text style={{ fontSize: tipografia.caption, color: colors.success, fontWeight: '700' }}>Documento adjunto</Text>
-                          <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 2 }}>~{b64SizeKB(llDocPhoto)} KB</Text>
+                          <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>~{b64SizeKB(llDocPhoto)} KB</Text>
                         </View>
                         <GhostButton title="Cambiar" onPress={() => void pickDocPhoto()} />
                         <Pressable onPress={() => setLlDocPhoto(null)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Quitar documento"><X size={18} color={colors.danger} /></Pressable>
@@ -347,22 +347,22 @@ export default function AlquilerPublicarScreen() {
                       <Pressable
                         onPress={() => void pickDocPhoto()}
                         accessibilityRole="button" accessibilityLabel="Subir foto del documento"
-                        style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: colors.surface, padding: 14, borderRadius: 10, borderWidth: 1, borderColor: colors.border, opacity: pressed ? 0.85 : 1 }]}
+                        style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10, borderWidth: 1, borderColor: colors.border, opacity: pressed ? 0.85 : 1 }]}
                       >
                         <ImageIcon size={18} color={colors.primary} /><Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: '600' }}>Subir foto del documento</Text>
                       </Pressable>
                     )}
                     <Text style={{ fontSize: 10.5, color: colors.textSecondary }}>Máx. ~{MAX_PHOTO_B64_KB} KB (se comprime al elegirla).</Text>
-                    {applyError ? <View style={{ marginTop: 10 }}><InlineError mensaje={applyError} /></View> : null}
+                    {applyError ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={applyError} /></View> : null}
                     <PrimaryButton title={llBusy ? 'Enviando…' : 'Enviar solicitud'} onPress={submitApply} disabled={llBusy} />
                   </>
                 ) : (
-                  <View style={{ alignItems: 'center', gap: 10, marginTop: 30 }}>
+                  <View style={{ alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e30 }}>
                     <Text style={{ fontSize: 40 }}>🏠</Text>
                     <Text style={{ fontSize: 15, fontWeight: '700', color: colors.textPrimary, textAlign: 'center' }}>
                       {landlord?.status === 'pending' ? 'Tu solicitud de arrendador está pendiente de revisión' : 'Necesitas verificar tu identidad para publicar'}
                     </Text>
-                    <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', paddingHorizontal: 20, lineHeight: 18 }}>
+                    <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', paddingHorizontal: espaciado.e20, lineHeight: 18 }}>
                       {landlord?.status === 'pending'
                         ? 'El administrador revisará tu DIP/pasaporte. Te avisaremos en cuanto esté aprobado.'
                         : landlord?.status === 'rejected'
@@ -379,12 +379,12 @@ export default function AlquilerPublicarScreen() {
                 <FormField value={title} onChangeText={(t) => setTitle(t.slice(0, MAX_TITLE))} placeholder="Ej: Apartamento 2 hab. en Paraíso" />
 
                 <Text style={s.label}>Tipo de propiedad *</Text>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                   {(cat?.propertyTypes ?? []).map((t) => <Chip key={t.id} label={t.label} active={type === t.id} onPress={() => chooseType(t.id)} />)}
                 </View>
 
                 <Text style={s.label}>Tipo de alquiler *</Text>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                   {(cat?.rentalTypes ?? []).map((t) => (
                     <Chip key={t.id} label={t.label} active={rentalType === t.id} onPress={() => chooseRentalType(t.id as 'long_term' | 'short_term' | 'both')} />
                   ))}
@@ -398,21 +398,21 @@ export default function AlquilerPublicarScreen() {
                   <>
                     <Text style={s.label}>Renta mensual (XAF) *</Text>
                     <FormField value={monthlyRent} onChangeText={setMonthlyRent} placeholder="250000" keyboardType="decimal-pad" />
-                    <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 2 }}>Por noche × 28 debería superar la renta mensual (así no se contradicen).</Text>
+                    <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>Por noche × 28 debería superar la renta mensual (así no se contradicen).</Text>
                   </>
                 )}
                 {rentalType === 'long_term' && (
                   <FormField value={monthlyRent} onChangeText={setMonthlyRent} placeholder="250000" keyboardType="decimal-pad" />
                 )}
 
-                <View style={{ flexDirection: 'row', gap: 10 }}>
+                <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
                   <View style={{ flex: 1 }}><Text style={s.label}>Fianza (meses)</Text><FormField value={depositMonths} onChangeText={(t) => setDepositMonths(DIGITS(t) || '1')} placeholder="1" keyboardType="decimal-pad" /></View>
                   <View style={{ flex: 1 }}><Text style={s.label}>Honorarios (XAF)</Text><FormField value={agencyFee} onChangeText={setAgencyFee} placeholder="25000" keyboardType="decimal-pad" /></View>
                 </View>
                 {agencyFee ? (
                   <>
                     <Text style={s.label}>Paga los honorarios</Text>
-                    <View style={{ flexDirection: 'row', gap: 6, flexWrap: 'wrap' }}>
+                    <View style={{ flexDirection: 'row', gap: espaciado.e6, flexWrap: 'wrap' }}>
                       {([['tenant', 'Inquilino'], ['landlord', 'Propietario'], ['shared', 'Compartido']] as const).map(([v, l]) => (
                         <Chip key={v} label={l} active={agencyFeePayer === v} onPress={() => setAgencyFeePayer(agencyFeePayer === v ? '' : v)} />
                       ))}
@@ -421,12 +421,12 @@ export default function AlquilerPublicarScreen() {
                 ) : null}
 
                 <Text style={s.label}>Ciudad *</Text>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                   {(cat?.cities ?? []).map((c) => <Chip key={c.id} label={c.label} active={cityId === c.id} onPress={() => chooseCity(c.id)} />)}
                 </View>
 
                 <Text style={s.label}>Barrio *</Text>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                   {(cat?.neighborhoods ?? []).filter((n) => n.cityId === cityId).map((n) => (
                     <Chip key={`${n.cityId}:${n.name}`} label={n.name} active={neighborhood === n.name} onPress={() => { setNeighborhood(n.name); setCoords(null); }} />
                   ))}
@@ -435,10 +435,10 @@ export default function AlquilerPublicarScreen() {
                 <FormField value={address} onChangeText={(t) => setAddress(t.slice(0, 200))} placeholder="Calle, referencia…" />
 
                 <Text style={s.label}>Ubicación en el mapa (opcional)</Text>
-                <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: 6 }}>
+                <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: espaciado.e6 }}>
                   Toca el mapa para fijar la vivienda. Si no lo haces, usaremos el centro del barrio.
                 </Text>
-                <View style={{ height: 160, borderRadius: 14, overflow: 'hidden', marginBottom: 6 }}>
+                <View style={{ height: 160, borderRadius: 14, overflow: 'hidden', marginBottom: espaciado.e6 }}>
                   <MapBackground onMapPress={(c) => setCoords([c[0], c[1]])} pin={coords} />
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -458,19 +458,19 @@ export default function AlquilerPublicarScreen() {
                 <FormField value={isLand ? landSize : size} onChangeText={isLand ? setLandSize : setSize} placeholder="85" keyboardType="decimal-pad" />
 
                 {!isLand && (
-                  <View style={{ flexDirection: 'row', gap: 10 }}>
+                  <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
                     <View style={{ flex: 1 }}><Text style={s.label}>Habitaciones</Text><FormField value={rooms} onChangeText={(t) => setRooms(DIGITS(t))} placeholder="2" keyboardType="number-pad" /></View>
                     <View style={{ flex: 1 }}><Text style={s.label}>Baños</Text><FormField value={bathrooms} onChangeText={(t) => setBathrooms(DIGITS(t))} placeholder="1" keyboardType="number-pad" /></View>
                   </View>
                 )}
 
                 <Text style={s.label}>Servicios esenciales</Text>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                   {(cat?.essentialServices ?? []).map((e) => <Chip key={e.id} label={e.label} active={essential.includes(e.id)} onPress={() => toggleChip(setEssential, e.id)} />)}
                 </View>
 
                 <Text style={s.label}>Comodidades</Text>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                   {(cat?.amenities ?? []).map((a) => <Chip key={a.id} label={a.label} active={amenities.includes(a.id)} onPress={() => toggleChip(setAmenities, a.id)} />)}
                 </View>
 
@@ -479,12 +479,12 @@ export default function AlquilerPublicarScreen() {
                 <Text style={s.counter}>{description.length}/{MAX_DESC}</Text>
 
                 <Text style={s.label}>Fotos ({photos.length}/{plan.photos})</Text>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 6 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10, marginTop: espaciado.e6 }}>
                   {photos.map((p, i) => (
                     <View key={i} style={{ width: 74, height: 74, borderRadius: radios.sm, overflow: 'hidden', backgroundColor: colors.surface }}>
                       <Image source={{ uri: p }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                       <Pressable onPress={() => removePhoto(i)} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Quitar foto ${i + 1}`}
-                        style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'rgba(16,24,40,0.65)', borderRadius: 9, padding: 2 }}>
+                        style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'rgba(16,24,40,0.65)', borderRadius: 9, padding: espaciado.e2 }}>
                         <X size={12} color={brand.white} />
                       </Pressable>
                     </View>
@@ -496,12 +496,12 @@ export default function AlquilerPublicarScreen() {
                     </Pressable>
                   )}
                 </View>
-                <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 4 }}>Se comprimen al elegirlas. Máx. ~{MAX_PHOTO_B64_KB} KB cada una.</Text>
+                <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4 }}>Se comprimen al elegirlas. Máx. ~{MAX_PHOTO_B64_KB} KB cada una.</Text>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 16, backgroundColor: colors.surface, padding: 14, borderRadius: 10 }}>
-                  <View style={{ flex: 1, paddingRight: 8 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: espaciado.e16, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10 }}>
+                  <View style={{ flex: 1, paddingRight: espaciado.e8 }}>
                     <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600' }}>Marcar como destacado</Text>
-                    {!canFeaturePlan && <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 2 }}>Requiere plan Agencia Pro o Premium.</Text>}
+                    {!canFeaturePlan && <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>Requiere plan Agencia Pro o Premium.</Text>}
                   </View>
                   <Switch
                     value={isFeatured} onValueChange={setIsFeatured} disabled={!canFeaturePlan}
@@ -509,14 +509,14 @@ export default function AlquilerPublicarScreen() {
                     accessibilityRole="switch" accessibilityLabel="Marcar como destacado" accessibilityState={{ checked: isFeatured, disabled: !canFeaturePlan }}
                   />
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 8, backgroundColor: colors.surface, padding: 14, borderRadius: 10 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10 }}>
                   <Text style={{ flex: 1, fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600' }}>Vivienda social / asequible</Text>
                   <Switch value={isSocialHousing} onValueChange={setIsSocialHousing} trackColor={{ true: colors.primary, false: colors.border }}
                     accessibilityRole="switch" accessibilityLabel="Vivienda social o asequible" accessibilityState={{ checked: isSocialHousing }} />
                 </View>
 
-                {publishError ? <View style={{ marginTop: 10 }}><InlineError mensaje={publishError} /></View> : null}
-                <View style={{ marginTop: 20 }}>
+                {publishError ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={publishError} /></View> : null}
+                <View style={{ marginTop: espaciado.e20 }}>
                   <PrimaryButton title={busy ? 'Publicando…' : atPlanLimit ? 'Límite del plan alcanzado' : 'Publicar anuncio'}
                     onPress={atPlanLimit ? () => { setPublishError('Cierra un anuncio o mejora tu plan para publicar.'); router.push('/alquiler-planes' as never); } : publish}
                     disabled={busy} />
@@ -536,22 +536,22 @@ export default function AlquilerPublicarScreen() {
                 />
               )}
               {mine.map((p) => (
-                <View key={p.id} style={{ backgroundColor: colors.surface, borderRadius: radios.md, padding: 12, marginBottom: 12 }}>
+                <View key={p.id} style={{ backgroundColor: colors.surface, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e12 }}>
                   <Pressable
                     onPress={() => router.push({ pathname: '/alquiler-detalle', params: { id: p.id } } as never)}
                     accessibilityRole="button" accessibilityLabel={`Ver anuncio: ${p.title}`}
                     style={({ pressed }) => [{ opacity: pressed ? 0.85 : 1 }]}
                   >
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <View style={{ flex: 1, paddingRight: 8 }}>
+                      <View style={{ flex: 1, paddingRight: espaciado.e8 }}>
                         <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>{p.title}</Text>
-                        <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }} numberOfLines={1}>
+                        <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }} numberOfLines={1}>
                           {p.location.neighborhood}, {p.location.cityName} · {p.price.monthlyRent ? formatXAF(p.price.monthlyRent) + '/mes' : formatXAF(p.price.pricePerNight) + '/noche'}
                         </Text>
                       </View>
                       <Text style={{ fontSize: tipografia.micro, fontWeight: '700', color: p.status === 'closed' ? colors.danger : colors.success }}>{p.status === 'closed' ? 'Cerrado' : 'Activo'}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', gap: 16, marginTop: 10, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 10, alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e10, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e10, alignItems: 'center' }}>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>👁 {p.viewsCount} vistas</Text>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>⭐ {p.favoritesCount} favs</Text>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>📞 {p.contactClicks} contactos</Text>
@@ -576,7 +576,7 @@ function TabBtn({ active, label, onPress }: { active: boolean; label: string; on
   const { colors } = useTheme();
   return (
     <Pressable onPress={onPress} accessibilityRole="button" accessibilityState={{ selected: active }} accessibilityLabel={label}
-      style={({ pressed }) => [{ flex: 1, paddingVertical: 9, borderRadius: radios.sm, alignItems: 'center', backgroundColor: active ? colors.primary : colors.surface, opacity: pressed ? 0.85 : 1 }]}>
+      style={({ pressed }) => [{ flex: 1, paddingVertical: espaciado.e9, borderRadius: radios.sm, alignItems: 'center', backgroundColor: active ? colors.primary : colors.surface, opacity: pressed ? 0.85 : 1 }]}>
       <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: active ? brand.white : colors.textSecondary }}>{label}</Text>
     </Pressable>
   );
@@ -586,15 +586,15 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
   const { colors } = useTheme();
   return (
     <Pressable onPress={onPress} accessibilityRole="button" accessibilityState={{ selected: active }} accessibilityLabel={label}
-      style={({ pressed }) => [{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}>
+      style={({ pressed }) => [{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}>
       <Text style={{ fontSize: tipografia.caption, fontWeight: active ? '700' : '500', color: active ? brand.white : colors.textPrimary }}>{label}</Text>
     </Pressable>
   );
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  planBanner: { borderRadius: radios.md, padding: 14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
-  label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textPrimary, marginTop: 14, marginBottom: 6 },
-  counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: 4 },
-  area: { minHeight: 90, borderRadius: 10, borderWidth: 1, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: 10, fontSize: tipografia.body, textAlignVertical: 'top' },
+  planBanner: { borderRadius: radios.md, padding: espaciado.e14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e16 },
+  label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
+  counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: espaciado.e4 },
+  area: { minHeight: 90, borderRadius: 10, borderWidth: 1, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
 });

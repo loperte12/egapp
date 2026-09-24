@@ -27,7 +27,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, Camera, Eye, EyeOff, Plus, Trash2, X, XCircle } from 'lucide-react-native';
-import {useTheme, alpha, PrimaryButton, FormField, Sheet, tipografia, radios, altura, ScreenHeader, Tactil} from '@egrouteplan/ui-kit';
+import { alpha, altura, espaciado, FormField, PrimaryButton, radios, ScreenHeader, Sheet, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodOwnerMe, SPICE_LABEL, SPICE_ICON, SIDES_MAX, type SpiceLevel } from '../api/food';
 import { formatXAF } from '../utils/formatHelpers';
 import { foodHoursError } from '../utils/foodHours';
@@ -440,7 +440,7 @@ export default function FoodOwnerScreen() {
         <OwnerSkeleton colors={colors} />
       ) : error ? (
         <View style={s_center.wrap}>
-          <Text style={{ fontSize: 38, marginBottom: 8 }}>📡</Text>
+          <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
           <Text style={[s_center.title, { color: colors.textPrimary }]}>Algo salió mal</Text>
           <Text style={[s_center.sub, { color: colors.textSecondary }]}>{error}</Text>
           <Pressable onPress={() => load('initial')} accessibilityRole="button" style={s_center.btnPrimary}>
@@ -450,13 +450,13 @@ export default function FoodOwnerScreen() {
       ) : (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <ScrollView
-            contentContainerStyle={{ padding: 16, paddingBottom: 32 + insets.bottom }}
+            contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e32 + insets.bottom }}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
             {/* Requisitos */}
             <View style={[s.reqBox, { backgroundColor: alpha(colors.primary, 0.06) }]}>
-              <Text style={[s.sectionTitle, { color: colors.textPrimary, marginBottom: 6 }]}>Requisitos para operar</Text>
+              <Text style={[s.sectionTitle, { color: colors.textPrimary, marginBottom: espaciado.e6 }]}>Requisitos para operar</Text>
               <ReqRow ok={me?.kycOk ?? false} label="Identidad verificada (KYC)"
                 hint={me?.kycOk ? undefined : (me?.kycMessage ?? 'Toca para completar tu verificación')}
                 onPress={!me?.kycOk ? () => router.push('/driver-onboarding' as any) : undefined} />
@@ -469,7 +469,7 @@ export default function FoodOwnerScreen() {
             <Text style={s.sectionTitle}>Tu restaurante</Text>
 
             {/* Foto */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 }}>
               {photoUrl && /^https?:\/\//i.test(photoUrl) ? (
                 <Image source={{ uri: photoUrl }} style={s.photo} contentFit="cover" transition={200} />
               ) : (
@@ -477,7 +477,7 @@ export default function FoodOwnerScreen() {
                   <Text style={{ fontSize: 30 }}>🍽️</Text>
                 </View>
               )}
-              <View style={{ marginLeft: 12, flex: 1 }}>
+              <View style={{ marginLeft: espaciado.e12, flex: 1 }}>
                 <Pressable onPress={pickPhoto} disabled={photoBusy} accessibilityRole="button"
                   accessibilityLabel="Elegir foto del restaurante"
                   style={[s.photoBtn, { borderColor: ACCENT }]}>
@@ -487,17 +487,17 @@ export default function FoodOwnerScreen() {
                 </Pressable>
                 {photoUrl ? (
                   <Pressable onPress={() => setPhotoUrl(null)} accessibilityRole="button" accessibilityLabel="Quitar foto"
-                    style={{ marginTop: 6, alignSelf: 'flex-start' }}>
+                    style={{ marginTop: espaciado.e6, alignSelf: 'flex-start' }}>
                     <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>Quitar foto</Text>
                   </Pressable>
                 ) : (
-                  <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 6 }}>Máx 8 MB · se ve en la lista de restaurantes</Text>
+                  <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e6 }}>Máx 8 MB · se ve en la lista de restaurantes</Text>
                 )}
               </View>
             </View>
 
             <FormField value={name} onChangeText={setName} placeholder="Nombre del restaurante *" maxLength={120} />
-            <View style={{ marginTop: 10 }} />
+            <View style={{ marginTop: espaciado.e10 }} />
 
             {/* Ciudad */}
             <Pressable onPress={() => setCityModal(true)} accessibilityRole="button"
@@ -508,10 +508,10 @@ export default function FoodOwnerScreen() {
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>▾</Text>
             </Pressable>
-            <View style={{ marginTop: 10 }} />
+            <View style={{ marginTop: espaciado.e10 }} />
 
             <FormField value={address} onChangeText={setAddress} placeholder="Dirección" maxLength={200} />
-            <View style={{ marginTop: 10 }} />
+            <View style={{ marginTop: espaciado.e10 }} />
             <FormField
               value={phone}
               onChangeText={(t) => { setPhone(t); if (phoneErr) setPhoneErr(null); }}
@@ -520,7 +520,7 @@ export default function FoodOwnerScreen() {
               maxLength={20}
               error={phoneErr ?? undefined}
             />
-            <View style={{ marginTop: 10 }} />
+            <View style={{ marginTop: espaciado.e10 }} />
             <FormField
               value={hours}
               onChangeText={(t) => { setHours(t); if (hoursErr) setHoursErr(null); }}
@@ -530,11 +530,11 @@ export default function FoodOwnerScreen() {
               error={hoursErr ?? undefined}
             />
             {!hoursErr && hours.trim() ? (
-              <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 4, marginLeft: 2 }}>
+              <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4, marginLeft: espaciado.e2 }}>
                 Ej: 09:00-13:00, 16:00-20:00 · 24h · todo el día · cerrado
               </Text>
             ) : null}
-            <View style={{ marginTop: 10 }} />
+            <View style={{ marginTop: espaciado.e10 }} />
             <TextInput
               multiline
               maxLength={2000}
@@ -544,7 +544,7 @@ export default function FoodOwnerScreen() {
               value={desc}
               onChangeText={setDesc}
             />
-            <View style={{ marginTop: 12 }}>
+            <View style={{ marginTop: espaciado.e12 }}>
               <PrimaryButton
                 title={busyBiz ? 'Guardando…' : (rest ? 'Actualizar restaurante' : 'Solicitar alta')}
                 onPress={save}
@@ -561,9 +561,9 @@ export default function FoodOwnerScreen() {
             {/* Añadir al menú (solo activo) */}
             {rest?.status === 'active' && (
               <>
-                <Text style={[s.sectionTitle, { marginTop: 22 }]}>Añadir al menú</Text>
+                <Text style={[s.sectionTitle, { marginTop: espaciado.e22 }]}>Añadir al menú</Text>
                 <FormField value={iName} onChangeText={setIName} placeholder="Nombre del plato * (ej: Pollo asado)" maxLength={120} />
-                <View style={{ marginTop: 10 }} />
+                <View style={{ marginTop: espaciado.e10 }} />
                 <FormField
                   value={iPrice}
                   onChangeText={(t) => { setIPrice(t); if (iPriceErr) setIPriceErr(null); }}
@@ -572,13 +572,13 @@ export default function FoodOwnerScreen() {
                   error={iPriceErr ?? undefined}
                 />
                 {pricePreview ? (
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT, marginTop: 4, marginLeft: 2 }}>{pricePreview}</Text>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT, marginTop: espaciado.e4, marginLeft: espaciado.e2 }}>{pricePreview}</Text>
                 ) : null}
-                <View style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
+                <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e10 }}>
                   {CATS.map((c) => (
                     <Pressable key={c.key} onPress={() => setICat(c.key)} accessibilityRole="radio"
                       accessibilityState={{ checked: iCat === c.key }}
-                      style={{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: iCat === c.key ? colors.primary : colors.surface }}>
+                      style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: iCat === c.key ? colors.primary : colors.surface }}>
                       <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: iCat === c.key ? brand.white : colors.textPrimary }}>{c.label}</Text>
                     </Pressable>
                   ))}
@@ -589,15 +589,15 @@ export default function FoodOwnerScreen() {
                     vez y se queda guardada con el plato (ver comentario del estado). Por eso
                     aquí, cuando ya hay foto, lo que se ofrece es «Cambiar» y «Quitar», nunca
                     volver a subirla. */}
-                <Text style={[s.fieldLabel, { marginTop: 16 }]}>Foto del plato</Text>
+                <Text style={[s.fieldLabel, { marginTop: espaciado.e16 }]}>Foto del plato</Text>
                 {iPhoto ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <RNImage source={{ uri: iPhoto }} style={s.photo} />
-                    <View style={{ flex: 1, marginLeft: 12 }}>
+                    <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
                       <Text style={s.fieldHint}>
                         Guardada con el plato: no hace falta volver a subirla.
                       </Text>
-                      <View style={{ flexDirection: 'row', gap: 16, marginTop: 8 }}>
+                      <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e8 }}>
                         <Pressable onPress={() => { void elegirFotoPlato().then((u) => { if (u) setIPhoto(u); }); }}
                           hitSlop={8} accessibilityRole="button" accessibilityLabel="Cambiar la foto del plato">
                           <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT }}>Cambiar</Text>
@@ -620,7 +620,7 @@ export default function FoodOwnerScreen() {
                     {iPhotoBusy ? (
                       <ActivityIndicator size="small" color={ACCENT} />
                     ) : (
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                         <Camera size={16} color={ACCENT} />
                         <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT }}>Hacer o elegir una foto</Text>
                       </View>
@@ -669,7 +669,7 @@ export default function FoodOwnerScreen() {
                     {iIngredientsErr ? <Text style={s.fieldErr}>{iIngredientsErr}</Text> : null}
 
                     {/* Picante */}
-                    <Text style={[s.fieldLabel, { marginTop: 12 }]}>Nivel de picante</Text>
+                    <Text style={[s.fieldLabel, { marginTop: espaciado.e12 }]}>Nivel de picante</Text>
                     <View style={s.chipRow}>
                       {SPICE_ORDER.map((lvl) => {
                         const active = iSpice === lvl;
@@ -692,7 +692,7 @@ export default function FoodOwnerScreen() {
                     <Text style={s.fieldHint}>Toca el nivel activo otra vez para quitarlo.</Text>
 
                     {/* Tamaño / ración */}
-                    <Text style={[s.fieldLabel, { marginTop: 12 }]}>Tamaño o ración</Text>
+                    <Text style={[s.fieldLabel, { marginTop: espaciado.e12 }]}>Tamaño o ración</Text>
                     <FormField
                       value={iPortion}
                       onChangeText={(t) => { setIPortion(t); if (iPortionErr) setIPortionErr(null); }}
@@ -718,7 +718,7 @@ export default function FoodOwnerScreen() {
                     </Pressable>
 
                     {/* Acompañantes */}
-                    <Text style={[s.fieldLabel, { marginTop: 12 }]}>Acompañantes</Text>
+                    <Text style={[s.fieldLabel, { marginTop: espaciado.e12 }]}>Acompañantes</Text>
                     <TextInput
                       multiline
                       maxLength={1200}
@@ -735,7 +735,7 @@ export default function FoodOwnerScreen() {
                       : <Text style={s.fieldHint}>Separados por coma. Máximo {SIDES_MAX}.</Text>}
 
                     {/* Tiempo de preparación */}
-                    <Text style={[s.fieldLabel, { marginTop: 12 }]}>Tiempo de preparación (minutos)</Text>
+                    <Text style={[s.fieldLabel, { marginTop: espaciado.e12 }]}>Tiempo de preparación (minutos)</Text>
                     <FormField
                       value={iPrep}
                       onChangeText={(t) => { setIPrep(t.replace(/[^0-9]/g, '')); if (iPrepErr) setIPrepErr(null); }}
@@ -755,11 +755,11 @@ export default function FoodOwnerScreen() {
                   </View>
                 )}
 
-                <View style={{ marginTop: 12 }}>
+                <View style={{ marginTop: espaciado.e12 }}>
                   <PrimaryButton title={busyPub ? 'Enviando…' : 'Publicar (pasa a revisión admin)'} onPress={addItem} disabled={busyPub} />
                 </View>
                 {me?.menu.length === 0 && (
-                  <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 10, textAlign: 'center' }}>
+                  <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e10, textAlign: 'center' }}>
                     Tu menú está vacío: publica el primer plato aquí arriba ☝️
                   </Text>
                 )}
@@ -769,7 +769,7 @@ export default function FoodOwnerScreen() {
             {/* Mi menú (gestión) */}
             {me && me.menu.length > 0 && (
               <>
-                <Text style={[s.sectionTitle, { marginTop: 22 }]}>Mi menú ({me.menu.length})</Text>
+                <Text style={[s.sectionTitle, { marginTop: espaciado.e22 }]}>Mi menú ({me.menu.length})</Text>
                 {me.menu.map((m) => (
                   <MenuRow
                     key={m.id}
@@ -826,7 +826,7 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
   const statusColor = item.status === 'active' ? brand.success : item.status === 'rejected' ? colors.danger : colors.secondary;
   const statusText = item.status === 'active' ? (item.available ? '✓ Activo' : 'Oculto') : item.status === 'rejected' ? '✗ Rechazado' : 'En revisión';
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: 10, padding: 10, marginBottom: 6, borderWidth: 1, borderColor: colors.border }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: 10, padding: espaciado.e10, marginBottom: espaciado.e6, borderWidth: 1, borderColor: colors.border }}>
       {photo ? (
         <RNImage source={{ uri: photo }} style={{ width: 40, height: 40, borderRadius: radios.sm }} />
       ) : (
@@ -839,9 +839,9 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
           <Camera size={16} color={colors.textSecondary} />
         </Pressable>
       )}
-      <View style={{ flex: 1, marginLeft: 10 }}>
+      <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
         <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>{item.name}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
           <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT }}>{formatXAF(item.priceXaf)}</Text>
           <Text style={{ fontSize: 10.5, fontWeight: '700', color: statusColor }}>{statusText}</Text>
           {!photo ? <Text style={{ fontSize: 10.5, fontWeight: '700', color: brand.warning }}>· falta foto</Text> : null}
@@ -850,7 +850,7 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
       {busy ? (
         <ActivityIndicator size="small" color={colors.primary} />
       ) : (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
           {onToggle ? (
             <Pressable onPress={onToggle} hitSlop={6} accessibilityRole="button"
               accessibilityLabel={item.available ? `Ocultar ${item.name} del menú` : `Mostrar ${item.name} en el menú`}
@@ -871,9 +871,9 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
 function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint?: string; onPress?: () => void }) {
   const { colors } = useTheme();
   const row = (
-    <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e5 }}>
       {ok ? <BadgeCheck size={16} color={brand.success} /> : <XCircle size={16} color="#CBD5E1" />}
-      <View style={{ flex: 1, marginLeft: 8 }}>
+      <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
         <Text style={{ fontSize: tipografia.caption, fontWeight: '600', color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
         {hint ? <Text style={{ fontSize: 10.5, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
       </View>
@@ -881,7 +881,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
     </View>
   );
   return onPress ? (
-    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={`${label}. ${hint ?? ''}`} style={{ paddingVertical: 2 }}>
+    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={`${label}. ${hint ?? ''}`} style={{ paddingVertical: espaciado.e2 }}>
       {row}
     </Pressable>
   ) : row;
@@ -889,7 +889,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
 
 function OwnerSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['colors'] }) {
   return (
-    <View style={{ padding: 16, gap: 10 }}>
+    <View style={{ padding: espaciado.e16, gap: espaciado.e10 }}>
       {[0, 1, 2, 3].map((i) => (
         <View key={i} style={{ height: 44, borderRadius: radios.md, backgroundColor: colors.border, width: i % 2 === 0 ? '100%' : '80%' }} />
       ))}
@@ -902,32 +902,32 @@ const s_row = StyleSheet.create({
 });
 
 const s_center = StyleSheet.create({
-  wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: 28 },
+  wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: espaciado.e28 },
   title: { fontSize: 15, fontWeight: '800', textAlign: 'center' },
-  sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: 6, lineHeight: 18 },
-  btnPrimary: { marginTop: 18, backgroundColor: ACCENT, paddingHorizontal: 24, paddingVertical: 11, borderRadius: 22 },
+  sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
+  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  reqBox: { borderRadius: radios.md, padding: 12, marginBottom: 14 },
-  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', marginBottom: 10 },
+  reqBox: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14 },
+  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', marginBottom: espaciado.e10 },
   photo: { width: 84, height: 84, borderRadius: 14 },
   photoFallback: { backgroundColor: alpha(ACCENT, 0.08), alignItems: 'center', justifyContent: 'center' },
-  photoBtn: { borderWidth: 1.5, borderRadius: radios.md, paddingVertical: 10, alignItems: 'center' },
-  cityBox: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: 14, borderWidth: 1.5, paddingHorizontal: 14, height: altura.campo },
-  area: { minHeight: 70, borderRadius: 14, borderWidth: 1, padding: 12, fontSize: tipografia.body, textAlignVertical: 'top' },
-  rejectedBox: { borderRadius: 10, padding: 10, marginTop: 12 },
-  cityItem: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 13, borderBottomWidth: 1 },
+  photoBtn: { borderWidth: 1.5, borderRadius: radios.md, paddingVertical: espaciado.e10, alignItems: 'center' },
+  cityBox: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: 14, borderWidth: 1.5, paddingHorizontal: espaciado.e14, height: altura.campo },
+  area: { minHeight: 70, borderRadius: 14, borderWidth: 1, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
+  rejectedBox: { borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e12 },
+  cityItem: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e13, borderBottomWidth: 1 },
   // ── Detalles del plato (041) ──
-  detailsHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 14, paddingVertical: 11, marginTop: 12 },
-  detailsBody: { borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: 12, marginTop: 8, backgroundColor: c.background },
-  fieldLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, marginBottom: 6, marginLeft: 2 },
-  fieldHint: { fontSize: 10.5, color: c.textSecondary, marginTop: 5, marginLeft: 2, lineHeight: 15 },
-  fieldErr: { fontSize: tipografia.micro, fontWeight: '700', color: c.danger, marginTop: 5, marginLeft: 2 },
-  chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
-  chip: { borderWidth: 1, borderRadius: radios.lg, paddingHorizontal: 11, paddingVertical: 7 },
-  switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: 14, paddingVertical: 11, marginTop: 12 },
-  switchTrack: { width: 42, height: 24, borderRadius: radios.md, padding: 3, justifyContent: 'center' },
+  detailsHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },
+  detailsBody: { borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e8, backgroundColor: c.background },
+  fieldLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, marginBottom: espaciado.e6, marginLeft: espaciado.e2 },
+  fieldHint: { fontSize: 10.5, color: c.textSecondary, marginTop: espaciado.e5, marginLeft: espaciado.e2, lineHeight: 15 },
+  fieldErr: { fontSize: tipografia.micro, fontWeight: '700', color: c.danger, marginTop: espaciado.e5, marginLeft: espaciado.e2 },
+  chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
+  chip: { borderWidth: 1, borderRadius: radios.lg, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
+  switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },
+  switchTrack: { width: 42, height: 24, borderRadius: radios.md, padding: espaciado.e3, justifyContent: 'center' },
   switchKnob: { width: 18, height: 18, borderRadius: 9, backgroundColor: brand.white },
 });

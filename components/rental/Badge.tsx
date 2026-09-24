@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
-import { useTheme, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
 
 export function Badge({
   label,
@@ -52,14 +52,14 @@ export function Badge({
 
 const styles = StyleSheet.create({
   badge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: espaciado.e8,
+    paddingVertical: espaciado.e4,
     borderRadius: 6,
     alignSelf: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
   },
-  badgeSmall: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: 5 },
+  badgeSmall: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: 5 },
   text: { fontSize: tipografia.micro, fontWeight: '700', lineHeight: 14 },
   textSmall: { fontSize: 10, lineHeight: 12 },
 });

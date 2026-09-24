@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useTheme, alpha, brand, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { LazyImage } from './LazyImage';
 import { FeaturedBadge, PremiumBadge, VerificationBadge } from './Badges';
 import { LandlordCard, type LandlordCardData } from './LandlordCard';
@@ -94,23 +94,23 @@ export function PropertyCard({ property, onPress, onViewLandlord }: {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  card: { borderRadius: 14, borderWidth: 1, marginBottom: 12, overflow: 'hidden', backgroundColor: c.card },
+  card: { borderRadius: 14, borderWidth: 1, marginBottom: espaciado.e12, overflow: 'hidden', backgroundColor: c.card },
   imageContainer: { position: 'relative', height: 180 },
   image: { width: '100%', height: '100%' },
-  badgesTop: { position: 'absolute', top: 8, left: 8, flexDirection: 'row', gap: 4 },
-  socialBadge: { backgroundColor: brand.success, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
+  badgesTop: { position: 'absolute', top: 8, left: 8, flexDirection: 'row', gap: espaciado.e4 },
+  socialBadge: { backgroundColor: brand.success, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 },
   socialText: { color: brand.white, fontSize: 10, fontWeight: '700' },
-  typeBadge: { position: 'absolute', top: 8, right: 8, backgroundColor: 'rgba(15,23,42,0.85)', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
+  typeBadge: { position: 'absolute', top: 8, right: 8, backgroundColor: 'rgba(15,23,42,0.85)', paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 },
   typeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: '600' },
-  shortTermBadge: { position: 'absolute', bottom: 8, left: 8, backgroundColor: 'rgba(0,0,0,0.75)', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
+  shortTermBadge: { position: 'absolute', bottom: 8, left: 8, backgroundColor: 'rgba(0,0,0,0.75)', paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 },
   shortTermText: { color: brand.white, fontSize: tipografia.micro, fontWeight: '600' },
-  content: { padding: 12 },
-  priceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 },
+  content: { padding: espaciado.e12 },
+  priceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e6 },
   price: { fontSize: 17, fontWeight: '700', color: c.textPrimary },
-  title: { fontSize: tipografia.body, fontWeight: '600', color: c.textSecondary, marginBottom: 4 },
-  location: { fontSize: tipografia.caption, color: c.textSecondary, marginBottom: 8 },
-  featuresRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginBottom: 8 },
+  title: { fontSize: tipografia.body, fontWeight: '600', color: c.textSecondary, marginBottom: espaciado.e4 },
+  location: { fontSize: tipografia.caption, color: c.textSecondary, marginBottom: espaciado.e8 },
+  featuresRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10, marginBottom: espaciado.e8 },
   feature: { fontSize: tipografia.caption, color: c.textPrimary },
-  footer: { paddingTop: 10, borderTopWidth: 1, gap: 6 },
+  footer: { paddingTop: espaciado.e10, borderTopWidth: 1, gap: espaciado.e6 },
   freshness: { fontSize: tipografia.micro, color: c.textSecondary, alignSelf: 'flex-end' },
 });

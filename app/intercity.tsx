@@ -20,7 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowLeft, Route as RouteIcon, Ticket, CheckCircle2, ChevronRight, Crown, BadgeCheck,
 } from 'lucide-react-native';
-import { FormField, PrimaryButton, GhostButton, useTheme, alpha, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { intercityApi, type IcBooking, type IcLocation, type IcTrip, IC_VEHICLE_TYPES, IC_VEHICLE_LABELS } from '../api/intercity';
 import { LazyImage } from '../components/rental/LazyImage';
@@ -199,7 +199,7 @@ export default function IntercityScreen() {
           <ArrowLeft size={22} color={colors.textPrimary} />
         </Pressable>
         <Text style={s.title}>Ciudad a Ciudad</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e14 }}>
           <Pressable onPress={() => router.push('/intercity-planes' as never)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Planes">
             <Crown size={20} color={colors.primary} />
           </Pressable>
@@ -210,7 +210,7 @@ export default function IntercityScreen() {
       <ScrollView contentContainerStyle={[s.content, { paddingBottom: insets.bottom + 24 }]} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         {step === 'search' && (
           <View style={s.block}>
-            <View style={{ alignItems: 'center', gap: 4 }}>
+            <View style={{ alignItems: 'center', gap: espaciado.e4 }}>
               <RouteIcon size={40} color={colors.primary} />
               <Text style={s.big}>¿A dónde vas?</Text>
               <Text style={s.body}>Elige provincia y distrito de salida y de llegada.</Text>
@@ -363,7 +363,7 @@ export default function IntercityScreen() {
                   Linking.openURL(`https://wa.me/${digits(phone)}?text=${encodeURIComponent(msg)}`).catch(() => {});
                 }}
                 accessibilityRole="button" accessibilityLabel="Enviar ticket por WhatsApp"
-                style={({ pressed }) => [{ backgroundColor: brand.whatsapp, borderRadius: radios.md, paddingVertical: 12, paddingHorizontal: 20, opacity: pressed ? 0.85 : 1 }]}
+                style={({ pressed }) => [{ backgroundColor: brand.whatsapp, borderRadius: radios.md, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e20, opacity: pressed ? 0.85 : 1 }]}
               >
                 <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body, textAlign: 'center' }}>Enviar por WhatsApp</Text>
               </Pressable>
@@ -395,7 +395,7 @@ export default function IntercityScreen() {
         <FlatList
           data={trips}
           keyExtractor={(t) => t.id}
-          contentContainerStyle={[s.content, { gap: 12, paddingBottom: insets.bottom + 24 }]}
+          contentContainerStyle={[s.content, { gap: espaciado.e12, paddingBottom: insets.bottom + 24 }]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           initialNumToRender={10}
@@ -405,7 +405,7 @@ export default function IntercityScreen() {
             /*
             Un `View` con el hueco del contenedor, y no un fragmento: el `gap` de
             `contentContainerStyle` separa CELDAS, y `ListHeaderComponent` es UNA celda. Con un
-            fragmento, todo lo de aquí dentro quedaba pegado (era gap: 12 antes de virtualizar).
+            fragmento, todo lo de aquí dentro quedaba pegado (era gap: espaciado.e12 antes de virtualizar).
             */
             <View style={s.block}>
               <Text style={s.big}>{trip?.route ? `${trip.route.originDistrict ?? ''} → ${trip.route.destinationDistrict ?? ''}` : 'Viajes disponibles'}</Text>
@@ -426,7 +426,7 @@ export default function IntercityScreen() {
               ) : (
                 <View style={[s.avatar, { backgroundColor: alpha(colors.primary, 0.15) }]}><RouteIcon size={20} color={colors.primary} /></View>
               )}
-              <View style={{ flex: 1, gap: 3 }}>
+              <View style={{ flex: 1, gap: espaciado.e3 }}>
                 <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>
                   {new Date(t.departureTime).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })}
                   <Text style={{ color: colors.textSecondary, fontWeight: '600', fontSize: tipografia.caption }}>
@@ -437,9 +437,9 @@ export default function IntercityScreen() {
                   {IC_VEHICLE_LABELS[t.vehicleType ?? 'car'] ?? t.vehicleType}{t.vehicleModel ? ` · ${t.vehicleModel}` : ''}{t.vehiclePlate ? ` · ${t.vehiclePlate}` : ''} · {t.publisherName ?? 'Conductor'}
                 </Text>
                 {t.publisherBadge ? (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', backgroundColor: alpha(colors.primary, 0.12), paddingHorizontal: 8, paddingVertical: 3, borderRadius: radios.sm, marginTop: 4 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', backgroundColor: alpha(colors.primary, 0.12), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.sm, marginTop: espaciado.e4 }}>
                     <BadgeCheck size={12} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontSize: 10, fontWeight: '800', marginLeft: 4 }}>{t.publisherBadge}</Text>
+                    <Text style={{ color: colors.primary, fontSize: 10, fontWeight: '800', marginLeft: espaciado.e4 }}>{t.publisherBadge}</Text>
                   </View>
                 ) : null}
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
@@ -461,7 +461,7 @@ export default function IntercityScreen() {
 function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
   const { colors } = useTheme();
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4, gap: 12 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e4, gap: espaciado.e12 }}>
       <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '600' }}>{label}</Text>
       <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: bold ? '900' : '700', flexShrink: 1, textAlign: 'right' }}>{value}</Text>
     </View>
@@ -484,21 +484,21 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 },
+  topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
   title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
-  content: { padding: 20, gap: 16 },
-  block: { gap: 12 },
+  content: { padding: espaciado.e20, gap: espaciado.e16 },
+  block: { gap: espaciado.e12 },
   big: { fontSize: tipografia.title, fontWeight: '900', color: c.textPrimary, textAlign: 'center' },
   body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: '600' },
-  label: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary, marginTop: 4 },
-  labelInline: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary, marginTop: 4, alignSelf: 'center' },
+  label: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary, marginTop: espaciado.e4 },
+  labelInline: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary, marginTop: espaciado.e4, alignSelf: 'center' },
   zone: { fontSize: tipografia.caption, fontWeight: '700', color: c.primary },
-  chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: { borderRadius: radios.md, borderWidth: 1.5, paddingHorizontal: 12, paddingVertical: 8 },
-  tripCard: { flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1.5, borderRadius: 14, padding: 14 },
+  chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
+  chip: { borderRadius: radios.md, borderWidth: 1.5, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
+  tripCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1.5, borderRadius: 14, padding: espaciado.e14 },
   avatar: { width: 44, height: 44, borderRadius: 22, overflow: 'hidden', backgroundColor: c.surface },
-  warnBox: { borderRadius: radios.md, padding: 12 },
-  summary: { borderRadius: radios.lg, borderWidth: 1.5, padding: 14 },
-  ticketBox: { alignItems: 'center', gap: 8, borderWidth: 2, borderRadius: 18, padding: 22, width: '100%', borderStyle: 'dashed' },
+  warnBox: { borderRadius: radios.md, padding: espaciado.e12 },
+  summary: { borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14 },
+  ticketBox: { alignItems: 'center', gap: espaciado.e8, borderWidth: 2, borderRadius: 18, padding: espaciado.e22, width: '100%', borderStyle: 'dashed' },
   err: { color: c.danger, fontSize: tipografia.body, fontWeight: '700' },
 });

@@ -20,7 +20,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Minus, Plus, Star } from 'lucide-react-native';
-import { useTheme, alpha, brand, EmptyState, tipografia, radios, ScreenHeader } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodRestaurantDetail, SPICE_LABEL, SPICE_ICON } from '../api/food';
 import { foodCartCount, foodCartTotal, FoodCartLine, useFoodStore } from '../state/food';
 import { itemDetailSummary } from '../utils/foodItemDetails';
@@ -119,7 +119,7 @@ export default function FoodMenuScreen() {
           <MenuSkeleton colors={colors} />
         ) : error ? (
           <View style={s_center.wrap}>
-            <Text style={{ fontSize: 38, marginBottom: 8 }}>📡</Text>
+            <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
             <Text style={[s_center.title, { color: colors.textPrimary }]}>No pudimos cargar el menú</Text>
             <Text style={[s_center.sub, { color: colors.textSecondary }]}>{error}</Text>
             <Pressable onPress={retry} accessibilityRole="button" style={s_center.btnPrimary}>
@@ -152,7 +152,7 @@ export default function FoodMenuScreen() {
                 const items = detail.menu.filter((m) => m.category === cat);
                 if (items.length === 0) return null;
                 return (
-                  <View key={cat} style={{ marginBottom: 18 }}>
+                  <View key={cat} style={{ marginBottom: espaciado.e18 }}>
                     <Text style={s.catTitle}>{CAT_LABEL[cat]}</Text>
                     {items.map((m) => (
                       <MenuItemRow key={m.id} item={m} qty={qtyMap.get(m.id) ?? 0}
@@ -171,7 +171,7 @@ export default function FoodMenuScreen() {
 
       {/* Barra sticky de pedido (solo ítems de este restaurante) */}
       {count > 0 && (
-        <View style={[s.bottomBar, { backgroundColor: colors.card, borderTopColor: colors.border, paddingBottom: 10 + insets.bottom }]}>
+        <View style={[s.bottomBar, { backgroundColor: colors.card, borderTopColor: colors.border, paddingBottom: espaciado.e10 + insets.bottom }]}>
           <Pressable
             onPress={() => router.push({ pathname: '/food-checkout', params: { restaurantId: id } } as any)}
             accessibilityRole="button"
@@ -196,7 +196,7 @@ function RestaurantHeader({ detail }: { detail: FoodRestaurantDetail }) {
   const km = Number.isFinite(detail.deliveryKm) && detail.deliveryKm > 0 ? detail.deliveryKm : 0;
   const open = detail.isOpen ?? null;
   return (
-    <View style={{ marginBottom: 14 }}>
+    <View style={{ marginBottom: espaciado.e14 }}>
       <Text style={[s_h.name, { color: colors.textPrimary }]}>{detail.businessName}</Text>
       <Text style={[s_h.sub, { color: colors.textSecondary }]}>
         {detail.cuisineLabel ?? 'Restaurante'} · {detail.city}
@@ -223,10 +223,10 @@ function RestaurantHeader({ detail }: { detail: FoodRestaurantDetail }) {
         </View>
       )}
       {detail.address ? (
-        <Text numberOfLines={2} style={[s_h.sub, { color: colors.textSecondary, marginTop: 2 }]}>📍 {detail.address}</Text>
+        <Text numberOfLines={2} style={[s_h.sub, { color: colors.textSecondary, marginTop: espaciado.e2 }]}>📍 {detail.address}</Text>
       ) : null}
       {km > 0 ? (
-        <Text style={[s_h.sub, { color: ACCENT, fontWeight: '700', marginTop: 2 }]}>🛵 Reparto hasta {km} km</Text>
+        <Text style={[s_h.sub, { color: ACCENT, fontWeight: '700', marginTop: espaciado.e2 }]}>🛵 Reparto hasta {km} km</Text>
       ) : null}
     </View>
   );
@@ -323,16 +323,16 @@ function MenuItemRow({ item, qty, onAdd, onDec, onInc }: {
 function MenuSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['colors'] }) {
   return (
     <View>
-      <View style={{ marginBottom: 16, gap: 7 }}>
+      <View style={{ marginBottom: espaciado.e16, gap: espaciado.e7 }}>
         <View style={{ height: 18, borderRadius: 4, backgroundColor: colors.border, width: '55%' }} />
         <View style={{ height: 11, borderRadius: 4, backgroundColor: colors.border, width: '38%' }} />
         <View style={{ height: 11, borderRadius: 4, backgroundColor: colors.border, width: '48%' }} />
       </View>
-      <View style={{ height: 13, borderRadius: 4, backgroundColor: colors.border, width: 90, marginBottom: 10 }} />
+      <View style={{ height: 13, borderRadius: 4, backgroundColor: colors.border, width: 90, marginBottom: espaciado.e10 }} />
       {[0, 1, 2].map((i) => (
         <View key={i} style={[s_sk.row, { backgroundColor: colors.surface, borderColor: colors.border }]}>
           <View style={{ width: 52, height: 52, borderRadius: 10, backgroundColor: colors.border }} />
-          <View style={{ flex: 1, marginLeft: 10, gap: 6 }}>
+          <View style={{ flex: 1, marginLeft: espaciado.e10, gap: espaciado.e6 }}>
             <View style={{ height: 11, borderRadius: 4, backgroundColor: colors.border, width: '70%' }} />
             <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '45%' }} />
           </View>
@@ -345,24 +345,24 @@ function MenuSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['colors'
 
 const s_h = StyleSheet.create({
   name: { fontSize: 19, fontWeight: '900' },
-  sub: { fontSize: tipografia.caption, marginTop: 2 },
-  metaRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 5, flexWrap: 'wrap' },
-  badge: { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: 10, paddingHorizontal: 7, paddingVertical: 3 },
+  sub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
+  metaRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e5, flexWrap: 'wrap' },
+  badge: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: 10, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
   dot: { width: 6, height: 6, borderRadius: 3 },
 });
 
 const s_row = StyleSheet.create({
-  card: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: 10, marginBottom: 8, borderWidth: 1 },
+  card: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e8, borderWidth: 1 },
   // 64 en vez de 52: la foto de un plato es lo primero que mira el cliente («¿esto tiene buena
   // pinta?»). A 52 px no se distinguía el plato; a 64 se ve, y sigue cabiendo en la fila.
   img: { width: 64, height: 64, borderRadius: 10 },
   imgFallback: { backgroundColor: 'rgba(255,107,53,0.08)', alignItems: 'center', justifyContent: 'center' },
-  body: { flex: 1, marginLeft: 10, marginRight: 8 },
+  body: { flex: 1, marginLeft: espaciado.e10, marginRight: espaciado.e8 },
   name: { fontSize: tipografia.body, fontWeight: '700' },
   desc: { fontSize: tipografia.micro, marginTop: 1, lineHeight: 14 },
-  price: { fontSize: tipografia.body, fontWeight: '900', color: ACCENT, marginTop: 2 },
-  addBtn: { backgroundColor: ACCENT, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10 },
-  stepper: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  price: { fontSize: tipografia.body, fontWeight: '900', color: ACCENT, marginTop: espaciado.e2 },
+  addBtn: { backgroundColor: ACCENT, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 10 },
+  stepper: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
   stepBtn: { width: 30, height: 30, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   qty: { fontSize: tipografia.body, fontWeight: '800', minWidth: 18, textAlign: 'center' },
   // ── Detalle del plato (041) ──
@@ -370,29 +370,29 @@ const s_row = StyleSheet.create({
   // crece a 3-5 líneas y la foto y el stepper quedan centrados en vertical, que
   // es lo que ya pasa hoy con la descripción larga. No se cambia para no mover
   // el aspecto de los platos que no declaran ningún detalle.
-  detailLine: { fontSize: 10.5, marginTop: 2, lineHeight: 14 },
-  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 5, marginTop: 4 },
-  miniChip: { borderRadius: radios.sm, paddingHorizontal: 7, paddingVertical: 3 },
+  detailLine: { fontSize: 10.5, marginTop: espaciado.e2, lineHeight: 14 },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5, marginTop: espaciado.e4 },
+  miniChip: { borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
   miniChipText: { fontSize: 10, fontWeight: '700', color: ACCENT },
 });
 
 const s_sk = StyleSheet.create({
-  row: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: 10, marginBottom: 8, borderWidth: 1 },
+  row: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e8, borderWidth: 1 },
 });
 
 const s_center = StyleSheet.create({
-  wrap: { alignItems: 'center', paddingTop: 48, paddingHorizontal: 28 },
+  wrap: { alignItems: 'center', paddingTop: 48, paddingHorizontal: espaciado.e28 },
   title: { fontSize: 15, fontWeight: '800', textAlign: 'center' },
-  sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: 6, lineHeight: 18 },
-  btnPrimary: { marginTop: 18, backgroundColor: ACCENT, paddingHorizontal: 24, paddingVertical: 11, borderRadius: 22 },
+  sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
+  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  content: { padding: 16 },
-  catTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary, marginBottom: 8 },
-  closedNote: { borderRadius: 10, borderWidth: 1, padding: 10, marginBottom: 12 },
-  bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 16, paddingTop: 10, borderTopWidth: 1 },
-  cta: { backgroundColor: ACCENT, borderRadius: radios.md, paddingVertical: 14, alignItems: 'center' },
+  content: { padding: espaciado.e16 },
+  catTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary, marginBottom: espaciado.e8 },
+  closedNote: { borderRadius: 10, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e12 },
+  bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10, borderTopWidth: 1 },
+  cta: { backgroundColor: ACCENT, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center' },
   ctaText: { color: brand.white, fontSize: 15, fontWeight: '900' },
 });

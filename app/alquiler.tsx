@@ -18,7 +18,7 @@ import { ActivityIndicator, FlatList, Modal, Pressable, ScrollView, StyleSheet, 
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Plus, SlidersHorizontal, Check, X, ShieldAlert, MapPin, RefreshCw, WifiOff } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, brand, tipografia, radios, ScreenHeader, Tactil } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, ScreenHeader, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { PropertyCard } from '../components/rental/PropertyCard';
 import { usePropertySearch } from '../hooks/rental/usePropertySearch';
 import type { SortOrder } from '../hooks/rental/usePropertyFilters';
@@ -85,16 +85,16 @@ export default function AlquilerScreen() {
       />
 
       {/* Buscador + botón filtros */}
-      <View style={{ paddingHorizontal: 16, gap: 8, marginBottom: 6 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: 10, paddingHorizontal: 12, borderWidth: 1, borderColor: colors.border }}>
+      <View style={{ paddingHorizontal: espaciado.e16, gap: espaciado.e8, marginBottom: espaciado.e6 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: 10, paddingHorizontal: espaciado.e12, borderWidth: 1, borderColor: colors.border }}>
             <TextInput
               value={query}
               onChangeText={setQuery}
               placeholder="Buscar por título, barrio o dirección…"
               placeholderTextColor={colors.textSecondary}
               accessibilityLabel="Buscar alquileres"
-              style={{ flex: 1, paddingVertical: 10, fontSize: tipografia.body, color: colors.textPrimary }}
+              style={{ flex: 1, paddingVertical: espaciado.e10, fontSize: tipografia.body, color: colors.textPrimary }}
             />
           </View>
           <Pressable
@@ -102,14 +102,14 @@ export default function AlquilerScreen() {
             accessibilityRole="button"
             accessibilityLabel={activeCount ? `Filtros aplicados (${activeCount})` : 'Abrir filtros'}
             accessibilityState={{ selected: activeCount > 0 }}
-            style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: activeCount ? colors.primary : colors.surface, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 10, borderWidth: 1, borderColor: activeCount ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
+            style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, backgroundColor: activeCount ? colors.primary : colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10, borderWidth: 1, borderColor: activeCount ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
           >
             <SlidersHorizontal size={15} color={activeCount ? brand.white : colors.textPrimary} />
             {activeCount > 0 && <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: brand.white }}>{activeCount}</Text>}
           </Pressable>
         </View>
         {/* Orden */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6 }} accessibilityLabel="Ordenar resultados">
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e6 }} accessibilityLabel="Ordenar resultados">
           {Object.entries(SORT_LABELS).map(([k, label]) => (
             <Pressable
               key={k}
@@ -117,7 +117,7 @@ export default function AlquilerScreen() {
               accessibilityRole="button"
               accessibilityLabel={`Ordenar por ${label}`}
               accessibilityState={{ selected: sortBy === k }}
-              style={({ pressed }) => [{ paddingHorizontal: 12, paddingVertical: 6, borderRadius: radios.lg, backgroundColor: sortBy === k ? colors.primary : colors.surface, opacity: pressed ? 0.85 : 1 }]}
+              style={({ pressed }) => [{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.lg, backgroundColor: sortBy === k ? colors.primary : colors.surface, opacity: pressed ? 0.85 : 1 }]}
             >
               <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: sortBy === k ? brand.white : colors.textSecondary }}>{label}</Text>
             </Pressable>
@@ -126,7 +126,7 @@ export default function AlquilerScreen() {
       </View>
 
       {/* Aviso anti-estafa (tokens del tema) */}
-      <View style={{ marginHorizontal: 16, marginBottom: 8, flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: alpha(colors.danger, 0.08), paddingHorizontal: 12, paddingVertical: 10, borderRadius: 10 }}>
+      <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10 }}>
         <ShieldAlert size={16} color={colors.danger} />
         <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: '600', lineHeight: 16 }}>
           No pagues por adelantado ni envíes DNI antes de ver el inmueble. Denuncia anuncios sospechosos.
@@ -135,7 +135,7 @@ export default function AlquilerScreen() {
 
       {/* Banner de datos desactualizados (refresco fallido con datos previos) */}
       {!loading && error && anyResult && (
-        <View style={{ marginHorizontal: 16, marginBottom: 8, flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: alpha(colors.danger, 0.07), paddingHorizontal: 12, paddingVertical: 8, borderRadius: 10 }}>
+        <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.07), paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10 }}>
           <WifiOff size={14} color={colors.danger} />
           <Text style={{ flex: 1, fontSize: tipografia.micro, color: colors.danger, fontWeight: '600' }}>No se pudo actualizar: mostrando datos anteriores.</Text>
           <Pressable onPress={() => void reload()} accessibilityRole="button" accessibilityLabel="Reintentar actualizar" hitSlop={8}>
@@ -146,7 +146,7 @@ export default function AlquilerScreen() {
 
       {/* Chips de filtros activos */}
       {activeCount > 0 && (
-        <View style={{ paddingHorizontal: 16, paddingBottom: 6 }}>
+        <View style={{ paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e6 }}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {filters.cityId ? <ActiveChip label={`📍 ${cityLabel(filters.cityId)}`} onRemove={() => setFilters((f) => ({ ...f, cityId: undefined }))} /> : null}
             {filters.rentalType ? <ActiveChip label={rentalTypeLabel(filters.rentalType)} onRemove={() => setFilters((f) => ({ ...f, rentalType: undefined }))} /> : null}
@@ -164,7 +164,7 @@ export default function AlquilerScreen() {
       <FlatList
         data={filtered.slice(0, visibleCount)}
         keyExtractor={(item) => String(item.id)}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: insets.bottom + 40 }}
+        contentContainerStyle={{ paddingHorizontal: espaciado.e16, paddingBottom: insets.bottom + 40 }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} colors={[colors.primary]} />}
         renderItem={({ item }) => (
           <PropertyCard
@@ -177,31 +177,31 @@ export default function AlquilerScreen() {
           loading && properties.length === 0 ? (
             <View style={{ alignItems: 'center', marginTop: 60 }}>
               <ActivityIndicator size="large" color={colors.primary} />
-              <Text style={{ marginTop: 12, color: colors.textSecondary, fontWeight: '700' }}>Cargando alquileres…</Text>
+              <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: '700' }}>Cargando alquileres…</Text>
             </View>
           ) : !loading && error && properties.length === 0 ? (
-            <View style={{ alignItems: 'center', marginTop: 50, paddingHorizontal: 30 }}>
+            <View style={{ alignItems: 'center', marginTop: 50, paddingHorizontal: espaciado.e30 }}>
               <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><WifiOff size={28} color={colors.danger} /></View>
               <Text style={{ fontSize: 15, fontWeight: '800', color: colors.textPrimary, textAlign: 'center' }}>No pudimos cargar los alquileres</Text>
-              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 6, marginBottom: 14 }}>{error}</Text>
+              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e14 }}>{error}</Text>
               <Pressable
                 onPress={() => void reload()}
                 accessibilityRole="button" accessibilityLabel="Reintentar cargar alquileres"
-                style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
+                style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
               >
-                <RefreshCw size={15} color={brand.white} /><Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body, marginLeft: 6 }}>Reintentar</Text>
+                <RefreshCw size={15} color={brand.white} /><Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body, marginLeft: espaciado.e6 }}>Reintentar</Text>
               </Pressable>
             </View>
           ) : (
-            <View style={{ alignItems: 'center', marginTop: 50, paddingHorizontal: 30 }}>
+            <View style={{ alignItems: 'center', marginTop: 50, paddingHorizontal: espaciado.e30 }}>
               <View style={[s.errIcon, { backgroundColor: colors.surface }]}><MapPin size={30} color={colors.textSecondary} /></View>
               <Text style={{ fontSize: 15, fontWeight: '800', color: colors.textPrimary, textAlign: 'center' }}>
                 {hasSearchOrFilters ? 'Sin resultados con estos filtros' : 'Aún no hay alquileres publicados'}
               </Text>
-              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 18 }}>
+              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>
                 {hasSearchOrFilters ? 'Prueba a quitar filtros o cambiar la búsqueda.' : 'Vuelve más tarde; publicamos nuevos anuncios cada día.'}
               </Text>
-              {hasSearchOrFilters && <View style={{ marginTop: 14 }}><GhostButton title="Limpiar filtros" onPress={reset} /></View>}
+              {hasSearchOrFilters && <View style={{ marginTop: espaciado.e14 }}><GhostButton title="Limpiar filtros" onPress={reset} /></View>}
             </View>
           )
         }
@@ -210,7 +210,7 @@ export default function AlquilerScreen() {
             <Pressable
               onPress={loadMore}
               accessibilityRole="button" accessibilityLabel="Cargar más anuncios"
-              style={({ pressed }) => [{ paddingVertical: 14, borderRadius: 10, backgroundColor: colors.surface, alignItems: 'center', opacity: pressed ? 0.7 : 1 }]}
+              style={({ pressed }) => [{ paddingVertical: espaciado.e14, borderRadius: 10, backgroundColor: colors.surface, alignItems: 'center', opacity: pressed ? 0.7 : 1 }]}
             >
               <Text style={{ fontSize: tipografia.caption, color: colors.primary, fontWeight: '700' }}>Cargar más anuncios</Text>
             </Pressable>
@@ -221,8 +221,8 @@ export default function AlquilerScreen() {
       {/* Modal de filtros (borrador local + Aplicar/Cancelar) */}
       <Modal visible={filterVisible} transparent animationType="slide" onRequestClose={cancelDraft}>
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' }}>
-          <View style={{ backgroundColor: colors.background, borderTopLeftRadius: 20, borderTopRightRadius: 20, maxHeight: '92%', padding: 20, paddingBottom: Math.max(insets.bottom, 16) }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <View style={{ backgroundColor: colors.background, borderTopLeftRadius: 20, borderTopRightRadius: 20, maxHeight: '92%', padding: espaciado.e20, paddingBottom: Math.max(insets.bottom, 16) }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e12 }}>
               <Text style={{ fontSize: 17, fontWeight: '800', color: colors.textPrimary }}>Filtros</Text>
               <Pressable onPress={cancelDraft} hitSlop={10} accessibilityRole="button" accessibilityLabel="Cerrar filtros">
                 <X size={22} color={colors.textPrimary} />
@@ -232,7 +232,7 @@ export default function AlquilerScreen() {
             {loading && !catalog ? (
               <View style={{ alignItems: 'center', paddingVertical: 50 }}>
                 <ActivityIndicator color={colors.primary} />
-                <Text style={{ marginTop: 10, color: colors.textSecondary, fontSize: tipografia.caption }}>Cargando catálogo…</Text>
+                <Text style={{ marginTop: espaciado.e10, color: colors.textSecondary, fontSize: tipografia.caption }}>Cargando catálogo…</Text>
               </View>
             ) : draft ? (
               <ScrollView showsVerticalScrollIndicator={false}>
@@ -272,7 +272,7 @@ export default function AlquilerScreen() {
                 </View>
 
                 <Text style={s.fLabel}>Otras opciones</Text>
-                <View style={{ gap: 10, marginBottom: 12 }}>
+                <View style={{ gap: espaciado.e10, marginBottom: espaciado.e12 }}>
                   <SwitchRow label="Solo vivienda social" value={draft.isSocialHousingOnly} onChange={(v) => setDraft((d) => (d ? { ...d, isSocialHousingOnly: v } : d))} />
                   <SwitchRow label="Con terraza" value={draft.hasTerrace ?? false} onChange={(v) => setDraft((d) => (d ? { ...d, hasTerrace: v } : d))} />
                   <SwitchRow label="Solo terrenos" value={draft.isLand ?? false} onChange={(v) => setDraft((d) => (d ? { ...d, isLand: v, landUse: v ? d.landUse : [] } : d))} />
@@ -281,7 +281,7 @@ export default function AlquilerScreen() {
               </ScrollView>
             ) : null}
 
-            <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
               <View style={{ flex: 1 }}><GhostButton title="Cancelar" onPress={cancelDraft} /></View>
               <View style={{ flex: 1 }}><GhostButton title="Limpiar" onPress={clearDraft} /></View>
               <View style={{ flex: 1.4 }}><PrimaryButton title="Aplicar" onPress={applyDraft} /></View>
@@ -302,10 +302,10 @@ function FilterChip({ label, selected, onPress }: { label: string; selected: boo
       accessibilityRole="button"
       accessibilityState={{ selected }}
       accessibilityLabel={label}
-      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 7, borderRadius: 20, marginRight: 8, marginBottom: 8, backgroundColor: selected ? colors.primary : colors.surface, borderWidth: 1, borderColor: selected ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
+      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: 20, marginRight: espaciado.e8, marginBottom: espaciado.e8, backgroundColor: selected ? colors.primary : colors.surface, borderWidth: 1, borderColor: selected ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
     >
       <Text style={{ fontSize: tipografia.caption, color: selected ? brand.white : colors.textPrimary, fontWeight: selected ? '700' : '500' }}>{label}</Text>
-      {selected && <Check size={12} color={brand.white} style={{ marginLeft: 4 }} />}
+      {selected && <Check size={12} color={brand.white} style={{ marginLeft: espaciado.e4 }} />}
     </Pressable>
   );
 }
@@ -317,10 +317,10 @@ function ActiveChip({ label, onRemove }: { label: string; onRemove: () => void }
       onPress={onRemove}
       accessibilityRole="button"
       accessibilityLabel={`Quitar filtro: ${label}`}
-      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 14, borderWidth: 1, borderColor: colors.primary, marginRight: 6, opacity: pressed ? 0.7 : 1 }]}
+      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14, borderWidth: 1, borderColor: colors.primary, marginRight: espaciado.e6, opacity: pressed ? 0.7 : 1 }]}
     >
       <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: '600' }}>{label}</Text>
-      <X size={12} color={colors.primary} style={{ marginLeft: 4 }} />
+      <X size={12} color={colors.primary} style={{ marginLeft: espaciado.e4 }} />
     </Pressable>
   );
 }
@@ -343,6 +343,6 @@ function SwitchRow({ label, value, onChange }: { label: string; value: boolean; 
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  fLabel: { fontSize: tipografia.caption, fontWeight: '800', color: c.textPrimary, marginTop: 14, marginBottom: 8 },
-  errIcon: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: 14 },
+  fLabel: { fontSize: tipografia.caption, fontWeight: '800', color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e8 },
+  errIcon: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
 });

@@ -24,7 +24,7 @@ import { ActivityIndicator, Alert, FlatList, Modal, Pressable, StyleSheet, Text,
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Star } from 'lucide-react-native';
-import { useTheme, alpha, GhostButton, Sheet, ScreenHeader, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, ScreenHeader, Sheet, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { foodApi, FoodOrder, FoodOrdersPage, FoodRider } from '../api/food';
 import { formatDateTime, formatXAF } from '../utils/formatHelpers';
 import { abrirMapa } from '../utils/maps';
@@ -318,7 +318,7 @@ export default function FoodOrdersScreen() {
       <FlatList
         data={listData}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 + insets.bottom }}
+        contentContainerStyle={{ paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e32 + insets.bottom }}
         refreshing={refreshing}
         onRefresh={refresh}
         onEndReached={loadMore}
@@ -327,7 +327,7 @@ export default function FoodOrdersScreen() {
         ListHeaderComponent={
           <View>
             {/* Filtros por estado (server-side: la paginación sigue siendo correcta) */}
-            <View style={{ flexDirection: 'row', gap: 8, paddingVertical: 12, flexWrap: 'wrap' }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e8, paddingVertical: espaciado.e12, flexWrap: 'wrap' }}>
               {STATE_CHIPS.map((c) => (
                 <Chip key={c.key || 'all'} label={c.label} active={stateFilter === c.key}
                   onPress={() => setStateFilter(stateFilter === c.key ? '' : c.key)} />
@@ -343,7 +343,7 @@ export default function FoodOrdersScreen() {
         ListEmptyComponent={
           error ? (
             <View style={s_center.wrap}>
-              <Text style={{ fontSize: 38, marginBottom: 8 }}>📡</Text>
+              <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
               <Text style={[s_center.title, { color: colors.textPrimary }]}>Algo salió mal</Text>
               <Text style={[s_center.sub, { color: colors.textSecondary }]}>{error}</Text>
               <Pressable onPress={loadFirst} accessibilityRole="button" style={s_center.btnPrimary}>
@@ -352,7 +352,7 @@ export default function FoodOrdersScreen() {
             </View>
           ) : loading ? null : stateFilter !== '' ? (
             <View style={s_center.wrap}>
-              <Text style={{ fontSize: 40, marginBottom: 10 }}>📭</Text>
+              <Text style={{ fontSize: 40, marginBottom: espaciado.e10 }}>📭</Text>
               <Text style={[s_center.title, { color: colors.textPrimary }]}>Sin pedidos en este estado</Text>
               <Text style={[s_center.sub, { color: colors.textSecondary }]}>Prueba con otro filtro.</Text>
               <Pressable onPress={() => setStateFilter('')} accessibilityRole="button" style={s_center.btnGhost}>
@@ -361,7 +361,7 @@ export default function FoodOrdersScreen() {
             </View>
           ) : (
             <View style={s_center.wrap}>
-              <Text style={{ fontSize: 40, marginBottom: 10 }}>{isOwner ? '🍽️' : '🛒'}</Text>
+              <Text style={{ fontSize: 40, marginBottom: espaciado.e10 }}>{isOwner ? '🍽️' : '🛒'}</Text>
               <Text style={[s_center.title, { color: colors.textPrimary }]}>
                 {isOwner ? 'Aún no recibes pedidos' : 'Todavía no has pedido'}
               </Text>
@@ -446,9 +446,9 @@ export default function FoodOrdersScreen() {
           {/* La lista lleva su propio marginBottom: se envuelve para que el gap del Sheet no lo doble. */}
           <View>
         {ridersLoading ? (
-          <ActivityIndicator style={{ paddingVertical: 24 }} color={colors.primary} />
+          <ActivityIndicator style={{ paddingVertical: espaciado.e24 }} color={colors.primary} />
         ) : riders.length === 0 ? (
-          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, paddingVertical: 18, textAlign: 'center' }}>
+          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, paddingVertical: espaciado.e18, textAlign: 'center' }}>
             No hay repartidores activos todavía. Aprueba uno desde el panel de administración.
           </Text>
         ) : (
@@ -473,7 +473,7 @@ export default function FoodOrdersScreen() {
         )}
 
           </View>
-          <Pressable onPress={() => setAssignOrder(null)} accessibilityRole="button" style={{ alignSelf: 'center', paddingVertical: 10 }}>
+          <Pressable onPress={() => setAssignOrder(null)} accessibilityRole="button" style={{ alignSelf: 'center', paddingVertical: espaciado.e10 }}>
             <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
         </Sheet>
@@ -512,37 +512,37 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
   return (
     <View style={[s_card.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
       {/* Cabecera: restaurante + estado + fecha/hora */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8 }}>
         <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>{o.restaurantName}</Text>
-        <View style={{ backgroundColor: alpha(st.color, 0.12), paddingHorizontal: 8, paddingVertical: 3, borderRadius: radios.sm }}>
+        <View style={{ backgroundColor: alpha(st.color, 0.12), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.sm }}>
           <Text style={{ fontSize: tipografia.micro, fontWeight: '800', color: st.color }}>{st.label}</Text>
         </View>
       </View>
-      <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 2 }}>{formatDateTime(o.createdAt)}</Text>
+      <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>{formatDateTime(o.createdAt)}</Text>
 
       {/* Líneas */}
       {o.items.map((it, i) => (
-        <Text key={`${o.id}-${it.itemId}-${i}`} style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 2 }}>{it.qty} × {it.name}</Text>
+        <Text key={`${o.id}-${it.itemId}-${i}`} style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e2 }}>{it.qty} × {it.name}</Text>
       ))}
-      <Text style={{ fontSize: tipografia.body, fontWeight: '900', color: ACCENT, marginTop: 4 }}>
+      <Text style={{ fontSize: tipografia.body, fontWeight: '900', color: ACCENT, marginTop: espaciado.e4 }}>
         {formatXAF(o.totalXaf)} · {o.pickupType === 'delivery' ? 'a domicilio' : 'recoger'} · {o.paymentMethod === 'cash' ? 'efectivo' : 'Billing'}
       </Text>
 
       {/* Pago Billing */}
       {billingPending && (
-        <Text style={{ fontSize: tipografia.micro, fontWeight: '700', color: brand.warning, marginTop: 4 }}>
+        <Text style={{ fontSize: tipografia.micro, fontWeight: '700', color: brand.warning, marginTop: espaciado.e4 }}>
           ⏳ Comprobante de pago pendiente (2–24 h){isOwner ? ' · se confirma al aprobarse' : ''}
         </Text>
       )}
       {o.paymentMethod === 'billing' && o.billingStatus === 'approved' && (
-        <Text style={{ fontSize: tipografia.micro, fontWeight: '700', color: brand.success, marginTop: 4 }}>✓ Pago Billing aprobado</Text>
+        <Text style={{ fontSize: tipografia.micro, fontWeight: '700', color: brand.success, marginTop: espaciado.e4 }}>✓ Pago Billing aprobado</Text>
       )}
 
       {/* ── PEDIDO PROGRAMADO ────────────────────────────────────────────────────
           Se pidió con el local cerrado: se entregará a la hora que abre. Sin esto, el cliente ve un
           pedido «en curso» que nadie está cocinando y el dueño cree que llega tarde. */}
       {o.scheduledFor ? (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 6, backgroundColor: alpha('#6366F1', 0.12), borderRadius: radios.sm, paddingHorizontal: 8, paddingVertical: 5 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e6, backgroundColor: alpha('#6366F1', 0.12), borderRadius: radios.sm, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e5 }}>
           <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: '#6366F1' }}>
             🕐 Programado para {formatDateTime(o.scheduledFor)}
           </Text>
@@ -563,7 +563,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           El neto del restaurante («Te queda») sigue siendo SOLO del dueño: es su margen comercial,
           no hay razón para que un cliente lo vea, y la decisión fue sobre la comisión. */}
       {o.platformFeeXaf !== null && o.riderFeeXaf !== null ? (
-        <View style={{ marginTop: 8, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 6 }}>
+        <View style={{ marginTop: espaciado.e8, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e6 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Comisión de la plataforma</Text>
             <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>
@@ -577,14 +577,14 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
             </Text>
           </View>
           {isOwner ? (
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 3 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e3 }}>
               <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textPrimary }}>Te queda</Text>
               <Text style={{ fontSize: tipografia.caption, fontWeight: '900', color: brand.success }}>
                 {o.restaurantNetXaf !== null ? formatXAF(o.restaurantNetXaf) : '—'}
               </Text>
             </View>
           ) : (
-            <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 4, lineHeight: 14 }}>
+            <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4, lineHeight: 14 }}>
               Estas comisiones las paga el restaurante, no tú: ya van incluidas en el precio que pagaste.
             </Text>
           )}
@@ -593,10 +593,10 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
 
       {/* Dirección y nota (el dueño reparte sin ciegas) */}
       {o.pickupType === 'delivery' && o.deliveryAddress ? (
-        <Text numberOfLines={2} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 4 }}>📍 {o.deliveryAddress}</Text>
+        <Text numberOfLines={2} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>📍 {o.deliveryAddress}</Text>
       ) : null}
       {o.note ? (
-        <Text numberOfLines={2} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }}>📝 {o.note}</Text>
+        <Text numberOfLines={2} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>📝 {o.note}</Text>
       ) : null}
 
       {/* ── PUNTO DE ENCUENTRO ────────────────────────────────────────────────────
@@ -604,15 +604,15 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           viviendas sociales o el portal sin número, donde la dirección no basta para encontrarse.
           Se muestra en cuanto existe, sin tocar nada: el repartidor ya avisó por SMS también. */}
       {o.meetingNote ? (
-        <View style={{ marginTop: 6, borderRadius: 10, borderWidth: 1, padding: 10, borderColor: alpha(colors.success, 0.45), backgroundColor: alpha(colors.success, 0.10) }}>
+        <View style={{ marginTop: espaciado.e6, borderRadius: 10, borderWidth: 1, padding: espaciado.e10, borderColor: alpha(colors.success, 0.45), backgroundColor: alpha(colors.success, 0.10) }}>
           <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.success }}>🤝 El repartidor te espera aquí</Text>
-          <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, marginTop: 3, lineHeight: 16 }}>{o.meetingNote}</Text>
+          <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, marginTop: espaciado.e3, lineHeight: 16 }}>{o.meetingNote}</Text>
           {typeof o.meetingLat === 'number' && typeof o.meetingLng === 'number' ? (
             <Pressable
               onPress={() => abrirMapa(o.meetingLat as number, o.meetingLng as number, o.meetingNote ?? null)}
               accessibilityRole="button"
               accessibilityLabel="Ver el punto de encuentro en el mapa"
-              style={{ marginTop: 6, alignSelf: 'flex-start' }}
+              style={{ marginTop: espaciado.e6, alignSelf: 'flex-start' }}
             >
               <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT }}>Ver en el mapa</Text>
             </Pressable>
@@ -629,7 +629,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
         <View
           accessibilityRole="progressbar"
           accessibilityLabel={`Pedido en "${st.label}", paso ${Math.max(idx, 0) + 1} de ${FLOW.length}`}
-          style={{ marginTop: 10 }}
+          style={{ marginTop: espaciado.e10 }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             {FLOW.map((stName, i) => {
@@ -642,7 +642,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
               );
             })}
           </View>
-          <View style={{ flexDirection: 'row', marginTop: 4 }}>
+          <View style={{ flexDirection: 'row', marginTop: espaciado.e4 }}>
             {FLOW.map((stName) => {
               const pos = FLOW.indexOf(stName);
               return (
@@ -664,7 +664,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT }}>
             ⏱️ Tiempo de cocina estimado: ~{o.estPrepMinutes} min
           </Text>
-          <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 2 }}>
+          <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>
             {o.status === 'placed'
               ? 'Se cuenta desde que el restaurante confirme tu pedido.'
               : 'A contar desde que el restaurante empieza a preparar.'}
@@ -674,11 +674,11 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
 
       {/* Acciones */}
       {busy ? (
-        <View style={{ alignItems: 'center', paddingVertical: 12 }}>
+        <View style={{ alignItems: 'center', paddingVertical: espaciado.e12 }}>
           <ActivityIndicator size="small" color={colors.primary} />
         </View>
       ) : (
-        <View style={{ flexDirection: 'row', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+        <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e12, flexWrap: 'wrap' }}>
           {isOwner && o.pickupType === 'delivery' && !o.riderId && ['placed', 'confirmed'].includes(o.status) && (
             <GhostButton title="Asignar repartidor" accessibilityLabel="Asignar repartidor a este pedido"
               accessibilityHint="Abre la lista de repartidores disponibles" onPress={onAssign} />
@@ -752,7 +752,7 @@ function ReviewModal({ order, onClose, onDone }: {
       subtitle={order.restaurantName ?? undefined}
       onClose={onClose}
     >
-      <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 6 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', gap: espaciado.e6 }}>
         {[1, 2, 3, 4, 5].map((n) => (
           <Pressable key={n} onPress={() => setRating(n)} hitSlop={4}
             accessibilityRole="button" accessibilityLabel={`${n} de 5 estrellas`}
@@ -761,10 +761,10 @@ function ReviewModal({ order, onClose, onDone }: {
           </Pressable>
         ))}
       </View>
-      <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary, textAlign: 'center', marginTop: 10, minHeight: 18 }}>
+      <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary, textAlign: 'center', marginTop: espaciado.e10, minHeight: 18 }}>
         {rating === 0 ? 'Toca las estrellas para puntuar' : `${rating} de 5`}
       </Text>
-      <View style={{ flexDirection: 'row', gap: 10, marginTop: 16 }}>
+      <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e16 }}>
         <Pressable onPress={onClose} disabled={busy} accessibilityRole="button"
           style={[s_rm.btnGhost, { borderColor: colors.border }]}>
           <Text style={{ color: colors.textSecondary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
@@ -785,46 +785,46 @@ function OrdersSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['color
   return (
     <View style={[s_sk.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
       <View style={{ height: 13, borderRadius: 4, backgroundColor: colors.border, width: '55%' }} />
-      <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '30%', marginTop: 8 }} />
-      <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '75%', marginTop: 6 }} />
-      <View style={{ height: 13, borderRadius: 4, backgroundColor: colors.border, width: '40%', marginTop: 10 }} />
+      <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '30%', marginTop: espaciado.e8 }} />
+      <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '75%', marginTop: espaciado.e6 }} />
+      <View style={{ height: 13, borderRadius: 4, backgroundColor: colors.border, width: '40%', marginTop: espaciado.e10 }} />
     </View>
   );
 }
 
 const s_chip = StyleSheet.create({
-  base: { paddingHorizontal: 13, paddingVertical: 7, borderRadius: radios.lg, borderWidth: 1 },
+  base: { paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e7, borderRadius: radios.lg, borderWidth: 1 },
 });
 
 const s_card = StyleSheet.create({
-  card: { borderRadius: 14, padding: 14, marginBottom: 12, borderWidth: 1 },
-  cancelledBox: { borderRadius: 10, padding: 8, marginTop: 10, alignItems: 'center' },
-  etaBox: { borderRadius: 10, borderWidth: 1, padding: 9, marginTop: 10 },
+  card: { borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e12, borderWidth: 1 },
+  cancelledBox: { borderRadius: 10, padding: espaciado.e8, marginTop: espaciado.e10, alignItems: 'center' },
+  etaBox: { borderRadius: 10, borderWidth: 1, padding: espaciado.e9, marginTop: espaciado.e10 },
 });
 
 const s_rm = StyleSheet.create({
-  btnGhost: { flex: 1, borderRadius: radios.md, borderWidth: 1, paddingVertical: 12, alignItems: 'center' },
-  btnPrimary: { flex: 1, borderRadius: radios.md, backgroundColor: ACCENT, paddingVertical: 12, alignItems: 'center' },
+  btnGhost: { flex: 1, borderRadius: radios.md, borderWidth: 1, paddingVertical: espaciado.e12, alignItems: 'center' },
+  btnPrimary: { flex: 1, borderRadius: radios.md, backgroundColor: ACCENT, paddingVertical: espaciado.e12, alignItems: 'center' },
 });
 
 const s_sk = StyleSheet.create({
-  card: { borderRadius: 14, borderWidth: 1, padding: 14, marginBottom: 12 },
+  card: { borderRadius: 14, borderWidth: 1, padding: espaciado.e14, marginBottom: espaciado.e12 },
 });
 
 const s_center = StyleSheet.create({
-  wrap: { alignItems: 'center', paddingTop: 48, paddingHorizontal: 28 },
+  wrap: { alignItems: 'center', paddingTop: 48, paddingHorizontal: espaciado.e28 },
   title: { fontSize: 15, fontWeight: '800', textAlign: 'center' },
-  sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: 6, lineHeight: 18 },
-  btnPrimary: { marginTop: 18, backgroundColor: ACCENT, paddingHorizontal: 24, paddingVertical: 11, borderRadius: 22 },
-  btnGhost: { marginTop: 18, paddingHorizontal: 24, paddingVertical: 11, borderRadius: 22, borderWidth: 1, borderColor: ACCENT },
+  sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
+  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
+  btnGhost: { marginTop: espaciado.e18, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22, borderWidth: 1, borderColor: ACCENT },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  resultsLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, marginBottom: 10 },
-  footerNote: { paddingVertical: 16, alignItems: 'center' },
+  resultsLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, marginBottom: espaciado.e10 },
+  footerNote: { paddingVertical: espaciado.e16, alignItems: 'center' },
   modalWrap: { flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' },
-  modalCard: { borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 18, maxHeight: '75%' },
-  modalTitle: { fontSize: tipografia.subtitle, fontWeight: '900', marginBottom: 4 },
-  riderRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: 12, marginBottom: 8 },
+  modalCard: { borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: espaciado.e18, maxHeight: '75%' },
+  modalTitle: { fontSize: tipografia.subtitle, fontWeight: '900', marginBottom: espaciado.e4 },
+  riderRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e8 },
 });

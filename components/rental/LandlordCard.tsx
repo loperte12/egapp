@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Alert, Image, Linking, Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
-import { useTheme, alpha, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { VerificationBadge } from './Badges';
 import { getInitials } from '../../utils/formatHelpers';
 import type { RentalProperty } from '../../api/rental';
@@ -248,43 +248,43 @@ export function LandlordCard({
 }
 
 const styles = StyleSheet.create({
-  container: { borderRadius: 14, padding: 16, borderWidth: 1 },
-  header: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  container: { borderRadius: 14, padding: espaciado.e16, borderWidth: 1 },
+  header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 },
   avatar: { width: 52, height: 52, borderRadius: 26 },
   avatarInitials: { width: 52, height: 52, borderRadius: 26, justifyContent: 'center', alignItems: 'center' },
   avatarText: { color: brand.white, fontSize: tipografia.title, fontWeight: '700' },
   headerInfo: { flex: 1 },
   name: { fontSize: tipografia.subtitle, fontWeight: '700' },
-  subtitle: { fontSize: tipografia.body, marginTop: 2 },
-  badgeRow: { flexDirection: 'row', marginTop: 6, gap: 6 },
-  metaRow: { marginTop: 12, flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  subtitle: { fontSize: tipografia.body, marginTop: espaciado.e2 },
+  badgeRow: { flexDirection: 'row', marginTop: espaciado.e6, gap: espaciado.e6 },
+  metaRow: { marginTop: espaciado.e12, flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10 },
   ratingText: { fontSize: tipografia.body, fontWeight: '600' },
   responseText: { fontSize: tipografia.body },
-  statsRow: { flexDirection: 'row', borderRadius: radios.md, paddingVertical: 12, paddingHorizontal: 10, marginTop: 14, gap: 8, borderWidth: 1 },
+  statsRow: { flexDirection: 'row', borderRadius: radios.md, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e10, marginTop: espaciado.e14, gap: espaciado.e8, borderWidth: 1 },
   statItem: { flex: 1, alignItems: 'center' },
   statValue: { fontSize: 15, fontWeight: '700' },
-  statLabel: { fontSize: tipografia.micro, marginTop: 3 },
-  description: { marginTop: 14, fontSize: tipografia.body, lineHeight: 20 },
-  actionsContainer: { marginTop: 16 },
-  fullButton: { borderRadius: radios.md, paddingVertical: 13, alignItems: 'center', marginBottom: 8 },
+  statLabel: { fontSize: tipografia.micro, marginTop: espaciado.e3 },
+  description: { marginTop: espaciado.e14, fontSize: tipografia.body, lineHeight: 20 },
+  actionsContainer: { marginTop: espaciado.e16 },
+  fullButton: { borderRadius: radios.md, paddingVertical: espaciado.e13, alignItems: 'center', marginBottom: espaciado.e8 },
   secondaryButton: { borderWidth: 1 },
   secondaryButtonText: { fontSize: tipografia.body, fontWeight: '700' },
-  contactRow: { flexDirection: 'row', gap: 8 },
-  contactButton: { flex: 1, borderRadius: radios.md, paddingVertical: 13, alignItems: 'center' },
+  contactRow: { flexDirection: 'row', gap: espaciado.e8 },
+  contactButton: { flex: 1, borderRadius: radios.md, paddingVertical: espaciado.e13, alignItems: 'center' },
   callButton: {},
   callButtonText: { fontSize: tipografia.body, fontWeight: '700' },
   whatsappButton: { backgroundColor: brand.whatsapp },
   whatsappButtonText: { fontSize: tipografia.body, fontWeight: '700', color: brand.white },
   disabledButton: { opacity: 0.5 },
-  trustNote: { marginTop: 14, fontSize: tipografia.micro, lineHeight: 16 },
-  compactContainer: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: 12, gap: 10, borderWidth: 1 },
+  trustNote: { marginTop: espaciado.e14, fontSize: tipografia.micro, lineHeight: 16 },
+  compactContainer: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e12, gap: espaciado.e10, borderWidth: 1 },
   compactAvatar: { width: 40, height: 40, borderRadius: 20 },
   compactAvatarInitials: { width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' },
   compactAvatarText: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: '700' },
   compactInfo: { flex: 1 },
   compactName: { fontSize: tipografia.body, fontWeight: '700' },
-  compactMeta: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 },
+  compactMeta: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e4 },
   compactRating: { fontSize: tipografia.caption, fontWeight: '600' },
-  compactButton: { borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8 },
+  compactButton: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
   compactButtonText: { fontSize: tipografia.caption, fontWeight: '700' },
 });
