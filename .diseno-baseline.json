@@ -5,7 +5,7 @@
     "borderRadius": 688,
     "fontWeight": 1948,
     "borderWidth": 528,
-    "espaciado": 3026,
+    "espaciado": 2892,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -981,15 +981,6 @@
       "espaciado": 5,
       "precioFigura": 0
     },
-    "app/tienda/anuncios.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 6,
-      "precioFigura": 0
-    },
     "app/tienda/combinaciones.tsx": {
       "hex": 0,
       "fontSize": 0,
@@ -999,31 +990,13 @@
       "espaciado": 1,
       "precioFigura": 0
     },
-    "app/tienda/index.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 2,
-      "precioFigura": 0
-    },
-    "app/tienda/perfil.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 12,
-      "precioFigura": 0
-    },
     "app/tienda/publicar.tsx": {
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 0,
       "fontWeight": 0,
       "borderWidth": 0,
-      "espaciado": 117,
+      "espaciado": 3,
       "precioFigura": 0
     },
     "app/trips-history.tsx": {

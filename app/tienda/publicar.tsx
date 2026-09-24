@@ -29,7 +29,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Camera, X } from 'lucide-react-native';
-import { useTheme, alpha, PrimaryButton, GhostButton, FormField, Precio, brand, Sheet, tipografia, peso, radios, trazo, ilustracion } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, ilustracion, peso, Precio, PrimaryButton, radios, Sheet, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseCategory, EcomerseProduct, EcomerseSellerMe, EcomerseShopPlan } from '../../api/ecomerse';
 import { formatXAF } from '../../utils/formatHelpers';
 import { CITIES } from '../../constants/data';
@@ -468,7 +468,7 @@ export default function PublicarAnuncioScreen() {
     return (
       <View style={[s.root, { paddingTop: insets.top }]}>
         <View style={s.header}><View style={{ width: 22 }} /><Text style={{ flex: 1, textAlign: 'center', fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: colors.textPrimary }}>Publicar anuncio</Text><View style={{ width: 22 }} /></View>
-        <View style={{ padding: 16, gap: 12 }}>
+        <View style={{ padding: espaciado.e16, gap: espaciado.e12 }}>
           {[0, 1, 2].map((i) => <View key={i} style={{ height: 90, borderRadius: radios.md, backgroundColor: colors.border, opacity: 0.6 }} />)}
         </View>
       </View>
@@ -479,11 +479,11 @@ export default function PublicarAnuncioScreen() {
     return (
       <View style={[s.root, { paddingTop: insets.top }]}>
         <View style={s.header}><Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver"><ArrowLeft size={22} color={colors.textPrimary} /></Pressable><Text style={{ flex: 1, textAlign: 'center', fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: colors.textPrimary }}>Publicar anuncio</Text><View style={{ width: 22 }} /></View>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
-          <Text style={{ fontSize: ilustracion.md, marginBottom: 8 }}>📡</Text>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32 }}>
+          <Text style={{ fontSize: ilustracion.md, marginBottom: espaciado.e8 }}>📡</Text>
           <Text style={{ fontSize: tipografia.body, fontWeight: peso.titulo, color: colors.textPrimary }}>No pudimos cargar tu tienda</Text>
-          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 18 }}>{error}</Text>
-          <Pressable onPress={load} style={{ marginTop: 18, backgroundColor: colors.primary, paddingHorizontal: 20, paddingVertical: 11, borderRadius: radios.full }}>
+          <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
+          <Pressable onPress={load} style={{ marginTop: espaciado.e18, backgroundColor: colors.primary, paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e11, borderRadius: radios.full }}>
             <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
@@ -514,7 +514,7 @@ export default function PublicarAnuncioScreen() {
         */
         <ScrollView
           ref={scrollRef}
-          contentContainerStyle={{ padding: 16, paddingBottom: 40 }}
+          contentContainerStyle={{ padding: espaciado.e16, paddingBottom: 40 }}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
@@ -534,12 +534,12 @@ export default function PublicarAnuncioScreen() {
             pantalla en blanco.
           */}
           {seller?.status !== 'active' && (
-            <View style={{ backgroundColor: alpha(colors.primary, 0.06), borderRadius: radios.md, padding: 14 }}>
-              <Text style={{ fontSize: ilustracion.md, marginBottom: 6 }}>{seller ? '⏳' : '🏪'}</Text>
+            <View style={{ backgroundColor: alpha(colors.primary, 0.06), borderRadius: radios.md, padding: espaciado.e14 }}>
+              <Text style={{ fontSize: ilustracion.md, marginBottom: espaciado.e6 }}>{seller ? '⏳' : '🏪'}</Text>
               <Text style={{ fontSize: tipografia.body, fontWeight: peso.titulo, color: colors.textPrimary }}>
                 {seller ? `Tu tienda está ${(STATUS_LABEL[seller.status] ?? seller.status).toLowerCase()}` : 'Todavía no tienes tienda'}
               </Text>
-              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 4, lineHeight: 18 }}>
+              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e4, lineHeight: 18 }}>
                 {seller
                   ? (seller.rejectionReason
                     ? `Motivo: ${seller.rejectionReason}`
@@ -547,7 +547,7 @@ export default function PublicarAnuncioScreen() {
                   : 'Da de alta tu negocio para empezar a publicar: identidad verificada (KYC), nombre y ciudad.'}
               </Text>
               {!seller && (
-                <View style={{ marginTop: 12 }}>
+                <View style={{ marginTop: espaciado.e12 }}>
                   <PrimaryButton title="Abrir los datos de mi tienda" onPress={() => router.replace('/tienda/perfil' as never)} />
                 </View>
               )}
@@ -565,15 +565,15 @@ export default function PublicarAnuncioScreen() {
                   vendedor ya no son una sección del formulario: están en la pestaña «Tienda» y se
                   rellenan una vez, no en cada anuncio. La línea de índice le dice al vendedor
                   cuánto queda. */}
-              <Text style={{ fontSize: tipografia.micro, fontWeight: peso.titulo, color: colors.textSecondary, marginBottom: 10 }}>
+              <Text style={{ fontSize: tipografia.micro, fontWeight: peso.titulo, color: colors.textSecondary, marginBottom: espaciado.e10 }}>
                 1 · Producto · 2 · Fotos · 3 · Documentación · 4 · Entrega · 5 · Condiciones
               </Text>
-              <Text style={[s.sectionTitle, { marginTop: 4 }]}>1 · Producto</Text>
+              <Text style={[s.sectionTitle, { marginTop: espaciado.e4 }]}>1 · Producto</Text>
               {editId && (
                 <GhostButton title="Cancelar edición" onPress={() => { setEditId(null); setPTitle(''); setPPrice(''); setPDesc(''); setPCatId(''); setPFamId(''); setPSubId(''); setPPhotos([]); setPStock('1'); setPEstado(''); }} />
               )}
               {atQuota && (
-                <View style={{ backgroundColor: alpha(brand.secondary, 0.12), borderRadius: radios.md, padding: 10, marginBottom: 10 }}>
+                <View style={{ backgroundColor: alpha(brand.secondary, 0.12), borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e10 }}>
                   <Text style={{ fontSize: tipografia.caption, color: brand.secondary, fontWeight: peso.titulo }}>
                     Llegaste al límite de tu plan ({shopPlan?.used}/{shopPlan?.limit}).{' '}
                     <Text onPress={() => router.push('/ecomerse-planes' as any)} style={{ textDecorationLine: 'underline' }}>Mejorar plan ›</Text>
@@ -581,23 +581,23 @@ export default function PublicarAnuncioScreen() {
                 </View>
               )}
               <FormField value={pTitle} onChangeText={setPTitle} placeholder="Título * (ej: iPhone 11 64GB)" />
-              <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e10 }}>
                 <View style={{ flex: 1 }}><FormField value={pMarca} onChangeText={setPMarca} placeholder="Marca * (ej: Apple)" /></View>
                 <View style={{ flex: 1 }}><FormField value={pModelo} onChangeText={setPModelo} placeholder="Modelo * (ej: iPhone 11)" /></View>
               </View>
               {/* SECCIÓN 1 · c · SKU o código de producto: lo usa quien repone stock y quien factura. */}
-              <View style={{ marginTop: 10 }}>
+              <View style={{ marginTop: espaciado.e10 }}>
                 <FormField value={pSku} onChangeText={setPSku} placeholder="SKU o código (opcional)" />
               </View>
-              <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e10 }}>
                 <View style={{ flex: 1 }}><FormField value={pPrice} onChangeText={setPPrice} placeholder="Precio XAF * (ej: 12.500)" keyboardType="numeric" /></View>
                 <View style={{ flex: 1 }}><FormField value={pStock} onChangeText={setPStock} placeholder="Stock" keyboardType="numeric" /></View>
               </View>
               {pricePreview != null && (
-                <Text style={{ fontSize: tipografia.micro, color: brand.secondary, fontWeight: peso.fuerte, marginTop: 4 }}>≈ {formatXAF(pricePreview)}</Text>
+                <Text style={{ fontSize: tipografia.micro, color: brand.secondary, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>≈ {formatXAF(pricePreview)}</Text>
               )}
               <Pressable onPress={() => setCityModal('prod')} accessibilityRole="button" accessibilityLabel="Elegir ciudad del producto"
-                style={[s.cityPicker, { backgroundColor: colors.surface, borderColor: colors.border, marginTop: 10 }]}>
+                style={[s.cityPicker, { backgroundColor: colors.surface, borderColor: colors.border, marginTop: espaciado.e10 }]}>
                 <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: pCity ? colors.textPrimary : colors.textSecondary }}>
                   {pCity ? `📍 ${pCity}` : `Ciudad (${city || 'Malabo'})`}
                 </Text>
@@ -610,11 +610,11 @@ export default function PublicarAnuncioScreen() {
                   rechazaría con razón (`assertHoja` comprueba la cadena entera).
                   El tercer escalón solo sale si la familia tiene hojas: hay ramas sin desglosar, y
                   un selector vacío que bloquea la publicación es peor que no pedirlo. */}
-              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: 14, marginBottom: 6 }}>Departamento *</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 }}>Departamento *</Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8 }}>
                 {cats.map((c) => (
                   <Pressable key={c.id} onPress={() => { setPCatId(pCatId === c.id ? '' : c.id); setPFamId(''); setPSubId(''); }} accessibilityRole="button" accessibilityLabel={c.label}
-                    style={{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: pCatId === c.id ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: pCatId === c.id ? colors.primary : colors.border, flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                    style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: pCatId === c.id ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: pCatId === c.id ? colors.primary : colors.border, flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
                     <Text style={{ fontSize: tipografia.body }}>{c.icon ?? ''}</Text>
                     <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: pCatId === c.id ? brand.white : colors.textPrimary }}>{c.label}</Text>
                   </Pressable>
@@ -626,11 +626,11 @@ export default function PublicarAnuncioScreen() {
                 if (!dep || !dep.familias?.length) return null;
                 return (
                   <>
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: 10, marginBottom: 6 }}>Familia *</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: espaciado.e10, marginBottom: espaciado.e6 }}>Familia *</Text>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8 }}>
                       {dep.familias.map((f) => (
                         <Pressable key={f.id} onPress={() => { setPFamId(pFamId === f.id ? '' : f.id); setPSubId(''); }} accessibilityRole="button" accessibilityLabel={f.label}
-                          style={{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: pFamId === f.id ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: pFamId === f.id ? colors.primary : colors.border }}>
+                          style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: pFamId === f.id ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: pFamId === f.id ? colors.primary : colors.border }}>
                           <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: pFamId === f.id ? brand.white : colors.textPrimary }}>{f.label}</Text>
                         </Pressable>
                       ))}
@@ -644,11 +644,11 @@ export default function PublicarAnuncioScreen() {
                 if (!fam || !fam.hojas?.length) return null;
                 return (
                   <>
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: 10, marginBottom: 6 }}>Dónde encaja *</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: espaciado.e10, marginBottom: espaciado.e6 }}>Dónde encaja *</Text>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8 }}>
                       {fam.hojas.map((l) => (
                         <Pressable key={l.id} onPress={() => setPSubId(pSubId === l.id ? '' : l.id)} accessibilityRole="button" accessibilityLabel={l.label}
-                          style={{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg, backgroundColor: pSubId === l.id ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: pSubId === l.id ? colors.primary : colors.border }}>
+                          style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: pSubId === l.id ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: pSubId === l.id ? colors.primary : colors.border }}>
                           <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: pSubId === l.id ? brand.white : colors.textPrimary }}>{l.label}</Text>
                         </Pressable>
                       ))}
@@ -656,17 +656,17 @@ export default function PublicarAnuncioScreen() {
                   </>
                 );
               })()}
-              <View style={{ marginTop: 10 }} />
+              <View style={{ marginTop: espaciado.e10 }} />
               {/* ESTADO DEL ARTÍCULO (tanda 2 de la comparación con 得物/Dewu).
                   Antes no era un campo: el vendedor lo escribía, si quería, dentro de la descripción
                   («Descripción (estado, características…)»), así que el comprador no podía filtrar ni
                   comparar por estado y la ficha nunca lo mostraba. `attributes.estado` ya existía en
                   el esquema y `ecomerse.tsx:504` ya sabía pintarlo: faltaba recogerlo. En un mercado
                   de segunda mano «¿en qué estado está?» es la primera pregunta, así que es obligatorio. */}
-              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: 12, marginBottom: 6 }}>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: espaciado.e12, marginBottom: espaciado.e6 }}>
                 Estado del artículo *
               </Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
                 {ESTADOS.map((e) => {
                   const on = pEstado === e;
                   return (
@@ -677,7 +677,7 @@ export default function PublicarAnuncioScreen() {
                       accessibilityState={{ checked: on }}
                       accessibilityLabel={`Estado: ${e}`}
                       style={{
-                        paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg,
+                        paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg,
                         backgroundColor: on ? colors.primary : colors.surface,
                         borderWidth: trazo.fino, borderColor: on ? colors.primary : colors.border,
                       }}
@@ -691,19 +691,19 @@ export default function PublicarAnuncioScreen() {
               {/* Fotos: la primera es la portada. El mínimo son 3 y no 1 (tanda 2): en un mercado de
                   segunda mano la foto es la única forma que tiene el comprador de juzgar el estado, y
                   con una sola no puede. El tope sigue siendo 6. */}
-              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: 18, marginBottom: 6 }}>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: espaciado.e18, marginBottom: espaciado.e6 }}>
                 Fotos * (mínimo {MIN_FOTOS}, hasta 6 · la primera es la portada)
               </Text>
-              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: 6 }}>
+              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: espaciado.e6 }}>
                 Para la portada, fondo claro y el producto entero. Después, un detalle y la etiqueta o el desperfecto si lo hay.
               </Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
                 {pPhotos.map((ph, i) => (
                   <View key={i} style={{ position: 'relative' }}>
                     <Image source={{ uri: ph }} style={{ width: 68, height: 68, borderRadius: radios.md, backgroundColor: colors.surface }} contentFit="cover" />
                     {i === 0 && <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.55)', borderBottomLeftRadius: radios.md, borderBottomRightRadius: radios.md, alignItems: 'center' }}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: peso.titulo }}>PORTADA</Text></View>}
                     <Pressable onPress={() => setPPhotos((prev) => prev.filter((_, j) => j !== i))} hitSlop={8} accessibilityRole="button" accessibilityLabel="Quitar foto"
-                      style={{ position: 'absolute', top: -6, right: -6, backgroundColor: 'rgba(0,0,0,0.65)', borderRadius: radios.full, padding: 3 }}>
+                      style={{ position: 'absolute', top: -6, right: -6, backgroundColor: 'rgba(0,0,0,0.65)', borderRadius: radios.full, padding: espaciado.e3 }}>
                       <X size={12} color={brand.white} />
                     </Pressable>
                   </View>
@@ -711,7 +711,7 @@ export default function PublicarAnuncioScreen() {
                 {pPhotos.length < 6 && (
                   <Pressable onPress={pickSource} disabled={pUploading} accessibilityRole="button" accessibilityLabel="Añadir fotos"
                     style={{ width: 68, height: 68, borderRadius: radios.md, borderWidth: trazo.base, borderStyle: 'dashed', borderColor: colors.border, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }}>
-                    {pUploading ? <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Subiendo…</Text> : <><Camera size={20} color={colors.primary} /><Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }}>Añadir</Text></>}
+                    {pUploading ? <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Subiendo…</Text> : <><Camera size={20} color={colors.primary} /><Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>Añadir</Text></>}
                   </Pressable>
                 )}
               </View>
@@ -726,7 +726,7 @@ export default function PublicarAnuncioScreen() {
                   Se quedan porque la ficha los enseña y un anuncio sin combinaciones los necesita
                   igual. Y se avisa de dónde está lo otro para que nadie escriba «Talla: 42» creyendo
                   que con eso ya se elige una talla al comprar — que es exactamente lo que pasaba. */}
-              <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}>
+              <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
                 <View style={{ flex: 1 }}><FormField value={pTalla} onChangeText={setPTalla} placeholder="Talla / medida (dato de la ficha)" /></View>
                 <View style={{ flex: 1 }}><FormField value={pColor} onChangeText={setPColor} placeholder="Color (dato de la ficha)" /></View>
               </View>
@@ -740,12 +740,12 @@ export default function PublicarAnuncioScreen() {
                   onPress={() => router.push(`/tienda/combinaciones?id=${editId}` as never)}
                   accessibilityRole="button"
                   accessibilityLabel="Editar las combinaciones del anuncio"
-                  style={[s.methodCard, { borderColor: colors.border, backgroundColor: colors.surface, marginTop: 12 }]}
+                  style={[s.methodCard, { borderColor: colors.border, backgroundColor: colors.surface, marginTop: espaciado.e12 }]}
                 >
                   <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.primary }}>
                     Combinaciones (tallas, colores…)
                   </Text>
-                  <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2, lineHeight: 16 }}>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2, lineHeight: 16 }}>
                     Si el comprador tiene que ELEGIR algo, se declara ahí: cada combinación con su precio y sus
                     unidades. Se guarda al momento y no vuelve a revisión.
                   </Text>
@@ -759,7 +759,7 @@ export default function PublicarAnuncioScreen() {
                 accessibilityRole="checkbox"
                 accessibilityState={{ checked: pNegociable }}
                 accessibilityLabel="Aceptar ofertas por debajo del precio"
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12, paddingVertical: 4 }}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e12, paddingVertical: espaciado.e4 }}
               >
                 <View style={{
                   width: 22, height: 22, borderRadius: radios.sm, borderWidth: trazo.base,
@@ -785,7 +785,7 @@ export default function PublicarAnuncioScreen() {
                 accessibilityRole="button"
                 accessibilityState={{ expanded: preview }}
                 accessibilityLabel={preview ? 'Ocultar la vista previa' : 'Ver cómo quedará el anuncio'}
-                style={{ marginTop: 14, paddingVertical: 8 }}
+                style={{ marginTop: espaciado.e14, paddingVertical: espaciado.e8 }}
               >
                 <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.primary }}>
                   {preview ? '▾ Ocultar la vista previa' : '▸ Ver cómo quedará el anuncio'}
@@ -800,11 +800,11 @@ export default function PublicarAnuncioScreen() {
                       <Text style={{ fontSize: tipografia.title }}>📦</Text>
                     </View>
                   )}
-                  <View style={{ padding: 10 }}>
+                  <View style={{ padding: espaciado.e10 }}>
                     <Text numberOfLines={2} style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>
                       {pTitle.trim() || 'Título del anuncio'}
                     </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e4 }}>
                       {/* Figura: la vista previa enseña el precio como lo enseñará la tarjeta, así
                           que usa la primitiva y **su** tamaño de tarjeta (`md`), no un 16 suelto. El
                           estado vacío conserva su unidad («— XAF») porque en un precio que falta la
@@ -812,11 +812,11 @@ export default function PublicarAnuncioScreen() {
                       <Precio valor={pricePreview} textoVacio="— XAF" />
                       {pEstado ? <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>{pEstado}</Text> : null}
                     </View>
-                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 4 }}>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>
                       {[pMarca.trim(), pModelo.trim()].filter(Boolean).join(' ') || 'Marca y modelo'}
                       {pTalla.trim() ? ` · ${pTalla.trim()}` : ''}{pColor.trim() ? ` · ${pColor.trim()}` : ''}
                     </Text>
-                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }}>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>
                       {pCity.trim() || city || 'Malabo'} · {seller?.businessName ?? 'Tu tienda'}
                       {pNegociable ? ' · 💰 Negociable' : ''}
                     </Text>
@@ -829,15 +829,15 @@ export default function PublicarAnuncioScreen() {
                   su estado: entra como `pending` y la revisa un admin, igual que los documentos del
                   conductor. El comprador la verá CON SU ESTADO — no como un sello de «verificado» que
                   nadie ha comprobado, que es justo la crítica que la prensa china hace a Dewu. */}
-              <Text style={[s.sectionTitle, { marginTop: 22 }]}>3 · Documentación (opcional)</Text>
-              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: 8 }}>
+              <Text style={[s.sectionTitle, { marginTop: espaciado.e22 }]}>3 · Documentación (opcional)</Text>
+              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: espaciado.e8 }}>
                 Sube la factura o el certificado del artículo: da confianza y el comprador la verá. Un admin la revisa antes
                 de marcarla como válida, así que aparecerá como «en revisión» hasta entonces.
               </Text>
               {pDocs.length > 0 && (
-                <View style={{ gap: 6, marginBottom: 8 }}>
+                <View style={{ gap: espaciado.e6, marginBottom: espaciado.e8 }}>
                   {pDocs.map((d) => (
-                    <View key={d.docType} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <View key={d.docType} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                       <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.textPrimary }}>
                         ✓ {DOCS.find((x) => x.id === d.docType)?.label ?? d.docType}
                         {d.docNumber ? ` · ${d.docNumber}` : ''}
@@ -850,14 +850,14 @@ export default function PublicarAnuncioScreen() {
                   ))}
                 </View>
               )}
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
                 {DOCS.map((d) => {
                   const on = pDocTipo === d.id;
                   return (
                     <Pressable key={d.id} onPress={() => setPDocTipo(on ? '' : d.id)}
                       accessibilityRole="radio" accessibilityState={{ checked: on }} accessibilityLabel={`Documento: ${d.label}`}
                       style={{
-                        paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg,
+                        paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg,
                         backgroundColor: on ? colors.primary : colors.surface,
                         borderWidth: trazo.fino, borderColor: on ? colors.primary : colors.border,
                       }}>
@@ -867,20 +867,20 @@ export default function PublicarAnuncioScreen() {
                 })}
               </View>
               {pDocTipo ? (
-                <View style={{ marginTop: 10, gap: 8 }}>
+                <View style={{ marginTop: espaciado.e10, gap: espaciado.e8 }}>
                   {/* La factura es la única que se puede COMPROBAR contra el anuncio: por eso es la
                       única que pide número, importe y fecha. Un papel sin datos no verifica nada. */}
                   {DOCS.find((d) => d.id === pDocTipo)?.pideDatos && (
                     <>
                       <FormField value={pDocNumero} onChangeText={setPDocNumero} placeholder="Nº de factura (opcional)" />
-                      <View style={{ flexDirection: 'row', gap: 10 }}>
+                      <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
                         <View style={{ flex: 1 }}><FormField value={pDocImporte} onChangeText={setPDocImporte} placeholder="Importe XAF" keyboardType="numeric" /></View>
                         <View style={{ flex: 1 }}><FormField value={pDocFecha} onChangeText={setPDocFecha} placeholder="Fecha (AAAA-MM-DD)" /></View>
                       </View>
                     </>
                   )}
                   {pDocFoto ? (
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                       <Image source={{ uri: pDocFoto }} style={{ width: 56, height: 56, borderRadius: radios.sm, backgroundColor: colors.surface }} contentFit="cover" />
                       <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.success, fontWeight: peso.fuerte }}>Documento listo para enviar</Text>
                       <Pressable onPress={() => setPDocFoto(null)} hitSlop={10} accessibilityRole="button" accessibilityLabel="Quitar el documento adjunto">
@@ -888,16 +888,16 @@ export default function PublicarAnuncioScreen() {
                       </Pressable>
                     </View>
                   ) : (
-                    <View style={{ flexDirection: 'row', gap: 10 }}>
+                    <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
                       <Pressable onPress={() => adjuntarDoc('camera')} disabled={pUploading} accessibilityRole="button" accessibilityLabel="Hacer foto del documento"
-                        style={[s.methodCard, { flex: 1, borderColor: colors.border, alignItems: 'center', paddingVertical: 12 }]}>
+                        style={[s.methodCard, { flex: 1, borderColor: colors.border, alignItems: 'center', paddingVertical: espaciado.e12 }]}>
                         <Camera size={18} color={colors.primary} />
-                        <Text style={{ fontSize: tipografia.micro, color: colors.textPrimary, fontWeight: peso.fuerte, marginTop: 2 }}>Hacer foto</Text>
+                        <Text style={{ fontSize: tipografia.micro, color: colors.textPrimary, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>Hacer foto</Text>
                       </Pressable>
                       <Pressable onPress={() => adjuntarDoc('library')} disabled={pUploading} accessibilityRole="button" accessibilityLabel="Elegir documento de la galería"
-                        style={[s.methodCard, { flex: 1, borderColor: colors.border, alignItems: 'center', paddingVertical: 12 }]}>
+                        style={[s.methodCard, { flex: 1, borderColor: colors.border, alignItems: 'center', paddingVertical: espaciado.e12 }]}>
                         <Text style={{ fontSize: tipografia.body }}>🖼</Text>
-                        <Text style={{ fontSize: tipografia.micro, color: colors.textPrimary, fontWeight: peso.fuerte, marginTop: 2 }}>
+                        <Text style={{ fontSize: tipografia.micro, color: colors.textPrimary, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
                           {pUploading ? 'Subiendo…' : 'De la galería'}
                         </Text>
                       </Pressable>
@@ -907,11 +907,11 @@ export default function PublicarAnuncioScreen() {
               ) : null}
 
               {/* ============================ SECCIÓN 4 · CONFIGURACIÓN LOGÍSTICA ============== */}
-              <Text style={[s.sectionTitle, { marginTop: 22 }]}>4 · Entrega</Text>
-              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: 8, marginBottom: 6 }}>
+              <Text style={[s.sectionTitle, { marginTop: espaciado.e22 }]}>4 · Entrega</Text>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: espaciado.e8, marginBottom: espaciado.e6 }}>
                 ¿Cómo entregas? *
               </Text>
-              <View style={{ gap: 8 }}>
+              <View style={{ gap: espaciado.e8 }}>
                 {ENTREGAS.map((e) => {
                   const on = pEntrega === e.id;
                   return (
@@ -924,24 +924,24 @@ export default function PublicarAnuncioScreen() {
                       style={[s.methodCard, { borderColor: on ? colors.primary : colors.border, backgroundColor: on ? alpha(colors.primary, 0.06) : colors.surface }]}
                     >
                       <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: on ? colors.primary : colors.textPrimary }}>{e.label}</Text>
-                      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 2 }}>{e.hint}</Text>
+                      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{e.hint}</Text>
                     </Pressable>
                   );
                 })}
               </View>
               {/* PLAZO DE PREPARACIÓN (tanda 4). Columna `handling_hours` con CHECK (24/48/72). El
                   comprador necesita saber CUÁNDO esperar; sin esto, «entrego yo» no decía nada. */}
-              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: 14, marginBottom: 6 }}>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 }}>
                 ¿Cuánto tardas en entregar? *
               </Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
                 {PLAZOS.map((p) => {
                   const on = pPlazo === p.horas;
                   return (
                     <Pressable key={p.horas} onPress={() => setPPlazo(p.horas)}
                       accessibilityRole="radio" accessibilityState={{ checked: on }} accessibilityLabel={`Plazo: ${p.label}`}
                       style={{
-                        paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg,
+                        paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg,
                         backgroundColor: on ? colors.primary : colors.surface,
                         borderWidth: trazo.fino, borderColor: on ? colors.primary : colors.border,
                       }}>
@@ -959,7 +959,7 @@ export default function PublicarAnuncioScreen() {
                 accessibilityRole="checkbox"
                 accessibilityState={{ checked: pDevoluciones }}
                 accessibilityLabel="Acepto devoluciones"
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12, paddingVertical: 4 }}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e12, paddingVertical: espaciado.e4 }}
               >
                 <View style={{
                   width: 22, height: 22, borderRadius: radios.sm, borderWidth: trazo.base,
@@ -978,8 +978,8 @@ export default function PublicarAnuncioScreen() {
               </Pressable>
 
               {/* ============================ SECCIÓN 5 · TÉRMINOS ============================= */}
-              <Text style={[s.sectionTitle, { marginTop: 22 }]}>5 · Condiciones</Text>
-              <View style={[s.pendiente, { borderColor: colors.border, marginTop: 8 }]}>
+              <Text style={[s.sectionTitle, { marginTop: espaciado.e22 }]}>5 · Condiciones</Text>
+              <View style={[s.pendiente, { borderColor: colors.border, marginTop: espaciado.e8 }]}>
                 <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, lineHeight: 17 }}>
                   <Text style={{ fontWeight: peso.titulo, color: colors.textPrimary }}>Qué cobras: el precio completo.</Text>{' '}
                   El Mercado **no cobra comisión** por venta: el importe que pongas es el que recibe tu monedero. Si la entrega
@@ -994,7 +994,7 @@ export default function PublicarAnuncioScreen() {
                 accessibilityRole="checkbox"
                 accessibilityState={{ checked: pAceptaTerminos }}
                 accessibilityLabel="Acepto las condiciones de venta, comisión y garantía"
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12, paddingVertical: 4 }}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e12, paddingVertical: espaciado.e4 }}
               >
                 <View style={{
                   width: 22, height: 22, borderRadius: radios.sm, borderWidth: trazo.base,
@@ -1009,7 +1009,7 @@ export default function PublicarAnuncioScreen() {
                 </Text>
               </Pressable>
 
-              <View style={{ marginTop: 12 }}>
+              <View style={{ marginTop: espaciado.e12 }}>
                 <PrimaryButton
                   title={busyPub ? 'Enviando…' : (editId ? 'Reenviar corrección' : 'Publicar (pasa a revisión admin)')}
                   onPress={saveProduct}
@@ -1038,7 +1038,7 @@ export default function PublicarAnuncioScreen() {
         title="Elige la ciudad"
         onClose={() => setCityModal(null)}
       >
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 16 }}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: espaciado.e16 }}>
           {CITIES.map((c) => (
             <Pressable key={c.id} onPress={() => {
               setPCity(c.name);
@@ -1057,15 +1057,15 @@ export default function PublicarAnuncioScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: trazo.fino, borderBottomColor: c.border },
-  sectionTitle: { fontSize: tipografia.body, fontWeight: peso.titulo, color: c.textPrimary, marginBottom: 10 },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: trazo.fino, borderBottomColor: c.border },
+  sectionTitle: { fontSize: tipografia.body, fontWeight: peso.titulo, color: c.textPrimary, marginBottom: espaciado.e10 },
   /** Vista previa de la tarjeta tal y como saldrá en el feed. */
-  previewCard: { borderRadius: radios.md, borderWidth: trazo.fino, overflow: 'hidden', marginBottom: 4 },
+  previewCard: { borderRadius: radios.md, borderWidth: trazo.fino, overflow: 'hidden', marginBottom: espaciado.e4 },
   /** Cada forma de entrega: una tarjeta pulsable con título y explicación. */
-  methodCard: { borderRadius: radios.md, borderWidth: trazo.base, padding: 10 },
+  methodCard: { borderRadius: radios.md, borderWidth: trazo.base, padding: espaciado.e10 },
   /** Bloque de lo que aún no se puede guardar o de las condiciones: informa, no se rellena. */
-  pendiente: { borderRadius: radios.md, borderWidth: trazo.fino, padding: 10, backgroundColor: c.surface },
-  area: { minHeight: 70, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: 10, fontSize: tipografia.body, textAlignVertical: 'top' },
-  cityPicker: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: 12, paddingVertical: 12 },
-  cityItem: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 13, borderBottomWidth: trazo.fino },
+  pendiente: { borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e10, backgroundColor: c.surface },
+  area: { minHeight: 70, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
+  cityPicker: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12 },
+  cityItem: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e13, borderBottomWidth: trazo.fino },
 });

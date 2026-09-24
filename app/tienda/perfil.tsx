@@ -271,8 +271,8 @@ export default function TiendaPerfil() {
               actualizar y no se le borra la rama que ya tuviera. */}
           {cats.length > 0 ? (
             <View>
-              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginBottom: 6 }}>¿De qué va tu negocio? *</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginBottom: espaciado.e6 }}>¿De qué va tu negocio? *</Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8 }}>
                 {cats.map((c) => (
                   <Pressable
                     key={c.id}
@@ -280,10 +280,10 @@ export default function TiendaPerfil() {
                     accessibilityRole="button"
                     accessibilityLabel={c.label}
                     style={{
-                      paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg,
+                      paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg,
                       backgroundColor: departamentoId === c.id ? colors.primary : colors.surface,
                       borderWidth: trazo.fino, borderColor: departamentoId === c.id ? colors.primary : colors.border,
-                      flexDirection: 'row', alignItems: 'center', gap: 4,
+                      flexDirection: 'row', alignItems: 'center', gap: espaciado.e4,
                     }}
                   >
                     <Text style={{ fontSize: tipografia.body }}>{c.icon ?? ''}</Text>
@@ -296,8 +296,8 @@ export default function TiendaPerfil() {
                 if (!dep || !dep.familias?.length) return null;
                 return (
                   <>
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: 10, marginBottom: 6 }}>Y en concreto *</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.textPrimary, marginTop: espaciado.e10, marginBottom: espaciado.e6 }}>Y en concreto *</Text>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8 }}>
                       {dep.familias.map((f) => (
                         <Pressable
                           key={f.id}
@@ -305,7 +305,7 @@ export default function TiendaPerfil() {
                           accessibilityRole="button"
                           accessibilityLabel={f.label}
                           style={{
-                            paddingHorizontal: 12, paddingVertical: 7, borderRadius: radios.lg,
+                            paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg,
                             backgroundColor: familiaId === f.id ? colors.primary : colors.surface,
                             borderWidth: trazo.fino, borderColor: familiaId === f.id ? colors.primary : colors.border,
                           }}
@@ -453,12 +453,12 @@ const estilos = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create(
     borderBottomWidth: trazo.fino, borderBottomColor: c.border,
   },
   titulo: { fontSize: tipografia.title, fontWeight: peso.titulo, color: c.textPrimary },
-  subtitulo: { fontSize: tipografia.caption, color: c.textSecondary, marginTop: 2 },
+  subtitulo: { fontSize: tipografia.caption, color: c.textSecondary, marginTop: espaciado.e2 },
   hueso: { height: 84, borderRadius: radios.md, opacity: 0.6 },
   tarjeta: { borderRadius: radios.md, padding: espaciado.e12, borderWidth: trazo.fino, borderColor: c.border },
   etiqueta: { fontSize: tipografia.micro, fontWeight: peso.fuerte, color: c.textSecondary, letterSpacing: 0.4, marginBottom: espaciado.e4 },
   tituloBloque: { fontSize: tipografia.body, fontWeight: peso.titulo, color: c.textPrimary, marginBottom: espaciado.e8 },
-  nota: { fontSize: tipografia.micro, color: c.textSecondary, lineHeight: 16, marginTop: 2 },
+  nota: { fontSize: tipografia.micro, color: c.textSecondary, lineHeight: 16, marginTop: espaciado.e2 },
   selector: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12,

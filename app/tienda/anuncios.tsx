@@ -542,7 +542,7 @@ function Cabecera({ titulo, subtitulo, onPublicar, colors }: {
     }}>
       <View style={{ flex: 1 }}>
         <Text style={{ fontSize: tipografia.title, fontWeight: peso.titulo, color: colors.textPrimary }}>{titulo}</Text>
-        {subtitulo ? <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: 2 }}>{subtitulo}</Text> : null}
+        {subtitulo ? <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e2 }}>{subtitulo}</Text> : null}
       </View>
       <Pressable
         onPress={onPublicar}
@@ -606,7 +606,7 @@ function FilaAnuncio({ producto, activa, ocupado, onStock, onGestionar, onCorreg
           </View>
         )}
 
-        <View style={{ flex: 1, justifyContent: 'center', gap: 2 }}>
+        <View style={{ flex: 1, justifyContent: 'center', gap: espaciado.e2 }}>
           <Text style={s.nombre} numberOfLines={1}>{producto.title}</Text>
           {/* El importe va DENTRO de una frase → `formatXAF` suelto, no `Precio`: `Precio` devuelve
               una View y meter una caja dentro de una frase rompe su ajuste de línea
@@ -623,11 +623,11 @@ function FilaAnuncio({ producto, activa, ocupado, onStock, onGestionar, onCorreg
             <Text style={[s.sello, { color: tono }]}>{estado.label}</Text>
             {/* Visitas y favoritos son DEL ANUNCIO. Se pintan aquí, uno a uno, para no poder sumarlos
                 y llamarlos «tráfico de la tienda». */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e2 }}>
               <Eye size={icono.micro} color={colors.textSecondary} />
               <Text style={s.meta}>{producto.views ?? 0}</Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e2 }}>
               <Heart size={icono.micro} color={colors.textSecondary} />
               <Text style={s.meta}>{producto.favoriteCount ?? 0}</Text>
             </View>
@@ -759,7 +759,7 @@ const estilos = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create(
   tarjeta: { borderRadius: radios.md, padding: espaciado.e12, borderWidth: trazo.fino, borderColor: c.border },
   etiqueta: { fontSize: tipografia.micro, fontWeight: peso.fuerte, color: c.textSecondary, letterSpacing: 0.4, marginBottom: espaciado.e4 },
   tituloBloque: { fontSize: tipografia.body, fontWeight: peso.titulo, color: c.textPrimary, marginBottom: espaciado.e4 },
-  nota: { fontSize: tipografia.micro, color: c.textSecondary, lineHeight: 16, marginTop: 2 },
+  nota: { fontSize: tipografia.micro, color: c.textSecondary, lineHeight: 16, marginTop: espaciado.e2 },
   chip: { paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e4 + 2, borderRadius: radios.full, borderWidth: trazo.fino },
   chipTexto: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   fila: {
@@ -771,5 +771,5 @@ const estilos = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create(
   meta: { fontSize: tipografia.micro, color: c.textSecondary },
   sello: { fontSize: tipografia.micro, fontWeight: peso.titulo },
   cifraStock: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: c.textPrimary, minWidth: 34, textAlign: 'center' },
-  enlace: { flexDirection: 'row', alignItems: 'center', gap: 2, paddingVertical: espaciado.e4, paddingHorizontal: espaciado.e4 },
+  enlace: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e2, paddingVertical: espaciado.e4, paddingHorizontal: espaciado.e4 },
 });
