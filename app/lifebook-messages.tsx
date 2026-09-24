@@ -15,7 +15,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AtSign, Compass, Heart, MessageCircle, MessagesSquare, ScanLine, ScrollText, Search, UserPlus } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { messagesApi, toConversationCard, type LbConversation, type LbConversationCard } from '../api/messages';
@@ -234,9 +234,9 @@ function MessagesContent() {
           <ActivityIndicator color={colors.primary} />
         </View>
       ) : error && !convs ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, padding: 24 }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12, padding: espaciado.e24 }}>
           <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', textAlign: 'center' }}>{error}</Text>
-          <Pressable onPress={load} style={{ backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: 18, paddingVertical: 9 }}>
+          <Pressable onPress={load} style={{ backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e9 }}>
             <Text style={{ color: colors.primary, fontWeight: '800' }}>Reintentar</Text>
           </Pressable>
         </View>
@@ -261,7 +261,7 @@ function MessagesContent() {
             );
           }}
           ListEmptyComponent={
-            <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 70, gap: 8 }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 70, gap: espaciado.e8 }}>
               <MessageCircle size={40} color={alpha(colors.primary, 0.45)} />
               <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>
                 {filter === 'unread' ? 'No tienes mensajes sin leer.'
@@ -379,7 +379,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
               </Text>
             </View>
           ) : null}
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginLeft: 6 }}>{card.timeLabel}</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginLeft: espaciado.e6 }}>{card.timeLabel}</Text>
         </View>
 
         <Text
@@ -388,7 +388,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
             color: isUnread ? colors.textPrimary : colors.textSecondary,
             fontWeight: isUnread ? '600' : '400',
             fontSize: tipografia.body,
-            marginTop: 2,
+            marginTop: espaciado.e2,
           }}
         >
           {card.lastMessage || '…'}
@@ -396,7 +396,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
 
         {/* Fase B: contexto de la publicación que originó el chat */}
         {card.relatedPostTitle ? (
-          <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 2 }}>
+          <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
             📦 {card.relatedPostTitle}
           </Text>
         ) : null}
@@ -415,39 +415,39 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 16,
-    paddingHorizontal: 16, paddingVertical: 12,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e16,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12,
   },
   title: { fontSize: tipografia.title, fontWeight: '800' },
   groupChip: {
-    paddingHorizontal: 6, paddingVertical: 1, borderRadius: radios.sm, marginLeft: 6,
+    paddingHorizontal: espaciado.e6, paddingVertical: 1, borderRadius: radios.sm, marginLeft: espaciado.e6,
   },
   inboxRow: {
     flexDirection: 'row', justifyContent: 'space-around',
-    paddingHorizontal: 16, paddingVertical: 12,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12,
   },
-  inboxShortcut: { alignItems: 'center', gap: 4 },
+  inboxShortcut: { alignItems: 'center', gap: espaciado.e4 },
   inboxIcon: {
     width: 48, height: 48, borderRadius: 24,
     alignItems: 'center', justifyContent: 'center',
   },
   inboxBadge: {
     position: 'absolute', top: -3, right: -4, backgroundColor: brand.danger,
-    borderRadius: 9, minWidth: 18, height: 18, paddingHorizontal: 3,
+    borderRadius: 9, minWidth: 18, height: 18, paddingHorizontal: espaciado.e3,
     alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderColor: brand.white,
   },
   inboxLabel: { fontSize: tipografia.micro, fontWeight: '600', color: '#8A8F99' },
-  filterRow: { flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingBottom: 10 },
-  filterChip: { borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 6 },
+  filterRow: { flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e10 },
+  filterChip: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e6 },
   convoRow: {
-    flexDirection: 'row', alignItems: 'center', gap: 12,
-    paddingHorizontal: 16, paddingVertical: 12,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12,
   },
   convoAvatar: { width: 50, height: 50, borderRadius: 25 },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
   unreadBadge: {
     backgroundColor: brand.like, borderRadius: radios.full,
     minWidth: 18, height: 18, alignItems: 'center', justifyContent: 'center',
-    paddingHorizontal: 5,
+    paddingHorizontal: espaciado.e5,
   },
 });

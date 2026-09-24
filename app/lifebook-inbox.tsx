@@ -14,7 +14,7 @@ import React, { useCallback, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, EmptyState, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, AtSign, ChevronRight, Heart, UserPlus } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { messagesApi, type LbInboxItem, type LbInboxType } from '../api/messages';
@@ -103,7 +103,7 @@ function InboxContent() {
         <Pressable onPress={() => router.back()} hitSlop={8} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 17, flex: 1, marginLeft: 10 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 17, flex: 1, marginLeft: espaciado.e10 }}>
           Notificaciones
         </Text>
         <Pressable
@@ -141,9 +141,9 @@ function InboxContent() {
           <ActivityIndicator color={colors.primary} />
         </View>
       ) : error ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, padding: 24 }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12, padding: espaciado.e24 }}>
           <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', textAlign: 'center' }}>{error}</Text>
-          <Pressable onPress={() => load(active)} style={{ backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: 18, paddingVertical: 9 }}>
+          <Pressable onPress={() => load(active)} style={{ backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e9 }}>
             <Text style={{ color: colors.primary, fontWeight: '800' }}>Reintentar</Text>
           </Pressable>
         </View>
@@ -151,7 +151,7 @@ function InboxContent() {
         <FlatList
           data={items ?? []}
           keyExtractor={(i) => i.id}
-          contentContainerStyle={{ padding: 14, gap: 10, flexGrow: 1 }}
+          contentContainerStyle={{ padding: espaciado.e14, gap: espaciado.e10, flexGrow: 1 }}
           refreshing={false}
           onRefresh={() => load(active)}
           renderItem={({ item }) => (
@@ -238,18 +238,18 @@ function InboxCard({ item, colors, busy, onOpen, onFollow, onThank }: {
         </Text>
 
         {item.text ? (
-          <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, marginTop: 3 }}>{item.text}</Text>
+          <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, marginTop: espaciado.e3 }}>{item.text}</Text>
         ) : null}
 
         {item.targetTitle ? (
-          <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }}>
+          <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
             📄 {item.targetTitle}
           </Text>
         ) : null}
 
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 3 }}>{lbTimeAgo(item.createdAt)}</Text>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e3 }}>{lbTimeAgo(item.createdAt)}</Text>
 
-        <View style={{ flexDirection: 'row', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
+        <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8, flexWrap: 'wrap' }}>
           {item.kind === 'followers' && !item.followedBack ? (
             <Pressable
               onPress={onFollow}
@@ -277,10 +277,10 @@ function InboxCard({ item, colors, busy, onOpen, onFollow, onThank }: {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10 },
-  tabRow: { flexDirection: 'row', gap: 8, paddingHorizontal: 14, paddingVertical: 8 },
-  tab: { borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 7, flex: 1, alignItems: 'center' },
-  card: { flexDirection: 'row', gap: 10, borderRadius: 14, padding: 12 },
+  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10 },
+  tabRow: { flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8 },
+  tab: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, flex: 1, alignItems: 'center' },
+  card: { flexDirection: 'row', gap: espaciado.e10, borderRadius: 14, padding: espaciado.e12 },
   avatar: { width: 42, height: 42, borderRadius: 21 },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
   kindBadge: {
@@ -289,6 +289,6 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center',
     borderWidth: 2, borderColor: brand.white,
   },
-  actionBtn: { borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 7, minWidth: 96, alignItems: 'center' },
+  actionBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 96, alignItems: 'center' },
   targetThumb: { width: 44, height: 44, borderRadius: radios.sm },
 });

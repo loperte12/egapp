@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, EmptyState, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, AtSign, MessageSquare } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -45,7 +45,7 @@ function CommentsContent() {
     body: string; at: string; postId?: string | null; thumb?: { url: string } | null; label: string;
   }) => (
     <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-      <Pressable style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}
+      <Pressable style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}
         onPress={() => router.push({ pathname: '/lifebook-user', params: { id: actor.id } } as never)}>
         {absUrl(actor.avatarUrl) ? (
           <Image source={{ uri: absUrl(actor.avatarUrl) }} style={[styles.avatar, { backgroundColor: colors.surface }]} />
@@ -60,7 +60,7 @@ function CommentsContent() {
         </View>
       </Pressable>
 
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, marginTop: 8, lineHeight: 19 }}>{body}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, marginTop: espaciado.e8, lineHeight: 19 }}>{body}</Text>
 
       {postId && (
         <Pressable onPress={() => router.push({ pathname: '/lifebook-post/[id]', params: { id: postId } } as never)}
@@ -83,14 +83,14 @@ function CommentsContent() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.topBar, { borderBottomColor: colors.border, paddingTop: insets.top + 6 }]}>
-        <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: 4 }}>
+        <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: espaciado.e4 }}>
           <ArrowLeft size={22} color={colors.textPrimary} />
         </Pressable>
         <Text style={[styles.topTitle, { color: colors.textPrimary }]}>Comentarios y @</Text>
         <View style={{ width: 22 }} />
       </View>
 
-      <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 14, paddingVertical: 10 }}>
+      <View style={{ flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10 }}>
         {([['comments', 'Comentarios'], ['mentions', 'Menciones @']] as Array<['comments' | 'mentions', string]>).map(([k, label]) => {
           const on = tab === k;
           return (
@@ -108,7 +108,7 @@ function CommentsContent() {
         <FlatList
           data={comments ?? []}
           keyExtractor={(c) => c.id}
-          contentContainerStyle={{ padding: 14, paddingBottom: insets.bottom + 20, flexGrow: 1 }}
+          contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 20, flexGrow: 1 }}
           ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
           ListEmptyComponent={
             <EmptyState
@@ -125,7 +125,7 @@ function CommentsContent() {
         <FlatList
           data={mentions ?? []}
           keyExtractor={(m) => m.id}
-          contentContainerStyle={{ padding: 14, paddingBottom: insets.bottom + 20, flexGrow: 1 }}
+          contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 20, flexGrow: 1 }}
           ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
           ListEmptyComponent={
             <EmptyState
@@ -144,11 +144,11 @@ function CommentsContent() {
 }
 
 const styles = StyleSheet.create({
-  topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12, paddingBottom: 8, borderBottomWidth: StyleSheet.hairlineWidth },
+  topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: 16.5, fontWeight: '900', flex: 1 },
-  tabPill: { borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 7, borderWidth: 1 },
-  card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: 12 },
+  tabPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderWidth: 1 },
+  card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   avatar: { width: 42, height: 42, borderRadius: 21 },
-  postRow: { flexDirection: 'row', alignItems: 'center', gap: 9, borderRadius: 10, padding: 8, marginTop: 10 },
+  postRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e9, borderRadius: 10, padding: espaciado.e8, marginTop: espaciado.e10 },
   thumb: { width: 38, height: 38, borderRadius: radios.sm },
 });

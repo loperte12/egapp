@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, ShoppingBag, ShoppingCart, X } from 'lucide-react-native';
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
@@ -979,7 +979,7 @@ function ChatThreadContent() {
               if (peer?.kind === 'group') { setMembersOpen(true); return; }
               if (peerId) irSeguro.libre('/lifebook-user', { id: peerId });
             }}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1, marginLeft: 8 }}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, flex: 1, marginLeft: espaciado.e8 }}
             accessibilityLabel={peer?.kind === 'group' ? 'Grupo, toca para gestionarlo' : `Perfil de ${peer?.name ?? peerName}`}
           >
             {peer?.avatarUrl ? (
@@ -1013,15 +1013,15 @@ function ChatThreadContent() {
             onPress={() => setAnnouncementOpen(false)}
             accessibilityLabel="Anuncio del grupo, toca para cerrar"
             style={{
-              flexDirection: 'row', alignItems: 'flex-start', gap: 8,
-              marginHorizontal: 12, marginTop: 8, padding: 10, borderRadius: 14,
+              flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e8,
+              marginHorizontal: espaciado.e12, marginTop: espaciado.e8, padding: espaciado.e10, borderRadius: 14,
               backgroundColor: alpha(colors.secondary, 0.10), borderWidth: 1, borderColor: alpha(colors.secondary, 0.25),
             }}
           >
             <Text style={{ fontSize: 15 }}>📣</Text>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '900' }}>Anuncio del grupo</Text>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, lineHeight: 18, marginTop: 2 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e2 }}>
                 {groupInfo.announcement}
               </Text>
             </View>
@@ -1032,13 +1032,13 @@ function ChatThreadContent() {
         {/* Parte 28 (G4): quién comparte su ubicación EN VIVO ahora mismo */}
         {live.length > 0 ? (
           <View style={[styles.liveBar, { backgroundColor: alpha(colors.secondary, 0.10), borderColor: alpha(colors.secondary, 0.28) }]}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
               <Radio size={14} color={colors.secondary} />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
                 {miLive ? 'Estás compartiendo tu ubicación' : 'Ubicación en vivo'}
               </Text>
             </View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6, marginTop: 6 }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e6, marginTop: espaciado.e6 }}>
               {live.map((l) => (
                 <Pressable
                   key={l.userId}
@@ -1073,7 +1073,7 @@ function ChatThreadContent() {
           keyExtractor={(m) => m.id}
           inverted
           style={{ flex: 1 }}
-          contentContainerStyle={{ padding: 14, gap: 8 }}
+          contentContainerStyle={{ padding: espaciado.e14, gap: espaciado.e8 }}
           onEndReached={loadOlder}
           onEndReachedThreshold={0.3}
           renderItem={({ item }) => (
@@ -1112,7 +1112,7 @@ function ChatThreadContent() {
           }
           ListFooterComponent={
             olderCursor ? (
-              <Pressable onPress={loadOlder} style={{ alignItems: 'center', paddingVertical: 10 }}>
+              <Pressable onPress={loadOlder} style={{ alignItems: 'center', paddingVertical: espaciado.e10 }}>
                 {loadingOlder
                   ? <ActivityIndicator size="small" color={colors.primary} />
                   : <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Mensajes anteriores</Text>}
@@ -1200,8 +1200,8 @@ function ChatThreadContent() {
       {/* ═══════ TANDA D: elegir el producto que se manda como tarjeta ═══════ */}
       <Modal visible={prodPickOpen} transparent animationType="slide" onRequestClose={() => setProdPickOpen(false)} statusBarTranslucent>
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={() => setProdPickOpen(false)} />
-        <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: 16, paddingBottom: insets.bottom + 16, maxHeight: '80%' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+        <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: insets.bottom + 16, maxHeight: '80%' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e4 }}>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 }}>
               Mandar un producto
             </Text>
@@ -1209,19 +1209,19 @@ function ChatThreadContent() {
               <X size={20} color={colors.textSecondary} />
             </Pressable>
           </View>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 10 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
             Se envía una tarjeta con la foto, el nombre, el precio y un botón para comprar, sin
             sacar a nadie de la conversación. Solo puedes mandar productos de tu tienda.
           </Text>
 
           {misProds === null ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: 26 }} />
+            <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e26 }} />
           ) : misProds.length === 0 ? (
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: 22 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: espaciado.e22 }}>
               No tienes productos activos. Publica uno en tu tienda y podrás mandarlo por aquí.
             </Text>
           ) : (
-            <ScrollView style={{ maxHeight: 400 }} contentContainerStyle={{ gap: 8 }}>
+            <ScrollView style={{ maxHeight: 400 }} contentContainerStyle={{ gap: espaciado.e8 }}>
               {misProds.map((p) => (
                 <Pressable
                   key={p.id}
@@ -1229,7 +1229,7 @@ function ChatThreadContent() {
                   disabled={!!enviandoProd}
                   accessibilityLabel={`Mandar el producto ${p.title}`}
                   style={{
-                    flexDirection: 'row', alignItems: 'center', gap: 10, padding: 8, borderRadius: radios.md,
+                    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, padding: espaciado.e8, borderRadius: radios.md,
                     borderWidth: 1, borderColor: alpha(colors.border, 0.6), backgroundColor: colors.surface,
                   }}
                 >
@@ -1274,8 +1274,8 @@ function ChatThreadContent() {
       <Modal visible={!!mapCoords} animationType="slide" onRequestClose={() => { setMapMsg(null); setMapPoint(null); }} statusBarTranslucent>
         <View style={{ flex: 1, backgroundColor: colors.background }}>
           <View style={{
-            paddingTop: insets.top + 8, paddingHorizontal: 14, paddingBottom: 10,
-            flexDirection: 'row', alignItems: 'center', gap: 10,
+            paddingTop: insets.top + 8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
+            flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
             backgroundColor: colors.card, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: alpha(colors.border, 0.6),
           }}>
             <Pressable onPress={() => { setMapMsg(null); setMapPoint(null); }} hitSlop={8} accessibilityLabel="Cerrar el mapa">
@@ -1294,9 +1294,9 @@ function ChatThreadContent() {
             {mapCoords ? (
               <MapBackground pin={mapCoords} initialCamera={{ centerCoordinate: mapCoords, zoomLevel: 15.5 }} />
             ) : (
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 30 }}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e30 }}>
                 <MapPin size={26} color={colors.textSecondary} />
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', marginTop: 10 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', marginTop: espaciado.e10 }}>
                   Este mensaje no trae coordenadas, solo el nombre del sitio.
                 </Text>
               </View>
@@ -1304,7 +1304,7 @@ function ChatThreadContent() {
           </View>
 
           {/* Parte 25: el punto sirve para algo → pedir el taxi hasta aquí. */}
-          <View style={{ padding: 14, paddingBottom: insets.bottom + 14, backgroundColor: colors.card, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: alpha(colors.border, 0.6) }}>
+          <View style={{ padding: espaciado.e14, paddingBottom: insets.bottom + 14, backgroundColor: colors.card, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: alpha(colors.border, 0.6) }}>
             <Pressable
               onPress={() => openTaxiTo(mapPoint ?? mapMsg?.locationRef)}
               accessibilityLabel="Pedir taxi hasta aquí"
@@ -1316,7 +1316,7 @@ function ChatThreadContent() {
             >
               <Text style={{ color: brand.white, fontWeight: '900', fontSize: 15 }}>🚕  Pedir taxi hasta aquí</Text>
             </Pressable>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center', marginTop: 8 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center', marginTop: espaciado.e8 }}>
               Abre el taxi con este punto como destino y calcula la ruta desde donde estés.
             </Text>
           </View>
@@ -1336,9 +1336,9 @@ function ChatThreadContent() {
             </Pressable>
           </View>
           {myPosts === null ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: 20 }} />
+            <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
           ) : myPosts.length === 0 ? (
-            <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: 20, fontSize: tipografia.body }}>
+            <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e20, fontSize: tipografia.body }}>
               No tienes publicaciones de ese tipo.
             </Text>
           ) : (
@@ -1363,7 +1363,7 @@ function ChatThreadContent() {
                       <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '600' }}>
                         {post.title?.trim() || post.body?.trim() || 'Publicación'}
                       </Text>
-                      {price ? <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginTop: 2 }}>{lbXaf(price)}</Text> : null}
+                      {price ? <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e2 }}>{lbXaf(price)}</Text> : null}
                     </View>
                   </Pressable>
                 );
@@ -1400,7 +1400,7 @@ function ChatThreadContent() {
       <Modal visible={!!actionMsg} transparent animationType="fade" onRequestClose={() => setActionMsg(null)} statusBarTranslucent>
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={() => setActionMsg(null)} />
         <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 8 }} numberOfLines={2}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e8 }} numberOfLines={2}>
             {(actionMsg?.postRef?.title ?? actionMsg?.fileRef?.name ?? actionMsg?.text ?? '').slice(0, 90) || 'Mensaje'}
           </Text>
 
@@ -1432,7 +1432,7 @@ function ChatThreadContent() {
           {actionMsg?.fromMe || (peer?.kind === 'group' && (myRole === 'owner' || myRole === 'admin')) ? (
             <MenuRow icon="🗑️" label="Eliminar mensaje" danger onPress={() => { const m = actionMsg!; setActionMsg(null); confirmDeleteMessage(m); }} colors={colors} />
           ) : null}
-          <Pressable onPress={() => setActionMsg(null)} style={{ paddingVertical: 10 }}>
+          <Pressable onPress={() => setActionMsg(null)} style={{ paddingVertical: espaciado.e10 }}>
             <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
         </View>
@@ -1479,9 +1479,9 @@ function ChatThreadContent() {
             <Pressable onPress={() => setForwardMsg(null)} hitSlop={10} accessibilityLabel="Cerrar"><X size={20} color={colors.textSecondary} /></Pressable>
           </View>
           {busyAction === 'forward' ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: 20 }} />
+            <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
           ) : convs.length === 0 ? (
-            <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: 20, fontSize: tipografia.body }}>
+            <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e20, fontSize: tipografia.body }}>
               No tienes otros chats todavía.
             </Text>
           ) : (
@@ -1491,7 +1491,7 @@ function ChatThreadContent() {
                   key={c.id}
                   onPress={() => forwardTo(c.id)}
                   accessibilityLabel={`Enviar a ${c.kind === 'group' ? (c.title ?? 'Grupo') : c.peer.name}`}
-                  style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: alpha(colors.border, 0.5) }}
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: alpha(colors.border, 0.5) }}
                 >
                   {(c.kind === 'group' ? c.photoUrl : c.peer.avatarUrl) ? (
                     <Image source={{ uri: (c.kind === 'group' ? c.photoUrl : c.peer.avatarUrl) as string }} style={styles.headAvatar} />
@@ -1603,7 +1603,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
    * 75 % se calculaba sobre ese contenedor y las burbujas salían encogidas.
    */
   const wrap = (content: React.ReactNode, wide?: boolean) => (
-    <View style={{ flexDirection: 'row', justifyContent: align, gap: 6, alignItems: 'flex-end' }}>
+    <View style={{ flexDirection: 'row', justifyContent: align, gap: espaciado.e6, alignItems: 'flex-end' }}>
       {avatar}
       <Pressable
         onLongPress={onLongPress}
@@ -1636,7 +1636,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
     return wrap(
       <View style={[styles.cardBubble, { backgroundColor: colors.card }]}>
         <FileText size={20} color={colors.primary} />
-        <View style={{ marginLeft: 8, flex: 1 }}>
+        <View style={{ marginLeft: espaciado.e8, flex: 1 }}>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '600' }} numberOfLines={1}>{msg.fileRef.name}</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>{msg.fileRef.sizeLabel || 'archivo'}</Text>
         </View>
@@ -1664,36 +1664,36 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
             <ShoppingCart size={22} color={alpha(colors.primary, 0.5)} />
           </View>
         )}
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', marginTop: 6 }} numberOfLines={2}>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e6 }} numberOfLines={2}>
           {pr.title}
         </Text>
         {/* Variante que el cliente ya había elegido en la ficha: así el comerciante sabe qué le
             preguntan sin que nadie tenga que describir el producto (guía del dueño, regla 3). */}
         {pr.variantLabel ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 2 }} numberOfLines={1}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }} numberOfLines={1}>
             {pr.variantLabel}
           </Text>
         ) : null}
         {/* Aviso de consulta: alguien pregunta por ESTE producto. */}
         {pr.asking ? (
-          <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '700', marginTop: 3 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '700', marginTop: espaciado.e3 }}>
             Consultando sobre este producto
           </Text>
         ) : null}
         {pr.priceXaf !== null && pr.priceXaf !== undefined ? (
-          <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body, marginTop: 2 }}>{lbXaf(pr.priceXaf)}</Text>
+          <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body, marginTop: espaciado.e2 }}>{lbXaf(pr.priceXaf)}</Text>
         ) : (
-          <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.caption, marginTop: 2 }}>Precio a consultar</Text>
+          <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.caption, marginTop: espaciado.e2 }}>Precio a consultar</Text>
         )}
         {pr.available === false ? (
-          <Text style={{ color: colors.danger, fontWeight: '800', fontSize: tipografia.micro, marginTop: 4 }}>
+          <Text style={{ color: colors.danger, fontWeight: '800', fontSize: tipografia.micro, marginTop: espaciado.e4 }}>
             Ya no está a la venta
           </Text>
         ) : (
           <Pressable
             onPress={() => onOpenProduct?.(pr.id)}
             accessibilityLabel={`Ver y comprar ${pr.title}`}
-            style={{ marginTop: 8, backgroundColor: colors.primary, borderRadius: radios.full, paddingVertical: 7, alignItems: 'center' }}
+            style={{ marginTop: espaciado.e8, backgroundColor: colors.primary, borderRadius: radios.full, paddingVertical: espaciado.e7, alignItems: 'center' }}
           >
             <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.caption }}>Comprar</Text>
           </Pressable>
@@ -1719,11 +1719,11 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
         {msg.postRef.coverUrl ? (
           <ExpoImage source={absUrl(msg.postRef.coverUrl)} style={styles.postCover} contentFit="cover" cachePolicy="memory-disk" transition={0} />
         ) : null}
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 6 }} numberOfLines={2}>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 }} numberOfLines={2}>
           {msg.kind === 'sale' ? '🏷️ ' : ''}{msg.postRef.title}
         </Text>
         {msg.postRef.priceXaf !== undefined ? (
-          <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption, marginTop: 2 }}>{lbXaf(msg.postRef.priceXaf)}</Text>
+          <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{lbXaf(msg.postRef.priceXaf)}</Text>
         ) : null}
       </View>,
     );
@@ -1742,7 +1742,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
     return wrap(
       <View style={[styles.cardBubble, { backgroundColor: colors.card, flexDirection: 'column', alignItems: 'stretch', width: 240 }]}>
         <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>🗳️ {vr.question}</Text>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 2 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
           {total === 0 ? 'Sé el primero en votar' : `${total} ${total === 1 ? 'voto' : 'votos'}`}
           {mine !== null && mine !== undefined ? ' · ya votaste' : ''}
         </Text>
@@ -1763,7 +1763,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
               {pct > 0 ? (
                 <View pointerEvents="none" style={[styles.voteBar, { width: `${pct}%`, backgroundColor: alpha(colors.primary, 0.16) }]} />
               ) : null}
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: myPick ? '900' : '600', flex: 1 }} numberOfLines={2}>
                   {o}
                 </Text>
@@ -1790,15 +1790,15 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
       <View style={[styles.cardBubble, { backgroundColor: colors.card, flexDirection: 'column', alignItems: 'stretch', width: 240 }]}>
         <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>🔗 {cr.title}</Text>
         {cr.note ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }} numberOfLines={3}>{cr.note}</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }} numberOfLines={3}>{cr.note}</Text>
         ) : null}
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 4 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e4 }}>
           {cr.joined} apuntado{cr.joined === 1 ? '' : 's'}{cr.slots ? ` de ${cr.slots}` : ''}
         </Text>
         {(cr.members ?? []).length > 0 ? (
-          <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: espaciado.e4, marginTop: espaciado.e6 }}>
             {(cr.members ?? []).slice(0, 6).map((p) => (
-              <View key={p.id} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: 6, paddingVertical: 2 }}>
+              <View key={p.id} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 }}>
                 {p.avatarUrl ? (
                   <Image source={{ uri: absUrl(p.avatarUrl) }} style={{ width: 16, height: 16, borderRadius: radios.sm }} />
                 ) : (
@@ -1846,17 +1846,17 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
       <View style={[styles.cardBubble, { backgroundColor: colors.card, flexDirection: 'column', alignItems: 'stretch', width: 235 }]}>
         <Pressable onPress={onOpenLocation} accessibilityLabel={`Ver ${msg.locationRef?.label ?? 'la quedada'} en el mapa`}>
           <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>📅 Quedada</Text>
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: 2 }} numberOfLines={2}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: espaciado.e2 }} numberOfLines={2}>
             📍 {msg.locationRef?.label ?? 'Sitio'}
           </Text>
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginTop: 2 }}>
+          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e2 }}>
             🕒 {kr.when || new Date(kr.at ?? Date.now()).toLocaleString('es-GQ', { weekday: 'short', hour: '2-digit', minute: '2-digit' })}
           </Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 4 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e4 }}>
             {kr.going} {kr.going === 1 ? 'persona va' : 'personas van'}
           </Text>
         </Pressable>
-        <View style={{ flexDirection: 'row', gap: 8 }}>
+        <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
           <Pressable
             onPress={() => onJoin?.(!kr.goingByMe)}
             accessibilityLabel={kr.goingByMe ? 'Ya no voy a la quedada' : 'Voy a la quedada'}
@@ -1875,7 +1875,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
               onPress={onTaxi}
               accessibilityLabel="Pedir taxi hasta la quedada"
               style={({ pressed }) => [styles.joinBtn, {
-                paddingHorizontal: 12, backgroundColor: alpha(colors.primary, 0.12),
+                paddingHorizontal: espaciado.e12, backgroundColor: alpha(colors.primary, 0.12),
                 opacity: pressed ? 0.85 : 1,
               }]}
             >
@@ -1902,15 +1902,15 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
         <Pressable onPress={onOpenLocation} accessibilityLabel={`Ver ${msg.locationRef.label} en el mapa`}>
           <View style={[styles.locPreview, { backgroundColor: alpha(colors.primary, 0.08) }]}>
             <MapPin size={22} color={colors.primary} />
-            <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: 4, fontWeight: '700' }}>
+            <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e4, fontWeight: '700' }}>
               {hasCoords ? 'Toca para ver el mapa' : 'Sin coordenadas'}
             </Text>
           </View>
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', marginTop: 6 }} numberOfLines={2}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e6 }} numberOfLines={2}>
             📍 {msg.locationRef.label}
           </Text>
           {hasCoords ? (
-            <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: 2 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e2 }}>
               {lat.toFixed(5)}, {lng.toFixed(5)}
             </Text>
           ) : null}
@@ -1939,20 +1939,20 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
     const route = ar.link?.route ?? null;
     return wrap(
       <View style={[styles.cardBubble, { backgroundColor: colors.card, flexDirection: 'column', alignItems: 'stretch', width: 235 }]}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
           <Text style={{ fontSize: tipografia.body }}>📣</Text>
           <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body, flex: 1 }} numberOfLines={2}>
             {ar.title ?? 'Anuncio'}
           </Text>
         </View>
         {ar.imageUrl ? (
-          <Image source={{ uri: absUrl(ar.imageUrl) }} style={{ width: '100%', height: 120, borderRadius: 10, marginTop: 8 }} />
+          <Image source={{ uri: absUrl(ar.imageUrl) }} style={{ width: '100%', height: 120, borderRadius: 10, marginTop: espaciado.e8 }} />
         ) : null}
         {ar.text ? (
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: 6, lineHeight: 17 }} numberOfLines={5}>{ar.text}</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: espaciado.e6, lineHeight: 17 }} numberOfLines={5}>{ar.text}</Text>
         ) : null}
         {ar.priceXaf ? (
-          <Text style={{ color: brand.secondary, fontWeight: '900', fontSize: tipografia.body, marginTop: 6 }}>{lbXaf(ar.priceXaf)}</Text>
+          <Text style={{ color: brand.secondary, fontWeight: '900', fontSize: tipografia.body, marginTop: espaciado.e6 }}>{lbXaf(ar.priceXaf)}</Text>
         ) : null}
         {route ? (
           <Pressable
@@ -1997,46 +1997,46 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row', alignItems: 'center',
-    paddingHorizontal: 14, paddingVertical: 10,
+    paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   inputBar: {
-    flexDirection: 'row', alignItems: 'flex-end', gap: 8,
-    paddingHorizontal: 12, paddingTop: 8,
+    flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8,
+    paddingHorizontal: espaciado.e12, paddingTop: espaciado.e8,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
-  input: { flex: 1, borderRadius: 18, paddingHorizontal: 14, paddingTop: 8, paddingBottom: 8, fontSize: tipografia.body, maxHeight: 100 },
+  input: { flex: 1, borderRadius: 18, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e8, paddingBottom: espaciado.e8, fontSize: tipografia.body, maxHeight: 100 },
   iconBtn: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
-  bubble: { borderRadius: radios.lg, paddingHorizontal: 12, paddingVertical: 8 },
+  bubble: { borderRadius: radios.lg, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
   bgAccent: { position: 'absolute', right: -60, top: -40, width: 200, height: 200, borderRadius: 100, opacity: 0.22 },
   headAvatar: { width: 34, height: 34, borderRadius: 17 },
   msgAvatar: { width: 26, height: 26, borderRadius: 13 },
   imgBubble: { width: 200, height: 200, borderRadius: 14, backgroundColor: 'rgba(128,128,128,0.15)' },
-  cardBubble: { borderRadius: 14, padding: 10, flexDirection: 'row', alignItems: 'center', flexShrink: 1 },
+  cardBubble: { borderRadius: 14, padding: espaciado.e10, flexDirection: 'row', alignItems: 'center', flexShrink: 1 },
   postCover: { width: '100%', height: 120, borderRadius: radios.sm },
-  voteOpt: { borderRadius: radios.sm, paddingHorizontal: 10, paddingVertical: 7, marginTop: 6, borderWidth: 1, overflow: 'hidden' },
+  voteOpt: { borderRadius: radios.sm, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7, marginTop: espaciado.e6, borderWidth: 1, overflow: 'hidden' },
   voteBar: { position: 'absolute', left: 0, top: 0, bottom: 0 },
   locPreview: { height: 84, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   /** Parte 25: botón de apuntarse / pedir taxi dentro de las burbujas. */
-  joinBtn: { marginTop: 8, borderRadius: 10, paddingVertical: 9, alignItems: 'center', justifyContent: 'center' },
-  taxiCta: { borderRadius: 14, paddingVertical: 14, alignItems: 'center', justifyContent: 'center' },
+  joinBtn: { marginTop: espaciado.e8, borderRadius: 10, paddingVertical: espaciado.e9, alignItems: 'center', justifyContent: 'center' },
+  taxiCta: { borderRadius: 14, paddingVertical: espaciado.e14, alignItems: 'center', justifyContent: 'center' },
   /** Parte 28 (G4): barra de ubicación en vivo. */
   liveBar: {
-    marginHorizontal: 12, marginTop: 8, padding: 10, borderRadius: 14,
-    borderWidth: 1, gap: 6,
+    marginHorizontal: espaciado.e12, marginTop: espaciado.e8, padding: espaciado.e10, borderRadius: 14,
+    borderWidth: 1, gap: espaciado.e6,
   },
   liveChip: {
-    flexDirection: 'row', alignItems: 'center', gap: 6,
-    borderRadius: radios.full, paddingHorizontal: 10, paddingVertical: 6, maxWidth: 240,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
+    borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, maxWidth: 240,
   },
-  liveStop: { alignSelf: 'flex-start', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 6, marginTop: 2 },
-  rowGap8: { flexDirection: 'row', gap: 8 },
-  pillBubble: { borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 7, maxWidth: '85%' },
+  liveStop: { alignSelf: 'flex-start', borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, marginTop: espaciado.e2 },
+  rowGap8: { flexDirection: 'row', gap: espaciado.e8 },
+  pillBubble: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, maxWidth: '85%' },
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
-  sheetHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-  postRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth },
+  sheetHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e10 },
+  postRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
   postThumb: { width: 46, height: 46, borderRadius: radios.sm },
   center: { alignItems: 'center', justifyContent: 'center' },
-  menuRow: { flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: radios.md, paddingVertical: 13, paddingHorizontal: 12 },
+  menuRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.md, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e12 },
 });

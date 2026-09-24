@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Image as ImageIcon, MapPin, Megaphone, Paperclip, Search, Vote, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -123,7 +123,7 @@ function MessageSearchContent() {
             placeholder="Buscar en todos mis chats…"
             placeholderTextColor={colors.textSecondary}
             autoFocus
-            style={{ flex: 1, marginLeft: 8, color: colors.textPrimary, fontSize: tipografia.body }}
+            style={{ flex: 1, marginLeft: espaciado.e8, color: colors.textPrimary, fontSize: tipografia.body }}
             accessibilityLabel="Buscar mensajes en todos mis chats"
           />
           {q.length > 0 ? (
@@ -140,7 +140,7 @@ function MessageSearchContent() {
         showsHorizontalScrollIndicator={false}
         data={FILTERS}
         keyExtractor={(f) => f.id ?? 'todo'}
-        contentContainerStyle={{ gap: 6, paddingHorizontal: 14, paddingVertical: 10 }}
+        contentContainerStyle={{ gap: espaciado.e6, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10 }}
         renderItem={({ item }) => {
           const activo = kind === item.id;
           return (
@@ -159,12 +159,12 @@ function MessageSearchContent() {
       />
 
       {loading ? (
-        <ActivityIndicator color={colors.primary} style={{ marginTop: 30 }} />
+        <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e30 }} />
       ) : (
         <FlatList
           data={hits}
           keyExtractor={(m) => m.id}
-          contentContainerStyle={{ padding: 14, gap: 8, paddingBottom: insets.bottom + 24 }}
+          contentContainerStyle={{ padding: espaciado.e14, gap: espaciado.e8, paddingBottom: insets.bottom + 24 }}
           onEndReachedThreshold={0.4}
           onEndReached={() => {
             if (!cursor || loadingMore) return;
@@ -173,7 +173,7 @@ function MessageSearchContent() {
           }}
           ListEmptyComponent={
             vacio ? (
-              <View style={{ alignItems: 'center', marginTop: 40, gap: 6 }}>
+              <View style={{ alignItems: 'center', marginTop: 40, gap: espaciado.e6 }}>
                 <Search size={24} color={colors.textSecondary} />
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
                   {q.trim() ? `Nada que coincida con «${q.trim()}» en tus chats.` : 'Escribe algo para buscar (o elige un filtro).'}
@@ -181,7 +181,7 @@ function MessageSearchContent() {
               </View>
             ) : null
           }
-          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: 12 }} /> : null}
+          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e12 }} /> : null}
           renderItem={({ item }) => {
             const r = resumen(item);
             return (
@@ -200,17 +200,17 @@ function MessageSearchContent() {
                   </View>
                 )}
                 <View style={{ flex: 1 }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                     <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body, flex: 1 }} numberOfLines={1}>
                       {item.conversation.title}
                     </Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>{lbTimeAgo(item.createdAt)}</Text>
                   </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 3 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, marginTop: espaciado.e3 }}>
                     {r.icon}
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, flex: 1 }} numberOfLines={2}>{r.text}</Text>
                   </View>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 3 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e3 }}>
                     {item.mine ? 'Tú' : (item.sender?.fullName ?? 'Alguien')} · {item.conversation.kind === 'group' ? 'grupo' : 'chat'}
                   </Text>
                 </View>
@@ -224,10 +224,10 @@ function MessageSearchContent() {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth },
-  searchBox: { flex: 1, flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: 12, height: 42 },
-  chip: { borderRadius: radios.full, paddingHorizontal: 12, paddingVertical: 7, borderWidth: 1 },
-  hit: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 14, padding: 12 },
+  header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
+  searchBox: { flex: 1, flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 42 },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderWidth: 1 },
+  hit: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: 14, padding: espaciado.e12 },
   hitAvatar: { width: 40, height: 40, borderRadius: radios.md },
   center: { alignItems: 'center', justifyContent: 'center' },
 });

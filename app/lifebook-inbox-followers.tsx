@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, UserPlus, Users } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -73,7 +73,7 @@ function FollowersContent() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.topBar, { borderBottomColor: colors.border, paddingTop: insets.top + 6 }]}>
-        <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: 4 }}>
+        <Pressable onPress={() => router.back()} hitSlop={12} style={{ paddingVertical: espaciado.e4 }}>
           <ArrowLeft size={22} color={colors.textPrimary} />
         </Pressable>
         <Text style={[styles.topTitle, { color: colors.textPrimary }]}>Nuevos seguidores</Text>
@@ -93,13 +93,13 @@ function FollowersContent() {
             ...(((suggested ?? []).length === 0) ? [{ kind: 'se' as const }] : []),
           ]}
           keyExtractor={(row, i) => row.kind === 'f' ? `f-${row.f.id}` : row.kind === 's' ? `s-${row.s.id}` : `${row.kind}-${i}`}
-          contentContainerStyle={{ padding: 14, paddingBottom: insets.bottom + 20 }}
+          contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 20 }}
           renderItem={({ item: row }) => {
             if (row.kind === 'h') {
               return <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>{row.title.toUpperCase()}</Text>;
             }
             if (row.kind === 'he') {
-              return <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: 6, lineHeight: 18 }}>Todavía no tienes seguidores nuevos.</Text>;
+              return <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e6, lineHeight: 18 }}>Todavía no tienes seguidores nuevos.</Text>;
             }
             if (row.kind === 'se') {
               return <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18 }}>No hay recomendaciones ahora mismo.</Text>;
@@ -108,7 +108,7 @@ function FollowersContent() {
               const u = row.f;
               return (
                 <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-                  <Pressable style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}
+                  <Pressable style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, flex: 1 }}
                     onPress={() => router.push({ pathname: '/lifebook-user', params: { id: u.id } } as never)}>
                     <Avatar url={u.avatarUrl} name={u.fullName} />
                     <View style={{ flex: 1 }}>
@@ -135,7 +135,7 @@ function FollowersContent() {
             const s = row.s;
             return (
               <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-                <Pressable style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}
+                <Pressable style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, flex: 1 }}
                   onPress={() => router.push({ pathname: '/lifebook-user', params: { id: s.id } } as never)}>
                   <Avatar url={s.avatarUrl} name={s.fullName} />
                   <View style={{ flex: 1 }}>
@@ -155,7 +155,7 @@ function FollowersContent() {
             );
           }}
           ListEmptyComponent={
-            <View style={{ alignItems: 'center', paddingTop: 60, gap: 8 }}>
+            <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e8 }}>
               <Users size={36} color={alpha(colors.primary, 0.45)} />
               <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>Sin novedades de seguidores</Text>
             </View>
@@ -167,9 +167,9 @@ function FollowersContent() {
 }
 
 const styles = StyleSheet.create({
-  topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 12, paddingBottom: 8, borderBottomWidth: StyleSheet.hairlineWidth },
+  topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: 16.5, fontWeight: '900', flex: 1 },
-  sectionTitle: { fontSize: tipografia.micro, fontWeight: '900', letterSpacing: 0.6, marginTop: 6, marginBottom: 8 },
-  card: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: 12, marginBottom: 8 },
-  followBtn: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: radios.full, paddingHorizontal: 14, paddingVertical: 8, borderWidth: 1 },
+  sectionTitle: { fontSize: tipografia.micro, fontWeight: '900', letterSpacing: 0.6, marginTop: espaciado.e6, marginBottom: espaciado.e8 },
+  card: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12, marginBottom: espaciado.e8 },
+  followBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderWidth: 1 },
 });
