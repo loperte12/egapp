@@ -5,7 +5,7 @@
     "borderRadius": 688,
     "fontWeight": 1948,
     "borderWidth": 528,
-    "espaciado": 4964,
+    "espaciado": 4235,
     "precioFigura": 12
   },
   "porArchivo": {
@@ -33,7 +33,7 @@
       "borderRadius": 9,
       "fontWeight": 13,
       "borderWidth": 5,
-      "espaciado": 50,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/alquiler-planes.tsx": {
@@ -42,7 +42,7 @@
       "borderRadius": 4,
       "fontWeight": 9,
       "borderWidth": 3,
-      "espaciado": 25,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/alquiler-publicar.tsx": {
@@ -51,7 +51,7 @@
       "borderRadius": 8,
       "fontWeight": 20,
       "borderWidth": 5,
-      "espaciado": 71,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/alquiler.tsx": {
@@ -60,7 +60,7 @@
       "borderRadius": 11,
       "fontWeight": 14,
       "borderWidth": 4,
-      "espaciado": 59,
+      "espaciado": 4,
       "precioFigura": 0
     },
     "app/auth.tsx": {
@@ -258,7 +258,7 @@
       "borderRadius": 5,
       "fontWeight": 22,
       "borderWidth": 6,
-      "espaciado": 55,
+      "espaciado": 3,
       "precioFigura": 4
     },
     "app/food-menu.tsx": {
@@ -267,7 +267,7 @@
       "borderRadius": 15,
       "fontWeight": 13,
       "borderWidth": 4,
-      "espaciado": 47,
+      "espaciado": 3,
       "precioFigura": 1
     },
     "app/food-orders.tsx": {
@@ -276,7 +276,7 @@
       "borderRadius": 14,
       "fontWeight": 27,
       "borderWidth": 9,
-      "espaciado": 72,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/food-owner.tsx": {
@@ -285,7 +285,7 @@
       "borderRadius": 8,
       "fontWeight": 26,
       "borderWidth": 9,
-      "espaciado": 80,
+      "espaciado": 1,
       "precioFigura": 1
     },
     "app/food-rider.tsx": {
@@ -294,7 +294,7 @@
       "borderRadius": 13,
       "fontWeight": 33,
       "borderWidth": 10,
-      "espaciado": 94,
+      "espaciado": 3,
       "precioFigura": 4
     },
     "app/food.tsx": {
@@ -303,7 +303,7 @@
       "borderRadius": 6,
       "fontWeight": 9,
       "borderWidth": 4,
-      "espaciado": 31,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/index.tsx": {
@@ -321,7 +321,7 @@
       "borderRadius": 8,
       "fontWeight": 11,
       "borderWidth": 3,
-      "espaciado": 31,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/intercity-publish.tsx": {
@@ -330,7 +330,7 @@
       "borderRadius": 4,
       "fontWeight": 25,
       "borderWidth": 3,
-      "espaciado": 33,
+      "espaciado": 1,
       "precioFigura": 0
     },
     "app/intercity.tsx": {
@@ -339,7 +339,7 @@
       "borderRadius": 3,
       "fontWeight": 27,
       "borderWidth": 4,
-      "espaciado": 30,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "app/kyc/capture.tsx": {
@@ -1635,7 +1635,7 @@
       "borderRadius": 2,
       "fontWeight": 1,
       "borderWidth": 0,
-      "espaciado": 4,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/rental/Badges.tsx": {
@@ -1653,7 +1653,7 @@
       "borderRadius": 6,
       "fontWeight": 11,
       "borderWidth": 4,
-      "espaciado": 25,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/rental/LazyImage.tsx": {
@@ -1662,7 +1662,7 @@
       "borderRadius": 0,
       "fontWeight": 2,
       "borderWidth": 0,
-      "espaciado": 4,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/rental/PriceCalculator.tsx": {
@@ -1671,7 +1671,7 @@
       "borderRadius": 3,
       "fontWeight": 6,
       "borderWidth": 4,
-      "espaciado": 20,
+      "espaciado": 0,
       "precioFigura": 1
     },
     "components/rental/PropertyCard.tsx": {
@@ -1680,7 +1680,7 @@
       "borderRadius": 4,
       "fontWeight": 5,
       "borderWidth": 2,
-      "espaciado": 16,
+      "espaciado": 0,
       "precioFigura": 0
     },
     "components/SearchHeader.tsx": {
