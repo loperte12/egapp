@@ -28,7 +28,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {alpha, useTheme, brand, tipografia, radios, altura} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import MapBackground from '../components/MapBackground';
 import { PhotoGallery } from '../components/PhotoGallery';
@@ -193,7 +193,7 @@ function Contenido() {
   }
   if (!r) {
     return (
-      <View style={[styles.centro, { backgroundColor: colors.background, padding: 20 }]}>
+      <View style={[styles.centro, { backgroundColor: colors.background, padding: espaciado.e20 }]}>
         <Text style={[styles.errorTxt, { color: colors.danger }]}>{error ?? 'Reserva no encontrada'}</Text>
         <Pressable onPress={() => void cargar()} accessibilityRole="button" accessibilityLabel="Reintentar">
           <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
@@ -234,7 +234,7 @@ function Contenido() {
           }
         />
 
-        <View style={{ padding: 14, gap: 12 }}>
+        <View style={{ padding: espaciado.e14, gap: espaciado.e12 }}>
           {/* ── Estado y línea de tiempo (con la retención incluida) ── */}
           <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
             <Text style={[styles.codigo, { color: colors.textPrimary }]}>{r.code}</Text>
@@ -337,7 +337,7 @@ function Contenido() {
 
             {/* La referencia de la transferencia: así se paga la señal de verdad */}
             {puedeEnviarReferencia ? (
-              <View style={{ gap: 8, marginTop: 8 }}>
+              <View style={{ gap: espaciado.e8, marginTop: espaciado.e8 }}>
                 <TextInput
                   value={referencia}
                   onChangeText={setReferencia}
@@ -452,36 +452,36 @@ function Linea({
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10 },
-  sub: { fontSize: tipografia.caption, marginTop: 4 },
+  centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e10 },
+  sub: { fontSize: tipografia.caption, marginTop: espaciado.e4 },
   errorTxt: { fontSize: tipografia.body, fontWeight: '700', textAlign: 'center' },
-  enlace: { fontSize: tipografia.body, fontWeight: '700', marginTop: 6 },
-  bloque: { borderWidth: 1, borderRadius: radios.lg, padding: 12, gap: 3 },
+  enlace: { fontSize: tipografia.body, fontWeight: '700', marginTop: espaciado.e6 },
+  bloque: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e3 },
   etiqueta: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6 },
   codigo: { fontSize: 18, fontWeight: '800', letterSpacing: 0.6 },
-  estado: { fontSize: tipografia.body, fontWeight: '800', marginTop: 2 },
+  estado: { fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e2 },
   nombre: { fontSize: tipografia.subtitle, fontWeight: '800' },
-  pasos: { flexDirection: 'row', alignItems: 'center', marginTop: 12 },
+  pasos: { flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e12 },
   paso: { flexDirection: 'row', alignItems: 'center', flex: 1 },
   punto: { width: 12, height: 12, borderRadius: 6 },
-  pasoEtq: { fontSize: 9.5, marginLeft: 4, fontWeight: '600' },
-  linea: { flex: 1, height: 3, marginHorizontal: 4 },
+  pasoEtq: { fontSize: 9.5, marginLeft: espaciado.e4, fontWeight: '600' },
+  linea: { flex: 1, height: 3, marginHorizontal: espaciado.e4 },
   lineaEtq: { fontSize: tipografia.caption, flex: 1 },
   lineaVal: { fontSize: tipografia.body },
-  avisoTxt: { fontSize: tipografia.caption, fontWeight: '700', marginTop: 8 },
-  botones: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 },
-  botonSec: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 8 },
+  avisoTxt: { fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e8 },
+  botones: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e8 },
+  botonSec: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
   botonSecTxt: { fontSize: tipografia.caption, fontWeight: '700' },
   boton: { height: altura.control, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   botonTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: '800' },
-  botonFantasma: { borderWidth: 1, borderRadius: radios.md, height: altura.control, alignItems: 'center', justifyContent: 'center', marginTop: 8 },
+  botonFantasma: { borderWidth: 1, borderRadius: radios.md, height: altura.control, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e8 },
   botonFantasmaTxt: { fontSize: tipografia.body, fontWeight: '800' },
-  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 12, height: altura.control, fontSize: tipografia.body },
+  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.control, fontSize: tipografia.body },
   volverFlotante: {
     position: 'absolute', left: 12, width: 36, height: 36, borderRadius: 18,
     backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center',
   },
   volverFlotanteTxt: { color: brand.white, fontSize: 24, fontWeight: '700', lineHeight: 26 },
-  cerrarMapa: { position: 'absolute', left: 14, borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 12, paddingVertical: 8, backgroundColor: brand.white },
+  cerrarMapa: { position: 'absolute', left: 14, borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, backgroundColor: brand.white },
   cerrarMapaTxt: { fontSize: tipografia.body, fontWeight: '800' },
 });

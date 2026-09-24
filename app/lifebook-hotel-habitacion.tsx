@@ -25,7 +25,7 @@ import {
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, FormField, GhostButton, PrimaryButton, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -262,12 +262,12 @@ function Contenido() {
       </View>
 
       {error ? (
-        <View style={{ padding: 16 }}>
-          <Text style={{ color: colors.textSecondary, marginBottom: 12 }}>{error}</Text>
+        <View style={{ padding: espaciado.e16 }}>
+          <Text style={{ color: colors.textSecondary, marginBottom: espaciado.e12 }}>{error}</Text>
           <GhostButton title="Volver" onPress={() => router.back()} />
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 30 }} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }} keyboardShouldPersistTaps="handled">
 
           <Bloque titulo="Lo que se vende" hint="El nombre y lo que cabe. Es lo que verá el huésped en la lista.">
             <FormField label="Nombre" value={name} onChangeText={setName} placeholder="Doble con aire" maxLength={120} />
@@ -280,7 +280,7 @@ function Contenido() {
             {/* El servidor guarda 2000 caracteres y el resto lo tira sin avisar. */}
             <Contador actual={description.length} max={2000} />
             <View style={{ height: 10 }} />
-            <View style={{ flexDirection: 'row', gap: 10 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
               <View style={{ flex: 1 }}>
                 <FormField label="Capacidad (personas)" value={capacity} onChangeText={setCapacity} keyboardType="number-pad" placeholder="2" />
               </View>
@@ -292,9 +292,9 @@ function Contenido() {
 
           <Bloque titulo="Camas" hint="Se pueden combinar: una doble y una litera, por ejemplo.">
             {beds.map((b, i) => (
-              <View key={`${b.kind}-${i}`} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <View key={`${b.kind}-${i}`} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e8 }}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }}>
-                  <View style={{ flexDirection: 'row', gap: 6 }}>
+                  <View style={{ flexDirection: 'row', gap: espaciado.e6 }}>
                     {TIPOS_CAMA.map((t) => {
                       const on = b.kind === t;
                       return (
@@ -338,7 +338,7 @@ function Contenido() {
               keyboardType="number-pad" placeholder="Se usa los viernes y sábados"
             />
             <View style={{ height: 10 }} />
-            <View style={{ flexDirection: 'row', gap: 10 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
               <View style={{ flex: 1 }}>
                 <FormField label="Limpieza (XAF)" value={cleaningFeeXaf} onChangeText={setCleaningFeeXaf} keyboardType="number-pad" />
               </View>
@@ -351,13 +351,13 @@ function Contenido() {
               label="Señal (%)" value={depositPercent} onChangeText={setDepositPercent} keyboardType="number-pad"
               placeholder="30"
             />
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 5, marginLeft: 4 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e5, marginLeft: espaciado.e4 }}>
               Es la parte que se paga al reservar. Con 0, la reserva se paga entera al llegar.
             </Text>
           </Bloque>
 
           <Bloque titulo="Estancia y plazos" hint="Cuántas noches como mínimo, y cuánto tiempo se guarda una reserva sin pagar.">
-            <View style={{ flexDirection: 'row', gap: 10 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
               <View style={{ flex: 1 }}>
                 <FormField label="Mínimo de noches" value={minNights} onChangeText={setMinNights} keyboardType="number-pad" />
               </View>
@@ -366,7 +366,7 @@ function Contenido() {
               </View>
             </View>
             <View style={{ height: 10 }} />
-            <View style={{ flexDirection: 'row', gap: 10 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
               <View style={{ flex: 1 }}>
                 <FormField label="Retención (min)" value={holdMinutes} onChangeText={setHoldMinutes} keyboardType="number-pad" />
               </View>
@@ -379,7 +379,7 @@ function Contenido() {
               label="Horas de cancelación gratis" value={cancellationHours} onChangeText={setCancellationHours}
               keyboardType="number-pad"
             />
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 5, marginLeft: 4 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e5, marginLeft: espaciado.e4 }}>
               Hasta cuántas horas antes de la entrada el huésped puede cancelar sin coste. Lo calcula el servidor.
             </Text>
           </Bloque>
@@ -392,14 +392,14 @@ function Contenido() {
               ya creadas con menos— pero se dice claramente cuántas faltan.
             */}
             {fotos.length < 3 ? (
-              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '800', marginBottom: 10, lineHeight: 18 }}>
+              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '800', marginBottom: espaciado.e10, lineHeight: 18 }}>
                 ⚠ {fotos.length === 0
                   ? 'Sin fotos: una habitación sin fotos casi no se reserva.'
                   : `Con ${fotos.length} foto(s) se nota la falta: lo recomendado son 3 o más.`}
                 {' '}Mejor la fachada o la habitación entera, con luz.
               </Text>
             ) : (
-              <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: '800', marginBottom: 10 }}>
+              <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: '800', marginBottom: espaciado.e10 }}>
                 ✓ {fotos.length} fotos: la primera es la que se ve en la lista de resultados.
               </Text>
             )}
@@ -428,7 +428,7 @@ function Contenido() {
           </Bloque>
 
           <Bloque titulo="Servicios de la habitación" hint="Opcional. Marca lo que tiene de verdad.">
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
               {SERVICIOS.map((s) => {
                 const on = amenities.includes(s.id);
                 return (
@@ -448,7 +448,7 @@ function Contenido() {
 
           <Bloque titulo="Disponibilidad" hint="Apagada = fuera del catálogo. Las reservas que ya tengas siguen en pie.">
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', flex: 1, paddingRight: 12 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', flex: 1, paddingRight: espaciado.e12 }}>
                 {isActive ? 'A la venta' : 'Apagada'}
               </Text>
               <Switch value={isActive} onValueChange={setIsActive} trackColor={{ true: alpha(colors.primary, 0.5) }} />
@@ -459,17 +459,17 @@ function Contenido() {
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
               {name.trim() || 'Sin nombre'} · {xaf(num(basePriceXaf) ?? 0)} por noche
             </Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 4, lineHeight: 17 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 17 }}>
               {num(totalUnits) ?? 1} habitación(es) de este tipo · mínimo {num(minNights) ?? 1} noche(s) ·
               {' '}señal del {num(depositPercent) ?? 0}% · {fotos.length} foto(s)
             </Text>
           </View>
 
           {problema ? (
-            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 10 }}>⚠️ {problema}</Text>
+            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e10 }}>⚠️ {problema}</Text>
           ) : null}
 
-          <View style={{ marginTop: 14 }}>
+          <View style={{ marginTop: espaciado.e14 }}>
             <PrimaryButton
               title={editando ? 'Guardar los cambios' : 'Crear la habitación'}
               onPress={() => void guardar()}
@@ -486,9 +486,9 @@ function Contenido() {
 function Bloque({ titulo, hint, children }: { titulo: string; hint?: string; children: React.ReactNode }) {
   const { colors } = useTheme();
   return (
-    <View style={{ marginBottom: 20 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: 3 }}>{titulo}</Text>
-      {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 10 }}>{hint}</Text> : <View style={{ height: 7 }} />}
+    <View style={{ marginBottom: espaciado.e20 }}>
+      <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: espaciado.e3 }}>{titulo}</Text>
+      {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>{hint}</Text> : <View style={{ height: 7 }} />}
       {children}
     </View>
   );
@@ -509,7 +509,7 @@ function Contador({ actual, max }: { actual: number; max: number }) {
     <Text
       style={{
         color: quedan <= 40 ? colors.secondary : colors.textSecondary,
-        fontSize: tipografia.caption, fontWeight: '700', marginTop: 6, marginLeft: 4,
+        fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6, marginLeft: espaciado.e4,
       }}
       accessibilityLiveRegion="polite"
     >
@@ -520,21 +520,21 @@ function Contador({ actual, max }: { actual: number; max: number }) {
 
 const styles = StyleSheet.create({
   cabecera: {
-    flexDirection: 'row', alignItems: 'center', gap: 4,
-    paddingHorizontal: 12, paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e4,
+    paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 40, height: 34, alignItems: 'center', justifyContent: 'center' },
-  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: 13, minHeight: 44, justifyContent: 'center' },
+  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
   paso: { width: 44, height: 44, borderRadius: 22, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
-  rejilla: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 10 },
+  rejilla: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginBottom: espaciado.e10 },
   miniatura: { width: 96, height: 96, borderRadius: radios.md, overflow: 'hidden' },
   foto: { width: '100%', height: '100%' },
-  portada: { position: 'absolute', left: 0, bottom: 0, paddingHorizontal: 6, paddingVertical: 3, borderTopRightRadius: 8 },
+  portada: { position: 'absolute', left: 0, bottom: 0, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e3, borderTopRightRadius: 8 },
   // Círculo visible pequeño + `hitSlop` para llegar a los 44 px de objetivo táctil sin
   // comerse la foto: el círculo de antes (22 px) se fallaba con el dedo.
   quitarFoto: {
     position: 'absolute', right: 4, top: 4, width: 28, height: 28, borderRadius: 14,
     backgroundColor: 'rgba(0,0,0,0.6)', alignItems: 'center', justifyContent: 'center',
   },
-  resumen: { borderWidth: 1, borderRadius: 14, padding: 12, marginTop: 4 },
+  resumen: { borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e4 },
 });

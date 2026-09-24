@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, FormField, GhostButton, PrimaryButton, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -223,12 +223,12 @@ function Contenido() {
       </View>
 
       {error ? (
-        <View style={{ padding: 16 }}>
-          <Text style={{ color: colors.textSecondary, marginBottom: 12 }}>{error}</Text>
+        <View style={{ padding: espaciado.e16 }}>
+          <Text style={{ color: colors.textSecondary, marginBottom: espaciado.e12 }}>{error}</Text>
           <GhostButton title="Reintentar" onPress={() => void cargar()} />
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 30 }} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }} keyboardShouldPersistTaps="handled">
           {aviso ? (
             <View style={[styles.aviso, { backgroundColor: alpha(colors.primary, 0.08), borderColor: alpha(colors.primary, 0.25) }]}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, lineHeight: 19 }}>{aviso}</Text>
@@ -246,10 +246,10 @@ function Contenido() {
           ) : null}
 
           {/* ── Rango de noches ── */}
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: 3 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: espaciado.e3 }}>
             1. Elige las noches
           </Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 10 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
             Toca el primer día y el último. Son noches: del 5 al 8 son las noches del 5, el 6 y el 7
             (la del 8 es la salida del huésped).
           </Text>
@@ -328,7 +328,7 @@ function Contenido() {
                         {c.day}
                       </Text>
                       {/* Adornos de estado: solo informan, no bloquean el toque. */}
-                      <View style={{ flexDirection: 'row', gap: 2, marginTop: 1 }}>
+                      <View style={{ flexDirection: 'row', gap: espaciado.e2, marginTop: 1 }}>
                         {cerrado ? <View style={[styles.punto, { backgroundColor: colors.danger }]} /> : null}
                         {precioPropio && !cerrado ? <View style={[styles.punto, { backgroundColor: colors.secondary }]} /> : null}
                         {lleno && !cerrado ? <View style={[styles.punto, { backgroundColor: colors.textSecondary }]} /> : null}
@@ -339,12 +339,12 @@ function Contenido() {
               </View>
             ))}
 
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 6 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e6 }}>
               ⬤ rojo = cerrado · ⬤ naranja = precio propio · ⬤ gris = sin habitaciones libres
             </Text>
           </View>
 
-          <View style={{ marginTop: 10, flexDirection: 'row', gap: 8 }}>
+          <View style={{ marginTop: espaciado.e10, flexDirection: 'row', gap: espaciado.e8 }}>
             <View style={{ flex: 1 }}>
               <GhostButton title="Hoy" onPress={() => { setDesde(hoy); setHasta(addDaysIso(hoy, 2)); }} />
             </View>
@@ -354,10 +354,10 @@ function Contenido() {
           </View>
 
           {/* ── Qué aplicar ── */}
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: 22, marginBottom: 3 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: espaciado.e22, marginBottom: espaciado.e3 }}>
             2. Qué aplicar a esas noches
           </Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 10 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
             Precio de temporada, estancia mínima o cerrar. Si dejas un campo vacío, se mantiene lo que ya hubiera.
           </Text>
 
@@ -377,19 +377,19 @@ function Contenido() {
           />
 
           <View style={[styles.linea, { borderColor: colors.border }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', flex: 1, paddingRight: 12 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', flex: 1, paddingRight: espaciado.e12 }}>
               Cerrar estas fechas
             </Text>
             <Switch value={cerrar} onValueChange={setCerrar} trackColor={{ true: alpha(colors.danger, 0.5) }} />
           </View>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 4 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4 }}>
             Cerrar = no se puede reservar. Las reservas que ya existan en esas noches **no** se cancelan.
           </Text>
 
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginTop: 16, marginBottom: 6 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e16, marginBottom: espaciado.e6 }}>
             Solo algunos días de la semana (opcional)
           </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
             {DIAS_SEMANA.map((d) => {
               const on = semana.includes(d.dow);
               return (
@@ -405,18 +405,18 @@ function Contenido() {
               );
             })}
           </View>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 6 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>
             Sin marcar ninguno, se aplica a todos los días del rango.
           </Text>
 
-          <View style={{ marginTop: 18 }}>
+          <View style={{ marginTop: espaciado.e18 }}>
             <PrimaryButton
               title={cerrar ? 'Cerrar esas fechas' : 'Guardar precios y fechas'}
               onPress={() => void guardar('set')}
               loading={guardando}
             />
           </View>
-          <View style={{ marginTop: 10 }}>
+          <View style={{ marginTop: espaciado.e10 }}>
             <GhostButton
               title="Quitar lo puesto en esas noches"
               onPress={() => {
@@ -433,7 +433,7 @@ function Contenido() {
           {/* ── Cómo queda ── */}
           {dias.length ? (
             <>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: 24, marginBottom: 8 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: espaciado.e24, marginBottom: espaciado.e8 }}>
                 Cómo queda el próximo mes y medio
               </Text>
               {dias.filter((d) => d.closed || Number(d.priceXaf) !== Number(d.basePriceXaf)).slice(0, 40).map((d) => (
@@ -461,24 +461,24 @@ function Contenido() {
 
 const styles = StyleSheet.create({
   cabecera: {
-    flexDirection: 'row', alignItems: 'center', gap: 4,
-    paddingHorizontal: 12, paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e4,
+    paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 40, height: 34, alignItems: 'center', justifyContent: 'center' },
-  aviso: { borderWidth: 1, borderRadius: radios.md, padding: 11, marginBottom: 14 },
+  aviso: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e14 },
   rango: {
-    flexDirection: 'row', alignItems: 'center', gap: 8,
-    borderWidth: 1, borderRadius: 14, padding: 12, marginBottom: 12,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
+    borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e12,
   },
-  mes: { borderWidth: 1, borderRadius: radios.lg, padding: 10 },
-  mesCabecera: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 4, marginBottom: 6 },
+  mes: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e10 },
+  mesCabecera: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e4, marginBottom: espaciado.e6 },
   fila: { flexDirection: 'row' },
-  dow: { flex: 1, textAlign: 'center', fontSize: tipografia.micro, fontWeight: '800', marginBottom: 2 },
+  dow: { flex: 1, textAlign: 'center', fontSize: tipografia.micro, fontWeight: '800', marginBottom: espaciado.e2 },
   celda: { flex: 1, aspectRatio: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10, margin: 1 },
   punto: { width: 4, height: 4, borderRadius: 2 },
-  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: 13, minHeight: 44, justifyContent: 'center' },
+  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
   linea: {
     flexDirection: 'row', alignItems: 'center',
-    borderTopWidth: StyleSheet.hairlineWidth, paddingVertical: 9,
+    borderTopWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e9,
   },
 });

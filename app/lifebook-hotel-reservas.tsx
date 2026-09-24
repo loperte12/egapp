@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {useTheme, alpha, brand, tipografia, radios, altura} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import {
   hotelApi, PAGO_ETIQUETA, RESERVA_ETIQUETA, METODO_ETIQUETA, type Reservation,
@@ -188,7 +188,7 @@ function Contenido() {
           ScrollView con un bloque «Grupo» por sección y cada bloque con su .map(), así que
           TODAS las reservas quedaban montadas. Aquí la sección es el grupo y la fila es la
           reserva. `stickySectionHeadersEnabled` en false a propósito: los títulos nunca
-          fueron pegajosos. El hueco lo pone el `gap: 12` del contenedor.
+          fueron pegajosos. El hueco lo pone el `gap: espaciado.e12` del contenedor.
         */
         <SectionList
           /*
@@ -204,7 +204,7 @@ function Contenido() {
             { titulo: 'Historial', data: pasadas },
           ].filter((s) => s.data.length > 0)}
           keyExtractor={(r) => r.id}
-          contentContainerStyle={{ padding: 14, paddingBottom: insets.bottom + 30, gap: 12 }}
+          contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 30, gap: espaciado.e12 }}
           stickySectionHeadersEnabled={false}
           refreshControl={
             <RefreshControl refreshing={refrescando} onRefresh={() => { setRefrescando(true); void cargar(true); }} tintColor={colors.primary} />
@@ -225,9 +225,9 @@ function Contenido() {
             /*
             Un `View` con el hueco del contenedor, y no un fragmento: el `gap` de
             `contentContainerStyle` separa CELDAS, y `ListHeaderComponent` es UNA celda. Con un
-            fragmento, todo lo de aquí dentro quedaba pegado (era gap: 12 antes de virtualizar).
+            fragmento, todo lo de aquí dentro quedaba pegado (era gap: espaciado.e12 antes de virtualizar).
             */
-            <View style={{ gap: 12 }}>
+            <View style={{ gap: espaciado.e12 }}>
           {aviso ? (
             <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.surface }]}>
               <Text style={[styles.sub, { color: colors.textPrimary }]}>{aviso}</Text>
@@ -407,7 +407,7 @@ function Tarjeta({
       ) : null}
 
       {puedeEnviarRef ? (
-        <View style={{ gap: 6, marginTop: 8 }}>
+        <View style={{ gap: espaciado.e6, marginTop: espaciado.e8 }}>
           <TextInput
             value={ref}
             onChangeText={setRef}
@@ -434,7 +434,7 @@ function Tarjeta({
           onPress={() => onConfirmarSenal(r)}
           accessibilityRole="button"
           accessibilityLabel={`Confirmar la señal de ${r.code}`}
-          style={[styles.boton, { backgroundColor: colors.success, marginTop: 8 }]}
+          style={[styles.boton, { backgroundColor: colors.success, marginTop: espaciado.e8 }]}
         >
           <Text style={styles.botonTxt}>Confirmar señal recibida ({xaf(r.depositXaf)})</Text>
         </Pressable>
@@ -458,32 +458,32 @@ function Tarjeta({
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  barra: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: 1 },
+  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: '700', lineHeight: 28 },
   titulo: { fontSize: 16.5, fontWeight: '800', flex: 1 },
   tabs: { flexDirection: 'row', borderBottomWidth: 1 },
-  tab: { flex: 1, alignItems: 'center', paddingVertical: 12, borderBottomWidth: 2 },
+  tab: { flex: 1, alignItems: 'center', paddingVertical: espaciado.e12, borderBottomWidth: 2 },
   tabTxt: { fontSize: tipografia.body, fontWeight: '700' },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  bloque: { borderWidth: 1, borderRadius: radios.lg, padding: 12, gap: 4 },
+  bloque: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e4 },
   etiqueta: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6 },
   seccion: { fontSize: 14.5, fontWeight: '800' },
-  card: { borderWidth: 1, borderRadius: radios.lg, padding: 12, gap: 4 },
+  card: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e4 },
   codigo: { fontSize: 15.5, fontWeight: '800', letterSpacing: 0.5 },
   sub: { fontSize: tipografia.caption },
-  dato: { fontSize: tipografia.body, marginTop: 2 },
-  linea: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
+  dato: { fontSize: tipografia.body, marginTop: espaciado.e2 },
+  linea: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e10 },
   lineaEtq: { fontSize: tipografia.caption, flex: 1 },
   lineaVal: { fontSize: tipografia.body },
-  badge: { borderWidth: 1, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
+  badge: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
   badgeTxt: { fontSize: 10.5, fontWeight: '800' },
-  dinero: { borderWidth: 1, borderRadius: radios.md, padding: 9, marginTop: 6, gap: 2 },
-  aviso: { fontSize: tipografia.caption, marginTop: 6, fontWeight: '600' },
-  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 12, height: altura.punto, fontSize: tipografia.body },
+  dinero: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e9, marginTop: espaciado.e6, gap: espaciado.e2 },
+  aviso: { fontSize: tipografia.caption, marginTop: espaciado.e6, fontWeight: '600' },
+  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.punto, fontSize: tipografia.body },
   boton: { height: altura.punto, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   botonTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: '800' },
-  botonFantasma: { borderWidth: 1, borderRadius: radios.md, height: altura.punto, alignItems: 'center', justifyContent: 'center', marginTop: 8 },
+  botonFantasma: { borderWidth: 1, borderRadius: radios.md, height: altura.punto, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e8 },
   botonFantasmaTxt: { fontSize: tipografia.body, fontWeight: '800' },
-  enlace: { fontSize: tipografia.caption, fontWeight: '700', marginTop: 4 },
+  enlace: { fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e4 },
 });

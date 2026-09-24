@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {useTheme, alpha, brand, tipografia, radios, altura} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import { HotelResultCard } from '../components/HotelResultCard';
 import { hotelApi, type HotelRoom, type HotelSearchResult } from '../api/hotel';
@@ -189,7 +189,7 @@ export default function LifebookHotelScreen() {
       <FlatList
         data={datos?.hotels ?? []}
         keyExtractor={(item) => item.hotel.id}
-        contentContainerStyle={{ padding: 14, paddingBottom: insets.bottom + 28, gap: 12 }}
+        contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 28, gap: espaciado.e12 }}
         refreshControl={
           <RefreshControl
             refreshing={refrescando}
@@ -198,7 +198,7 @@ export default function LifebookHotelScreen() {
           />
         }
         ListHeaderComponent={
-          <View style={{ gap: 12 }}>
+          <View style={{ gap: espaciado.e12 }}>
             {/* ── Dónde ── */}
             <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
               <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>DÓNDE</Text>
@@ -212,7 +212,7 @@ export default function LifebookHotelScreen() {
                 returnKeyType="search"
                 onSubmitEditing={() => void buscar()}
               />
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingTop: 8 }}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8, paddingTop: espaciado.e8 }}>
                 <Chip activo={ciudad === ''} texto="Todas" onPress={() => setCiudad('')} />
                 {CIUDADES.map((c) => (
                   <Chip key={c} activo={ciudad === c} texto={c} onPress={() => setCiudad(c)} />
@@ -353,7 +353,7 @@ export default function LifebookHotelScreen() {
                 </Text>
               </View>
             ) : (
-              <View style={{ gap: 8 }}>
+              <View style={{ gap: espaciado.e8 }}>
                 <Text style={[styles.aviso, { color: colors.textSecondary }]}>
                   {datos?.hotels.length
                     ? listo
@@ -454,63 +454,63 @@ function Contador({
 const styles = StyleSheet.create({
   screen: { flex: 1 },
   // Selector de modo (llegada + días · entrada y salida) y contador de noches.
-  modoBtn: { flex: 1, borderWidth: 1, borderRadius: radios.md, paddingVertical: 8, alignItems: 'center' },
+  modoBtn: { flex: 1, borderWidth: 1, borderRadius: radios.md, paddingVertical: espaciado.e8, alignItems: 'center' },
   modoTxt: { fontSize: tipografia.caption, fontWeight: '700' },
-  elegirFechas: { marginTop: 10, borderWidth: 1, borderRadius: radios.md, paddingVertical: 11, alignItems: 'center' },
+  elegirFechas: { marginTop: espaciado.e10, borderWidth: 1, borderRadius: radios.md, paddingVertical: espaciado.e11, alignItems: 'center' },
   elegirFechasTxt: { fontSize: tipografia.body, fontWeight: '800' },
   diasFila: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    gap: 10, marginTop: 10,
+    gap: espaciado.e10, marginTop: espaciado.e10,
   },
   diasEtq: { fontSize: tipografia.body, fontWeight: '700', flex: 1 },
-  diasBtns: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  diasBtns: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
   diasBtn: { width: 36, height: 36, borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   diasBtnTxt: { fontSize: 19, fontWeight: '800', lineHeight: 21 },
   diasVal: { fontSize: tipografia.subtitle, fontWeight: '800', minWidth: 24, textAlign: 'center' },
   barra: {
-    flexDirection: 'row', alignItems: 'center', gap: 8,
-    paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: 1,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
+    paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1,
   },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: '700', lineHeight: 28 },
   titulo: { fontSize: 17, fontWeight: '800' },
   sub: { fontSize: tipografia.caption },
-  misReservas: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 10, paddingVertical: 7 },
+  misReservas: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7 },
   misReservasTxt: { fontSize: tipografia.caption, fontWeight: '700' },
-  verTodos: { borderWidth: 1, borderRadius: radios.md, paddingVertical: 9, alignItems: 'center' },
+  verTodos: { borderWidth: 1, borderRadius: radios.md, paddingVertical: espaciado.e9, alignItems: 'center' },
   verTodosTxt: { fontSize: tipografia.body, fontWeight: '800' },
-  bloque: { borderWidth: 1, borderRadius: radios.lg, padding: 12, gap: 2 },
+  bloque: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e2 },
   filaCabecera: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   etiqueta: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6 },
   enlace: { fontSize: tipografia.caption, fontWeight: '700' },
-  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 12, height: altura.punto, fontSize: 14.5, marginTop: 6 },
-  fechas: { flexDirection: 'row', gap: 8, marginTop: 8 },
-  fechaCaja: { flex: 1, borderWidth: 1, borderRadius: radios.md, padding: 9 },
+  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.punto, fontSize: 14.5, marginTop: espaciado.e6 },
+  fechas: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 },
+  fechaCaja: { flex: 1, borderWidth: 1, borderRadius: radios.md, padding: espaciado.e9 },
   fechaEtq: { fontSize: 10.5, fontWeight: '600' },
-  fechaVal: { fontSize: tipografia.body, fontWeight: '800', marginTop: 2 },
-  chip: { borderWidth: 1, borderRadius: 20, paddingHorizontal: 12, paddingVertical: 6 },
+  fechaVal: { fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e2 },
+  chip: { borderWidth: 1, borderRadius: 20, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6 },
   chipTxt: { fontSize: tipografia.caption, fontWeight: '600' },
-  contFila: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 },
+  contFila: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e8 },
   contEtq: { fontSize: tipografia.body, fontWeight: '600' },
-  contAcciones: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  contAcciones: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
   contBtn: { width: 34, height: 34, borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   contBtnTxt: { fontSize: 18, fontWeight: '800', lineHeight: 20 },
   contVal: { fontSize: 15, fontWeight: '800', minWidth: 22, textAlign: 'center' },
-  centro: { alignItems: 'center', gap: 8, paddingVertical: 18 },
+  centro: { alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e18 },
   aviso: { fontSize: tipografia.caption },
-  error: { borderWidth: 1, borderRadius: 14, padding: 12, gap: 6 },
+  error: { borderWidth: 1, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
   errorTxt: { fontSize: tipografia.body, fontWeight: '600' },
-  tarjeta: { borderWidth: 1, borderRadius: 18, padding: 12 },
-  tarjetaCab: { flexDirection: 'row', gap: 10 },
+  tarjeta: { borderWidth: 1, borderRadius: 18, padding: espaciado.e12 },
+  tarjetaCab: { flexDirection: 'row', gap: espaciado.e10 },
   tarjetaTitulo: { fontSize: 15.5, fontWeight: '800' },
-  tarjetaSub: { fontSize: tipografia.caption, marginTop: 2 },
+  tarjetaSub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   precio: { fontSize: 15, fontWeight: '800' },
   precioSub: { fontSize: 10.5 },
-  habitacion: { borderWidth: 1, borderRadius: 14, padding: 10, flexDirection: 'row', gap: 10, alignItems: 'center' },
+  habitacion: { borderWidth: 1, borderRadius: 14, padding: espaciado.e10, flexDirection: 'row', gap: espaciado.e10, alignItems: 'center' },
   habNombre: { fontSize: tipografia.body, fontWeight: '800' },
-  habDatos: { fontSize: tipografia.micro, marginTop: 2 },
-  habTotal: { fontSize: tipografia.caption, fontWeight: '700', marginTop: 4 },
+  habDatos: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
+  habTotal: { fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e4 },
   habLibre: { fontSize: tipografia.micro, fontWeight: '700' },
-  reservarBtn: { borderRadius: 10, paddingHorizontal: 12, paddingVertical: 7 },
+  reservarBtn: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   reservarTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800' },
 });

@@ -16,7 +16,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {alpha, useTheme, brand, tipografia, radios, altura} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import { hotelApi, type HotelSearchResult } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
@@ -154,7 +154,7 @@ export default function HotelFechasScreen() {
           </Pressable>
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ padding: 14, paddingBottom: insets.bottom + 130, gap: 12 }}>
+        <ScrollView contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 130, gap: espaciado.e12 }}>
           {/* ── Forma de elegir: llegada + días, o entrada y salida ── */}
           <View style={styles.modos}>
             {(['noches', 'rango'] as const).map((m) => {
@@ -283,29 +283,29 @@ export default function HotelFechasScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  barra: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: 1 },
+  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: '700', lineHeight: 28 },
   titulo: { fontSize: 16.5, fontWeight: '800' },
   sub: { fontSize: tipografia.caption },
-  centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8 },
-  aviso: { margin: 14, borderWidth: 1, borderRadius: 14, padding: 12, gap: 6 },
+  centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e8 },
+  aviso: { margin: espaciado.e14, borderWidth: 1, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
   enlace: { fontSize: tipografia.caption, fontWeight: '700' },
-  modos: { flexDirection: 'row', gap: 8 },
-  modoBtn: { flex: 1, borderWidth: 1, borderRadius: radios.md, paddingVertical: 9, alignItems: 'center' },
+  modos: { flexDirection: 'row', gap: espaciado.e8 },
+  modoBtn: { flex: 1, borderWidth: 1, borderRadius: radios.md, paddingVertical: espaciado.e9, alignItems: 'center' },
   modoTxt: { fontSize: tipografia.caption, fontWeight: '700' },
-  diasFila: { flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1, borderRadius: 14, padding: 12 },
+  diasFila: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1, borderRadius: 14, padding: espaciado.e12 },
   diasEtq: { fontSize: 14.5, fontWeight: '800' },
-  diasBtns: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  diasBtns: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
   diasBtn: { width: 38, height: 38, borderWidth: 1, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
   diasBtnTxt: { fontSize: tipografia.title, fontWeight: '800', lineHeight: 22 },
   diasVal: { fontSize: 17, fontWeight: '800', minWidth: 26, textAlign: 'center' },
   pie: {
     position: 'absolute', left: 0, right: 0, bottom: 0, borderTopWidth: 1,
-    paddingHorizontal: 14, paddingTop: 10, flexDirection: 'row', alignItems: 'center', gap: 12,
+    paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
   },
   pieEtq: { fontSize: tipografia.caption },
   pieTotal: { fontSize: 15, fontWeight: '800' },
-  confirmar: { minWidth: 170, height: altura.campo, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14 },
+  confirmar: { minWidth: 170, height: altura.campo, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e14 },
   confirmarTxt: { color: brand.white, fontSize: 15, fontWeight: '800' },
 });

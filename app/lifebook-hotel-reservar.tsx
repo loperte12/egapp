@@ -21,7 +21,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {useTheme, alpha, brand, tipografia, radios, altura} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import {
@@ -270,7 +270,7 @@ function Contenido() {
     const sinSenal = hecha.depositXaf <= 0;
     return (
       <View style={[styles.screen, { backgroundColor: colors.background, paddingTop: insets.top + 8 }]}>
-        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 30, gap: 12 }}>
+        <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30, gap: espaciado.e12 }}>
           <Text style={[styles.ok, { color: colors.success }]}>Reserva hecha</Text>
           <Text style={[styles.codigo, { color: colors.textPrimary }]}>{hecha.code}</Text>
           <Text style={[styles.sub, { color: colors.textSecondary }]}>
@@ -380,7 +380,7 @@ function Contenido() {
       {cargandoCal && !room ? (
         <View style={styles.centro}><ActivityIndicator color={colors.primary} /></View>
       ) : (
-        <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 120, gap: 12 }} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 120, gap: espaciado.e12 }} keyboardShouldPersistTaps="handled">
           {/* ── La habitación, con sus fotos reales ── */}
           <PhotoGallery
             photos={room?.images ?? []}
@@ -399,7 +399,7 @@ function Contenido() {
             }
           />
 
-          <View style={{ paddingHorizontal: 14, gap: 12 }}>
+          <View style={{ paddingHorizontal: espaciado.e14, gap: espaciado.e12 }}>
           {/* ── Horario de llegada y normas: lo que se pregunta al reservar ── */}
           {room?.checkinFrom ? (
             <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
@@ -490,7 +490,7 @@ function Contenido() {
 
             {room && room.depositPercent > 0 ? (
               <>
-                <Text style={[styles.sub, { color: colors.textSecondary, marginTop: 6 }]}>
+                <Text style={[styles.sub, { color: colors.textSecondary, marginTop: espaciado.e6 }]}>
                   Señal: elige cuánto pagas ahora (el hotel pide hasta el {room.depositPercent} %).
                   El resto, al llegar.
                 </Text>
@@ -518,7 +518,7 @@ function Contenido() {
                 </View>
               </>
             ) : (
-              <Text style={[styles.sub, { color: colors.textSecondary, marginTop: 6 }]}>
+              <Text style={[styles.sub, { color: colors.textSecondary, marginTop: espaciado.e6 }]}>
                 Este tipo de habitación se paga al llegar (sin señal).
               </Text>
             )}
@@ -622,7 +622,7 @@ function Paso({
   return (
     <View style={styles.linea}>
       <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>{etiqueta}</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
         {boton('−', -1, valor <= min)}
         <Text style={[styles.pasoVal, { color: colors.textPrimary }]}>{valor}</Text>
         {boton('+', 1, valor >= max)}
@@ -639,7 +639,7 @@ function Campo({
 }) {
   const { colors } = useTheme();
   return (
-    <View style={{ marginTop: 8 }}>
+    <View style={{ marginTop: espaciado.e8 }}>
       <Text style={[styles.sub, { color: colors.textSecondary }]}>{etiqueta}</Text>
       <TextInput
         value={valor}
@@ -661,38 +661,38 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center',
   },
   volverFlotanteTxt: { color: brand.white, fontSize: 24, fontWeight: '700', lineHeight: 26 },
-  barra: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: 1 },
+  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: '700', lineHeight: 28 },
   titulo: { fontSize: 16.5, fontWeight: '800' },
   sub: { fontSize: tipografia.caption },
   dato: { fontSize: tipografia.body, fontWeight: '600' },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  bloque: { borderWidth: 1, borderRadius: 18, padding: 12, gap: 3 },
+  bloque: { borderWidth: 1, borderRadius: 18, padding: espaciado.e12, gap: espaciado.e3 },
   etiqueta: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6 },
-  linea: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, marginTop: 6 },
+  linea: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e6 },
   lineaEtq: { fontSize: tipografia.caption, flex: 1 },
   lineaVal: { fontSize: tipografia.body },
-  separador: { height: 1, marginVertical: 7 },
-  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 12, height: altura.control, fontSize: 14.5, marginTop: 4 },
-  metodos: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 },
-  chip: { borderWidth: 1, borderRadius: 20, paddingHorizontal: 12, paddingVertical: 7 },
+  separador: { height: 1, marginVertical: espaciado.e7 },
+  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.control, fontSize: 14.5, marginTop: espaciado.e4 },
+  metodos: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e8 },
+  chip: { borderWidth: 1, borderRadius: 20, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   chipTxt: { fontSize: tipografia.caption, fontWeight: '700' },
   pasoBtn: { width: 34, height: 34, borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   pasoBtnTxt: { fontSize: 18, fontWeight: '800', lineHeight: 20 },
   pasoVal: { fontSize: 15, fontWeight: '800', minWidth: 22, textAlign: 'center' },
-  aviso: { fontSize: tipografia.caption, marginTop: 8, fontWeight: '600' },
-  error: { borderWidth: 1, borderRadius: 14, padding: 12 },
+  aviso: { fontSize: tipografia.caption, marginTop: espaciado.e8, fontWeight: '600' },
+  error: { borderWidth: 1, borderRadius: 14, padding: espaciado.e12 },
   pie: {
     position: 'absolute', left: 0, right: 0, bottom: 0, borderTopWidth: 1,
-    paddingHorizontal: 14, paddingTop: 10, flexDirection: 'row', alignItems: 'center', gap: 12,
+    paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
   },
   pieEtq: { fontSize: tipografia.micro },
   pieTotal: { fontSize: tipografia.subtitle, fontWeight: '800' },
-  confirmar: { minWidth: 170, height: altura.campo, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14 },
-  cta: { height: altura.campo, borderRadius: 14, alignItems: 'center', justifyContent: 'center', marginTop: 6 },
+  confirmar: { minWidth: 170, height: altura.campo, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e14 },
+  cta: { height: altura.campo, borderRadius: 14, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e6 },
   ctaTxt: { color: brand.white, fontSize: 15, fontWeight: '800' },
-  ok: { fontSize: tipografia.title, fontWeight: '800', marginTop: 8 },
+  ok: { fontSize: tipografia.title, fontWeight: '800', marginTop: espaciado.e8 },
   codigo: { fontSize: 26, fontWeight: '800', letterSpacing: 1 },
-  retencion: { fontSize: tipografia.caption, fontWeight: '700', marginTop: 6 },
+  retencion: { fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 },
 });

@@ -28,7 +28,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, FormField, GhostButton, PrimaryButton, useTheme, brand, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -201,12 +201,12 @@ function Contenido() {
       </View>
 
       {error ? (
-        <View style={{ padding: 16 }}>
-          <Text style={{ color: colors.textSecondary, marginBottom: 12 }}>{error}</Text>
+        <View style={{ padding: espaciado.e16 }}>
+          <Text style={{ color: colors.textSecondary, marginBottom: espaciado.e12 }}>{error}</Text>
           <GhostButton title="Reintentar" onPress={() => void cargar()} />
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 30 }} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }} keyboardShouldPersistTaps="handled">
           {aviso ? (
             <View style={[styles.aviso, { backgroundColor: alpha(colors.primary, 0.08), borderColor: alpha(colors.primary, 0.25) }]}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, lineHeight: 19 }}>{aviso}</Text>
@@ -216,20 +216,20 @@ function Contenido() {
           {/* Lo que viene de la tienda */}
           <View style={[styles.caja, { backgroundColor: colors.surface, borderColor: colors.border }]}>
             <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '900' }}>{hotel?.name ?? 'Tu alojamiento'}</Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
               {[hotel?.barrio, hotel?.city, hotel?.region].filter(Boolean).join(' · ') || 'Sin dirección'}
               {hotel?.isVerified ? ' · ✅ Tienda verificada' : ''}
             </Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 6, lineHeight: 17 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6, lineHeight: 17 }}>
               El nombre, la dirección, el logo y la portada son de tu tienda: se cambian en «Ajustes de la tienda».
             </Text>
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: espaciado.e10 }}>
               <GhostButton title="Ajustes de la tienda" onPress={() => router.push('/lifebook-merchant-settings' as never)} />
             </View>
           </View>
 
           <Bloque titulo="Tipo de alojamiento" hint="Ayuda al huésped a saber qué esperar.">
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
               {TIPOS.map((t) => {
                 const on = tipo === t.id;
                 return (
@@ -245,7 +245,7 @@ function Contenido() {
           </Bloque>
 
           <Bloque titulo="Categoría" hint="De 1 a 5 estrellas. Si no la tienes, déjalo sin marcar: no es obligatorio.">
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
               {[1, 2, 3, 4, 5].map((n) => {
                 const on = estrellas === n;
                 return (
@@ -264,7 +264,7 @@ function Contenido() {
                   hitSlop={8}
                   accessibilityRole="button"
                   accessibilityLabel="Quitar la categoría"
-                  style={{ minHeight: 44, justifyContent: 'center', paddingHorizontal: 6 }}
+                  style={{ minHeight: 44, justifyContent: 'center', paddingHorizontal: espaciado.e6 }}
                 >
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>Quitar</Text>
                 </Pressable>
@@ -273,7 +273,7 @@ function Contenido() {
           </Bloque>
 
           <Bloque titulo="Horario de entrada y salida" hint="Es lo primero que mira el huésped el día que llega.">
-            <View style={{ flexDirection: 'row', gap: 10 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
               <View style={{ flex: 1 }}>
                 <FormField label="Entrada desde" value={entradaDesde} onChangeText={setEntradaDesde} placeholder="14:00" maxLength={5} keyboardType="numbers-and-punctuation" />
               </View>
@@ -283,29 +283,29 @@ function Contenido() {
             </View>
             <View style={{ height: 10 }} />
             <FormField label="Salida hasta" value={salidaHasta} onChangeText={setSalidaHasta} placeholder="12:00" maxLength={5} keyboardType="numbers-and-punctuation" />
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 5, marginLeft: 4 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e5, marginLeft: espaciado.e4 }}>
               Formato de 24 horas: 14:00, no 2 PM.
             </Text>
             {/* Los dos interruptores van JUNTOS en una caja: sueltos parecían dos cosas
                 distintas y sin relación con el horario que tienen encima. */}
             <View style={[styles.grupo, { borderColor: colors.border, backgroundColor: colors.surface }]}>
               <View style={styles.linea}>
-                <View style={{ flex: 1, paddingRight: 12 }}>
+                <View style={{ flex: 1, paddingRight: espaciado.e12 }}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
                     Recepción abierta 24 horas
                   </Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                     Si está apagado, el huésped sabe que hay horas sin nadie en recepción.
                   </Text>
                 </View>
                 <Switch value={recepcion24} onValueChange={setRecepcion24} trackColor={{ true: alpha(colors.primary, 0.5) }} />
               </View>
               <View style={[styles.linea, { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border }]}>
-                <View style={{ flex: 1, paddingRight: 12 }}>
+                <View style={{ flex: 1, paddingRight: espaciado.e12 }}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
                     Los precios ya incluyen impuestos
                   </Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                     Evita sorpresas en el mostrador al hacer la cuenta.
                   </Text>
                 </View>
@@ -315,7 +315,7 @@ function Contenido() {
           </Bloque>
 
           <Bloque titulo="Servicios del alojamiento" hint="Marca solo lo que hay de verdad en el hotel.">
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
               {SERVICIOS.map((s) => {
                 const on = servicios.includes(s.id);
                 return (
@@ -339,7 +339,7 @@ function Contenido() {
               placeholder="Entrada por la puerta lateral, junto al parking. Recepción en el 2.º piso: si llegas de noche, timbre a la derecha."
             />
             <Contador actual={llegada.length} max={600} />
-            <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 4 }}>
+            <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>
               Se enseña en la ficha del hotel, con el botón «Cómo llegar» y el taxi desde el aeropuerto.
             </Text>
           </Bloque>
@@ -373,33 +373,33 @@ function Contenido() {
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
                       {on ? '✓ ' : ''}{m.label}
                     </Text>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2, lineHeight: 16 }}>{m.hint}</Text>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>{m.hint}</Text>
                   </View>
                 </Pressable>
               );
             })}
 
             {otrosDeLaTienda.length ? (
-              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 8, lineHeight: 17 }}>
+              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e8, lineHeight: 17 }}>
                 ⚠️ Tu tienda tiene activa(s) {otrosDeLaTienda.join(', ')}, que un alojamiento no puede ofrecer.
                 No se enseñan al huésped.
               </Text>
             ) : null}
 
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 8, lineHeight: 17 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8, lineHeight: 17 }}>
               Aquí solo se pueden AÑADIR formas de pago. Para quitar una, entra en «Ajustes de la tienda»:
               en la ficha del hotel, desmarcar no la desactiva (comprobado contra el servidor).
             </Text>
           </Bloque>
 
-          <View style={{ marginTop: 8 }}>
+          <View style={{ marginTop: espaciado.e8 }}>
             <PrimaryButton title="Guardar la ficha" onPress={() => void guardar()} loading={guardando} disabled={!!problema} />
           </View>
           {problema ? (
-            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 10 }}>⚠️ {problema}</Text>
+            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e10 }}>⚠️ {problema}</Text>
           ) : null}
 
-          <View style={{ marginTop: 16 }}>
+          <View style={{ marginTop: espaciado.e16 }}>
             <GhostButton title="Mis habitaciones" onPress={() => router.push('/lifebook-hotel-habitaciones' as never)} />
           </View>
         </ScrollView>
@@ -423,7 +423,7 @@ function Contador({ actual, max }: { actual: number; max: number }) {
     <Text
       style={{
         color: quedan <= 40 ? colors.secondary : colors.textSecondary,
-        fontSize: tipografia.caption, fontWeight: '700', marginTop: 6, marginLeft: 4,
+        fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6, marginLeft: espaciado.e4,
       }}
       accessibilityLiveRegion="polite"
     >
@@ -435,9 +435,9 @@ function Contador({ actual, max }: { actual: number; max: number }) {
 function Bloque({ titulo, hint, children }: { titulo: string; hint?: string; children: React.ReactNode }) {
   const { colors } = useTheme();
   return (
-    <View style={{ marginTop: 22 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: 3 }}>{titulo}</Text>
-      {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 10 }}>{hint}</Text> : <View style={{ height: 7 }} />}
+    <View style={{ marginTop: espaciado.e22 }}>
+      <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: espaciado.e3 }}>{titulo}</Text>
+      {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>{hint}</Text> : <View style={{ height: 7 }} />}
       {children}
     </View>
   );
@@ -445,22 +445,22 @@ function Bloque({ titulo, hint, children }: { titulo: string; hint?: string; chi
 
 const styles = StyleSheet.create({
   cabecera: {
-    flexDirection: 'row', alignItems: 'center', gap: 4,
-    paddingHorizontal: 12, paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e4,
+    paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 40, height: 34, alignItems: 'center', justifyContent: 'center' },
-  aviso: { borderWidth: 1, borderRadius: radios.md, padding: 11, marginBottom: 4 },
-  caja: { borderWidth: 1, borderRadius: radios.lg, padding: 14 },
+  aviso: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e4 },
+  caja: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e14 },
   // Objetivos táctiles de 44 px como mínimo (un chip de 33 px se falla con el dedo).
-  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: 13, minHeight: 44, justifyContent: 'center' },
+  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
   estrella: {
     borderWidth: 1.5, borderRadius: radios.md, minHeight: 44, minWidth: 54,
     alignItems: 'center', justifyContent: 'center',
   },
   linea: {
     flexDirection: 'row', alignItems: 'center',
-    paddingVertical: 11,
+    paddingVertical: espaciado.e11,
   },
-  grupo: { borderWidth: 1, borderRadius: 14, paddingHorizontal: 12, marginTop: 12 },
-  pago: { borderWidth: 1.5, borderRadius: radios.md, padding: 11, marginBottom: 8, flexDirection: 'row', alignItems: 'center' },
+  grupo: { borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e12, marginTop: espaciado.e12 },
+  pago: { borderWidth: 1.5, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center' },
 });

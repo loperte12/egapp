@@ -32,7 +32,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, PrimaryButton, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { ArrowLeft, CalendarDays, Plus } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -170,17 +170,17 @@ function Contenido() {
       </View>
 
       {cargando ? (
-        <ScrollView contentContainerStyle={{ padding: 16 }} scrollEnabled={false}>
+        <ScrollView contentContainerStyle={{ padding: espaciado.e16 }} scrollEnabled={false}>
           {[0, 1, 2].map((i) => <EsqueletoTarjeta key={i} />)}
         </ScrollView>
       ) : error ? (
         <View style={styles.centro}>
-          <Text style={{ color: colors.textSecondary, textAlign: 'center', marginBottom: 14 }}>{error}</Text>
+          <Text style={{ color: colors.textSecondary, textAlign: 'center', marginBottom: espaciado.e14 }}>{error}</Text>
           <GhostButton title="Reintentar" onPress={() => void cargar()} />
         </View>
       ) : (
         <ScrollView
-          contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 28 }}
+          contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 28 }}
           refreshControl={<RefreshControl refreshing={refrescando} onRefresh={() => { setRefrescando(true); void cargar(true); }} tintColor={colors.primary} />}
         >
           {aviso ? (
@@ -190,7 +190,7 @@ function Contenido() {
           ) : null}
 
           {rooms.length ? (
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: 10 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e10 }}>
               {rooms.length} tipo(s) · {totalUnidades} habitación(es) a la venta · {publicadas} publicada(s)
             </Text>
           ) : null}
@@ -201,7 +201,7 @@ function Contenido() {
             venta; el resto a un toque, con el número a la vista para saber que existe.
           */}
           {rooms.length > 1 ? (
-            <View style={{ flexDirection: 'row', gap: 8, marginBottom: 12 }}>
+            <View style={{ flexDirection: 'row', gap: espaciado.e8, marginBottom: espaciado.e12 }}>
               <ChipFiltro
                 activo={filtro === 'venta'}
                 texto={`A la venta (${rooms.filter((r) => r.isActive).length})`}
@@ -233,7 +233,7 @@ function Contenido() {
                   <View style={[styles.portada, { borderColor: colors.border }]}>
                     <LazyImage source={{ uri: foto }} style={styles.portadaImg} />
                   </View>
-                  <View style={{ flex: 1, paddingLeft: 12 }}>
+                  <View style={{ flex: 1, paddingLeft: espaciado.e12 }}>
                     {/*
                       El nombre ocupa TODO el ancho (dos líneas) y el estado baja a la línea
                       del precio. Antes iban en la misma fila y el chip «Se puede reservar» se
@@ -242,7 +242,7 @@ function Contenido() {
                     <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }} numberOfLines={2}>
                       {r.name}
                     </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 6 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e6 }}>
                       <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>
                         {xaf(r.basePriceXaf)}
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}> por noche</Text>
@@ -251,7 +251,7 @@ function Contenido() {
                         <Text style={{ color: est.color, fontSize: tipografia.micro, fontWeight: '900' }}>{est.txt}</Text>
                       </View>
                     </View>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }}>{resumenHabitacion(r)}</Text>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>{resumenHabitacion(r)}</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>
                       {r.totalUnits} habitación(es) · mínimo {r.minNights} noche(s) · señal {r.depositPercent}%
                     </Text>
@@ -287,7 +287,7 @@ function Contenido() {
                 )}
 
                 {r.productStatus === 'pending' && r.isActive ? (
-                  <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 8, lineHeight: 18 }}>
+                  <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e8, lineHeight: 18 }}>
                     ⏳ En revisión: la administración tiene que aprobarla antes de que se pueda reservar. Mientras
                     tanto puedes ponerle precios y cerrar fechas.
                   </Text>
@@ -313,7 +313,7 @@ function Contenido() {
                   ].filter(Boolean) as string[];
                   return (
                     <View style={[styles.comprobacion, { borderTopColor: colors.border }]}>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 7 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e7 }}>
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '900', letterSpacing: 0.5 }}>
                           FICHA
                         </Text>
@@ -324,7 +324,7 @@ function Contenido() {
                           {faltan.length ? `Falta: ${faltan.join(' · ')}` : 'Completa'}
                         </Text>
                       </View>
-                      <View style={{ flexDirection: 'row', gap: 6, flexWrap: 'wrap' }}>
+                      <View style={{ flexDirection: 'row', gap: espaciado.e6, flexWrap: 'wrap' }}>
                         <Sello ok={nFotos >= 3} texto={`${nFotos} foto(s)`} colors={colors} />
                         <Sello ok={!!r.beds?.length} texto={r.beds?.length ? `${r.beds.reduce((a, b) => a + b.count, 0)} cama(s)` : 'sin cama'} colors={colors} />
                         <Sello ok={!!r.sizeM2} texto={r.sizeM2 ? `${r.sizeM2} m²` : 'sin m²'} colors={colors} />
@@ -348,7 +348,7 @@ function Contenido() {
                     <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Precios y fechas</Text>
                   </Pressable>
 
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginLeft: 'auto' }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginLeft: 'auto' }}>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
                       {ocupado === r.id ? 'Cambiando…' : r.isActive ? 'A la venta' : 'Apagada'}
                     </Text>
@@ -368,19 +368,19 @@ function Contenido() {
           {!rooms.length ? (
             <View style={[styles.tarjeta, { backgroundColor: colors.card, borderColor: colors.border }]}>
               <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>Todavía no tienes habitaciones</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18, marginTop: 6 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e6 }}>
                 Un «tipo de habitación» es lo que se vende: por ejemplo «Doble con aire», con su precio por noche,
                 cuántas tienes de ese tipo y su estancia mínima. De cada tipo se reservan unidades sueltas, así que
                 dos reservas de la misma noche caben si te quedan habitaciones libres — y no caben si no.
               </Text>
-              <View style={{ marginTop: 14 }}>
+              <View style={{ marginTop: espaciado.e14 }}>
                 <PrimaryButton title="Crear la primera habitación" onPress={() => router.push('/lifebook-hotel-habitacion' as never)} />
               </View>
             </View>
           ) : null}
 
           {rooms.length ? (
-            <View style={{ marginTop: 6 }}>
+            <View style={{ marginTop: espaciado.e6 }}>
               <GhostButton title="Ficha del hotel" onPress={() => router.push('/lifebook-hotel-perfil' as never)} />
             </View>
           ) : null}
@@ -404,7 +404,7 @@ function Sello({ ok, texto, colors }: {
   return (
     <View style={{
       borderWidth: 1, borderColor: color, borderRadius: radios.full,
-      paddingHorizontal: 8, paddingVertical: 3,
+      paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3,
     }}>
       <Text style={{ color, fontSize: tipografia.micro, fontWeight: '800' }}>
         {ok ? '' : '⚠ '}{texto}
@@ -425,7 +425,7 @@ function ChipFiltro({ activo, texto, onPress }: { activo: boolean; texto: string
       accessibilityLabel={texto}
       style={{
         minHeight: 44, justifyContent: 'center',
-        borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: 14,
+        borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e14,
         borderColor: activo ? colors.primary : colors.border,
         backgroundColor: activo ? alpha(colors.primary, 0.12) : colors.surface,
       }}
@@ -444,40 +444,40 @@ function EsqueletoTarjeta() {
     <View style={[styles.tarjeta, { backgroundColor: colors.card, borderColor: colors.border }]}>
       <View style={{ flexDirection: 'row' }}>
         <View style={[styles.portada, { backgroundColor: gris, borderColor: colors.border }]} />
-        <View style={{ flex: 1, paddingLeft: 12, gap: 8 }}>
+        <View style={{ flex: 1, paddingLeft: espaciado.e12, gap: espaciado.e8 }}>
           <View style={{ height: 14, width: '70%', borderRadius: 6, backgroundColor: gris }} />
           <View style={{ height: 11, width: '50%', borderRadius: 6, backgroundColor: gris }} />
           <View style={{ height: 14, width: '35%', borderRadius: 6, backgroundColor: gris }} />
         </View>
       </View>
-      <View style={{ height: 11, width: '90%', borderRadius: 6, backgroundColor: gris, marginTop: 14 }} />
-      <View style={{ height: 11, width: '60%', borderRadius: 6, backgroundColor: gris, marginTop: 8 }} />
+      <View style={{ height: 11, width: '90%', borderRadius: 6, backgroundColor: gris, marginTop: espaciado.e14 }} />
+      <View style={{ height: 11, width: '60%', borderRadius: 6, backgroundColor: gris, marginTop: espaciado.e8 }} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   cabecera: {
-    flexDirection: 'row', alignItems: 'center', gap: 6,
-    paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
+    paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   anadir: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
-  centro: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
-  aviso: { borderWidth: 1, borderRadius: radios.md, padding: 11, marginBottom: 12 },
-  tarjeta: { borderWidth: 1, borderRadius: radios.lg, padding: 14, marginBottom: 12 },
+  centro: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
+  aviso: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e12 },
+  tarjeta: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e14, marginBottom: espaciado.e12 },
   portada: { width: 76, height: 76, borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, overflow: 'hidden' },
   portadaImg: { width: '100%', height: '100%' },
-  etiqueta: { borderRadius: radios.full, paddingHorizontal: 9, paddingVertical: 4, marginLeft: 'auto' },
-  descripcion: { borderTopWidth: StyleSheet.hairlineWidth, marginTop: 12, paddingTop: 10 },
-  comprobacion: { borderTopWidth: StyleSheet.hairlineWidth, marginTop: 12, paddingTop: 10 },
+  etiqueta: { borderRadius: radios.full, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e4, marginLeft: 'auto' },
+  descripcion: { borderTopWidth: StyleSheet.hairlineWidth, marginTop: espaciado.e12, paddingTop: espaciado.e10 },
+  comprobacion: { borderTopWidth: StyleSheet.hairlineWidth, marginTop: espaciado.e12, paddingTop: espaciado.e10 },
   verMas: { minHeight: 44, justifyContent: 'center' },
   pie: {
-    borderTopWidth: StyleSheet.hairlineWidth, marginTop: 12, paddingTop: 8,
+    borderTopWidth: StyleSheet.hairlineWidth, marginTop: espaciado.e12, paddingTop: espaciado.e8,
     flexDirection: 'row', alignItems: 'center',
   },
   pieBtn: {
-    minHeight: 44, borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 12,
-    flexDirection: 'row', alignItems: 'center', gap: 7,
+    minHeight: 44, borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e7,
   },
 });

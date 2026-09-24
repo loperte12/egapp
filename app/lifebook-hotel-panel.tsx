@@ -27,7 +27,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ChevronRight, Settings } from 'lucide-react-native';
-import {alpha, useTheme, brand, tipografia, radios, altura} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -197,7 +197,7 @@ function Contenido() {
           ScrollView con un bloque «Grupo» por sección y cada bloque con su .map(), así que
           TODAS las reservas quedaban montadas. Aquí la sección es el grupo y la fila es la
           reserva. `stickySectionHeadersEnabled` en false a propósito: los títulos nunca
-          fueron pegajosos. El hueco lo pone el `gap: 12` del contenedor.
+          fueron pegajosos. El hueco lo pone el `gap: espaciado.e12` del contenedor.
         */
         <SectionList
           /*
@@ -214,7 +214,7 @@ function Contenido() {
             { titulo: 'Historial', data: historial.slice(0, 20) },
           ].filter((s) => s.data.length > 0)}
           keyExtractor={(r) => r.id}
-          contentContainerStyle={{ padding: 14, paddingBottom: insets.bottom + 30, gap: 12 }}
+          contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 30, gap: espaciado.e12 }}
           stickySectionHeadersEnabled={false}
           refreshControl={
             <RefreshControl refreshing={refrescando} onRefresh={() => { setRefrescando(true); void cargar(true); }} tintColor={colors.primary} />
@@ -229,9 +229,9 @@ function Contenido() {
             /*
             Un `View` con el hueco del contenedor, y no un fragmento: el `gap` de
             `contentContainerStyle` separa CELDAS, y `ListHeaderComponent` es UNA celda. Con un
-            fragmento, todo lo de aquí dentro quedaba pegado (era gap: 12 antes de virtualizar).
+            fragmento, todo lo de aquí dentro quedaba pegado (era gap: espaciado.e12 antes de virtualizar).
             */
-            <View style={{ gap: 12 }}>
+            <View style={{ gap: espaciado.e12 }}>
           {aviso ? (
             <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.surface }]}>
               <Text style={[styles.sub, { color: colors.textPrimary }]}>{aviso}</Text>
@@ -258,7 +258,7 @@ function Contenido() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Gestión</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 Ficha del hotel, habitaciones, precios y fechas
               </Text>
             </View>
@@ -469,42 +469,42 @@ function Stat({ titulo, valor, tono }: { titulo: string; valor: string; tono?: '
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  barra: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: 1 },
+  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: '700', lineHeight: 28 },
   titulo: { fontSize: 16.5, fontWeight: '800' },
   sub: { fontSize: tipografia.caption },
-  cambiar: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 10, paddingVertical: 7 },
+  cambiar: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7 },
   cambiarTxt: { fontSize: tipografia.caption, fontWeight: '700' },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  aviso: { margin: 14, borderWidth: 1, borderRadius: 14, padding: 12, gap: 6 },
+  aviso: { margin: espaciado.e14, borderWidth: 1, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
   enlace: { fontSize: tipografia.caption, fontWeight: '700' },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  stat: { width: '47.5%', borderWidth: 1, borderRadius: 14, padding: 12 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10 },
+  stat: { width: '47.5%', borderWidth: 1, borderRadius: 14, padding: espaciado.e12 },
   statEtq: { fontSize: tipografia.caption },
-  statVal: { fontSize: 24, fontWeight: '800', marginTop: 2 },
-  bloque: { borderWidth: 1, borderRadius: radios.lg, padding: 12, gap: 4 },
+  statVal: { fontSize: 24, fontWeight: '800', marginTop: espaciado.e2 },
+  bloque: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e4 },
   /** Puerta única a la parte de Gestión. 56 px de alto: objetivo táctil cómodo. */
   puente: {
-    flexDirection: 'row', alignItems: 'center', gap: 11,
-    borderWidth: 1, borderRadius: 14, padding: 12, minHeight: 56,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
+    borderWidth: 1, borderRadius: 14, padding: espaciado.e12, minHeight: 56,
   },
   puenteIcono: { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   etiqueta: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6 },
   seccion: { fontSize: 14.5, fontWeight: '800' },
-  card: { borderWidth: 1, borderRadius: radios.lg, padding: 12, gap: 4 },
+  card: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e4 },
   codigo: { fontSize: 15.5, fontWeight: '800', letterSpacing: 0.5 },
-  dato: { fontSize: tipografia.body, marginTop: 2 },
-  linea: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
+  dato: { fontSize: tipografia.body, marginTop: espaciado.e2 },
+  linea: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e10 },
   lineaEtq: { fontSize: tipografia.caption, flex: 1 },
   lineaVal: { fontSize: tipografia.body },
-  badge: { borderWidth: 1, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
+  badge: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
   badgeTxt: { fontSize: 10.5, fontWeight: '800' },
-  dinero: { borderWidth: 1, borderRadius: radios.md, padding: 9, marginTop: 6, gap: 2 },
-  avisoTxt: { fontSize: tipografia.caption, marginTop: 6, fontWeight: '600' },
-  boton: { height: altura.punto, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', marginTop: 8 },
+  dinero: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e9, marginTop: espaciado.e6, gap: espaciado.e2 },
+  avisoTxt: { fontSize: tipografia.caption, marginTop: espaciado.e6, fontWeight: '600' },
+  boton: { height: altura.punto, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e8 },
   botonTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: '800' },
-  acciones: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 },
-  accion: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 12, height: 40, alignItems: 'center', justifyContent: 'center' },
+  acciones: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e10 },
+  accion: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 40, alignItems: 'center', justifyContent: 'center' },
   accionTxt: { fontSize: tipografia.body, fontWeight: '800' },
 });

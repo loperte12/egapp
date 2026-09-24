@@ -17,7 +17,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, FormField, GhostButton, PrimaryButton, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { HotelResultCard } from '../components/HotelResultCard';
 import { hotelApi, type HotelRoom, type HotelSearchResult } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
@@ -205,7 +205,7 @@ export default function HotelResultadosScreen() {
 
       {filtroAbierto ? (
         <View style={[styles.panelFiltro, { borderBottomColor: colors.border, backgroundColor: colors.card }]}>
-          <View style={{ flexDirection: 'row', gap: 10 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
             <View style={{ flex: 1 }}>
               <FormField
                 label="Precio mínimo (XAF)" value={minTexto} onChangeText={setMinTexto}
@@ -220,11 +220,11 @@ export default function HotelResultadosScreen() {
             </View>
           </View>
           {aplicado.error ? (
-            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: 8 }}>
+            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e8 }}>
               ⚠ {aplicado.error}
             </Text>
           ) : null}
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 16, marginTop: 8 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 16, marginTop: espaciado.e8 }}>
             Es el precio por noche. Deja un campo vacío para no poner tope por ese lado.
           </Text>
           {/*
@@ -232,7 +232,7 @@ export default function HotelResultadosScreen() {
             admite (`sort=price_asc` → 400, no está en el DTO de la búsqueda). Un control que
             devuelve 400 es peor que no tenerlo. Queda pendiente de servidor.
           */}
-          <View style={{ flexDirection: 'row', gap: 8, marginTop: 12 }}>
+          <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e12 }}>
             <View style={{ flex: 1 }}>
               <PrimaryButton title="Buscar con este precio" onPress={aplicarFiltro} />
             </View>
@@ -259,7 +259,7 @@ export default function HotelResultadosScreen() {
         <FlatList
           data={hoteles}
           keyExtractor={(item) => item.hotel.id}
-          contentContainerStyle={{ padding: 14, paddingBottom: insets.bottom + 24, gap: 12 }}
+          contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 24, gap: espaciado.e12 }}
           refreshControl={
             <RefreshControl
               refreshing={refrescando}
@@ -269,7 +269,7 @@ export default function HotelResultadosScreen() {
           }
           ListHeaderComponent={
             hoteles.length ? (
-              <Text style={[styles.sub, { color: colors.textSecondary, marginBottom: 4 }]}>
+              <Text style={[styles.sub, { color: colors.textSecondary, marginBottom: espaciado.e4 }]}>
                 {hoteles.length} alojamiento(s)
                 {hoteles.some((h) => h.soldOut) ? ' · los marcados «sin disponibilidad» no tienen hueco en esas fechas' : ''}
               </Text>
@@ -282,7 +282,7 @@ export default function HotelResultadosScreen() {
               hay más»: un botón «Ver más» que no trae nada es peor que no tenerlo.
             */
             datos?.hasMore && hoteles.length ? (
-              <View style={{ marginTop: 8 }}>
+              <View style={{ marginTop: espaciado.e8 }}>
                 <GhostButton
                   title={masCargando ? 'Buscando más…' : 'Ver más alojamientos'}
                   onPress={() => { setMasCargando(true); void cargar(true, pagina + 1); }}
@@ -331,24 +331,24 @@ export default function HotelResultadosScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  barra: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: 1 },
+  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: '700', lineHeight: 28 },
   titulo: { fontSize: 16.5, fontWeight: '800' },
   sub: { fontSize: tipografia.caption },
-  cambiar: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: 10, paddingVertical: 7 },
+  cambiar: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7 },
   cambiarTxt: { fontSize: tipografia.caption, fontWeight: '700' },
-  centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8 },
-  aviso: { margin: 14, borderWidth: 1, borderRadius: 14, padding: 12, gap: 6 },
+  centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e8 },
+  aviso: { margin: espaciado.e14, borderWidth: 1, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
   enlace: { fontSize: tipografia.caption, fontWeight: '700' },
-  vacio: { borderWidth: 1, borderRadius: radios.lg, padding: 14, gap: 6 },
+  vacio: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e14, gap: espaciado.e6 },
   vacioTitulo: { fontSize: 14.5, fontWeight: '800' },
   // Barra de filtros y panel: el precio es filtro de primer nivel, va siempre a la vista.
   filtros: {
-    flexDirection: 'row', alignItems: 'center', gap: 8,
-    paddingHorizontal: 14, paddingVertical: 9, borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
+    paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   // 44 px de alto mínimo: un chip de 33 px se falla con el dedo.
-  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: 13, minHeight: 44, justifyContent: 'center' },
-  panelFiltro: { paddingHorizontal: 14, paddingVertical: 14, borderBottomWidth: StyleSheet.hairlineWidth },
+  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
+  panelFiltro: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e14, borderBottomWidth: StyleSheet.hairlineWidth },
 });

@@ -29,7 +29,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, GhostButton, useTheme, tipografia, radios } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, BedDouble, CalendarDays, ChevronRight, ClipboardList, Settings, Store, TriangleAlert,
@@ -176,13 +176,13 @@ function Contenido() {
       </View>
 
       {error ? (
-        <View style={{ padding: 16 }}>
-          <Text style={{ color: colors.textSecondary, marginBottom: 12 }}>{error}</Text>
+        <View style={{ padding: espaciado.e16 }}>
+          <Text style={{ color: colors.textSecondary, marginBottom: espaciado.e12 }}>{error}</Text>
           <GhostButton title="Reintentar" onPress={() => void cargar()} />
         </View>
       ) : (
         <ScrollView
-          contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 30 }}
+          contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }}
           refreshControl={<RefreshControl refreshing={refrescando} onRefresh={() => { setRefrescando(true); void cargar(true); }} tintColor={colors.primary} />}
         >
           {/* Resumen: lo primero, cuánto hay y cuánto está listo. */}
@@ -190,7 +190,7 @@ function Contenido() {
             <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>
               {rooms.length} tipo(s) de habitación
             </Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 4, lineHeight: 18 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 18 }}>
               {publicadas} se puede(n) reservar ya
               {rooms.length - publicadas > 0 ? ` · ${rooms.length - publicadas} todavía no` : ''}
               {rooms.length ? ` · desde ${xaf(Math.min(...rooms.map((r) => r.basePriceXaf)))} por noche` : ''}
@@ -199,10 +199,10 @@ function Contenido() {
 
           {/* ── LO QUE FALTA ── la razón de ser de esta pantalla */}
           {pendientes.length ? (
-            <View style={{ marginTop: 18 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+            <View style={{ marginTop: espaciado.e18 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e8 }}>
                 <TriangleAlert size={16} color={colors.secondary} />
-                <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginLeft: 7 }}>
+                <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginLeft: espaciado.e7 }}>
                   Te falta por completar ({pendientes.length})
                 </Text>
               </View>
@@ -216,7 +216,7 @@ function Contenido() {
                 >
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{p.texto}</Text>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3, lineHeight: 17 }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3, lineHeight: 17 }}>
                       {p.porque}
                     </Text>
                   </View>
@@ -225,18 +225,18 @@ function Contenido() {
               ))}
             </View>
           ) : (
-            <View style={[styles.resumen, { borderColor: alpha(colors.success, 0.35), backgroundColor: alpha(colors.success, 0.07), marginTop: 18 }]}>
+            <View style={[styles.resumen, { borderColor: alpha(colors.success, 0.35), backgroundColor: alpha(colors.success, 0.07), marginTop: espaciado.e18 }]}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
                 ✓ Tu ficha está completa
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 3 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
                 Habitaciones con fotos, descripción y datos; hotel con categoría, servicios y normas.
               </Text>
             </View>
           )}
 
           {/* ── A DÓNDE SE VA DESDE AQUÍ ── */}
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: 22, marginBottom: 8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: espaciado.e22, marginBottom: espaciado.e8 }}>
             Configurar
           </Text>
 
@@ -274,8 +274,8 @@ function Contenido() {
           />
 
           {/* Puente a la otra parte: no son dos apps, son dos partes de lo mismo. */}
-          <View style={{ marginTop: 22 }}>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: 8 }}>
+          <View style={{ marginTop: espaciado.e22 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e8 }}>
               Lo del día —llegadas, salidas, cobros y reservas— está en la otra parte, «Hoy».
             </Text>
             <GhostButton title="Ir a «Hoy» (recepción)" onPress={() => router.push('/lifebook-hotel-panel' as never)} />
@@ -301,7 +301,7 @@ function Fila({ icono, titulo, detalle, onPress }: {
       <View style={[styles.filaIcono, { backgroundColor: alpha(colors.primary, 0.12) }]}>{icono}</View>
       <View style={{ flex: 1 }}>
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{titulo}</Text>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 2, lineHeight: 17 }}>{detalle}</Text>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 17 }}>{detalle}</Text>
       </View>
       <ChevronRight size={18} color={colors.textSecondary} />
     </Pressable>
@@ -310,18 +310,18 @@ function Fila({ icono, titulo, detalle, onPress }: {
 
 const styles = StyleSheet.create({
   cabecera: {
-    flexDirection: 'row', alignItems: 'center', gap: 6,
-    paddingHorizontal: 14, paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
+    paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
-  resumen: { borderWidth: 1, borderRadius: 14, padding: 13 },
+  resumen: { borderWidth: 1, borderRadius: 14, padding: espaciado.e13 },
   pendiente: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    borderWidth: 1, borderRadius: radios.md, padding: 12, marginBottom: 8, minHeight: 56,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
+    borderWidth: 1, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
   },
   fila: {
-    flexDirection: 'row', alignItems: 'center', gap: 11,
-    borderWidth: 1, borderRadius: 14, padding: 12, marginBottom: 8, minHeight: 56,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
+    borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
   },
   filaIcono: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
 });
