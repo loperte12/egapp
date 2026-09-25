@@ -35,15 +35,18 @@
  *
  *   · **Figura** — el importe es el sujeto de la línea: `<Text>{formatXAF(o.totalXaf)}</Text>`.
  *     Aquí manda `Precio`, que es lo único que pinta la unidad reducida y no puede partirse.
+ *     El formateador que se use dentro da igual para la regla: `formatXAF`, `lbXaf`, `xaf` o
+ *     `fmtXaf` son el mismo hecho escrito cuatro veces (ver `FORMATO_A_MANO`).
  *   · **Texto corrido** — el importe va dentro de una frase: `• Arroz ×2 · {formatXAF(x)}`,
  *     `envío {formatXAF(f)}`. Aquí manda `formateaXAF`, que ya pega cifra y unidad con espacio duro
  *     (así tampoco se parte) pero **no** debe meterse como componente: partiría la línea en dos
  *     cajas y rompería el ajuste de la frase.
  *
  * Esta regla cuenta **solo el primer caso**: un `<Text>` cuyo contenido, fuera de las expresiones
- * `{…}`, es **únicamente espacio en blanco** y que contiene `formatXAF(`; y además **ningún literal
- * de texto** dentro de esas expresiones (ni `' · '` ni `` ` · ${…}` ``), porque un literal con algo
- * visible es, por definición, una frase y no una figura.
+ * `{…}`, es **únicamente espacio en blanco** y que contiene una llamada a un formateador de moneda
+ * (ver `FORMATO_A_MANO`, abajo); y además **ningún literal de texto** dentro de esas expresiones
+ * (ni `' · '` ni `` ` · ${…}` ``), porque un literal con algo visible es, por definición, una frase y
+ * no una figura.
  *
  * El segundo requisito no es teórico: sin él, `` {d.amountXaf ? ` · ${formatXAF(x)}` : ''} `` cuenta
  * como figura y es exactamente lo contrario —un importe pegado a la frase anterior—. Con él, ese
@@ -148,8 +151,30 @@ function cuentaHex(txt, rel) {
   return n;
 }
 
-/** `formatXAF(` — el formateador del kit usado a mano. `formateaXAF` es el mismo, en el kit. */
-const FORMATO_A_MANO = /formatXAF\s*\(/g;
+/**
+ * LOS FORMATEADORES QUE PINTAN UN PRECIO A MANO — ampliado el 25/09/2026 (familia `precioFigura`).
+ *
+ * Antes el patrón era `formatXAF(` y medía **12** figuras donde hay **50**. El proyecto tiene cuatro
+ * formateadores distintos para el mismo trabajo y el patrón veía uno solo:
+ *
+ *   · `formatXAF`  — `utils/formatHelpers`. El «oficial» de la app.        12 figuras
+ *   · `lbXaf`      — `constants/lifebook`. El del módulo Lifebook.         20 figuras
+ *   · `xaf`        — copia LOCAL, definida en 4 ficheros distintos.        13 figuras
+ *   · `fmtXaf`     — copia LOCAL, definida en 3 ficheros.                   5 figuras
+ *
+ * Y `formateaXAF` —el formateador del KIT, escrito justo para esto— tiene **0 usos en la app**. Es el
+ * fallo 18/26 del skill `codemod-seguro`: un trinquete ciego a una FORMA de escribir la deuda no
+ * aprieta esa forma, y la deuda existe igual. Igual que el hex de ocho dígitos del 25/09, esto SUBE
+ * el número al ampliarlo, y sube porque gana VISIBILIDAD, no deuda.
+ *
+ * El `\b` de delante de `xaf` es lo que impide que case dentro de `formatXAF(` o `lbXaf(`: ahí la `x`
+ * va precedida de una letra, así que no hay límite de palabra. `fmtXaf` va aparte porque lleva la
+ * `X` en mayúscula.
+ *
+ * LIMITACIÓN DECLARADA: una copia local con OTRO nombre (`const miformato = (n) => …' XAF'`) seguiría
+ * siendo invisible. Se cubren los cuatro nombres que el proyecto escribe hoy, no la clase entera.
+ */
+const FORMATO_A_MANO = /formatXAF\s*\(|formateaXAF\s*\(|lbXaf\s*\(|fmtXaf\s*\(|\bxaf\s*\(/g;
 /** Literal de texto (comillas simples, dobles o backtick). Un literal con algo dentro = frase. */
 const LITERAL = /'[^'\n]*'|"[^"\n]*"|`[^`]*`/g;
 

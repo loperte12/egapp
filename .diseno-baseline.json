@@ -6,7 +6,7 @@
     "fontWeight": 0,
     "borderWidth": 5,
     "espaciado": 183,
-    "precioFigura": 12
+    "precioFigura": 50
   },
   "porArchivo": {
     "app/agente-escaner.tsx": {
@@ -25,7 +25,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 2
     },
     "app/alquiler-detalle.tsx": {
       "hex": 0,
@@ -142,7 +142,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/ecomerse-checkout.tsx": {
       "hex": 0,
@@ -358,7 +358,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 2
     },
     "app/lifebook-blocks.tsx": {
       "hex": 0,
@@ -376,7 +376,7 @@
       "fontWeight": 0,
       "borderWidth": 1,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/lifebook-carrito.tsx": {
       "hex": 0,
@@ -385,7 +385,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/lifebook-catalog.tsx": {
       "hex": 0,
@@ -403,7 +403,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 4
     },
     "app/lifebook-checkout.tsx": {
       "hex": 0,
@@ -412,7 +412,7 @@
       "fontWeight": 0,
       "borderWidth": 1,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/lifebook-compose.tsx": {
       "hex": 0,
@@ -430,7 +430,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/lifebook-explore.tsx": {
       "hex": 0,
@@ -484,7 +484,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/lifebook-hotel-fechas.tsx": {
       "hex": 0,
@@ -529,7 +529,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 4
     },
     "app/lifebook-hotel-perfil.tsx": {
       "hex": 0,
@@ -565,7 +565,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 4
     },
     "app/lifebook-hotel-resultados.tsx": {
       "hex": 0,
@@ -655,7 +655,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/lifebook-message-search.tsx": {
       "hex": 0,
@@ -682,7 +682,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/lifebook-orders.tsx": {
       "hex": 0,
@@ -691,7 +691,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/lifebook-player.tsx": {
       "hex": 0,
@@ -709,7 +709,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 5,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/lifebook-product/[id].tsx": {
       "hex": 0,
@@ -718,7 +718,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/lifebook-search.tsx": {
       "hex": 0,
@@ -790,7 +790,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/monedero-pin.tsx": {
       "hex": 0,
@@ -826,7 +826,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 2
     },
     "app/my-tickets.tsx": {
       "hex": 0,
@@ -925,7 +925,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "app/work-detail.tsx": {
       "hex": 0,
@@ -997,7 +997,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "components/EditProfileModal.tsx": {
       "hex": 0,
@@ -1042,7 +1042,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "components/jobs.tsx": {
       "hex": 0,
@@ -1186,7 +1186,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "components/lifebook/OrderSheet.tsx": {
       "hex": 0,
@@ -1195,7 +1195,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "components/lifebook/PersonRow.tsx": {
       "hex": 0,
@@ -1213,7 +1213,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "components/lifebook/ProductoCard.tsx": {
       "hex": 0,
@@ -1222,7 +1222,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "components/lifebook/ProductoEnChatSheet.tsx": {
       "hex": 0,
@@ -1321,7 +1321,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 1
     },
     "components/lifebook/ui/Sheet.tsx": {
       "hex": 0,
