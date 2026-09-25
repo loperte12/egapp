@@ -28,7 +28,7 @@ import {
 import { Image as ExpoImage } from 'expo-image';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {alpha, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, Bookmark, Briefcase, Car, ChevronRight, Heart, Home, MapPin,
   MoreHorizontal, Package, Play, Plus, Send, Share2, ShoppingBag, ShoppingCart, Store, Utensils, X,
@@ -68,8 +68,8 @@ const COLUMN_W = (SCREEN_W - SIDE_PADDING * 2 - COLUMN_GAP) / 2;
 const DETAIL_MEDIA_H = Math.round((SCREEN_W * 4) / 3);
 
 const TYPE_TINT: Record<string, string> = {
-  note: '#6B7280', sale: '#E0439A', service: brand.primary, debate: brand.secondary,
-  video: '#7C3AED', podcast: '#E0439A', serie: brand.secondary,
+  note: neutro.n700, sale: brand.social, service: brand.primary, debate: brand.secondary,
+  video: brand.lifebookFuerte, podcast: brand.social, serie: brand.secondary,
 };
 const CONDITION_LABEL: Record<string, string> = {
   nuevo: 'Nuevo', como_nuevo: 'Como nuevo', usado: 'Usado', piezas: 'Por piezas',
@@ -87,13 +87,13 @@ const STATE_LABEL: Record<string, string> = {
 /** Servicios reales enlazables (mismo mapa que usa el Estado 24h + alias shop/delivery). */
 const SERVICE_ROUTES: Record<string, { route: string; label: string; color: string; icon: typeof Car }> = {
   taxi: { route: '/taxi', label: 'Llamar Taxi', color: brand.secondary, icon: Car },
-  food: { route: '/food', label: 'Pedir comida', color: '#E0439A', icon: Utensils },
+  food: { route: '/food', label: 'Pedir comida', color: brand.social, icon: Utensils },
   ecomerse: { route: '/ecomerse', label: 'Ver tienda', color: brand.primary, icon: ShoppingBag },
   shop: { route: '/ecomerse', label: 'Ver tienda', color: brand.primary, icon: ShoppingBag },
-  work: { route: '/work', label: 'Ver oferta', color: '#7C3AED', icon: Briefcase },
-  rental: { route: '/alquiler', label: 'Ver alquiler', color: '#00A870', icon: Home },
-  paquete: { route: '/service/paquete', label: 'Enviar paquete', color: '#00A870', icon: Package },
-  delivery: { route: '/service/paquete', label: 'Enviar paquete', color: '#00A870', icon: Package },
+  work: { route: '/work', label: 'Ver oferta', color: brand.lifebookFuerte, icon: Briefcase },
+  rental: { route: '/alquiler', label: 'Ver alquiler', color: brand.servicio, icon: Home },
+  paquete: { route: '/service/paquete', label: 'Enviar paquete', color: brand.servicio, icon: Package },
+  delivery: { route: '/service/paquete', label: 'Enviar paquete', color: brand.servicio, icon: Package },
   lifebook: { route: '/lifebook-store', label: 'Ver su tienda', color: brand.primary, icon: Store },
 };
 
@@ -405,7 +405,7 @@ function PostContent() {
     );
   }
 
-  const tint = TYPE_TINT[post.type] ?? '#6B7280';
+  const tint = TYPE_TINT[post.type] ?? colors.textSecondary;
   const pl = post.payload ?? {};
   const price = (pl.priceXaf as number | undefined) ?? undefined;
   const isSale = post.type === 'sale';
@@ -953,15 +953,15 @@ function PostContent() {
             label="Guardar"
             onPress={toggleSave}
             active={!!post.stats?.bookmarkedByMe}
-            activeColor="#FFB800"
+            activeColor={brand.guardado}
             colors={colors}
             count={post.savedCount ?? post.stats?.bookmarks ?? 0}
             icon={
               /* Mismo icono y color que la tarjeta del feed y el perfil. */
               <Bookmark
                 size={22}
-                color={post.stats?.bookmarkedByMe ? '#FFB800' : colors.textPrimary}
-                fill={post.stats?.bookmarkedByMe ? '#FFB800' : 'none'}
+                color={post.stats?.bookmarkedByMe ? brand.guardado : colors.textPrimary}
+                fill={post.stats?.bookmarkedByMe ? brand.guardado : 'none'}
               />
             }
           />
@@ -1063,7 +1063,7 @@ function PostContent() {
         onRequestClose={() => setViewerOpen(false)}
         statusBarTranslucent
       >
-        <View style={{ flex: 1, backgroundColor: '#000000' }}>
+        <View style={{ flex: 1, backgroundColor: brand.visor }}>
           <FlatList
             ref={viewerListRef}
             data={mediaUrls}
@@ -1187,7 +1187,7 @@ const styles = StyleSheet.create({
   },
   panel: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, marginTop: espaciado.e14 },
   panelTitle: { fontSize: 15, fontWeight: peso.titulo },
-  panelLine: { color: '#5B6470', fontSize: tipografia.body, marginTop: espaciado.e4, lineHeight: 18 },
+  panelLine: { color: neutro.n700, fontSize: tipografia.body, marginTop: espaciado.e4, lineHeight: 18 },
   statsRow: { marginTop: espaciado.e14, paddingBottom: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },
   sectionTitle: { fontSize: tipografia.fino, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e8 },
   epAddBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, marginLeft: 'auto' },

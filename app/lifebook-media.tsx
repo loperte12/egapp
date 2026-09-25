@@ -60,8 +60,8 @@ export default function LifeBookMediaComposeScreen() {
 type Mode = 'video' | 'podcast' | 'serie' | 'episode';
 
 const MODE_META: Record<Mode, { title: string; icon: typeof Video; color: string }> = {
-  video: { title: 'Publicar video corto', icon: Video, color: '#7C3AED' },
-  podcast: { title: 'Publicar podcast', icon: Mic, color: '#E0439A' },
+  video: { title: 'Publicar video corto', icon: Video, color: brand.lifebookFuerte },
+  podcast: { title: 'Publicar podcast', icon: Mic, color: brand.social },
   serie: { title: 'Crear serie', icon: Clapperboard, color: brand.secondary },
   episode: { title: 'Añadir episodio', icon: Clapperboard, color: brand.secondary },
 };

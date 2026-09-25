@@ -17,7 +17,7 @@ import {
   ArrowLeft, BadgeCheck, CircleAlert, CircleX, CreditCard, FileText, IdCard,
   OctagonAlert, Phone, ShieldCheck, Truck,
 } from 'lucide-react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import {alpha, espaciado, neutro, peso, radios, tipografia, useTheme} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { authApi, type MeProfile } from '../api/auth';
 import { driverApi } from '../api/driver';
@@ -34,11 +34,11 @@ export default function DocumentsScreen() {
 type DocState = 'Verificado' | 'Pendiente' | 'Subido' | 'Rechazado' | 'Vencido';
 
 const STATE_STYLE: Record<DocState, { bg: string; fg: string }> = {
-  Verificado: { bg: '#E9F7EF', fg: brand.successPressed },
-  Subido: { bg: '#E8F1FF', fg: brand.primaryPressed },
-  Pendiente: { bg: '#FFF4E5', fg: brand.secondaryPressed },
-  Rechazado: { bg: '#FDECEC', fg: brand.dangerPressed },
-  Vencido: { bg: '#FDECEC', fg: brand.dangerPressed },
+  Verificado: { bg: brand.successSoft, fg: brand.successPressed },
+  Subido: { bg: brand.primarySoft, fg: brand.primaryPressed },
+  Pendiente: { bg: brand.warningSoft, fg: brand.secondaryPressed },
+  Rechazado: { bg: brand.dangerSoft, fg: brand.dangerPressed },
+  Vencido: { bg: brand.dangerSoft, fg: brand.dangerPressed },
 };
 
 function Badge({ state }: { state: DocState }) {
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
   topTitle: { fontSize: 17, fontWeight: peso.titulo },
   content: { padding: espaciado.e16, gap: espaciado.e8 },
-  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e2 },
+  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: neutro.n600, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e2 },
   group: { borderRadius: radios.lg, overflow: 'hidden' },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e13 },
   rowIcon: { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },

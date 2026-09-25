@@ -130,8 +130,8 @@ export default function SocialHomeHeader({
             <Svg height="100%" width="100%">
               <Defs>
                 <SvgLinearGradient id="profBg" x1="0" y1="0" x2="1" y2="1">
-                  <Stop offset="0" stopColor={isDark ? colors.textPrimary : '#DFEAF2'} />
-                  <Stop offset="1" stopColor={isDark ? colors.shadow : '#F6EEDC'} />
+                  <Stop offset="0" stopColor={isDark ? colors.textPrimary : brand.decoCielo} />
+                  <Stop offset="1" stopColor={isDark ? colors.shadow : brand.decoArena} />
                 </SvgLinearGradient>
               </Defs>
               <Rect x="0" y="0" width="100%" height="100%" fill="url(#profBg)" />

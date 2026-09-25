@@ -12,13 +12,13 @@
  */
 
 import React from 'react';
-import { Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { LocateFixed, ScanLine, Cross } from 'lucide-react-native';
 import { alpha } from '../constants/colors';
 import { useTheme } from '../theme/ThemeContext';
-import { brand, espaciado } from '@egrouteplan/ui-kit';
+import { brand, elevation, espaciado } from '@egrouteplan/ui-kit';
 
 export default function MapTools({ onRecenter, recenterLabel = 'Centrar en mi ubicación', topOffset = 10, onEmergency }: {
   onRecenter: () => void;
@@ -107,9 +107,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: StyleSheet.hairlineWidth,
-    ...Platform.select({
-      ios: { shadowColor: '#17171A', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.12, shadowRadius: 10 },
-      android: { elevation: 4 },
-    }),
+    /** Nivel `md` del kit, no una sombra escrita a mano: `elevation` existe justamente para que dos
+     *  elementos flotantes del mismo nivel se vean iguales. El color de la sombra, además, tiene que
+     *  seguir al tema: en oscuro la sombra es negra, no el gris de la del modo claro. H1b, 25/09/2026.
+     *  Cambio medido: opacidad 0,12 → 0,10 · radio 10 → 6 · altura 4 → 2 · elevación Android 4 → 3. */
+    ...elevation.md,
   },
 });

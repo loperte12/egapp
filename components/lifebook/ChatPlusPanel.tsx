@@ -23,18 +23,18 @@ import { brand } from '@egrouteplan/ui-kit';
 const ACTIONS: { id: LbChatAction; label: string; icon: any; color: string }[] = [
   { id: 'photos', label: 'Fotos', icon: ImageIcon, color: brand.primary },
   { id: 'camera', label: 'Cámara', icon: Camera, color: brand.success },
-  { id: 'shareNote', label: 'Compartir nota', icon: Share2, color: '#8B5CF6' },
+  { id: 'shareNote', label: 'Compartir nota', icon: Share2, color: brand.lifebook },
   /* TANDA D: la tarjeta de PRODUCTO (imagen, nombre, precio y botón de compra). Es distinta de
      «Compartir nota»: el producto no vive solo en el catálogo, vive también dentro del chat. */
   { id: 'product', label: 'Producto', icon: ShoppingBag, color: brand.primary },
   { id: 'file', label: 'Archivo', icon: Paperclip, color: brand.secondary },
-  { id: 'sale', label: 'Venta personal', icon: Tag, color: '#E0439A' },
+  { id: 'sale', label: 'Venta personal', icon: Tag, color: brand.social },
   { id: 'topic', label: 'Tema', icon: Hash, color: brand.primary },
   { id: 'groupMap', label: 'Ubicación', icon: Map, color: brand.success },
   { id: 'checkin', label: 'Quedada', icon: CalendarCheck, color: brand.secondary },
-  { id: 'chain', label: 'Cadena', icon: ListOrdered, color: '#8B5CF6' },
+  { id: 'chain', label: 'Cadena', icon: ListOrdered, color: brand.lifebook },
   { id: 'vote', label: 'Votación', icon: Vote, color: brand.like },
-  { id: 'groupAd', label: 'Anuncio del grupo', icon: Megaphone, color: '#E0439A' },
+  { id: 'groupAd', label: 'Anuncio del grupo', icon: Megaphone, color: brand.social },
   { id: 'challengePlaza', label: 'Plaza de retos', icon: ScrollText, color: brand.primary },
 ];
 

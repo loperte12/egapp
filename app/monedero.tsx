@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowDownToLine, ArrowLeft, ArrowUpFromLine, ChevronRight, KeyRound, ShieldCheck, Wallet,
 } from 'lucide-react-native';
-import { EmptyState, espaciado, radios, Tactil, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {EmptyState, Tactil, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { walletApi, type WalletBalance, type WalletTx } from '../api/wallet';
 import { brand } from '@egrouteplan/ui-kit';
@@ -56,12 +56,12 @@ export function txLabel(t: WalletTx): { label: string; sign: '+' | '−' } {
 
 export function TxStatusChip({ status }: { status: string }) {
   const map: Record<string, { bg: string; fg: string; label: string }> = {
-    COMPLETED: { bg: '#E9F7EF', fg: brand.successPressed, label: 'Completado' },
-    PENDING: { bg: '#FFF4E5', fg: brand.secondaryPressed, label: 'Pendiente' },
-    FAILED: { bg: '#FDECEC', fg: brand.dangerPressed, label: 'Fallido' },
-    CANCELLED: { bg: '#FDECEC', fg: brand.dangerPressed, label: 'Cancelado' },
+    COMPLETED: { bg: brand.successSoft, fg: brand.successPressed, label: 'Completado' },
+    PENDING: { bg: brand.warningSoft, fg: brand.secondaryPressed, label: 'Pendiente' },
+    FAILED: { bg: brand.dangerSoft, fg: brand.dangerPressed, label: 'Fallido' },
+    CANCELLED: { bg: brand.dangerSoft, fg: brand.dangerPressed, label: 'Cancelado' },
   };
-  const s = map[status] ?? { bg: '#EEF1F4', fg: '#5B6470', label: status };
+  const s = map[status] ?? { bg: neutro.n200, fg: neutro.n700, label: status };
   return (
     <View style={[chipStyles.chip, { backgroundColor: s.bg }]}>
       <Text style={[chipStyles.txt, { color: s.fg }]}>{s.label}</Text>

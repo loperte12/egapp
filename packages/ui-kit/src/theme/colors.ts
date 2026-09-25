@@ -41,6 +41,9 @@ export const brand = {
    */
   like: '#FF2442',
   likePressed: '#E01E39',
+  /** Estado «guardado»: la estrella y el marcador activos. NO es `warning` (a 11/441 de él): una
+   *  estrella guardada no avisa de nada. Es un estado con nombre propio, como `like`. */
+  guardado: '#FFB800',
   /** Marca de WhatsApp para el botón de contacto. Uso gráfico, nunca como texto. */
   whatsapp: '#25D366',
   /**
@@ -56,6 +59,29 @@ export const brand = {
    */
   dangerText: '#991B1B',
   warningText: '#78350F',
+  /* ---------------------------------------------------------------------------------------------
+     ESTADO TRANSLÚCIDO — el mismo color de estado a tres intensidades, en vez de doce valores a mano.
+     POR QUÉ EXISTEN (auditoría de tokens, H1b, 25/09/2026): la app tenía DOCE valores de alfa
+     escritos a mano que significaban solo TRES cosas — fondo de una tarjeta o aviso de estado
+     (`0C`/`0F`/`10`/`14`/`18`), borde suave (`33`) y borde de énfasis (`55`/`66`). Doce valores, tres
+     intenciones: dos avisos del mismo tipo se veían distintos y la interfaz perdía el orden.
+     Además estaban construidos sobre bases que NO eran las del kit (`#F53F3F`, `#27AE60`, `#F6B100`,
+     `#F5A623`), así que un aviso translúcido y el sólido de al lado no eran el mismo color.
+     REGLA: son DELTAS del token de estado — se derivan de `danger`/`success`/`warning`, así el tinte
+     sigue al color y no hay una cuarta paleta escondida en el código.
+     Alfa: `Soft` 8 % (7,8 real) · `SoftBorde` 20 % · `SoftFuerte` 33 %.
+     Sobre blanco, la diferencia con los literales que sustituyen es de ≤7 de 441 niveles.
+     --------------------------------------------------------------------------------------------- */
+  primarySoft: '#0066CC14',
+  successSoft: '#1E7A4514',
+  successSoftBorde: '#1E7A4533',
+  successSoftFuerte: '#1E7A4555',
+  warningSoft: '#F59E0B14',
+  warningSoftBorde: '#F59E0B33',
+  warningSoftFuerte: '#F59E0B55',
+  dangerSoft: '#C6282814',
+  dangerSoftBorde: '#C6282833',
+  dangerSoftFuerte: '#C6282855',
   /* ---------------------------------------------------------------------------------------------
      TEXTO DE MARCA SOBRE FONDO OSCURO.
      POR QUÉ EXISTEN: los colores de marca de arriba se diseñaron para LLEVAR texto blanco encima, y
@@ -92,6 +118,10 @@ export const brand = {
   social: '#E0439A',
   /** Fondo de los visores a pantalla completa. NO es `shadow`: sombra es un valor de elevación. */
   visor: '#000000',
+  /** Acento de SERVICIO (alquiler, envío de paquete, delivery). Tercer acento de categoría, junto a
+   *  `lifebook` (violeta) y `social` (rosa). No cabía en `success`: está a 46/441 de él y sobre un
+   *  chip de categoría ese salto SE VE (uno es verde bosque y el otro un verde menta vivo). */
+  servicio: '#00A870',
   /* ---------------------------------------------------------------------------------------------
      DECORATIVO — colores de ADORNO, no de semántica. No significan estado ni marca: son el color
      de un avatar, un degradado de cabecera, el fondo de una tarjeta de diagnóstico.
@@ -113,6 +143,14 @@ export const brand = {
   decoRosaFuerte: '#FF7BAC',
   /** Violeta claro de adorno (variante clara de `lifebook`). */
   decoVioletaClaro: '#B57BFF',
+  /** Brasa: los dos fondos de la pantalla de diagnóstico. Son NEGROS CÁLIDOS (rojo de fondo), y por
+   *  eso no valía `shadow` ni `neutro.n900`: un negro cálido no es un gris. Unificar al rojo de
+   *  estado sería un error semántico — esa pantalla no es un error rojo, es una pantalla oscura. */
+  decoBrasa: '#1A0A0A',
+  decoBrasaClaro: '#2A1010',
+  /** Índigo del aviso de «pedido programado» de food-orders. Un solo uso, y es un acento de
+   *  categoría, no de estado: `info` está a 85/441 y se leería como otro color. */
+  decoIndigo: '#6366F1',
 } as const;
 
 export interface ThemeColors {
@@ -133,9 +171,22 @@ export interface ThemeColors {
   onInfo: string;
   like: string;
   likePressed: string;
+  guardado: string;
   whatsapp: string;
   dangerText: string;
   warningText: string;
+  /** Estado translúcido a tres intensidades (Soft 8 % · SoftBorde 20 % · SoftFuerte 33 %).
+   *  Ver el bloque en `brand`: son deltas de `primary`/`success`/`warning`/`danger`. */
+  primarySoft: string;
+  successSoft: string;
+  successSoftBorde: string;
+  successSoftFuerte: string;
+  warningSoft: string;
+  warningSoftBorde: string;
+  warningSoftFuerte: string;
+  dangerSoft: string;
+  dangerSoftBorde: string;
+  dangerSoftFuerte: string;
   neutral: string;
   neutralPressed: string;
   /** Solo para usar como TEXTO o icono sobre fondo oscuro. Ver el bloque en `brand`. */
@@ -152,6 +203,8 @@ export interface ThemeColors {
   social: string;
   /** Fondo de visores a pantalla completa (vídeo, escáner). */
   visor: string;
+  /** Acento de servicio: alquiler, paquete, delivery. Ver el bloque en `brand`. */
+  servicio: string;
   /** Adorno sin semántica (avatares, degradados, diagnósticos). Ver el bloque en `brand`. */
   decoRosa: string;
   decoRosaClaro: string;
@@ -161,6 +214,9 @@ export interface ThemeColors {
   decoCielo: string;
   decoRosaFuerte: string;
   decoVioletaClaro: string;
+  decoBrasa: string;
+  decoBrasaClaro: string;
+  decoIndigo: string;
   textPrimary: string;
   textSecondary: string;
   background: string;

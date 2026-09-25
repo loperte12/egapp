@@ -1201,7 +1201,7 @@ export default function ConductorScreen() {
           {error && <Text style={[s.error, { color: colors.danger }]}>{error}</Text>}
           {/* Aviso de cancelación remota (pasajero): pill temporal en espera */}
           {rutaNotice && phase === 'waiting' && (
-            <View style={[s.rutaNoticePill, { borderColor: '#F5A62366' }]}>
+            <View style={[s.rutaNoticePill, { borderColor: colors.warningSoftFuerte }]}>
               <Text style={{ color: brand.warning, fontWeight: peso.maximo, fontSize: tipografia.body }}>🚫 {rutaNotice}</Text>
             </View>
           )}
@@ -1317,7 +1317,7 @@ export default function ConductorScreen() {
               {/* P4 EFECTIVO: cobro pendiente → no se reciben solicitudes hasta
                   confirmar (bloqueo también EN SERVIDOR: el accept devuelve 403). */}
               {online && blockedCash && (
-                <View style={[s.bottomCard, { backgroundColor: colors.card, borderColor: '#F5A62366' }]}>
+                <View style={[s.bottomCard, { backgroundColor: colors.card, borderColor: colors.warningSoftFuerte }]}>
                   <View style={s.statusRow}>
                     <View style={[s.statusDot, { backgroundColor: brand.warning }]} />
                     <View style={{ flex: 1 }}>
@@ -1787,6 +1787,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
   const [digits, setDigits] = useState('');
   const [err, setErr] = useState(false);
   const [checking, setChecking] = useState(false);
+  const { colors } = useTheme();
 
   useEffect(() => { if (visible) { setDigits(''); setErr(false); setChecking(false); } }, [visible]);
 
@@ -1807,6 +1808,23 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
     }
   };
 
+  /** La hoja vive DENTRO del componente (H1b, 25/09/2026). Antes era una constante de módulo, y en
+   *  el módulo no hay tema: sus colores de texto eran literales de gris oscuro porque no había forma
+   *  de llegar a los tokens de texto del kit. El hook ya existía en el fichero; lo que faltaba era
+   *  que llegara aquí. Los usos `pps.x` no cambian. */
+  const pps = useMemo(() => StyleSheet.create({
+    overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
+    card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: radios.marco, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e6 },
+    iconCircle: { width: 54, height: 54, borderRadius: radios.full, backgroundColor: colors.successSoft, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e2 },
+    title: { color: colors.textPrimary, fontSize: tipografia.cifra, fontWeight: peso.titulo, textAlign: 'center' },
+    sub: { color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' },
+    boxRow: { flexDirection: 'row', gap: espaciado.e12, marginVertical: espaciado.e12 },
+    box: { width: 56, height: 64, borderRadius: radios.md, borderWidth: trazo.fuerte, alignItems: 'center', justifyContent: 'center' },
+    errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e2 },
+    pad: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: espaciado.e8, marginTop: espaciado.e8 },
+    key: { width: 76, height: altura.boton, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
+  }), [colors]);
+
   const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'DEL'];
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
@@ -1824,7 +1842,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
           <View style={pps.boxRow}>
             {[0, 1, 2, 3].map((i) => (
               <View key={i} style={[pps.box, { borderColor: err ? brand.danger : digits.length > i ? brand.success : neutro.n300 }]}>
-                <Text style={{ color: '#111827', fontSize: 26, fontWeight: peso.titulo }}>{digits[i] ?? ''}</Text>
+                <Text style={{ color: colors.textPrimary, fontSize: 26, fontWeight: peso.titulo }}>{digits[i] ?? ''}</Text>
               </View>
             ))}
           </View>
@@ -1838,17 +1856,17 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
                 : (
                   <Pressable key={idx} onPress={() => press(k)} disabled={busy || checking}
                     accessibilityRole="button" accessibilityLabel={k === 'DEL' ? 'Borrar dígito' : `Dígito ${k}`}
-                    style={({ pressed }) => [pps.key, { backgroundColor: k === 'DEL' ? '#F53F3F10' : neutro.n100, opacity: pressed ? 0.6 : 1 }]}>
+                    style={({ pressed }) => [pps.key, { backgroundColor: k === 'DEL' ? colors.dangerSoft : neutro.n100, opacity: pressed ? 0.6 : 1 }]}>
                     {k === 'DEL'
                       ? <X size={20} color={brand.danger} />
-                      : <Text style={{ color: '#111827', fontSize: tipografia.subtitulo, fontWeight: peso.maximo }}>{k}</Text>}
+                      : <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitulo, fontWeight: peso.maximo }}>{k}</Text>}
                   </Pressable>
                 ),
             )}
           </View>
 
           <Pressable onPress={onCancel} disabled={busy} accessibilityRole="button" accessibilityLabel="Cancelar petición de código" style={{ marginTop: espaciado.e10 }}>
-            <Text style={{ color: '#6B7280', fontSize: tipografia.body, fontWeight: peso.fuerte }}>Cancelar</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>Cancelar</Text>
           </Pressable>
         </View>
       </View>
@@ -1856,23 +1874,25 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
   );
 }
 
-const pps = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
-  card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: radios.marco, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e6 },
-  iconCircle: { width: 54, height: 54, borderRadius: radios.full, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e2 },
-  title: { color: '#111827', fontSize: tipografia.cifra, fontWeight: peso.titulo, textAlign: 'center' },
-  sub: { color: '#6B7280', fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' },
-  boxRow: { flexDirection: 'row', gap: espaciado.e12, marginVertical: espaciado.e12 },
-  box: { width: 56, height: 64, borderRadius: radios.md, borderWidth: trazo.fuerte, alignItems: 'center', justifyContent: 'center' },
-  errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e2 },
-  pad: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: espaciado.e8, marginTop: espaciado.e8 },
-  key: { width: 76, height: altura.boton, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-});
-
 function CashFlowModal({ visible, amount, busy, onYes, onNo, onClose }: {
   visible: boolean; amount: number; busy: boolean;
   onYes: () => void; onNo: () => void; onClose: () => void;
 }) {
+  const { colors } = useTheme();
+  /** Hoja movida dentro del componente (H1b, 25/09/2026): mismo motivo que `pps`. */
+  const cfm = useMemo(() => StyleSheet.create({
+    overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
+    card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: radios.marco, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e8 },
+    iconCircle: { width: 60, height: 60, borderRadius: radios.full, backgroundColor: colors.successSoft, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e4 },
+    title: { color: colors.textPrimary, fontSize: tipografia.title, fontWeight: peso.titulo, textAlign: 'center' },
+    sub: { color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.medio, textAlign: 'center' },
+    amount: { color: colors.textPrimary, fontSize: tipografia.heroGrande, fontWeight: peso.titulo, marginVertical: espaciado.e6 },
+    btnYes: { width: '100%', backgroundColor: brand.success, borderRadius: radios.lg, paddingVertical: 15, alignItems: 'center', marginTop: espaciado.e6, elevation: 3 },
+    btnYesTxt: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo },
+    btnNo: { width: '100%', borderWidth: trazo.base, borderColor: colors.dangerSoftFuerte, borderRadius: radios.lg, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e8, backgroundColor: colors.dangerSoft },
+    btnNoTxt: { color: brand.danger, fontSize: tipografia.fino, fontWeight: peso.maximo },
+    note: { color: neutro.n600, fontSize: tipografia.micro, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6 },
+  }), [colors]);
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <View style={cfm.overlay}>
@@ -1910,20 +1930,6 @@ function CashFlowModal({ visible, amount, busy, onYes, onNo, onClose }: {
   );
 }
 
-const cfm = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
-  card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: radios.marco, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e8 },
-  iconCircle: { width: 60, height: 60, borderRadius: radios.full, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e4 },
-  title: { color: '#111827', fontSize: tipografia.title, fontWeight: peso.titulo, textAlign: 'center' },
-  sub: { color: '#6B7280', fontSize: tipografia.body, fontWeight: peso.medio, textAlign: 'center' },
-  amount: { color: '#111827', fontSize: tipografia.heroGrande, fontWeight: peso.titulo, marginVertical: espaciado.e6 },
-  btnYes: { width: '100%', backgroundColor: brand.success, borderRadius: radios.lg, paddingVertical: 15, alignItems: 'center', marginTop: espaciado.e6, elevation: 3 },
-  btnYesTxt: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo },
-  btnNo: { width: '100%', borderWidth: trazo.base, borderColor: '#F53F3F55', borderRadius: radios.lg, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e8, backgroundColor: '#F53F3F0C' },
-  btnNoTxt: { color: brand.danger, fontSize: tipografia.fino, fontWeight: peso.maximo },
-  note: { color: neutro.n600, fontSize: tipografia.micro, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6 },
-});
-
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
@@ -1938,7 +1944,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
       ...elevation.lg,
     },
     offerContent: { gap: espaciado.e12, paddingBottom: espaciado.e6 },
-    warnStrip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, marginHorizontal: espaciado.e12, marginTop: espaciado.e6, backgroundColor: '#F53F3F14', borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 },
+    warnStrip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, marginHorizontal: espaciado.e12, marginTop: espaciado.e6, backgroundColor: c.dangerSoft, borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 },
     rutaNoticePill: {
       alignSelf: 'center', marginTop: espaciado.e8, borderRadius: radios.full, borderWidth: trazo.fino,
       backgroundColor: 'rgba(15,20,28,0.82)', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8,
@@ -1975,7 +1981,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     goText: { color: brand.white, fontSize: 15, fontWeight: peso.maximo },
     endBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, width: '100%', backgroundColor: brand.danger, borderRadius: radios.lg, paddingVertical: espaciado.e14 },
     endText: { color: brand.white, fontSize: 15, fontWeight: peso.titulo },
-    alertBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, width: '100%', borderWidth: trazo.fino, borderColor: '#F53F3F55', borderRadius: 14, paddingVertical: espaciado.e11, backgroundColor: '#F53F3F10' },
+    alertBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, width: '100%', borderWidth: trazo.fino, borderColor: c.dangerSoftFuerte, borderRadius: 14, paddingVertical: espaciado.e11, backgroundColor: c.dangerSoft },
     // ── Vista de conducción ──
     dvState: { paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e4, marginTop: espaciado.e2 },
     dvStateText: { fontSize: tipografia.caption, fontWeight: peso.maximo, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full, borderWidth: trazo.fino, overflow: 'hidden' },

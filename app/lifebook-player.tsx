@@ -77,13 +77,17 @@ export default function LifeBookPlayerScreen() {
 
 function CloseBar({ onClose, title, dark }: { onClose: () => void; title: string; dark: boolean }) {
   const insets = useSafeAreaInsets();
-  const tint = dark ? brand.white : undefined;
+  const { colors } = useTheme();
+  /** Sobre fondo oscuro el cierre va en blanco; sobre claro, en la tinta del tema. El literal se
+   *  sustituye por `colors.textPrimary` (H1b, 25/09/2026): el hook ya existía en el fichero, este
+   *  subcomponente simplemente no lo tenía. */
+  const tint = dark ? brand.white : colors.textPrimary;
   return (
     <View style={[styles.closeBar, { paddingTop: insets.top + 8 }]}>
       <Pressable onPress={onClose} hitSlop={12} style={styles.closeBtn} accessibilityLabel="Cerrar reproductor">
-        <ArrowLeft size={22} color={tint ?? '#1D2129'} />
+        <ArrowLeft size={22} color={tint} />
       </Pressable>
-      <Text numberOfLines={1} style={[styles.closeTitle, { color: tint ?? '#1D2129' }]}>{title}</Text>
+      <Text numberOfLines={1} style={[styles.closeTitle, { color: tint }]}>{title}</Text>
       <View style={{ width: 36 }} />
     </View>
   );

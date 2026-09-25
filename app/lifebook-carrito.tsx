@@ -409,7 +409,7 @@ function CarritoContent() {
                           </Text>
                         ) : null}
                         {l.sourceKind === 'live' ? (
-                          <Text style={{ color: '#E0439A', fontSize: 10.5, fontWeight: peso.titulo }}>Precio de live</Text>
+                          <Text style={{ color: brand.social, fontSize: 10.5, fontWeight: peso.titulo }}>Precio de live</Text>
                         ) : null}
                         {l.maxQuantity <= l.quantity && l.available && l.maxQuantity < 99 ? (
                           <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte }}>

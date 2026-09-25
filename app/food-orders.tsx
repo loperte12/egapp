@@ -542,8 +542,8 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           Se pidió con el local cerrado: se entregará a la hora que abre. Sin esto, el cliente ve un
           pedido «en curso» que nadie está cocinando y el dueño cree que llega tarde. */}
       {o.scheduledFor ? (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e6, backgroundColor: alpha('#6366F1', 0.12), borderRadius: radios.sm, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e5 }}>
-          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: '#6366F1' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e6, backgroundColor: alpha(brand.decoIndigo, 0.12), borderRadius: radios.sm, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e5 }}>
+          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: brand.decoIndigo }}>
             🕐 Programado para {formatDateTime(o.scheduledFor)}
           </Text>
         </View>

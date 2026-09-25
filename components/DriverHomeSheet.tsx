@@ -176,7 +176,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     <Utensils size={40} color={brand.white} />
                   </View>
                 </Pressable>
-                <Pressable onPress={() => { onClose(); router.push('/ecomerse' as any); }} style={[s.vidaCard, { backgroundColor: '#8B5CF6' }]}>
+                <Pressable onPress={() => { onClose(); router.push('/ecomerse' as any); }} style={[s.vidaCard, { backgroundColor: brand.lifebook }]}>
                   <View style={dh.vidaTextWrap}>
                     <Text style={dh.vidaTitle}>🛍️ Ecomerse</Text>
                     <Text style={dh.vidaSub}>Tiendas y productos de comercio</Text>

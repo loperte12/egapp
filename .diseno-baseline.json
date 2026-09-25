@@ -1,6 +1,6 @@
 {
   "total": {
-    "hex": 89,
+    "hex": 0,
     "fontSize": 360,
     "borderRadius": 390,
     "fontWeight": 0,
@@ -109,7 +109,7 @@
       "precioFigura": 0
     },
     "app/conductor.tsx": {
-      "hex": 18,
+      "hex": 0,
       "fontSize": 19,
       "borderRadius": 11,
       "fontWeight": 0,
@@ -118,7 +118,7 @@
       "precioFigura": 0
     },
     "app/documents.tsx": {
-      "hex": 6,
+      "hex": 0,
       "fontSize": 2,
       "borderRadius": 1,
       "fontWeight": 0,
@@ -271,7 +271,7 @@
       "precioFigura": 1
     },
     "app/food-orders.tsx": {
-      "hex": 2,
+      "hex": 0,
       "fontSize": 4,
       "borderRadius": 7,
       "fontWeight": 0,
@@ -379,7 +379,7 @@
       "precioFigura": 0
     },
     "app/lifebook-carrito.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 8,
       "borderRadius": 3,
       "fontWeight": 0,
@@ -622,7 +622,7 @@
       "precioFigura": 0
     },
     "app/lifebook-media.tsx": {
-      "hex": 2,
+      "hex": 0,
       "fontSize": 1,
       "borderRadius": 4,
       "fontWeight": 0,
@@ -694,7 +694,7 @@
       "precioFigura": 0
     },
     "app/lifebook-player.tsx": {
-      "hex": 2,
+      "hex": 0,
       "fontSize": 1,
       "borderRadius": 0,
       "fontWeight": 0,
@@ -703,7 +703,7 @@
       "precioFigura": 0
     },
     "app/lifebook-post/[id].tsx": {
-      "hex": 15,
+      "hex": 0,
       "fontSize": 9,
       "borderRadius": 3,
       "fontWeight": 0,
@@ -748,7 +748,7 @@
       "precioFigura": 0
     },
     "app/lifebook-user.tsx": {
-      "hex": 2,
+      "hex": 0,
       "fontSize": 7,
       "borderRadius": 5,
       "fontWeight": 0,
@@ -775,7 +775,7 @@
       "precioFigura": 0
     },
     "app/lifebook.tsx": {
-      "hex": 2,
+      "hex": 0,
       "fontSize": 4,
       "borderRadius": 3,
       "fontWeight": 0,
@@ -820,7 +820,7 @@
       "precioFigura": 0
     },
     "app/monedero.tsx": {
-      "hex": 6,
+      "hex": 0,
       "fontSize": 2,
       "borderRadius": 1,
       "fontWeight": 0,
@@ -892,7 +892,7 @@
       "precioFigura": 0
     },
     "app/taxi.tsx": {
-      "hex": 16,
+      "hex": 0,
       "fontSize": 19,
       "borderRadius": 10,
       "fontWeight": 0,
@@ -991,7 +991,7 @@
       "precioFigura": 0
     },
     "components/DriverHomeSheet.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 4,
       "borderRadius": 7,
       "fontWeight": 0,
@@ -1108,7 +1108,7 @@
       "precioFigura": 0
     },
     "components/lifebook/ChatPlusPanel.tsx": {
-      "hex": 4,
+      "hex": 0,
       "fontSize": 2,
       "borderRadius": 1,
       "fontWeight": 0,
@@ -1135,7 +1135,7 @@
       "precioFigura": 0
     },
     "components/lifebook/CreateGroupSheet.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 0,
       "borderRadius": 3,
       "fontWeight": 0,
@@ -1378,7 +1378,7 @@
       "precioFigura": 0
     },
     "components/MapTools.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 0,
       "borderRadius": 1,
       "fontWeight": 0,
@@ -1468,7 +1468,7 @@
       "precioFigura": 0
     },
     "components/SocialHomeHeader.tsx": {
-      "hex": 2,
+      "hex": 0,
       "fontSize": 3,
       "borderRadius": 2,
       "fontWeight": 0,
@@ -1486,7 +1486,7 @@
       "precioFigura": 0
     },
     "components/status/StatusDetailModal.tsx": {
-      "hex": 4,
+      "hex": 0,
       "fontSize": 1,
       "borderRadius": 4,
       "fontWeight": 0,
@@ -1513,7 +1513,7 @@
       "precioFigura": 0
     },
     "core/diagnostics.tsx": {
-      "hex": 4,
+      "hex": 0,
       "fontSize": 1,
       "borderRadius": 1,
       "fontWeight": 0,

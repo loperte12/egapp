@@ -219,7 +219,7 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
             const on = category === c.id;
             return (
               <Pressable key={c.id} onPress={() => setCategory(on ? null : c.id)}
-                style={[styles.optChip, { backgroundColor: on ? '#8B5CF6' : colors.surface }]}>
+                style={[styles.optChip, { backgroundColor: on ? brand.lifebook : colors.surface }]}>
                 <Text style={{ color: on ? brand.white : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>{c.label}</Text>
               </Pressable>
             );

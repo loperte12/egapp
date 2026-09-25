@@ -165,8 +165,8 @@ export default function StatusDetailModal({
             <Svg height="100%" width="100%">
               <Defs>
                 <SvgLinearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
-                  <Stop offset="0.45" stopColor="#000000" stopOpacity="0" />
-                  <Stop offset="1" stopColor="#000000" stopOpacity="0.72" />
+                  <Stop offset="0.45" stopColor={brand.visor} stopOpacity="0" />
+                  <Stop offset="1" stopColor={brand.visor} stopOpacity="0.72" />
                 </SvgLinearGradient>
               </Defs>
               <Rect x="0" y="0" width="100%" height="100%" fill="url(#heroFade)" />
@@ -378,7 +378,7 @@ function FitFullImage({ uri }: { uri: string }) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: '#000000' },
+  root: { flex: 1, backgroundColor: brand.visor },
   hero: { width: '100%', overflow: 'hidden' },
   heroScroll: { flexGrow: 0 },
   heroFade: { ...StyleSheet.absoluteFillObject },
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
   reportRow: { paddingVertical: espaciado.e11, borderBottomWidth: trazo.fino },
   reportRowTxt: { fontSize: tipografia.body, fontWeight: peso.medio },
   reportCancel: { fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center', marginTop: espaciado.e4 },
-  lightbox: { flex: 1, backgroundColor: '#000000' },
+  lightbox: { flex: 1, backgroundColor: brand.visor },
   lightboxClose: { position: 'absolute', right: 16, zIndex: 10, width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' },
   lightboxCounter: { position: 'absolute', left: 18, zIndex: 10, backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4 },
   lightboxCounterTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo },

@@ -28,7 +28,7 @@ import * as Location from 'expo-location';
 import {
   ArrowLeft, ArrowUpDown, Bus, CarFront, MapPin, Navigation, Pencil, RefreshCw, Star, Tag, Users, User, X,
 } from 'lucide-react-native';
-import { elevation, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {GhostButton, PrimaryButton, elevation, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { EgMarkers, EgRoutePolyline, type Coord, type EgMapViewHandle } from '../packages/map';
 import { taxiApi, type TaxiMode } from '../api/taxi';
@@ -1275,7 +1275,7 @@ export default function TaxiScreen() {
           )}
           {/* Señal perdida: >10 s sin un fix nuevo del conductor (coche en gris). */}
           {live.lost && status === 'accepted' && (
-            <View style={[s.banner, { backgroundColor: '#F53F3F14' }]} accessibilityLiveRegion="polite">
+            <View style={[s.banner, { backgroundColor: brand.dangerSoft }]} accessibilityLiveRegion="polite">
               <RefreshCw size={14} color={brand.danger} />
               <Text style={{ color: brand.danger, fontSize: tipografia.caption, marginLeft: espaciado.e6, fontWeight: peso.fuerte }}>
                 Señal perdida — esperando al GPS del conductor…
@@ -1287,7 +1287,7 @@ export default function TaxiScreen() {
               Tarjeta COMPLETA del conductor: foto, nombre, MATRÍCULA destacada,
               valoración/viajes, coche, precio, PIN y acciones. */}
           {approach && (
-            <View style={[s.card, { backgroundColor: '#27AE600F', borderColor: '#27AE6033', gap: espaciado.e10 }]}>
+            <View style={[s.card, { backgroundColor: brand.successSoft, borderColor: brand.successSoftBorde, gap: espaciado.e10 }]}>
               <Text style={{ color: brand.success, fontWeight: peso.titulo, fontSize: 15, textAlign: 'center' }}>🚕 Conductor en camino</Text>
               {(() => {
                 const t = (trip ?? {}) as Record<string, any>;
@@ -1321,7 +1321,7 @@ export default function TaxiScreen() {
                       {photo ? (
                         <Image source={{ uri: photo }} style={s.avatar} />
                       ) : (
-                        <View style={[s.avatar, { backgroundColor: '#27AE6033' }]}>
+                        <View style={[s.avatar, { backgroundColor: brand.successSoftBorde }]}>
                           <Text style={{ color: brand.success, fontWeight: peso.titulo, fontSize: tipografia.title }}>{(name || 'C').charAt(0).toUpperCase()}</Text>
                         </View>
                       )}
@@ -1348,7 +1348,7 @@ export default function TaxiScreen() {
                             </View>
                             {color && (
                               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 }}>
-                                <View style={[s.colorSwatch, { backgroundColor: dotColor[color.toLowerCase()] ?? '#ccc' }]} />
+                                <View style={[s.colorSwatch, { backgroundColor: dotColor[color.toLowerCase()] ?? neutro.n400 }]} />
                                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{color}</Text>
                               </View>
                             )}
@@ -1358,7 +1358,7 @@ export default function TaxiScreen() {
                             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }} numberOfLines={1}>{carTxt || 'Coche asignado'}</Text>
                             {color && (
                               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 }}>
-                                <View style={[s.colorSwatch, { backgroundColor: dotColor[color.toLowerCase()] ?? '#ccc' }]} />
+                                <View style={[s.colorSwatch, { backgroundColor: dotColor[color.toLowerCase()] ?? neutro.n400 }]} />
                                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{color}</Text>
                               </View>
                             )}
@@ -1444,7 +1444,7 @@ export default function TaxiScreen() {
                 </View>
               )}
               {sv?.money.locked && !sv.money.released && (
-                <View style={{ padding: espaciado.e10, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: '#27AE6055', backgroundColor: '#27AE6010' }}>
+                <View style={{ padding: espaciado.e10, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: brand.successSoftFuerte, backgroundColor: brand.successSoft }}>
                   <Text style={{ color: brand.success, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                     💳 {Number(sv.fare).toLocaleString('es')} XAF bloqueados con tu PIN
                   </Text>
@@ -1469,7 +1469,7 @@ export default function TaxiScreen() {
                 disabled={cancelBusy}
                 accessibilityRole="button"
                 accessibilityLabel="Rechazar o cancelar el viaje"
-                style={[s.cancelLink, { borderColor: '#F53F3F55' }]}
+                style={[s.cancelLink, { borderColor: brand.dangerSoftFuerte }]}
               >
                 <Text style={{ color: brand.danger, fontWeight: peso.fuerte, fontSize: tipografia.body }}>Rechazar / Cancelar viaje</Text>
               </Pressable>
@@ -1480,7 +1480,7 @@ export default function TaxiScreen() {
               el servidor auto-cierra a los 10 min. Sin confirmación no hay
               payout; con disputa, el admin puede devolver el viaje entero. */}
           {arrived && (
-            <View style={[s.card, { backgroundColor: '#F6B1000F', borderColor: '#F6B10033', gap: espaciado.e10 }]}>
+            <View style={[s.card, { backgroundColor: brand.warningSoft, borderColor: brand.warningSoftBorde, gap: espaciado.e10 }]}>
               <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15, textAlign: 'center' }}>
                 🏁 El conductor dice que habéis llegado
               </Text>
@@ -1541,7 +1541,7 @@ export default function TaxiScreen() {
                               accessibilityLabel="Llamar al conductor"
                               style={[s.waBtn, { flex: 1, backgroundColor: 'rgba(255,255,255,0.9)' }]}
                             >
-                              <Text style={{ color: '#0F141C', fontWeight: peso.maximo, fontSize: tipografia.body }}>📞 Llamar</Text>
+                              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>📞 Llamar</Text>
                             </Pressable>
                           ) : null}
                           {wa ? (
@@ -2048,7 +2048,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     modeName: { fontSize: 15, fontWeight: peso.maximo },
     modePrice: { fontSize: 17, fontWeight: peso.maximo },
     avatar: { width: 44, height: 44, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
-    carThumb: { width: 34, height: 26, borderRadius: 6, overflow: 'hidden', backgroundColor: '#EAEAEA' },
+    carThumb: { width: 34, height: 26, borderRadius: 6, overflow: 'hidden', backgroundColor: neutro.n300 },
     colorSwatch: { width: 12, height: 12, borderRadius: 6, borderWidth: trazo.fino, borderColor: 'rgba(0,0,0,0.2)' },
     waBtn: { borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e2 },
     cancelLink: { borderRadius: radios.full, borderWidth: trazo.fino, paddingVertical: espaciado.e7, paddingHorizontal: espaciado.e18, alignSelf: 'center', marginTop: espaciado.e2 },
@@ -2065,8 +2065,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     priceRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, marginTop: espaciado.e6 },
     priceBox: { flex: 1, borderRadius: radios.md, padding: espaciado.e10, alignItems: 'center' },
     // Matrícula DESTACADA del coche (estilo placa, P1).
-    plateBox: { alignSelf: 'center', borderWidth: trazo.base, borderColor: '#2B2F36', borderRadius: 6, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e5, backgroundColor: '#F5F7FA', marginTop: espaciado.e2 },
-    plateTxt: { fontSize: tipografia.cifra, fontWeight: peso.titulo, letterSpacing: 2, color: '#14171C' },
+    plateBox: { alignSelf: 'center', borderWidth: trazo.base, borderColor: neutro.n900, borderRadius: 6, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e5, backgroundColor: c.surface, marginTop: espaciado.e2 },
+    plateTxt: { fontSize: tipografia.cifra, fontWeight: peso.titulo, letterSpacing: 2, color: c.textPrimary },
     footer: { padding: espaciado.e14, paddingBottom: espaciado.e18, borderTopWidth: trazo.fino },
     loading: { position: 'absolute', top: '50%', alignSelf: 'center' },
   });

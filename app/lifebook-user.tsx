@@ -46,9 +46,9 @@ export default function LifeBookUserScreen() {
 
 const VERIFIED_CHIPS: Array<{ key: keyof LbProfile['verified']; label: string; icon: typeof Store; color: string }> = [
   { key: 'driver', label: 'Conductor', icon: CarTaxiFront, color: brand.primary },
-  { key: 'seller', label: 'Tienda', icon: Store, color: '#E0439A' },
+  { key: 'seller', label: 'Tienda', icon: Store, color: brand.social },
   { key: 'food', label: 'Restaurante', icon: Utensils, color: brand.secondary },
-  { key: 'work', label: 'Contratante', icon: Building2, color: '#8B5CF6' },
+  { key: 'work', label: 'Contratante', icon: Building2, color: brand.lifebook },
   { key: 'rental', label: 'Anfitrión', icon: Home, color: brand.success },
 ];
 
