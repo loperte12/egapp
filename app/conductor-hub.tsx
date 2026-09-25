@@ -16,7 +16,7 @@ import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Bus, CarTaxiFront, ChevronRight, Circle, ShieldCheck, Truck } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso, trazo, trazoIcono} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { driverApi } from '../api/driver';
 import { brand } from '@egrouteplan/ui-kit';
@@ -115,7 +115,7 @@ export default function ConductorHubScreen() {
                 </View>
                 {ONBOARD_STEPS.map((stp, i) => (
                   <View key={stp.label} style={[s.checkRow, { borderBottomColor: colors.border }]}>
-                    <Circle size={18} color={colors.textSecondary} strokeWidth={2} />
+                    <Circle size={18} color={colors.textSecondary} strokeWidth={trazoIcono.base} />
                     <View style={{ flex: 1 }}>
                       <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>{stp.label}</Text>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>{stp.hint}</Text>

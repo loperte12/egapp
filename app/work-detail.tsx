@@ -17,7 +17,7 @@ import {
   Bookmark, Briefcase, Calendar, Check, Flag, Lock, MapPin,
   MessageSquare, Phone, Send, Share2, ShieldCheck, type LucideIcon,
 } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, radios, ScreenHeader, Tactil, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, ScreenHeader, Tactil, tipografia, useTheme, peso, trazo, trazoIcono} from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { EgCamera, EgMarkers } from '../packages/map';
 import { workApi, WorkJob } from '../api/work';
@@ -343,7 +343,7 @@ export default function WorkDetailScreen() {
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e16 }}>
             <View style={[s.logoBig, { backgroundColor: job.companyColor || colors.primary }]}>
               <Text style={{ color: brand.white, fontSize: tipografia.title, fontWeight: peso.maximo }}>{job.company.charAt(0).toUpperCase()}</Text>
-              {job.companyVerified && <View style={[s.vBadge, { backgroundColor: brand.success }]}><Check size={9} color={brand.white} strokeWidth={3} /></View>}
+              {job.companyVerified && <View style={[s.vBadge, { backgroundColor: brand.success }]}><Check size={9} color={brand.white} strokeWidth={trazoIcono.marcado} /></View>}
             </View>
             <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>

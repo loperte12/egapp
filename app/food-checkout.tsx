@@ -35,7 +35,7 @@ import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleShee
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Banknote, Bike, CreditCard, MapPin, Minus, Plus, Store, Trash2, Wallet } from 'lucide-react-native';
-import { alpha, espaciado, FormField, MasOpciones, peso, Precio, PrimaryButton, radios, ScreenHeader, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, MasOpciones, peso, Precio, PrimaryButton, radios, ScreenHeader, tipografia, trazo, useTheme, trazoIcono} from '@egrouteplan/ui-kit';
 import { foodApi, FoodRestaurantDetail } from '../api/food';
 import { walletApi } from '../api/wallet';
 import { fijarPin } from '../api/settlement';
@@ -591,12 +591,12 @@ function CartLineRow({ name, price, qty, lineTotal, onDec, onInc, onRemove }: {
           </Pressable>
           <Pressable onPress={onDec} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Reducir cantidad de ${name}`}
             style={[s_line.stepBtn, { backgroundColor: colors.border }]}>
-            <Minus size={13} color={colors.textPrimary} strokeWidth={3} />
+            <Minus size={13} color={colors.textPrimary} strokeWidth={trazoIcono.marcado} />
           </Pressable>
           <Text style={[s_line.qty, { color: colors.textPrimary }]}>{qty}</Text>
           <Pressable onPress={onInc} disabled={atMax} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Aumentar cantidad de ${name}`}
             style={[s_line.stepBtn, { backgroundColor: ACCENT, opacity: atMax ? 0.4 : 1 }]}>
-            <Plus size={13} color={brand.white} strokeWidth={3} />
+            <Plus size={13} color={brand.white} strokeWidth={trazoIcono.marcado} />
           </Pressable>
         </View>
       </View>

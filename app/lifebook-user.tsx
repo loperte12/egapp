@@ -12,7 +12,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, LinearGradient as SvgLinearGradient, Rect, Stop } from 'react-native-svg';
-import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo, trazoIcono} from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, BadgeCheck, Bookmark, Building2, CarTaxiFront, ChevronRight, Heart, Home, MoreHorizontal,
   MapPin, Package, PenSquare, Search, Star, Store, Utensils, Users,
@@ -491,7 +491,7 @@ function UserContent() {
                   <Text numberOfLines={2} style={[styles.fullName, { color: profile.nameColor || colors.textPrimary }]}>
                     {profile.fullName ?? 'Usuario'}
                   </Text>
-                  {verifiedList.length > 0 && <BadgeCheck size={18} color={brand.primary} fill={brand.primary} stroke={brand.white} strokeWidth={2.5} />}
+                  {verifiedList.length > 0 && <BadgeCheck size={18} color={brand.primary} fill={brand.primary} stroke={brand.white} strokeWidth={trazoIcono.acento} />}
                 </View>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>
                   {[profile.profession, profile.school].filter(Boolean).join(' · ') || (rel.isSelf ? 'Tu perfil' : 'Miembro de Life Book')}

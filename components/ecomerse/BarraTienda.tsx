@@ -26,7 +26,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ClipboardList, LayoutDashboard, Package, Store, type LucideIcon } from 'lucide-react-native';
-import { elevation, espaciado, icono, peso, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
+import { elevation, espaciado, icono, peso, tipografia, trazo, useTheme, trazoIcono} from '@egrouteplan/ui-kit';
 import { usePathname, useRouter } from 'expo-router';
 
 /** Altura de la barra sin el área segura. La usan las pantallas como relleno inferior. */
@@ -92,7 +92,7 @@ export default function BarraTienda() {
             accessibilityLabel={p.label}
             style={({ pressed }) => [styles.item, { opacity: pressed ? 0.6 : 1 }]}
           >
-            <Icon size={icono.md} color={tinte} strokeWidth={activa ? trazo.marcado : trazo.fuerte} />
+            <Icon size={icono.md} color={tinte} strokeWidth={activa ? trazoIcono.acento : trazoIcono.base} />
             <Text style={[styles.label, { color: tinte }, activa && styles.labelActiva]} numberOfLines={1}>
               {p.label}
             </Text>

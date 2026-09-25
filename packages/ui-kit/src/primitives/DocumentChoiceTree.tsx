@@ -10,6 +10,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { FileText, BookOpen, IdCard, GraduationCap, Check, type LucideIcon } from 'lucide-react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { alpha } from '../theme/colors';
+import { trazoIcono } from '../theme/escalas';
 
 export interface DocOptionItem {
   docType: string;
@@ -60,7 +61,7 @@ export function DocumentChoiceTree({
             ]}
           >
             <View style={[styles.iconWrap, { backgroundColor: alpha(colors.primary, 0.1) }]}>
-              <Icon size={22} color={colors.primary} strokeWidth={2} />
+              <Icon size={22} color={colors.primary} strokeWidth={trazoIcono.base} />
             </View>
             <View style={styles.body}>
               <Text style={[styles.title, { color: colors.textPrimary }]}>{opt.title}</Text>
@@ -78,7 +79,7 @@ export function DocumentChoiceTree({
                 },
               ]}
             >
-              {isSelected && <Check size={14} color="#FFFFFF" strokeWidth={3} />}
+              {isSelected && <Check size={14} color="#FFFFFF" strokeWidth={trazoIcono.marcado} />}
             </View>
           </Pressable>
         );

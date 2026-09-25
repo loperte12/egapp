@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Home, CarTaxiFront, MessageCircle, User, Users, type LucideIcon } from 'lucide-react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { useUnreadChat } from '../hooks/useUnreadChat';
-import { brand, elevation, espaciado, peso, trazo, radios, tipografia} from '@egrouteplan/ui-kit';
+import { brand, elevation, espaciado, peso, trazo, radios, tipografia, trazoIcono} from '@egrouteplan/ui-kit';
 
 export type FooterTab = 'inicio' | 'lifebook' | 'taxi' | 'mensajes' | 'monedero' | 'perfil' | 'emergencia';
 
@@ -97,7 +97,7 @@ export default function DockFooter({
             ]}
           >
             <View>
-              <Icon size={21} color={tint} strokeWidth={isActive ? 2.3 : 2} />
+              <Icon size={21} color={tint} strokeWidth={isActive ? trazoIcono.fuerte : trazoIcono.base} />
               {n > 0 && (
                 <View style={styles.badge}>
                   <Text style={styles.badgeText}>{n > 9 ? '9+' : n}</Text>

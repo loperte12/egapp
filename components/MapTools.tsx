@@ -18,7 +18,7 @@ import { useRouter } from 'expo-router';
 import { LocateFixed, ScanLine, Cross } from 'lucide-react-native';
 import { alpha } from '../constants/colors';
 import { useTheme } from '../theme/ThemeContext';
-import { brand, elevation, espaciado, radios} from '@egrouteplan/ui-kit';
+import { brand, elevation, espaciado, radios, trazoIcono} from '@egrouteplan/ui-kit';
 
 export default function MapTools({ onRecenter, recenterLabel = 'Centrar en mi ubicación', topOffset = 10, onEmergency }: {
   onRecenter: () => void;
@@ -41,7 +41,7 @@ export default function MapTools({ onRecenter, recenterLabel = 'Centrar en mi ub
           onPress={onEmergency}
           colors={colors}
           danger
-          icon={<Cross size={22} color={brand.white} strokeWidth={2.6} />}
+          icon={<Cross size={22} color={brand.white} strokeWidth={trazoIcono.acento} />}
           testID="map-tools-emergency"
         />
       )}

@@ -13,7 +13,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import {espaciado, neutro, peso, radios, tipografia, trazo} from '@egrouteplan/ui-kit';
+import {espaciado, neutro, peso, radios, tipografia, trazo, trazoIcono} from '@egrouteplan/ui-kit';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SERVICES, type ServiceItem } from '../constants/data';
@@ -133,7 +133,7 @@ export default function ServiceGrid({ onEmergencyPress, glass = false }: {
             },
           ]}
         >
-          <Icon size={compact ? 20 : 26} color={tint} strokeWidth={2.1} />
+          <Icon size={compact ? 20 : 26} color={tint} strokeWidth={trazoIcono.base} />
         </View>
         <Text
           style={[styles.label, { color: isEmergency ? colors.danger : disabled ? colors.textSecondary : colors.textPrimary }]}
@@ -191,7 +191,7 @@ export default function ServiceGrid({ onEmergencyPress, glass = false }: {
                   },
                 ]}
               >
-                <Icon size={16} color={tint} strokeWidth={2.2} />
+                <Icon size={16} color={tint} strokeWidth={trazoIcono.fuerte} />
                 <Text style={[styles.chipLabel, { color: isEmergency ? colors.danger : disabled ? colors.textSecondary : colors.textPrimary }]}>
                   {item.label}
                 </Text>

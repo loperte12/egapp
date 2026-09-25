@@ -15,7 +15,7 @@ import { ChevronRight } from 'lucide-react-native';
 import { adsApi, type HomeAd } from '../api/ads';
 import { alpha } from '../constants/colors';
 import { useTheme } from '../theme/ThemeContext';
-import { brand, espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, peso, trazo, trazoIcono} from '@egrouteplan/ui-kit';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const H_PADDING = 20;
@@ -115,7 +115,7 @@ export default function PromoCarousel() {
                     ) : null}
                     <View style={[styles.ctaChip, { backgroundColor: color }]}>
                       <Text style={styles.ctaText}>Abrir</Text>
-                      <ChevronRight size={13} color={brand.white} strokeWidth={2.6} />
+                      <ChevronRight size={13} color={brand.white} strokeWidth={trazoIcono.acento} />
                     </View>
                   </View>
                 </Pressable>

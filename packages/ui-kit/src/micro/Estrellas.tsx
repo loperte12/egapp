@@ -47,7 +47,7 @@ import { Star } from 'lucide-react-native';
 
 import { useTheme } from '../theme/ThemeContext';
 import { brand } from '../theme/colors';
-import { espaciado, peso, tipografia } from '../theme/escalas';
+import { espaciado, peso, tipografia, trazoIcono} from '../theme/escalas';
 import { curva, duracion, resorte } from '../theme/movimiento';
 import { haptico } from '../feedback/hapticos';
 import { useMovimientoReducido } from '../a11y/useMovimientoReducido';
@@ -194,7 +194,7 @@ function Estrella({
           size={tamano}
           color={puesta ? colorPuesta : colorApagada}
           fill={puesta ? colorPuesta : 'transparent'}
-          strokeWidth={2}
+          strokeWidth={trazoIcono.base}
         />
       </Animated.View>
     </Pressable>

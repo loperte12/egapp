@@ -28,7 +28,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Home, MessageCircle, User, type LucideIcon } from 'lucide-react-native';
-import { brand, elevation, espaciado, icono, peso, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
+import { brand, elevation, espaciado, icono, peso, radios, tipografia, trazo, useTheme, trazoIcono} from '@egrouteplan/ui-kit';
 import { usePathname, useRouter } from 'expo-router';
 
 /** Altura del pie sin el área segura. La usan las pantallas como relleno inferior. */
@@ -103,7 +103,7 @@ export default function PieDelMercado({
               <Icono
                 size={icono.md}
                 color={tinte}
-                strokeWidth={activo ? trazo.marcado : trazo.fuerte}
+                strokeWidth={activo ? trazoIcono.acento : trazoIcono.base}
               />
               {contador > 0 && (
                 <View style={[styles.insignia, { borderColor: colors.card }]}>

@@ -15,7 +15,7 @@ import {
   ArrowLeft, BadgeCheck, Banknote, Box, Bus, Camera, CarFront, CheckCircle2, ChevronDown, ChevronUp, Compass, Flag, MessageCircle, Navigation, Phone, ShieldCheck, Star, Tag,
   Users, User, UserRound, MapPin, Siren, Volume2, VolumeX, X,
 } from 'lucide-react-native';
-import {CameraCapture, GhostButton, alpha, altura, elevation, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
+import {CameraCapture, GhostButton, alpha, altura, elevation, espaciado, neutro, peso, radios, tipografia, trazo, useTheme, trazoIcono} from '@egrouteplan/ui-kit';
 import EmergencyModal from '../components/EmergencyModal';
 import DriverHomeSheet, { type HomeTab } from '../components/DriverHomeSheet';
 import { EgMapView, EgCamera, EgMarkers, EgRoutePolyline, type EgMapViewHandle, type Coord } from '../packages/map';
@@ -216,7 +216,7 @@ function SearchSpin({ color }: { color: string }) {
       </Animated.View>
       {/* PIN central (la zona de búsqueda) */}
       <View style={{ width: 34, height: 34, borderRadius: radios.full, backgroundColor: color, alignItems: 'center', justifyContent: 'center', elevation: 4 }}>
-        <MapPin size={17} color={brand.white} strokeWidth={2.6} />
+        <MapPin size={17} color={brand.white} strokeWidth={trazoIcono.acento} />
       </View>
     </View>
   );

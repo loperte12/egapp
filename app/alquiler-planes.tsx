@@ -17,7 +17,7 @@ import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleS
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Check, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, ScreenHeader, tipografia, useTheme, peso, trazo, trazoIcono} from '@egrouteplan/ui-kit';
 import { rentalApi, type RentalPlan, type LandlordMe } from '../api/rental';
 import { billingApi } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
@@ -195,7 +195,7 @@ export default function AlquilerPlanesScreen() {
         <View style={s.featureRow} key={key}>
           <Text style={s.featureLabel}>{label}</Text>
           <View accessible={false}>
-            {v ? <Check size={16} color={colors.success} strokeWidth={3} /> : <X size={16} color={colors.textSecondary} strokeWidth={3} />}
+            {v ? <Check size={16} color={colors.success} strokeWidth={trazoIcono.marcado} /> : <X size={16} color={colors.textSecondary} strokeWidth={trazoIcono.marcado} />}
           </View>
         </View>
       );

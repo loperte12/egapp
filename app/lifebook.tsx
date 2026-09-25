@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, elevation, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, elevation, espaciado, radios, tipografia, useTheme, peso, trazo, trazoIcono} from '@egrouteplan/ui-kit';
 import {
   ChevronDown,
   Clapperboard,
@@ -1025,7 +1025,7 @@ function LifeBookContent() {
           accessibilityLabel="Vídeos en pantalla completa"
           style={[styles.fab, { backgroundColor: colors.textPrimary }]}
         >
-          <Play size={22} color={brand.white} fill={brand.white} strokeWidth={1.5} style={{ marginLeft: espaciado.e3 }} />
+          <Play size={22} color={brand.white} fill={brand.white} strokeWidth={trazoIcono.fino} style={{ marginLeft: espaciado.e3 }} />
         </Pressable>
 
         <Pressable
@@ -1034,7 +1034,7 @@ function LifeBookContent() {
           accessibilityLabel="Publicar contenido"
           style={[styles.fab, { backgroundColor: colors.primary }]}
         >
-          <Plus size={24} color={brand.white} strokeWidth={2.5} />
+          <Plus size={24} color={brand.white} strokeWidth={trazoIcono.acento} />
         </Pressable>
       </View>
 

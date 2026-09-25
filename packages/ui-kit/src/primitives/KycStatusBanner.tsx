@@ -11,6 +11,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Clock, CheckCircle2, AlertTriangle, type LucideIcon } from 'lucide-react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { alpha, type ThemeColors } from '../theme/colors';
+import { trazoIcono } from '../theme/escalas';
 
 type BannerTone = 'review' | 'success' | 'error';
 
@@ -43,7 +44,7 @@ export function KycStatusBanner({
       accessibilityLiveRegion="polite"
     >
       <View style={[styles.iconWrap, { backgroundColor: alpha(tint, 0.15) }]}>
-        <Icon size={20} color={tint} strokeWidth={2.2} />
+        <Icon size={20} color={tint} strokeWidth={trazoIcono.fuerte} />
       </View>
       <View style={styles.body}>
         <Text style={[styles.title, { color: tint }]}>{title}</Text>

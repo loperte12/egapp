@@ -8,7 +8,7 @@ import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View }
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWindowDimensions } from 'react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo, trazoIcono} from '@egrouteplan/ui-kit';
 import { ArrowLeft, BadgeCheck, MapPin, MessageCircle, Star, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -112,7 +112,7 @@ function StoreContent() {
               <View style={{ flex: 1 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 }}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo, flexShrink: 1 }}>{s.fullName ?? 'Tienda'}</Text>
-                  <BadgeCheck size={17} color={brand.primary} fill={brand.primary} stroke={brand.white} strokeWidth={2.5} />
+                  <BadgeCheck size={17} color={brand.primary} fill={brand.primary} stroke={brand.white} strokeWidth={trazoIcono.acento} />
                 </View>
                 {s.city ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e2 }}>

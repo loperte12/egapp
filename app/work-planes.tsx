@@ -17,7 +17,7 @@ import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleS
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { Check, X } from 'lucide-react-native';
-import {ScreenHeader, alpha, brand, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
+import {ScreenHeader, alpha, brand, espaciado, neutro, peso, radios, tipografia, trazo, useTheme, trazoIcono} from '@egrouteplan/ui-kit';
 import { billingApi, BillingPlan } from '../api/billing';
 import { workApi, WorkPlan } from '../api/work';
 import { formatXAF } from '../utils/formatHelpers';
@@ -142,9 +142,9 @@ export default function WorkPlanesScreen() {
         <View style={s.featureRow} key={key}>
           <Text style={s.featureLabel}>{label}</Text>
           {v ? (
-            <View accessible={false}><Check size={16} color={brand.success} strokeWidth={3} /></View>
+            <View accessible={false}><Check size={16} color={brand.success} strokeWidth={trazoIcono.marcado} /></View>
           ) : (
-            <View accessible={false}><X size={16} color={neutro.n400} strokeWidth={3} /></View>
+            <View accessible={false}><X size={16} color={neutro.n400} strokeWidth={trazoIcono.marcado} /></View>
           )}
         </View>
       );

@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, peso, trazo, trazoIcono} from '@egrouteplan/ui-kit';
 import { Linking, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Siren, Phone, X, type LucideIcon } from 'lucide-react-native';
 import { EMERGENCY_CONTACTS, type EmergencyContact } from '../constants/data';
@@ -37,7 +37,7 @@ export default function EmergencyModal({
           {/* Cabecera crítica */}
           <View style={styles.header}>
             <View style={[styles.sirenWrap, { backgroundColor: alpha(colors.danger, 0.12) }]}>
-              <Siren size={22} color={colors.danger} strokeWidth={2.2} />
+              <Siren size={22} color={colors.danger} strokeWidth={trazoIcono.fuerte} />
             </View>
             <View style={styles.headerText}>
               <Text style={[styles.title, { color: colors.danger }]}>Emergencia</Text>

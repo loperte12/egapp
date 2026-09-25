@@ -16,6 +16,7 @@ import { Camera, RefreshCw, ImageIcon } from 'lucide-react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { useScreenGuard } from '../security/useScreenGuard';
 import { PrimaryButton, GhostButton } from './PrimaryButton';
+import { trazoIcono } from '../theme/escalas';
 
 export type CaptureVariant = 'document' | 'selfie';
 
@@ -85,7 +86,7 @@ export function CameraCapture({
   if (!permission.granted) {
     return (
       <View style={styles.permissionBox}>
-        <Camera size={40} color={colors.primary} strokeWidth={1.6} />
+        <Camera size={40} color={colors.primary} strokeWidth={trazoIcono.fino} />
         <Text style={[styles.permissionTitle, { color: colors.textPrimary }]}>
           Necesitamos tu cámara
         </Text>

@@ -41,7 +41,7 @@ import { Heart } from 'lucide-react-native';
 
 import { useTheme } from '../theme/ThemeContext';
 import { brand } from '../theme/colors';
-import { espaciado, icono as iconoTam, peso, tipografia } from '../theme/escalas';
+import { espaciado, icono as iconoTam, peso, tipografia, trazoIcono} from '../theme/escalas';
 import { resorte } from '../theme/movimiento';
 import { haptico } from '../feedback/hapticos';
 import { useMovimientoReducido } from '../a11y/useMovimientoReducido';
@@ -104,7 +104,7 @@ export function Corazon({
           size={tamano}
           color={marcado ? brand.like : colors.textSecondary}
           fill={marcado ? brand.like : 'transparent'}
-          strokeWidth={2}
+          strokeWidth={trazoIcono.base}
         />
       </Animated.View>
 

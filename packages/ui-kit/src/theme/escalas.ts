@@ -355,12 +355,30 @@ export const trazo = {
  * GROSORES DE TRAZO DE ICONO (`strokeWidth` de un SVG).
  *
  * POR QUÉ EXISTE: la escala de arriba es la del BORDE, y el kit la declaró a medias. El producto usa
- * además **cuatro grosores como trazo de icono** escritos a mano —`1.8`, `2`, `2.2`, `3`— y no estaban
- * en ningún sitio. Un icono con 1.8 junto a otro con 2.2 en la misma fila se nota, aunque no se sepa
- * decir por qué.
+ * además grosores como trazo de icono escritos a mano y no estaban en ningún sitio. Un icono con 1.8
+ * junto a otro con 2.2 en la misma fila se nota, aunque no se sepa decir por qué.
  *
  * La escala del borde NO sirve para esto: 1.5 y 2.5 son valores de borde, no de dibujo de icono. Son
  * dos escalas distintas porque miden cosas distintas, igual que `tipografia` e `icono`.
+ *
+ * ── CORRECCIÓN DEL 26/09/2026 (tanda `C1`) ──────────────────────────────────────────────────────
+ * Aquí decía «el producto usa **cuatro** grosores —1.8, 2, 2.2, 3—». **Era un inventario parcial.**
+ * Al medir la familia entera (34 sitios, con un inventario CIEGO y no una lista blanca) son **diez**:
+ *
+ *     1.5 · 1.6 · 1.8 · 2 · 2.1 · 2.2 · 2.3 · 2.5 · 2.6 · 3
+ *
+ * Siete no tenían peldaño. Los cuatro intermedios (2.1, 2.3, 2.5, 2.6) están a menos de 0,5 px entre
+ * sí: son **deriva**, no cuatro intenciones distintas. Se colapsan por INTENCIÓN, y sólo hizo falta
+ * añadir `acento`. Resultado: 33 de los 34 sitios quedan con el **mismo píxel** y el que más se mueve
+ * lo hace 0,3 px.
+ *
+ * Es el fallo 21 del skill `codemod-seguro`: una escala escrita desde un inventario parcial se queda
+ * corta, **y la que se queda corta es siempre la del script**. Lista de valores por intención:
+ *   · `fino`    1.8  ← 1.5 · 1.6 · 1.8    (icono pequeño y denso)
+ *   · `base`    2    ← 2 · 2.1            (fila o botón: el caso común)
+ *   · `fuerte`  2.2  ← 2.2 · 2.3          (acción principal)
+ *   · `acento`  2.5  ← 2.5 · 2.6          (acento: insignia, franja, mapa)
+ *   · `marcado` 3    ← 3                  (estado o acento fuerte)
  */
 export const trazoIcono = {
   /** Icono pequeño y denso. */
@@ -369,7 +387,20 @@ export const trazoIcono = {
   base: 2,
   /** Icono de acción principal. */
   fuerte: 2.2,
-  /** Icono de estado o de acento. */
+  /**
+   * Icono con acento: la insignia de verificado, el signo de una franja de mercado, el mapa de una
+   * cabecera. **Peldaño añadido el 26/09/2026 (tanda `C1`).**
+   *
+   * POR QUÉ EXISTE: `2.5` era el valor sin peldaño más repetido — **cinco sitios**: la insignia
+   * `BadgeCheck` (×2), el `Plus` grande de lifebook y **dos que ya usaban `trazo.marcado` para un
+   * icono** (la barra del mercado y su pie), o sea la escala del BORDE metida donde no toca. Se
+   * declara el valor que el producto ya escribe, así que los cinco entran **sin mover un píxel**.
+   *
+   * Mismo criterio que `trazo.anillo` y que los peldaños `e18`/`e22`/`e26`/`e28`/`e30` del
+   * espaciado: **nombrar lo que existe, no corregirlo.**
+   */
+  acento: 2.5,
+  /** Icono de estado o de acento fuerte (el caso más repetido de todos: 12 sitios). */
   marcado: 3,
 } as const;
 

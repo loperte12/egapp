@@ -20,7 +20,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Minus, Plus, Star } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, peso, Precio, radios, ScreenHeader, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, peso, Precio, radios, ScreenHeader, tipografia, trazo, useTheme, trazoIcono} from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodRestaurantDetail, SPICE_LABEL, SPICE_ICON } from '../api/food';
 import { foodCartCount, foodCartTotal, FoodCartLine, useFoodStore } from '../state/food';
 import { itemDetailSummary } from '../utils/foodItemDetails';
@@ -300,19 +300,19 @@ function MenuItemRow({ item, qty, onAdd, onDec, onInc }: {
       {qty === 0 ? (
         <Pressable onPress={onAdd} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Añadir ${item.name}`}
           style={s_row.addBtn}>
-          <Plus size={16} color={brand.white} strokeWidth={3} />
+          <Plus size={16} color={brand.white} strokeWidth={trazoIcono.marcado} />
         </Pressable>
       ) : (
         <View style={s_row.stepper}>
           <Pressable onPress={onDec} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Quitar uno de ${item.name}`}
             style={[s_row.stepBtn, { backgroundColor: colors.border }]}>
-            <Minus size={14} color={colors.textPrimary} strokeWidth={3} />
+            <Minus size={14} color={colors.textPrimary} strokeWidth={trazoIcono.marcado} />
           </Pressable>
           <Text style={[s_row.qty, { color: colors.textPrimary }]}>{qty}</Text>
           <Pressable onPress={onInc} disabled={atMax} hitSlop={6} accessibilityRole="button"
             accessibilityLabel={`Añadir más ${item.name}`}
             style={[s_row.stepBtn, { backgroundColor: ACCENT, opacity: atMax ? 0.4 : 1 }]}>
-            <Plus size={14} color={brand.white} strokeWidth={3} />
+            <Plus size={14} color={brand.white} strokeWidth={trazoIcono.marcado} />
           </Pressable>
         </View>
       )}

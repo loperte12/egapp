@@ -9,6 +9,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Eye, RotateCcw, Hash, CheckCircle2 } from 'lucide-react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { alpha } from '../theme/colors';
+import { trazoIcono } from '../theme/escalas';
 
 export type LivenessMethodT = 'BLINK' | 'TURN' | 'READ_DIGITS';
 
@@ -66,9 +67,9 @@ export function LivenessChallengeView({
         ]}
       >
         {done ? (
-          <CheckCircle2 size={44} color={colors.success} strokeWidth={1.8} />
+          <CheckCircle2 size={44} color={colors.success} strokeWidth={trazoIcono.fino} />
         ) : (
-          <ui.Icon size={44} color={capturing ? colors.secondary : colors.primary} strokeWidth={1.8} />
+          <ui.Icon size={44} color={capturing ? colors.secondary : colors.primary} strokeWidth={trazoIcono.fino} />
         )}
       </View>
 
