@@ -829,7 +829,7 @@ function UserContent() {
                       accessibilityState={{ selected: on }}
                       style={[styles.tabPill, { backgroundColor: on ? colors.primary : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                     >
-                      <Text style={{ color: on ? brand.white : colors.textSecondary, fontSize: tipografia.body, fontWeight: on ? '900' : '700' }}>{t.label}</Text>
+                      <Text style={{ color: on ? brand.white : colors.textSecondary, fontSize: tipografia.body, fontWeight: on ? peso.titulo : peso.fuerte }}>{t.label}</Text>
                     </Pressable>
                   );
                 })}
@@ -860,7 +860,7 @@ function UserContent() {
                       accessibilityLabel={`Categoría ${c.label}`}
                       style={[styles.tabPill, { backgroundColor: on ? alpha(colors.primary, 0.15) : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                     >
-                      <Text style={{ color: on ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: on ? '900' : '700' }}>{c.label}</Text>
+                      <Text style={{ color: on ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: on ? peso.titulo : peso.fuerte }}>{c.label}</Text>
                     </Pressable>
                   );
                 })}

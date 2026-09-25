@@ -914,7 +914,7 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
         },
       ]}
     >
-      <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: active ? '900' : '700' }}>{label}</Text>
+      <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: active ? peso.titulo : peso.fuerte }}>{label}</Text>
     </Pressable>
   );
 }
@@ -1114,7 +1114,7 @@ function ModalSelectorPais({ visible, country, countryCode, city, onApply, onClo
                 accessibilityState={{ selected: active }}
                 style={({ pressed }) => [styles.pickRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
               >
-                <Text style={[styles.pickRowTxt, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? '900' : '600' }]}>
+                <Text style={[styles.pickRowTxt, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? peso.titulo : peso.medio }]}>
                   {c.name}
                 </Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginRight: espaciado.e8 }}>{c.code}</Text>
@@ -1212,7 +1212,7 @@ function ModalProfesion({ visible, current, onApply, onClose }: {
                   accessibilityState={{ selected: active }}
                   style={({ pressed }) => [styles.pickRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
                 >
-                  <Text style={[styles.pickRowTxt, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? '900' : '600' }]}>
+                  <Text style={[styles.pickRowTxt, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? peso.titulo : peso.medio }]}>
                     {p.label}
                   </Text>
                   {active ? <Check size={18} color={colors.primary} /> : null}

@@ -98,7 +98,7 @@ export default function RuletaVertical({
                 <Text style={{
                   color: activo ? colors.primary : colors.textSecondary,
                   fontSize: activo ? 16 : 14,
-                  fontWeight: activo ? '900' : '600',
+                  fontWeight: activo ? peso.titulo : peso.medio,
                 }}>
                   {v}{sufijo ? ` ${sufijo}` : ''}
                 </Text>

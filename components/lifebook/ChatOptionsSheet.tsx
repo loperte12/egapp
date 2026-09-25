@@ -297,7 +297,7 @@ export function ChatOptionsSheet({
                     <View style={[styles.bgSwatch, { backgroundColor: b.base || colors.surface, borderColor: alpha(colors.border, 0.8) }]}>
                       {b.accent ? <View style={[styles.bgAccent, { backgroundColor: b.accent }]} /> : null}
                     </View>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: on ? '900' : '600', flex: 1 }}>{b.label}</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: on ? peso.titulo : peso.medio, flex: 1 }}>{b.label}</Text>
                     {on ? <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>✓</Text> : null}
                   </Pressable>
                 );

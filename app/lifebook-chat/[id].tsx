@@ -1764,7 +1764,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
                 <View pointerEvents="none" style={[styles.voteBar, { width: `${pct}%`, backgroundColor: alpha(colors.primary, 0.16) }]} />
               ) : null}
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: myPick ? '900' : '600', flex: 1 }} numberOfLines={2}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: myPick ? peso.titulo : peso.medio, flex: 1 }} numberOfLines={2}>
                   {o}
                 </Text>
                 {n > 0 ? (

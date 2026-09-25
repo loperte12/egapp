@@ -440,10 +440,10 @@ function Linea({
   const { colors } = useTheme();
   return (
     <View style={styles.linea}>
-      <Text style={[styles.lineaEtq, { color: tenue ? colors.textSecondary : colors.textPrimary, fontWeight: fuerte ? '700' : '500' }]}>
+      <Text style={[styles.lineaEtq, { color: tenue ? colors.textSecondary : colors.textPrimary, fontWeight: fuerte ? peso.fuerte : peso.medio }]}>
         {etiqueta}
       </Text>
-      <Text style={[styles.lineaVal, { color: color ?? colors.textPrimary, fontWeight: fuerte ? '800' : '600' }]}>
+      <Text style={[styles.lineaVal, { color: color ?? colors.textPrimary, fontWeight: fuerte ? peso.maximo : peso.medio }]}>
         {valor}
       </Text>
     </View>

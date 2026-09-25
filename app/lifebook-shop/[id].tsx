@@ -298,7 +298,7 @@ function ShopContent() {
                   const active = tab === t.id;
                   return (
                     <Pressable key={t.id} onPress={() => setTab(t.id)} accessibilityRole="tab" accessibilityState={{ selected: active }} style={styles.tab}>
-                      <Text style={{ color: active ? colors.textPrimary : colors.textSecondary, fontWeight: active ? '900' : '600', fontSize: tipografia.body }}>
+                      <Text style={{ color: active ? colors.textPrimary : colors.textSecondary, fontWeight: active ? peso.titulo : peso.medio, fontSize: tipografia.body }}>
                         {t.label}
                       </Text>
                       {active ? <View style={[styles.tabLine, { backgroundColor: colors.primary }]} /> : null}

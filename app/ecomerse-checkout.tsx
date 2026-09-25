@@ -668,7 +668,7 @@ function Row({ label, value, big }: { label: string; value: string; big?: boolea
   const { colors } = useTheme();
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: espaciado.e4 }}>
-      <Text style={{ fontSize: big ? 15 : 13, fontWeight: big ? '900' : '600', color: colors.textPrimary }}>{label}</Text>
+      <Text style={{ fontSize: big ? 15 : 13, fontWeight: big ? peso.titulo : peso.medio, color: colors.textPrimary }}>{label}</Text>
       <Text style={{ fontSize: big ? 17 : 13, fontWeight: peso.titulo, color: big ? brand.secondary : colors.textPrimary }}>{value}</Text>
     </View>
   );

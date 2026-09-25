@@ -647,7 +647,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
               const pos = FLOW.indexOf(stName);
               return (
                 <Text key={stName} numberOfLines={1}
-                  style={{ flex: 1, textAlign: 'center', fontSize: 8, fontWeight: pos <= idx ? '800' : '600', color: pos <= idx ? ACCENT : colors.textSecondary }}>
+                  style={{ flex: 1, textAlign: 'center', fontSize: 8, fontWeight: pos <= idx ? peso.maximo : peso.medio, color: pos <= idx ? ACCENT : colors.textSecondary }}>
                   {STATUS[stName].label}
                 </Text>
               );

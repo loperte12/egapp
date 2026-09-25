@@ -489,10 +489,10 @@ function Fila({
   const { colors } = useTheme();
   return (
     <View style={styles.filaCuenta}>
-      <Text style={[styles.cuentaEtq, { color: tenue ? colors.textSecondary : colors.textPrimary, fontWeight: fuerte ? '700' : '500' }]}>
+      <Text style={[styles.cuentaEtq, { color: tenue ? colors.textSecondary : colors.textPrimary, fontWeight: fuerte ? peso.fuerte : peso.medio }]}>
         {etiqueta}
       </Text>
-      <Text style={[styles.cuentaVal, { color: color ?? colors.textPrimary, fontWeight: fuerte ? '800' : '600' }]}>
+      <Text style={[styles.cuentaVal, { color: color ?? colors.textPrimary, fontWeight: fuerte ? peso.maximo : peso.medio }]}>
         {valor}
       </Text>
     </View>

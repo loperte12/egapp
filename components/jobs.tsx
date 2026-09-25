@@ -118,7 +118,7 @@ export function WorkSortBar({ value, onChange }: { value: SortKey; onChange: (k:
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e8, gap: espaciado.e6 }}>
       {OPTIONS.map((o) => (
         <Pressable key={o.key} onPress={() => onChange(o.key)} style={[s.sortBtn, { backgroundColor: value === o.key ? alpha(colors.primary, 0.15) : 'transparent' }]}>
-          <Text style={{ fontSize: tipografia.micro, color: value === o.key ? colors.primary : colors.textSecondary, fontWeight: value === o.key ? '800' : '600' }}>{o.label}</Text>
+          <Text style={{ fontSize: tipografia.micro, color: value === o.key ? colors.primary : colors.textSecondary, fontWeight: value === o.key ? peso.maximo : peso.medio }}>{o.label}</Text>
         </Pressable>
       ))}
     </View>

@@ -440,7 +440,7 @@ function ProfileContent() {
               const active = lbTab === k;
               return (
                 <Pressable key={k} onPress={() => setLbTab(k)} accessibilityRole="tab" accessibilityState={{ selected: active }} style={styles.tabItem}>
-                  <Text style={[styles.tabTxt, { color: active ? colors.textPrimary : colors.textSecondary, fontWeight: active ? '900' : '600' }]}>{label}</Text>
+                  <Text style={[styles.tabTxt, { color: active ? colors.textPrimary : colors.textSecondary, fontWeight: active ? peso.titulo : peso.medio }]}>{label}</Text>
                   {active && <View style={[styles.tabUnderline, { backgroundColor: colors.primary }]} />}
                 </Pressable>
               );
@@ -798,7 +798,7 @@ function LocationModal({ visible, profile, onClose, onSaved }: { visible: boolea
               const active = c.code === country;
               return (
                 <Pressable key={c.code} onPress={() => { setCountry(c.code); if (c.code !== 'GQ') setCity(''); }} style={({ pressed }) => [styles.pickRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}>
-                  <Text style={[styles.pickRowTxt, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? '900' : '600' }]}>{c.name}</Text>
+                  <Text style={[styles.pickRowTxt, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? peso.titulo : peso.medio }]}>{c.name}</Text>
                   <Text style={[styles.pickRowCode, { color: colors.textSecondary }]}>{c.code}</Text>
                 </Pressable>
               );
@@ -869,7 +869,7 @@ function ProfessionModal({ visible, profile, onClose, onSaved }: { visible: bool
               return (
                 <Pressable key={p.id} onPress={() => setSel(isActive ? '' : p.label)} style={({ pressed }) => [styles.pickRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}>
                   <Briefcase size={17} color={isActive ? colors.primary : colors.textSecondary} />
-                  <Text style={[styles.pickRowTxt, { color: isActive ? colors.primary : colors.textPrimary, fontWeight: isActive ? '900' : '600' }]}>{p.label}</Text>
+                  <Text style={[styles.pickRowTxt, { color: isActive ? colors.primary : colors.textPrimary, fontWeight: isActive ? peso.titulo : peso.medio }]}>{p.label}</Text>
                 </Pressable>
               );
             })}

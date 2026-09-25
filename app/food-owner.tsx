@@ -802,7 +802,7 @@ export default function FoodOwnerScreen() {
               onPress={() => { setCity(c.name); setCityModal(false); }}
               accessibilityRole="button"
               style={[s.cityItem, { borderBottomColor: colors.border }]}>
-              <Text style={{ fontSize: tipografia.body, fontWeight: city === c.name ? '800' : '600', color: city === c.name ? ACCENT : colors.textPrimary }}>{c.name}</Text>
+              <Text style={{ fontSize: tipografia.body, fontWeight: city === c.name ? peso.maximo : peso.medio, color: city === c.name ? ACCENT : colors.textPrimary }}>{c.name}</Text>
               {c.region ? <Text style={{ fontSize: 10.5, color: colors.textSecondary }}>{c.region}</Text> : null}
             </Pressable>
           ))}

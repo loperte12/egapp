@@ -323,7 +323,7 @@ function Contenido() {
                     >
                       <Text style={{
                         color: esInicio || esFin ? brand.white : colors.textPrimary,
-                        fontSize: tipografia.caption, fontWeight: finde ? '900' : '700',
+                        fontSize: tipografia.caption, fontWeight: finde ? peso.titulo : peso.fuerte,
                       }}>
                         {c.day}
                       </Text>

@@ -109,7 +109,7 @@ export default function LocationModal({
                         <MapPin size={16} color={active ? colors.primary : colors.textSecondary} />
                       </View>
                       <View style={styles.rowText}>
-                        <Text style={[styles.cityName, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? '800' : '700' }]}>
+                        <Text style={[styles.cityName, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? peso.maximo : peso.fuerte }]}>
                           {city.name}
                         </Text>
                       </View>

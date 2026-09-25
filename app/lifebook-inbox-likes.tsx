@@ -71,7 +71,7 @@ function LikesContent() {
           return (
             <Pressable key={k} onPress={() => setTab(k)} accessibilityRole="tab" accessibilityState={{ selected: on }}
               style={[styles.tabPill, { backgroundColor: on ? colors.primary : colors.surface, borderColor: on ? colors.primary : colors.border }]}>
-              <Text style={{ color: on ? brand.white : colors.textSecondary, fontSize: tipografia.body, fontWeight: on ? '900' : '700' }}>{label}</Text>
+              <Text style={{ color: on ? brand.white : colors.textSecondary, fontSize: tipografia.body, fontWeight: on ? peso.titulo : peso.fuerte }}>{label}</Text>
             </Pressable>
           );
         })}

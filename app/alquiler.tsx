@@ -304,7 +304,7 @@ function FilterChip({ label, selected, onPress }: { label: string; selected: boo
       accessibilityLabel={label}
       style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: 20, marginRight: espaciado.e8, marginBottom: espaciado.e8, backgroundColor: selected ? colors.primary : colors.surface, borderWidth: 1, borderColor: selected ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
     >
-      <Text style={{ fontSize: tipografia.caption, color: selected ? brand.white : colors.textPrimary, fontWeight: selected ? '700' : '500' }}>{label}</Text>
+      <Text style={{ fontSize: tipografia.caption, color: selected ? brand.white : colors.textPrimary, fontWeight: selected ? peso.fuerte : peso.medio }}>{label}</Text>
       {selected && <Check size={12} color={brand.white} style={{ marginLeft: espaciado.e4 }} />}
     </Pressable>
   );

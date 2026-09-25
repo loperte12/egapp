@@ -411,7 +411,7 @@ function CheckoutContent() {
               color: paymentMethod ? colors.textSecondary : colors.danger,
               fontSize: tipografia.body,
               lineHeight: 17,
-              fontWeight: paymentMethod ? '400' : '700',
+              fontWeight: paymentMethod ? peso.normal : peso.fuerte,
             }}>
               {!paymentMethod
                 ? 'Falta elegir cómo pagas.'
@@ -480,7 +480,7 @@ function CheckoutContent() {
             <Text style={{
               color: paymentMethod ? colors.textSecondary : colors.danger,
               fontSize: tipografia.body,
-              fontWeight: paymentMethod ? '400' : '800',
+              fontWeight: paymentMethod ? peso.normal : peso.maximo,
             }}>
               {paymentMethod ? `Pagas: ${lbPayLabel(paymentMethod)}` : 'Elige cómo pagas'}
             </Text>

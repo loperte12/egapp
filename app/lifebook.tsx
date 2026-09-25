@@ -750,7 +750,7 @@ function LifeBookContent() {
                     styles.channelText,
                     {
                       color: active ? colors.textPrimary : colors.textSecondary,
-                      fontWeight: active ? '800' : '500',
+                      fontWeight: active ? peso.maximo : peso.medio,
                       fontSize: active ? 14.5 : 13.5,
                     },
                   ]}
@@ -814,7 +814,7 @@ function LifeBookContent() {
                     backgroundColor: activo ? alpha(colors.primary, 0.14) : 'transparent',
                   }}
                 >
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: activo ? '900' : '600', color: activo ? colors.primary : colors.textSecondary }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: activo ? peso.titulo : peso.medio, color: activo ? colors.primary : colors.textSecondary }}>
                     {item.label}
                   </Text>
                 </Pressable>
@@ -855,7 +855,7 @@ function LifeBookContent() {
                 <Text
                   style={{
                     fontSize: tipografia.caption,
-                    fontWeight: activo ? '800' : '600',
+                    fontWeight: activo ? peso.maximo : peso.medio,
                     color: activo ? colors.primary : colors.textSecondary,
                   }}
                 >
@@ -1238,7 +1238,7 @@ function LifeBookContent() {
                         ? colors.primary
                         : colors.textPrimary,
                       fontSize: 15,
-                      fontWeight: active ? '800' : '600',
+                      fontWeight: active ? peso.maximo : peso.medio,
                     }}
                   >
                     {c}

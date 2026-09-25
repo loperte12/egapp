@@ -369,7 +369,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
 
       <View style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: isUnread ? '800' : '600', fontSize: tipografia.body, flex: 1 }}>
+          <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: isUnread ? peso.maximo : peso.medio, fontSize: tipografia.body, flex: 1 }}>
             {card.name}
           </Text>
           {card.isGroup ? (
@@ -386,7 +386,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
           numberOfLines={1}
           style={{
             color: isUnread ? colors.textPrimary : colors.textSecondary,
-            fontWeight: isUnread ? '600' : '400',
+            fontWeight: isUnread ? peso.medio : peso.normal,
             fontSize: tipografia.body,
             marginTop: espaciado.e2,
           }}

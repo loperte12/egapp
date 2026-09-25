@@ -68,7 +68,7 @@ export default function WorkScreen() {
     <Pressable key={label} onPress={onPress} accessibilityRole="button" accessibilityState={{ selected }}
       accessibilityLabel={label} accessibilityHint={selected ? 'Toca para quitar' : 'Toca para elegir'}
       style={[s_chip.base, { backgroundColor: selected ? colors.primary : colors.surface, borderColor: selected ? colors.primary : colors.border }]}>
-      <Text style={{ fontSize: tipografia.caption, color: selected ? brand.white : colors.textPrimary, fontWeight: selected ? '700' : '500' }}>{label}</Text>
+      <Text style={{ fontSize: tipografia.caption, color: selected ? brand.white : colors.textPrimary, fontWeight: selected ? peso.fuerte : peso.medio }}>{label}</Text>
       {selected && <Check size={12} color={brand.white} style={{ marginLeft: espaciado.e4 }} />}
     </Pressable>
   );

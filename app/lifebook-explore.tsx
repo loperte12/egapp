@@ -315,7 +315,7 @@ function ExploreContent() {
                   onPress={() => { setType(f.id); setFiltersOpen(false); }}
                   style={[styles.typeChip, { backgroundColor: active ? colors.primary : alpha(colors.textSecondary, 0.08) }]}
                 >
-                  <Text style={{ color: active ? brand.white : colors.textPrimary, fontSize: tipografia.body, fontWeight: active ? '800' : '600' }}>{f.label}</Text>
+                  <Text style={{ color: active ? brand.white : colors.textPrimary, fontSize: tipografia.body, fontWeight: active ? peso.maximo : peso.medio }}>{f.label}</Text>
                 </Pressable>
               );
             })}

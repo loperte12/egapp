@@ -463,7 +463,7 @@ function Row({ label, value, bold }: { label: string; value: string; bold?: bool
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e4, gap: espaciado.e12 }}>
       <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.medio }}>{label}</Text>
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: bold ? '900' : '700', flexShrink: 1, textAlign: 'right' }}>{value}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: bold ? peso.titulo : peso.fuerte, flexShrink: 1, textAlign: 'right' }}>{value}</Text>
     </View>
   );
 }

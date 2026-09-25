@@ -492,7 +492,7 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
       accessibilityLabel={label}
       style={({ pressed }) => [{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
     >
-      <Text style={{ fontSize: tipografia.caption, fontWeight: active ? '700' : '500', color: active ? brand.white : colors.textPrimary }}>{label}</Text>
+      <Text style={{ fontSize: tipografia.caption, fontWeight: active ? peso.fuerte : peso.medio, color: active ? brand.white : colors.textPrimary }}>{label}</Text>
     </Pressable>
   );
 }

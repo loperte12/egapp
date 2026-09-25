@@ -367,7 +367,7 @@ function LifeBookSearchContent() {
                     style={{
                       color: active ? brand.white : colors.textPrimary,
                       fontSize: tipografia.caption,
-                      fontWeight: active ? '800' : '600',
+                      fontWeight: active ? peso.maximo : peso.medio,
                     }}
                   >
                     {item.label}
