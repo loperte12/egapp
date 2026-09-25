@@ -11,6 +11,7 @@
  *   2. Números de `fontSize` y `borderRadius` escritos a mano (sin escala).
  *   3. Números de `fontWeight` y `borderWidth` escritos a mano (sin escala).
  *   4. **Precios de figura pintados a mano** (`precioFigura`): ver «Precio como sistema», abajo.
+ *   5. **Grosores de icono escritos a mano** (`strokeWidth`): ver el porqué abajo, punto 5.
  *
  * POR QUÉ SE AÑADIERON 3 y 4 (19/09, cierre de la fase 1 del plan de diseño): la guardia medía
  * 148 literales en el módulo Mercado y decía «cero deuda» al terminarlos, pero era **ciega a tres
@@ -57,6 +58,38 @@
  * el periodo) ni el que elige texto de reserva (`? formatXAF(x) : '—'`): preferimos una regla corta
  * que no dé un falso positivo a una que grite de más.
  *
+ * POR QUÉ SE AÑADIÓ 5 (26/09/2026, tras la tanda `A1`): cerradas las siete familias, el censo de
+ * adopción preguntó por los peldaños con **0 usos** y encontró `trazoIcono` y `icono`. La primera
+ * hipótesis fue «peldaños muertos». **Era la pregunta equivocada.** Medido con `_i1`/`_i2`:
+ *
+ *   · `trazoIcono` (4 peldaños: 1.8 / 2 / 2.2 / 3) tiene **0 usos**, sí… y al lado hay **34 sitios
+ *     con `strokeWidth` escrito a mano** (26 en la app, 8 en las primitivas del kit), con **diez
+ *     valores distintos**: 1.5, 1.6, 1.8, 2, 2.1, 2.2, 2.3, 2.5, 2.6 y 3. La escala se declaró sobre
+ *     un inventario parcial («cuatro grosores»), que es el fallo 21 del skill `codemod-seguro`.
+ *   · No es un peldaño muerto: es **una familia sin migrar**, y la guardia no la medía.
+ *
+ * Es literalmente el fallo 18/26: **un trinquete ciego a una FORMA de escribir la deuda no aprieta
+ * esa forma**, y la deuda existe igual. Igual que el hex de ocho dígitos y los ternarios de
+ * `fontWeight`, esto SUBE el número al ampliarlo, y sube porque gana VISIBILIDAD, no deuda.
+ *
+ * DOS DECISIONES DE ALCANCE, y las dos importan:
+ *
+ * a) **Se cuenta el LITERAL, no el sitio.** `strokeWidth={isActive ? 2.3 : 2}` son **dos** números
+ *    escondidos en un sitio; contar sitios los daría por uno. Mismo razonamiento que en `fontWeight`
+ *    (ver `PESO`), que cuenta ramas y no declaraciones.
+ * b) **El alcance incluye las PRIMITIVAS del kit, pero NO su `theme/`.** Por qué: el kit escribe
+ *    `strokeWidth` a mano en sus propios componentes (8 sitios) y no usa `trazoIcono` ni una vez —
+ *    dejarlo fuera dejaría la familia naciendo a medias, que es exactamente el problema que la tanda
+ *    `A1` acaba de cerrar. Pero `theme/` es la **definición** de los tokens: ahí un `#RRGGBB` o un
+ *    `borderRadius: 20` no es deuda, es el valor que la escala declara (`theme/colors.ts` tiene 123
+ *    hex y `theme/escalas.ts` 2 radios). Medido antes de decidir: meter el kit entero habría subido
+ *    el trinquete de `hex` de 0 a 130 por la definición, no por deuda.
+ *
+ * LIMITACIÓN DECLARADA: las otras siete familias siguen midiendo **solo la app**. Y el kit tiene
+ * deuda propia invisible a esta guardia: medido el 26/09, sus primitivas suman **fontSize 30 ·
+ * borderRadius 28 · fontWeight 18 · borderWidth 25 · espaciado 55 · hex 7**. Es un hallazgo abierto,
+ * no un olvido: se decidió no ampliar siete familias de golpe en la misma tanda.
+ *
  * Cómo se usa:
  *   node scripts/verifica-diseno.cjs            → compara con la base y falla si algo empeora
  *   node scripts/verifica-diseno.cjs --base     → reescribe la base (solo tras una mejora real)
@@ -74,6 +107,17 @@ const BASE = path.join(RAIZ, '.diseno-baseline.json');
 const ZONAS = ['app', 'components', 'core', 'api', 'state', 'utils', 'constants'];
 /** El propio kit y los respaldos quedan fuera del escaneo. */
 const EXCLUIDAS = [/node_modules/, /respaldo/, /^\.expo/, /packages[\\/]ui-kit/];
+
+/**
+ * ALCANCE DE `strokeWidth` — las primitivas y los micro-componentes del kit SÍ entran.
+ *
+ * El kit no es solo la definición de los tokens: también tiene componentes que los CONSUMEN, y ahí
+ * escribe `strokeWidth` a mano igual que una pantalla. `theme/` NO entra: es donde el valor se
+ * declara, y contarlo sería contar la escala como si fuera deuda.
+ */
+const ZONAS_KIT = ['packages/ui-kit/src/primitives', 'packages/ui-kit/src/micro'];
+/** Para recorrer el kit hay que no aplicar la exclusión del kit. */
+const EXCLUIDAS_KIT = [/node_modules/, /respaldo/, /^\.expo/];
 
 /**
  * FICHEROS DE CONTENIDO — su hex no es deuda: **el valor ES el dato**.
@@ -104,11 +148,11 @@ const MARCA_DATO = /dato-color/;
 
 const args = new Set(process.argv.slice(2));
 
-function archivosFuente(dir, acc = []) {
+function archivosFuente(dir, acc = [], excluidas = EXCLUIDAS) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
-    if (EXCLUIDAS.some((r) => r.test(p))) continue;
-    if (e.isDirectory()) archivosFuente(p, acc);
+    if (excluidas.some((r) => r.test(p))) continue;
+    if (e.isDirectory()) archivosFuente(p, acc, excluidas);
     else if (/\.tsx?$/.test(e.name)) acc.push(p);
   }
   return acc;
@@ -278,8 +322,31 @@ const TRAZO = /(?:border|border(?:Top|Bottom|Left|Right))Width:\s*\d+(\.\d+)?/g;
    (no se usan en el proyecto) ni valores negativos (`marginTop: -4`), que son desplazamientos y no
    espaciado. */
 const ESPACIADO = /(?:padding|margin|gap)[A-Za-z]*:\s*\d+(\.\d+)?/g;
+/* GROSOR DE ICONO — añadido el 26/09/2026. Ver el punto 5 del porqué, arriba, para el alcance.
+   Casa las dos formas reales del proyecto: el ATRIBUTO JSX `strokeWidth={3}` y la PROPIEDAD de
+   objeto `strokeWidth: 2`. La primera versión de la medición solo casaba la segunda y devolvía 0
+   sitios con 34 en el código: el fallo 18 estaba en el propio instrumento. */
+const STROKE = /strokeWidth\s*[=:]\s*(\{[^}]*\}|[^,}\n>]+)/g;
 
-const CLAVES = ['hex', 'fontSize', 'borderRadius', 'fontWeight', 'borderWidth', 'espaciado', 'precioFigura'];
+/**
+ * Cuenta **literales numéricos** dentro del valor de `strokeWidth`, no sitios.
+ * `{isActive ? 2.3 : 2}` son dos números en un solo sitio; un sitio ya tokenizado
+ * (`{trazoIcono.base}`) aporta 0, que es lo que tiene que aportar.
+ */
+function cuentaStroke(txt) {
+  let n = 0;
+  const re = new RegExp(STROKE.source, 'g');
+  let m;
+  while ((m = re.exec(txt))) {
+    const dentro = m[1].replace(/^\{/, '').replace(/\}$/, '');
+    n += (dentro.match(/\d+(?:\.\d+)?/g) ?? []).length;
+  }
+  return n;
+}
+
+const CLAVES = ['hex', 'fontSize', 'borderRadius', 'fontWeight', 'borderWidth', 'espaciado', 'precioFigura', 'strokeWidth'];
+/** Las siete familias que miden SOLO la app. `strokeWidth` va aparte porque su alcance es distinto. */
+const CLAVES_APP = CLAVES.filter((k) => k !== 'strokeWidth');
 const CERO = {
   hex: 0,
   fontSize: 0,
@@ -288,30 +355,47 @@ const CERO = {
   borderWidth: 0,
   espaciado: 0,
   precioFigura: 0,
+  strokeWidth: 0,
 };
 
-const medidas = {};
+/**
+ * Ficheros a medir, cada uno con SU alcance. La app entra entera (las ocho familias); las
+ * primitivas y los micro-componentes del kit entran **solo para `strokeWidth`**. Ver el punto 5
+ * del porqué, arriba: es la decisión que hace que el kit no arrastre su `theme/` al trinquete.
+ */
+const trabajo = [];
 for (const zona of ZONAS) {
   const dir = path.join(RAIZ, zona);
   if (!fs.existsSync(dir)) continue;
-  for (const f of archivosFuente(dir)) {
-    const txt = fs.readFileSync(f, 'utf8');
-    const rel = path.relative(RAIZ, f).replace(/\\/g, '/');
-    const c = {
-      hex: cuentaHex(txt, rel),
-      fontSize: contar(txt, FUENTE),
-      borderRadius: contar(txt, RADIO),
-      fontWeight: contar(txt, PESO),
-      borderWidth: contar(txt, TRAZO),
-      espaciado: contar(txt, ESPACIADO),
-      precioFigura: cuentaPrecioFigura(txt),
-    };
-    if (CLAVES.some((k) => c[k])) medidas[rel] = c;
+  for (const f of archivosFuente(dir)) trabajo.push([f, CLAVES]);
+}
+for (const zona of ZONAS_KIT) {
+  const dir = path.join(RAIZ, zona);
+  if (!fs.existsSync(dir)) continue;
+  for (const f of archivosFuente(dir, [], EXCLUIDAS_KIT)) trabajo.push([f, ['strokeWidth']]);
+}
+
+const medidas = {};
+for (const [f, claves] of trabajo) {
+  const txt = fs.readFileSync(f, 'utf8');
+  const rel = path.relative(RAIZ, f).replace(/\\/g, '/');
+  const c = {};
+  for (const k of claves) {
+    c[k] =
+      k === 'hex' ? cuentaHex(txt, rel)
+        : k === 'fontSize' ? contar(txt, FUENTE)
+          : k === 'borderRadius' ? contar(txt, RADIO)
+            : k === 'fontWeight' ? contar(txt, PESO)
+              : k === 'borderWidth' ? contar(txt, TRAZO)
+                : k === 'espaciado' ? contar(txt, ESPACIADO)
+                  : k === 'precioFigura' ? cuentaPrecioFigura(txt)
+                    : cuentaStroke(txt);
   }
+  if (claves.some((k) => c[k])) medidas[rel] = c;
 }
 
 const total = Object.values(medidas).reduce(
-  (a, c) => CLAVES.reduce((acc, k) => ({ ...acc, [k]: acc[k] + c[k] }), a),
+  (a, c) => CLAVES.reduce((acc, k) => ({ ...acc, [k]: acc[k] + (c[k] ?? 0) }), a),
   { ...CERO },
 );
 
@@ -342,9 +426,9 @@ if (mejoras.length) {
 }
 
 if (args.has('--detalle')) {
-  const peores = Object.entries(medidas).sort((a, b) => b[1].hex - a[1].hex).slice(0, 20);
+  const peores = Object.entries(medidas).sort((a, b) => (b[1].hex ?? 0) - (a[1].hex ?? 0)).slice(0, 20);
   console.log('\n20 archivos con más literales de color:');
-  for (const [rel, c] of peores) console.log(`  ${String(c.hex).padStart(4)}  ${rel}`);
+  for (const [rel, c] of peores) console.log(`  ${String(c.hex ?? 0).padStart(4)}  ${rel}`);
 
   /* Pregunta distinta a «cuántos»: «dónde». Estos son los ficheros que aún pintan un importe como
      figura con el formateador a mano, y son los que le quedan a la fase 2. */
@@ -353,6 +437,13 @@ if (args.has('--detalle')) {
     .sort((a, b) => b[1].precioFigura - a[1].precioFigura);
   console.log(`\n${figuras.length} archivo(s) pintan un precio de figura a mano (→ usa <Precio>):`);
   for (const [rel, c] of figuras) console.log(`  ${String(c.precioFigura).padStart(3)}  ${rel}`);
+
+  /* Y los que escriben un grosor de icono a mano (→ usa `trazoIcono`). */
+  const trazos = Object.entries(medidas)
+    .filter(([, c]) => c.strokeWidth)
+    .sort((a, b) => b[1].strokeWidth - a[1].strokeWidth);
+  console.log(`\n${trazos.length} archivo(s) escriben un grosor de icono a mano (→ usa trazoIcono):`);
+  for (const [rel, c] of trazos) console.log(`  ${String(c.strokeWidth).padStart(3)}  ${rel}`);
 }
 
 console.log(`\nTotal actual — ${resume(total)}`);

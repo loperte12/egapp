@@ -6,7 +6,8 @@
     "fontWeight": 0,
     "borderWidth": 5,
     "espaciado": 183,
-    "precioFigura": 5
+    "precioFigura": 5,
+    "strokeWidth": 33
   },
   "porArchivo": {
     "app/agente.tsx": {
@@ -16,7 +17,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/alquiler-detalle.tsx": {
       "hex": 0,
@@ -25,7 +27,18 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "app/alquiler-planes.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 2
     },
     "app/alquiler-publicar.tsx": {
       "hex": 0,
@@ -34,7 +47,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/alquiler.tsx": {
       "hex": 0,
@@ -43,7 +57,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 4,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/auth.tsx": {
       "hex": 0,
@@ -52,7 +67,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/billing-status.tsx": {
       "hex": 0,
@@ -61,7 +77,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/buscar.tsx": {
       "hex": 0,
@@ -70,7 +87,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/conductor-hub.tsx": {
       "hex": 0,
@@ -79,7 +97,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 1
     },
     "app/conductor.tsx": {
       "hex": 0,
@@ -88,7 +107,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 9,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 1
     },
     "app/ecomerse-checkout.tsx": {
       "hex": 0,
@@ -97,7 +117,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/ecomerse-detail.tsx": {
       "hex": 0,
@@ -106,7 +127,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/ecomerse-docs.tsx": {
       "hex": 0,
@@ -115,7 +137,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/ecomerse-favorites.tsx": {
       "hex": 0,
@@ -124,7 +147,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/ecomerse-orders.tsx": {
       "hex": 0,
@@ -133,7 +157,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/ecomerse-planes.tsx": {
       "hex": 0,
@@ -142,7 +167,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/ecomerse-subcategoria.tsx": {
       "hex": 0,
@@ -151,7 +177,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/ecomerse-tienda.tsx": {
       "hex": 0,
@@ -160,7 +187,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/ecomerse-tiendas.tsx": {
       "hex": 0,
@@ -169,7 +197,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/ecomerse.tsx": {
       "hex": 0,
@@ -178,7 +207,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 5,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/edit-profile.tsx": {
       "hex": 0,
@@ -187,7 +217,8 @@
       "fontWeight": 0,
       "borderWidth": 1,
       "espaciado": 6,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/food-checkout.tsx": {
       "hex": 0,
@@ -196,7 +227,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 2
     },
     "app/food-menu.tsx": {
       "hex": 0,
@@ -205,7 +237,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 3
     },
     "app/food-orders.tsx": {
       "hex": 0,
@@ -214,7 +247,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/food-owner.tsx": {
       "hex": 0,
@@ -223,7 +257,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/food-rider.tsx": {
       "hex": 0,
@@ -232,7 +267,18 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "app/intercity-planes.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 2
     },
     "app/intercity-publish.tsx": {
       "hex": 0,
@@ -241,7 +287,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/kyc/index.tsx": {
       "hex": 0,
@@ -250,7 +297,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-blocks.tsx": {
       "hex": 0,
@@ -259,7 +307,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-carrito-checkout.tsx": {
       "hex": 0,
@@ -268,7 +317,8 @@
       "fontWeight": 0,
       "borderWidth": 1,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-carrito.tsx": {
       "hex": 0,
@@ -277,7 +327,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 1
+      "precioFigura": 1,
+      "strokeWidth": 0
     },
     "app/lifebook-catalog.tsx": {
       "hex": 0,
@@ -286,7 +337,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-chat/[id].tsx": {
       "hex": 0,
@@ -295,7 +347,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-checkout.tsx": {
       "hex": 0,
@@ -304,7 +357,8 @@
       "fontWeight": 0,
       "borderWidth": 1,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-compose.tsx": {
       "hex": 0,
@@ -313,7 +367,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-explore.tsx": {
       "hex": 0,
@@ -322,7 +377,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-group-create.tsx": {
       "hex": 0,
@@ -331,7 +387,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-groups.tsx": {
       "hex": 0,
@@ -340,7 +397,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-hotel-calendario.tsx": {
       "hex": 0,
@@ -349,7 +407,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-hotel-habitaciones.tsx": {
       "hex": 0,
@@ -358,7 +417,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-inbox-comments.tsx": {
       "hex": 0,
@@ -367,7 +427,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-inbox-followers.tsx": {
       "hex": 0,
@@ -376,7 +437,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-inbox-likes.tsx": {
       "hex": 0,
@@ -385,7 +447,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-inbox.tsx": {
       "hex": 0,
@@ -394,7 +457,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-merchant-products.tsx": {
       "hex": 0,
@@ -403,7 +467,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-merchant-settings.tsx": {
       "hex": 0,
@@ -412,7 +477,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-merchant.tsx": {
       "hex": 0,
@@ -421,7 +487,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-message-search.tsx": {
       "hex": 0,
@@ -430,7 +497,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-messages.tsx": {
       "hex": 0,
@@ -439,7 +507,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 4,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-orders.tsx": {
       "hex": 0,
@@ -448,7 +517,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-player.tsx": {
       "hex": 0,
@@ -457,7 +527,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-post/[id].tsx": {
       "hex": 0,
@@ -466,7 +537,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 5,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-product/[id].tsx": {
       "hex": 0,
@@ -475,7 +547,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 1
+      "precioFigura": 1,
+      "strokeWidth": 0
     },
     "app/lifebook-search.tsx": {
       "hex": 0,
@@ -484,7 +557,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook-shop/[id].tsx": {
       "hex": 0,
@@ -493,7 +567,18 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "app/lifebook-store.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 1
     },
     "app/lifebook-user.tsx": {
       "hex": 0,
@@ -502,7 +587,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 1
     },
     "app/lifebook-vistos.tsx": {
       "hex": 0,
@@ -511,7 +597,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/lifebook.tsx": {
       "hex": 0,
@@ -520,7 +607,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 2
     },
     "app/monedero-movimientos.tsx": {
       "hex": 0,
@@ -529,7 +617,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 1
+      "precioFigura": 1,
+      "strokeWidth": 0
     },
     "app/monedero-pin.tsx": {
       "hex": 0,
@@ -538,7 +627,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/monedero-recargar.tsx": {
       "hex": 0,
@@ -547,7 +637,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/monedero-retirar.tsx": {
       "hex": 0,
@@ -556,7 +647,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/monedero.tsx": {
       "hex": 0,
@@ -565,7 +657,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 1
+      "precioFigura": 1,
+      "strokeWidth": 0
     },
     "app/profile.tsx": {
       "hex": 0,
@@ -574,7 +667,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 6,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/reserva.tsx": {
       "hex": 0,
@@ -583,7 +677,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/status.tsx": {
       "hex": 0,
@@ -592,7 +687,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/taxi.tsx": {
       "hex": 0,
@@ -601,7 +697,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 5,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/tienda/combinaciones.tsx": {
       "hex": 0,
@@ -610,7 +707,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/tienda/publicar.tsx": {
       "hex": 0,
@@ -619,7 +717,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/trips-history.tsx": {
       "hex": 0,
@@ -628,7 +727,28 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "app/work-detail.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 1
+    },
+    "app/work-planes.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 2
     },
     "app/work-publish.tsx": {
       "hex": 0,
@@ -637,7 +757,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "app/work.tsx": {
       "hex": 0,
@@ -646,7 +767,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/CalendarPicker.tsx": {
       "hex": 0,
@@ -655,7 +777,8 @@
       "fontWeight": 0,
       "borderWidth": 1,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/DriverHomeSheet.tsx": {
       "hex": 0,
@@ -664,7 +787,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/EmergencyModal.tsx": {
       "hex": 0,
@@ -673,7 +797,18 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 1
+    },
+    "components/FloatingFooter.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 2
     },
     "components/jobs.tsx": {
       "hex": 0,
@@ -682,7 +817,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/lifebook/ChallengePlazaSheet.tsx": {
       "hex": 0,
@@ -691,7 +827,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/lifebook/ChatOptionsSheet.tsx": {
       "hex": 0,
@@ -700,7 +837,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/lifebook/ChatPlusPanel.tsx": {
       "hex": 0,
@@ -709,7 +847,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/lifebook/CommentsSheet.tsx": {
       "hex": 0,
@@ -718,7 +857,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 8,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/lifebook/CreateGroupSheet.tsx": {
       "hex": 0,
@@ -727,7 +867,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/lifebook/GroupManageSheet.tsx": {
       "hex": 0,
@@ -736,7 +877,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/lifebook/OrderCardEnChat.tsx": {
       "hex": 0,
@@ -745,7 +887,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/lifebook/SelectorDeProductos.tsx": {
       "hex": 0,
@@ -754,7 +897,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/lifebook/SelectorDeVariante.tsx": {
       "hex": 0,
@@ -763,7 +907,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 1
+      "precioFigura": 1,
+      "strokeWidth": 0
     },
     "components/lifebook/VideoCoverSheet.tsx": {
       "hex": 0,
@@ -772,7 +917,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/MapBackground.tsx": {
       "hex": 0,
@@ -781,7 +927,28 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "components/MapTools.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 1
+    },
+    "components/PromoCarousel.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 1
     },
     "components/SearchHeader.tsx": {
       "hex": 0,
@@ -790,7 +957,18 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "components/ServiceGrid.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 2
     },
     "components/ServicesDrawer.tsx": {
       "hex": 0,
@@ -799,7 +977,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/SocialHomeHeader.tsx": {
       "hex": 0,
@@ -808,7 +987,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/status/StatusChip.tsx": {
       "hex": 0,
@@ -817,7 +997,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/status/StatusDetailModal.tsx": {
       "hex": 0,
@@ -826,7 +1007,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/status/StatusEditorModal.tsx": {
       "hex": 0,
@@ -835,7 +1017,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "components/status/StatusRingAvatar.tsx": {
       "hex": 0,
@@ -844,7 +1027,8 @@
       "fontWeight": 0,
       "borderWidth": 1,
       "espaciado": 0,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "core/diagnostics.tsx": {
       "hex": 0,
@@ -853,7 +1037,8 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
     },
     "core/PanelGate.tsx": {
       "hex": 0,
@@ -862,7 +1047,26 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "packages/ui-kit/src/primitives/CameraCapture.tsx": {
+      "strokeWidth": 1
+    },
+    "packages/ui-kit/src/primitives/DocumentChoiceTree.tsx": {
+      "strokeWidth": 2
+    },
+    "packages/ui-kit/src/primitives/KycStatusBanner.tsx": {
+      "strokeWidth": 1
+    },
+    "packages/ui-kit/src/primitives/LivenessChallengeView.tsx": {
+      "strokeWidth": 2
+    },
+    "packages/ui-kit/src/micro/Corazon.tsx": {
+      "strokeWidth": 1
+    },
+    "packages/ui-kit/src/micro/Estrellas.tsx": {
+      "strokeWidth": 1
     }
   }
 }
