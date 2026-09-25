@@ -250,8 +250,8 @@ export function LandlordCard({
 const styles = StyleSheet.create({
   container: { borderRadius: 14, padding: espaciado.e16, borderWidth: trazo.fino },
   header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 },
-  avatar: { width: 52, height: 52, borderRadius: 26 },
-  avatarInitials: { width: 52, height: 52, borderRadius: 26, justifyContent: 'center', alignItems: 'center' },
+  avatar: { width: 52, height: 52, borderRadius: radios.full },
+  avatarInitials: { width: 52, height: 52, borderRadius: radios.full, justifyContent: 'center', alignItems: 'center' },
   avatarText: { color: brand.white, fontSize: tipografia.title, fontWeight: peso.fuerte },
   headerInfo: { flex: 1 },
   name: { fontSize: tipografia.subtitle, fontWeight: peso.fuerte },

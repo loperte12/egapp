@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e14 },
   okIcon: { width: 60, height: 60, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
   overlay: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', gap: espaciado.e16 },
-  marco: { width: 230, height: 230, borderRadius: 24, borderWidth: trazo.anillo, borderColor: 'rgba(255,255,255,0.9)' },
+  marco: { width: 230, height: 230, borderRadius: radios.marco, borderWidth: trazo.anillo, borderColor: 'rgba(255,255,255,0.9)' },
   ayuda: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo },
   busy: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.45)' },
   errorBox: {

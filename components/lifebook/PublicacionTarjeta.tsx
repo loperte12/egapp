@@ -85,9 +85,9 @@ export function PublicacionTarjeta({ data, tint, colors, compacta = false }: {
       }}
     >
       {miniatura ? (
-        <Image source={{ uri: miniatura }} style={{ width: alto, height: alto, borderRadius: 9, backgroundColor: alpha(colors.textPrimary, 0.08) }} />
+        <Image source={{ uri: miniatura }} style={{ width: alto, height: alto, borderRadius: radios.hermano, backgroundColor: alpha(colors.textPrimary, 0.08) }} />
       ) : (
-        <View style={{ width: alto, height: alto, borderRadius: 9, backgroundColor: alpha(tint, 0.16), alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ width: alto, height: alto, borderRadius: radios.hermano, backgroundColor: alpha(tint, 0.16), alignItems: 'center', justifyContent: 'center' }}>
           <Text style={{ fontSize: compacta ? 17 : 20 }}>{DIBUJO[data.type] ?? '📄'}</Text>
         </View>
       )}

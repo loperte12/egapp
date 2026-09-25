@@ -1229,9 +1229,9 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
               <View style={{ backgroundColor: 'rgba(0,0,0,0.72)', borderRadius: 14, padding: espaciado.e10, width: 216 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                   {productos[0].coverUrl ? (
-                    <Image source={{ uri: productos[0].coverUrl }} style={{ width: 42, height: 42, borderRadius: 9 }} />
+                    <Image source={{ uri: productos[0].coverUrl }} style={{ width: 42, height: 42, borderRadius: radios.hermano }} />
                   ) : (
-                    <View style={{ width: 42, height: 42, borderRadius: 9, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.15)' }}>
+                    <View style={{ width: 42, height: 42, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.15)' }}>
                       <ShoppingBag size={18} color={brand.white} />
                     </View>
                   )}
@@ -1353,7 +1353,7 @@ const s = StyleSheet.create({
     position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5,
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e14,
   },
-  iconBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center' },
+  iconBtn: { width: 38, height: 38, borderRadius: radios.full, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center' },
   moreBox: { position: 'absolute', left: 0, right: 0, bottom: 0, alignItems: 'center', zIndex: 4 },
   /* Barrita de tiempo: sólo sale al mantener pulsado, así que puede tener el aspecto de
      «modo arrastre» — algo más gruesa y más blanca que una línea de adorno. Pista al 35 %
@@ -1380,7 +1380,7 @@ const s = StyleSheet.create({
   actN: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.maximo, marginTop: espaciado.e3 },
   info: { position: 'absolute', left: 14, right: 74, bottom: 0, zIndex: 3 },
   authorRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 },
-  avatar: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  avatar: { width: 26, height: 26, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   author: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo, flexShrink: 1 },
   durChip: { backgroundColor: 'rgba(0,0,0,0.45)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
   durText: { color: brand.white, fontSize: 10.5, fontWeight: peso.maximo },
@@ -1399,7 +1399,7 @@ const s = StyleSheet.create({
   },
   largoBox: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 3, gap: espaciado.e12 },
   largoPlay: {
-    width: 70, height: 70, borderRadius: 35, alignItems: 'center', justifyContent: 'center',
+    width: 70, height: 70, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.55)', borderWidth: trazo.fuerte, borderColor: 'rgba(255,255,255,0.85)',
   },
   largoTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo, textAlign: 'center', lineHeight: 19 },

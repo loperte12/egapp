@@ -36,7 +36,7 @@ function BulletList({ title, items, dot, check }: { title: string; items: string
       {items.map((it, i) => (
         <View key={i} style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: espaciado.e8 }}>
           {dot ? (
-            <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: colors.primary, marginTop: espaciado.e7, marginRight: espaciado.e10 }} />
+            <View style={{ width: 6, height: 6, borderRadius: radios.punta, backgroundColor: colors.primary, marginTop: espaciado.e7, marginRight: espaciado.e10 }} />
           ) : check ? (
             <Check size={14} color={colors.primary} style={{ marginTop: espaciado.e2, marginRight: espaciado.e8 }} />
           ) : null}
@@ -273,7 +273,7 @@ export default function WorkDetailScreen() {
             {job.isNew && <View style={[s.badge, { backgroundColor: colors.primary }]}><Text style={s.badgeText}>NUEVA</Text></View>}
             {job.isUrgent && <View style={[s.badge, { backgroundColor: brand.danger }]}><Text style={s.badgeText}>URGENTE</Text></View>}
             {(job.applicantsCount ?? 0) > 0 && (
-              <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.1), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 4 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.1), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.punta }}>
                 <Text style={{ fontSize: 10, color: colors.primary, fontWeight: peso.fuerte }}>
                   {job.applicantsCount === 1 ? '1 aplicante' : `${job.applicantsCount} aplicantes`}
                 </Text>
@@ -419,7 +419,7 @@ export default function WorkDetailScreen() {
                     <View style={{ width: 32, height: 32, borderRadius: radios.sm, backgroundColor: sj.companyColor || colors.primary, alignItems: 'center', justifyContent: 'center' }}>
                       <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.fuerte }}>{sj.company.charAt(0)}</Text>
                     </View>
-                    {sj.isUrgent && <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: brand.danger }} />}
+                    {sj.isUrgent && <View style={{ width: 8, height: 8, borderRadius: radios.full, backgroundColor: brand.danger }} />}
                   </View>
                   <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary, minHeight: 34 }} numberOfLines={2}>{sj.title}</Text>
                   <Text style={{ fontSize: tipografia.micro, color: colors.primary, marginBottom: espaciado.e4 }} numberOfLines={1}>{sj.company}</Text>
@@ -486,15 +486,15 @@ export default function WorkDetailScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   card: { borderRadius: 14, padding: espaciado.e16, borderWidth: trazo.fino, marginBottom: espaciado.e16 },
-  badge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 4 },
+  badge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.punta },
   badgeText: { color: brand.white, fontSize: 10, fontWeight: peso.maximo, letterSpacing: 0.3 },
   sectionTitle: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e10 },
-  errIcon: { width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
+  errIcon: { width: 60, height: 60, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
   retryBtn: { paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10 },
   logoBig: { width: 50, height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   vBadge: { position: 'absolute', bottom: -2, right: -2, width: 16, height: 16, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center', borderWidth: trazo.fuerte, borderColor: brand.white },
-  recAvatar: { width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
-  roundBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
+  recAvatar: { width: 38, height: 38, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
+  roundBtn: { width: 36, height: 36, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, borderTopWidth: trazo.fino },
   iconBtn: { width: 40, height: 40, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center' },
   chatBtn: { flex: 0.28, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e11, borderRadius: radios.sm, gap: espaciado.e5 },

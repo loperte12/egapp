@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   avatarImg: { width: '100%', height: '100%' },
   driverName: { fontSize: tipografia.body, fontWeight: peso.titulo, maxWidth: 180 },
   onlineRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 },
-  onlineDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: brand.success, borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.7)' },
+  onlineDot: { width: 7, height: 7, borderRadius: radios.full, backgroundColor: brand.success, borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.7)' },
   onlineTxt: { fontSize: 10.5, fontWeight: peso.titulo },
   adCopy: { position: 'absolute', left: 14, right: 60, bottom: 10 },
   adTitle: {
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
   adTagTxt: { color: brand.white, fontSize: 9, fontWeight: peso.titulo, letterSpacing: 0.4 },
   closeBtn: {
     position: 'absolute', top: 8, right: 10,
-    width: 22, height: 22, borderRadius: 11,
+    width: 22, height: 22, borderRadius: radios.full,
     backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center',
     borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.35)', zIndex: 50,
   },

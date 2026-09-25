@@ -478,7 +478,7 @@ const styles = StyleSheet.create({
   botonFantasmaTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
   input: { borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.control, fontSize: tipografia.body },
   volverFlotante: {
-    position: 'absolute', left: 12, width: 36, height: 36, borderRadius: 18,
+    position: 'absolute', left: 12, width: 36, height: 36, borderRadius: radios.full,
     backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center',
   },
   volverFlotanteTxt: { color: brand.white, fontSize: 24, fontWeight: peso.fuerte, lineHeight: 26 },

@@ -69,6 +69,70 @@ export const tipografia = {
    * propuesta A — afecta a cifras hero, que aguantan el ajuste.
    */
   display: 26,
+
+  /**
+   * AMPLIACIÓN DEL 25/09/2026 — los 21 peldaños que el código ya escribía y la escala no tenía.
+   *
+   * POR QUÉ: la guardia contaba **289 literales de `fontSize` fuera de la escala de 9 peldaños**, con
+   * **22 valores distintos** escritos a mano (14,5 ×56, 10 ×44, 18 ×41, 19 ×21, 15,5 ×18, 22 ×16,
+   * 9,5 ×14, 40 ×13, 24 ×12, 30 ×12, 16,5 ×11, 34 ×9, 38 ×6, 21 ×4, 8,5 ×3, 32 ×2, 46 ×2, y los
+   * sueltos 8, 18,5, 36, 60, 7,5). Igual que en espaciado, la decisión es **nombrar lo que ya se
+   * escribe, no corregirlo**: cero píxeles movidos. Un tamaño de letra aquí **no tiene trampa de
+   * geometría** (a diferencia de `borderRadius`, donde un radio puede ser en realidad un círculo):
+   * el número es el tamaño, y lo único que falta es el nombre del papel.
+   *
+   * Los que llevan decimal (14,5 · 10,5 · 9,5 · 15,5 · 16,5 · 18,5 · 8,5 · 7,5) no son un descuido:
+   * `14,5` es el **valor más escrito de todo el proyecto después de `cuerpo`** (56 literales) y vive
+   * donde el `body` de 14 se queda corto y el `subtitle` de 16 pasa — pies de tarjeta, textos de
+   * botón, etiquetas de perfil. Los demás hacen lo mismo un escalón más arriba o más abajo.
+   *
+   * `nota` (10) y `micro` (10,5) conviven a media décima a propósito: son dos familias de uso
+   * distintas —`micro` es apoyo y sello, `nota` es contador y pie numérico—, igual que `e18` y `e20`
+   * conviven en espaciado.
+   *
+   * DE 32 EN ADELANTE MANDA EL DIBUJO, NO LA JERARQUÍA. En un `<Text>` que solo lleva un emoji el
+   * tamaño ES la figura: `🌤` a 30 y a 34 se ven distintos, y por eso el código los escribe a mano.
+   * Ahí los nombres ya no describen un nivel de texto sino el tamaño del símbolo.
+   */
+  /** Contadores y pies numéricos. 44 literales. */
+  nota: 10,
+  /** Cuerpo fino: botones y pies de tarjeta. **56 literales, el más escrito tras `cuerpo`.** */
+  fino: 14.5,
+  /** Cuerpo ancho, un paso por encima de `fino`. 18 literales. */
+  ancho: 15.5,
+  /** Cuerpo ancho de cabecera de ficha: entre `ancho` y `subCabecera`. 11 literales. */
+  anchoFuerte: 16.5,
+  /** Por debajo del rótulo denso; solo sellos numéricos muy pequeños. 14 literales. */
+  minimo: 9.5,
+  /** Cifra de stat: el número que encabeza una tarjeta de datos. 21 literales. */
+  cifra: 19,
+  /** Subtítulo grande: la escala saltaba de 20 a 26 y aquí viven los usos de 22. */
+  subtitulo: 22,
+  /** Título de sección dentro de una tarjeta. **41 literales.** */
+  cabecera: 18,
+  /** Cifra de stat en negrita: el número que encabeza una tarjeta de datos. 4 literales. */
+  cifraGrande: 21,
+  /** Título de tarjeta grande. 12 literales. */
+  tituloFicha: 24,
+  /** Cifra de hero. 12 literales. */
+  hero: 30,
+  /** Cifra destacada sobre foto o cabecera. 9 literales. */
+  heroGrande: 34,
+  /** Cifra máxima: KPIs de panel. 6 literales. */
+  kpi: 38,
+  /** Emoji de rejilla grande. 13 literales. */
+  emoji: 40,
+  /** Emoji de estado. 2 literales. */
+  emojiMedio: 32,
+  /** Emoji de pantalla de resultado. 2 literales. */
+  emojiGrande: 46,
+  /**
+   * SUELO DE LA ESCALA — sellos numéricos y avisos ultra-comprimidos. 5 literales, escritos como
+   * 8 (1), 8,5 (3) y 7,5 (1). Se declaran como un solo peldaño a 8 porque **la diferencia de 0,5 px
+   * a este tamaño es invisible** y tener tres claves distintas para lo mismo sería ruido, no escala.
+   * Este es el mismo criterio que `e3/e5/e7` en espaciado: agrupar lo que el ojo ya ve igual.
+   */
+  sello: 8,
 } as const;
 
 /**
@@ -197,6 +261,51 @@ export const radios = {
   tarjeta: 20,
   /** Píldoras y círculos. */
   full: 999,
+
+  /**
+   * AMPLIACIÓN DEL 25/09/2026 — los diez peldaños que el código ya escribía.
+   *
+   * POR QUÉ, y por qué NO son diez valores al azar: la guardia contaba **298 literales de
+   * `borderRadius` fuera de la escala**. Al mirarlos uno a uno resultó que **no todos son radios**,
+   * y esa es la parte importante de esta decisión:
+   *
+   *   cubeta                              literales   destino
+   *   círculo exacto (r = lado/2)             121      `radios.full`
+   *   círculo recortado (r > lado/2)            7      `radios.full`
+   *   caja redondeada (r < lado/2)             26      peldaño
+   *   barra (height ≤ 24, sin caja cuadrada)   40      peldaño
+   *   radio normal (tarjeta / campo)          104      peldaño
+   *
+   * Los **128 círculos no reciben peldaño nuevo, y no por comodidad**: en una caja cuadrada
+   * `borderRadius: 999` se recorta a `lado/2` y dibuja **exactamente el mismo círculo** que
+   * `borderRadius: 18` en una caja de 36 — mismo píxel, misma forma. Nombrarlos (`radios.xl = 18`)
+   * sería mentir en dos direcciones: el radio no describe nada (solo existe para hacer el círculo) y
+   * el nombre se rompe en cuanto la caja cambia de tamaño. Es la misma clase de decisión que el
+   * `trazo.anillo` de `B1`: **un literal que no es lo que parece.**
+   *
+   * Los 144 restantes SÍ son formas, y se nombran por su papel. Siete de ellos cubren usos altos y
+   * se han medido con su contexto (`_e11` y `_e12` en `auditoria-uiux/`).
+   */
+  /** Punta de una barra fina: esqueleto de carga, pista de progreso. 26 literales. */
+  punta: 4,
+  /** Caja muy redondeada de tamaño pequeño: icono de 30-34 px. 33 literales. */
+  hermano: 9,
+  /** Botón pequeño de 34-38 px. 10 literales. */
+  nota: 11,
+  /** Icono de contacto o badge redondeado de 38 px. 4 literales. */
+  contacto: 13,
+  /** Tarjeta grande, chip de plan. **41 literales.** */
+  panel: 18,
+  /** Tarjeta ancha de espera o aviso. 24 literales. */
+  panelAncho: 22,
+  /** Marco cuadrado grande (escáner, cámara). 21 literales. */
+  marco: 24,
+  /** Hoja inferior (`borderTopLeft/RightRadius`). 10 literales. */
+  hoja: 26,
+  /** Icono de error o resultado de 60 px. 5 literales. */
+  aviso: 30,
+  /** Pista de progreso muy fina (height 4-5). 13 literales. */
+  pista: 2,
 } as const;
 
 export type TamanoTexto = keyof typeof tipografia;

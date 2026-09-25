@@ -396,16 +396,16 @@ function PreviewPhoto({ uri }: { uri: string }) {
 const styles = StyleSheet.create({
   backdrop: { flex: 1, justifyContent: 'flex-end' },
   card: {
-    borderTopLeftRadius: 26, borderTopRightRadius: 26,
+    borderTopLeftRadius: radios.hoja, borderTopRightRadius: radios.hoja,
     paddingHorizontal: espaciado.e18, paddingTop: espaciado.e14, paddingBottom: espaciado.e10,
     maxHeight: '94%', borderTopWidth: trazo.fino,
   },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   title: { fontSize: 19, fontWeight: peso.titulo },
-  close: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
+  close: { width: 34, height: 34, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   noteRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e2, marginBottom: espaciado.e10 },
   note: { fontSize: tipografia.caption, fontWeight: peso.medio },
-  previewWrap: { borderRadius: 18, borderWidth: trazo.fino, overflow: 'hidden', marginBottom: espaciado.e10 },
+  previewWrap: { borderRadius: radios.full, borderWidth: trazo.fino, overflow: 'hidden', marginBottom: espaciado.e10 },
   preview: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
     padding: espaciado.e12, minHeight: 54,
@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
   },
   removeImg: {
     position: 'absolute', top: 4, right: 4,
-    width: 22, height: 22, borderRadius: 11,
+    width: 22, height: 22, borderRadius: radios.full,
     backgroundColor: 'rgba(0,0,0,0.6)', alignItems: 'center', justifyContent: 'center',
   },
   visWrap: { gap: espaciado.e8 },

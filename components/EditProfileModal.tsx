@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { X } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, tipografia, useTheme, peso, trazo, radios} from '@egrouteplan/ui-kit';
 import { authApi, type MeProfile } from '../api/auth';
 import { absUrl } from '../api/config';
 import { pickImageFromCamera, pickImageFromLibrary } from '../core/pickImage';
@@ -160,11 +160,11 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
 const styles = StyleSheet.create({
   modalRoot: { flex: 1, justifyContent: 'flex-end' },
   modalBackdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.45)' },
-  modalCard: { borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: espaciado.e20, paddingBottom: espaciado.e30, gap: espaciado.e14 },
+  modalCard: { borderTopLeftRadius: radios.marco, borderTopRightRadius: radios.marco, padding: espaciado.e20, paddingBottom: espaciado.e30, gap: espaciado.e14 },
   modalHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   modalTitle: { fontSize: 17, fontWeight: peso.titulo },
   avatarEditRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14 },
-  avatarLg: { width: 82, height: 82, borderRadius: 41, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  avatarLg: { width: 82, height: 82, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   avatarLgImg: { width: '100%', height: '100%' },
   avatarLgText: { fontSize: 32, fontWeight: peso.titulo },
   avatarHint: { fontSize: tipografia.caption, fontWeight: peso.medio },

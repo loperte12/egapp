@@ -17,7 +17,7 @@
  */
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { alpha, brand, espaciado, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme, peso, trazo, radios} from '@egrouteplan/ui-kit';
 import type { HotelRoom, HotelSearchResult } from '../api/hotel';
 import { xaf } from '../utils/datetime';
 import { LazyImage } from './rental/LazyImage';
@@ -160,7 +160,7 @@ export function HotelResultCard({
 }
 
 const styles = StyleSheet.create({
-  tarjeta: { borderWidth: trazo.fino, borderRadius: 18, padding: espaciado.e12 },
+  tarjeta: { borderWidth: trazo.fino, borderRadius: radios.panel, padding: espaciado.e12 },
   tarjetaCab: { flexDirection: 'row', gap: espaciado.e10, alignItems: 'center' },
   // Foto del alojamiento en la fila (92×92, redondeada, con hueco gris si no hay).
   portada: { width: 92, height: 92, borderRadius: 14, borderWidth: trazo.fino, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },

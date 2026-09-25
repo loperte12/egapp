@@ -72,7 +72,7 @@ export function SeguirViendo({ items, colors, top, onOpen, onQuitar }: {
                 accessibilityLabel="Quitar de seguir viendo"
                 style={{
                   position: 'absolute', top: 4, right: 4,
-                  width: 22, height: 22, borderRadius: 11,
+                  width: 22, height: 22, borderRadius: radios.full,
                   backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center',
                 }}
               >

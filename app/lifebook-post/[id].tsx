@@ -1091,7 +1091,7 @@ function PostContent() {
           />
           <Pressable
             onPress={() => setViewerOpen(false)}
-            style={{ position: 'absolute', top: insets.top + 10, right: 16, width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(255,255,255,0.16)', alignItems: 'center', justifyContent: 'center' }}
+            style={{ position: 'absolute', top: insets.top + 10, right: 16, width: 36, height: 36, borderRadius: radios.full, backgroundColor: 'rgba(255,255,255,0.16)', alignItems: 'center', justifyContent: 'center' }}
             accessibilityLabel="Cerrar"
           >
             <X size={20} color={brand.white} />
@@ -1165,14 +1165,14 @@ const styles = StyleSheet.create({
   playCircle: {
     width: 64,
     height: 64,
-    borderRadius: 32,
+    borderRadius: radios.full,
     backgroundColor: 'rgba(0,0,0,0.5)',
     alignItems: 'center',
     justifyContent: 'center',
   },
   dots: { position: 'absolute', bottom: 8, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e5 },
   countBadge: { position: 'absolute', top: 10, right: 12, borderRadius: radios.full, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e4 },
-  dot: { width: 6, height: 6, borderRadius: 3 },
+  dot: { width: 6, height: 6, borderRadius: radios.punta },
   postTitle: { fontSize: 18, fontWeight: peso.titulo, lineHeight: 23 },
   postBody: { fontSize: 15.5, lineHeight: 22.5, marginTop: espaciado.e8 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: espaciado.e7, marginTop: espaciado.e12 },
@@ -1192,7 +1192,7 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 14.5, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e8 },
   epAddBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, marginLeft: 'auto' },
   epRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e10, marginTop: espaciado.e8 },
-  epThumb: { width: 40, height: 40, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+  epThumb: { width: 40, height: 40, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
   masonryRow: { flexDirection: 'row', gap: COLUMN_GAP },
   masonryCol: { flex: 1, gap: COLUMN_GAP },
   menuSheet: { ...formaHoja },

@@ -234,7 +234,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
     content: { padding: espaciado.e20, gap: espaciado.e14 },
     card: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e16 },
-    avatar: { width: 56, height: 56, borderRadius: 28, alignItems: 'center', justifyContent: 'center' },
+    avatar: { width: 56, height: 56, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
     chip: { borderRadius: radios.md, borderWidth: trazo.base, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8 },
     statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10 },
   });

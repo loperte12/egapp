@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   meta: { fontSize: tipografia.micro, fontWeight: peso.medio, paddingHorizontal: espaciado.e6, marginTop: espaciado.e2 },
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e6, marginTop: espaciado.e6 },
   authorRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, flex: 1, marginRight: espaciado.e6 },
-  avatar: { width: 18, height: 18, borderRadius: 9 },
+  avatar: { width: 18, height: 18, borderRadius: radios.full },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
   socialRow: { flexDirection: 'row', alignItems: 'center' },
   socialBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, paddingHorizontal: espaciado.e4, paddingVertical: espaciado.e2 },

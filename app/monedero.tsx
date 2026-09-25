@@ -229,8 +229,8 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12 },
   retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
-  card: { borderRadius: 18, borderWidth: trazo.fino, padding: espaciado.e16 },
-  action: { flex: 1, borderRadius: 18, paddingVertical: espaciado.e16, alignItems: 'center', gap: espaciado.e4 },
+  card: { borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e16 },
+  action: { flex: 1, borderRadius: radios.panel, paddingVertical: espaciado.e16, alignItems: 'center', gap: espaciado.e4 },
   actionTxt: { color: brand.white, fontSize: 14.5, fontWeight: peso.titulo },
   actionHint: { color: 'rgba(255,255,255,0.75)', fontSize: 10.5, fontWeight: peso.medio },
   rowItem: {

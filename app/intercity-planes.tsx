@@ -192,8 +192,8 @@ export default function IntercityPlanesScreen() {
             {/* Barra de uso mensual (Decisión A) */}
             {!unlimited && limit > 0 && (
               <View style={{ marginTop: espaciado.e10 }}>
-                <View style={{ height: 6, borderRadius: 3, backgroundColor: alpha(colors.border, 0.6), overflow: 'hidden' }}>
-                  <View style={{ width: `${pct}%`, height: 6, borderRadius: 3, backgroundColor: atLimit ? colors.danger : colors.primary }} />
+                <View style={{ height: 6, borderRadius: radios.punta, backgroundColor: alpha(colors.border, 0.6), overflow: 'hidden' }}>
+                  <View style={{ width: `${pct}%`, height: 6, borderRadius: radios.punta, backgroundColor: atLimit ? colors.danger : colors.primary }} />
                 </View>
                 {atLimit && proPlan && (
                   <Pressable

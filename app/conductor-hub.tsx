@@ -248,14 +248,14 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     statusIcon: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
     question: { fontSize: 17, fontWeight: peso.titulo, marginTop: espaciado.e8 },
     sub: { fontSize: tipografia.caption, lineHeight: 18, fontWeight: peso.medio, marginTop: -6 },
-    opt: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14, borderRadius: 18, borderWidth: trazo.base, padding: espaciado.e16 },
+    opt: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14, borderRadius: radios.panel, borderWidth: trazo.base, padding: espaciado.e16 },
     optIcon: { width: 52, height: 52, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },
     // Checklist onboarding (estilo Uber Driver)
     onboard: { padding: espaciado.e16, gap: espaciado.e12, flexGrow: 1 },
-    welcomeCard: { alignItems: 'center', borderRadius: 18, borderWidth: trazo.fino, padding: espaciado.e20, gap: espaciado.e6 },
+    welcomeCard: { alignItems: 'center', borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e20, gap: espaciado.e6 },
     welcomeTitle: { fontSize: 19, fontWeight: peso.titulo, textAlign: 'center', marginTop: espaciado.e6 },
     welcomeSub: { fontSize: tipografia.body, color: c.textSecondary, textAlign: 'center', lineHeight: 18, fontWeight: peso.medio },
-    checklistCard: { borderRadius: 18, borderWidth: trazo.fino, paddingHorizontal: espaciado.e16, overflow: 'hidden' },
+    checklistCard: { borderRadius: radios.panel, borderWidth: trazo.fino, paddingHorizontal: espaciado.e16, overflow: 'hidden' },
     checklistHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e12, borderBottomWidth: trazo.fino },
     checkRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },
   });

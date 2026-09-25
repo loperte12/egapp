@@ -455,7 +455,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: peso.medio },
     label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary },
     stepsRow: { flexDirection: 'row', justifyContent: 'center', gap: espaciado.e10 },
-    stepDot: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
+    stepDot: { width: 34, height: 34, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
     vehicleBox: { gap: espaciado.e10, borderWidth: trazo.base, borderRadius: radios.lg, padding: espaciado.e14 },
     chip: { flex: 1, borderRadius: radios.md, borderWidth: trazo.base, paddingVertical: espaciado.e10, alignItems: 'center' },
     colorRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },

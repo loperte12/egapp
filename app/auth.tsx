@@ -13,7 +13,7 @@ import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { espaciado, FormField, GhostButton, OtpInput, PrimaryButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { espaciado, FormField, GhostButton, OtpInput, PrimaryButton, tipografia, useTheme, peso, radios} from '@egrouteplan/ui-kit';
 import { ArrowLeft, ShieldCheck } from 'lucide-react-native';
 import { authApi, ApiError } from '../api/auth';
 import { useSession } from '../state/session';
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e8 },
   headerTitle: { fontSize: 17, fontWeight: peso.maximo },
   block: { gap: espaciado.e12, alignItems: 'stretch' },
-  iconWrap: { width: 80, height: 80, borderRadius: 40, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: espaciado.e12 },
+  iconWrap: { width: 80, height: 80, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: espaciado.e12 },
   title: { fontSize: tipografia.title, fontWeight: peso.maximo, textAlign: 'center' },
   body: { fontSize: tipografia.body, lineHeight: 20, textAlign: 'center', fontWeight: peso.medio },
   actions: { gap: espaciado.e10, marginTop: espaciado.e8 },

@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e5,
     borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, marginRight: espaciado.e6,
   },
-  chipAvatar: { width: 18, height: 18, borderRadius: 9 },
+  chipAvatar: { width: 18, height: 18, borderRadius: radios.full },
   searchBox: {
     flexDirection: 'row', alignItems: 'center', borderRadius: radios.full,
     paddingHorizontal: espaciado.e12, height: 36, marginTop: espaciado.e8,

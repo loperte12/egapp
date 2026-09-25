@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
   tabRow: { flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8 },
   tab: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, flex: 1, alignItems: 'center' },
   card: { flexDirection: 'row', gap: espaciado.e10, borderRadius: 14, padding: espaciado.e12 },
-  avatar: { width: 42, height: 42, borderRadius: 21 },
+  avatar: { width: 42, height: 42, borderRadius: radios.full },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
   kindBadge: {
     position: 'absolute', bottom: -2, right: -2,

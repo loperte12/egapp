@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
   thumb: { width: 92, height: 92, borderRadius: radios.md, overflow: 'hidden', backgroundColor: '#eee' },
   del: {
-    position: 'absolute', top: 5, right: 5, width: 22, height: 22, borderRadius: 11,
+    position: 'absolute', top: 5, right: 5, width: 22, height: 22, borderRadius: radios.full,
     backgroundColor: 'rgba(0,0,0,0.6)', alignItems: 'center', justifyContent: 'center',
   },
   add: {

@@ -424,14 +424,14 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   cover: { height: 150, overflow: 'hidden' },
   backBtn: {
-    position: 'absolute', left: 14, width: 34, height: 34, borderRadius: 17,
+    position: 'absolute', left: 14, width: 34, height: 34, borderRadius: radios.full,
     backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center',
   },
-  logoWrap: { width: 74, height: 74, borderRadius: 37, borderWidth: trazo.anillo, overflow: 'hidden' },
-  logo: { width: '100%', height: '100%', borderRadius: 37 },
+  logoWrap: { width: 74, height: 74, borderRadius: radios.full, borderWidth: trazo.anillo, overflow: 'hidden' },
+  logo: { width: '100%', height: '100%', borderRadius: radios.full },
   tabs: { flexDirection: 'row', gap: espaciado.e18, borderBottomWidth: StyleSheet.hairlineWidth, marginTop: espaciado.e16 },
   tab: { paddingBottom: espaciado.e8, alignItems: 'center' },
-  tabLine: { height: 2.5, width: 26, borderRadius: 2, marginTop: espaciado.e5 },
+  tabLine: { height: 2.5, width: 26, borderRadius: radios.pista, marginTop: espaciado.e5 },
   card: { flex: 1, borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e8, maxWidth: '50%' },
   cardImg: { width: '100%', height: 120, borderRadius: radios.sm },
 });

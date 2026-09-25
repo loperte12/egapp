@@ -13,7 +13,7 @@
  */
 import React from 'react';
 import { FlatList, Image, Pressable, Text, View } from 'react-native';
-import { alpha, espaciado, tipografia, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia, peso, radios} from '@egrouteplan/ui-kit';
 import { absUrl } from '../../api/config';
 import type { LbSeguido } from '../../api/lifebookSeguidos';
 
@@ -52,13 +52,13 @@ export function AvatarsSeguidos({ gente, colors, onOpen }: {
                 <Image
                   source={{ uri: foto }}
                   style={{
-                    width: 54, height: 54, borderRadius: 27,
+                    width: 54, height: 54, borderRadius: radios.full,
                     backgroundColor: alpha(colors.textPrimary, 0.08),
                   }}
                 />
               ) : (
                 <View style={{
-                  width: 54, height: 54, borderRadius: 27,
+                  width: 54, height: 54, borderRadius: radios.full,
                   backgroundColor: alpha(colors.primary, 0.16),
                   alignItems: 'center', justifyContent: 'center',
                 }}>

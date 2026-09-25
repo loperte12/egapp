@@ -101,6 +101,6 @@ const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: 17, fontWeight: peso.titulo, flex: 1 },
   card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
-  avatar: { width: 46, height: 46, borderRadius: 23 },
+  avatar: { width: 46, height: 46, borderRadius: radios.full },
   unblockBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e8 },
 });

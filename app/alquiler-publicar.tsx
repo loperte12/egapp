@@ -484,7 +484,7 @@ export default function AlquilerPublicarScreen() {
                     <View key={i} style={{ width: 74, height: 74, borderRadius: radios.sm, overflow: 'hidden', backgroundColor: colors.surface }}>
                       <Image source={{ uri: p }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                       <Pressable onPress={() => removePhoto(i)} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Quitar foto ${i + 1}`}
-                        style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'rgba(16,24,40,0.65)', borderRadius: 9, padding: espaciado.e2 }}>
+                        style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'rgba(16,24,40,0.65)', borderRadius: radios.hermano, padding: espaciado.e2 }}>
                         <X size={12} color={brand.white} />
                       </Pressable>
                     </View>

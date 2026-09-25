@@ -589,7 +589,7 @@ function CarritoContent() {
       {/* ── Hoja para cambiar la variante sin ir a la ficha ───────────────────── */}
       <Modal visible={!!varianteDe} transparent animationType="slide" onRequestClose={() => setVarianteDe(null)} statusBarTranslucent>
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={() => setVarianteDe(null)} />
-        <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: insets.bottom + 16 }}>
+        <View style={{ backgroundColor: colors.card, borderTopLeftRadius: radios.panel, borderTopRightRadius: radios.panel, padding: espaciado.e16, paddingBottom: insets.bottom + 16 }}>
           <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo, marginBottom: espaciado.e4 }}>
             Opción de «{varianteDe?.title}»
           </Text>
@@ -649,7 +649,7 @@ const styles = StyleSheet.create({
   /** Área táctil real de la casilla: 44 dp, el mínimo que pide la plataforma. */
   toque: { width: altura.punto, height: altura.punto, alignItems: 'center', justifyContent: 'center' },
   /** El círculo VISIBLE. No se toca: sigue midiendo 21, que es lo que pide el diseño. */
-  casilla: { width: 21, height: 21, borderRadius: 11, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
+  casilla: { width: 21, height: 21, borderRadius: radios.full, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
   bloque: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e10, gap: espaciado.e10 },
   cabeceraTienda: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
   /** Aviso de «no llega a tu zona»: naranja, bajo la cabecera de la tienda. */

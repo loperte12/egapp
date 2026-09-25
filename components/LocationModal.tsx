@@ -129,8 +129,8 @@ export default function LocationModal({
 const styles = StyleSheet.create({
   backdrop: { flex: 1, justifyContent: 'flex-end' },
   card: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    borderTopLeftRadius: radios.marco,
+    borderTopRightRadius: radios.marco,
     paddingHorizontal: espaciado.e20,
     paddingTop: espaciado.e18,
     maxHeight: '85%',

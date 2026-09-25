@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
-  anadir: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  anadir: { width: 44, height: 44, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
   aviso: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e12 },
   tarjeta: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e14, marginBottom: espaciado.e12 },

@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   chipRow: { borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8 },
   input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   memberChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
-  memberAvatar: { width: 18, height: 18, borderRadius: 9 },
+  memberAvatar: { width: 18, height: 18, borderRadius: radios.full },
   stateBox: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e10, marginTop: espaciado.e12 },
   cta: { marginTop: espaciado.e14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

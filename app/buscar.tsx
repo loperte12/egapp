@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
   input: { flex: 1, fontSize: tipografia.subtitle, fontWeight: peso.medio, paddingVertical: 0 },
   shortcuts: { flexDirection: 'row', gap: espaciado.e10, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
   shortcut: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e9 },
-  shortcutIcon: { width: 30, height: 30, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+  shortcutIcon: { width: 30, height: 30, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
   shortcutLabel: { fontSize: tipografia.caption, fontWeight: peso.maximo, flexShrink: 1 },
   sectionTitle: { fontSize: tipografia.caption, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e6, marginTop: espaciado.e8, marginLeft: espaciado.e4 },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e10 },

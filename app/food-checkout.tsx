@@ -616,7 +616,7 @@ const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: espaciado.e28 },
   title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.body, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
-  btnPrimary: { marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e28, paddingVertical: espaciado.e11, borderRadius: 22 },
+  btnPrimary: { marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e28, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({

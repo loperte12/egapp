@@ -1447,7 +1447,7 @@ const styles = StyleSheet.create({
   fieldLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e6, marginLeft: espaciado.e4 },
   fieldHint: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e5, marginLeft: espaciado.e4, lineHeight: 15 },
   nameColorDot: {
-    width: 30, height: 30, borderRadius: 15, borderWidth: trazo.fino,
+    width: 30, height: 30, borderRadius: radios.full, borderWidth: trazo.fino,
   },
   nameColorReset: {
     borderRadius: radios.full, paddingHorizontal: espaciado.e10, justifyContent: 'center',
@@ -1467,7 +1467,7 @@ const styles = StyleSheet.create({
   coverImg: { resizeMode: 'cover' },
   coverScrim: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(8,14,24,0.16)' },
   coverFallback: { overflow: 'hidden', alignItems: 'flex-end', justifyContent: 'flex-end' },
-  coverBlob: { position: 'absolute', width: 150, height: 150, borderRadius: 75 },
+  coverBlob: { position: 'absolute', width: 150, height: 150, borderRadius: radios.full },
   coverFallbackHint: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e5,
     paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderRadius: radios.full,
@@ -1475,7 +1475,7 @@ const styles = StyleSheet.create({
   },
   avatarWrap: {
     position: 'absolute', top: 120 - 42, left: 14,
-    width: 84, height: 84, borderRadius: 42, borderWidth: trazo.anillo,
+    width: 84, height: 84, borderRadius: radios.full, borderWidth: trazo.anillo,
     overflow: 'hidden',
   },
   avatarImg: { width: '100%', height: '100%' },
@@ -1490,7 +1490,7 @@ const styles = StyleSheet.create({
 
   // Fila genérica
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e12 },
-  rowIcon: { width: 32, height: 32, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+  rowIcon: { width: 32, height: 32, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
   rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, maxWidth: '46%', textAlign: 'right' },
 
   // ID de EG Route Plan
@@ -1527,7 +1527,7 @@ const styles = StyleSheet.create({
   // Modales
   backdrop: { flex: 1 },
   previewCard: {
-    width: '88%', maxWidth: 340, borderRadius: 22,
+    width: '88%', maxWidth: 340, borderRadius: radios.panelAncho,
     padding: espaciado.e18, paddingBottom: espaciado.e20,
   },
   previewMini: {
@@ -1535,7 +1535,7 @@ const styles = StyleSheet.create({
     padding: espaciado.e14, marginTop: espaciado.e14,
   },
   previewAvatar: {
-    width: 64, height: 64, borderRadius: 32, borderWidth: trazo.fuerte,
+    width: 64, height: 64, borderRadius: radios.full, borderWidth: trazo.fuerte,
     alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
   },
   previewAvatarImg: { width: '100%', height: '100%' },
@@ -1544,7 +1544,7 @@ const styles = StyleSheet.create({
   // Hojas inferiores
   sheetRoot: { flex: 1, justifyContent: 'flex-end' },
   sheetCard: {
-    borderTopLeftRadius: 24, borderTopRightRadius: 24,
+    borderTopLeftRadius: radios.marco, borderTopRightRadius: radios.marco,
     paddingHorizontal: espaciado.e18, paddingTop: espaciado.e18, maxHeight: '86%',
   },
   modalHeaderRow: {

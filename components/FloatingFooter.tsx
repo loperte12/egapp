@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Home, CarTaxiFront, MessageCircle, User, Users, type LucideIcon } from 'lucide-react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { useUnreadChat } from '../hooks/useUnreadChat';
-import { brand, elevation, espaciado, peso, trazo} from '@egrouteplan/ui-kit';
+import { brand, elevation, espaciado, peso, trazo, radios} from '@egrouteplan/ui-kit';
 
 export type FooterTab = 'inicio' | 'lifebook' | 'taxi' | 'mensajes' | 'monedero' | 'perfil' | 'emergencia';
 
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     top: -4,
     right: -8,
     backgroundColor: brand.like,
-    borderRadius: 9,
+    borderRadius: radios.hermano,
     minWidth: 16,
     height: 16,
     alignItems: 'center',

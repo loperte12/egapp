@@ -711,7 +711,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   flow: { flexDirection: 'row', marginTop: espaciado.e14, marginBottom: espaciado.e6 },
-  dot: { width: 10, height: 10, borderRadius: 5 },
+  dot: { width: 10, height: 10, borderRadius: radios.marca },
   codeBox: { borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e14, marginTop: espaciado.e10, gap: espaciado.e8, alignItems: 'center' },
   codeInput: {
     borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8,

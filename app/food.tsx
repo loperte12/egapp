@@ -353,9 +353,9 @@ function RestaurantSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['c
     <View style={[s_sk.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
       <View style={{ width: 90, height: 90, backgroundColor: colors.border }} />
       <View style={{ flex: 1, padding: espaciado.e12, gap: espaciado.e8 }}>
-        <View style={{ height: 12, borderRadius: 4, backgroundColor: colors.border, width: '72%' }} />
-        <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '46%' }} />
-        <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '60%' }} />
+        <View style={{ height: 12, borderRadius: radios.punta, backgroundColor: colors.border, width: '72%' }} />
+        <View style={{ height: 10, borderRadius: radios.punta, backgroundColor: colors.border, width: '46%' }} />
+        <View style={{ height: 10, borderRadius: radios.punta, backgroundColor: colors.border, width: '60%' }} />
       </View>
     </View>
   );
@@ -363,7 +363,7 @@ function RestaurantSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['c
 
 
 const s_chip = StyleSheet.create({
-  base: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 18, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderWidth: trazo.fino },
+  base: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: radios.panel, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderWidth: trazo.fino },
 });
 
 const s_card = StyleSheet.create({
@@ -376,7 +376,7 @@ const s_card = StyleSheet.create({
   rating: { fontSize: tipografia.body, fontWeight: peso.titulo },
   badgeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 },
   chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3, maxWidth: '60%' },
-  dot: { width: 6, height: 6, borderRadius: 3 },
+  dot: { width: 6, height: 6, borderRadius: radios.punta },
   chipText: { fontSize: 10.5, fontWeight: peso.maximo, flexShrink: 1 },
   sub: { fontSize: tipografia.micro, fontWeight: peso.medio },
   metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8, marginTop: espaciado.e6 },

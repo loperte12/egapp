@@ -657,7 +657,7 @@ function Campo({
 const styles = StyleSheet.create({
   screen: { flex: 1 },
   volverFlotante: {
-    position: 'absolute', left: 12, width: 36, height: 36, borderRadius: 18,
+    position: 'absolute', left: 12, width: 36, height: 36, borderRadius: radios.full,
     backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center',
   },
   volverFlotanteTxt: { color: brand.white, fontSize: 24, fontWeight: peso.fuerte, lineHeight: 26 },
@@ -668,7 +668,7 @@ const styles = StyleSheet.create({
   sub: { fontSize: tipografia.caption },
   dato: { fontSize: tipografia.body, fontWeight: peso.medio },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  bloque: { borderWidth: trazo.fino, borderRadius: 18, padding: espaciado.e12, gap: espaciado.e3 },
+  bloque: { borderWidth: trazo.fino, borderRadius: radios.panel, padding: espaciado.e12, gap: espaciado.e3 },
   etiqueta: { fontSize: 10.5, fontWeight: peso.maximo, letterSpacing: 0.6 },
   linea: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e6 },
   lineaEtq: { fontSize: tipografia.caption, flex: 1 },

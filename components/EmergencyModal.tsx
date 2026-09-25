@@ -96,8 +96,8 @@ export default function EmergencyModal({
 const styles = StyleSheet.create({
   backdrop: { flex: 1, justifyContent: 'flex-end' },
   card: {
-    borderTopLeftRadius: 26,
-    borderTopRightRadius: 26,
+    borderTopLeftRadius: radios.hoja,
+    borderTopRightRadius: radios.hoja,
     paddingHorizontal: espaciado.e20,
     paddingTop: espaciado.e20,
     paddingBottom: 34,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     padding: espaciado.e12,
     marginBottom: espaciado.e10,
   },
-  contactIcon: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  contactIcon: { width: 38, height: 38, borderRadius: radios.contacto, alignItems: 'center', justifyContent: 'center' },
   contactText: { flex: 1, marginLeft: espaciado.e12 },
   contactLabel: { fontSize: 14.5, fontWeight: peso.maximo },
   contactNote: { fontSize: tipografia.micro, marginTop: 1 },

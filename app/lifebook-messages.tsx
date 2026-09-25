@@ -172,11 +172,11 @@ function MessagesContent() {
               /* 48 y no 34: es el MISMO tamaño que los iconos de al lado
                  (`styles.inboxIcon` = 48×48), que es lo que se pidió. Medido: con 34
                  se veía pequeño al lado de los otros tres. */
-              style={{ width: 48, height: 48, borderRadius: 24 }}
+              style={{ width: 48, height: 48, borderRadius: radios.full }}
             />
           ) : (
             <View style={{
-              width: 48, height: 48, borderRadius: 24,
+              width: 48, height: 48, borderRadius: radios.full,
               backgroundColor: colors.surface,
               alignItems: 'center', justifyContent: 'center',
             }}>
@@ -428,12 +428,12 @@ const styles = StyleSheet.create({
   },
   inboxShortcut: { alignItems: 'center', gap: espaciado.e4 },
   inboxIcon: {
-    width: 48, height: 48, borderRadius: 24,
+    width: 48, height: 48, borderRadius: radios.full,
     alignItems: 'center', justifyContent: 'center',
   },
   inboxBadge: {
     position: 'absolute', top: -3, right: -4, backgroundColor: brand.danger,
-    borderRadius: 9, minWidth: 18, height: 18, paddingHorizontal: espaciado.e3,
+    borderRadius: radios.hermano, minWidth: 18, height: 18, paddingHorizontal: espaciado.e3,
     alignItems: 'center', justifyContent: 'center', borderWidth: trazo.base, borderColor: brand.white,
   },
   inboxLabel: { fontSize: tipografia.micro, fontWeight: peso.medio, color: '#8A8F99' },
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12,
   },
-  convoAvatar: { width: 50, height: 50, borderRadius: 25 },
+  convoAvatar: { width: 50, height: 50, borderRadius: radios.full },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
   unreadBadge: {
     backgroundColor: brand.like, borderRadius: radios.full,

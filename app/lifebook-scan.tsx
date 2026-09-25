@@ -8,7 +8,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ArrowLeft, ScanLine } from 'lucide-react-native';
-import { brand, espaciado, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { brand, espaciado, tipografia, useTheme, peso, trazo, radios} from '@egrouteplan/ui-kit';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
@@ -46,7 +46,7 @@ export default function LifeBookScan() {
 const styles = StyleSheet.create({
   frame: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   box: {
-    width: 220, height: 220, borderRadius: 18,
+    width: 220, height: 220, borderRadius: radios.panel,
     borderWidth: trazo.fuerte, borderColor: 'rgba(255,255,255,0.6)',
     borderStyle: 'dashed',
   },

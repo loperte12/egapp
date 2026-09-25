@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
   },
   volver: { width: 40, height: 34, alignItems: 'center', justifyContent: 'center' },
   chip: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
-  paso: { width: 44, height: 44, borderRadius: 22, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
+  paso: { width: 44, height: 44, borderRadius: radios.full, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
   rejilla: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginBottom: espaciado.e10 },
   miniatura: { width: 96, height: 96, borderRadius: radios.md, overflow: 'hidden' },
   foto: { width: '100%', height: '100%' },

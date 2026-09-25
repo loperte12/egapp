@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   topTitle: { fontSize: 17, fontWeight: peso.titulo },
   center: { alignItems: 'center', paddingVertical: 60, gap: espaciado.e14 },
   retry: { borderRadius: radios.md, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
-  card: { marginHorizontal: espaciado.e16, borderRadius: 18, borderWidth: trazo.fino, padding: espaciado.e14 },
+  card: { marginHorizontal: espaciado.e16, borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e14 },
   groupTitle: {
     fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 1, color: '#8E8E93',
     textTransform: 'uppercase', marginTop: espaciado.e18, marginBottom: espaciado.e6, marginHorizontal: espaciado.e18,
@@ -212,6 +212,6 @@ const styles = StyleSheet.create({
   prefRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10,
   },
-  prefIcon: { width: 32, height: 32, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+  prefIcon: { width: 32, height: 32, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
   infoBox: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, margin: espaciado.e16, borderRadius: 14, padding: espaciado.e12 },
 });

@@ -852,14 +852,14 @@ const styles = StyleSheet.create({
   },
   notice: { borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e12 },
   shopCard: { flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e22 },
-  shopLogo: { width: 44, height: 44, borderRadius: 22 },
+  shopLogo: { width: 44, height: 44, borderRadius: radios.full },
   followBtn: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7 },
   bottomBar: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
     paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth,
   },
   iconBtn: {
-    width: 44, height: 44, borderRadius: 22, borderWidth: StyleSheet.hairlineWidth,
+    width: 44, height: 44, borderRadius: radios.full, borderWidth: StyleSheet.hairlineWidth,
     alignItems: 'center', justifyContent: 'center',
   },
   /**
@@ -875,7 +875,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', borderWidth: trazo.fino, borderRadius: radios.md,
     padding: espaciado.e9, marginTop: espaciado.e12,
   },
-  elegirFoto: { width: 40, height: 40, borderRadius: 9 },
+  elegirFoto: { width: 40, height: 40, borderRadius: radios.hermano },
   /**
    * El CTA de la barra inferior: MISMO alto que los botones redondos (44 dp) y forma de píldora,
    * para que la fila se vea de una pieza. Ocupa el ancho que sobra (`flex: 1`) y el texto se
@@ -887,11 +887,11 @@ const styles = StyleSheet.create({
   },
   /* TANDA D: el globito con cuántas cosas llevas en el carrito. */
   cartBadge: {
-    position: 'absolute', top: -2, right: -2, minWidth: 17, height: 17, borderRadius: 9,
+    position: 'absolute', top: -2, right: -2, minWidth: 17, height: 17, borderRadius: radios.hermano,
     alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e3,
   },
   viewerClose: {
-    position: 'absolute', right: 16, width: 36, height: 36, borderRadius: 18,
+    position: 'absolute', right: 16, width: 36, height: 36, borderRadius: radios.full,
     backgroundColor: 'rgba(255,255,255,0.16)', alignItems: 'center', justifyContent: 'center',
   },
 });

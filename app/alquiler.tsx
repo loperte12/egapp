@@ -344,5 +344,5 @@ function SwitchRow({ label, value, onChange }: { label: string; value: boolean; 
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   fLabel: { fontSize: tipografia.caption, fontWeight: peso.maximo, color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e8 },
-  errIcon: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
+  errIcon: { width: 64, height: 64, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
 });

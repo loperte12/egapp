@@ -384,7 +384,7 @@ export default function FoodRiderScreen() {
                       <View key={d.id} style={[s.delCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
                           <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>{d.restaurantName}</Text>
-                          <View style={{ backgroundColor: alpha(ACCENT, 0.12), paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, borderRadius: 7 }}>
+                          <View style={{ backgroundColor: alpha(ACCENT, 0.12), paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, borderRadius: radios.marca }}>
                             <Text style={{ fontSize: 10.5, fontWeight: peso.maximo, color: ACCENT }}>{stLabel}</Text>
                           </View>
                         </View>
@@ -638,7 +638,7 @@ function CallBtn({ phone, label }: { phone: string | null; label: string }) {
       onPress={() => Linking.openURL(`tel:${digits}`).catch(() => undefined)}
       accessibilityRole="button"
       accessibilityLabel={label}
-      style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e5, borderWidth: trazo.fino, borderColor: colors.primary, borderRadius: 9, paddingVertical: espaciado.e8 }}
+      style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e5, borderWidth: trazo.fino, borderColor: colors.primary, borderRadius: radios.hermano, paddingVertical: espaciado.e8 }}
     >
       <Phone size={13} color={colors.primary} />
       <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{label}</Text>
@@ -670,7 +670,7 @@ const s_center = StyleSheet.create({
   wrapSoft: { alignItems: 'center', paddingTop: espaciado.e24, paddingHorizontal: espaciado.e20 },
   title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
-  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
+  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
@@ -681,5 +681,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   delCard: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e10, borderWidth: trazo.fino },
   advBtn: { marginTop: espaciado.e10, borderRadius: 10, paddingVertical: espaciado.e11, alignItems: 'center' },
   // Distintivo de «cobrar en la puerta» (C5): se ve antes de llegar, no al anotar.
-  payBadge: { borderRadius: 9, borderWidth: trazo.fino, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
+  payBadge: { borderRadius: radios.hermano, borderWidth: trazo.fino, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
 });

@@ -636,7 +636,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
               const done = i <= idx;
               return (
                 <View key={stName} style={{ flex: 1, alignItems: 'center' }}>
-                  <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: done ? ACCENT : colors.border }} />
+                  <View style={{ width: 10, height: 10, borderRadius: radios.marca, backgroundColor: done ? ACCENT : colors.border }} />
                   {i < FLOW.length - 1 && <View style={{ height: 2, flex: 1, backgroundColor: i < idx ? ACCENT : colors.border, marginHorizontal: -10 }} />}
                 </View>
               );
@@ -784,10 +784,10 @@ function ReviewModal({ order, onClose, onDone }: {
 function OrdersSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['colors'] }) {
   return (
     <View style={[s_sk.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-      <View style={{ height: 13, borderRadius: 4, backgroundColor: colors.border, width: '55%' }} />
-      <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '30%', marginTop: espaciado.e8 }} />
-      <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '75%', marginTop: espaciado.e6 }} />
-      <View style={{ height: 13, borderRadius: 4, backgroundColor: colors.border, width: '40%', marginTop: espaciado.e10 }} />
+      <View style={{ height: 13, borderRadius: radios.punta, backgroundColor: colors.border, width: '55%' }} />
+      <View style={{ height: 10, borderRadius: radios.punta, backgroundColor: colors.border, width: '30%', marginTop: espaciado.e8 }} />
+      <View style={{ height: 10, borderRadius: radios.punta, backgroundColor: colors.border, width: '75%', marginTop: espaciado.e6 }} />
+      <View style={{ height: 13, borderRadius: radios.punta, backgroundColor: colors.border, width: '40%', marginTop: espaciado.e10 }} />
     </View>
   );
 }
@@ -815,8 +815,8 @@ const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 48, paddingHorizontal: espaciado.e28 },
   title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
-  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
-  btnGhost: { marginTop: espaciado.e18, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22, borderWidth: trazo.fino, borderColor: ACCENT },
+  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
+  btnGhost: { marginTop: espaciado.e18, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho, borderWidth: trazo.fino, borderColor: ACCENT },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({

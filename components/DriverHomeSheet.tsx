@@ -269,10 +269,10 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
 const dh = StyleSheet.create({
   overlay: { flex: 1, justifyContent: 'flex-end' },
   backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.35)' },
-  handle: { width: 44, height: 5, borderRadius: 3, alignSelf: 'center', marginTop: espaciado.e10, marginBottom: espaciado.e4 },
+  handle: { width: 44, height: 5, borderRadius: radios.punta, alignSelf: 'center', marginTop: espaciado.e10, marginBottom: espaciado.e4 },
   content: { padding: espaciado.e16, paddingBottom: 36, gap: espaciado.e12 },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e13 },
-  ratingBox: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  ratingBox: { width: 44, height: 44, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   vidaTextWrap: { flex: 1, gap: espaciado.e2 },
   vidaTitle: { color: brand.white, fontSize: 21, fontWeight: peso.titulo },
   vidaSub: { color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio },
@@ -283,7 +283,7 @@ const dh = StyleSheet.create({
 const dhStyles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     sheet: {
-      borderTopLeftRadius: 26, borderTopRightRadius: 26, borderWidth: trazo.fino,
+      borderTopLeftRadius: radios.hoja, borderTopRightRadius: radios.hoja, borderWidth: trazo.fino,
       maxHeight: '86%', minHeight: 240,
       ...elevation.lg,
     },

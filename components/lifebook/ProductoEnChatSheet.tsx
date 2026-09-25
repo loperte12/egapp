@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
   backdrop: { flex: 1 },
   sheet: { borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden' },
   handleWrap: { alignItems: 'center', paddingTop: espaciado.e8, paddingBottom: espaciado.e2 },
-  handle: { width: 38, height: 4, borderRadius: 2 },
+  handle: { width: 38, height: 4, borderRadius: radios.pista },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   chip: { borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   paso: { width: 30, height: 30, borderRadius: radios.sm, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },

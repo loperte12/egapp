@@ -281,5 +281,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
     borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
   },
-  filaIcono: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  filaIcono: { width: 34, height: 34, borderRadius: radios.nota, alignItems: 'center', justifyContent: 'center' },
 });

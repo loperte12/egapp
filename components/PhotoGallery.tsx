@@ -16,7 +16,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import {
   LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions,
 } from 'react-native';
-import { alpha, brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme, peso, radios} from '@egrouteplan/ui-kit';
 import { absUrl } from '../api/config';
 import { LazyImage } from './rental/LazyImage';
 
@@ -126,7 +126,7 @@ export function PhotoGallery({
 
 const styles = StyleSheet.create({
   dots: { position: 'absolute', bottom: 12, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e6 },
-  dot: { width: 7, height: 7, borderRadius: 4 },
+  dot: { width: 7, height: 7, borderRadius: radios.full },
   dotActive: { width: 18 },
   contador: { position: 'absolute', top: 12, right: 12, borderRadius: 10, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
   contadorTxt: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte },

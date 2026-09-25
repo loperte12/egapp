@@ -210,7 +210,7 @@ export default function BillingStatusScreen() {
           <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
           <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>Algo salió mal</Text>
           <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
-          <Pressable onPress={() => load('initial')} accessibilityRole="button" style={{ marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 }}>
+          <Pressable onPress={() => load('initial')} accessibilityRole="button" style={{ marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho }}>
             <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
@@ -451,7 +451,7 @@ function RenewCard({ tone, icon, title, body, cta, onPress, testID }: {
 function SkeletonHeader({ colors }: { colors: ReturnType<typeof useTheme>['colors'] }) {
   return (
     <View style={{ height: 46, justifyContent: 'center', paddingHorizontal: espaciado.e16 }}>
-      <View style={{ height: 16, borderRadius: 4, backgroundColor: colors.border, width: '55%', alignSelf: 'center' }} />
+      <View style={{ height: 16, borderRadius: radios.punta, backgroundColor: colors.border, width: '55%', alignSelf: 'center' }} />
     </View>
 
   );
@@ -459,7 +459,7 @@ function SkeletonHeader({ colors }: { colors: ReturnType<typeof useTheme>['color
 
 const s_card = StyleSheet.create({
   entitleCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: trazo.fino },
-  planChip: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 18, borderWidth: trazo.fino },
+  planChip: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: radios.panel, borderWidth: trazo.fino },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>

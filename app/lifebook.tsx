@@ -122,7 +122,7 @@ function SkeletonCard({ width }: { width: number }) {
           marginTop: espaciado.e6,
           height: 12,
           width: '80%',
-          borderRadius: 4,
+          borderRadius: radios.punta,
           backgroundColor: alpha(colors.textSecondary, 0.08),
         }}
       />
@@ -131,7 +131,7 @@ function SkeletonCard({ width }: { width: number }) {
           marginTop: espaciado.e6,
           height: 10,
           width: '50%',
-          borderRadius: 4,
+          borderRadius: radios.punta,
           backgroundColor: alpha(colors.textSecondary, 0.06),
         }}
       />
@@ -1351,7 +1351,7 @@ const styles = StyleSheet.create({
     marginTop: espaciado.e4,
     width: 20,
     height: 2.5,
-    borderRadius: 2,
+    borderRadius: radios.pista,
   },
 
   /* ── Feed masonry ── */
@@ -1401,7 +1401,7 @@ const styles = StyleSheet.create({
   fab: {
     width: 52,
     height: 52,
-    borderRadius: 26,
+    borderRadius: radios.full,
     alignItems: 'center',
     justifyContent: 'center',
     ...elevation.md,
@@ -1421,7 +1421,7 @@ const styles = StyleSheet.create({
   sheetHandle: {
     width: 36,
     height: 4,
-    borderRadius: 2,
+    borderRadius: radios.pista,
     alignSelf: 'center',
     marginBottom: espaciado.e14,
   },
@@ -1436,8 +1436,8 @@ const styles = StyleSheet.create({
     borderRadius: radios.md,
   },
   pubSheet: {
-    borderTopLeftRadius: 22,
-    borderTopRightRadius: 22,
+    borderTopLeftRadius: radios.panelAncho,
+    borderTopRightRadius: radios.panelAncho,
     padding: espaciado.e18,
   },
   pubSheetTitle: {
@@ -1457,7 +1457,7 @@ const styles = StyleSheet.create({
   pubIcon: {
     width: 46,
     height: 46,
-    borderRadius: 23,
+    borderRadius: radios.full,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -416,7 +416,7 @@ const styles = StyleSheet.create({
   groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e8, marginBottom: espaciado.e2 },
   group: { borderRadius: radios.lg, overflow: 'hidden' },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12 },
-  rowIcon: { width: 32, height: 32, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+  rowIcon: { width: 32, height: 32, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
   rowLabel: { flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte },
   rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, color: '#8E8E93', maxWidth: '52%' },
   emergency: {

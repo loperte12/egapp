@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     padding: espaciado.e12,
     gap: espaciado.e10,
   },
-  iconWrap: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  iconWrap: { width: 38, height: 38, borderRadius: radios.contacto, alignItems: 'center', justifyContent: 'center' },
   body: { flex: 1 },
   title: { fontSize: tipografia.body, fontWeight: peso.maximo },
   subtitle: { fontSize: tipografia.micro, marginTop: espaciado.e2 },

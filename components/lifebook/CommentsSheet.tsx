@@ -534,7 +534,7 @@ export function CommentsSheet({
                 disabled={!replyDraft.trim() || sending}
                 accessibilityLabel="Enviar respuesta"
                 style={{
-                  width: 36, height: 36, borderRadius: 18,
+                  width: 36, height: 36, borderRadius: radios.full,
                   backgroundColor: replyDraft.trim() ? colors.primary : alpha(colors.textPrimary, 0.12),
                   alignItems: 'center', justifyContent: 'center',
                 }}
@@ -600,8 +600,8 @@ export function CommentsSheet({
 
         <View style={{
           backgroundColor: colors.surface,
-          borderTopLeftRadius: 26,
-          borderTopRightRadius: 26,
+          borderTopLeftRadius: radios.hoja,
+          borderTopRightRadius: radios.hoja,
           maxHeight: `${maxHeightPct}%`,
           paddingBottom: insets.bottom + 8,
         }}>
@@ -684,7 +684,7 @@ export function CommentsSheet({
               {chipAdjunto()}
               <View style={{
                 flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8,
-                backgroundColor: alpha(colors.textPrimary, 0.07), borderRadius: 24,
+                backgroundColor: alpha(colors.textPrimary, 0.07), borderRadius: radios.marco,
                 paddingLeft: espaciado.e6, paddingRight: espaciado.e6, paddingVertical: espaciado.e6,
               }}>
                 {/* Adjuntar una publicación: el «+» va a la izquierda del campo, como el
@@ -697,7 +697,7 @@ export function CommentsSheet({
                     hitSlop={6}
                     accessibilityLabel="Adjuntar una publicación a mi comentario"
                     style={{
-                      width: 34, height: 34, borderRadius: 17,
+                      width: 34, height: 34, borderRadius: radios.full,
                       backgroundColor: adjunto ? alpha(colors.primary, 0.18) : alpha(colors.textPrimary, 0.08),
                       alignItems: 'center', justifyContent: 'center',
                     }}
@@ -719,7 +719,7 @@ export function CommentsSheet({
                   disabled={!draft.trim() || sending}
                   accessibilityLabel="Enviar comentario"
                   style={{
-                    width: 34, height: 34, borderRadius: 17,
+                    width: 34, height: 34, borderRadius: radios.full,
                     backgroundColor: draft.trim() ? colors.primary : alpha(colors.textPrimary, 0.12),
                     alignItems: 'center', justifyContent: 'center',
                   }}
@@ -758,7 +758,7 @@ export function CommentsSheet({
           <View style={{
             position: 'absolute', left: 0, right: 0, bottom: 0,
             backgroundColor: colors.surface,
-            borderTopLeftRadius: 22, borderTopRightRadius: 22,
+            borderTopLeftRadius: radios.panelAncho, borderTopRightRadius: radios.panelAncho,
             maxHeight: '62%', paddingBottom: insets.bottom + 10,
           }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e14, paddingBottom: espaciado.e6 }}>
@@ -795,7 +795,7 @@ export function CommentsSheet({
                         backgroundColor: elegida ? alpha(colors.primary, 0.12) : 'transparent',
                       }}
                     >
-                      <View style={{ width: 34, height: 34, borderRadius: 9, backgroundColor: alpha(tint, 0.16), alignItems: 'center', justifyContent: 'center' }}>
+                      <View style={{ width: 34, height: 34, borderRadius: radios.hermano, backgroundColor: alpha(tint, 0.16), alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ fontSize: 15 }}>
                           {p.type === 'video' ? '🎬' : p.type === 'sale' ? '🏷️' : p.type === 'podcast' ? '🎙️' : p.type === 'serie' ? '📺' : '📝'}
                         </Text>

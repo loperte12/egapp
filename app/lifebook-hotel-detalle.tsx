@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, tipografia, useTheme, peso, trazo, radios} from '@egrouteplan/ui-kit';
 import { Car, Navigation } from 'lucide-react-native';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import { PhotoGallery } from '../components/PhotoGallery';
@@ -513,7 +513,7 @@ const styles = StyleSheet.create({
   // Botón de volver flotante sobre la galería (la barra superior se ve, pero en la
   // ficha el pulgar está abajo: conviene tenerlo también aquí).
   volverFlotante: {
-    position: 'absolute', left: 12, width: 36, height: 36, borderRadius: 18,
+    position: 'absolute', left: 12, width: 36, height: 36, borderRadius: radios.full,
     backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center',
   },
   volverFlotanteTxt: { color: brand.white, fontSize: 24, fontWeight: peso.fuerte, lineHeight: 26 },
@@ -521,7 +521,7 @@ const styles = StyleSheet.create({
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   error: { margin: espaciado.e14, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
   enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
-  bloque: { borderWidth: trazo.fino, borderRadius: 18, padding: espaciado.e12, gap: espaciado.e4 },
+  bloque: { borderWidth: trazo.fino, borderRadius: radios.panel, padding: espaciado.e12, gap: espaciado.e4 },
   nombre: { fontSize: 18, fontWeight: peso.maximo },
   sub: { fontSize: tipografia.caption },
   dato: { fontSize: tipografia.body, marginTop: espaciado.e4 },

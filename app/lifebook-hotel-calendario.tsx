@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
   fila: { flexDirection: 'row' },
   dow: { flex: 1, textAlign: 'center', fontSize: tipografia.micro, fontWeight: peso.maximo, marginBottom: espaciado.e2 },
   celda: { flex: 1, aspectRatio: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10, margin: 1 },
-  punto: { width: 4, height: 4, borderRadius: 2 },
+  punto: { width: 4, height: 4, borderRadius: radios.full },
   chip: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
   linea: {
     flexDirection: 'row', alignItems: 'center',

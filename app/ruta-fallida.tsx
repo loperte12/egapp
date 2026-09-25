@@ -16,7 +16,7 @@ import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme, peso, trazo, radios} from '@egrouteplan/ui-kit';
 import { Compass, Home, MapPinOff } from 'lucide-react-native';
 import { ir } from '../constants/rutas';
 
@@ -75,6 +75,6 @@ export default function RutaFallidaScreen() {
 }
 
 const styles = StyleSheet.create({
-  icono: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
+  icono: { width: 64, height: 64, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
   boton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: 14, paddingVertical: espaciado.e14 },
 });

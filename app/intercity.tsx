@@ -496,9 +496,9 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
   chip: { borderRadius: radios.md, borderWidth: trazo.base, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
   tripCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e14 },
-  avatar: { width: 44, height: 44, borderRadius: 22, overflow: 'hidden', backgroundColor: c.surface },
+  avatar: { width: 44, height: 44, borderRadius: radios.full, overflow: 'hidden', backgroundColor: c.surface },
   warnBox: { borderRadius: radios.md, padding: espaciado.e12 },
   summary: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14 },
-  ticketBox: { alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fuerte, borderRadius: 18, padding: espaciado.e22, width: '100%', borderStyle: 'dashed' },
+  ticketBox: { alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fuerte, borderRadius: radios.panel, padding: espaciado.e22, width: '100%', borderStyle: 'dashed' },
   err: { color: c.danger, fontSize: tipografia.body, fontWeight: peso.fuerte },
 });

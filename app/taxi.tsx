@@ -175,10 +175,10 @@ function SearchRadar({ color }: { color: string }) {
         <Animated.View
           key={i}
           pointerEvents="none"
-          style={[{ position: 'absolute', width: 120, height: 120, borderRadius: 60, borderWidth: trazo.fuerte, borderColor: color }, ring(a)]}
+          style={[{ position: 'absolute', width: 120, height: 120, borderRadius: radios.full, borderWidth: trazo.fuerte, borderColor: color }, ring(a)]}
         />
       ))}
-      <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: color, alignItems: 'center', justifyContent: 'center', elevation: 6 }}>
+      <View style={{ width: 56, height: 56, borderRadius: radios.full, backgroundColor: color, alignItems: 'center', justifyContent: 'center', elevation: 6 }}>
         <CarFront size={28} color={brand.white} />
       </View>
     </View>
@@ -2003,18 +2003,18 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     // Tarjeta flotante origen → destino (DiDi): compacta, sobre el mapa.
     topCard: {
       position: 'absolute', top: 4, left: 10, right: 10,
-      borderRadius: 18, borderWidth: trazo.fino, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4,
+      borderRadius: radios.panel, borderWidth: trazo.fino, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4,
       ...elevation.md,
     },
     topCardHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 },
     backBtn: { padding: espaciado.e2, marginRight: espaciado.e2 },
     topCardRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, minHeight: 27 },
     stopIconBox: { width: 15, alignItems: 'center' },
-    stopDot: { width: 10, height: 10, borderRadius: 5 },
-    connectorRow: { width: 2, height: 8, marginLeft: espaciado.e7, marginVertical: 1, borderRadius: 1 },
+    stopDot: { width: 10, height: 10, borderRadius: radios.marca },
+    connectorRow: { width: 2, height: 8, marginLeft: espaciado.e7, marginVertical: 1, borderRadius: radios.pista },
     connectorGap: { height: 26, marginVertical: 0 },
     connectorCol: { width: 16, height: '100%', alignItems: 'center', justifyContent: 'center', position: 'relative' },
-    connectorVLine: { position: 'absolute', left: 7, top: 0, bottom: 0, width: 2, borderRadius: 1 },
+    connectorVLine: { position: 'absolute', left: 7, top: 0, bottom: 0, width: 2, borderRadius: radios.pista },
     swapBtn: { width: 24, height: 24, borderRadius: radios.md, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 3 },
     stopLabel: { fontSize: 9, fontWeight: peso.fuerte, textTransform: 'uppercase', letterSpacing: 0.4 },
     stopValue: { fontSize: tipografia.body, fontWeight: peso.fuerte, marginLeft: espaciado.e2 },
@@ -2022,11 +2022,11 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     mapPickBtn: { width: 28, height: 28, borderRadius: 14, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', marginLeft: espaciado.e4 },
     // FAB centrar (abajo-derecha sobre el mapa, visible al colapsar panel)
     mapFabRow: { position: 'absolute', right: 14, bottom: 84 },
-    mapFab: { borderRadius: 30, borderWidth: trazo.fino, padding: espaciado.e11, ...elevation.md },
+    mapFab: { borderRadius: radios.full, borderWidth: trazo.fino, padding: espaciado.e11, ...elevation.md },
     // Panel inferior superpuesto: NO empuja el mapa (DiDi).
     panel: {
       position: 'absolute', left: 0, right: 0, bottom: 0,
-      maxHeight: '46%', borderTopLeftRadius: 22, borderTopRightRadius: 22,
+      maxHeight: '46%', borderTopLeftRadius: radios.panelAncho, borderTopRightRadius: radios.panelAncho,
       paddingTop: espaciado.e2,
       ...elevation.lg,
     },
@@ -2044,7 +2044,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     modeIconWrap: { width: 40, height: 40, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
     modeName: { fontSize: 15, fontWeight: peso.maximo },
     modePrice: { fontSize: 17, fontWeight: peso.maximo },
-    avatar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+    avatar: { width: 44, height: 44, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
     carThumb: { width: 34, height: 26, borderRadius: 6, overflow: 'hidden', backgroundColor: '#EAEAEA' },
     colorSwatch: { width: 12, height: 12, borderRadius: 6, borderWidth: trazo.fino, borderColor: 'rgba(0,0,0,0.2)' },
     waBtn: { borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e2 },

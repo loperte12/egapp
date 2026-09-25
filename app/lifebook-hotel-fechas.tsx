@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
   diasFila: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12 },
   diasEtq: { fontSize: 14.5, fontWeight: peso.maximo },
   diasBtns: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
-  diasBtn: { width: 38, height: 38, borderWidth: trazo.fino, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  diasBtn: { width: 38, height: 38, borderWidth: trazo.fino, borderRadius: radios.nota, alignItems: 'center', justifyContent: 'center' },
   diasBtnTxt: { fontSize: tipografia.title, fontWeight: peso.maximo, lineHeight: 22 },
   diasVal: { fontSize: 17, fontWeight: peso.maximo, minWidth: 26, textAlign: 'center' },
   pie: {

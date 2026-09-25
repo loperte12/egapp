@@ -669,7 +669,7 @@ function Contenido() {
       {/* Tanda N: elegir UN producto de los que te gustan y mandarlo como tarjeta embebida. */}
       <Modal visible={eligiendo} transparent animationType="slide" onRequestClose={() => setEligiendo(false)}>
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' }} onPress={() => setEligiendo(false)}>
-          <Pressable style={{ backgroundColor: colors.background, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: insets.bottom + 16 }} onPress={() => { /* dentro no cierra */ }}>
+          <Pressable style={{ backgroundColor: colors.background, borderTopLeftRadius: radios.panel, borderTopRightRadius: radios.panel, padding: espaciado.e16, paddingBottom: insets.bottom + 16 }} onPress={() => { /* dentro no cierra */ }}>
             <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15, marginBottom: espaciado.e10 }}>Productos que te gustan</Text>
             <FlatList
               data={guardados}
@@ -726,11 +726,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e8,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
-  enviar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  enviar: { width: 44, height: 44, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   /** El botón de adjuntar: al lado de la barra de escribir. */
-  adjuntar: { width: 44, height: 44, borderRadius: 22, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
+  adjuntar: { width: 44, height: 44, borderRadius: radios.full, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
   /** El micro (dictado): mismo tamaño que los otros dos botones de la barra. */
-  micro: { width: 44, height: 44, borderRadius: 22, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
+  micro: { width: 44, height: 44, borderRadius: radios.full, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
   /** La foto que manda la persona: se ve grande, que es lo suyo. */
   fotoGrande: { width: 190, height: 190, borderRadius: radios.md },
 });

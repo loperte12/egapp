@@ -16,7 +16,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { usePathname, useRouter } from 'expo-router';
 import { Sparkles } from 'lucide-react-native';
-import { alpha, useTheme, elevation, brand, trazo} from '@egrouteplan/ui-kit';
+import { alpha, useTheme, elevation, brand, trazo, radios} from '@egrouteplan/ui-kit';
 import { ir as irSeguro } from '../../constants/rutas';
 
 /** Las pantallas donde NO tiene sentido (o estorba). */
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   /** Capa transparente: solo el botón recibe toques (`box-none`), el resto de la pantalla sigue viva. */
   capa: { position: 'absolute', left: 16, bottom: 96, zIndex: 20 },
   boton: {
-    width: 50, height: 50, borderRadius: 25, alignItems: 'center', justifyContent: 'center',
+    width: 50, height: 50, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center',
     borderWidth: trazo.fino,
     ...elevation.md,
   },

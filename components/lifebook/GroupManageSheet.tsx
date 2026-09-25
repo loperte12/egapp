@@ -1106,7 +1106,7 @@ const styles = StyleSheet.create({
   center: { alignItems: 'center', justifyContent: 'center' },
   /** Parte 27 (G3): solicitudes para entrar. */
   requestRow: { borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8 },
-  reqAvatar: { width: 36, height: 36, borderRadius: 18 },
+  reqAvatar: { width: 36, height: 36, borderRadius: radios.full },
   reqBtn: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, minWidth: 74, alignItems: 'center', justifyContent: 'center' },
   badge: { minWidth: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e5 },
   iconBtn: { width: 32, height: 32, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,128,255,0.10)' },

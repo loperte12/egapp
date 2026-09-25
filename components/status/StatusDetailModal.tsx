@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
   heroName: { color: brand.white, fontSize: 15, fontWeight: peso.titulo, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
   timeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 },
   timeTxt: { color: 'rgba(255,255,255,0.95)', fontSize: tipografia.micro, fontWeight: peso.fuerte, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
-  iconBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center', borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.35)' },
+  iconBtn: { width: 36, height: 36, borderRadius: radios.full, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center', borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.35)' },
   overlayText: { position: 'absolute', left: 18, right: 18 },
   overlayEmoji: { fontSize: 46, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 6 },
   overlayLine: {
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0,0,0,0.7)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 6,
   },
   dots: { position: 'absolute', bottom: 10, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e6 },
-  dot: { width: 7, height: 7, borderRadius: 4 },
+  dot: { width: 7, height: 7, borderRadius: radios.full },
   footer: { flex: 1, paddingHorizontal: espaciado.e18, paddingTop: espaciado.e14 },
   locRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, marginBottom: espaciado.e8 },
   locTxt: { fontSize: tipografia.caption, fontWeight: peso.medio },

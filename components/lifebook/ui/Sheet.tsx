@@ -28,7 +28,7 @@
 import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, useTheme, peso, radios} from '@egrouteplan/ui-kit';
 import { X } from 'lucide-react-native';
 
 /**
@@ -46,8 +46,8 @@ export const formaHoja = {
   left: 0,
   right: 0,
   bottom: 0,
-  borderTopLeftRadius: 22,
-  borderTopRightRadius: 22,
+  borderTopLeftRadius: radios.panelAncho,
+  borderTopRightRadius: radios.panelAncho,
   padding: espaciado.e18,
 } as const;
 
@@ -55,7 +55,7 @@ export const formaHoja = {
 export const formaTirador = {
   width: 40,
   height: 4,
-  borderRadius: 2,
+  borderRadius: radios.pista,
   alignSelf: 'center',
   marginBottom: espaciado.e14,
 } as const;

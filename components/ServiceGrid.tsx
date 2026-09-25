@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   chipLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   backdrop: { flex: 1, backgroundColor: 'rgba(10,15,31,0.55)', justifyContent: 'flex-end' },
-  sheet: { borderTopLeftRadius: 22, borderTopRightRadius: 22, padding: espaciado.e20, paddingBottom: espaciado.e28 },
+  sheet: { borderTopLeftRadius: radios.panelAncho, borderTopRightRadius: radios.panelAncho, padding: espaciado.e20, paddingBottom: espaciado.e28 },
   sheetTitle: { fontSize: 17, fontWeight: peso.titulo, textAlign: 'center', marginBottom: espaciado.e4 },
   sheetHint: { fontSize: tipografia.caption, textAlign: 'center', marginBottom: espaciado.e14, lineHeight: 17 },
   roleRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e10 },

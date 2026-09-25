@@ -63,7 +63,7 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
       <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={onClose} />
-      <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: insets.bottom + 16, maxHeight: '80%' }}>
+      <View style={{ backgroundColor: colors.card, borderTopLeftRadius: radios.panel, borderTopRightRadius: radios.panel, padding: espaciado.e16, paddingBottom: insets.bottom + 16, maxHeight: '80%' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e4 }}>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 }}>{titulo}</Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -112,7 +112,7 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
                     </Text>
                   </View>
                   {on ? (
-                    <View style={{ width: 26, height: 26, borderRadius: 13, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ width: 26, height: 26, borderRadius: radios.full, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' }}>
                       <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>{puesto + 1}</Text>
                     </View>
                   ) : (

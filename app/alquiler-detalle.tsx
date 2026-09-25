@@ -607,8 +607,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   poiRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: trazo.fino, gap: espaciado.e12 },
   poiName: { fontSize: tipografia.body, flex: 1 },
   dotsContainer: { position: 'absolute', bottom: 12, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e6 },
-  dot: { width: 7, height: 7, borderRadius: 4 },
-  iconButton: { width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(16,24,40,0.45)', justifyContent: 'center', alignItems: 'center' },
-  errIcon: { width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
+  dot: { width: 7, height: 7, borderRadius: radios.full },
+  iconButton: { width: 36, height: 36, borderRadius: radios.full, backgroundColor: 'rgba(16,24,40,0.45)', justifyContent: 'center', alignItems: 'center' },
+  errIcon: { width: 60, height: 60, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
   bottomBar: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, borderTopWidth: trazo.fino, gap: espaciado.e10 },
 });

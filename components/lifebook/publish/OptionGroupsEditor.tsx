@@ -365,11 +365,11 @@ const styles = StyleSheet.create({
   colorFoto: { width: 62, height: 62, borderRadius: radios.md, borderWidth: trazo.fuerte, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   colorImg: { width: '100%', height: '100%' },
   addBtn: { width: 40, height: 40, borderRadius: 10, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
-  delBtn: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
+  delBtn: { width: 30, height: 30, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   combo: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e7 },
   comboInput: { width: 78 },
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', justifyContent: 'flex-end' },
-  sheet: { borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: espaciado.e26 },
+  sheet: { borderTopLeftRadius: radios.full, borderTopRightRadius: radios.full, padding: espaciado.e16, paddingBottom: espaciado.e26 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
   gridItem: { width: 96, height: 96, borderRadius: radios.md, borderWidth: trazo.fino, overflow: 'hidden' },
 });

@@ -324,19 +324,19 @@ function MenuSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['colors'
   return (
     <View>
       <View style={{ marginBottom: espaciado.e16, gap: espaciado.e7 }}>
-        <View style={{ height: 18, borderRadius: 4, backgroundColor: colors.border, width: '55%' }} />
-        <View style={{ height: 11, borderRadius: 4, backgroundColor: colors.border, width: '38%' }} />
-        <View style={{ height: 11, borderRadius: 4, backgroundColor: colors.border, width: '48%' }} />
+        <View style={{ height: 18, borderRadius: radios.punta, backgroundColor: colors.border, width: '55%' }} />
+        <View style={{ height: 11, borderRadius: radios.punta, backgroundColor: colors.border, width: '38%' }} />
+        <View style={{ height: 11, borderRadius: radios.punta, backgroundColor: colors.border, width: '48%' }} />
       </View>
-      <View style={{ height: 13, borderRadius: 4, backgroundColor: colors.border, width: 90, marginBottom: espaciado.e10 }} />
+      <View style={{ height: 13, borderRadius: radios.punta, backgroundColor: colors.border, width: 90, marginBottom: espaciado.e10 }} />
       {[0, 1, 2].map((i) => (
         <View key={i} style={[s_sk.row, { backgroundColor: colors.surface, borderColor: colors.border }]}>
           <View style={{ width: 52, height: 52, borderRadius: 10, backgroundColor: colors.border }} />
           <View style={{ flex: 1, marginLeft: espaciado.e10, gap: espaciado.e6 }}>
-            <View style={{ height: 11, borderRadius: 4, backgroundColor: colors.border, width: '70%' }} />
-            <View style={{ height: 10, borderRadius: 4, backgroundColor: colors.border, width: '45%' }} />
+            <View style={{ height: 11, borderRadius: radios.punta, backgroundColor: colors.border, width: '70%' }} />
+            <View style={{ height: 10, borderRadius: radios.punta, backgroundColor: colors.border, width: '45%' }} />
           </View>
-          <View style={{ width: 30, height: 30, borderRadius: 9, backgroundColor: colors.border }} />
+          <View style={{ width: 30, height: 30, borderRadius: radios.hermano, backgroundColor: colors.border }} />
         </View>
       ))}
     </View>
@@ -348,7 +348,7 @@ const s_h = StyleSheet.create({
   sub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e5, flexWrap: 'wrap' },
   badge: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: 10, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
-  dot: { width: 6, height: 6, borderRadius: 3 },
+  dot: { width: 6, height: 6, borderRadius: radios.punta },
 });
 
 const s_row = StyleSheet.create({
@@ -363,7 +363,7 @@ const s_row = StyleSheet.create({
   price: { fontSize: tipografia.body, fontWeight: peso.titulo, color: ACCENT, marginTop: espaciado.e2 },
   addBtn: { backgroundColor: ACCENT, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 10 },
   stepper: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
-  stepBtn: { width: 30, height: 30, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+  stepBtn: { width: 30, height: 30, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
   qty: { fontSize: tipografia.body, fontWeight: peso.maximo, minWidth: 18, textAlign: 'center' },
   // ── Detalle del plato (041) ──
   // Nota: `card` usa alignItems:'center' a propósito. Con detalles la tarjeta
@@ -384,7 +384,7 @@ const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 48, paddingHorizontal: espaciado.e28 },
   title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
-  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
+  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({

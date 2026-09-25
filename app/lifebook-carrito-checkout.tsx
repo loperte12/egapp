@@ -649,6 +649,6 @@ const styles = StyleSheet.create({
   input: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
   pie: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   cta: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e12, alignItems: 'center', justifyContent: 'center' },
-  okIcono: { width: 62, height: 62, borderRadius: 31, alignItems: 'center', justifyContent: 'center' },
+  okIcono: { width: 62, height: 62, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   aviso: { borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e12 },
 });

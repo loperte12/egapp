@@ -1046,7 +1046,7 @@ function ChatThreadContent() {
                   accessibilityLabel={`Ver en el mapa la ubicación de ${l.fullName ?? 'alguien'}`}
                   style={[styles.liveChip, { backgroundColor: colors.card }]}
                 >
-                  <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: colors.secondary }} />
+                  <View style={{ width: 8, height: 8, borderRadius: radios.full, backgroundColor: colors.secondary }} />
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }} numberOfLines={1}>
                     {l.mine ? 'Tú' : (l.fullName ?? 'Alguien')} · {l.ageSec < 60 ? `${l.ageSec} s` : `${Math.round(l.ageSec / 60)} min`} · {l.minutesLeft} min
                   </Text>
@@ -1200,7 +1200,7 @@ function ChatThreadContent() {
       {/* ═══════ TANDA D: elegir el producto que se manda como tarjeta ═══════ */}
       <Modal visible={prodPickOpen} transparent animationType="slide" onRequestClose={() => setProdPickOpen(false)} statusBarTranslucent>
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={() => setProdPickOpen(false)} />
-        <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: insets.bottom + 16, maxHeight: '80%' }}>
+        <View style={{ backgroundColor: colors.card, borderTopLeftRadius: radios.panel, borderTopRightRadius: radios.panel, padding: espaciado.e16, paddingBottom: insets.bottom + 16, maxHeight: '80%' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e4 }}>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 }}>
               Mandar un producto
@@ -1463,7 +1463,7 @@ function ChatThreadContent() {
           <Pressable
             onPress={() => setViewerUrl(null)}
             accessibilityLabel="Cerrar foto"
-            style={{ position: 'absolute', top: insets.top + 10, right: 16, width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(255,255,255,0.16)', alignItems: 'center', justifyContent: 'center' }}
+            style={{ position: 'absolute', top: insets.top + 10, right: 16, width: 36, height: 36, borderRadius: radios.full, backgroundColor: 'rgba(255,255,255,0.16)', alignItems: 'center', justifyContent: 'center' }}
           >
             <X size={20} color={brand.white} />
           </Pressable>
@@ -1985,8 +1985,8 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
       style={[
         styles.bubble,
         mine
-          ? { backgroundColor: colors.primary, borderBottomRightRadius: 4 }
-          : { backgroundColor: colors.surface, borderBottomLeftRadius: 4 },
+          ? { backgroundColor: colors.primary, borderBottomRightRadius: radios.punta }
+          : { backgroundColor: colors.surface, borderBottomLeftRadius: radios.punta },
       ]}
     >
       <Text style={{ color: mine ? brand.white : colors.textPrimary, fontSize: tipografia.body, lineHeight: 19 }}>{msg.text}</Text>
@@ -2005,12 +2005,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e12, paddingTop: espaciado.e8,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
-  input: { flex: 1, borderRadius: 18, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e8, paddingBottom: espaciado.e8, fontSize: tipografia.body, maxHeight: 100 },
-  iconBtn: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
+  input: { flex: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e8, paddingBottom: espaciado.e8, fontSize: tipografia.body, maxHeight: 100 },
+  iconBtn: { width: 34, height: 34, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   bubble: { borderRadius: radios.lg, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
-  bgAccent: { position: 'absolute', right: -60, top: -40, width: 200, height: 200, borderRadius: 100, opacity: 0.22 },
-  headAvatar: { width: 34, height: 34, borderRadius: 17 },
-  msgAvatar: { width: 26, height: 26, borderRadius: 13 },
+  bgAccent: { position: 'absolute', right: -60, top: -40, width: 200, height: 200, borderRadius: radios.full, opacity: 0.22 },
+  headAvatar: { width: 34, height: 34, borderRadius: radios.full },
+  msgAvatar: { width: 26, height: 26, borderRadius: radios.full },
   imgBubble: { width: 200, height: 200, borderRadius: 14, backgroundColor: 'rgba(128,128,128,0.15)' },
   cardBubble: { borderRadius: 14, padding: espaciado.e10, flexDirection: 'row', alignItems: 'center', flexShrink: 1 },
   postCover: { width: '100%', height: 120, borderRadius: radios.sm },

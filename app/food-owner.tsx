@@ -898,14 +898,14 @@ function OwnerSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['colors
 }
 
 const s_row = StyleSheet.create({
-  iconBtn: { width: 30, height: 30, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+  iconBtn: { width: 30, height: 30, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
 });
 
 const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: espaciado.e28 },
   title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
-  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
+  btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
@@ -929,5 +929,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   chip: { borderWidth: trazo.fino, borderRadius: radios.lg, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
   switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },
   switchTrack: { width: 42, height: 24, borderRadius: radios.md, padding: espaciado.e3, justifyContent: 'center' },
-  switchKnob: { width: 18, height: 18, borderRadius: 9, backgroundColor: brand.white },
+  switchKnob: { width: 18, height: 18, borderRadius: radios.full, backgroundColor: brand.white },
 });

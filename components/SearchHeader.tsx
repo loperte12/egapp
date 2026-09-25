@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: espaciado.e10,
     borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 18,
+    borderRadius: radios.full,
     paddingHorizontal: espaciado.e12,
     paddingVertical: espaciado.e8,
     ...elevation.sm,

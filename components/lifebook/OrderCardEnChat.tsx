@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   cabecera: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 },
   pill: { borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3, maxWidth: 120 },
   linea: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8, alignItems: 'center' },
-  foto: { width: 46, height: 46, borderRadius: 9 },
+  foto: { width: 46, height: 46, borderRadius: radios.hermano },
   total: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8,
     marginTop: espaciado.e9, paddingTop: espaciado.e7, borderTopWidth: StyleSheet.hairlineWidth,

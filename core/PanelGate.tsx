@@ -37,7 +37,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Lock } from 'lucide-react-native';
-import { alpha, espaciado, PrimaryButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, PrimaryButton, tipografia, useTheme, peso, radios} from '@egrouteplan/ui-kit';
 import { biometricAvailable, biometricVerify } from './biometric';
 import { useSession } from '../state/session';
 
@@ -152,5 +152,5 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
 
 const styles = StyleSheet.create({
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
-  candado: { width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center' },
+  candado: { width: 60, height: 60, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
 });

@@ -174,8 +174,8 @@ export default function WorkScreen() {
       {/* Modal de filtros (safe-area inferior) */}
       <Modal visible={filterVisible} transparent animationType="slide" onRequestClose={() => setFilterVisible(false)}>
         <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-          <View style={{ backgroundColor: colors.background, borderTopLeftRadius: 24, borderTopRightRadius: 24, maxHeight: '92%', paddingBottom: insets.bottom + 12 }}>
-            <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: colors.border, alignSelf: 'center', marginTop: espaciado.e8, marginBottom: espaciado.e12 }} />
+          <View style={{ backgroundColor: colors.background, borderTopLeftRadius: radios.marco, borderTopRightRadius: radios.marco, maxHeight: '92%', paddingBottom: insets.bottom + 12 }}>
+            <View style={{ width: 40, height: 4, borderRadius: radios.pista, backgroundColor: colors.border, alignSelf: 'center', marginTop: espaciado.e8, marginBottom: espaciado.e12 }} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e12, borderBottomWidth: trazo.fino, borderBottomColor: colors.border }}>
               <Pressable onPress={() => setFilterVisible(false)} hitSlop={10} accessibilityRole="button" accessibilityLabel="Cerrar filtros"><X size={22} color={colors.textPrimary} /></Pressable>
               <Text style={{ fontSize: 17, fontWeight: peso.fuerte, color: colors.textPrimary }}>Filtros avanzados</Text>
@@ -254,7 +254,7 @@ const s_chip = StyleSheet.create({
 const styles = StyleSheet.create({
   root: { flex: 1 },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8 },
-  filterFab: { position: 'absolute', right: 16, width: 50, height: 50, borderRadius: 25, alignItems: 'center', justifyContent: 'center', elevation: 6 },
-  filterBadge: { position: 'absolute', top: -4, right: -4, minWidth: 18, height: 18, borderRadius: 9, backgroundColor: brand.danger, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e4 },
-  retryBtn: { marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
+  filterFab: { position: 'absolute', right: 16, width: 50, height: 50, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', elevation: 6 },
+  filterBadge: { position: 'absolute', top: -4, right: -4, minWidth: 18, height: 18, borderRadius: radios.hermano, backgroundColor: brand.danger, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e4 },
+  retryBtn: { marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
 });

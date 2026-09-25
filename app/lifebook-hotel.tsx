@@ -500,7 +500,7 @@ const styles = StyleSheet.create({
   aviso: { fontSize: tipografia.caption },
   error: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
   errorTxt: { fontSize: tipografia.body, fontWeight: peso.medio },
-  tarjeta: { borderWidth: trazo.fino, borderRadius: 18, padding: espaciado.e12 },
+  tarjeta: { borderWidth: trazo.fino, borderRadius: radios.panel, padding: espaciado.e12 },
   tarjetaCab: { flexDirection: 'row', gap: espaciado.e10 },
   tarjetaTitulo: { fontSize: 15.5, fontWeight: peso.maximo },
   tarjetaSub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },

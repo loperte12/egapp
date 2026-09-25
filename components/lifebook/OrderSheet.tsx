@@ -60,7 +60,7 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
       <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'flex-end' }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <Pressable style={{ ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={onClose} />
 
-        <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 26, borderTopRightRadius: 26, paddingBottom: insets.bottom + 14 }}>
+        <View style={{ backgroundColor: colors.card, borderTopLeftRadius: radios.hoja, borderTopRightRadius: radios.hoja, paddingBottom: insets.bottom + 14 }}>
           <View style={{ height: 4, width: 44, borderRadius: radios.full, backgroundColor: alpha(colors.textPrimary, 0.14), alignSelf: 'center', marginTop: espaciado.e10 }} />
 
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 }}>

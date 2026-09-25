@@ -215,7 +215,7 @@ function SearchSpin({ color }: { color: string }) {
         <View style={{ position: 'absolute', left: S / 2, top: S / 2 - 1, width: S / 2, height: 2, backgroundColor: color, opacity: 0.85 }} />
       </Animated.View>
       {/* PIN central (la zona de búsqueda) */}
-      <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: color, alignItems: 'center', justifyContent: 'center', elevation: 4 }}>
+      <View style={{ width: 34, height: 34, borderRadius: radios.full, backgroundColor: color, alignItems: 'center', justifyContent: 'center', elevation: 4 }}>
         <MapPin size={17} color={brand.white} strokeWidth={2.6} />
       </View>
     </View>
@@ -1858,8 +1858,8 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
 
 const pps = StyleSheet.create({
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
-  card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: 24, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e6 },
-  iconCircle: { width: 54, height: 54, borderRadius: 27, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e2 },
+  card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: radios.marco, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e6 },
+  iconCircle: { width: 54, height: 54, borderRadius: radios.full, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e2 },
   title: { color: '#111827', fontSize: 19, fontWeight: peso.titulo, textAlign: 'center' },
   sub: { color: '#6B7280', fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' },
   boxRow: { flexDirection: 'row', gap: espaciado.e12, marginVertical: espaciado.e12 },
@@ -1912,8 +1912,8 @@ function CashFlowModal({ visible, amount, busy, onYes, onNo, onClose }: {
 
 const cfm = StyleSheet.create({
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
-  card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: 24, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e8 },
-  iconCircle: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e4 },
+  card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: radios.marco, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e8 },
+  iconCircle: { width: 60, height: 60, borderRadius: radios.full, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e4 },
   title: { color: '#111827', fontSize: tipografia.title, fontWeight: peso.titulo, textAlign: 'center' },
   sub: { color: '#6B7280', fontSize: tipografia.body, fontWeight: peso.medio, textAlign: 'center' },
   amount: { color: '#111827', fontSize: 34, fontWeight: peso.titulo, marginVertical: espaciado.e6 },
@@ -1933,7 +1933,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     mapArea: { flex: 1, position: 'relative' },
     overlayWrap: { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, justifyContent: 'flex-end', padding: espaciado.e12 },
     bottomCard: {
-      width: '100%', maxHeight: '36%', borderRadius: 24, borderWidth: trazo.fino,
+      width: '100%', maxHeight: '36%', borderRadius: radios.marco, borderWidth: trazo.fino,
       padding: espaciado.e14, gap: espaciado.e10,
       ...elevation.lg,
     },
@@ -1945,7 +1945,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     },
     statusRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, width: '100%' },
     statusDot: { width: 12, height: 12, borderRadius: 6 },
-    goOnlineBtn: { width: '100%', backgroundColor: brand.success, borderRadius: 18, paddingVertical: 15, alignItems: 'center', elevation: 4 },
+    goOnlineBtn: { width: '100%', backgroundColor: brand.success, borderRadius: radios.full, paddingVertical: 15, alignItems: 'center', elevation: 4 },
     goOnlineText: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo, letterSpacing: 0.2 },
     followBtn: { position: 'absolute', top: 8, right: 10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, elevation: 4 },
     navRow: { flexDirection: 'row', alignItems: 'baseline', gap: espaciado.e6, marginTop: espaciado.e2 },
@@ -1953,8 +1953,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     panel: { flex: 1, margin: espaciado.e12, borderRadius: 20, borderWidth: trazo.fino, padding: espaciado.e16, gap: espaciado.e10, alignItems: 'center', justifyContent: 'center' },
     waitText: { fontSize: tipografia.body, fontWeight: peso.medio, marginTop: espaciado.e8 },
     countRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, width: '100%' },
-    countTrack: { flex: 1, height: 6, borderRadius: 3, backgroundColor: c.border, overflow: 'hidden' },
-    countFill: { height: 6, backgroundColor: brand.secondary, borderRadius: 3 },
+    countTrack: { flex: 1, height: 6, borderRadius: radios.punta, backgroundColor: c.border, overflow: 'hidden' },
+    countFill: { height: 6, backgroundColor: brand.secondary, borderRadius: radios.punta },
     netLabel: { fontSize: tipografia.micro, fontWeight: peso.fuerte, letterSpacing: 0.4 },
     netAmount: { fontSize: tipografia.display, fontWeight: peso.titulo },
     routeInfo: { width: '100%', gap: espaciado.e4, marginTop: espaciado.e4 },
@@ -1962,15 +1962,15 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     meta: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e4 },
     priceRow: { flexDirection: 'row', gap: espaciado.e10, width: '100%' },
     priceChip: { flex: 1, borderRadius: 14, borderWidth: trazo.base, padding: espaciado.e10, alignItems: 'center', gap: espaciado.e2 },
-    acceptBtn: { width: '100%', backgroundColor: brand.success, borderRadius: 18, paddingVertical: 15, alignItems: 'center', gap: espaciado.e2, elevation: 4 },
+    acceptBtn: { width: '100%', backgroundColor: brand.success, borderRadius: radios.panel, paddingVertical: 15, alignItems: 'center', gap: espaciado.e2, elevation: 4 },
     acceptText: { color: brand.white, fontSize: 17, fontWeight: peso.titulo },
     bigAccept: { width: '100%', borderRadius: radios.lg, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e14, alignItems: 'center', gap: espaciado.e2, elevation: 3 },
     bigAcceptTop: { color: brand.white, fontSize: 17, fontWeight: peso.titulo },
     bigAcceptSub: { color: 'rgba(255,255,255,0.9)', fontSize: tipografia.caption, fontWeight: peso.medio },
     headerState: { fontSize: tipografia.subtitle, fontWeight: peso.maximo },
     passenger: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, width: '100%' },
-    avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: brand.primary, alignItems: 'center', justifyContent: 'center' },
-    roundBtn: { width: 46, height: 46, borderRadius: 23, alignItems: 'center', justifyContent: 'center' },
+    avatar: { width: 46, height: 46, borderRadius: radios.full, backgroundColor: brand.primary, alignItems: 'center', justifyContent: 'center' },
+    roundBtn: { width: 46, height: 46, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
     goBtn: { width: '100%', backgroundColor: brand.primary, borderRadius: radios.lg, paddingVertical: espaciado.e13, alignItems: 'center' },
     goText: { color: brand.white, fontSize: 15, fontWeight: peso.maximo },
     endBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, width: '100%', backgroundColor: brand.danger, borderRadius: radios.lg, paddingVertical: espaciado.e14 },
@@ -1979,15 +1979,15 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     // ── Vista de conducción ──
     dvState: { paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e4, marginTop: espaciado.e2 },
     dvStateText: { fontSize: tipografia.caption, fontWeight: peso.maximo, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full, borderWidth: trazo.fino, overflow: 'hidden' },
-    dvLane: { position: 'absolute', top: 92, left: 12, width: 74, height: 74, borderRadius: 37, alignItems: 'center', justifyContent: 'center', ...elevation.lg },
+    dvLane: { position: 'absolute', top: 92, left: 12, width: 74, height: 74, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', ...elevation.lg },
     dvLanes: { position: 'absolute', top: 212, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6 },
-    dvLaneChip: { width: 36, height: 36, borderRadius: 9, alignItems: 'center', justifyContent: 'center', elevation: 4 },
+    dvLaneChip: { width: 36, height: 36, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center', elevation: 4 },
     dvLaneGlyph2: { color: brand.white, fontSize: 19, fontWeight: peso.titulo },
     dvLaneDist2: { fontSize: tipografia.caption, fontWeight: peso.maximo, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.sm, borderWidth: trazo.fino, color: brand.white, backgroundColor: 'rgba(10,16,28,0.7)', borderColor: 'transparent' },
     dvLaneGlyph: { color: brand.white, fontSize: 34, fontWeight: peso.titulo },
     dvLaneDist: { color: brand.white, fontSize: 10.5, fontWeight: peso.titulo, marginTop: -4 },
     dvMvCard: { position: 'absolute', top: 150, alignSelf: 'center', maxWidth: '82%', flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.full, backgroundColor: 'rgba(10,16,28,0.80)', paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, ...elevation.lg },
-    dvMvGlyphBox: { width: 42, height: 42, borderRadius: 21, backgroundColor: 'rgba(255,255,255,0.16)', alignItems: 'center', justifyContent: 'center' },
+    dvMvGlyphBox: { width: 42, height: 42, borderRadius: radios.full, backgroundColor: 'rgba(255,255,255,0.16)', alignItems: 'center', justifyContent: 'center' },
     dvMvGlyphBig: { fontSize: 24, fontWeight: peso.titulo },
     dvMvGlyphSmall: { fontSize: 15 },
     dvMvDist: { fontSize: 21, fontWeight: peso.titulo, color: brand.white },
@@ -1996,8 +1996,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     dvMvNextText: { fontSize: 10.5, fontWeight: peso.medio, color: 'rgba(255,255,255,0.8)' },
     dvCtrls: { position: 'absolute', top: 8, right: 10, gap: espaciado.e8 },
     dvDbg: { position: 'absolute', top: 210, right: 10, borderRadius: radios.sm, borderWidth: trazo.fino, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
-    dvBtn: { width: 42, height: 42, borderRadius: 21, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', elevation: 4 },
-    dvSpeed: { position: 'absolute', bottom: 104, left: 14, width: 74, height: 74, borderRadius: 37, borderWidth: trazo.fuerte, alignItems: 'center', justifyContent: 'center', elevation: 5 },
+    dvBtn: { width: 42, height: 42, borderRadius: radios.full, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', elevation: 4 },
+    dvSpeed: { position: 'absolute', bottom: 104, left: 14, width: 74, height: 74, borderRadius: radios.full, borderWidth: trazo.fuerte, alignItems: 'center', justifyContent: 'center', elevation: 5 },
     dvSpeedNum: { fontSize: 21, fontWeight: peso.titulo },
     dvSpeedUnit: { fontSize: 9, fontWeight: peso.fuerte },
     dvEta: { position: 'absolute', bottom: 96, right: 14, borderRadius: 14, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, elevation: 5 },
@@ -2016,12 +2016,12 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
       position: 'absolute', bottom: 172, right: 14, left: 118, borderRadius: radios.md, borderWidth: trazo.fino,
       padding: espaciado.e8, gap: espaciado.e5, elevation: 5,
     },
-    dvCancel: { width: 48, height: 48, borderRadius: 24, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', elevation: 5 },
+    dvCancel: { width: 48, height: 48, borderRadius: radios.full, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', elevation: 5 },
     dvMain: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: 20, paddingVertical: espaciado.e13, elevation: 6 },
     dvMainText: { color: brand.white, fontSize: 14.5, fontWeight: peso.titulo },
     // P1: botón de perfil TRANSPARENTE abajo-derecha sobre el mapa (Home sheet)
     homeFab: {
-      position: 'absolute', right: 14, width: 48, height: 48, borderRadius: 24,
+      position: 'absolute', right: 14, width: 48, height: 48, borderRadius: radios.full,
       borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center',
       ...elevation.md,
     },
@@ -2032,7 +2032,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     // ── Espera: radar de búsqueda DENTRO del mapa (transparente) ──
     waitRadarWrap: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', paddingBottom: 60 },
     waitRadarCard: {
-      alignItems: 'center', borderRadius: 22, borderWidth: trazo.fino, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e14,
+      alignItems: 'center', borderRadius: radios.panelAncho, borderWidth: trazo.fino, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e14,
       backgroundColor: 'rgba(15,20,28,0.45)',
     },
     restPill: {
@@ -2044,7 +2044,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
       position: 'absolute', bottom: 96, right: 14, left: 118, borderRadius: 14, borderWidth: trazo.fino,
       paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, elevation: 5,
     },
-    contactBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', elevation: 3 },
+    contactBtn: { width: 36, height: 36, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', elevation: 3 },
   });
 
 // ── P2 DiDi: estilos de la tarjeta de SOLICITUD OSCURA (paleta fija, no sigue
@@ -2052,7 +2052,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
 const PK = StyleSheet.create({
   countTxt: { color: 'rgba(255,255,255,0.85)', fontWeight: peso.fuerte, fontSize: 15 },
   paxRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e11, width: '100%' },
-  avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: brand.primary, alignItems: 'center', justifyContent: 'center' },
+  avatar: { width: 46, height: 46, borderRadius: radios.full, backgroundColor: brand.primary, alignItems: 'center', justifyContent: 'center' },
   avatarTxt: { color: brand.white, fontSize: tipografia.title, fontWeight: peso.titulo },
   name: { color: brand.white, fontSize: 19, fontWeight: peso.titulo, flexShrink: 1 },
   badgeGreen: {
@@ -2066,5 +2066,5 @@ const PK = StyleSheet.create({
   },
   badgeGrayTxt: { color: 'rgba(255,255,255,0.6)', fontSize: 10.5, fontWeight: peso.fuerte },
   metaTxt: { color: 'rgba(255,255,255,0.66)', fontSize: tipografia.caption, fontWeight: peso.medio },
-  vLine: { width: 2, height: 16, backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: 1, marginVertical: 1 },
+  vLine: { width: 2, height: 16, backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: radios.pista, marginVertical: 1 },
 });

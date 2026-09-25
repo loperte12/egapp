@@ -352,7 +352,7 @@ function Leyenda({ color, texto, colors }: { color: string; texto: string; color
 }
 
 const styles = StyleSheet.create({
-  wrap: { borderWidth: trazo.fino, borderRadius: 18, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e10 },
+  wrap: { borderWidth: trazo.fino, borderRadius: radios.panel, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e10 },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e4 },
   headMid: { flex: 1, alignItems: 'center' },
   nav: { width: 38, height: 38, borderRadius: radios.md, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
   min: { fontSize: 8.5, marginTop: 0 },
   leyenda: { gap: espaciado.e12, paddingVertical: espaciado.e8, paddingHorizontal: espaciado.e2, alignItems: 'center' },
   leyendaItem: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 },
-  punto: { width: 9, height: 9, borderRadius: 5 },
+  punto: { width: 9, height: 9, borderRadius: radios.marca },
   leyendaTxt: { fontSize: 10.5 },
   resumen: { borderTopWidth: trazo.fino, paddingTop: espaciado.e10, paddingHorizontal: espaciado.e4, gap: espaciado.e2 },
   resumenTxt: { fontSize: tipografia.body, fontWeight: peso.fuerte },

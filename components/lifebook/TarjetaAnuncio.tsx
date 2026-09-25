@@ -87,9 +87,9 @@ export function TarjetaAnuncio({ ad, tint, colors }: { ad: HomeAd; tint: string;
         }}
       >
         {imagen ? (
-          <Image source={{ uri: imagen }} style={{ width: 46, height: 46, borderRadius: 9, backgroundColor: alpha(colors.textPrimary, 0.08) }} />
+          <Image source={{ uri: imagen }} style={{ width: 46, height: 46, borderRadius: radios.hermano, backgroundColor: alpha(colors.textPrimary, 0.08) }} />
         ) : (
-          <View style={{ width: 46, height: 46, borderRadius: 9, backgroundColor: alpha(colors.textPrimary, 0.06), alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ width: 46, height: 46, borderRadius: radios.hermano, backgroundColor: alpha(colors.textPrimary, 0.06), alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ fontSize: tipografia.title }}>{ad.emoji ?? '📣'}</Text>
           </View>
         )}

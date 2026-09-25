@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     marginTop: espaciado.e4,
   },
   chipCompact: { paddingHorizontal: espaciado.e8, paddingVertical: 2.5, marginTop: espaciado.e2 },
-  dot: { width: 7, height: 7, borderRadius: 4 },
+  dot: { width: 7, height: 7, borderRadius: radios.full },
   emoji: { fontSize: tipografia.body },
   emojiCompact: { fontSize: 10 },
   text: { fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 180 },

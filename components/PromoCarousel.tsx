@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 18,
+    borderRadius: radios.panel,
     borderWidth: trazo.fino,
     padding: espaciado.e14,
     minHeight: 92,
@@ -167,5 +167,5 @@ const styles = StyleSheet.create({
   },
   ctaText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.maximo },
   dots: { flexDirection: 'row', justifyContent: 'center', gap: espaciado.e5, marginTop: espaciado.e12 },
-  dot: { height: 6, width: 6, borderRadius: 3 },
+  dot: { height: 6, width: 6, borderRadius: radios.punta },
 });
