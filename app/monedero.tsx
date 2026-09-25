@@ -70,7 +70,7 @@ export function TxStatusChip({ status }: { status: string }) {
 }
 const chipStyles = StyleSheet.create({
   chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
-  txt: { fontSize: 10, fontWeight: peso.titulo },
+  txt: { fontSize: tipografia.nota, fontWeight: peso.titulo },
 });
 
 function MonederoContent() {
@@ -128,7 +128,7 @@ function MonederoContent() {
               <Wallet size={16} color={colors.primary} />
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>Saldo disponible</Text>
             </View>
-            <Text style={{ color: colors.textPrimary, fontSize: 34, fontWeight: peso.titulo, marginTop: espaciado.e6 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.heroGrande, fontWeight: peso.titulo, marginTop: espaciado.e6 }}>
               {fmtXaf(Number(balance?.balanceAvailable ?? 0))}
             </Text>
             {Number(balance?.balanceEscrow ?? 0) > 0 && (
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
   retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
   card: { borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e16 },
   action: { flex: 1, borderRadius: radios.panel, paddingVertical: espaciado.e16, alignItems: 'center', gap: espaciado.e4 },
-  actionTxt: { color: brand.white, fontSize: 14.5, fontWeight: peso.titulo },
+  actionTxt: { color: brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo },
   actionHint: { color: 'rgba(255,255,255,0.75)', fontSize: 10.5, fontWeight: peso.medio },
   rowItem: {
     flexDirection: 'row', alignItems: 'center', borderRadius: 14, borderWidth: trazo.fino,

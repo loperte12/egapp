@@ -113,7 +113,7 @@ function Contenido() {
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
               Enseña este código al agente junto con el efectivo:
             </Text>
-            <Text style={{ color: colors.primary, fontSize: 40, fontWeight: peso.titulo, letterSpacing: 10, textAlign: 'center', marginVertical: espaciado.e14 }}>
+            <Text style={{ color: colors.primary, fontSize: tipografia.emoji, fontWeight: peso.titulo, letterSpacing: 10, textAlign: 'center', marginVertical: espaciado.e14 }}>
               {otp}
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', lineHeight: 17 }}>

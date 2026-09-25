@@ -96,7 +96,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
         </View>
 
         <View style={[styles.placeRow, { backgroundColor: alpha(colors.primary, 0.08), borderColor: alpha(colors.primary, 0.28) }]}>
-          <Text style={{ fontSize: 18 }}>📍</Text>
+          <Text style={{ fontSize: tipografia.cabecera }}>📍</Text>
           <View style={{ flex: 1 }}>
             <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>
               {place?.label ?? 'Sin lugar'}

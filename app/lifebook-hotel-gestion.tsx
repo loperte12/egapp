@@ -187,7 +187,7 @@ function Contenido() {
         >
           {/* Resumen: lo primero, cuánto hay y cuánto está listo. */}
           <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.ancho, fontWeight: peso.titulo }}>
               {rooms.length} tipo(s) de habitación
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 18 }}>

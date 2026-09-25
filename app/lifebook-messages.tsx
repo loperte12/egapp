@@ -180,7 +180,7 @@ function MessagesContent() {
               backgroundColor: colors.surface,
               alignItems: 'center', justifyContent: 'center',
             }}>
-              <Text style={{ color: colors.primary, fontSize: 19, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.primary, fontSize: tipografia.cifra, fontWeight: peso.titulo }}>
                 {(yo?.fullName?.trim()?.charAt(0) ?? '?').toUpperCase()}
               </Text>
             </View>
@@ -374,7 +374,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
           </Text>
           {card.isGroup ? (
             <View style={[styles.groupChip, { backgroundColor: alpha(colors.primary, 0.12) }]}>
-              <Text style={{ color: colors.primary, fontSize: 10, fontWeight: peso.fuerte }}>
+              <Text style={{ color: colors.primary, fontSize: tipografia.nota, fontWeight: peso.fuerte }}>
                 👥 {card.memberCount ?? 0}
               </Text>
             </View>
@@ -404,7 +404,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
 
       {isUnread ? (
         <View style={styles.unreadBadge}>
-          <Text style={{ color: brand.white, fontSize: 10, fontWeight: peso.maximo }}>
+          <Text style={{ color: brand.white, fontSize: tipografia.nota, fontWeight: peso.maximo }}>
             {card.unreadCount > 99 ? '99+' : card.unreadCount}
           </Text>
         </View>

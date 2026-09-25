@@ -175,7 +175,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
                       {v.imageUrl ? (
                         <Image source={absUrl(v.imageUrl)} style={styles.colorImg} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                       ) : (
-                        <Text style={{ color: colors.danger, fontSize: 9.5, fontWeight: peso.maximo, textAlign: 'center' }}>FALTA{'\n'}FOTO</Text>
+                        <Text style={{ color: colors.danger, fontSize: tipografia.minimo, fontWeight: peso.maximo, textAlign: 'center' }}>FALTA{'\n'}FOTO</Text>
                       )}
                     </Pressable>
                     <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.micro, fontWeight: peso.fuerte, maxWidth: 62, textAlign: 'center' }}>{v.value}</Text>

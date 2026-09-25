@@ -531,10 +531,10 @@ function UserContent() {
                 const Icon = s.Icon;
                 return (
                   <View key={s.l} style={[styles.stat, i > 0 && { borderLeftWidth: StyleSheet.hairlineWidth, borderLeftColor: colors.border }]}>
-                    <Text style={{ color: colors.textPrimary, fontSize: 16.5, fontWeight: peso.titulo }}>{s.n}</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.anchoFuerte, fontWeight: peso.titulo }}>{s.n}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: 1 }}>
                       <Icon size={10.5} color={colors.textSecondary} />
-                      <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 9.5, fontWeight: peso.fuerte }}>{s.l}</Text>
+                      <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.minimo, fontWeight: peso.fuerte }}>{s.l}</Text>
                     </View>
                   </View>
                 );
@@ -627,7 +627,7 @@ function UserContent() {
                 <>
                   <Pressable onPress={() => router.push('/edit-profile')} style={[styles.mainBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                     <PenSquare size={16} color={colors.textPrimary} />
-                    <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.titulo }}>Editar perfil</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.titulo }}>Editar perfil</Text>
                   </Pressable>
                   <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 }}>
                     <Pressable onPress={() => irSeguro.libre('/lifebook-orders')} style={[styles.mainBtn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border }]}>
@@ -657,7 +657,7 @@ function UserContent() {
                     {busyFollow ? <ActivityIndicator size="small" color={rel.isFollowing ? colors.textPrimary : brand.white} /> : (
                       <>
                         <Heart size={15} color={rel.isFollowing ? colors.textPrimary : brand.white} fill={rel.isFollowing ? 'transparent' : brand.white} />
-                        <Text style={{ color: rel.isFollowing ? colors.textPrimary : brand.white, fontSize: 14.5, fontWeight: peso.titulo }}>
+                        <Text style={{ color: rel.isFollowing ? colors.textPrimary : brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo }}>
                           {rel.isFollowing ? 'Siguiendo' : 'Seguir'}
                         </Text>
                       </>

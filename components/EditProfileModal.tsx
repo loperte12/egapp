@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   avatarEditRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14 },
   avatarLg: { width: 82, height: 82, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   avatarLgImg: { width: '100%', height: '100%' },
-  avatarLgText: { fontSize: 32, fontWeight: peso.titulo },
+  avatarLgText: { fontSize: tipografia.emojiMedio, fontWeight: peso.titulo },
   avatarHint: { fontSize: tipografia.caption, fontWeight: peso.medio },
   pickBtn: { borderRadius: 14, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e12, minHeight: 44 },
   pickBusy: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },

@@ -152,7 +152,7 @@ function Contenido() {
           refreshControl={<RefreshControl refreshing={refrescando} onRefresh={() => { setRefrescando(true); void cargar(true); }} tintColor={colors.primary} />}
         >
           <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.ancho, fontWeight: peso.titulo }}>
               {activas.length} oferta(s) activa(s){cerradas ? ` · ${cerradas} cerrada(s)` : ''}
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 18 }}>

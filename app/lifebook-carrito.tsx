@@ -291,7 +291,7 @@ function CarritoContent() {
             accessibilityLabel="Ir al mercado"
             style={[styles.ctaPagar, { backgroundColor: colors.primary, marginTop: espaciado.e16, paddingHorizontal: espaciado.e22 }]}
           >
-            <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: peso.titulo }}>Ir al mercado</Text>
+            <Text style={{ color: brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo }}>Ir al mercado</Text>
           </Pressable>
         </View>
       </View>
@@ -420,7 +420,7 @@ function CarritoContent() {
 
                       {/* Precio (rojo) con el anterior tachado si cambió */}
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
-                        <Text style={{ color: l.available ? colors.danger : colors.textSecondary, fontSize: 14.5, fontWeight: peso.titulo }}>
+                        <Text style={{ color: l.available ? colors.danger : colors.textSecondary, fontSize: tipografia.fino, fontWeight: peso.titulo }}>
                           {l.priceXaf === null ? 'A consultar' : lbXaf(l.priceXaf)}
                         </Text>
                         {referencia !== null && referencia !== undefined && l.priceXaf !== null && referencia !== l.priceXaf ? (
@@ -559,7 +559,7 @@ function CarritoContent() {
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Todo</Text>
             </Pressable>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.danger, fontSize: 18, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.danger, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>
                 Total: {lbXaf(total)}
               </Text>
               {ahorro > 0 ? (
@@ -578,7 +578,7 @@ function CarritoContent() {
               accessibilityLabel={`Pagar ${unidades} productos`}
               style={[styles.ctaPagar, { backgroundColor: sel.length ? colors.primary : alpha(colors.textSecondary, 0.3) }]}
             >
-              <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: peso.titulo }}>
+              <Text style={{ color: brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo }}>
                 Pagar({unidades})
               </Text>
             </Pressable>
@@ -590,7 +590,7 @@ function CarritoContent() {
       <Modal visible={!!varianteDe} transparent animationType="slide" onRequestClose={() => setVarianteDe(null)} statusBarTranslucent>
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={() => setVarianteDe(null)} />
         <View style={{ backgroundColor: colors.card, borderTopLeftRadius: radios.panel, borderTopRightRadius: radios.panel, padding: espaciado.e16, paddingBottom: insets.bottom + 16 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo, marginBottom: espaciado.e4 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.ancho, fontWeight: peso.titulo, marginBottom: espaciado.e4 }}>
             Opción de «{varianteDe?.title}»
           </Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e10 }}>

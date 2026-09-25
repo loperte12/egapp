@@ -106,7 +106,7 @@ function DineroContent() {
         contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e28 }}
         refreshControl={<RefreshControl refreshing={cargando} onRefresh={() => cargar(saldo.shop.id)} tintColor={colors.primary} />}
       >
-        <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo }}>{saldo.shop.name}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>{saldo.shop.name}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
           {saldo.pedidos === 1 ? '1 pedido entregado' : `${saldo.pedidos} pedidos entregados`}
         </Text>

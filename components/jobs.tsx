@@ -171,7 +171,7 @@ const s = StyleSheet.create({
   salary: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: brand.secondary },
   company: { fontSize: tipografia.body, fontWeight: peso.medio, flexShrink: 1 },
   urgentBadge: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: radios.punta, backgroundColor: brand.danger },
-  urgentText: { color: brand.white, fontSize: 8.5, fontWeight: peso.maximo, letterSpacing: 0.4 },
+  urgentText: { color: brand.white, fontSize: tipografia.sello, fontWeight: peso.maximo, letterSpacing: 0.4 },
   chip: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, borderWidth: StyleSheet.hairlineWidth },
   chipText: { fontSize: 10.5, fontWeight: peso.medio },
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e10, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },

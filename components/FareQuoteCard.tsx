@@ -81,6 +81,6 @@ const styles = StyleSheet.create({
   priceBlock: { alignItems: 'flex-end' },
   price: { fontSize: 15, fontWeight: peso.maximo },
   bandRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e2 },
-  band: { fontSize: 9.5, fontWeight: peso.medio },
+  band: { fontSize: tipografia.minimo, fontWeight: peso.medio },
   loadingText: { fontSize: tipografia.caption, fontWeight: peso.medio, marginLeft: espaciado.e8 },
 });

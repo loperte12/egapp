@@ -167,12 +167,12 @@ function VistosContent() {
               )}
               pie={
                 <View style={{ marginTop: espaciado.e4 }}>
-                  <Text style={{ color: colors.textSecondary, fontSize: 10 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.nota }}>
                     {cuandoLoVio(item.viewedAt)}
                     {item.times > 1 ? ` · ${item.times} veces` : ''}
                   </Text>
                   {!item.available ? (
-                    <Text style={{ color: colors.danger, fontSize: 10, fontWeight: peso.maximo }}>Ya no está a la venta</Text>
+                    <Text style={{ color: colors.danger, fontSize: tipografia.nota, fontWeight: peso.maximo }}>Ya no está a la venta</Text>
                   ) : null}
                 </View>
               }

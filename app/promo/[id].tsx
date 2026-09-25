@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   root: { flex: 1, paddingHorizontal: espaciado.e20 },
   back: { width: 40, height: 40, justifyContent: 'center' },
   hero: { marginTop: espaciado.e12, borderRadius: 20, borderWidth: trazo.fino, padding: espaciado.e22, alignItems: 'center' },
-  emoji: { fontSize: 46 },
+  emoji: { fontSize: tipografia.emojiGrande },
   title: { fontSize: tipografia.title, fontWeight: peso.maximo, marginTop: espaciado.e10, textAlign: 'center' },
   subtitle: { fontSize: tipografia.body, marginTop: espaciado.e6, textAlign: 'center' },
   note: { fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e18, textAlign: 'center' },

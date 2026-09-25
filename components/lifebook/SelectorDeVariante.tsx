@@ -280,13 +280,13 @@ export default function SelectorDeVariante({
                   <Image source={absUrl(v.imageUrl)} style={styles.colorImg} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                 ) : (
                   <View style={[styles.colorImg, { backgroundColor: alpha(colors.border, 0.4), alignItems: 'center', justifyContent: 'center' }]}>
-                    <Text style={{ fontSize: 9.5, color: colors.textSecondary }}>sin foto</Text>
+                    <Text style={{ fontSize: tipografia.minimo, color: colors.textSecondary }}>sin foto</Text>
                   </View>
                 )}
                 <Text numberOfLines={1} style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e4, maxWidth: 68, textAlign: 'center' }}>
                   {v.value}
                 </Text>
-                {agotadoAqui ? <Text style={{ color: colors.danger, fontSize: 9.5, fontWeight: peso.maximo }}>agotado</Text> : null}
+                {agotadoAqui ? <Text style={{ color: colors.danger, fontSize: tipografia.minimo, fontWeight: peso.maximo }}>agotado</Text> : null}
               </Pressable>
             );
           }
@@ -363,7 +363,7 @@ export default function SelectorDeVariante({
             )}
             <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8 }}>
-                <Text numberOfLines={1} style={{ color: colors.primary, fontSize: 19, fontWeight: peso.titulo, flexShrink: 1 }}>
+                <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.cifra, fontWeight: peso.titulo, flexShrink: 1 }}>
                   {precioTexto}
                 </Text>
                 {precioAntiguo ? (

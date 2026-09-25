@@ -101,11 +101,11 @@ function LikesContent() {
                   <Image source={{ uri: absUrl(item.user.avatarUrl) }} style={[styles.avatar, { backgroundColor: colors.surface }]} />
                 ) : (
                   <View style={[styles.avatar, { backgroundColor: alpha(colors.primary, 0.15), alignItems: 'center', justifyContent: 'center' }]}>
-                    <Text style={{ color: colors.primary, fontSize: 18, fontWeight: peso.titulo }}>{(item.user.fullName ?? '?').charAt(0).toUpperCase()}</Text>
+                    <Text style={{ color: colors.primary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>{(item.user.fullName ?? '?').charAt(0).toUpperCase()}</Text>
                   </View>
                 )}
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.maximo }} numberOfLines={1}>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.maximo }} numberOfLines={1}>
                     {item.user.fullName ?? 'Usuario'}
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>
@@ -150,7 +150,7 @@ function LikesContent() {
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: 16.5, fontWeight: peso.titulo, flex: 1 },
+  topTitle: { fontSize: tipografia.anchoFuerte, fontWeight: peso.titulo, flex: 1 },
   tabPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderWidth: trazo.fino },
   card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   avatar: { width: 42, height: 42, borderRadius: radios.full },

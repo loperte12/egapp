@@ -40,14 +40,14 @@ export default function StepPreview({ categories, shop }: { categories: LbCatego
           />
         ) : (
           <View style={[styles.cover, styles.coverEmpty, { backgroundColor: alpha(colors.primary, 0.08) }]}>
-            <Text style={{ fontSize: 30 }}>📦</Text>
+            <Text style={{ fontSize: tipografia.hero }}>📦</Text>
           </View>
         )}
         <View style={{ padding: espaciado.e12 }}>
-          <Text style={{ color: colors.primary, fontSize: 19, fontWeight: peso.titulo }}>
+          <Text style={{ color: colors.primary, fontSize: tipografia.cifra, fontWeight: peso.titulo }}>
             {lbPriceLabel(form.priceMode === 'on_request' ? null : Number(form.price.replace(/\D/g, '')), form.priceMode, lbXaf)}
           </Text>
-          <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.maximo, marginTop: espaciado.e4 }} numberOfLines={3}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.ancho, fontWeight: peso.maximo, marginTop: espaciado.e4 }} numberOfLines={3}>
             {form.title || '(sin título)'}
           </Text>
           {form.shortDescription ? (

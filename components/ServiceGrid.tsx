@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
   },
   label: { fontSize: tipografia.micro, fontWeight: peso.maximo, textAlign: 'center', lineHeight: 13, paddingHorizontal: espaciado.e2 },
-  comingSoon: { fontSize: 7.5, fontWeight: peso.maximo, color: '#86909C', letterSpacing: 0.2, textTransform: 'uppercase' },
+  comingSoon: { fontSize: tipografia.sello, fontWeight: peso.maximo, color: '#86909C', letterSpacing: 0.2, textTransform: 'uppercase' },
   moreBlock: {
     marginTop: espaciado.e16,
     borderRadius: radios.lg,
@@ -269,6 +269,6 @@ const styles = StyleSheet.create({
   sheetHint: { fontSize: tipografia.caption, textAlign: 'center', marginBottom: espaciado.e14, lineHeight: 17 },
   roleRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e10 },
   roleEmoji: { fontSize: tipografia.display },
-  roleLabel: { fontSize: 14.5, fontWeight: peso.maximo },
+  roleLabel: { fontSize: tipografia.fino, fontWeight: peso.maximo },
   roleHint: { fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 15 },
 });

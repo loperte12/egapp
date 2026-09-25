@@ -82,7 +82,7 @@ function EmergenciaContent() {
               {c.note ? (
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{c.note}</Text>
               ) : null}
-              <Text style={{ color: colors.danger, fontSize: 22, fontWeight: peso.titulo, marginTop: espaciado.e4 }}>{c.number}</Text>
+              <Text style={{ color: colors.danger, fontSize: tipografia.subtitulo, fontWeight: peso.titulo, marginTop: espaciado.e4 }}>{c.number}</Text>
             </View>
             <View style={{ paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e9, borderRadius: radios.full, backgroundColor: colors.danger }}>
               <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo }}>Llamar</Text>

@@ -254,7 +254,7 @@ function Contenido() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.cabecera, { paddingTop: insets.top + 8, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Volver" hitSlop={10} style={styles.volver}>
-          <Text style={{ color: colors.textPrimary, fontSize: 30, lineHeight: 32 }}>‹</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.hero, lineHeight: 32 }}>‹</Text>
         </Pressable>
         <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>
           {editando ? 'Editar habitación' : 'Nueva habitación'}
@@ -314,12 +314,12 @@ function Contenido() {
                 <Pressable
                   onPress={() => setBeds((prev) => prev.map((x, j) => (j === i ? { ...x, count: Math.max(1, x.count - 1) } : x)))}
                   style={[styles.paso, { borderColor: colors.border }]}
-                ><Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo }}>−</Text></Pressable>
+                ><Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>−</Text></Pressable>
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, minWidth: 16, textAlign: 'center' }}>{b.count}</Text>
                 <Pressable
                   onPress={() => setBeds((prev) => prev.map((x, j) => (j === i ? { ...x, count: Math.min(20, x.count + 1) } : x)))}
                   style={[styles.paso, { borderColor: colors.border }]}
-                ><Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo }}>+</Text></Pressable>
+                ><Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>+</Text></Pressable>
                 {beds.length > 1 ? (
                   <Pressable onPress={() => setBeds((prev) => prev.filter((_, j) => j !== i))} hitSlop={8} accessibilityLabel="Quitar esta línea de camas">
                     <X size={18} color={colors.textSecondary} />

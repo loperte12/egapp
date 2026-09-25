@@ -458,7 +458,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     title: { fontSize: 17, fontWeight: peso.maximo, color: c.textPrimary },
     stepsRow: { flexDirection: 'row', gap: espaciado.e5, marginTop: espaciado.e4 },
     stepDot: { width: 18, height: 4, borderRadius: radios.pista },
-    securityText: { fontSize: 10, color: c.success, fontWeight: peso.fuerte },
+    securityText: { fontSize: tipografia.nota, color: c.success, fontWeight: peso.fuerte },
 
     stepTitle: { fontSize: tipografia.title, fontWeight: peso.maximo, color: c.textPrimary, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, marginBottom: espaciado.e12 },
     card: { backgroundColor: c.card, borderRadius: radios.lg, padding: espaciado.e14, marginHorizontal: espaciado.e16, marginBottom: espaciado.e12, borderWidth: trazo.fino, borderColor: c.border, shadowColor: c.shadow, shadowOpacity: 0.05, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 1 },
@@ -497,6 +497,6 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
 
     footer: { position: 'absolute', left: 16, right: 16, bottom: 24 },
     confirmBtn: { backgroundColor: c.primary, borderRadius: radios.full, paddingVertical: 15, alignItems: 'center' },
-    confirmText: { fontSize: 16.5, fontWeight: peso.maximo, color: brand.white },
+    confirmText: { fontSize: tipografia.anchoFuerte, fontWeight: peso.maximo, color: brand.white },
     confirmSub: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
   });

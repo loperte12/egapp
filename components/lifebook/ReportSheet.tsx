@@ -79,7 +79,7 @@ export function ReportSheet({ post, onClose, onReport, onBlocked }: Props) {
             style={({ pressed }) => [styles.row, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
           >
             <ShieldAlert size={16} color={colors.textSecondary} />
-            <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.medio }}>{r.label}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.medio }}>{r.label}</Text>
           </Pressable>
         ))}
 

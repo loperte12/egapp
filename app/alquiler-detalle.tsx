@@ -135,7 +135,7 @@ function FeatureItem({ value, label }: { value: string | number; label: string }
   const { colors } = useTheme();
   return (
     <View style={styles(colors).featureItem}>
-      <Text style={{ fontSize: 18, fontWeight: peso.fuerte, color: colors.textPrimary }}>{value}</Text>
+      <Text style={{ fontSize: tipografia.cabecera, fontWeight: peso.fuerte, color: colors.textPrimary }}>{value}</Text>
       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{label}</Text>
     </View>
   );
@@ -388,7 +388,7 @@ export default function AlquilerDetalleScreen() {
           <ScrollView horizontal pagingEnabled showsHorizontalScrollIndicator={false} onMomentumScrollEnd={handleGalleryScroll} accessibilityLabel="Galería de fotos">
             {safeData.photos.length === 0 ? (
               <View style={{ width: galleryWidth, height: heroHeight, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 40 }}>{getPropertyTypeEmoji(prop.type)}</Text>
+                <Text style={{ fontSize: tipografia.emoji }}>{getPropertyTypeEmoji(prop.type)}</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>{TEXTS.noPhotos}</Text>
               </View>
             ) : safeData.photos.map((ph, i) => (
@@ -595,7 +595,7 @@ export default function AlquilerDetalleScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   content: { padding: espaciado.e16 },
-  price: { flexShrink: 1, fontSize: 24, fontWeight: peso.maximo },
+  price: { flexShrink: 1, fontSize: tipografia.tituloFicha, fontWeight: peso.maximo },
   title: { fontSize: tipografia.title, fontWeight: peso.fuerte, marginBottom: espaciado.e6 },
   typeLabel: { fontSize: tipografia.body, marginBottom: espaciado.e16 },
   featuresGrid: { flexDirection: 'row', borderRadius: radios.md, padding: espaciado.e14, marginBottom: espaciado.e20, gap: espaciado.e8, borderWidth: trazo.fino },

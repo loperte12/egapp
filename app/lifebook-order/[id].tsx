@@ -327,7 +327,7 @@ function OrderContent() {
             : enDisputa ? <AlertCircle size={40} color={colors.secondary} />
               : order.status === 'delivered' ? <CheckCircle2 size={40} color={colors.success} />
                 : <Truck size={40} color={colors.primary} />}
-          <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>
             {cancelado ? 'Pedido cancelado' : enDisputa ? 'Pedido en reclamación'
               : order.status === 'delivered' ? 'Pedido entregado' : 'Tu pedido está en marcha'}
           </Text>
@@ -346,7 +346,7 @@ function OrderContent() {
               return (
                 <View key={f.status} style={{ flex: 1, alignItems: 'center', gap: espaciado.e5 }}>
                   <View style={[styles.dot, { backgroundColor: activo ? colors.primary : alpha(colors.border, 0.8) }]} />
-                  <Text numberOfLines={2} style={{ color: activo ? colors.textPrimary : colors.textSecondary, fontSize: 9.5, fontWeight: peso.fuerte, textAlign: 'center' }}>
+                  <Text numberOfLines={2} style={{ color: activo ? colors.textPrimary : colors.textSecondary, fontSize: tipografia.minimo, fontWeight: peso.fuerte, textAlign: 'center' }}>
                     {f.label}
                   </Text>
                 </View>
@@ -361,7 +361,7 @@ function OrderContent() {
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, textAlign: 'center' }}>
               Lee este código a quien te entregue y paga en efectivo:
             </Text>
-            <Text style={{ color: colors.primary, fontSize: 34, fontWeight: peso.titulo, letterSpacing: 8 }}>{order.deliveryCode}</Text>
+            <Text style={{ color: colors.primary, fontSize: tipografia.heroGrande, fontWeight: peso.titulo, letterSpacing: 8 }}>{order.deliveryCode}</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center' }}>
               La tienda lo confirma y el pedido queda entregado y cobrado.
             </Text>
@@ -633,7 +633,7 @@ function OrderContent() {
                   accessibilityLabel={`Valorar con ${n} de 5`}
                   style={styles.estrella}
                 >
-                  <Text style={{ fontSize: 30, color: n <= estrellas ? brand.warning : colors.textSecondary }}>
+                  <Text style={{ fontSize: tipografia.hero, color: n <= estrellas ? brand.warning : colors.textSecondary }}>
                     {n <= estrellas ? '★' : '☆'}
                   </Text>
                 </Pressable>
@@ -715,7 +715,7 @@ const styles = StyleSheet.create({
   codeBox: { borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e14, marginTop: espaciado.e10, gap: espaciado.e8, alignItems: 'center' },
   codeInput: {
     borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8,
-    fontSize: 22, fontWeight: peso.titulo, letterSpacing: 8, textAlign: 'center', width: 140,
+    fontSize: tipografia.subtitulo, fontWeight: peso.titulo, letterSpacing: 8, textAlign: 'center', width: 140,
   },
   /** TANDA R (R.5b): la referencia del cobro y el botón del justificante. */
   notaInput: {

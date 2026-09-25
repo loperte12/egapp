@@ -111,7 +111,7 @@ function StoreContent() {
               )}
               <View style={{ flex: 1 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo, flexShrink: 1 }}>{s.fullName ?? 'Tienda'}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo, flexShrink: 1 }}>{s.fullName ?? 'Tienda'}</Text>
                   <BadgeCheck size={17} color={brand.primary} fill={brand.primary} stroke={brand.white} strokeWidth={2.5} />
                 </View>
                 {s.city ? (
@@ -177,7 +177,7 @@ function StoreContent() {
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: 19, fontWeight: peso.titulo, flex: 1 },
+  topTitle: { fontSize: tipografia.cifra, fontWeight: peso.titulo, flex: 1 },
   logo: { width: 68, height: 68, borderRadius: radios.lg },
   ecomerseChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, marginTop: espaciado.e12, alignSelf: 'flex-start' },
   btn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: radios.full, paddingVertical: espaciado.e11 },

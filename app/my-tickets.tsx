@@ -119,7 +119,7 @@ export default function MyTicketsScreen() {
               {open && (
                 <View style={[s.qrBox, { borderColor: colors.primary }]}>
                   <Ticket size={22} color={colors.primary} />
-                  <Text style={{ color: colors.textPrimary, fontSize: 24, fontWeight: peso.titulo, letterSpacing: 2 }}>{t.shortCode ?? t.ticketQrCode}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.tituloFicha, fontWeight: peso.titulo, letterSpacing: 2 }}>{t.shortCode ?? t.ticketQrCode}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' }}>
                     {t.ticketQrCode} · muestra este código al conductor{t.payOn === 'destination' ? '; el viajero paga al llegar al destino' : ''}
                   </Text>
@@ -141,7 +141,7 @@ export default function MyTicketsScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
+    title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: c.textPrimary },
     content: { padding: espaciado.e20, gap: espaciado.e12 },
     card: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14, gap: espaciado.e5 },
     qrBox: { alignItems: 'center', gap: espaciado.e6, borderWidth: trazo.fuerte, borderStyle: 'dashed', borderRadius: 14, padding: espaciado.e16, marginTop: espaciado.e8 },

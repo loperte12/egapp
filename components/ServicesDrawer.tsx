@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
   headerAvatar: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   headerAvatarImg: { width: '100%', height: '100%' },
   headerAvatarTxt: { fontSize: 17, fontWeight: peso.titulo },
-  headerName: { fontSize: 14.5, fontWeight: peso.maximo },
+  headerName: { fontSize: tipografia.fino, fontWeight: peso.maximo },
   headerRole: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: 1 },
   closeBtn: { padding: espaciado.e4 },
   groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e14, marginBottom: espaciado.e6, paddingHorizontal: espaciado.e16 },
@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
   rowLabel: { flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte },
   /** Enlace de «ver todos los servicios» (divulgación progresiva del grupo Servicios). */
   verTodos: { marginHorizontal: espaciado.e10, marginTop: espaciado.e6, paddingVertical: espaciado.e8, alignItems: 'center' },
-  soonBadge: { fontSize: 9.5, fontWeight: peso.maximo, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, borderRadius: 6, overflow: 'hidden' },
+  soonBadge: { fontSize: tipografia.minimo, fontWeight: peso.maximo, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, borderRadius: 6, overflow: 'hidden' },
   emergencyRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
     marginHorizontal: espaciado.e10, marginTop: espaciado.e12, borderRadius: 14,

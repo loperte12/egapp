@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Home, CarTaxiFront, MessageCircle, User, Users, type LucideIcon } from 'lucide-react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { useUnreadChat } from '../hooks/useUnreadChat';
-import { brand, elevation, espaciado, peso, trazo, radios} from '@egrouteplan/ui-kit';
+import { brand, elevation, espaciado, peso, trazo, radios, tipografia} from '@egrouteplan/ui-kit';
 
 export type FooterTab = 'inicio' | 'lifebook' | 'taxi' | 'mensajes' | 'monedero' | 'perfil' | 'emergencia';
 
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     gap: espaciado.e2,
     paddingVertical: espaciado.e6,
   },
-  label: { fontSize: 10, fontWeight: peso.fuerte },
+  label: { fontSize: tipografia.nota, fontWeight: peso.fuerte },
   labelStrong: { fontWeight: peso.titulo },
   /* Badge de no leídos (B8). Mismos colores que el badge de la barra superior de
      `lifebook.tsx`, para que el contador se vea igual arriba y abajo: rojo XHS y

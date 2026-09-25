@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   input: { borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.body },
   pinInput: {
     borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11,
-    fontSize: 22, letterSpacing: 8, textAlign: 'center',
+    fontSize: tipografia.subtitulo, letterSpacing: 8, textAlign: 'center',
   },
   doneWrap: { flex: 1, padding: espaciado.e20, justifyContent: 'center', gap: espaciado.e16 },
   okIcon: { width: 60, height: 60, borderRadius: 20, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },

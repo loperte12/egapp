@@ -287,10 +287,10 @@ export default function WorkPlanesScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  title: { fontSize: 22, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e6 },
+  title: { fontSize: tipografia.subtitulo, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e6 },
   subtitle: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 19, marginBottom: espaciado.e18 },
   planCard: { borderRadius: radios.lg, padding: espaciado.e18, marginBottom: espaciado.e16 },
-  planName: { fontSize: 18, fontWeight: peso.fuerte },
+  planName: { fontSize: tipografia.cabecera, fontWeight: peso.fuerte },
   currentBadge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
   currentBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.medio },
   price: { fontSize: tipografia.title, fontWeight: peso.maximo, color: c.textPrimary },

@@ -526,7 +526,7 @@ export default function LifeBookVideosScreen() {
         <View style={s.center}>
           <EmptyState
             sobreOscuro
-            icono={<Text style={{ fontSize: 40 }}>🎬</Text>}
+            icono={<Text style={{ fontSize: tipografia.emoji }}>🎬</Text>}
             titulo="Todavía no hay vídeos aquí"
             texto="Cuando alguien publique un vídeo en este canal aparecerá en este feed."
           />
@@ -1108,7 +1108,7 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
           {esLargo ? (
             <View style={s.largoBox} pointerEvents="none">
               <View style={s.largoPlay}>
-                <Text style={{ fontSize: 30, color: brand.white, marginLeft: espaciado.e4 }}>▶</Text>
+                <Text style={{ fontSize: tipografia.hero, color: brand.white, marginLeft: espaciado.e4 }}>▶</Text>
               </View>
               <Text style={s.largoTxt}>
                 Vídeo de {fmtDur(dur)}{'\n'}

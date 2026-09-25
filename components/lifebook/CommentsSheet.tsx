@@ -130,7 +130,7 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
             </Pressable>
             {mine ? (
               <View style={{ backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e6, paddingVertical: 1 }}>
-                <Text style={{ color: colors.primary, fontSize: 9.5, fontWeight: peso.titulo }}>TÚ</Text>
+                <Text style={{ color: colors.primary, fontSize: tipografia.minimo, fontWeight: peso.titulo }}>TÚ</Text>
               </View>
             ) : null}
           </View>

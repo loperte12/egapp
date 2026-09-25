@@ -131,7 +131,7 @@ export default function WorkScreen() {
             </View>
           ) : error ? (
             <View style={{ alignItems: 'center', paddingTop: 40, paddingHorizontal: espaciado.e32 }}>
-              <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
+              <Text style={{ fontSize: tipografia.kpi, marginBottom: espaciado.e8 }}>📡</Text>
               <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>Algo salió mal</Text>
               <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
               <Pressable onPress={retry} accessibilityRole="button" accessibilityLabel="Reintentar" style={styles.retryBtn}>
@@ -167,7 +167,7 @@ export default function WorkScreen() {
         style={[styles.filterFab, { backgroundColor: colors.primary, bottom: insets.bottom + 16 }]}>
         <SlidersHorizontal size={18} color={brand.white} />
         {activeCount > 0 && (
-          <View style={styles.filterBadge}><Text style={{ color: brand.white, fontSize: 10, fontWeight: peso.maximo }}>{activeCount}</Text></View>
+          <View style={styles.filterBadge}><Text style={{ color: brand.white, fontSize: tipografia.nota, fontWeight: peso.maximo }}>{activeCount}</Text></View>
         )}
       </Pressable>
 

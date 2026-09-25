@@ -95,7 +95,7 @@ export function ProductoCard({ item, onPress, pie, apagado }: {
         {item.shop.isVerified ? <ShieldCheck size={11} color={colors.success} /> : <Store size={11} color={colors.textSecondary} />}
         <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, flex: 1 }}>{item.shop.name}</Text>
         {ventas > 0 ? (
-          <Text style={{ color: colors.textSecondary, fontSize: 10, fontWeight: peso.fuerte }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.nota, fontWeight: peso.fuerte }}>
             {ventas} vendido{ventas === 1 ? '' : 's'}
           </Text>
         ) : null}

@@ -207,7 +207,7 @@ export default function BillingStatusScreen() {
 
       {error ? (
         <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: espaciado.e28 }}>
-          <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
+          <Text style={{ fontSize: tipografia.kpi, marginBottom: espaciado.e8 }}>📡</Text>
           <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>Algo salió mal</Text>
           <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
           <Pressable onPress={() => load('initial')} accessibilityRole="button" style={{ marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho }}>

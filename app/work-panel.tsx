@@ -195,7 +195,7 @@ function Contenido() {
 
           {/* Resumen del día */}
           <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.surface, marginTop: espaciado.e14 }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.ancho, fontWeight: peso.titulo }}>
               {activas.length} oferta(s) activa(s){cerradas ? ` · ${cerradas} cerrada(s)` : ''}
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 18 }}>
@@ -220,7 +220,7 @@ function Contenido() {
               key={candidato.id}
               style={[styles.tarjeta, { borderColor: colors.border, backgroundColor: colors.card }]}
             >
-              <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.titulo }}>
                 {candidato.fullName ?? 'Candidato sin nombre'}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }} numberOfLines={2}>
@@ -303,7 +303,7 @@ function Contenido() {
 
           {!ofertas.length ? (
             <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.card, marginTop: espaciado.e18 }]}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.ancho, fontWeight: peso.titulo }}>
                 Todavía no has publicado ninguna oferta
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e6 }}>

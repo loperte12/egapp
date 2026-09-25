@@ -183,7 +183,7 @@ function OrdersContent() {
                         <Text style={{ color: meta.color, fontSize: 10.5, fontWeight: peso.titulo }}>{meta.label}</Text>
                       </View>
                     </View>
-                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
+                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
                       {item.title ?? 'Producto'}
                     </Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
   commerceThumb: { width: 44, height: 44, borderRadius: radios.sm },
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: 19, fontWeight: peso.titulo, flex: 1 },
+  topTitle: { fontSize: tipografia.cifra, fontWeight: peso.titulo, flex: 1 },
   seg: { borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e6 },
   card: { borderRadius: radios.lg, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   thumb: { width: 62, height: 62, borderRadius: radios.md },

@@ -1535,7 +1535,7 @@ export default function ConductorScreen() {
                   {/* Estado real del mapa (verificación 3D: b=rumbo p=inclinación) */}
                   {navDbg && (
                     <View pointerEvents="none" style={[s.dvDbg, { backgroundColor: pitch3D ? 'rgba(0,132,255,0.18)' : colors.card, borderColor: pitch3D ? colors.primary : colors.border }]}>
-                      <Text style={{ color: pitch3D ? colors.primary : colors.textSecondary, fontSize: 10, fontWeight: peso.titulo }}>
+                      <Text style={{ color: pitch3D ? colors.primary : colors.textSecondary, fontSize: tipografia.nota, fontWeight: peso.titulo }}>
                         {pitch3D ? '3D ' : ''}b {navDbg.bearing}° · p {navDbg.pitch}° · z{navDbg.zoom}
                         {typeof navDbg.cy === 'number' ? ` · c${navDbg.cy}` : ''}
                       </Text>
@@ -1554,7 +1554,7 @@ export default function ConductorScreen() {
                     <>
                       <View style={[s.dvTrip, { backgroundColor: 'rgba(15,20,28,0.55)', borderColor: 'rgba(255,255,255,0.14)' }]}>
                         <View style={{ flex: 1, gap: 1 }}>
-                          <Text style={{ color: 'rgba(255,255,255,0.62)', fontSize: 9.5, fontWeight: peso.maximo, letterSpacing: 0.5 }}>
+                          <Text style={{ color: 'rgba(255,255,255,0.62)', fontSize: tipografia.minimo, fontWeight: peso.maximo, letterSpacing: 0.5 }}>
                             {walletRide ? 'PAGADO CON PIN · TU NETO' : 'TOTAL EFECTIVO'}
                           </Text>
                           <Text style={[s.dvTripFare, { color: brand.white }]}>
@@ -1575,7 +1575,7 @@ export default function ConductorScreen() {
                           style={[s.dvMoreBtn, { borderColor: 'rgba(255,255,255,0.22)' }]}
                         >
                           {tripExpanded ? <ChevronDown size={14} color="rgba(255,255,255,0.9)" /> : <ChevronUp size={14} color="rgba(255,255,255,0.9)" />}
-                          <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: 10, fontWeight: peso.maximo }}>{tripExpanded ? 'Menos' : 'Más'}</Text>
+                          <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: tipografia.nota, fontWeight: peso.maximo }}>{tripExpanded ? 'Menos' : 'Más'}</Text>
                         </Pressable>
                       </View>
                       {tripExpanded && current && (
@@ -1599,7 +1599,7 @@ export default function ConductorScreen() {
                        WhatsApp y teléfono. Transparente y compacta. */
                     <View pointerEvents="box-none" style={[s.dvCardA, { backgroundColor: 'rgba(15,20,28,0.5)', borderColor: 'rgba(255,255,255,0.14)' }]}>
                       <View style={{ flex: 1 }}>
-                        <Text style={{ color: brand.success, fontSize: 10, fontWeight: peso.titulo, letterSpacing: 0.4 }}>🟢 CAMINO PARA RECOGER AL PASAJERO</Text>
+                        <Text style={{ color: brand.success, fontSize: tipografia.nota, fontWeight: peso.titulo, letterSpacing: 0.4 }}>🟢 CAMINO PARA RECOGER AL PASAJERO</Text>
                         <Text numberOfLines={1} style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e2 }}>{pickup}</Text>
                         {current?.passenger_name ? (
                           <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,0.62)', fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: 1 }}>👤 {current.passenger_name}</Text>
@@ -1631,7 +1631,7 @@ export default function ConductorScreen() {
                   {/* PIN del pasajero (solo al LLEGAR: pídele el código) */}
                   {leg === 'approach' && (navKmLeft ?? 1) < 0.08 && current?.passenger_phone ? (
                     <View pointerEvents="none" style={[s.dvPin, { backgroundColor: 'rgba(15,20,28,0.6)', borderColor: 'rgba(43,194,106,0.5)' }]}>
-                      <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 10, fontWeight: peso.maximo, letterSpacing: 0.4 }}>CÓDIGO DEL PASAJERO</Text>
+                      <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: tipografia.nota, fontWeight: peso.maximo, letterSpacing: 0.4 }}>CÓDIGO DEL PASAJERO</Text>
                       <Text style={{ color: brand.success, fontSize: 17, fontWeight: peso.titulo, letterSpacing: 5 }}>{pinLast4(current.passenger_phone)}</Text>
                     </View>
                   ) : null}
@@ -1727,7 +1727,7 @@ export default function ConductorScreen() {
                   accessibilityState={{ selected: heatOn }}
                   style={[s.homeFab, { bottom: 156, backgroundColor: heatOn ? alpha(brand.warning, 0.9) : alpha(colors.card, 0.55), borderColor: heatOn ? brand.warning : alpha(colors.border, 0.8) }]}
                 >
-                  <Text style={{ fontSize: 19 }}>🔥</Text>
+                  <Text style={{ fontSize: tipografia.cifra }}>🔥</Text>
                 </Pressable>
                 <Pressable
                   onPress={() => { setHomeTab('perfil'); setHomeOpen(true); }}
@@ -1841,7 +1841,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
                     style={({ pressed }) => [pps.key, { backgroundColor: k === 'DEL' ? '#F53F3F10' : '#F3F4F6', opacity: pressed ? 0.6 : 1 }]}>
                     {k === 'DEL'
                       ? <X size={20} color={brand.danger} />
-                      : <Text style={{ color: '#111827', fontSize: 22, fontWeight: peso.maximo }}>{k}</Text>}
+                      : <Text style={{ color: '#111827', fontSize: tipografia.subtitulo, fontWeight: peso.maximo }}>{k}</Text>}
                   </Pressable>
                 ),
             )}
@@ -1860,7 +1860,7 @@ const pps = StyleSheet.create({
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
   card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: radios.marco, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e6 },
   iconCircle: { width: 54, height: 54, borderRadius: radios.full, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e2 },
-  title: { color: '#111827', fontSize: 19, fontWeight: peso.titulo, textAlign: 'center' },
+  title: { color: '#111827', fontSize: tipografia.cifra, fontWeight: peso.titulo, textAlign: 'center' },
   sub: { color: '#6B7280', fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' },
   boxRow: { flexDirection: 'row', gap: espaciado.e12, marginVertical: espaciado.e12 },
   box: { width: 56, height: 64, borderRadius: radios.md, borderWidth: trazo.fuerte, alignItems: 'center', justifyContent: 'center' },
@@ -1916,18 +1916,18 @@ const cfm = StyleSheet.create({
   iconCircle: { width: 60, height: 60, borderRadius: radios.full, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e4 },
   title: { color: '#111827', fontSize: tipografia.title, fontWeight: peso.titulo, textAlign: 'center' },
   sub: { color: '#6B7280', fontSize: tipografia.body, fontWeight: peso.medio, textAlign: 'center' },
-  amount: { color: '#111827', fontSize: 34, fontWeight: peso.titulo, marginVertical: espaciado.e6 },
+  amount: { color: '#111827', fontSize: tipografia.heroGrande, fontWeight: peso.titulo, marginVertical: espaciado.e6 },
   btnYes: { width: '100%', backgroundColor: brand.success, borderRadius: radios.lg, paddingVertical: 15, alignItems: 'center', marginTop: espaciado.e6, elevation: 3 },
   btnYesTxt: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   btnNo: { width: '100%', borderWidth: trazo.base, borderColor: '#F53F3F55', borderRadius: radios.lg, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e8, backgroundColor: '#F53F3F0C' },
-  btnNoTxt: { color: brand.danger, fontSize: 14.5, fontWeight: peso.maximo },
+  btnNoTxt: { color: brand.danger, fontSize: tipografia.fino, fontWeight: peso.maximo },
   note: { color: '#9CA3AF', fontSize: tipografia.micro, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6 },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
+    title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: c.textPrimary },
     error: { fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center', marginHorizontal: espaciado.e16 },
     mapWrap: { height: '50%', position: 'relative' },
     mapArea: { flex: 1, position: 'relative' },
@@ -1982,15 +1982,15 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     dvLane: { position: 'absolute', top: 92, left: 12, width: 74, height: 74, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', ...elevation.lg },
     dvLanes: { position: 'absolute', top: 212, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6 },
     dvLaneChip: { width: 36, height: 36, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center', elevation: 4 },
-    dvLaneGlyph2: { color: brand.white, fontSize: 19, fontWeight: peso.titulo },
+    dvLaneGlyph2: { color: brand.white, fontSize: tipografia.cifra, fontWeight: peso.titulo },
     dvLaneDist2: { fontSize: tipografia.caption, fontWeight: peso.maximo, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.sm, borderWidth: trazo.fino, color: brand.white, backgroundColor: 'rgba(10,16,28,0.7)', borderColor: 'transparent' },
-    dvLaneGlyph: { color: brand.white, fontSize: 34, fontWeight: peso.titulo },
+    dvLaneGlyph: { color: brand.white, fontSize: tipografia.heroGrande, fontWeight: peso.titulo },
     dvLaneDist: { color: brand.white, fontSize: 10.5, fontWeight: peso.titulo, marginTop: -4 },
     dvMvCard: { position: 'absolute', top: 150, alignSelf: 'center', maxWidth: '82%', flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.full, backgroundColor: 'rgba(10,16,28,0.80)', paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, ...elevation.lg },
     dvMvGlyphBox: { width: 42, height: 42, borderRadius: radios.full, backgroundColor: 'rgba(255,255,255,0.16)', alignItems: 'center', justifyContent: 'center' },
-    dvMvGlyphBig: { fontSize: 24, fontWeight: peso.titulo },
+    dvMvGlyphBig: { fontSize: tipografia.tituloFicha, fontWeight: peso.titulo },
     dvMvGlyphSmall: { fontSize: 15 },
-    dvMvDist: { fontSize: 21, fontWeight: peso.titulo, color: brand.white },
+    dvMvDist: { fontSize: tipografia.cifraGrande, fontWeight: peso.titulo, color: brand.white },
     dvMvName: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: 'rgba(255,255,255,0.85)', marginTop: 1 },
     dvMvNext: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderLeftWidth: trazo.fino, borderLeftColor: 'rgba(255,255,255,0.3)', paddingLeft: espaciado.e8, maxWidth: 90 },
     dvMvNextText: { fontSize: 10.5, fontWeight: peso.medio, color: 'rgba(255,255,255,0.8)' },
@@ -1998,7 +1998,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     dvDbg: { position: 'absolute', top: 210, right: 10, borderRadius: radios.sm, borderWidth: trazo.fino, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
     dvBtn: { width: 42, height: 42, borderRadius: radios.full, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', elevation: 4 },
     dvSpeed: { position: 'absolute', bottom: 104, left: 14, width: 74, height: 74, borderRadius: radios.full, borderWidth: trazo.fuerte, alignItems: 'center', justifyContent: 'center', elevation: 5 },
-    dvSpeedNum: { fontSize: 21, fontWeight: peso.titulo },
+    dvSpeedNum: { fontSize: tipografia.cifraGrande, fontWeight: peso.titulo },
     dvSpeedUnit: { fontSize: 9, fontWeight: peso.fuerte },
     dvEta: { position: 'absolute', bottom: 96, right: 14, borderRadius: 14, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, elevation: 5 },
     dvEtaClock: { fontSize: tipografia.body, fontWeight: peso.titulo },
@@ -2018,7 +2018,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     },
     dvCancel: { width: 48, height: 48, borderRadius: radios.full, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', elevation: 5 },
     dvMain: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: 20, paddingVertical: espaciado.e13, elevation: 6 },
-    dvMainText: { color: brand.white, fontSize: 14.5, fontWeight: peso.titulo },
+    dvMainText: { color: brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo },
     // P1: botón de perfil TRANSPARENTE abajo-derecha sobre el mapa (Home sheet)
     homeFab: {
       position: 'absolute', right: 14, width: 48, height: 48, borderRadius: radios.full,
@@ -2054,7 +2054,7 @@ const PK = StyleSheet.create({
   paxRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e11, width: '100%' },
   avatar: { width: 46, height: 46, borderRadius: radios.full, backgroundColor: brand.primary, alignItems: 'center', justifyContent: 'center' },
   avatarTxt: { color: brand.white, fontSize: tipografia.title, fontWeight: peso.titulo },
-  name: { color: brand.white, fontSize: 19, fontWeight: peso.titulo, flexShrink: 1 },
+  name: { color: brand.white, fontSize: tipografia.cifra, fontWeight: peso.titulo, flexShrink: 1 },
   badgeGreen: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e3,
     backgroundColor: 'rgba(43,194,106,0.16)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2,

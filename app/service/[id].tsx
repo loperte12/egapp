@@ -44,7 +44,7 @@ export default function ServiceDetailStub() {
 const styles = StyleSheet.create({
   root: { flex: 1, paddingHorizontal: espaciado.e20 },
   back: { width: 40, height: 40, justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: peso.maximo, marginTop: espaciado.e8 },
+  title: { fontSize: tipografia.tituloFicha, fontWeight: peso.maximo, marginTop: espaciado.e8 },
   query: { fontSize: tipografia.body, marginTop: espaciado.e4 },
   card: { marginTop: espaciado.e20, borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e18 },
   cardText: { fontSize: tipografia.body, lineHeight: 19 },

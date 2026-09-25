@@ -117,7 +117,7 @@ function Contenido() {
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
               Da este código al agente SOLO cuando te entregue el efectivo:
             </Text>
-            <Text style={{ color: colors.primary, fontSize: 40, fontWeight: peso.titulo, letterSpacing: 10, textAlign: 'center', marginVertical: espaciado.e14 }}>
+            <Text style={{ color: colors.primary, fontSize: tipografia.emoji, fontWeight: peso.titulo, letterSpacing: 10, textAlign: 'center', marginVertical: espaciado.e14 }}>
               {otp}
             </Text>
             {fee !== null && fee > 0 && (

@@ -119,7 +119,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     <>
                       <View style={{ alignItems: 'center', gap: espaciado.e2 }}>
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>NETO ({period === 'all' ? 'total' : period})</Text>
-                        <Text style={{ color: colors.success, fontSize: 30, fontWeight: peso.titulo }}>{xaf(earnings.totalNet)}</Text>
+                        <Text style={{ color: colors.success, fontSize: tipografia.hero, fontWeight: peso.titulo }}>{xaf(earnings.totalNet)}</Text>
                       </View>
                       <View style={[s.statRow, { backgroundColor: alpha(colors.border, 0.2) }]}>
                         <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>🚕 Taxi ciudad</Text>
@@ -274,7 +274,7 @@ const dh = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e13 },
   ratingBox: { width: 44, height: 44, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   vidaTextWrap: { flex: 1, gap: espaciado.e2 },
-  vidaTitle: { color: brand.white, fontSize: 21, fontWeight: peso.titulo },
+  vidaTitle: { color: brand.white, fontSize: tipografia.cifraGrande, fontWeight: peso.titulo },
   vidaSub: { color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio },
   vidaCta: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e6, textDecorationLine: 'underline' },
   vidaArt: { width: 72, height: 72, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },

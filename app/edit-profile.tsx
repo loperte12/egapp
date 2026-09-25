@@ -439,7 +439,7 @@ function EditProfileContent() {
                 accessibilityLabel="Color por defecto (blanco)"
                 style={[styles.nameColorReset, { borderColor: colors.border, backgroundColor: colors.surface }]}
               >
-                <Text style={{ color: colors.textSecondary, fontSize: 10, fontWeight: peso.maximo }}>Blanco</Text>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.nota, fontWeight: peso.maximo }}>Blanco</Text>
               </Pressable>
             </View>
             <Text style={[styles.fieldHint, { color: colors.textSecondary }]}>
@@ -1480,7 +1480,7 @@ const styles = StyleSheet.create({
   },
   avatarImg: { width: '100%', height: '100%' },
   avatarEmpty: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  avatarInitial: { fontSize: 30, fontWeight: peso.titulo },
+  avatarInitial: { fontSize: tipografia.hero, fontWeight: peso.titulo },
   imageActions: { marginTop: 52, paddingLeft: 116, paddingRight: espaciado.e14, gap: espaciado.e8 },
   miniAction: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
@@ -1508,7 +1508,7 @@ const styles = StyleSheet.create({
   // Biografía
   bioInput: {
     borderRadius: 14, borderWidth: trazo.base, minHeight: 112,
-    paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: 14.5, fontWeight: peso.medio, lineHeight: 20,
+    paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: tipografia.fino, fontWeight: peso.medio, lineHeight: 20,
   },
 
   // Enlaces
@@ -1539,7 +1539,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
   },
   previewAvatarImg: { width: '100%', height: '100%' },
-  previewAvatarTxt: { fontSize: 24, fontWeight: peso.titulo },
+  previewAvatarTxt: { fontSize: tipografia.tituloFicha, fontWeight: peso.titulo },
 
   // Hojas inferiores
   sheetRoot: { flex: 1, justifyContent: 'flex-end' },

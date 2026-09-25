@@ -207,10 +207,10 @@ const s = StyleSheet.create({
     position: 'absolute', left: 4, bottom: 4, borderRadius: 6,
     backgroundColor: 'rgba(0,0,0,0.62)', paddingHorizontal: espaciado.e5, paddingVertical: 1,
   },
-  thumbTimeText: { color: brand.white, fontSize: 10, fontWeight: peso.maximo },
+  thumbTimeText: { color: brand.white, fontSize: tipografia.nota, fontWeight: peso.maximo },
   preview: { width: 170, height: 226, borderRadius: radios.md, borderWidth: trazo.fino, backgroundColor: '#000000' },
   confirm: { borderRadius: radios.md, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e16 },
-  confirmText: { color: brand.white, fontSize: 14.5, fontWeight: peso.titulo },
+  confirmText: { color: brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo },
 });
 
 export default VideoCoverSheet;

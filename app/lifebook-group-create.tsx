@@ -510,9 +510,9 @@ function GroupCreateContent() {
         {step === 'success' && created ? (
           <View style={{ alignItems: 'center', paddingTop: espaciado.e24, gap: espaciado.e14 }}>
             <View style={[styles.successCircle, { backgroundColor: alpha(colors.success, 0.15) }]}>
-              <Text style={{ fontSize: 34 }}>✅</Text>
+              <Text style={{ fontSize: tipografia.heroGrande }}>✅</Text>
             </View>
-            <Text style={{ color: colors.textPrimary, fontSize: 24, fontWeight: peso.titulo, textAlign: 'center' }}>¡Ruta creada!</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.tituloFicha, fontWeight: peso.titulo, textAlign: 'center' }}>¡Ruta creada!</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', lineHeight: 20 }}>
               {created.title} · {created.membersCount} miembro{created.membersCount === 1 ? '' : 's'}
               {selectedType ? ` · ${selectedType.icon} ${selectedType.label}` : ''}
@@ -522,7 +522,7 @@ function GroupCreateContent() {
               <Text style={styles.primaryText}>Ir al grupo</Text>
             </Pressable>
             <Pressable onPress={() => goToGroup(true)} style={[styles.secondaryBtn, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 14.5 }}>Invitar a más personas</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.fino }}>Invitar a más personas</Text>
             </Pressable>
             <Pressable onPress={() => router.back()} style={{ paddingVertical: espaciado.e8 }} accessibilityLabel="Volver a Mensajes">
               <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>Volver a Mensajes</Text>
@@ -611,7 +611,7 @@ function PickRow({ label, value, onPress, colors, last }: {
     >
       <View style={{ flex: 1 }}>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{label}</Text>
-        <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.fuerte, marginTop: 1 }} numberOfLines={1}>{value}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.fuerte, marginTop: 1 }} numberOfLines={1}>{value}</Text>
       </View>
       <Text style={{ color: colors.textSecondary, fontSize: tipografia.subtitle }}>›</Text>
     </Pressable>
@@ -632,9 +632,9 @@ function OptionRow({ icon, title, subtitle, selected, onPress, colors }: {
         backgroundColor: selected ? alpha(colors.primary, 0.08) : colors.card,
       }}
     >
-      <Text style={{ fontSize: 22 }}>{icon}</Text>
+      <Text style={{ fontSize: tipografia.subtitulo }}>{icon}</Text>
       <View style={{ flex: 1 }}>
-        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 14.5 }}>{title}</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.fino }}>{title}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{subtitle}</Text>
       </View>
       <View style={{
@@ -696,7 +696,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  input: { borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: 14.5 },
+  input: { borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.fino },
   textarea: { minHeight: 110, textAlignVertical: 'top' },
   searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e14, height: 40 },
   option: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, padding: espaciado.e14, borderRadius: radios.lg, borderWidth: trazo.fino },
@@ -705,7 +705,7 @@ const styles = StyleSheet.create({
   avatar: { width: 40, height: 40, borderRadius: 20 },
   center: { alignItems: 'center', justifyContent: 'center' },
   primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e14, alignItems: 'center' },
-  primaryText: { color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 },
+  primaryText: { color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino },
   secondaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', borderWidth: trazo.fino, alignSelf: 'stretch' },
   footer: { paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   successCircle: { width: 84, height: 84, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },

@@ -116,7 +116,7 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
                       <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>{puesto + 1}</Text>
                     </View>
                   ) : (
-                    <Text style={{ color: colors.textSecondary, fontSize: 18, fontWeight: peso.titulo }}>+</Text>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>+</Text>
                   )}
                 </Pressable>
               );

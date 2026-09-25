@@ -96,10 +96,10 @@ const styles = StyleSheet.create({
   chipCompact: { paddingHorizontal: espaciado.e8, paddingVertical: 2.5, marginTop: espaciado.e2 },
   dot: { width: 7, height: 7, borderRadius: radios.full },
   emoji: { fontSize: tipografia.body },
-  emojiCompact: { fontSize: 10 },
+  emojiCompact: { fontSize: tipografia.nota },
   text: { fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 180 },
   textCompact: { fontSize: 10.5, maxWidth: 140 },
   timeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginLeft: espaciado.e2 },
-  time: { fontSize: 10, fontWeight: peso.fuerte },
-  timeCompact: { fontSize: 8.5 },
+  time: { fontSize: tipografia.nota, fontWeight: peso.fuerte },
+  timeCompact: { fontSize: tipografia.sello },
 });

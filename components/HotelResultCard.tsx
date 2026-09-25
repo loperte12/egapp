@@ -60,7 +60,7 @@ export function HotelResultCard({
             {portada ? (
               <LazyImage source={{ uri: portada }} style={styles.portadaImg} />
             ) : (
-              <Text style={{ fontSize: 22 }}>🏨</Text>
+              <Text style={{ fontSize: tipografia.subtitulo }}>🏨</Text>
             )}
           </View>
           <View style={{ flex: 1 }}>
@@ -101,7 +101,7 @@ export function HotelResultCard({
             <View key={r.id} style={[styles.habitacion, { borderColor: colors.border, backgroundColor: colors.surface }]}>
               {/* Foto REAL de esa habitación (la sube el hotelero y el servidor la valida). */}
               <View style={[styles.habFoto, { borderColor: colors.border, backgroundColor: colors.card }]}>
-                {foto ? <LazyImage source={{ uri: foto }} style={styles.habFotoImg} /> : <Text style={{ fontSize: 18 }}>🛏️</Text>}
+                {foto ? <LazyImage source={{ uri: foto }} style={styles.habFotoImg} /> : <Text style={{ fontSize: tipografia.cabecera }}>🛏️</Text>}
               </View>
               <View style={{ flex: 1 }}>
                 {/* Dos líneas para el nombre de la habitación: es texto del hotelero. */}
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   // Foto del alojamiento en la fila (92×92, redondeada, con hueco gris si no hay).
   portada: { width: 92, height: 92, borderRadius: 14, borderWidth: trazo.fino, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   portadaImg: { width: '100%', height: '100%' },
-  tarjetaTitulo: { fontSize: 15.5, fontWeight: peso.maximo },
+  tarjetaTitulo: { fontSize: tipografia.ancho, fontWeight: peso.maximo },
   tarjetaSub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   precio: { fontSize: 15, fontWeight: peso.maximo },
   precioSub: { fontSize: 10.5 },

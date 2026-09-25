@@ -61,5 +61,5 @@ const styles = StyleSheet.create({
   },
   badgeSmall: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: radios.marca },
   text: { fontSize: tipografia.micro, fontWeight: peso.fuerte, lineHeight: 14 },
-  textSmall: { fontSize: 10, lineHeight: 12 },
+  textSmall: { fontSize: tipografia.nota, lineHeight: 12 },
 });

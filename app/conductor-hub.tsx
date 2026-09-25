@@ -239,7 +239,7 @@ export default function ConductorHubScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
+    title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: c.textPrimary },
     center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e28, gap: espaciado.e12 },
     big: { fontSize: tipografia.title, fontWeight: peso.titulo, textAlign: 'center' },
     body: { fontSize: tipografia.body, lineHeight: 20, textAlign: 'center', fontWeight: peso.medio },
@@ -253,7 +253,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     // Checklist onboarding (estilo Uber Driver)
     onboard: { padding: espaciado.e16, gap: espaciado.e12, flexGrow: 1 },
     welcomeCard: { alignItems: 'center', borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e20, gap: espaciado.e6 },
-    welcomeTitle: { fontSize: 19, fontWeight: peso.titulo, textAlign: 'center', marginTop: espaciado.e6 },
+    welcomeTitle: { fontSize: tipografia.cifra, fontWeight: peso.titulo, textAlign: 'center', marginTop: espaciado.e6 },
     welcomeSub: { fontSize: tipografia.body, color: c.textSecondary, textAlign: 'center', lineHeight: 18, fontWeight: peso.medio },
     checklistCard: { borderRadius: radios.panel, borderWidth: trazo.fino, paddingHorizontal: espaciado.e16, overflow: 'hidden' },
     checklistHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e12, borderBottomWidth: trazo.fino },

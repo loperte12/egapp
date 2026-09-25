@@ -394,7 +394,7 @@ function ProductContent() {
           </View>
         ) : (
           <View style={[styles.heroEmpty, { backgroundColor: alpha(colors.primary, 0.1) }]}>
-            <Text style={{ fontSize: 40 }}>📦</Text>
+            <Text style={{ fontSize: tipografia.emoji }}>📦</Text>
           </View>
         )}
 
@@ -660,7 +660,7 @@ function ProductContent() {
           <ShoppingCart size={18} color={colors.textPrimary} />
           {carritoCount > 0 ? (
             <View style={[styles.cartBadge, { backgroundColor: colors.primary }]}>
-              <Text style={{ color: brand.white, fontSize: 9.5, fontWeight: peso.titulo }}>{carritoCount > 99 ? '99+' : carritoCount}</Text>
+              <Text style={{ color: brand.white, fontSize: tipografia.minimo, fontWeight: peso.titulo }}>{carritoCount > 99 ? '99+' : carritoCount}</Text>
             </View>
           ) : null}
         </Pressable>
@@ -812,7 +812,7 @@ function Badge({ colors, icon, text }: { colors: any; icon: React.ReactNode; tex
 function Section({ colors, title, children }: { colors: any; title: string; children: React.ReactNode }) {
   return (
     <View style={{ marginTop: espaciado.e20 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.maximo, marginBottom: espaciado.e8 }}>{title}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.maximo, marginBottom: espaciado.e8 }}>{title}</Text>
       {children}
     </View>
   );
@@ -836,9 +836,9 @@ const styles = StyleSheet.create({
   heroEmpty: { width: SCREEN_W, height: HERO_H * 0.6, alignItems: 'center', justifyContent: 'center' },
   counter: { position: 'absolute', bottom: 10, right: 12, borderRadius: radios.full, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e3 },
   priceRow: { flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e10 },
-  price: { fontSize: 24, fontWeight: peso.titulo },
+  price: { fontSize: tipografia.tituloFicha, fontWeight: peso.titulo },
   oldPrice: { fontSize: tipografia.body, textDecorationLine: 'line-through', marginBottom: espaciado.e3 },
-  title: { fontSize: 18.5, fontWeight: peso.maximo, marginTop: espaciado.e6, lineHeight: 24 },
+  title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, marginTop: espaciado.e6, lineHeight: 24 },
   badges: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e12 },
   badge: {
     flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth,

@@ -260,7 +260,7 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
         {busy ? (
           <ActivityIndicator size="small" color={brand.white} />
         ) : (
-          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>
+          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino }}>
             Crear grupo{picked.length ? ` (${picked.length + 1})` : ''}
           </Text>
         )}

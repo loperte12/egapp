@@ -239,11 +239,11 @@ function Contenido() {
                       del precio. Antes iban en la misma fila y el chip «Se puede reservar» se
                       comía la mitad del nombre: el dato del dueño perdía contra una etiqueta.
                     */}
-                    <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }} numberOfLines={2}>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.ancho, fontWeight: peso.titulo }} numberOfLines={2}>
                       {r.name}
                     </Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e6 }}>
-                      <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }}>
+                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.ancho, fontWeight: peso.titulo }}>
                         {xaf(r.basePriceXaf)}
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}> por noche</Text>
                       </Text>
@@ -367,7 +367,7 @@ function Contenido() {
 
           {!rooms.length ? (
             <View style={[styles.tarjeta, { backgroundColor: colors.card, borderColor: colors.border }]}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }}>Todavía no tienes habitaciones</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.ancho, fontWeight: peso.titulo }}>Todavía no tienes habitaciones</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e6 }}>
                 Un «tipo de habitación» es lo que se vende: por ejemplo «Doble con aire», con su precio por noche,
                 cuántas tienes de ese tipo y su estancia mínima. De cada tipo se reservan unidades sueltas, así que

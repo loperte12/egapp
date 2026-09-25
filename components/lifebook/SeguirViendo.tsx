@@ -59,7 +59,7 @@ export function SeguirViendo({ items, colors, top, onOpen, onQuitar }: {
                 <Image source={{ uri: absUrl(item.thumb.url) }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
               ) : (
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{ fontSize: 22 }}>🎬</Text>
+                  <Text style={{ fontSize: tipografia.subtitulo }}>🎬</Text>
                 </View>
               )}
               {/* Barrita: por dónde ibas, de un vistazo. */}

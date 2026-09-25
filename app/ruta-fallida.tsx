@@ -32,7 +32,7 @@ export default function RutaFallidaScreen() {
           <MapPinOff size={30} color={colors.primary} />
         </View>
 
-        <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: peso.titulo, textAlign: 'center', marginTop: espaciado.e14 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.cifra, fontWeight: peso.titulo, textAlign: 'center', marginTop: espaciado.e14 }}>
           No pudimos abrir esa pantalla
         </Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, lineHeight: 19, textAlign: 'center', marginTop: espaciado.e8 }}>

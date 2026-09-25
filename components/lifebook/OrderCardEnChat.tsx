@@ -85,7 +85,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
           {titulo}
         </Text>
         <View style={[styles.pill, { backgroundColor: alpha(meta.color, 0.14) }]}>
-          <Text style={{ color: meta.color, fontSize: 9.5, fontWeight: peso.titulo }} numberOfLines={1}>{meta.label}</Text>
+          <Text style={{ color: meta.color, fontSize: tipografia.minimo, fontWeight: peso.titulo }} numberOfLines={1}>{meta.label}</Text>
         </View>
       </View>
 
@@ -119,7 +119,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
       ) : null}
 
       {pedido.social && pedido.code ? (
-        <Text style={{ color: colors.textSecondary, fontSize: 10, marginTop: espaciado.e5 }} numberOfLines={1}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.nota, marginTop: espaciado.e5 }} numberOfLines={1}>
           Pedido {pedido.code}{pedido.shopName ? ` · ${pedido.shopName}` : ''}
         </Text>
       ) : null}
@@ -197,6 +197,6 @@ const styles = StyleSheet.create({
   /** El bloque del ticket: nombre, pago, entrega y nota. */
   ticket: { marginTop: espaciado.e8, paddingTop: espaciado.e6, borderTopWidth: StyleSheet.hairlineWidth, gap: espaciado.e2 },
   ticketLinea: { fontSize: 10.5, lineHeight: 14 },
-  ticketEtiqueta: { color: '#86909C', fontSize: 10, fontWeight: peso.titulo },
+  ticketEtiqueta: { color: '#86909C', fontSize: tipografia.nota, fontWeight: peso.titulo },
   boton: { marginTop: espaciado.e8, borderRadius: radios.full, paddingVertical: espaciado.e7, alignItems: 'center' },
 });

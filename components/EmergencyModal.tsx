@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e16 },
   sirenWrap: { width: 44, height: 44, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },
   headerText: { flex: 1, marginLeft: espaciado.e12 },
-  title: { fontSize: 19, fontWeight: peso.maximo },
+  title: { fontSize: tipografia.cifra, fontWeight: peso.maximo },
   subtitle: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   contactRow: {
     flexDirection: 'row',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   contactIcon: { width: 38, height: 38, borderRadius: radios.contacto, alignItems: 'center', justifyContent: 'center' },
   contactText: { flex: 1, marginLeft: espaciado.e12 },
-  contactLabel: { fontSize: 14.5, fontWeight: peso.maximo },
+  contactLabel: { fontSize: tipografia.fino, fontWeight: peso.maximo },
   contactNote: { fontSize: tipografia.micro, marginTop: 1 },
   contactNumber: { fontSize: 15, fontWeight: peso.maximo },
   cancelBtn: { marginTop: espaciado.e6, alignItems: 'center', paddingVertical: espaciado.e13, borderRadius: 14 },

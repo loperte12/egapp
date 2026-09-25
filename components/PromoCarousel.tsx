@@ -151,9 +151,9 @@ const styles = StyleSheet.create({
     padding: espaciado.e14,
     minHeight: 92,
   },
-  emoji: { fontSize: 34, marginRight: espaciado.e12 },
+  emoji: { fontSize: tipografia.heroGrande, marginRight: espaciado.e12 },
   cardBody: { flex: 1 },
-  cardTitle: { fontSize: 14.5, fontWeight: peso.maximo },
+  cardTitle: { fontSize: tipografia.fino, fontWeight: peso.maximo },
   cardSubtitle: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   ctaChip: {
     marginTop: espaciado.e8,

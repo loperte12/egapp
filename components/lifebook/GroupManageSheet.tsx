@@ -419,7 +419,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 <Image source={{ uri: group.photoUrl }} style={styles.groupAvatar} />
               ) : (
                 <View style={[styles.groupAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: 18 }}>
+                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.cabecera }}>
                     {(group.title || 'G').trim().charAt(0).toUpperCase()}
                   </Text>
                 </View>
@@ -446,7 +446,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               accessibilityLabel="Anuncio del grupo"
               style={[styles.row, { backgroundColor: alpha(colors.secondary, 0.08), borderColor: alpha(colors.secondary, 0.25) }]}
             >
-              <Text style={{ fontSize: 18 }}>📣</Text>
+              <Text style={{ fontSize: tipografia.cabecera }}>📣</Text>
               <View style={{ flex: 1 }}>
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Anuncio del grupo</Text>
                 <Text numberOfLines={2} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
@@ -465,7 +465,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                   ? { backgroundColor: alpha(colors.primary, 0.08), borderColor: alpha(colors.primary, 0.3) }
                   : undefined]}
               >
-                <Text style={{ fontSize: 18 }}>🙋</Text>
+                <Text style={{ fontSize: tipografia.cabecera }}>🙋</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Solicitudes para entrar</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
@@ -503,7 +503,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
 
             {/* 5 · Miembros */}
             <Pressable onPress={() => setStep('members')} accessibilityLabel="Miembros del grupo" style={styles.row}>
-              <Text style={{ fontSize: 18 }}>👥</Text>
+              <Text style={{ fontSize: tipografia.cabecera }}>👥</Text>
               <View style={{ flex: 1 }}>
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Miembros</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
@@ -744,7 +744,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 style={[styles.primaryBtn, { backgroundColor: colors.primary, marginTop: espaciado.e10 }]}
               >
                 <UserPlus size={16} color={brand.white} />
-                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>Añadir miembros</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino }}>Añadir miembros</Text>
               </Pressable>
             )}
           </>
@@ -788,7 +788,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               style={[styles.primaryBtn, { backgroundColor: picked.length ? colors.primary : alpha(colors.primary, 0.3), marginTop: espaciado.e10 }]}
             >
               {busy === 'add' ? <ActivityIndicator size="small" color={brand.white} /> : (
-                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>Añadir{picked.length ? ` (${picked.length})` : ''}</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino }}>Añadir{picked.length ? ` (${picked.length})` : ''}</Text>
               )}
             </Pressable>
           </>
@@ -819,7 +819,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               accessibilityLabel="Guardar cambios del grupo"
               style={[styles.primaryBtn, { backgroundColor: title.trim().length >= 3 ? colors.primary : alpha(colors.primary, 0.3) }]}>
               {busy === 'edit' ? <ActivityIndicator size="small" color={brand.white} /> : (
-                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>Guardar cambios</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino }}>Guardar cambios</Text>
               )}
             </Pressable>
           </>
@@ -831,7 +831,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
             </Text>
             {inviteCode ? (
               <View style={{ alignItems: 'center' }}>
-                <Text style={{ color: colors.textPrimary, fontSize: 34, fontWeight: peso.titulo, letterSpacing: 6 }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.heroGrande, fontWeight: peso.titulo, letterSpacing: 6 }}>
                   {inviteCode.code}
                 </Text>
                 <View style={{ backgroundColor: brand.white, padding: espaciado.e14, borderRadius: radios.lg, marginTop: espaciado.e12 }}>
@@ -850,7 +850,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 </Text>
                 <Pressable onPress={copiarCodigo} accessibilityLabel="Copiar el código del grupo"
                   style={[styles.primaryBtn, { backgroundColor: colors.primary, marginTop: espaciado.e14, alignSelf: 'stretch' }]}>
-                  <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>Copiar el código</Text>
+                  <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino }}>Copiar el código</Text>
                 </Pressable>
 
                 {/* ── TOPE DE ENTRADAS (P3) ──
@@ -1003,7 +1003,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
             <Pressable onPress={saveTopic} disabled={busy === 'topic'} accessibilityLabel="Guardar tema del grupo"
               style={[styles.primaryBtn, { backgroundColor: colors.primary }]}>
               {busy === 'topic' ? <ActivityIndicator size="small" color={brand.white} /> : (
-                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>Guardar tema</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino }}>Guardar tema</Text>
               )}
             </Pressable>
           </>
@@ -1021,7 +1021,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
             <Pressable onPress={saveAnnouncement} disabled={busy === 'ann'} accessibilityLabel="Publicar anuncio"
               style={[styles.primaryBtn, { backgroundColor: colors.primary }]}>
               {busy === 'ann' ? <ActivityIndicator size="small" color={brand.white} /> : (
-                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>Publicar anuncio</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino }}>Publicar anuncio</Text>
               )}
             </Pressable>
           </>
@@ -1039,7 +1039,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
             <Pressable onPress={saveWelcome} disabled={busy === 'welcome'} accessibilityLabel="Guardar bienvenida"
               style={[styles.primaryBtn, { backgroundColor: colors.primary }]}>
               {busy === 'welcome' ? <ActivityIndicator size="small" color={brand.white} /> : (
-                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>Guardar bienvenida</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino }}>Guardar bienvenida</Text>
               )}
             </Pressable>
           </>
@@ -1114,7 +1114,7 @@ const styles = StyleSheet.create({
   memberRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth },
   check: { width: 24, height: 24, borderRadius: radios.md, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
   searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e12, height: 38, marginBottom: espaciado.e8 },
-  input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: 14.5 },
+  input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.fino },
   area: { minHeight: 84, textAlignVertical: 'top' },
   chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   primaryBtn: {

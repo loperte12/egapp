@@ -358,7 +358,7 @@ export default function AlquilerPublicarScreen() {
                   </>
                 ) : (
                   <View style={{ alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e30 }}>
-                    <Text style={{ fontSize: 40 }}>🏠</Text>
+                    <Text style={{ fontSize: tipografia.emoji }}>🏠</Text>
                     <Text style={{ fontSize: 15, fontWeight: peso.fuerte, color: colors.textPrimary, textAlign: 'center' }}>
                       {landlord?.status === 'pending' ? 'Tu solicitud de arrendador está pendiente de revisión' : 'Necesitas verificar tu identidad para publicar'}
                     </Text>
@@ -595,6 +595,6 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   planBanner: { borderRadius: radios.md, padding: espaciado.e14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e16 },
   label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
-  counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: espaciado.e4 },
+  counter: { fontSize: tipografia.nota, color: c.textSecondary, textAlign: 'right', marginBottom: espaciado.e4 },
   area: { minHeight: 90, borderRadius: 10, borderWidth: trazo.fino, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
 });

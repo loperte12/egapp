@@ -343,7 +343,7 @@ export default function FoodOrdersScreen() {
         ListEmptyComponent={
           error ? (
             <View style={s_center.wrap}>
-              <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
+              <Text style={{ fontSize: tipografia.kpi, marginBottom: espaciado.e8 }}>📡</Text>
               <Text style={[s_center.title, { color: colors.textPrimary }]}>Algo salió mal</Text>
               <Text style={[s_center.sub, { color: colors.textSecondary }]}>{error}</Text>
               <Pressable onPress={loadFirst} accessibilityRole="button" style={s_center.btnPrimary}>
@@ -352,7 +352,7 @@ export default function FoodOrdersScreen() {
             </View>
           ) : loading ? null : stateFilter !== '' ? (
             <View style={s_center.wrap}>
-              <Text style={{ fontSize: 40, marginBottom: espaciado.e10 }}>📭</Text>
+              <Text style={{ fontSize: tipografia.emoji, marginBottom: espaciado.e10 }}>📭</Text>
               <Text style={[s_center.title, { color: colors.textPrimary }]}>Sin pedidos en este estado</Text>
               <Text style={[s_center.sub, { color: colors.textSecondary }]}>Prueba con otro filtro.</Text>
               <Pressable onPress={() => setStateFilter('')} accessibilityRole="button" style={s_center.btnGhost}>
@@ -361,7 +361,7 @@ export default function FoodOrdersScreen() {
             </View>
           ) : (
             <View style={s_center.wrap}>
-              <Text style={{ fontSize: 40, marginBottom: espaciado.e10 }}>{isOwner ? '🍽️' : '🛒'}</Text>
+              <Text style={{ fontSize: tipografia.emoji, marginBottom: espaciado.e10 }}>{isOwner ? '🍽️' : '🛒'}</Text>
               <Text style={[s_center.title, { color: colors.textPrimary }]}>
                 {isOwner ? 'Aún no recibes pedidos' : 'Todavía no has pedido'}
               </Text>
@@ -647,7 +647,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
               const pos = FLOW.indexOf(stName);
               return (
                 <Text key={stName} numberOfLines={1}
-                  style={{ flex: 1, textAlign: 'center', fontSize: 8, fontWeight: pos <= idx ? peso.maximo : peso.medio, color: pos <= idx ? ACCENT : colors.textSecondary }}>
+                  style={{ flex: 1, textAlign: 'center', fontSize: tipografia.sello, fontWeight: pos <= idx ? peso.maximo : peso.medio, color: pos <= idx ? ACCENT : colors.textSecondary }}>
                   {STATUS[stName].label}
                 </Text>
               );

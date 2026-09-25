@@ -212,7 +212,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     root: { flex: 1, backgroundColor: c.background },
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
+    title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: c.textPrimary },
     center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
     retry: { borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
     content: { padding: espaciado.e16, gap: espaciado.e10, paddingBottom: 40 },

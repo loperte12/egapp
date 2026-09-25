@@ -314,7 +314,7 @@ function AudioPlayerView({ src, title, cover, insets, onClose }: {
           </View>
         ) : (
           <View style={[styles.coverFrame, { backgroundColor: alpha(colors.primary, 0.12), borderColor: colors.border, alignItems: 'center', justifyContent: 'center' }]}>
-            <Text style={{ fontSize: 60 }}>🎙️</Text>
+            <Text style={{ fontSize: tipografia.emojiGrande }}>🎙️</Text>
           </View>
         )}
         <Text style={[styles.audioTitle, { color: colors.textPrimary }]} numberOfLines={2}>{title}</Text>

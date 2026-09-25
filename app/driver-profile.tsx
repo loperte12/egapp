@@ -139,7 +139,7 @@ export default function DriverProfileScreen() {
             <>
               <View style={{ alignItems: 'center', gap: espaciado.e2 }}>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>NETO ({period === 'all' ? 'total' : period})</Text>
-                <Text style={{ color: colors.success, fontSize: 30, fontWeight: peso.titulo }}>{xaf(earnings.totalNet)}</Text>
+                <Text style={{ color: colors.success, fontSize: tipografia.hero, fontWeight: peso.titulo }}>{xaf(earnings.totalNet)}</Text>
               </View>
               <View style={[s.statRow, { backgroundColor: alpha(colors.border, 0.2) }]}>
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>🚕 Taxi ciudad</Text>
@@ -231,7 +231,7 @@ export default function DriverProfileScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
+    title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: c.textPrimary },
     content: { padding: espaciado.e20, gap: espaciado.e14 },
     card: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e16 },
     avatar: { width: 56, height: 56, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },

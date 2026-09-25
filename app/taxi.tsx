@@ -1219,7 +1219,7 @@ export default function TaxiScreen() {
                                   <Text style={{ color: brand.secondary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                                     {total != null ? `${total.toLocaleString('es')} XAF` : '—'}
                                   </Text>
-                                  <Text style={{ fontSize: 10, color: active ? colors.primary : colors.textSecondary, fontWeight: peso.maximo }}>
+                                  <Text style={{ fontSize: tipografia.nota, color: active ? colors.primary : colors.textSecondary, fontWeight: peso.maximo }}>
                                     {active ? '✓ Solicitando' : 'Elegir'}
                                   </Text>
                                 </View>
@@ -1378,7 +1378,7 @@ export default function TaxiScreen() {
                     <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio, textAlign: 'center' }}>
                       El conductor te pedirá este PIN para empezar el viaje:
                     </Text>
-                    <Text style={{ fontSize: 30, fontWeight: peso.titulo, letterSpacing: 6, color: brand.success, textAlign: 'center' }}>
+                    <Text style={{ fontSize: tipografia.hero, fontWeight: peso.titulo, letterSpacing: 6, color: brand.success, textAlign: 'center' }}>
                       {pinLast4(phone)}
                     </Text>
                     {(wa || tel) && (
@@ -1519,7 +1519,7 @@ export default function TaxiScreen() {
                           <Image source={{ uri: photo }} style={{ width: 40, height: 40, borderRadius: 20 }} />
                         ) : (
                           <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' }}>
-                            <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 18 }}>{(name || 'C').charAt(0).toUpperCase()}</Text>
+                            <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cabecera }}>{(name || 'C').charAt(0).toUpperCase()}</Text>
                           </View>
                         )}
                         <View style={{ flex: 1 }}>
@@ -1636,7 +1636,7 @@ export default function TaxiScreen() {
                       <Text style={[s.modePrice, { color: brand.secondary }]}>
                         {rowTotal != null ? `${rowTotal.toLocaleString('es')} XAF` : '—'}
                       </Text>
-                      <Text style={{ fontSize: 10, color: active ? colors.primary : colors.textSecondary, fontWeight: peso.fuerte }}>
+                      <Text style={{ fontSize: tipografia.nota, color: active ? colors.primary : colors.textSecondary, fontWeight: peso.fuerte }}>
                         {active ? '✓ Seleccionado' : 'Elegir'}
                       </Text>
                     </View>
@@ -1718,17 +1718,17 @@ export default function TaxiScreen() {
                 <Text style={{ fontSize: 17, fontWeight: peso.maximo, color: colors.textPrimary }}>
                   {suggestedTotal != null ? `${suggestedTotal.toLocaleString('es')} XAF` : '—'}
                 </Text>
-                <Text style={{ fontSize: 10, color: colors.textSecondary }}>
+                <Text style={{ fontSize: tipografia.nota, color: colors.textSecondary }}>
                   Precio {mode?.label}{isPool ? ` × ${usedPax}` : ''}
                 </Text>
-                <Text style={{ fontSize: 10, color: colors.primary, fontWeight: peso.fuerte }}>{distanceKm || '—'} km · {etaMin != null ? `${etaMin} min` : '—'}</Text>
+                <Text style={{ fontSize: tipografia.nota, color: colors.primary, fontWeight: peso.fuerte }}>{distanceKm || '—'} km · {etaMin != null ? `${etaMin} min` : '—'}</Text>
               </View>
               <View style={[s.priceBox, { backgroundColor: colors.surface }]}>
                 <Text style={{ fontSize: 17, fontWeight: peso.maximo, color: userPriceOk ? brand.secondary : colors.textSecondary }}>
                   {userPriceOk ? `${up.toLocaleString('es')} XAF` : '—'}
                 </Text>
-                <Text style={{ fontSize: 10, color: colors.textSecondary }}>Tu presupuesto</Text>
-                <Text style={{ fontSize: 10, color: colors.textSecondary }}>{budgetMin}–{budgetMax.toLocaleString('es')} XAF</Text>
+                <Text style={{ fontSize: tipografia.nota, color: colors.textSecondary }}>Tu presupuesto</Text>
+                <Text style={{ fontSize: tipografia.nota, color: colors.textSecondary }}>{budgetMin}–{budgetMax.toLocaleString('es')} XAF</Text>
               </View>
             </View>
           </View>
@@ -1925,7 +1925,7 @@ export default function TaxiScreen() {
               />
             )}
             <TextInput
-              style={[s.ratingInput, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.textPrimary, marginTop: needSetPin ? 8 : 12, textAlign: 'center', fontSize: 22, letterSpacing: 8 }]}
+              style={[s.ratingInput, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.textPrimary, marginTop: needSetPin ? 8 : 12, textAlign: 'center', fontSize: tipografia.subtitulo, letterSpacing: 8 }]}
               placeholder="••••••"
               placeholderTextColor={colors.textSecondary}
               value={pinValue}
@@ -1996,7 +1996,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     root: { flex: 1, backgroundColor: c.background },
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8 },
-    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
+    title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: c.textPrimary },
     banner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginHorizontal: espaciado.e16, marginBottom: espaciado.e4, borderRadius: radios.sm, paddingVertical: espaciado.e8, paddingHorizontal: espaciado.e12 },
     statusChip: { alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8, marginBottom: espaciado.e4 },
     mapHint: { position: 'absolute', top: 120, alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e6 },
@@ -2063,7 +2063,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     priceBox: { flex: 1, borderRadius: radios.md, padding: espaciado.e10, alignItems: 'center' },
     // Matrícula DESTACADA del coche (estilo placa, P1).
     plateBox: { alignSelf: 'center', borderWidth: trazo.base, borderColor: '#2B2F36', borderRadius: 6, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e5, backgroundColor: '#F5F7FA', marginTop: espaciado.e2 },
-    plateTxt: { fontSize: 19, fontWeight: peso.titulo, letterSpacing: 2, color: '#14171C' },
+    plateTxt: { fontSize: tipografia.cifra, fontWeight: peso.titulo, letterSpacing: 2, color: '#14171C' },
     footer: { padding: espaciado.e14, paddingBottom: espaciado.e18, borderTopWidth: trazo.fino },
     loading: { position: 'absolute', top: '50%', alignSelf: 'center' },
   });

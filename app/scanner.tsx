@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
   root: { flex: 1, paddingHorizontal: espaciado.e20 },
   back: { width: 40, height: 40, justifyContent: 'center' },
   frame: { marginTop: espaciado.e24, borderRadius: radios.full, borderWidth: trazo.base, borderStyle: 'dashed', padding: espaciado.e30, alignItems: 'center' },
-  title: { fontSize: 18, fontWeight: peso.maximo, marginTop: espaciado.e14 },
+  title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, marginTop: espaciado.e14 },
   note: { fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e8, textAlign: 'center' },
 });

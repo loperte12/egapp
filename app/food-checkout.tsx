@@ -276,7 +276,7 @@ export default function FoodCheckoutScreen() {
         >
           {empty ? (
             <View style={s_center.wrap}>
-              <Text style={{ fontSize: 40, marginBottom: espaciado.e10 }}>{empty.emoji}</Text>
+              <Text style={{ fontSize: tipografia.emoji, marginBottom: espaciado.e10 }}>{empty.emoji}</Text>
               <Text style={[s_center.title, { color: colors.textPrimary }]}>{empty.title}</Text>
               <Text style={[s_center.sub, { color: colors.textSecondary }]}>{empty.sub}</Text>
               <Pressable onPress={() => ir.atras()} accessibilityRole="button" style={s_center.btnPrimary}>
@@ -288,7 +288,7 @@ export default function FoodCheckoutScreen() {
               {/* Contexto del restaurante */}
               {detail && (
                 <View style={[s.restCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-                  <Text style={{ fontSize: 14.5, fontWeight: peso.maximo, color: colors.textPrimary }}>{detail.businessName}</Text>
+                  <Text style={{ fontSize: tipografia.fino, fontWeight: peso.maximo, color: colors.textPrimary }}>{detail.businessName}</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e2 }}>
                     {detail.cuisineLabel ?? 'Restaurante'} · {detail.city}
                   </Text>

@@ -411,9 +411,9 @@ export default function WorkPublishScreen() {
                           <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: espaciado.e8 }}>
                             <View style={{ flex: 1 }}>
                               <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary }}>{a.fullName || 'Sin nombre'}</Text>
-                              {a.documentType && <Text style={{ fontSize: 10, color: colors.textSecondary, marginTop: espaciado.e2 }}>DIP: {a.documentType} · {a.documentNumber}</Text>}
+                              {a.documentType && <Text style={{ fontSize: tipografia.nota, color: colors.textSecondary, marginTop: espaciado.e2 }}>DIP: {a.documentType} · {a.documentNumber}</Text>}
                               {a.note && <Text style={{ fontSize: tipografia.micro, color: colors.textPrimary, marginTop: espaciado.e4, fontStyle: 'italic' }}>«{a.note}»</Text>}
-                              <Text style={{ fontSize: 10, color: colors.textSecondary, marginTop: espaciado.e4 }}>{new Date(a.createdAt).toLocaleDateString('es')} · {STATUS_LABEL[a.status] ?? a.status}</Text>
+                              <Text style={{ fontSize: tipografia.nota, color: colors.textSecondary, marginTop: espaciado.e4 }}>{new Date(a.createdAt).toLocaleDateString('es')} · {STATUS_LABEL[a.status] ?? a.status}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, justifyContent: 'flex-end' }}>
                               {phone && (
@@ -462,7 +462,7 @@ function MapPinBadge() {
   return (
     <View style={{ position: 'absolute', top: 10, right: 10, flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.textPrimary, 0.75), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 10 }}>
       <MapPin size={11} color={brand.white} />
-      <Text style={{ color: brand.white, fontSize: 10, fontWeight: peso.fuerte, marginLeft: espaciado.e3 }}>Toca el mapa</Text>
+      <Text style={{ color: brand.white, fontSize: tipografia.nota, fontWeight: peso.fuerte, marginLeft: espaciado.e3 }}>Toca el mapa</Text>
     </View>
   );
 }
@@ -515,6 +515,6 @@ function MiniBtn({ label, bg, onPress, disabled, children }: { label: string; bg
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   hint: { fontSize: tipografia.caption, color: c.textSecondary, marginBottom: espaciado.e16, lineHeight: 18 },
   label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
-  counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: espaciado.e4 },
+  counter: { fontSize: tipografia.nota, color: c.textSecondary, textAlign: 'right', marginBottom: espaciado.e4 },
   area: { minHeight: 80, borderRadius: 10, borderWidth: trazo.fino, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
 });

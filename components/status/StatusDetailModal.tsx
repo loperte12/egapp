@@ -391,9 +391,9 @@ const styles = StyleSheet.create({
   timeTxt: { color: 'rgba(255,255,255,0.95)', fontSize: tipografia.micro, fontWeight: peso.fuerte, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   iconBtn: { width: 36, height: 36, borderRadius: radios.full, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center', borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.35)' },
   overlayText: { position: 'absolute', left: 18, right: 18 },
-  overlayEmoji: { fontSize: 46, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 6 },
+  overlayEmoji: { fontSize: tipografia.emojiGrande, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 6 },
   overlayLine: {
-    color: brand.white, fontSize: 22, fontWeight: peso.titulo, lineHeight: 29,
+    color: brand.white, fontSize: tipografia.subtitulo, fontWeight: peso.titulo, lineHeight: 29,
     textShadowColor: 'rgba(0,0,0,0.7)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 6,
   },
   dots: { position: 'absolute', bottom: 10, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e6 },

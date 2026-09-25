@@ -305,7 +305,7 @@ export default function BillingCheckoutScreen() {
         <View style={[s.card, { borderColor: colors.border }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
             <Text style={{ fontSize: tipografia.subtitle, fontWeight: peso.fuerte, color: colors.textPrimary, flex: 1 }}>{plan.name}</Text>
-            <Text style={{ fontSize: 18, fontWeight: peso.maximo, color: colors.primary }}>{formatXAF(plan.priceXaf)}</Text>
+            <Text style={{ fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: colors.primary }}>{formatXAF(plan.priceXaf)}</Text>
           </View>
           {plan.description ? <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e4 }}>{plan.description}</Text> : null}
         </View>

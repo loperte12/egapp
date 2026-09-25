@@ -119,7 +119,7 @@ export default function FoodMenuScreen() {
           <MenuSkeleton colors={colors} />
         ) : error ? (
           <View style={s_center.wrap}>
-            <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
+            <Text style={{ fontSize: tipografia.kpi, marginBottom: espaciado.e8 }}>📡</Text>
             <Text style={[s_center.title, { color: colors.textPrimary }]}>No pudimos cargar el menú</Text>
             <Text style={[s_center.sub, { color: colors.textSecondary }]}>{error}</Text>
             <Pressable onPress={retry} accessibilityRole="button" style={s_center.btnPrimary}>
@@ -143,7 +143,7 @@ export default function FoodMenuScreen() {
               /* Es una ESPERA: la carta la publica el restaurante. Se dice qué la llena y no
                  se inventa un botón (regla de la tanda 2 del informe). */
               <EmptyState
-                icono={<Text style={{ fontSize: 40 }}>🍽️</Text>}
+                icono={<Text style={{ fontSize: tipografia.emoji }}>🍽️</Text>}
                 titulo="Todavía no hay ítems en el menú"
                 texto="Los platos publicados y aprobados por el restaurante aparecerán aquí, con su precio."
               />
@@ -250,7 +250,7 @@ function MenuItemRow({ item, qty, onAdd, onDec, onInc }: {
            que falta —el cliente cree que está viendo el plato y no está viendo nada—. Se deja un
            hueco limpio con la categoría escrita: es lo que hay, dicho claro. */
         <View style={[s_row.img, s_row.imgFallback]}>
-          <Text style={{ fontSize: 10, fontWeight: peso.fuerte, color: colors.textSecondary, textAlign: 'center' }}>
+          <Text style={{ fontSize: tipografia.nota, fontWeight: peso.fuerte, color: colors.textSecondary, textAlign: 'center' }}>
             {item.category === 'plato' ? 'Plato' : item.category === 'bebida' ? 'Bebida' : 'Postre'}
           </Text>
         </View>
@@ -344,7 +344,7 @@ function MenuSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['colors'
 }
 
 const s_h = StyleSheet.create({
-  name: { fontSize: 19, fontWeight: peso.titulo },
+  name: { fontSize: tipografia.cifra, fontWeight: peso.titulo },
   sub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e5, flexWrap: 'wrap' },
   badge: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: 10, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
@@ -373,7 +373,7 @@ const s_row = StyleSheet.create({
   detailLine: { fontSize: 10.5, marginTop: espaciado.e2, lineHeight: 14 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5, marginTop: espaciado.e4 },
   miniChip: { borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
-  miniChipText: { fontSize: 10, fontWeight: peso.fuerte, color: ACCENT },
+  miniChipText: { fontSize: tipografia.nota, fontWeight: peso.fuerte, color: ACCENT },
 });
 
 const s_sk = StyleSheet.create({

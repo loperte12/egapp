@@ -898,7 +898,7 @@ function activeTripLabel(status: string): string {
 const tripCard = StyleSheet.create({
   card: { borderRadius: radios.panel, borderWidth: trazo.base, padding: espaciado.e14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, marginTop: espaciado.e14 },
   iconBox: { width: 40, height: 40, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-  title: { fontSize: 14.5, fontWeight: peso.titulo, marginTop: 1 },
+  title: { fontSize: tipografia.fino, fontWeight: peso.titulo, marginTop: 1 },
   sub: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 },
 });
 
@@ -920,9 +920,9 @@ const styles = StyleSheet.create({
   identityTopRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 },
   avatar: { width: 76, height: 76, borderRadius: radios.full, borderWidth: trazo.anillo, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   avatarImg: { width: '100%', height: '100%' },
-  avatarText: { fontSize: 30, fontWeight: peso.titulo, color: brand.white, textShadowColor: 'rgba(0,0,0,0.4)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
+  avatarText: { fontSize: tipografia.hero, fontWeight: peso.titulo, color: brand.white, textShadowColor: 'rgba(0,0,0,0.4)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   nameRow: { flexDirection: 'row', alignItems: 'center' },
-  name: { fontSize: 21, fontWeight: peso.titulo, color: brand.white, flexShrink: 1, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
+  name: { fontSize: tipografia.cifraGrande, fontWeight: peso.titulo, color: brand.white, flexShrink: 1, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
   egIdRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e3 },
   egId: { color: 'rgba(255,255,255,0.95)', fontSize: 10.5, fontWeight: peso.maximo, letterSpacing: 0.3 },
   qrMini: { width: 20, height: 20, borderRadius: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.18)' },
@@ -934,7 +934,7 @@ const styles = StyleSheet.create({
   statsRow: { flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e10 },
   statItem: { alignItems: 'center', minWidth: 62 },
   statValue: { color: brand.white, fontSize: 15, fontWeight: peso.titulo },
-  statLabel: { color: 'rgba(255,255,255,0.85)', fontSize: 9.5, fontWeight: peso.fuerte, marginTop: 1 },
+  statLabel: { color: 'rgba(255,255,255,0.85)', fontSize: tipografia.minimo, fontWeight: peso.fuerte, marginTop: 1 },
   ratingValueRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 },
 
   bioTxt: { color: 'rgba(255,255,255,0.92)', fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e6, lineHeight: 16 },
@@ -992,7 +992,7 @@ const styles = StyleSheet.create({
   emptyOkTxt: { color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body },
   photoLg: { width: 110, height: 110, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   photoLgImg: { width: '100%', height: '100%' },
-  photoLgTxt: { fontSize: 40, fontWeight: peso.titulo },
+  photoLgTxt: { fontSize: tipografia.emoji, fontWeight: peso.titulo },
   pickBtn: { flex: 1, borderRadius: 14, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e12, minHeight: 44 },
   pickBusy: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
 });

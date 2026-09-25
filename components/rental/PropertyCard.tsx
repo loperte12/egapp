@@ -99,7 +99,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   image: { width: '100%', height: '100%' },
   badgesTop: { position: 'absolute', top: 8, left: 8, flexDirection: 'row', gap: espaciado.e4 },
   socialBadge: { backgroundColor: brand.success, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 },
-  socialText: { color: brand.white, fontSize: 10, fontWeight: peso.fuerte },
+  socialText: { color: brand.white, fontSize: tipografia.nota, fontWeight: peso.fuerte },
   typeBadge: { position: 'absolute', top: 8, right: 8, backgroundColor: 'rgba(15,23,42,0.85)', paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 },
   typeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.medio },
   shortTermBadge: { position: 'absolute', bottom: 8, left: 8, backgroundColor: 'rgba(0,0,0,0.75)', paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 },

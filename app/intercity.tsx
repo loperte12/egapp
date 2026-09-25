@@ -439,7 +439,7 @@ export default function IntercityScreen() {
                 {t.publisherBadge ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', backgroundColor: alpha(colors.primary, 0.12), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.sm, marginTop: espaciado.e4 }}>
                     <BadgeCheck size={12} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontSize: 10, fontWeight: peso.maximo, marginLeft: espaciado.e4 }}>{t.publisherBadge}</Text>
+                    <Text style={{ color: colors.primary, fontSize: tipografia.nota, fontWeight: peso.maximo, marginLeft: espaciado.e4 }}>{t.publisherBadge}</Text>
                   </View>
                 ) : null}
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
@@ -485,7 +485,7 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-  title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
+  title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: c.textPrimary },
   content: { padding: espaciado.e20, gap: espaciado.e16 },
   block: { gap: espaciado.e12 },
   big: { fontSize: tipografia.title, fontWeight: peso.titulo, color: c.textPrimary, textAlign: 'center' },

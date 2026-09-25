@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
   barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: trazo.fino },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: peso.fuerte, lineHeight: 28 },
-  titulo: { fontSize: 16.5, fontWeight: peso.maximo },
+  titulo: { fontSize: tipografia.anchoFuerte, fontWeight: peso.maximo },
   sub: { fontSize: tipografia.caption },
   cambiar: { borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7 },
   cambiarTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   aviso: { margin: espaciado.e14, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
   enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   vacio: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e14, gap: espaciado.e6 },
-  vacioTitulo: { fontSize: 14.5, fontWeight: peso.maximo },
+  vacioTitulo: { fontSize: tipografia.fino, fontWeight: peso.maximo },
   // Barra de filtros y panel: el precio es filtro de primer nivel, va siempre a la vista.
   filtros: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,

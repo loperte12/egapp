@@ -193,7 +193,7 @@ export default function BuscarScreen() {
           style={({ pressed }) => [styles.row, { opacity: pressed ? 0.6 : 1 }]}
         >
           <View style={[styles.iconWrap, { backgroundColor: alpha(c.secondary, 0.12) }]}>
-            <Text style={{ fontSize: 18 }}>{item.emoji ?? '🔎'}</Text>
+            <Text style={{ fontSize: tipografia.cabecera }}>{item.emoji ?? '🔎'}</Text>
           </View>
           <View style={styles.rowBody}>
             <Text style={[styles.rowTitle, { color: c.textPrimary }]} numberOfLines={1}>{item.label}</Text>

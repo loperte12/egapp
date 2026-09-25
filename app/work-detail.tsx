@@ -274,14 +274,14 @@ export default function WorkDetailScreen() {
             {job.isUrgent && <View style={[s.badge, { backgroundColor: brand.danger }]}><Text style={s.badgeText}>URGENTE</Text></View>}
             {(job.applicantsCount ?? 0) > 0 && (
               <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.1), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.punta }}>
-                <Text style={{ fontSize: 10, color: colors.primary, fontWeight: peso.fuerte }}>
+                <Text style={{ fontSize: tipografia.nota, color: colors.primary, fontWeight: peso.fuerte }}>
                   {job.applicantsCount === 1 ? '1 aplicante' : `${job.applicantsCount} aplicantes`}
                 </Text>
               </View>
             )}
           </View>
-          <Text style={{ fontSize: 18, fontWeight: peso.fuerte, color: colors.textPrimary, marginBottom: espaciado.e6 }}>{job.title}</Text>
-          <Text style={{ fontSize: 19, fontWeight: peso.maximo, color: colors.primary, marginBottom: espaciado.e2 }}>{job.salary}</Text>
+          <Text style={{ fontSize: tipografia.cabecera, fontWeight: peso.fuerte, color: colors.textPrimary, marginBottom: espaciado.e6 }}>{job.title}</Text>
+          <Text style={{ fontSize: tipografia.cifra, fontWeight: peso.maximo, color: colors.primary, marginBottom: espaciado.e2 }}>{job.salary}</Text>
           {showMonthlyCaption && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: espaciado.e12 }}>/ mes · Neto</Text>}
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e12, marginBottom: espaciado.e12 }}>
             <Meta icon={MapPin} text={job.location || job.city} />
@@ -293,7 +293,7 @@ export default function WorkDetailScreen() {
               {(job.benefits || []).map((b, i) => (
                 <View key={i} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 }}>
                   <Check size={10} color={colors.primary} style={{ marginRight: espaciado.e3 }} />
-                  <Text style={{ fontSize: 10, color: colors.primary, fontWeight: peso.medio }}>{BENEFIT_LABELS[b] ?? b}</Text>
+                  <Text style={{ fontSize: tipografia.nota, color: colors.primary, fontWeight: peso.medio }}>{BENEFIT_LABELS[b] ?? b}</Text>
                 </View>
               ))}
             </View>
@@ -365,7 +365,7 @@ export default function WorkDetailScreen() {
                 {!applied && recruiterPhone && (
                   <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e3 }}>
                     <Lock size={10} color={colors.textSecondary} />
-                    <Text style={{ fontSize: 10, color: colors.textSecondary, marginLeft: espaciado.e3 }}>Contacto se desbloquea al postularte</Text>
+                    <Text style={{ fontSize: tipografia.nota, color: colors.textSecondary, marginLeft: espaciado.e3 }}>Contacto se desbloquea al postularte</Text>
                   </View>
                 )}
               </View>
@@ -487,7 +487,7 @@ export default function WorkDetailScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   card: { borderRadius: 14, padding: espaciado.e16, borderWidth: trazo.fino, marginBottom: espaciado.e16 },
   badge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.punta },
-  badgeText: { color: brand.white, fontSize: 10, fontWeight: peso.maximo, letterSpacing: 0.3 },
+  badgeText: { color: brand.white, fontSize: tipografia.nota, fontWeight: peso.maximo, letterSpacing: 0.3 },
   sectionTitle: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e10 },
   errIcon: { width: 60, height: 60, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
   retryBtn: { paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10 },

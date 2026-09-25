@@ -112,7 +112,7 @@ function FollowersContent() {
                     onPress={() => router.push({ pathname: '/lifebook-user', params: { id: u.id } } as never)}>
                     <Avatar url={u.avatarUrl} name={u.fullName} />
                     <View style={{ flex: 1 }}>
-                      <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.maximo }} numberOfLines={1}>{u.fullName ?? 'Usuario'}</Text>
+                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.maximo }} numberOfLines={1}>{u.fullName ?? 'Usuario'}</Text>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>
                         {u.city ? `${u.city} · ` : ''}{u.posts} publicacion{u.posts === 1 ? '' : 'es'} · {lbTimeAgo(u.at)}
                       </Text>
@@ -139,7 +139,7 @@ function FollowersContent() {
                   onPress={() => router.push({ pathname: '/lifebook-user', params: { id: s.id } } as never)}>
                   <Avatar url={s.avatarUrl} name={s.fullName} />
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.maximo }} numberOfLines={1}>{s.fullName ?? 'Usuario'}</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.maximo }} numberOfLines={1}>{s.fullName ?? 'Usuario'}</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }} numberOfLines={1}>{s.reason}</Text>
                   </View>
                 </Pressable>
@@ -168,7 +168,7 @@ function FollowersContent() {
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: 16.5, fontWeight: peso.titulo, flex: 1 },
+  topTitle: { fontSize: tipografia.anchoFuerte, fontWeight: peso.titulo, flex: 1 },
   sectionTitle: { fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.6, marginTop: espaciado.e6, marginBottom: espaciado.e8 },
   card: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12, marginBottom: espaciado.e8 },
   followBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderWidth: trazo.fino },

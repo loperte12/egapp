@@ -316,7 +316,7 @@ function CheckoutContent() {
         <View style={[styles.okIcono, { backgroundColor: alpha(colors.success, 0.15) }]}>
           <Check size={30} color={colors.success} />
         </View>
-        <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo }}>Pago exitoso</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>Pago exitoso</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', lineHeight: 18 }}>
           {exito.codigos.length === 1
             ? `Tu pedido ${exito.codigos[0]} ya está con la tienda.`
@@ -328,7 +328,7 @@ function CheckoutContent() {
           accessibilityLabel="Ver pedido"
           style={[styles.cta, { backgroundColor: colors.primary, marginTop: espaciado.e10, paddingHorizontal: espaciado.e26 }]}
         >
-          <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: peso.titulo }}>Ver pedido</Text>
+          <Text style={{ color: brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo }}>Ver pedido</Text>
         </Pressable>
         <Pressable onPress={() => irSeguro.libre('/lifebook-catalog')} accessibilityLabel="Seguir comprando">
           <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e6 }}>Seguir comprando</Text>
@@ -598,7 +598,7 @@ function CheckoutContent() {
                 Pagas: {bloques.map((g) => lbPayLabel(pago[g.shop?.id ?? 'sin-tienda'] ?? '')).join(' · ')}
               </Text>
             )}
-            <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: peso.titulo }}>Total: {lbXaf(resumen.total)}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.cifra, fontWeight: peso.titulo }}>Total: {lbXaf(resumen.total)}</Text>
           </View>
           {/*
             El botón NUNCA está muerto. Sin nada marcado en el carrito, en vez de quedarse apagado dice

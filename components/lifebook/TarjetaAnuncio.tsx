@@ -73,7 +73,7 @@ export function TarjetaAnuncio({ ad, tint, colors }: { ad: HomeAd; tint: string;
     <View style={{ marginTop: espaciado.e8 }}>
       {/* La etiqueta NO es opcional: sin ella el anuncio se lee como un comentario
           de alguien, y eso es engañar a quien lee. */}
-      <Text style={{ fontSize: 10, fontWeight: peso.titulo, letterSpacing: 0.6, color: colors.textSecondary, marginBottom: espaciado.e4 }}>
+      <Text style={{ fontSize: tipografia.nota, fontWeight: peso.titulo, letterSpacing: 0.6, color: colors.textSecondary, marginBottom: espaciado.e4 }}>
         PUBLICIDAD
       </Text>
       <Pressable

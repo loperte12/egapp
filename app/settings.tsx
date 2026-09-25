@@ -116,7 +116,7 @@ function SettingsContent() {
               style={({ pressed }) => [styles.sheetRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
             >
               <Text style={[styles.sheetRowTxt, { color: active ? colors.primary : colors.textPrimary }]}>{o}</Text>
-              {active ? <Check size={18} color={colors.primary} /> : (!allowAll ? <Text style={{ color: colors.textSecondary, fontSize: 10, fontWeight: peso.fuerte }}>Próximamente</Text> : null)}
+              {active ? <Check size={18} color={colors.primary} /> : (!allowAll ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.nota, fontWeight: peso.fuerte }}>Próximamente</Text> : null)}
             </Pressable>
           );
         })}
@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
   sheetHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e8 },
   sheetTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   sheetRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e13 },
-  sheetRowTxt: { fontSize: 14.5, fontWeight: peso.fuerte },
+  sheetRowTxt: { fontSize: tipografia.fino, fontWeight: peso.fuerte },
   confirmCard: { width: '84%', maxWidth: 340, borderRadius: 20, padding: espaciado.e20 },
   confirmTitle: { fontSize: 17, fontWeight: peso.titulo, textAlign: 'center' },
   confirmBody: { fontSize: tipografia.body, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e8, lineHeight: 19 },

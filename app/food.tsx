@@ -224,7 +224,7 @@ export default function FoodScreen() {
         ListEmptyComponent={
           error ? (
             <EmptyState
-              icono={<Text style={{ fontSize: 40 }}>📡</Text>}
+              icono={<Text style={{ fontSize: tipografia.emoji }}>📡</Text>}
               titulo="Algo salió mal"
               texto={error}
               accionLabel="Reintentar"
@@ -233,7 +233,7 @@ export default function FoodScreen() {
             />
           ) : loading ? null : (
             <EmptyState
-              icono={<Text style={{ fontSize: 40 }}>🍽️</Text>}
+              icono={<Text style={{ fontSize: tipografia.emoji }}>🍽️</Text>}
               titulo={hasFilters ? 'Sin resultados con estos filtros' : 'Todavía no hay restaurantes'}
               texto={hasFilters
                 ? 'Prueba a quitar filtros o buscar en otra ciudad.'
@@ -303,7 +303,7 @@ function RestaurantCard({ item, onPress }: { item: FoodRestaurant; onPress: () =
         <Image source={{ uri: photo }} style={s_card.img} contentFit="cover" transition={200} />
       ) : (
         <View style={[s_card.img, s_card.imgFallback]}>
-          <Text style={{ fontSize: 34 }}>{item.cuisineIcon ?? '🍽️'}</Text>
+          <Text style={{ fontSize: tipografia.heroGrande }}>{item.cuisineIcon ?? '🍽️'}</Text>
         </View>
       )}
       <View style={s_card.body}>
@@ -372,7 +372,7 @@ const s_card = StyleSheet.create({
   imgFallback: { backgroundColor: 'rgba(255,107,53,0.08)', alignItems: 'center', justifyContent: 'center' },
   body: { flex: 1, padding: espaciado.e12 },
   titleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8 },
-  name: { fontSize: 15.5, fontWeight: peso.maximo, flex: 1 },
+  name: { fontSize: tipografia.ancho, fontWeight: peso.maximo, flex: 1 },
   rating: { fontSize: tipografia.body, fontWeight: peso.titulo },
   badgeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 },
   chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3, maxWidth: '60%' },

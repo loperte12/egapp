@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14,
   },
   addIcon: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  subLabel: { fontSize: 10, fontWeight: peso.titulo, letterSpacing: 0.8, marginBottom: espaciado.e8 },
+  subLabel: { fontSize: tipografia.nota, fontWeight: peso.titulo, letterSpacing: 0.8, marginBottom: espaciado.e8 },
   visRowWrap: { flexDirection: 'row', gap: espaciado.e8, marginBottom: espaciado.e14 },
   visChip: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,

@@ -484,7 +484,7 @@ function CheckoutContent() {
             }}>
               {paymentMethod ? `Pagas: ${lbPayLabel(paymentMethod)}` : 'Elige cómo pagas'}
             </Text>
-            <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: peso.titulo }}>Total: {lbXaf(total)}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.cifra, fontWeight: peso.titulo }}>Total: {lbXaf(total)}</Text>
             {paymentMethod === 'likebook_wallet' && saldoMonedero !== null ? (
               <Text style={{ color: saldoMonedero >= total ? brand.success : brand.dangerPressed, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
                 Monedero: {lbXaf(saldoMonedero)}{saldoMonedero >= total ? '' : ' · no llega'}

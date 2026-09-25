@@ -615,7 +615,7 @@ function Chip({ label, active, onPress, a11y }: { label: string; active: boolean
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
+    title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: c.textPrimary },
     content: { padding: espaciado.e20, gap: espaciado.e16 },
     block: { gap: espaciado.e12 },
     big: { fontSize: tipografia.title, fontWeight: peso.titulo, color: c.textPrimary, textAlign: 'center' },

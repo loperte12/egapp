@@ -211,7 +211,7 @@ function Contenido() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.cabecera, { paddingTop: insets.top + 8, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Volver" hitSlop={10} style={styles.volver}>
-          <Text style={{ color: colors.textPrimary, fontSize: 30, lineHeight: 32 }}>‹</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.hero, lineHeight: 32 }}>‹</Text>
         </Pressable>
         <View style={{ flex: 1 }}>
           <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo }}>Precios y fechas</Text>
@@ -281,13 +281,13 @@ function Contenido() {
                 style={{ opacity: puedeAtras ? 1 : 0.3 }}
                 accessibilityLabel="Mes anterior"
               >
-                <Text style={{ color: colors.textPrimary, fontSize: 22 }}>‹</Text>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitulo }}>‹</Text>
               </Pressable>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                 {monthLabel(mes.year, mes.month0)}
               </Text>
               <Pressable onPress={() => setMes(shiftMonth(mes.year, mes.month0, 1))} hitSlop={8} accessibilityLabel="Mes siguiente">
-                <Text style={{ color: colors.textPrimary, fontSize: 22 }}>›</Text>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitulo }}>›</Text>
               </Pressable>
             </View>
 

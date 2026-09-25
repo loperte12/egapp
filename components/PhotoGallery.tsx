@@ -101,7 +101,7 @@ export function PhotoGallery({
       >
         {urls.length === 0 ? (
           <View style={[{ width: ancho, height: alto, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }]}>
-            <Text style={{ fontSize: 36 }}>{emptyIcon}</Text>
+            <Text style={{ fontSize: tipografia.heroGrande }}>{emptyIcon}</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>{emptyLabel}</Text>
           </View>
         ) : (

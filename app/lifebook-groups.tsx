@@ -273,13 +273,13 @@ function GroupsContent() {
                 <Image source={{ uri: absUrl(item.photoUrl) }} style={styles.groupPhoto} />
               ) : (
                 <View style={[styles.groupPhoto, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: 18 }}>
+                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.cabecera }}>
                     {(item.title || '?').trim().charAt(0).toUpperCase()}
                   </Text>
                 </View>
               )}
               <View style={{ flex: 1 }}>
-                <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 14.5 }} numberOfLines={1}>{item.title}</Text>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.fino }} numberOfLines={1}>{item.title}</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e3 }}>
                   <Users size={12} color={colors.textSecondary} />
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{item.membersCount}</Text>
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
   codeInput: {
-    borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: 22, fontWeight: peso.titulo,
+    borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: tipografia.subtitulo, fontWeight: peso.titulo,
     letterSpacing: 6, textAlign: 'center',
   },
   cta: { marginTop: espaciado.e14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },

@@ -408,7 +408,7 @@ function MediaComposeContent() {
               >
                 {file ? (
                   <View style={{ alignItems: 'center', gap: espaciado.e6 }}>
-                    <Text style={{ fontSize: 34 }}>{kind === 'podcast' ? '🎙️' : '🎬'}</Text>
+                    <Text style={{ fontSize: tipografia.heroGrande }}>{kind === 'podcast' ? '🎙️' : '🎬'}</Text>
                     <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }} numberOfLines={1}>
                       {file.name}
                     </Text>

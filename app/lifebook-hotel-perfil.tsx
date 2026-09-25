@@ -195,7 +195,7 @@ function Contenido() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.cabecera, { paddingTop: insets.top + 8, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Volver" hitSlop={10} style={styles.volver}>
-          <Text style={{ color: colors.textPrimary, fontSize: 30, lineHeight: 32 }}>‹</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.hero, lineHeight: 32 }}>‹</Text>
         </Pressable>
         <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>Ficha del hotel</Text>
       </View>
@@ -215,7 +215,7 @@ function Contenido() {
 
           {/* Lo que viene de la tienda */}
           <View style={[styles.caja, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.titulo }}>{hotel?.name ?? 'Tu alojamiento'}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.titulo }}>{hotel?.name ?? 'Tu alojamiento'}</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
               {[hotel?.barrio, hotel?.city, hotel?.region].filter(Boolean).join(' · ') || 'Sin dirección'}
               {hotel?.isVerified ? ' · ✅ Tienda verificada' : ''}

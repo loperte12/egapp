@@ -245,7 +245,7 @@ function ShopContent() {
               </View>
 
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e10 }}>
-                <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo, flex: 1 }} numberOfLines={1}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo, flex: 1 }} numberOfLines={1}>
                   {shop.name}
                 </Text>
                 {shop.isVerified ? <ShieldCheck size={16} color={colors.success} /> : null}

@@ -258,7 +258,7 @@ export default function FoodRiderScreen() {
         </View>
       ) : error ? (
         <View style={s_center.wrap}>
-          <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
+          <Text style={{ fontSize: tipografia.kpi, marginBottom: espaciado.e8 }}>📡</Text>
           <Text style={[s_center.title, { color: colors.textPrimary }]}>Algo salió mal</Text>
           <Text style={[s_center.sub, { color: colors.textSecondary }]}>{error}</Text>
           <Pressable onPress={() => load('initial')} accessibilityRole="button" style={s_center.btnPrimary}>
@@ -369,7 +369,7 @@ export default function FoodRiderScreen() {
                 </View>
                 {me && me.deliveries.length === 0 ? (
                   <View style={s_center.wrapSoft}>
-                    <Text style={{ fontSize: 32, marginBottom: espaciado.e6 }}>🛵</Text>
+                    <Text style={{ fontSize: tipografia.emojiMedio, marginBottom: espaciado.e6 }}>🛵</Text>
                     <Text style={[s_center.sub, { color: colors.textSecondary }]}>
                       Sin entregas asignadas todavía. Cuando un restaurante te asigne un pedido aparecerá aquí con el
                       tracking y los datos de recogida y entrega.

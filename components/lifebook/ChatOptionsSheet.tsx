@@ -330,7 +330,7 @@ export function ChatOptionsSheet({
             >
               {busy === 'claim'
                 ? <ActivityIndicator size="small" color={brand.white} />
-                : <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>Enviar reclamación</Text>}
+                : <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino }}>Enviar reclamación</Text>}
             </Pressable>
           </>
         ) : null}
@@ -362,7 +362,7 @@ function Row({ icon, label, hint, right, onPress, danger }: {
     >
       <View style={[styles.rowIcon, { backgroundColor: alpha(danger ? colors.danger : colors.primary, 0.12) }]}>{icon}</View>
       <View style={{ flex: 1 }}>
-        <Text style={{ color: danger ? colors.danger : colors.textPrimary, fontSize: 14.5, fontWeight: peso.fuerte }}>{label}</Text>
+        <Text style={{ color: danger ? colors.danger : colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.fuerte }}>{label}</Text>
         {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>{hint}</Text> : null}
       </View>
       {right ?? null}

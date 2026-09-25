@@ -160,7 +160,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                   {producto.shortDescription}
                 </Text>
               ) : null}
-              <Text style={{ color: colors.primary, fontSize: 19, fontWeight: peso.titulo, marginTop: espaciado.e6 }}>
+              <Text style={{ color: colors.primary, fontSize: tipografia.cifra, fontWeight: peso.titulo, marginTop: espaciado.e6 }}>
                 {lbPriceLabel(precioUnitario, producto.priceMode, lbXaf)}
                 {cantidad > 1 && precioUnitario !== null ? (
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
@@ -261,7 +261,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                   accessibilityLabel="Pagar"
                   style={[styles.pagar, { backgroundColor: colors.primary }]}
                 >
-                  <Text style={{ color: brand.white, fontSize: 15.5, fontWeight: peso.titulo }}>
+                  <Text style={{ color: brand.white, fontSize: tipografia.ancho, fontWeight: peso.titulo }}>
                     Pagar{total !== null ? ` ${lbXaf(total)}` : ''}
                   </Text>
                 </Pressable>

@@ -440,7 +440,7 @@ export default function FoodOwnerScreen() {
         <OwnerSkeleton colors={colors} />
       ) : error ? (
         <View style={s_center.wrap}>
-          <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
+          <Text style={{ fontSize: tipografia.kpi, marginBottom: espaciado.e8 }}>📡</Text>
           <Text style={[s_center.title, { color: colors.textPrimary }]}>Algo salió mal</Text>
           <Text style={[s_center.sub, { color: colors.textSecondary }]}>{error}</Text>
           <Pressable onPress={() => load('initial')} accessibilityRole="button" style={s_center.btnPrimary}>
@@ -474,7 +474,7 @@ export default function FoodOwnerScreen() {
                 <Image source={{ uri: photoUrl }} style={s.photo} contentFit="cover" transition={200} />
               ) : (
                 <View style={[s.photo, s.photoFallback]}>
-                  <Text style={{ fontSize: 30 }}>🍽️</Text>
+                  <Text style={{ fontSize: tipografia.hero }}>🍽️</Text>
                 </View>
               )}
               <View style={{ marginLeft: espaciado.e12, flex: 1 }}>
