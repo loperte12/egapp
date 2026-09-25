@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import type { LbCategory, LbServiceType } from '../../../api/commerce';
 
 /**
@@ -39,7 +39,7 @@ export function StepBlock({ title, hint, children }: { title?: string; hint?: st
   return (
     <View style={{ marginBottom: espaciado.e16 }}>
       {title ? (
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginBottom: espaciado.e7 }}>{title}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo, marginBottom: espaciado.e7 }}>{title}</Text>
       ) : null}
       {hint ? (
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e8 }}>{hint}</Text>
@@ -69,7 +69,7 @@ export function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <View style={styles.row}>
       <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{label}</Text>
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', flex: 1, textAlign: 'right' }} numberOfLines={2}>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, flex: 1, textAlign: 'right' }} numberOfLines={2}>
         {value}
       </Text>
     </View>

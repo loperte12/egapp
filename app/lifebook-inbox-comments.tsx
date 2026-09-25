@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, EmptyState, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, AtSign, MessageSquare } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -51,11 +51,11 @@ function CommentsContent() {
           <Image source={{ uri: absUrl(actor.avatarUrl) }} style={[styles.avatar, { backgroundColor: colors.surface }]} />
         ) : (
           <View style={[styles.avatar, { backgroundColor: alpha(colors.primary, 0.15), alignItems: 'center', justifyContent: 'center' }]}>
-            <Text style={{ color: colors.primary, fontSize: 18, fontWeight: '900' }}>{(actor.fullName ?? '?').charAt(0).toUpperCase()}</Text>
+            <Text style={{ color: colors.primary, fontSize: 18, fontWeight: peso.titulo }}>{(actor.fullName ?? '?').charAt(0).toUpperCase()}</Text>
           </View>
         )}
         <View style={{ flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '800' }} numberOfLines={1}>{actor.fullName ?? 'Usuario'}</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.maximo }} numberOfLines={1}>{actor.fullName ?? 'Usuario'}</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>{label} · {lbTimeAgo(at)}</Text>
         </View>
       </Pressable>
@@ -72,7 +72,7 @@ function CommentsContent() {
               <Text style={{ fontSize: tipografia.body }}>📝</Text>
             </View>
           )}
-          <Text style={{ flex: 1, color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Ver la publicación</Text>
+          <Text style={{ flex: 1, color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Ver la publicación</Text>
         </Pressable>
       )}
     </View>
@@ -145,7 +145,7 @@ function CommentsContent() {
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: 16.5, fontWeight: '900', flex: 1 },
+  topTitle: { fontSize: 16.5, fontWeight: peso.titulo, flex: 1 },
   tabPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderWidth: 1 },
   card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   avatar: { width: 42, height: 42, borderRadius: 21 },

@@ -12,7 +12,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Check, FileScan, QrCode, Search, UserPlus } from 'lucide-react-native';
 import { lifebookApi, lifebookInboxApi, type LbFollowerItem, type LbSuggestedUser } from '../../api/lifebook';
 import { messagesApi, type LbConversation, type LbConversationCard, toConversationCard } from '../../api/messages';
@@ -185,14 +185,14 @@ export function ScanSheet({ visible, onClose, onDocument, onQr }: {
       <Pressable onPress={() => { onClose(); onDocument(); }} style={[styles.optionRow, { backgroundColor: colors.surface }]}>
         <FileScan size={18} color={colors.primary} />
         <View style={{ flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Escanear documento</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Escanear documento</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Traducir un documento al español</Text>
         </View>
       </Pressable>
       <Pressable onPress={() => { onClose(); onQr(); }} style={[styles.optionRow, { backgroundColor: colors.surface }]}>
         <QrCode size={18} color={colors.textSecondary} />
         <View style={{ flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Escanear QR de un amigo</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Escanear QR de un amigo</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Necesita lector de QR y búsqueda por EG-ID (pendiente)</Text>
         </View>
       </Pressable>
@@ -210,9 +210,9 @@ const styles = StyleSheet.create({
   personRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
   personAvatar: { width: 40, height: 40, borderRadius: 20 },
   badge: { borderRadius: radios.full, minWidth: 18, height: 18, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e5 },
-  badgeText: { color: brand.white, fontSize: 10, fontWeight: '800' },
+  badgeText: { color: brand.white, fontSize: 10, fontWeight: peso.maximo },
   smallBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, minWidth: 78, justifyContent: 'center' },
-  smallBtnText: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800' },
+  smallBtnText: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo },
   check: { width: 24, height: 24, borderRadius: radios.md, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
   notice: { borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e10 },
   titleInput: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 44, fontSize: 14.5, marginBottom: espaciado.e8 },

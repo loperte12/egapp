@@ -182,7 +182,7 @@ export default function HotelResultadosScreen() {
             backgroundColor: hayFiltro ? alpha(colors.primary, 0.12) : colors.surface,
           }]}
         >
-          <Text style={{ color: hayFiltro ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+          <Text style={{ color: hayFiltro ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
             {hayFiltro
               ? `Precio: ${aplicado.min !== undefined ? xaf(aplicado.min) : '0'} – ${aplicado.max !== undefined ? xaf(aplicado.max) : 'sin tope'}`
               : '💰 Precio'}
@@ -196,7 +196,7 @@ export default function HotelResultadosScreen() {
             accessibilityLabel="Quitar el filtro de precio"
             style={[styles.chip, { borderColor: colors.border, backgroundColor: colors.surface }]}
           >
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }}>Quitar</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Quitar</Text>
           </Pressable>
         ) : null}
 
@@ -220,7 +220,7 @@ export default function HotelResultadosScreen() {
             </View>
           </View>
           {aplicado.error ? (
-            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e8 }}>
+            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8 }}>
               ⚠ {aplicado.error}
             </Text>
           ) : null}
@@ -333,16 +333,16 @@ const styles = StyleSheet.create({
   screen: { flex: 1 },
   barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
-  volverTxt: { fontSize: 26, fontWeight: '700', lineHeight: 28 },
-  titulo: { fontSize: 16.5, fontWeight: '800' },
+  volverTxt: { fontSize: 26, fontWeight: peso.fuerte, lineHeight: 28 },
+  titulo: { fontSize: 16.5, fontWeight: peso.maximo },
   sub: { fontSize: tipografia.caption },
   cambiar: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7 },
-  cambiarTxt: { fontSize: tipografia.caption, fontWeight: '700' },
+  cambiarTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e8 },
   aviso: { margin: espaciado.e14, borderWidth: 1, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
-  enlace: { fontSize: tipografia.caption, fontWeight: '700' },
+  enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   vacio: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e14, gap: espaciado.e6 },
-  vacioTitulo: { fontSize: 14.5, fontWeight: '800' },
+  vacioTitulo: { fontSize: 14.5, fontWeight: peso.maximo },
   // Barra de filtros y panel: el precio es filtro de primer nivel, va siempre a la vista.
   filtros: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,

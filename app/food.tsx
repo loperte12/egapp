@@ -283,7 +283,7 @@ function Chip({ label, icon, active, onPress }: { label: string; icon?: string |
     <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected: active }}
       style={[s_chip.base, { backgroundColor: active ? colors.primary : colors.surface, borderColor: active ? colors.primary : colors.border }]}>
       {icon ? <Text style={{ fontSize: tipografia.body }}>{icon}</Text> : null}
-      <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: active ? brand.white : colors.textPrimary }}>{label}</Text>
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: active ? brand.white : colors.textPrimary }}>{label}</Text>
     </Pressable>
   );
 }
@@ -372,15 +372,15 @@ const s_card = StyleSheet.create({
   imgFallback: { backgroundColor: 'rgba(255,107,53,0.08)', alignItems: 'center', justifyContent: 'center' },
   body: { flex: 1, padding: espaciado.e12 },
   titleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8 },
-  name: { fontSize: 15.5, fontWeight: '800', flex: 1 },
-  rating: { fontSize: tipografia.body, fontWeight: '900' },
+  name: { fontSize: 15.5, fontWeight: peso.maximo, flex: 1 },
+  rating: { fontSize: tipografia.body, fontWeight: peso.titulo },
   badgeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 },
   chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3, maxWidth: '60%' },
   dot: { width: 6, height: 6, borderRadius: 3 },
-  chipText: { fontSize: 10.5, fontWeight: '800', flexShrink: 1 },
+  chipText: { fontSize: 10.5, fontWeight: peso.maximo, flexShrink: 1 },
   sub: { fontSize: tipografia.micro, fontWeight: peso.medio },
   metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8, marginTop: espaciado.e6 },
-  meta: { fontSize: tipografia.caption, fontWeight: '800', flexShrink: 1 },
+  meta: { fontSize: tipografia.caption, fontWeight: peso.maximo, flexShrink: 1 },
 });
 
 const s_sk = StyleSheet.create({
@@ -393,8 +393,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   searchBox: { flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e12, backgroundColor: c.surface, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderWidth: 1, borderColor: c.border },
   searchInput: { flex: 1, color: c.textPrimary, fontSize: tipografia.body, marginLeft: espaciado.e8 },
-  resultsLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, marginTop: espaciado.e14, marginBottom: espaciado.e10 },
+  resultsLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, marginTop: espaciado.e14, marginBottom: espaciado.e10 },
   listContent: { paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e32 },
   footerNote: { paddingVertical: espaciado.e16, alignItems: 'center' },
-  footerText: { fontSize: tipografia.caption, fontWeight: '700' },
+  footerText: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
 });

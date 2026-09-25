@@ -35,7 +35,7 @@ import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleShee
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Banknote, Bike, CreditCard, MapPin, Minus, Plus, Store, Trash2, Wallet } from 'lucide-react-native';
-import { alpha, espaciado, FormField, MasOpciones, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, MasOpciones, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { foodApi, FoodRestaurantDetail } from '../api/food';
 import { walletApi } from '../api/wallet';
 import { fijarPin } from '../api/settlement';
@@ -280,7 +280,7 @@ export default function FoodCheckoutScreen() {
               <Text style={[s_center.title, { color: colors.textPrimary }]}>{empty.title}</Text>
               <Text style={[s_center.sub, { color: colors.textSecondary }]}>{empty.sub}</Text>
               <Pressable onPress={() => ir.atras()} accessibilityRole="button" style={s_center.btnPrimary}>
-                <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Volver</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Volver</Text>
               </Pressable>
             </View>
           ) : (
@@ -288,7 +288,7 @@ export default function FoodCheckoutScreen() {
               {/* Contexto del restaurante */}
               {detail && (
                 <View style={[s.restCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-                  <Text style={{ fontSize: 14.5, fontWeight: '800', color: colors.textPrimary }}>{detail.businessName}</Text>
+                  <Text style={{ fontSize: 14.5, fontWeight: peso.maximo, color: colors.textPrimary }}>{detail.businessName}</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e2 }}>
                     {detail.cuisineLabel ?? 'Restaurante'} · {detail.city}
                   </Text>
@@ -297,7 +297,7 @@ export default function FoodCheckoutScreen() {
                     <Text numberOfLines={2} style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e2 }}>📍 {detail.address}</Text>
                   ) : null}
                   {detail.isOpen === false && (
-                    <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.danger, marginTop: espaciado.e4 }}>
+                    <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.danger, marginTop: espaciado.e4 }}>
                       Cerrado ahora · tu pedido quedará en cola y lo confirmarán cuando abra.
                     </Text>
                   )}
@@ -310,7 +310,7 @@ export default function FoodCheckoutScreen() {
 
               {missing.length > 0 && (
                 <View style={[s.warnBox, { backgroundColor: alpha(colors.danger, 0.08), borderColor: alpha(colors.danger, 0.3) }]}>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.danger }}>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.danger }}>
                     {missing.length === 1 ? 'Un plato ya no está disponible' : `${missing.length} platos ya no están disponibles`}
                   </Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e3, lineHeight: 15 }}>
@@ -321,12 +321,12 @@ export default function FoodCheckoutScreen() {
 
               {priceChanges.length > 0 && (
                 <View style={[s.warnBox, { backgroundColor: alpha(brand.warning, 0.1), borderColor: alpha(brand.warning, 0.35) }]}>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: brand.warningText }}>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: brand.warningText }}>
                     El restaurante cambió algún precio
                   </Text>
                   {priceChanges.map((c) => (
                     <Text key={c.name} style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e2, lineHeight: 15 }}>
-                      {c.name}: {formatXAF(c.antes)} → <Text style={{ fontWeight: '800', color: brand.warningText }}>{formatXAF(c.ahora)}</Text>
+                      {c.name}: {formatXAF(c.antes)} → <Text style={{ fontWeight: peso.maximo, color: brand.warningText }}>{formatXAF(c.ahora)}</Text>
                     </Text>
                   ))}
                   <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e3 }}>
@@ -340,7 +340,7 @@ export default function FoodCheckoutScreen() {
                   decidido. Solo aparece con reparto y con cifra del servidor. */}
               {bloqueadoPorMinimo && minimoReparto !== null && (
                 <View style={[s.warnBox, { backgroundColor: alpha(colors.danger, 0.08), borderColor: alpha(colors.danger, 0.3) }]}>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.danger }}>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.danger }}>
                     Para reparto el pedido mínimo es {formatXAF(minimoReparto)}
                   </Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e3, lineHeight: 15 }}>
@@ -366,15 +366,15 @@ export default function FoodCheckoutScreen() {
               <View style={s.breakdown}>
                 <View style={s.brRow}>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Subtotal</Text>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>{formatXAF(total)}</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>{formatXAF(total)}</Text>
                 </View>
                 <View style={s.brRow}>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Envío</Text>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.primary }}>Gratis</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.primary }}>Gratis</Text>
                 </View>
                 <View style={[s.brRow, { marginTop: espaciado.e4 }]}>
-                  <Text style={{ fontSize: 15, fontWeight: '800', color: colors.textPrimary }}>Total</Text>
-                  <Text style={{ fontSize: tipografia.title, fontWeight: '900', color: ACCENT }}>{formatXAF(total)}</Text>
+                  <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary }}>Total</Text>
+                  <Text style={{ fontSize: tipografia.title, fontWeight: peso.titulo, color: ACCENT }}>{formatXAF(total)}</Text>
                 </View>
                 {/* Honestidad sobre las comisiones: existen y las paga el restaurante. Se dice
                     aquí porque el dueño decidió que la comisión se muestre a ambos, y el
@@ -396,7 +396,7 @@ export default function FoodCheckoutScreen() {
                 style={[s.modeCard, { borderColor: pickup === 'pickup' ? ACCENT : colors.border, borderWidth: pickup === 'pickup' ? 2 : 1 }]}>
                 <Store size={18} color={ACCENT} />
                 <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Recoger en el local</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>Recoger en el local</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Pasa a recoger tu pedido.</Text>
                 </View>
               </Pressable>
@@ -405,7 +405,7 @@ export default function FoodCheckoutScreen() {
                 style={[s.modeCard, { borderColor: pickup === 'delivery' ? ACCENT : colors.border, borderWidth: pickup === 'delivery' ? 2 : 1, marginTop: espaciado.e8 }]}>
                 <Bike size={18} color={ACCENT} />
                 <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>A domicilio</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>A domicilio</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Reparto a tu dirección.</Text>
                 </View>
               </Pressable>
@@ -445,7 +445,7 @@ export default function FoodCheckoutScreen() {
                     style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10, borderWidth: 1, borderColor: pin ? alpha(colors.success, 0.5) : colors.border, backgroundColor: pin ? alpha(colors.success, 0.08) : 'transparent' }}
                   >
                     <MapPin size={15} color={pin ? colors.success : colors.textPrimary} />
-                    <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: '700', color: pin ? colors.success : colors.textPrimary }}>
+                    <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte, color: pin ? colors.success : colors.textPrimary }}>
                       {ubicando ? 'Buscando tu ubicación…' : pin ? '✓ Ubicación exacta añadida al pedido' : 'Añadir mi ubicación exacta (ayuda al repartidor a llegar)'}
                     </Text>
                     {pin ? (
@@ -489,7 +489,7 @@ export default function FoodCheckoutScreen() {
                 style={[s.modeCard, { borderColor: method === 'cash' ? ACCENT : colors.border, borderWidth: method === 'cash' ? 2 : 1 }]}>
                 <Banknote size={18} color={ACCENT} />
                 <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Efectivo al recoger/recibir</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>Efectivo al recoger/recibir</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Paga al recoger o recibir · EG no retiene el dinero.</Text>
                 </View>
               </Pressable>
@@ -498,7 +498,7 @@ export default function FoodCheckoutScreen() {
                 style={[s.modeCard, { borderColor: method === 'billing' ? ACCENT : colors.border, borderWidth: method === 'billing' ? 2 : 1, marginTop: espaciado.e8 }]}>
                 <CreditCard size={18} color={ACCENT} />
                 <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Pago Billing (transferencia)</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>Pago Billing (transferencia)</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Orden de pago con comprobante · aprobación 2–24 h.</Text>
                 </View>
               </Pressable>
@@ -508,12 +508,12 @@ export default function FoodCheckoutScreen() {
                 style={[s.modeCard, { borderColor: method === 'likebook_wallet' ? ACCENT : colors.border, borderWidth: method === 'likebook_wallet' ? 2 : 1, marginTop: espaciado.e8 }]}>
                 <Wallet size={18} color={ACCENT} />
                 <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Monedero</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>Monedero</Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>
                     Confirmas con tu PIN y el importe queda en garantía hasta que recibas el pedido.
                   </Text>
                   {method === 'likebook_wallet' && saldoMonedero !== null ? (
-                    <Text style={{ fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e3, color: saldoMonedero >= total ? brand.success : brand.dangerPressed }}>
+                    <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e3, color: saldoMonedero >= total ? brand.success : brand.dangerPressed }}>
                       Tienes {formatXAF(saldoMonedero)}{saldoMonedero >= total ? '' : ' · no llega'}
                     </Text>
                   ) : null}
@@ -581,7 +581,7 @@ function CartLineRow({ name, price, qty, lineTotal, onDec, onInc, onRemove }: {
       <View style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8 }}>
           <Text numberOfLines={2} style={{ flex: 1, fontSize: tipografia.body, color: colors.textPrimary }}>{name}</Text>
-          <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>{formatXAF(lineTotal)}</Text>
+          <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>{formatXAF(lineTotal)}</Text>
         </View>
         <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 1 }}>{formatXAF(price)} c/u</Text>
         <View style={s_line.controls}>
@@ -609,19 +609,19 @@ const s_line = StyleSheet.create({
   controls: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8 },
   iconBtn: { width: 28, height: 28, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center' },
   stepBtn: { width: 28, height: 28, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center' },
-  qty: { fontSize: tipografia.body, fontWeight: '800', minWidth: 16, textAlign: 'center' },
+  qty: { fontSize: tipografia.body, fontWeight: peso.maximo, minWidth: 16, textAlign: 'center' },
 });
 
 const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: espaciado.e28 },
-  title: { fontSize: 15, fontWeight: '800', textAlign: 'center' },
+  title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.body, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
   btnPrimary: { marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e28, paddingVertical: espaciado.e11, borderRadius: 22 },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  label: { fontSize: tipografia.body, fontWeight: '700', color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
+  label: { fontSize: tipografia.body, fontWeight: peso.fuerte, color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
   restCard: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e4 },
   breakdown: { backgroundColor: c.surface, borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e10 },
   brRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e2 },

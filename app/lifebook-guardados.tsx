@@ -76,7 +76,7 @@ function GuardadosContent() {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
         <AlertCircle size={34} color={colors.danger} />
-        <Text style={{ color: colors.textPrimary, fontWeight: '800', textAlign: 'center' }}>{error}</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, textAlign: 'center' }}>{error}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
     );
@@ -95,10 +95,10 @@ function GuardadosContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
           Mis guardados
         </Text>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
           {items.length === 1 ? '1 producto' : `${items.length} productos`}
         </Text>
       </View>
@@ -125,7 +125,7 @@ function GuardadosContent() {
                 accessibilityLabel={`Abrir ${p.title}`}
                 style={{ flex: 1 }}
               >
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }} numberOfLines={2}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }} numberOfLines={2}>
                   {p.title}
                 </Text>
                 {p.shortDescription ? (
@@ -133,7 +133,7 @@ function GuardadosContent() {
                     {p.shortDescription}
                   </Text>
                 ) : null}
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e6 }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e6 }}>
                   {p.priceXaf === null ? 'Precio a consultar' : lbXaf(p.priceXaf)}
                   {p.oldPriceXaf && p.priceXaf && p.oldPriceXaf > p.priceXaf ? (
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
@@ -155,7 +155,7 @@ function GuardadosContent() {
                 style={[styles.quitar, { borderColor: alpha(colors.border, 0.9) }]}
               >
                 <Heart size={16} color={colors.primary} />
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                   {quitando === p.id ? 'Quitando…' : 'Quitar'}
                 </Text>
               </Pressable>

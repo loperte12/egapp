@@ -22,7 +22,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, MasOpciones, PinSheet, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, MasOpciones, PinSheet, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, Store } from 'lucide-react-native';
 import * as Crypto from 'expo-crypto';
 import { AuthGate } from '../core/AuthGate';
@@ -316,7 +316,7 @@ function CheckoutContent() {
         <View style={[styles.okIcono, { backgroundColor: alpha(colors.success, 0.15) }]}>
           <Check size={30} color={colors.success} />
         </View>
-        <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: '900' }}>Pago exitoso</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo }}>Pago exitoso</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', lineHeight: 18 }}>
           {exito.codigos.length === 1
             ? `Tu pedido ${exito.codigos[0]} ya está con la tienda.`
@@ -328,10 +328,10 @@ function CheckoutContent() {
           accessibilityLabel="Ver pedido"
           style={[styles.cta, { backgroundColor: colors.primary, marginTop: espaciado.e10, paddingHorizontal: espaciado.e26 }]}
         >
-          <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: '900' }}>Ver pedido</Text>
+          <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: peso.titulo }}>Ver pedido</Text>
         </Pressable>
         <Pressable onPress={() => irSeguro.libre('/lifebook-catalog')} accessibilityLabel="Seguir comprando">
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e6 }}>Seguir comprando</Text>
+          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e6 }}>Seguir comprando</Text>
         </Pressable>
       </View>
     );
@@ -352,7 +352,7 @@ function CheckoutContent() {
         <Pressable onPress={() => irSeguro.atras()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, marginLeft: espaciado.e10 }}>
           Confirmar pedido
         </Text>
       </View>
@@ -360,7 +360,7 @@ function CheckoutContent() {
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: espaciado.e14, paddingBottom: espaciado.e30 }} keyboardShouldPersistTaps="handled">
         {error ? (
           <View style={[styles.aviso, { backgroundColor: alpha(colors.danger, 0.1), borderColor: alpha(colors.danger, 0.4) }]}>
-            <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700' }}>{error}</Text>
+            <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte }}>{error}</Text>
           </View>
         ) : null}
 
@@ -383,7 +383,7 @@ function CheckoutContent() {
             >
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 }}>
                 <Store size={14} color={colors.primary} />
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', flex: 1 }} numberOfLines={1}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, flex: 1 }} numberOfLines={1}>
                   {g.shop?.name ?? 'Tienda'}
                 </Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>
@@ -413,7 +413,7 @@ function CheckoutContent() {
                       accessibilityLabel={m === 'pickup' ? 'Recoger en tienda' : lbTransportLabel(m)}
                       style={[styles.chip, { borderColor: on ? colors.primary : colors.border, backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface }]}
                     >
-                      <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+                      <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                         {m === 'pickup' ? 'Recoger en tienda' : lbTransportLabel(m)}
                       </Text>
                     </Pressable>
@@ -424,7 +424,7 @@ function CheckoutContent() {
               <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>CÓMO PAGAS</Text>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 }}>
                 {metodos.length === 0 ? (
-                  <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700' }}>
+                  <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
                     Esta tienda no tiene formas de pago configuradas.
                   </Text>
                 ) : null}
@@ -445,7 +445,7 @@ function CheckoutContent() {
                         opacity: activo ? 1 : 0.45,
                       }]}
                     >
-                      <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+                      <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                         {lbPayLabel(pm.method)}{activo ? '' : ' · no disponible'}
                       </Text>
                     </Pressable>
@@ -495,17 +495,17 @@ function CheckoutContent() {
               </View>
               {descuentoDeCupon(cuponDe(g), g.subtotalXaf) > 0 ? (
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
-                  <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: '800' }}>
+                  <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                     Cupón {cuponPorTienda[clave]}
                   </Text>
-                  <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: '800' }}>
+                  <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                     −{lbXaf(descuentoDeCupon(cuponDe(g), g.subtotalXaf))}
                   </Text>
                 </View>
               ) : null}
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>Total de este pedido</Text>
-                <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Total de este pedido</Text>
+                <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                   {lbXaf(Math.max(0, g.subtotalXaf + (envio ?? 0) - descuentoDeCupon(cuponDe(g), g.subtotalXaf)))}
                 </Text>
               </View>
@@ -516,7 +516,7 @@ function CheckoutContent() {
         {/* ── Dirección (una vez; la usan los pedidos que no son «recoger» ) ──── */}
         {bloques.some((g) => (entrega[g.shop?.id ?? 'sin-tienda'] ?? 'pickup') !== 'pickup') ? (
           <View style={[styles.bloque, { backgroundColor: colors.card, borderColor: alpha(colors.border, 0.6) }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>Dirección de entrega</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Dirección de entrega</Text>
             <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>CIUDAD</Text>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 }}>
               {LB_CITIES.map((c) => {
@@ -528,7 +528,7 @@ function CheckoutContent() {
                     accessibilityLabel={c}
                     style={[styles.chip, { borderColor: on ? colors.primary : colors.border, backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface }]}
                   >
-                    <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{c}</Text>
+                    <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{c}</Text>
                   </Pressable>
                 );
               })}
@@ -571,7 +571,7 @@ function CheckoutContent() {
       }}>
         {/* EL MOTIVO, EN EL PIE: arriba se queda fuera de la pantalla y el botón parece muerto. */}
         {error ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', paddingHorizontal: espaciado.e14, paddingTop: espaciado.e9 }}>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e9 }}>
             {error}
           </Text>
         ) : null}
@@ -581,7 +581,7 @@ function CheckoutContent() {
               Subtotal {lbXaf(resumen.subtotal)} · Envío {resumen.aConsultar ? 'a acordar' : lbXaf(resumen.envio)}
             </Text>
             {resumen.descuento > 0 ? (
-              <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: '800' }}>
+              <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                 Cupón: −{lbXaf(resumen.descuento)}
               </Text>
             ) : null}
@@ -590,7 +590,7 @@ function CheckoutContent() {
               fallo que reportó el dueño (el pedido salía con un método que nadie eligió).
             */}
             {sinPago.length ? (
-              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '800' }} numberOfLines={1}>
+              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.maximo }} numberOfLines={1}>
                 Elige cómo pagas en {sinPago.map((g) => g.shop?.name ?? 'la tienda').join(', ')}
               </Text>
             ) : (
@@ -598,7 +598,7 @@ function CheckoutContent() {
                 Pagas: {bloques.map((g) => lbPayLabel(pago[g.shop?.id ?? 'sin-tienda'] ?? '')).join(' · ')}
               </Text>
             )}
-            <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: '900' }}>Total: {lbXaf(resumen.total)}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: peso.titulo }}>Total: {lbXaf(resumen.total)}</Text>
           </View>
           {/*
             El botón NUNCA está muerto. Sin nada marcado en el carrito, en vez de quedarse apagado dice
@@ -616,7 +616,7 @@ function CheckoutContent() {
             {enviando ? (
               <ActivityIndicator size="small" color={brand.white} />
             ) : (
-              <Text style={{ color: bloques.length ? brand.white : colors.textPrimary, fontSize: 15, fontWeight: '900' }}>
+              <Text style={{ color: bloques.length ? brand.white : colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>
                 {!bloques.length ? 'Elige productos' : sinPago.length ? 'Elige cómo pagas' : `Pagar ${lbXaf(resumen.total)}`}
               </Text>
             )}
@@ -644,7 +644,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   bloque: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e12 },
-  etiqueta: { fontSize: 10.5, fontWeight: '900', letterSpacing: 0.7, marginTop: espaciado.e12, marginBottom: espaciado.e6 },
+  etiqueta: { fontSize: 10.5, fontWeight: peso.titulo, letterSpacing: 0.7, marginTop: espaciado.e12, marginBottom: espaciado.e6 },
   chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
   input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
   pie: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },

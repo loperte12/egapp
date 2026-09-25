@@ -26,7 +26,7 @@ import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Clapperboard, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { extraerFrames, type VideoFrame } from '../../core/videoFrames';
 import { fmtDur } from '../../constants/lifebook';
 
@@ -119,7 +119,7 @@ export function VideoCoverSheet({
             </View>
           ) : error ? (
             <View style={[s.errorBox, { backgroundColor: alpha(colors.danger, 0.08), borderColor: alpha(colors.danger, 0.25) }]}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', lineHeight: 18 }}>{error}</Text>
+              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, lineHeight: 18 }}>{error}</Text>
             </View>
           ) : frames.length === 0 ? (
             <View style={s.center}>
@@ -197,7 +197,7 @@ const s = StyleSheet.create({
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
   card: { borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e16 },
   head: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e12 },
-  title: { flex: 1, fontSize: tipografia.subtitle, fontWeight: '800' },
+  title: { flex: 1, fontSize: tipografia.subtitle, fontWeight: peso.maximo },
   center: { alignItems: 'center', paddingVertical: 34 },
   hint: { fontSize: tipografia.caption, lineHeight: 16 },
   errorBox: { borderRadius: 10, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e8 },
@@ -207,10 +207,10 @@ const s = StyleSheet.create({
     position: 'absolute', left: 4, bottom: 4, borderRadius: 6,
     backgroundColor: 'rgba(0,0,0,0.62)', paddingHorizontal: espaciado.e5, paddingVertical: 1,
   },
-  thumbTimeText: { color: brand.white, fontSize: 10, fontWeight: '800' },
+  thumbTimeText: { color: brand.white, fontSize: 10, fontWeight: peso.maximo },
   preview: { width: 170, height: 226, borderRadius: radios.md, borderWidth: 1, backgroundColor: '#000000' },
   confirm: { borderRadius: radios.md, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e16 },
-  confirmText: { color: brand.white, fontSize: 14.5, fontWeight: '900' },
+  confirmText: { color: brand.white, fontSize: 14.5, fontWeight: peso.titulo },
 });
 
 export default VideoCoverSheet;

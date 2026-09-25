@@ -104,7 +104,7 @@ import { useVideoPlayer, VideoView } from 'expo-video';
 import {
   ArrowLeft, Bookmark, Heart, MessageCircle, Share2, ShoppingBag, Volume2, VolumeX,
 } from 'lucide-react-native';
-import { alpha, EmptyState, espaciado, InlineError, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, InlineError, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { absUrl } from '../api/config';
 import { ir as irSeguro } from '../constants/rutas';
 import { authApi } from '../api/auth';
@@ -1236,8 +1236,8 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
                     </View>
                   )}
                   <View style={{ flex: 1 }}>
-                    <Text numberOfLines={2} style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '800' }}>{productos[0].title}</Text>
-                    <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900', marginTop: espaciado.e2 }}>
+                    <Text numberOfLines={2} style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{productos[0].title}</Text>
+                    <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
                       {productos[0].priceXaf === null ? 'A consultar' : lbXaf(productos[0].priceXaf)}
                     </Text>
                   </View>
@@ -1253,14 +1253,14 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
                     accessibilityLabel={`Comprar ${productos[0].title}`}
                     style={{ flex: 1, backgroundColor: brand.like, borderRadius: radios.full, paddingVertical: espaciado.e7, alignItems: 'center' }}
                   >
-                    <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>Comprar</Text>
+                    <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Comprar</Text>
                   </Pressable>
                   <Pressable
                     onPress={() => setStickerAbierto(false)}
                     accessibilityLabel="Cerrar el producto"
                     style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 }}
                   >
-                    <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '800' }}>Cerrar</Text>
+                    <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Cerrar</Text>
                   </Pressable>
                 </View>
               </View>
@@ -1277,11 +1277,11 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
                     <ShoppingBag size={14} color={brand.white} />
                   </View>
                 )}
-                <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>
+                <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>
                   {productos[0].priceXaf === null ? 'Ver producto' : lbXaf(productos[0].priceXaf)}
                 </Text>
                 {productos.length > 1 ? (
-                  <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 10.5, fontWeight: '800' }}>+{productos.length - 1}</Text>
+                  <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 10.5, fontWeight: peso.maximo }}>+{productos.length - 1}</Text>
                 ) : null}
               </Pressable>
             )}
@@ -1295,7 +1295,7 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
             <Image source={absUrl(post.author.avatarUrl)} style={s.avatar} contentFit="cover" cachePolicy="memory-disk" />
           ) : (
             <View style={[s.avatar, { backgroundColor: alpha(colors.primary, 0.5) }]}>
-              <Text style={{ fontSize: tipografia.micro, fontWeight: '800', color: brand.white }}>
+              <Text style={{ fontSize: tipografia.micro, fontWeight: peso.maximo, color: brand.white }}>
                 {authorName.trim().charAt(0).toUpperCase() || '?'}
               </Text>
             </View>
@@ -1370,30 +1370,30 @@ const s = StyleSheet.create({
     position: 'absolute', left: 0, right: 0, bottom: 12, zIndex: 6, alignItems: 'center',
   },
   tlTimeTxt: {
-    color: brand.white, fontSize: tipografia.caption, fontWeight: '800',
+    color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo,
     backgroundColor: 'rgba(0,0,0,0.55)', overflow: 'hidden',
     paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4, borderRadius: 10,
   },
   // El degradado inferior ya no es un estilo: se genera por franjas en `BottomScrim`.
   actions: { position: 'absolute', right: 10, zIndex: 3, alignItems: 'center', gap: espaciado.e16 },
   actBtn: { alignItems: 'center' },
-  actN: { color: brand.white, fontSize: tipografia.micro, fontWeight: '800', marginTop: espaciado.e3 },
+  actN: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.maximo, marginTop: espaciado.e3 },
   info: { position: 'absolute', left: 14, right: 74, bottom: 0, zIndex: 3 },
   authorRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 },
   avatar: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  author: { color: brand.white, fontSize: tipografia.body, fontWeight: '800', flexShrink: 1 },
+  author: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo, flexShrink: 1 },
   durChip: { backgroundColor: 'rgba(0,0,0,0.45)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
-  durText: { color: brand.white, fontSize: 10.5, fontWeight: '800' },
+  durText: { color: brand.white, fontSize: 10.5, fontWeight: peso.maximo },
   title: { color: 'rgba(255,255,255,0.94)', fontSize: tipografia.body, lineHeight: 18, marginTop: espaciado.e6 },
   // [P8] fila «Búsquedas relacionadas»
   relBox: { marginTop: espaciado.e9 },
-  relLabel: { color: 'rgba(255,255,255,0.62)', fontSize: 10.5, fontWeight: '800', marginBottom: espaciado.e6 },
+  relLabel: { color: 'rgba(255,255,255,0.62)', fontSize: 10.5, fontWeight: peso.maximo, marginBottom: espaciado.e6 },
   relRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 },
   relChip: {
     backgroundColor: 'rgba(255,255,255,0.16)', borderRadius: radios.md,
     paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e4, maxWidth: 190,
   },
-  relChipText: { color: brand.white, fontSize: tipografia.caption, fontWeight: '700' },
+  relChipText: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.fuerte },
   pauseDot: {
     ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 3,
   },
@@ -1402,7 +1402,7 @@ const s = StyleSheet.create({
     width: 70, height: 70, borderRadius: 35, alignItems: 'center', justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.55)', borderWidth: 2, borderColor: 'rgba(255,255,255,0.85)',
   },
-  largoTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: '900', textAlign: 'center', lineHeight: 19 },
-  largoSub: { color: 'rgba(255,255,255,0.8)', fontSize: tipografia.caption, fontWeight: '700' },
+  largoTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo, textAlign: 'center', lineHeight: 19 },
+  largoSub: { color: 'rgba(255,255,255,0.8)', fontSize: tipografia.caption, fontWeight: peso.fuerte },
   heartPop: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 4 },
 });

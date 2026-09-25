@@ -19,7 +19,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Package } from 'lucide-react-native';
 import type { LbMessageOrderRef } from '../../api/messages';
 import { LB_ORDER_META, lbXaf } from '../../constants/lifebook';
@@ -81,11 +81,11 @@ export function OrderCardEnChat({ pedido, onOpen }: {
   return (
     <View style={[styles.card, { backgroundColor: colors.card }]}>
       <View style={styles.cabecera}>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.caption, flex: 1 }} numberOfLines={2}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.caption, flex: 1 }} numberOfLines={2}>
           {titulo}
         </Text>
         <View style={[styles.pill, { backgroundColor: alpha(meta.color, 0.14) }]}>
-          <Text style={{ color: meta.color, fontSize: 9.5, fontWeight: '900' }} numberOfLines={1}>{meta.label}</Text>
+          <Text style={{ color: meta.color, fontSize: 9.5, fontWeight: peso.titulo }} numberOfLines={1}>{meta.label}</Text>
         </View>
       </View>
 
@@ -99,7 +99,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
             </View>
           )}
           <View style={{ flex: 1 }}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }} numberOfLines={2}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }} numberOfLines={2}>
               {primero.title}
             </Text>
             {primero.variant ? (
@@ -160,7 +160,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
       ) : null}
 
       <View style={[styles.total, { borderTopColor: alpha(colors.border, 0.6) }]}>
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>{lbXaf(pedido.totalXaf)}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{lbXaf(pedido.totalXaf)}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: 10.5 }} numberOfLines={1}>
           {/* En las tarjetas de tienda la entrega ya va en el ticket de arriba: aquí no se repite. */}
           {pedido.social && pedido.deliveryMode ? lbTransportLabel(pedido.deliveryMode) : ''}
@@ -177,7 +177,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
           accessibilityLabel={`Ver el pedido ${pedido.code}`}
           style={({ pressed }) => [styles.boton, { backgroundColor: alpha(colors.primary, 0.12), opacity: pressed ? 0.8 : 1 }]}
         >
-          <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.caption }}>Ver pedido</Text>
+          <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>Ver pedido</Text>
         </Pressable>
       ) : null}
     </View>
@@ -197,6 +197,6 @@ const styles = StyleSheet.create({
   /** El bloque del ticket: nombre, pago, entrega y nota. */
   ticket: { marginTop: espaciado.e8, paddingTop: espaciado.e6, borderTopWidth: StyleSheet.hairlineWidth, gap: espaciado.e2 },
   ticketLinea: { fontSize: 10.5, lineHeight: 14 },
-  ticketEtiqueta: { color: '#86909C', fontSize: 10, fontWeight: '900' },
+  ticketEtiqueta: { color: '#86909C', fontSize: 10, fontWeight: peso.titulo },
   boton: { marginTop: espaciado.e8, borderRadius: radios.full, paddingVertical: espaciado.e7, alignItems: 'center' },
 });

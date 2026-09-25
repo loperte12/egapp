@@ -101,11 +101,11 @@ function LikesContent() {
                   <Image source={{ uri: absUrl(item.user.avatarUrl) }} style={[styles.avatar, { backgroundColor: colors.surface }]} />
                 ) : (
                   <View style={[styles.avatar, { backgroundColor: alpha(colors.primary, 0.15), alignItems: 'center', justifyContent: 'center' }]}>
-                    <Text style={{ color: colors.primary, fontSize: 18, fontWeight: '900' }}>{(item.user.fullName ?? '?').charAt(0).toUpperCase()}</Text>
+                    <Text style={{ color: colors.primary, fontSize: 18, fontWeight: peso.titulo }}>{(item.user.fullName ?? '?').charAt(0).toUpperCase()}</Text>
                   </View>
                 )}
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '800' }} numberOfLines={1}>
+                  <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.maximo }} numberOfLines={1}>
                     {item.user.fullName ?? 'Usuario'}
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>
@@ -134,7 +134,7 @@ function LikesContent() {
                   {busy === item.user.id ? <ActivityIndicator size="small" color={colors.primary} /> : (
                     <>
                       <ThumbsUp size={13} color={colors.primary} />
-                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '900' }}>Agradecer por mensaje</Text>
+                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Agradecer por mensaje</Text>
                       <Send size={12} color={colors.primary} />
                     </>
                   )}
@@ -150,7 +150,7 @@ function LikesContent() {
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: 16.5, fontWeight: '900', flex: 1 },
+  topTitle: { fontSize: 16.5, fontWeight: peso.titulo, flex: 1 },
   tabPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderWidth: 1 },
   card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   avatar: { width: 42, height: 42, borderRadius: 21 },

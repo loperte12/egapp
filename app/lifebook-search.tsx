@@ -302,7 +302,7 @@ function LifeBookSearchContent() {
         </View>
 
         <Pressable onPress={() => doSearch(query)} hitSlop={8} accessibilityRole="button">
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>
+          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
             Buscar
           </Text>
         </Pressable>
@@ -493,7 +493,7 @@ function LifeBookSearchContent() {
                   <Text
                     style={{
                       fontSize: 15,
-                      fontWeight: '900',
+                      fontWeight: peso.titulo,
                       color: i < 3 ? brand.like : colors.textSecondary,
                       width: 20,
                       textAlign: 'center',
@@ -519,7 +519,7 @@ function LifeBookSearchContent() {
               <TrendingUp size={16} color={colors.primary} />
               <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>Descubre</Text>
               <Pressable onPress={() => irSeguro.libre('/lifebook-explore')} hitSlop={8} accessibilityRole="link">
-                <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Explorar todo →</Text>
+                <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Explorar todo →</Text>
               </Pressable>
             </View>
             <View style={styles.tagsWrap}>
@@ -620,7 +620,7 @@ const styles = StyleSheet.create({
     gap: espaciado.e6,
     marginBottom: espaciado.e10,
   },
-  sectionTitle: { fontSize: tipografia.subtitle, fontWeight: '800' },
+  sectionTitle: { fontSize: tipografia.subtitle, fontWeight: peso.maximo },
   tagsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
   historyTag: {
     flexDirection: 'row',

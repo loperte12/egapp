@@ -151,7 +151,17 @@ const FUENTE = /fontSize:\s*\d+(\.\d+)?/g;
    la misma deuda escrita de otra forma. Los nombres reales del proyecto son `borderRadius` y
    `border{Top|Bottom}{Left|Right}Radius`, así que el patrón los cubre todos sin tocar `maxWidth`. */
 const RADIO = /(?:border|border(?:Top|Bottom)(?:Left|Right))Radius:\s*\d+(\.\d+)?/g;
-const PESO = /fontWeight:\s*['"]\d+['"]/g;
+/* PESO — AMPLIADO el 25/09/2026, y era un punto CIEGO de la guardia.
+   POR QUÉ: el patrón anterior (`fontWeight:\s*['"]\d+['"]`) solo casaba si el valor EMPIEZA con
+   comilla. Un ternario como `fontWeight: active ? '900' : '600'` NO casa —el valor empieza por
+   `active`—, así que la guardia no veía ni una rama. Medido el 25/09: había **41 ternarios** con
+   pesos a mano, invisibles al trinquete, y varios usan `'600'` (el valor que se retiró por no tener
+   forma garantizada). Un trinquete que no ve una forma de escribir la deuda no aprieta esa forma.
+   El patrón nuevo caza TODO número entre comillas que aparezca en el valor de `fontWeight`, esté
+   solo o dentro de un ternario, así que cuenta **ramas**, no declaraciones: 41 ternarios aportan las
+   ramas que tengan. Con esto la deuda de esos ternarios nace REGISTRADA en vez de invisible.
+   `[^,}\n]*?` es perezoso y se detiene en la coma o la llave que cierra el objeto de estilo. */
+const PESO = /fontWeight:\s*[^,}\n]*?['"]\d+['"]/g;
 const TRAZO = /(?:border|border(?:Top|Bottom|Left|Right))Width:\s*\d+(\.\d+)?/g;
 /* ESPACIADO — añadido el 24/09/2026, y era el hueco más grande de la guardia.
    POR QUÉ: la guardia medía cinco familias y NO medía la peor de todas. El censo del 23/09 encontró

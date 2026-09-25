@@ -11,7 +11,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, KeyRound } from 'lucide-react-native';
-import { espaciado, InlineError, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { espaciado, InlineError, PrimaryButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { fijarPin } from '../api/settlement';
 import { brand } from '@egrouteplan/ui-kit';
@@ -67,7 +67,7 @@ function Contenido() {
           <View style={[styles.okIcon, { backgroundColor: colors.surface }]}>
             <KeyRound size={26} color={colors.primary} />
           </View>
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', textAlign: 'center' }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo, textAlign: 'center' }}>
             PIN guardado
           </Text>
           <PrimaryButton title="Volver al monedero" onPress={() => ir.atras()} />
@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  headerTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
-  label: { fontSize: tipografia.caption, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4, marginBottom: espaciado.e8 },
+  headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
+  label: { fontSize: tipografia.caption, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.4, marginBottom: espaciado.e8 },
   input: { borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.body },
   pinInput: {
     borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11,

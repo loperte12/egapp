@@ -144,14 +144,14 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
                   <Icon size={18} color={colors.secondary} />
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }} numberOfLines={2}>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }} numberOfLines={2}>
                     {n.titulo}
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }} numberOfLines={2}>
                     {n.detalle}
                   </Text>
                   {n.nota ? (
-                    <Text style={{ color: colors.secondary, fontSize: tipografia.micro, fontWeight: '700', marginTop: espaciado.e2 }} numberOfLines={2}>
+                    <Text style={{ color: colors.secondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e2 }} numberOfLines={2}>
                       {n.nota}
                     </Text>
                   ) : null}
@@ -424,18 +424,18 @@ const styles = StyleSheet.create({
   },
   headerAvatar: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   headerAvatarImg: { width: '100%', height: '100%' },
-  headerAvatarTxt: { fontSize: 17, fontWeight: '900' },
-  headerName: { fontSize: 14.5, fontWeight: '800' },
+  headerAvatarTxt: { fontSize: 17, fontWeight: peso.titulo },
+  headerName: { fontSize: 14.5, fontWeight: peso.maximo },
   headerRole: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: 1 },
   closeBtn: { padding: espaciado.e4 },
-  groupTitle: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e14, marginBottom: espaciado.e6, paddingHorizontal: espaciado.e16 },
+  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e14, marginBottom: espaciado.e6, paddingHorizontal: espaciado.e16 },
   groupCard: { borderRadius: 14, overflow: 'hidden', marginHorizontal: espaciado.e10 },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e11 },
   rowIcon: { width: 30, height: 30, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center' },
-  rowLabel: { flex: 1, fontSize: tipografia.body, fontWeight: '700' },
+  rowLabel: { flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte },
   /** Enlace de «ver todos los servicios» (divulgación progresiva del grupo Servicios). */
   verTodos: { marginHorizontal: espaciado.e10, marginTop: espaciado.e6, paddingVertical: espaciado.e8, alignItems: 'center' },
-  soonBadge: { fontSize: 9.5, fontWeight: '800', paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, borderRadius: 6, overflow: 'hidden' },
+  soonBadge: { fontSize: 9.5, fontWeight: peso.maximo, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, borderRadius: 6, overflow: 'hidden' },
   emergencyRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
     marginHorizontal: espaciado.e10, marginTop: espaciado.e12, borderRadius: 14,
@@ -446,5 +446,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
     borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12,
   },
-  settingsTxt: { flex: 1, fontSize: tipografia.body, fontWeight: '800' },
+  settingsTxt: { flex: 1, fontSize: tipografia.body, fontWeight: peso.maximo },
 });

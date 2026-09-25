@@ -33,7 +33,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { EmptyState, espaciado, ilustracion, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, ilustracion, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseCategory, EcomerseProduct } from '../api/ecomerse';
 import { useEcomerseStore } from '../state/ecomerse';
 import { useSession } from '../state/session';
@@ -224,11 +224,11 @@ export default function EcomerseFavoritesScreen() {
           error ? (
             <View style={{ alignItems: 'center', paddingTop: 48, paddingHorizontal: espaciado.e32 }}>
               <Text style={{ fontSize: ilustracion.md, marginBottom: espaciado.e8 }}>📡</Text>
-              <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>Algo salió mal</Text>
+              <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>Algo salió mal</Text>
               <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
               <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e18 }}>
                 <Pressable onPress={() => isAuthenticated ? load() : router.push('/auth' as any)} style={{ backgroundColor: colors.primary, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e11, borderRadius: radios.full }}>
-                  <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>{isAuthenticated ? 'Reintentar' : 'Iniciar sesión'}</Text>
+                  <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>{isAuthenticated ? 'Reintentar' : 'Iniciar sesión'}</Text>
                 </Pressable>
               </View>
             </View>
@@ -274,7 +274,7 @@ function SubChip({ label, active, onPress }: { label: string; active: boolean; o
   return (
     <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label}
       style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border }}>
-      <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: active ? brand.white : colors.textPrimary }}>{label}</Text>
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: active ? brand.white : colors.textPrimary }}>{label}</Text>
     </Pressable>
   );
 }
@@ -283,6 +283,6 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   tabs: { gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12 },
   tab: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: c.surface, borderWidth: 1, borderColor: c.border },
-  tabText: { fontSize: tipografia.caption, fontWeight: '800' },
+  tabText: { fontSize: tipografia.caption, fontWeight: peso.maximo },
   catRow: { gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e10 },
 });

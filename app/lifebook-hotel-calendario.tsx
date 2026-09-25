@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -214,7 +214,7 @@ function Contenido() {
           <Text style={{ color: colors.textPrimary, fontSize: 30, lineHeight: 32 }}>‹</Text>
         </Pressable>
         <View style={{ flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900' }}>Precios y fechas</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo }}>Precios y fechas</Text>
           {/* El nombre de la habitación es del hotelero: dos líneas, sin recortar a media palabra. */}
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }} numberOfLines={2}>
             {room?.name ?? String(p.nombre ?? 'Habitación')} · {xaf(base)} por noche
@@ -246,7 +246,7 @@ function Contenido() {
           ) : null}
 
           {/* ── Rango de noches ── */}
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: espaciado.e3 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginBottom: espaciado.e3 }}>
             1. Elige las noches
           </Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
@@ -256,15 +256,15 @@ function Contenido() {
 
           <View style={[styles.rango, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700' }}>DESDE</Text>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>{desde ? longDate(desde) : '—'}</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>DESDE</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{desde ? longDate(desde) : '—'}</Text>
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700' }}>HASTA</Text>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>{hasta ? longDate(hasta) : '—'}</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>HASTA</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{hasta ? longDate(hasta) : '—'}</Text>
             </View>
             <View style={{ alignItems: 'flex-end' }}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>{noches} noche(s)</Text>
+              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{noches} noche(s)</Text>
               {afectadas ? (
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>{afectadas} ya modificada(s)</Text>
               ) : null}
@@ -283,7 +283,7 @@ function Contenido() {
               >
                 <Text style={{ color: colors.textPrimary, fontSize: 22 }}>‹</Text>
               </Pressable>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                 {monthLabel(mes.year, mes.month0)}
               </Text>
               <Pressable onPress={() => setMes(shiftMonth(mes.year, mes.month0, 1))} hitSlop={8} accessibilityLabel="Mes siguiente">
@@ -354,7 +354,7 @@ function Contenido() {
           </View>
 
           {/* ── Qué aplicar ── */}
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: espaciado.e22, marginBottom: espaciado.e3 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e22, marginBottom: espaciado.e3 }}>
             2. Qué aplicar a esas noches
           </Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
@@ -377,7 +377,7 @@ function Contenido() {
           />
 
           <View style={[styles.linea, { borderColor: colors.border }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', flex: 1, paddingRight: espaciado.e12 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte, flex: 1, paddingRight: espaciado.e12 }}>
               Cerrar estas fechas
             </Text>
             <Switch value={cerrar} onValueChange={setCerrar} trackColor={{ true: alpha(colors.danger, 0.5) }} />
@@ -386,7 +386,7 @@ function Contenido() {
             Cerrar = no se puede reservar. Las reservas que ya existan en esas noches **no** se cancelan.
           </Text>
 
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e16, marginBottom: espaciado.e6 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e16, marginBottom: espaciado.e6 }}>
             Solo algunos días de la semana (opcional)
           </Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
@@ -398,7 +398,7 @@ function Contenido() {
                   onPress={() => setSemana((prev) => (on ? prev.filter((x) => x !== d.dow) : [...prev, d.dow]))}
                   style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.14) : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                 >
-                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                     {on ? '✓ ' : ''}{d.label}
                   </Text>
                 </Pressable>
@@ -433,15 +433,15 @@ function Contenido() {
           {/* ── Cómo queda ── */}
           {dias.length ? (
             <>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: espaciado.e24, marginBottom: espaciado.e8 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e24, marginBottom: espaciado.e8 }}>
                 Cómo queda el próximo mes y medio
               </Text>
               {dias.filter((d) => d.closed || Number(d.priceXaf) !== Number(d.basePriceXaf)).slice(0, 40).map((d) => (
                 <View key={d.date} style={[styles.linea, { borderColor: colors.border }]}>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', flex: 1 }}>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte, flex: 1 }}>
                     {longDate(d.date)}
                   </Text>
-                  <Text style={{ color: d.closed ? colors.danger : colors.secondary, fontSize: tipografia.body, fontWeight: '900' }}>
+                  <Text style={{ color: d.closed ? colors.danger : colors.secondary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                     {d.closed ? 'Cerrado' : xaf(d.priceXaf)}
                   </Text>
                 </View>
@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
   mes: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e10 },
   mesCabecera: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e4, marginBottom: espaciado.e6 },
   fila: { flexDirection: 'row' },
-  dow: { flex: 1, textAlign: 'center', fontSize: tipografia.micro, fontWeight: '800', marginBottom: espaciado.e2 },
+  dow: { flex: 1, textAlign: 'center', fontSize: tipografia.micro, fontWeight: peso.maximo, marginBottom: espaciado.e2 },
   celda: { flex: 1, aspectRatio: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10, margin: 1 },
   punto: { width: 4, height: 4, borderRadius: 2 },
   chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },

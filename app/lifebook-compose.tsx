@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Globe, ImagePlus, Lock, MapPin, Package, Send, Users, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { authApi } from '../api/auth';
@@ -159,14 +159,14 @@ function ComposeContent() {
           </Pressable>
           <Text style={[styles.topTitle, { color: colors.textPrimary }]}>Publicar nota</Text>
           <Pressable onPress={publish} disabled={!canSend} style={[styles.publishBtn, { backgroundColor: canSend ? colors.primary : alpha(colors.textSecondary, 0.25) }]}>
-            {sending ? <ActivityIndicator size="small" color={brand.white} /> : <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.body }}>Publicar</Text>}
+            {sending ? <ActivityIndicator size="small" color={brand.white} /> : <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>Publicar</Text>}
           </Pressable>
         </View>
 
         <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }}>
           {error ? (
             <View style={[styles.errorBox, { backgroundColor: alpha(colors.danger, 0.09), borderColor: alpha(colors.danger, 0.4) }]}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>{error}</Text>
+              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text>
             </View>
           ) : null}
 
@@ -216,7 +216,7 @@ function ComposeContent() {
             {photos.length < LB_NOTE_MEDIA_MAX ? (
               <Pressable onPress={addPhotos} style={[styles.addPhoto, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                 {picking ? <ActivityIndicator color={colors.primary} /> : <ImagePlus size={22} color={colors.primary} />}
-                <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Añadir</Text>
+                <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Añadir</Text>
               </Pressable>
             ) : null}
           </View>
@@ -233,7 +233,7 @@ function ComposeContent() {
             }]}
           >
             <Package size={14} color={productos.length ? colors.primary : colors.textSecondary} />
-            <Text style={{ color: productos.length ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+            <Text style={{ color: productos.length ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
               {productos.length
                 ? `${productos.length} producto${productos.length === 1 ? '' : 's'} en esta nota`
                 : 'Productos en esta nota (opcional)'}
@@ -254,7 +254,7 @@ function ComposeContent() {
             }]}
           >
             <MapPin size={14} color={sitio ? colors.primary : colors.textSecondary} />
-            <Text numberOfLines={1} style={{ color: sitio ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', maxWidth: 240 }}>
+            <Text numberOfLines={1} style={{ color: sitio ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 240 }}>
               {sitio ? `📍 ${sitio.name}` : '¿Dónde es? (opcional)'}
             </Text>
             {sitio ? (
@@ -278,7 +278,7 @@ function ComposeContent() {
                   onPress={() => toggleTopic(t)}
                   style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.14) : colors.surface, borderColor: on ? alpha(colors.primary, 0.55) : colors.border }]}
                 >
-                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>{t}</Text>
+                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{t}</Text>
                 </Pressable>
               );
             })}
@@ -294,14 +294,14 @@ function ComposeContent() {
               style={[styles.input, { flex: 1, backgroundColor: colors.surface, color: colors.textPrimary, borderColor: colors.border }]}
             />
             <Pressable onPress={addFreeTag} style={[styles.addTag, { backgroundColor: colors.surface, borderColor: colors.border }]} disabled={!freeTag.trim()}>
-              <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.title }}>＋</Text>
+              <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.title }}>＋</Text>
             </Pressable>
           </View>
           {topics.length > 0 && (
             <View style={styles.chipsWrap}>
               {topics.map((t) => (
                 <Pressable key={t} onPress={() => toggleTopic(t)} style={[styles.chip, { backgroundColor: alpha(colors.secondary, 0.12), borderColor: alpha(colors.secondary, 0.5) }]}>
-                  <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '800' }}>#{t} ✕</Text>
+                  <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>#{t} ✕</Text>
                 </Pressable>
               ))}
             </View>
@@ -318,7 +318,7 @@ function ComposeContent() {
                   onPress={() => setTone(on ? null : o.value)}
                   style={[styles.chip, { backgroundColor: on ? alpha(colors.secondary, 0.14) : colors.surface, borderColor: on ? alpha(colors.secondary, 0.6) : colors.border }]}
                 >
-                  <Text style={{ color: on ? colors.secondary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>{o.label}</Text>
+                  <Text style={{ color: on ? colors.secondary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{o.label}</Text>
                 </Pressable>
               );
             })}
@@ -335,7 +335,7 @@ function ComposeContent() {
                   onPress={() => setCity(c)}
                   style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.14) : colors.surface, borderColor: on ? alpha(colors.primary, 0.55) : colors.border }]}
                 >
-                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>{c}</Text>
+                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{c}</Text>
                 </Pressable>
               );
             })}
@@ -363,7 +363,7 @@ function ComposeContent() {
                   style={[styles.visBtn, { backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface, borderColor: on ? alpha(colors.primary, 0.55) : colors.border }]}
                 >
                   <Icon size={15} color={on ? colors.primary : colors.textSecondary} />
-                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>{o.label}</Text>
+                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{o.label}</Text>
                 </Pressable>
               );
             })}
@@ -375,7 +375,7 @@ function ComposeContent() {
           {/* Publicar */}
           <Pressable onPress={publish} disabled={!canSend} style={[styles.bigPublish, { backgroundColor: canSend ? colors.primary : alpha(colors.textSecondary, 0.25), marginBottom: espaciado.e8 }]}>
             {sending ? <ActivityIndicator size="small" color={brand.white} /> : <Send size={18} color={brand.white} />}
-            <Text style={{ color: brand.white, fontSize: tipografia.subtitle, fontWeight: '900' }}>Publicar nota</Text>
+            <Text style={{ color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>Publicar nota</Text>
           </Pressable>
         </ScrollView>
       </View>
@@ -403,16 +403,16 @@ function ComposeContent() {
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 },
+  topTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 },
   publishBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 74, alignItems: 'center' },
-  label: { fontSize: tipografia.caption, fontWeight: '900', color: '#86909C', letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
+  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: '#86909C', letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
   textArea: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, fontSize: 15, minHeight: 110, textAlignVertical: 'top' },
   input: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
   counter: { fontSize: 10.5, textAlign: 'right', marginTop: espaciado.e3 },
   photoRow: { flexDirection: 'row', gap: espaciado.e8, flexWrap: 'wrap' },
   photo: { width: 74, height: 74, borderRadius: radios.md, backgroundColor: '#EEE' },
   photoX: { position: 'absolute', top: -6, right: -6, borderRadius: 10, width: 20, height: 20, alignItems: 'center', justifyContent: 'center' },
-  coverBadge: { position: 'absolute', bottom: 4, left: 4, backgroundColor: 'rgba(0,0,0,0.6)', color: brand.white, fontSize: 9, fontWeight: '900', borderRadius: 6, overflow: 'hidden', paddingHorizontal: espaciado.e5, paddingVertical: 1 },
+  coverBadge: { position: 'absolute', bottom: 4, left: 4, backgroundColor: 'rgba(0,0,0,0.6)', color: brand.white, fontSize: 9, fontWeight: peso.titulo, borderRadius: 6, overflow: 'hidden', paddingHorizontal: espaciado.e5, paddingVertical: 1 },
   addPhoto: { width: 74, height: 74, borderRadius: radios.md, borderWidth: 1, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', gap: espaciado.e2 },
   chipsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
   chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6, borderWidth: 1, borderColor: 'transparent' },

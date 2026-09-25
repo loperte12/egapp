@@ -18,7 +18,7 @@ import { FlatList, Image, Pressable, Text, View } from 'react-native';
 import { X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import type { LbSeguirViendo } from '../../api/lifebookWatch';
-import { brand, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 
 export function SeguirViendo({ items, colors, top, onOpen, onQuitar }: {
   items: LbSeguirViendo[];
@@ -33,7 +33,7 @@ export function SeguirViendo({ items, colors, top, onOpen, onQuitar }: {
   return (
     <View style={{ position: 'absolute', left: 0, right: 0, top }} pointerEvents="box-none">
       <Text style={{
-        color: brand.white, fontSize: tipografia.caption, fontWeight: '900', letterSpacing: 0.4,
+        color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo, letterSpacing: 0.4,
         paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e6,
         textShadowColor: 'rgba(0,0,0,0.6)', textShadowRadius: 4,
       }}>
@@ -79,7 +79,7 @@ export function SeguirViendo({ items, colors, top, onOpen, onQuitar }: {
                 <X size={12} color={brand.white} />
               </Pressable>
             </View>
-            <Text numberOfLines={2} style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: '700', padding: espaciado.e7, paddingTop: espaciado.e6 }}>
+            <Text numberOfLines={2} style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte, padding: espaciado.e7, paddingTop: espaciado.e6 }}>
               {item.title?.trim() || 'Vídeo'}
             </Text>
           </Pressable>

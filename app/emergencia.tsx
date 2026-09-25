@@ -17,7 +17,7 @@ import React from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Home, Phone, Siren } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { EMERGENCY_CONTACTS } from '../constants/data';
@@ -50,7 +50,7 @@ function EmergenciaContent() {
         <Pressable onPress={() => ir.atras()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.danger, fontWeight: '900', fontSize: 17, flex: 1, marginLeft: espaciado.e10 }}>
+        <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: 17, flex: 1, marginLeft: espaciado.e10 }}>
           Emergencia
         </Text>
       </View>
@@ -78,14 +78,14 @@ function EmergenciaContent() {
               {c.id === 'policia' ? <Siren size={22} color={colors.danger} /> : <Phone size={22} color={colors.danger} />}
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>{c.label}</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>{c.label}</Text>
               {c.note ? (
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{c.note}</Text>
               ) : null}
-              <Text style={{ color: colors.danger, fontSize: 22, fontWeight: '900', marginTop: espaciado.e4 }}>{c.number}</Text>
+              <Text style={{ color: colors.danger, fontSize: 22, fontWeight: peso.titulo, marginTop: espaciado.e4 }}>{c.number}</Text>
             </View>
             <View style={{ paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e9, borderRadius: radios.full, backgroundColor: colors.danger }}>
-              <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '900' }}>Llamar</Text>
+              <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo }}>Llamar</Text>
             </View>
           </Pressable>
         ))}
@@ -102,7 +102,7 @@ function EmergenciaContent() {
             style={[styles.salida, { borderColor: colors.border, backgroundColor: colors.surface }]}
           >
             <ArrowLeft size={16} color={colors.textPrimary} />
-            <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Volver</Text>
+            <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Volver</Text>
           </Pressable>
           <Pressable
             onPress={() => ir.inicio(true)}
@@ -110,7 +110,7 @@ function EmergenciaContent() {
             style={[styles.salida, { borderColor: colors.primary, backgroundColor: alpha(colors.primary, 0.1) }]}
           >
             <Home size={16} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.body }}>Ir al inicio</Text>
+            <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Ir al inicio</Text>
           </Pressable>
         </View>
       </ScrollView>

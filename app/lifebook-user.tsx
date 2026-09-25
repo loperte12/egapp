@@ -12,7 +12,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, LinearGradient as SvgLinearGradient, Rect, Stop } from 'react-native-svg';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, BadgeCheck, Bookmark, Building2, CarTaxiFront, ChevronRight, Heart, Home, MoreHorizontal,
   MapPin, Package, PenSquare, Search, Star, Store, Utensils, Users,
@@ -359,7 +359,7 @@ function UserContent() {
           <View style={{ width: 22 }} />
         </View>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e30, gap: espaciado.e6 }}>
-          <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 15 }}>{error ?? 'Perfil'}</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }}>{error ?? 'Perfil'}</Text>
         </View>
       </View>
     );
@@ -511,7 +511,7 @@ function UserContent() {
                       return (
                         <View key={v.key} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, backgroundColor: alpha(v.color, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
                           <Icon size={11} color={v.color} />
-                          <Text style={{ color: v.color, fontSize: 10.5, fontWeight: '900' }}>{v.label} ✓</Text>
+                          <Text style={{ color: v.color, fontSize: 10.5, fontWeight: peso.titulo }}>{v.label} ✓</Text>
                         </View>
                       );
                     })}
@@ -531,10 +531,10 @@ function UserContent() {
                 const Icon = s.Icon;
                 return (
                   <View key={s.l} style={[styles.stat, i > 0 && { borderLeftWidth: StyleSheet.hairlineWidth, borderLeftColor: colors.border }]}>
-                    <Text style={{ color: colors.textPrimary, fontSize: 16.5, fontWeight: '900' }}>{s.n}</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: 16.5, fontWeight: peso.titulo }}>{s.n}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: 1 }}>
                       <Icon size={10.5} color={colors.textSecondary} />
-                      <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 9.5, fontWeight: '700' }}>{s.l}</Text>
+                      <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 9.5, fontWeight: peso.fuerte }}>{s.l}</Text>
                     </View>
                   </View>
                 );
@@ -568,7 +568,7 @@ function UserContent() {
                         <Store size={16} color={colors.primary} />
                       </View>
                     )}
-                    <Text numberOfLines={1} style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
+                    <Text numberOfLines={1} style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                       {tienda.shop.name}
                     </Text>
                     {/* ★ SOLO si hay reseñas. Sin ninguna NO se pinta puntuación: ni «0
@@ -577,7 +577,7 @@ function UserContent() {
                     {tienda.shop.ratingCount > 0 ? (
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
                         <Star size={13} color={brand.warning} fill={brand.warning} />
-                        <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                        <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                           {tienda.shop.rating.toFixed(1)}
                         </Text>
                       </View>
@@ -605,7 +605,7 @@ function UserContent() {
                             {/* El precio ENCIMA de la foto sobre un badge oscuro
                                 semitransparente, para que se lea sobre cualquier imagen. */}
                             <View style={styles.tiendaPrecio}>
-                              <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>
+                              <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>
                                 {lbPriceLabel(f.priceXaf, f.priceMode, lbXaf)}
                               </Text>
                             </View>
@@ -627,14 +627,14 @@ function UserContent() {
                 <>
                   <Pressable onPress={() => router.push('/edit-profile')} style={[styles.mainBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                     <PenSquare size={16} color={colors.textPrimary} />
-                    <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '900' }}>Editar perfil</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.titulo }}>Editar perfil</Text>
                   </Pressable>
                   <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 }}>
                     <Pressable onPress={() => irSeguro.libre('/lifebook-orders')} style={[styles.mainBtn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border }]}>
-                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>📦 Pedidos</Text>
+                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>📦 Pedidos</Text>
                     </Pressable>
                     <Pressable onPress={() => irSeguro.libre('/lifebook-messages')} style={[styles.mainBtn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border }]}>
-                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>💬 Mensajes</Text>
+                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>💬 Mensajes</Text>
                     </Pressable>
                   </View>
                   {/* MERCADO (tanda F): los otros dos accesos rápidos del comprador que YA existen.
@@ -644,10 +644,10 @@ function UserContent() {
                       tiene nada que enseñar; un botón que no lleva a nada es una trampa. */}
                   <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 }}>
                     <Pressable onPress={() => irSeguro.libre('/lifebook-carrito')} style={[styles.mainBtn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border }]}>
-                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>🛒 Carrito</Text>
+                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>🛒 Carrito</Text>
                     </Pressable>
                     <Pressable onPress={() => irSeguro.libre('/lifebook-vistos')} style={[styles.mainBtn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border }]}>
-                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>🕘 Vistos</Text>
+                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>🕘 Vistos</Text>
                     </Pressable>
                   </View>
                 </>
@@ -657,14 +657,14 @@ function UserContent() {
                     {busyFollow ? <ActivityIndicator size="small" color={rel.isFollowing ? colors.textPrimary : brand.white} /> : (
                       <>
                         <Heart size={15} color={rel.isFollowing ? colors.textPrimary : brand.white} fill={rel.isFollowing ? 'transparent' : brand.white} />
-                        <Text style={{ color: rel.isFollowing ? colors.textPrimary : brand.white, fontSize: 14.5, fontWeight: '900' }}>
+                        <Text style={{ color: rel.isFollowing ? colors.textPrimary : brand.white, fontSize: 14.5, fontWeight: peso.titulo }}>
                           {rel.isFollowing ? 'Siguiendo' : 'Seguir'}
                         </Text>
                       </>
                     )}
                   </Pressable>
                   <Pressable onPress={openChat} style={[styles.mainBtn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border }]}>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>💬 Mensaje</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>💬 Mensaje</Text>
                   </Pressable>
                 </View>
               )}
@@ -673,7 +673,7 @@ function UserContent() {
                   onPress={() => irSeguro.libre('/lifebook-store', { sellerId: profile.id })}
                   style={[styles.mainBtn, { marginTop: espaciado.e8, backgroundColor: alpha(colors.secondary, 0.1), borderColor: alpha(colors.secondary, 0.4) }]}
                 >
-                  <Text style={{ color: colors.secondary, fontSize: tipografia.body, fontWeight: '900' }}>🛍 Ver tienda</Text>
+                  <Text style={{ color: colors.secondary, fontSize: tipografia.body, fontWeight: peso.titulo }}>🛍 Ver tienda</Text>
                 </Pressable>
               )}
             </View>
@@ -681,7 +681,7 @@ function UserContent() {
             {profile.ratingAvg != null && profile.ratingAvg > 0 ? (
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, paddingHorizontal: espaciado.e16, marginTop: espaciado.e8 }}>
                 <Star size={13} color={brand.warning} fill={brand.warning} />
-                <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body }}>{profile.ratingAvg.toFixed(1)}</Text>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body }}>{profile.ratingAvg.toFixed(1)}</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>valoración</Text>
               </View>
             ) : null}
@@ -728,7 +728,7 @@ function UserContent() {
                         </View>
                       )}
                       <View style={{ flex: 1 }}>
-                        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }} numberOfLines={1}>
+                        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }} numberOfLines={1}>
                           {g.pinned ? '📌 ' : ''}{card?.title ?? g.label}
                         </Text>
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }} numberOfLines={1}>
@@ -781,7 +781,7 @@ function UserContent() {
                       /* Los fijados se distinguen del resto: borde del color de marca. */
                       ...(esFijado(o) ? { borderWidth: 1, borderColor: colors.primary } : {}),
                     }}>
-                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '700' }} numberOfLines={1}>
+                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte }} numberOfLines={1}>
                         {esFijado(o) ? '📌 ' : ''}{label}{abrible ? ' ↗' : ''}
                       </Text>
                     </View>
@@ -888,7 +888,7 @@ function UserContent() {
         ListEmptyComponent={
           !loadingPosts && posts.length === 0 ? (
             <View style={{ alignItems: 'center', paddingTop: 44, gap: espaciado.e6 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 15 }}>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }}>
                 {tab === 'productos' ? 'Sin productos' : tab === 'coleccion' ? 'Sin guardados' : tab === 'note' ? 'Sin notas' : tab === 'video' ? 'Sin videos' : tab === 'podcast' ? 'Sin podcasts' : tab === 'serie' ? 'Sin series' : tab === 'sale' ? 'Sin ventas' : 'Sin publicaciones'}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: espaciado.e30 }}>
@@ -907,7 +907,7 @@ function UserContent() {
             >
               {masProd
                 ? <ActivityIndicator color={colors.primary} />
-                : <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body }}>Ver más productos</Text>}
+                : <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Ver más productos</Text>}
             </Pressable>
           ) : loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e16 }} /> : <View style={{ height: 8 }} />
         }
@@ -921,7 +921,7 @@ function UserContent() {
             onPress={askToggleBlock}
             style={({ pressed }) => [styles.userMenuRow, { backgroundColor: pressed ? alpha(colors.danger, 0.05) : 'transparent' }]}
           >
-            <Text style={{ color: blocked ? colors.primary : colors.danger, fontSize: 15, fontWeight: '800' }}>
+            <Text style={{ color: blocked ? colors.primary : colors.danger, fontSize: 15, fontWeight: peso.maximo }}>
               {blocked ? 'Desbloquear usuario' : 'Bloquear usuario'}
             </Text>
           </Pressable>
@@ -929,10 +929,10 @@ function UserContent() {
             onPress={() => { setUserMenuOpen(false); irSeguro.libre('/lifebook-blocks'); }}
             style={({ pressed }) => [styles.userMenuRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
           >
-            <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '700' }}>Usuarios bloqueados</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.fuerte }}>Usuarios bloqueados</Text>
           </Pressable>
           <Pressable onPress={() => setUserMenuOpen(false)} style={{ paddingVertical: espaciado.e10 }}>
-            <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
+            <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
         </View>
       </Modal>
@@ -987,10 +987,10 @@ function TarjetaProducto({ producto, colors, ancho, onPress }: {
           <Package size={20} color={alpha(colors.primary, 0.5)} />
         </View>
       )}
-      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 }}>
+      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
         {producto.title}
       </Text>
-      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e3 }}>
+      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
         {lbPriceLabel(producto.priceXaf, producto.priceMode, lbXaf)}
       </Text>
       {producto.shortDescription ? (
@@ -999,7 +999,7 @@ function TarjetaProducto({ producto, colors, ancho, onPress }: {
         </Text>
       ) : null}
       {producto.salesCount > 0 ? (
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '700', marginTop: espaciado.e2 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
           {producto.salesCount} vendido{producto.salesCount === 1 ? '' : 's'}
         </Text>
       ) : null}
@@ -1029,13 +1029,13 @@ const styles = StyleSheet.create({
   },
 
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 },
+  topTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 },
   topBarFloat: { position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5, flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12 },
   roundIcon: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   identity: { flexDirection: 'row', gap: espaciado.e12 },
   avatar: { width: 86, height: 86, borderRadius: 43, borderWidth: 3 },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
-  fullName: { fontSize: tipografia.title, fontWeight: '900', flexShrink: 1 },
+  fullName: { fontSize: tipografia.title, fontWeight: peso.titulo, flexShrink: 1 },
   statsRow: { flexDirection: 'row', marginHorizontal: espaciado.e16, marginTop: espaciado.e12, borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e10 },
   stat: { flex: 1, alignItems: 'center' },
   mainBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e7, borderRadius: radios.full, paddingVertical: espaciado.e11, borderWidth: 1, borderColor: 'transparent' },

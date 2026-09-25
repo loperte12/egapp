@@ -28,7 +28,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -197,7 +197,7 @@ function Contenido() {
         <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Volver" hitSlop={10} style={styles.volver}>
           <Text style={{ color: colors.textPrimary, fontSize: 30, lineHeight: 32 }}>‹</Text>
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1 }}>Ficha del hotel</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>Ficha del hotel</Text>
       </View>
 
       {error ? (
@@ -215,7 +215,7 @@ function Contenido() {
 
           {/* Lo que viene de la tienda */}
           <View style={[styles.caja, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '900' }}>{hotel?.name ?? 'Tu alojamiento'}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.titulo }}>{hotel?.name ?? 'Tu alojamiento'}</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
               {[hotel?.barrio, hotel?.city, hotel?.region].filter(Boolean).join(' · ') || 'Sin dirección'}
               {hotel?.isVerified ? ' · ✅ Tienda verificada' : ''}
@@ -237,7 +237,7 @@ function Contenido() {
                     key={t.id} onPress={() => setTipo(t.id)}
                     style={[styles.chip, { backgroundColor: on ? colors.primary : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                   >
-                    <Text style={{ color: on ? brand.white : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>{t.label}</Text>
+                    <Text style={{ color: on ? brand.white : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{t.label}</Text>
                   </Pressable>
                 );
               })}
@@ -254,7 +254,7 @@ function Contenido() {
                     accessibilityLabel={`${n} estrella(s)`}
                     style={[styles.estrella, { borderColor: on ? colors.secondary : colors.border, backgroundColor: on ? alpha(colors.secondary, 0.12) : colors.surface }]}
                   >
-                    <Text style={{ color: on ? colors.secondary : colors.textSecondary, fontSize: 15, fontWeight: '900' }}>{n}★</Text>
+                    <Text style={{ color: on ? colors.secondary : colors.textSecondary, fontSize: 15, fontWeight: peso.titulo }}>{n}★</Text>
                   </Pressable>
                 );
               })}
@@ -266,7 +266,7 @@ function Contenido() {
                   accessibilityLabel="Quitar la categoría"
                   style={{ minHeight: 44, justifyContent: 'center', paddingHorizontal: espaciado.e6 }}
                 >
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>Quitar</Text>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Quitar</Text>
                 </Pressable>
               ) : null}
             </View>
@@ -291,7 +291,7 @@ function Contenido() {
             <View style={[styles.grupo, { borderColor: colors.border, backgroundColor: colors.surface }]}>
               <View style={styles.linea}>
                 <View style={{ flex: 1, paddingRight: espaciado.e12 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                     Recepción abierta 24 horas
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
@@ -302,7 +302,7 @@ function Contenido() {
               </View>
               <View style={[styles.linea, { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border }]}>
                 <View style={{ flex: 1, paddingRight: espaciado.e12 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                     Los precios ya incluyen impuestos
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
@@ -324,7 +324,7 @@ function Contenido() {
                     onPress={() => setServicios((prev) => (on ? prev.filter((x) => x !== s.id) : [...prev, s.id]))}
                     style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                   >
-                    <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                    <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                       {on ? '✓ ' : ''}{s.label}
                     </Text>
                   </Pressable>
@@ -370,7 +370,7 @@ function Contenido() {
                   style={[styles.pago, { backgroundColor: on ? alpha(colors.primary, 0.08) : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                 >
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                       {on ? '✓ ' : ''}{m.label}
                     </Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>{m.hint}</Text>
@@ -380,7 +380,7 @@ function Contenido() {
             })}
 
             {otrosDeLaTienda.length ? (
-              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e8, lineHeight: 17 }}>
+              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8, lineHeight: 17 }}>
                 ⚠️ Tu tienda tiene activa(s) {otrosDeLaTienda.join(', ')}, que un alojamiento no puede ofrecer.
                 No se enseñan al huésped.
               </Text>
@@ -396,7 +396,7 @@ function Contenido() {
             <PrimaryButton title="Guardar la ficha" onPress={() => void guardar()} loading={guardando} disabled={!!problema} />
           </View>
           {problema ? (
-            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e10 }}>⚠️ {problema}</Text>
+            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>⚠️ {problema}</Text>
           ) : null}
 
           <View style={{ marginTop: espaciado.e16 }}>
@@ -423,7 +423,7 @@ function Contador({ actual, max }: { actual: number; max: number }) {
     <Text
       style={{
         color: quedan <= 40 ? colors.secondary : colors.textSecondary,
-        fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6, marginLeft: espaciado.e4,
+        fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6, marginLeft: espaciado.e4,
       }}
       accessibilityLiveRegion="polite"
     >
@@ -436,7 +436,7 @@ function Bloque({ titulo, hint, children }: { titulo: string; hint?: string; chi
   const { colors } = useTheme();
   return (
     <View style={{ marginTop: espaciado.e22 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: espaciado.e3 }}>{titulo}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginBottom: espaciado.e3 }}>{titulo}</Text>
       {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>{hint}</Text> : <View style={{ height: 7 }} />}
       {children}
     </View>

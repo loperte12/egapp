@@ -88,5 +88,5 @@ const styles = StyleSheet.create({
   cell: { width: '25%', alignItems: 'center', marginBottom: espaciado.e14, paddingHorizontal: espaciado.e4 },
   iconBox: { width: 52, height: 52, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   label: { fontSize: 10.5, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 13 },
-  pronto: { fontSize: 9, fontWeight: '800', marginTop: 1 },
+  pronto: { fontSize: 9, fontWeight: peso.maximo, marginTop: 1 },
 });

@@ -13,7 +13,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Crosshair, MapPin, Radio, Search, X } from 'lucide-react-native';
 import * as Location from 'expo-location';
 import { geocode, pickReverseLabel, reverseGeocode, type GeoPlace } from '../../api/geocode';
@@ -113,7 +113,7 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
       <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={onClose} />
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>
             {title ?? 'Compartir ubicación'}
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -135,7 +135,7 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
             ? <ActivityIndicator size="small" color={colors.primary} />
             : <Crosshair size={20} color={colors.primary} />}
           <View style={{ flex: 1 }}>
-            <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>
+            <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>
               {locating ? 'Buscando tu posición…' : (myLocationLabel ?? 'Mi ubicación actual')}
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
@@ -157,7 +157,7 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
           >
             <Radio size={20} color={colors.secondary} />
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Ubicación en vivo</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Ubicación en vivo</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                 Se actualiza sola durante la ruta; la puedes parar cuando quieras.
               </Text>
@@ -208,7 +208,7 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
               >
                 <MapPin size={18} color={colors.primary} />
                 <View style={{ flex: 1 }}>
-                  <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.body }}>{r.name}</Text>
+                  <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>{r.name}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                     {LB_PLACE_KIND_LABEL[r.kind] ?? 'Lugar'} · {r.lat.toFixed(4)}, {r.lon.toFixed(4)}
                   </Text>

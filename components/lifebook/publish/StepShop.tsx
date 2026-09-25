@@ -7,7 +7,7 @@
  */
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
-import { alpha, espaciado, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, PrimaryButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { commerceApi } from '../../../api/commerce';
 import { LB_CITIES } from '../../../constants/lifebook';
 import { LB_PAY_METHODS, LB_REGIONS } from '../../../constants/commerce';
@@ -67,7 +67,7 @@ export default function StepShop({ onCreated }: { onCreated: (name: string) => v
   return (
     <View>
       <Notice>
-        <Text style={{ fontWeight: '900' }}>Tu tienda es gratis.</Text> Elige un nombre, dónde estás y cómo cobras.
+        <Text style={{ fontWeight: peso.titulo }}>Tu tienda es gratis.</Text> Elige un nombre, dónde estás y cómo cobras.
         Podrás verificarla más adelante para conseguir la insignia y más confianza.
       </Notice>
 

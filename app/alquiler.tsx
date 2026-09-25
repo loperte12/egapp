@@ -105,7 +105,7 @@ export default function AlquilerScreen() {
             style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, backgroundColor: activeCount ? colors.primary : colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10, borderWidth: 1, borderColor: activeCount ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
           >
             <SlidersHorizontal size={15} color={activeCount ? brand.white : colors.textPrimary} />
-            {activeCount > 0 && <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: brand.white }}>{activeCount}</Text>}
+            {activeCount > 0 && <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: brand.white }}>{activeCount}</Text>}
           </Pressable>
         </View>
         {/* Orden */}
@@ -119,7 +119,7 @@ export default function AlquilerScreen() {
               accessibilityState={{ selected: sortBy === k }}
               style={({ pressed }) => [{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.lg, backgroundColor: sortBy === k ? colors.primary : colors.surface, opacity: pressed ? 0.85 : 1 }]}
             >
-              <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: sortBy === k ? brand.white : colors.textSecondary }}>{label}</Text>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: sortBy === k ? brand.white : colors.textSecondary }}>{label}</Text>
             </Pressable>
           ))}
         </ScrollView>
@@ -139,7 +139,7 @@ export default function AlquilerScreen() {
           <WifiOff size={14} color={colors.danger} />
           <Text style={{ flex: 1, fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.medio }}>No se pudo actualizar: mostrando datos anteriores.</Text>
           <Pressable onPress={() => void reload()} accessibilityRole="button" accessibilityLabel="Reintentar actualizar" hitSlop={8}>
-            <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: '800' }}>Reintentar</Text>
+            <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.maximo }}>Reintentar</Text>
           </Pressable>
         </View>
       )}
@@ -177,25 +177,25 @@ export default function AlquilerScreen() {
           loading && properties.length === 0 ? (
             <View style={{ alignItems: 'center', marginTop: 60 }}>
               <ActivityIndicator size="large" color={colors.primary} />
-              <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: '700' }}>Cargando alquileres…</Text>
+              <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: peso.fuerte }}>Cargando alquileres…</Text>
             </View>
           ) : !loading && error && properties.length === 0 ? (
             <View style={{ alignItems: 'center', marginTop: 50, paddingHorizontal: espaciado.e30 }}>
               <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><WifiOff size={28} color={colors.danger} /></View>
-              <Text style={{ fontSize: 15, fontWeight: '800', color: colors.textPrimary, textAlign: 'center' }}>No pudimos cargar los alquileres</Text>
+              <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>No pudimos cargar los alquileres</Text>
               <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e14 }}>{error}</Text>
               <Pressable
                 onPress={() => void reload()}
                 accessibilityRole="button" accessibilityLabel="Reintentar cargar alquileres"
                 style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
               >
-                <RefreshCw size={15} color={brand.white} /><Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body, marginLeft: espaciado.e6 }}>Reintentar</Text>
+                <RefreshCw size={15} color={brand.white} /><Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body, marginLeft: espaciado.e6 }}>Reintentar</Text>
               </Pressable>
             </View>
           ) : (
             <View style={{ alignItems: 'center', marginTop: 50, paddingHorizontal: espaciado.e30 }}>
               <View style={[s.errIcon, { backgroundColor: colors.surface }]}><MapPin size={30} color={colors.textSecondary} /></View>
-              <Text style={{ fontSize: 15, fontWeight: '800', color: colors.textPrimary, textAlign: 'center' }}>
+              <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>
                 {hasSearchOrFilters ? 'Sin resultados con estos filtros' : 'Aún no hay alquileres publicados'}
               </Text>
               <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>
@@ -212,7 +212,7 @@ export default function AlquilerScreen() {
               accessibilityRole="button" accessibilityLabel="Cargar más anuncios"
               style={({ pressed }) => [{ paddingVertical: espaciado.e14, borderRadius: 10, backgroundColor: colors.surface, alignItems: 'center', opacity: pressed ? 0.7 : 1 }]}
             >
-              <Text style={{ fontSize: tipografia.caption, color: colors.primary, fontWeight: '700' }}>Cargar más anuncios</Text>
+              <Text style={{ fontSize: tipografia.caption, color: colors.primary, fontWeight: peso.fuerte }}>Cargar más anuncios</Text>
             </Pressable>
           ) : null
         }
@@ -223,7 +223,7 @@ export default function AlquilerScreen() {
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' }}>
           <View style={{ backgroundColor: colors.background, borderTopLeftRadius: 20, borderTopRightRadius: 20, maxHeight: '92%', padding: espaciado.e20, paddingBottom: Math.max(insets.bottom, 16) }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e12 }}>
-              <Text style={{ fontSize: 17, fontWeight: '800', color: colors.textPrimary }}>Filtros</Text>
+              <Text style={{ fontSize: 17, fontWeight: peso.maximo, color: colors.textPrimary }}>Filtros</Text>
               <Pressable onPress={cancelDraft} hitSlop={10} accessibilityRole="button" accessibilityLabel="Cerrar filtros">
                 <X size={22} color={colors.textPrimary} />
               </Pressable>
@@ -343,6 +343,6 @@ function SwitchRow({ label, value, onChange }: { label: string; value: boolean; 
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  fLabel: { fontSize: tipografia.caption, fontWeight: '800', color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e8 },
+  fLabel: { fontSize: tipografia.caption, fontWeight: peso.maximo, color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e8 },
   errIcon: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
 });

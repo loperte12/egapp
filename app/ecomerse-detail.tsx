@@ -137,14 +137,14 @@ export default function EcomerseDetailScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32, paddingTop: insets.top }}>
         <Text style={{ fontSize: ilustracion.md, marginBottom: espaciado.e8 }}>📦</Text>
-        <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>No pudimos cargar el producto</Text>
+        <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>No pudimos cargar el producto</Text>
         <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
         <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e18 }}>
           <Pressable onPress={load} style={{ backgroundColor: brand.secondary, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e11, borderRadius: radios.full }}>
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
           <Pressable onPress={() => router.back()} style={{ paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e11, borderRadius: radios.full, borderWidth: 1, borderColor: colors.border }}>
-            <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Volver</Text>
+            <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Volver</Text>
           </Pressable>
         </View>
       </View>
@@ -357,7 +357,7 @@ export default function EcomerseDetailScreen() {
             </View>
           )}
           {photos[0] && (
-            <View style={s.photoCounter}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: '800' }}>{photoIdx + 1}/{photos.length}</Text></View>
+            <View style={s.photoCounter}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: peso.maximo }}>{photoIdx + 1}/{photos.length}</Text></View>
           )}
         </View>
 
@@ -400,7 +400,7 @@ export default function EcomerseDetailScreen() {
           ) : (
             <View style={[s.warranty, { backgroundColor: alpha(colors.primary, 0.06), borderColor: colors.border }]}>
               <ShieldCheck size={16} color={colors.primary} />
-              <Text style={{ flex: 1, marginLeft: espaciado.e8, fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: '700' }}>
+              <Text style={{ flex: 1, marginLeft: espaciado.e8, fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: peso.fuerte }}>
                 Este anuncio no admite compra in-app ahora mismo.
               </Text>
             </View>
@@ -434,16 +434,16 @@ export default function EcomerseDetailScreen() {
             </Pressable>
           ) : (
             <View style={s.qtyRow}>
-              <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>Cantidad</Text>
+              <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>Cantidad</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }}>
                 <Pressable onPress={() => setQty((q) => Math.max(1, q - 1))} hitSlop={8} accessibilityRole="button" accessibilityLabel="Menos"
                   style={[s.qtyBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-                  <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>−</Text>
+                  <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>−</Text>
                 </Pressable>
-                <Text style={{ fontSize: tipografia.subtitle, fontWeight: '900', color: colors.textPrimary, minWidth: 24, textAlign: 'center' }}>{qty}</Text>
+                <Text style={{ fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: colors.textPrimary, minWidth: 24, textAlign: 'center' }}>{qty}</Text>
                 <Pressable onPress={() => setQty((q) => Math.min(product.stock, q + 1))} hitSlop={8} accessibilityRole="button" accessibilityLabel="Más"
                   style={[s.qtyBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-                  <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>+</Text>
+                  <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>+</Text>
                 </Pressable>
                 <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>máx. {product.stock}</Text>
               </View>
@@ -510,7 +510,7 @@ export default function EcomerseDetailScreen() {
                     }}
                   >
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>{f.label}</Text>
-                    <Text style={{ flex: 1, textAlign: 'right', fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }} numberOfLines={2}>
+                    <Text style={{ flex: 1, textAlign: 'right', fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }} numberOfLines={2}>
                       {f.valor}
                     </Text>
                   </View>
@@ -541,7 +541,7 @@ export default function EcomerseDetailScreen() {
                         {d.docNumber ? ` · ${d.docNumber}` : ''}
                         {d.amountXaf !== null && d.amountXaf !== undefined ? ` · ${formatXAF(d.amountXaf)}` : ''}
                       </Text>
-                      <Text style={{ fontSize: tipografia.micro, fontWeight: '800', color }}>
+                      <Text style={{ fontSize: tipografia.micro, fontWeight: peso.maximo, color }}>
                         {aprobado ? 'Revisado' : rechazado ? 'Rechazado' : 'En revisión'}
                       </Text>
                     </View>
@@ -592,12 +592,12 @@ export default function EcomerseDetailScreen() {
           <Pressable onPress={addToCartFlow} disabled={!canBuy} accessibilityRole="button" accessibilityState={{ disabled: !canBuy }}
             accessibilityLabel="Añadir al carrito"
             style={[s.cartBtn, { borderColor: canBuy ? brand.secondary : colors.border }]}>
-            <Text style={{ color: canBuy ? brand.secondary : colors.textSecondary, fontSize: tipografia.body, fontWeight: '800' }}>Añadir</Text>
+            <Text style={{ color: canBuy ? brand.secondary : colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Añadir</Text>
           </Pressable>
           <Pressable onPress={buyNow} disabled={!canBuy} accessibilityRole="button" accessibilityState={{ disabled: !canBuy }}
             accessibilityLabel={canBuy ? `Comprar por ${priceTxt}` : 'No disponible'}
             style={[s.buyBtn, { backgroundColor: canBuy ? brand.secondary : colors.border }]}>
-            <Text style={{ color: brand.white, fontSize: tipografia.subtitle, fontWeight: '900' }}>
+            <Text style={{ color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>
               {canBuy ? `Comprar · ${priceTxt}` : soldOut ? 'Agotado' : 'No disponible'}
             </Text>
           </Pressable>
@@ -640,10 +640,10 @@ export default function EcomerseDetailScreen() {
         />
         <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
           <Pressable onPress={() => setReportOpen(false)} style={[s.modalBtn, { borderWidth: 1, borderColor: colors.border }]}>
-            <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
+            <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
           <Pressable onPress={sendReport} disabled={reportBusy} style={[s.modalBtn, { backgroundColor: colors.danger, flex: 1 }]}>
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>{reportBusy ? 'Enviando…' : 'Enviar reporte'}</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>{reportBusy ? 'Enviando…' : 'Enviar reporte'}</Text>
           </Pressable>
 
             </View>
@@ -667,20 +667,20 @@ const stylesRoot = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.crea
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   photoCounter: { position: 'absolute', right: 12, bottom: 12, backgroundColor: 'rgba(0,0,0,0.55)', paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.full },
   tagFeat: { backgroundColor: 'rgba(255,107,53,0.14)', borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
-  tagFeatText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: '800' },
+  tagFeatText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.maximo },
   /* `avatar` y `roundBtn` se fueron con el bloque de la tienda: viven en `CabeceraTienda`, que es
      donde se pintan ahora. Dejar aquí sus copias era garantizar que un día se cambie una sí y otra
      no. */
   tagPro: { backgroundColor: 'rgba(0,132,255,0.12)', borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
-  tagProText: { color: brand.primary, fontSize: tipografia.micro, fontWeight: '800' },
+  tagProText: { color: brand.primary, fontSize: tipografia.micro, fontWeight: peso.maximo },
   tagSoft: { backgroundColor: 'rgba(16,185,129,0.12)', borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
-  tagSoftText: { color: brand.success, fontSize: tipografia.micro, fontWeight: '800' },
-  title: { fontSize: tipografia.subtitle, fontWeight: '800', color: c.textPrimary, marginTop: espaciado.e6, lineHeight: 23 },
+  tagSoftText: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  title: { fontSize: tipografia.subtitle, fontWeight: peso.maximo, color: c.textPrimary, marginTop: espaciado.e6, lineHeight: 23 },
   metrics: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e12, marginTop: espaciado.e10 },
   warranty: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginTop: espaciado.e12 },
   qtyRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e14 },
   qtyBtn: { width: 34, height: 34, borderRadius: radios.md, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
-  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary, marginBottom: espaciado.e8 },
+  sectionTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e8 },
   bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e8, borderTopWidth: 1, gap: espaciado.e6 },
   /** Nota de alcance de la garantía: encima de las acciones, a sangre dentro de la barra. */
   notaFuera: { textAlign: 'center', fontSize: tipografia.micro },

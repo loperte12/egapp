@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   banner: { marginVertical: espaciado.e12 },
   camera: { flex: 1, borderRadius: 24, overflow: 'hidden' },
   processing: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  processingText: { fontSize: tipografia.subtitle, fontWeight: '800' },
+  processingText: { fontSize: tipografia.subtitle, fontWeight: peso.maximo },
   footer: { marginTop: espaciado.e16 },
   hint: { fontSize: tipografia.caption, textAlign: 'center', fontWeight: peso.medio },
 });

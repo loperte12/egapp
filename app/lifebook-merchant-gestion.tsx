@@ -21,7 +21,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, radios, tipografia, useScreenGuard, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useScreenGuard, useTheme, peso} from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, ChevronRight, Package, Settings, ShoppingBag, Store, TriangleAlert,
 } from 'lucide-react-native';
@@ -125,7 +125,7 @@ function Contenido() {
           <ArrowLeft size={21} color={colors.textPrimary} />
         </Pressable>
         <View style={{ flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>Gestión</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>Gestión</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }} numberOfLines={2}>
             {tienda?.name ?? 'Tu tienda'} · lo que se configura, no lo del día
           </Text>
@@ -144,7 +144,7 @@ function Contenido() {
         >
           {!tienda ? (
             <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>Todavía no tienes tienda</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>Todavía no tienes tienda</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e5, lineHeight: 18 }}>
                 Abre tu negocio para publicar productos y recibir pedidos. Aparecerá en el catálogo
                 de Life Book y desde aquí llevarás su gestión.
@@ -157,7 +157,7 @@ function Contenido() {
             <>
               {/* Resumen del catálogo */}
               <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>
                   {p?.total ?? 0} publicación(es)
                 </Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 18 }}>
@@ -173,7 +173,7 @@ function Contenido() {
                 <View style={{ marginTop: espaciado.e18 }}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e8 }}>
                     <TriangleAlert size={16} color={colors.secondary} />
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginLeft: espaciado.e7 }}>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, marginLeft: espaciado.e7 }}>
                       Te falta por completar ({pendientes.length})
                     </Text>
                   </View>
@@ -197,7 +197,7 @@ function Contenido() {
                       style={[styles.pendiente, { borderColor: alpha(colors.secondary, 0.35), backgroundColor: alpha(colors.secondary, 0.06) }]}
                     >
                       <View style={{ flex: 1 }}>
-                        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{x.texto}</Text>
+                        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{x.texto}</Text>
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3, lineHeight: 17 }}>{x.porque}</Text>
                       </View>
                       <ChevronRight size={18} color={colors.secondary} />
@@ -206,7 +206,7 @@ function Contenido() {
                 </View>
               ) : (
                 <View style={[styles.resumen, { borderColor: alpha(colors.success, 0.35), backgroundColor: alpha(colors.success, 0.07), marginTop: espaciado.e18 }]}>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                     ✓ Tu catálogo está al día
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
@@ -218,7 +218,7 @@ function Contenido() {
           )}
 
           {/* A dónde se va desde aquí */}
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e22, marginBottom: espaciado.e8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e22, marginBottom: espaciado.e8 }}>
             Configurar
           </Text>
 
@@ -279,7 +279,7 @@ function Fila({ icono, titulo, detalle, onPress }: {
     >
       <View style={[styles.filaIcono, { backgroundColor: alpha(colors.primary, 0.12) }]}>{icono}</View>
       <View style={{ flex: 1 }}>
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{titulo}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{titulo}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 17 }}>{detalle}</Text>
       </View>
       <ChevronRight size={18} color={colors.textSecondary} />

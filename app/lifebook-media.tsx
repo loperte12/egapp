@@ -27,7 +27,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Clapperboard, ImagePlus, Mic, ShoppingBag, Upload, Video } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { authApi } from '../api/auth';
@@ -345,14 +345,14 @@ function MediaComposeContent() {
           </Pressable>
           <Text style={[styles.topTitle, { color: colors.textPrimary }]}>{meta.title}</Text>
           <Pressable onPress={submit} disabled={!canSend} style={[styles.publishBtn, { backgroundColor: canSend ? meta.color : alpha(colors.textSecondary, 0.25) }]}>
-            {busy ? <ActivityIndicator size="small" color={brand.white} /> : <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.body }}>Publicar</Text>}
+            {busy ? <ActivityIndicator size="small" color={brand.white} /> : <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>Publicar</Text>}
           </Pressable>
         </View>
 
         <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }}>
           {error ? (
             <View style={[styles.errorBox, { backgroundColor: alpha(colors.danger, 0.09), borderColor: alpha(colors.danger, 0.4) }]}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>{error}</Text>
+              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text>
             </View>
           ) : null}
 
@@ -383,8 +383,8 @@ function MediaComposeContent() {
                             borderColor: on ? alpha(meta.color, 0.65) : colors.border,
                           }]}
                         >
-                          <Text style={{ color: on ? meta.color : colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>{p.label}</Text>
-                          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>{p.hint}</Text>
+                          <Text style={{ color: on ? meta.color : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{p.label}</Text>
+                          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{p.hint}</Text>
                           <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e2 }}>{p.desc}</Text>
                         </Pressable>
                       );
@@ -409,20 +409,20 @@ function MediaComposeContent() {
                 {file ? (
                   <View style={{ alignItems: 'center', gap: espaciado.e6 }}>
                     <Text style={{ fontSize: 34 }}>{kind === 'podcast' ? '🎙️' : '🎬'}</Text>
-                    <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }} numberOfLines={1}>
+                    <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }} numberOfLines={1}>
                       {file.name}
                     </Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                       {fmtDur(file.durSec)}{pesoSubida ? ` · ${lbPeso(pesoSubida)}` : ''} · listo para publicar
                     </Text>
                     {!busy && (
-                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e2 }}>Toca para cambiar</Text>
+                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e2 }}>Toca para cambiar</Text>
                     )}
                   </View>
                 ) : (
                   <View style={{ alignItems: 'center', gap: espaciado.e6 }}>
                     {kind === 'podcast' ? <Mic size={30} color={meta.color} /> : <Video size={30} color={meta.color} />}
-                    <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>{fileLabel}</Text>
+                    <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>{fileLabel}</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center' }}>{fileHint}</Text>
                   </View>
                 )}
@@ -443,13 +443,13 @@ function MediaComposeContent() {
               )}
 
               {esVideo && file && file.durSec > perfil.maxSec && (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e4 }}>
+                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>
                   ⚠️ El vídeo dura {fmtDur(file.durSec)} y {perfil.label.toLowerCase()} llega a {fmtDur(perfil.maxSec)}.
                   {perfilId === 'short' ? ' Cámbialo a vídeo largo.' : ''}
                 </Text>
               )}
               {esVideo && file && file.durSec <= perfil.maxSec && file.sizeBytes > perfil.maxMb * 1024 * 1024 && (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e4 }}>
+                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>
                   ⚠️ Pesa {lbPeso(file.sizeBytes)} y el máximo es {perfil.maxMb} MB.
                 </Text>
               )}
@@ -482,13 +482,13 @@ function MediaComposeContent() {
                   <View>
                     <Image source={{ uri: cover.uri }} style={styles.coverPreview} />
                     <Pressable onPress={() => setCover(null)} style={[styles.photoX, { backgroundColor: 'rgba(0,0,0,0.6)' }]} accessibilityLabel="Quitar portada">
-                      <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.micro }}>✕</Text>
+                      <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.micro }}>✕</Text>
                     </Pressable>
                   </View>
                 ) : null}
                 <Pressable onPress={pickCover} style={[styles.coverAdd, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                   <ImagePlus size={22} color={colors.primary} />
-                  <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>{cover ? 'Cambiar' : 'Añadir portada'}</Text>
+                  <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{cover ? 'Cambiar' : 'Añadir portada'}</Text>
                 </Pressable>
                 {/* B2: portada desde un fotograma del vídeo. Solo con vídeo ya elegido y
                     solo en 'video': 'serie' no tiene archivo todavía y 'podcast' es audio,
@@ -501,7 +501,7 @@ function MediaComposeContent() {
                     style={[styles.coverAdd, { backgroundColor: colors.surface, borderColor: colors.border }]}
                   >
                     <Video size={22} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Del vídeo</Text>
+                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Del vídeo</Text>
                   </Pressable>
                 ) : null}
               </View>
@@ -544,7 +544,7 @@ function MediaComposeContent() {
                   const on = city === c;
                   return (
                     <Pressable key={c} onPress={() => setCity(c)} style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.14) : colors.surface, borderColor: on ? alpha(colors.primary, 0.55) : colors.border }]}>
-                      <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>{c}</Text>
+                      <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{c}</Text>
                     </Pressable>
                   );
                 })}
@@ -569,7 +569,7 @@ function MediaComposeContent() {
                 }}
               >
                 <ShoppingBag size={14} color={productos.length ? colors.primary : colors.textSecondary} />
-                <Text style={{ color: productos.length ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                <Text style={{ color: productos.length ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                   {productos.length
                     ? `${productos.length} producto${productos.length === 1 ? '' : 's'} en este vídeo`
                     : 'Enseñar un producto en el vídeo (opcional)'}
@@ -585,11 +585,11 @@ function MediaComposeContent() {
           {kind !== 'serie' && (
             <View style={{ marginTop: espaciado.e18 }}>
               <View style={styles.switchRow}>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Permitir comentarios</Text>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Permitir comentarios</Text>
                 <Switch value={allowComments} onValueChange={setAllowComments} trackColor={{ true: colors.primary }} />
               </View>
               <View style={styles.switchRow}>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Permitir descarga</Text>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Permitir descarga</Text>
                 <Switch value={allowDownload} onValueChange={setAllowDownload} trackColor={{ true: colors.primary }} />
               </View>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
@@ -600,7 +600,7 @@ function MediaComposeContent() {
 
           <Pressable onPress={submit} disabled={!canSend} style={[styles.bigPublish, { backgroundColor: canSend ? meta.color : alpha(colors.textSecondary, 0.25) }]}>
             {busy ? <ActivityIndicator size="small" color={brand.white} /> : <Upload size={18} color={brand.white} />}
-            <Text style={{ color: brand.white, fontSize: tipografia.subtitle, fontWeight: '900' }}>
+            <Text style={{ color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>
               {fase === 'subiendo'
                 ? (progreso && progreso.total > 0
                   ? `Subiendo… ${Math.round(progreso.fraccion * 100)} %`
@@ -643,9 +643,9 @@ function MediaComposeContent() {
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 },
+  topTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 },
   publishBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 76, alignItems: 'center' },
-  label: { fontSize: tipografia.caption, fontWeight: '900', color: '#86909C', letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
+  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: '#86909C', letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
   dropZone: { borderRadius: radios.lg, borderWidth: 1.5, borderStyle: 'dashed', paddingVertical: espaciado.e26, paddingHorizontal: espaciado.e16, alignItems: 'center' },
   coverPreview: { width: 84, height: 84, borderRadius: 14, backgroundColor: '#EEE' },
   photoX: { position: 'absolute', top: -6, right: -6, width: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },

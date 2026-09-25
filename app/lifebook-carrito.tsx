@@ -28,7 +28,7 @@ import { Image } from 'expo-image';
 import { Swipeable } from 'react-native-gesture-handler';
 import { useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, altura, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, ChevronRight, Minus, Plus, ShoppingCart, Store, Trash2, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -251,12 +251,12 @@ function CarritoContent() {
       <Pressable onPress={() => irSeguro.atras()} hitSlop={10} accessibilityLabel="Volver">
         <ArrowLeft size={20} color={colors.textPrimary} />
       </Pressable>
-      <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 17, flex: 1, textAlign: 'center' }}>
+      <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 17, flex: 1, textAlign: 'center' }}>
         Carrito{carrito?.count ? ` (${carrito.count})` : ''}
       </Text>
       {items.length > 0 ? (
         <Pressable onPress={() => setEditando((v) => !v)} hitSlop={10} accessibilityLabel={editando ? 'Listo' : 'Editar'}>
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>{editando ? 'Listo' : 'Editar'}</Text>
+          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{editando ? 'Listo' : 'Editar'}</Text>
         </Pressable>
       ) : (
         <View style={{ width: 44 }} />
@@ -279,7 +279,7 @@ function CarritoContent() {
         {cabecera}
         <View style={styles.center}>
           <ShoppingCart size={46} color={alpha(colors.primary, 0.35)} />
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', marginTop: espaciado.e12 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo, marginTop: espaciado.e12 }}>
             Tu carrito está vacío
           </Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 44, marginTop: espaciado.e6, lineHeight: 18 }}>
@@ -291,7 +291,7 @@ function CarritoContent() {
             accessibilityLabel="Ir al mercado"
             style={[styles.ctaPagar, { backgroundColor: colors.primary, marginTop: espaciado.e16, paddingHorizontal: espaciado.e22 }]}
           >
-            <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: '900' }}>Ir al mercado</Text>
+            <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: peso.titulo }}>Ir al mercado</Text>
           </Pressable>
         </View>
       </View>
@@ -324,7 +324,7 @@ function CarritoContent() {
                     <Store size={14} color={alpha(colors.primary, 0.7)} />
                   </View>
                 )}
-                <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', flex: 1 }}>
+                <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, flex: 1 }}>
                   {g.shop?.name ?? 'Tienda no disponible'}
                 </Text>
                 {g.shop ? (
@@ -345,7 +345,7 @@ function CarritoContent() {
                   envío que no existe. */}
               {g.shippingWarning ? (
                 <View style={[styles.avisoZona, { backgroundColor: alpha(brand.secondary, 0.12) }]}>
-                  <Text style={{ color: brand.warning, fontSize: tipografia.micro, fontWeight: '800' }}>
+                  <Text style={{ color: brand.warning, fontSize: tipografia.micro, fontWeight: peso.maximo }}>
                     🚚 {g.shippingWarning}
                   </Text>
                 </View>
@@ -379,7 +379,7 @@ function CarritoContent() {
                     </Pressable>
 
                     <View style={{ flex: 1, gap: espaciado.e3 }}>
-                      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+                      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                         {l.title}
                       </Text>
 
@@ -390,7 +390,7 @@ function CarritoContent() {
                         accessibilityLabel={l.variantName ? `Cambiar la opción ${l.variantName}` : 'Elegir una opción'}
                         style={[styles.pildora, { borderColor: alpha(colors.border, 0.9), backgroundColor: colors.surface }]}
                       >
-                        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '700' }}>
+                        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte }}>
                           {l.variantName ?? 'Elegir opción'}
                         </Text>
                       </Pressable>
@@ -398,21 +398,21 @@ function CarritoContent() {
                       {/* Etiquetas de estado (solo las que de verdad aplican) */}
                       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5 }}>
                         {l.statusLabel ? (
-                          <Text style={{ color: colors.danger, fontSize: 10.5, fontWeight: '900' }}>{l.statusLabel}</Text>
+                          <Text style={{ color: colors.danger, fontSize: 10.5, fontWeight: peso.titulo }}>{l.statusLabel}</Text>
                         ) : null}
                         {l.priceChanged && l.available ? (
-                          <Text style={{ color: brand.secondary, fontSize: 10.5, fontWeight: '900' }}>Precio cambió</Text>
+                          <Text style={{ color: brand.secondary, fontSize: 10.5, fontWeight: peso.titulo }}>Precio cambió</Text>
                         ) : null}
                         {l.sourceKind === 'grupo' ? (
-                          <Text style={{ color: colors.primary, fontSize: 10.5, fontWeight: '900' }}>
+                          <Text style={{ color: colors.primary, fontSize: 10.5, fontWeight: peso.titulo }}>
                             Precio del grupo{l.sourceLabel ? ` · ${l.sourceLabel}` : ''}
                           </Text>
                         ) : null}
                         {l.sourceKind === 'live' ? (
-                          <Text style={{ color: '#E0439A', fontSize: 10.5, fontWeight: '900' }}>Precio de live</Text>
+                          <Text style={{ color: '#E0439A', fontSize: 10.5, fontWeight: peso.titulo }}>Precio de live</Text>
                         ) : null}
                         {l.maxQuantity <= l.quantity && l.available && l.maxQuantity < 99 ? (
-                          <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '700' }}>
+                          <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte }}>
                             Solo quedan {l.maxQuantity}
                           </Text>
                         ) : null}
@@ -420,7 +420,7 @@ function CarritoContent() {
 
                       {/* Precio (rojo) con el anterior tachado si cambió */}
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
-                        <Text style={{ color: l.available ? colors.danger : colors.textSecondary, fontSize: 14.5, fontWeight: '900' }}>
+                        <Text style={{ color: l.available ? colors.danger : colors.textSecondary, fontSize: 14.5, fontWeight: peso.titulo }}>
                           {l.priceXaf === null ? 'A consultar' : lbXaf(l.priceXaf)}
                         </Text>
                         {referencia !== null && referencia !== undefined && l.priceXaf !== null && referencia !== l.priceXaf ? (
@@ -443,7 +443,7 @@ function CarritoContent() {
                         >
                           <Minus size={13} color={colors.textPrimary} />
                         </Pressable>
-                        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body, minWidth: 22, textAlign: 'center' }}>
+                        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body, minWidth: 22, textAlign: 'center' }}>
                           {ocupado === l.id ? '…' : l.quantity}
                         </Text>
                         <Pressable
@@ -487,7 +487,7 @@ function CarritoContent() {
                         style={[styles.accionDeslizar, { backgroundColor: colors.danger }]}
                       >
                         <Trash2 size={18} color={brand.white} />
-                        <Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: '900' }}>Eliminar</Text>
+                        <Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: peso.titulo }}>Eliminar</Text>
                       </Pressable>
                     )}
                   >
@@ -506,7 +506,7 @@ function CarritoContent() {
         })}
 
         {carrito?.hasOnRequest ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>
+          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
             Hay productos «a consultar»: el total no es el definitivo. La tienda los presupuesta por el chat.
           </Text>
         ) : null}
@@ -530,7 +530,7 @@ function CarritoContent() {
               style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}
             >
               <Casilla estado={todoMarcado ? 'on' : 'off'} onPress={marcarTodo} etiqueta="Todo" />
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>Todo</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Todo</Text>
             </Pressable>
             <View style={{ flex: 1 }} />
             <Pressable
@@ -539,7 +539,7 @@ function CarritoContent() {
               accessibilityLabel="Mover a favoritos"
               style={[styles.accionEditar, { borderColor: colors.primary, opacity: sel.length ? 1 : 0.4 }]}
             >
-              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>Mover a favoritos</Text>
+              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Mover a favoritos</Text>
             </Pressable>
             <Pressable
               onPress={borrarSeleccion}
@@ -547,7 +547,7 @@ function CarritoContent() {
               accessibilityLabel="Eliminar"
               style={[styles.accionEditar, { borderColor: colors.danger, opacity: sel.length ? 1 : 0.4 }]}
             >
-              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '900' }}>
+              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                 Eliminar{sel.length ? ` (${sel.length})` : ''}
               </Text>
             </Pressable>
@@ -556,14 +556,14 @@ function CarritoContent() {
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
             <Pressable onPress={marcarTodo} hitSlop={8} accessibilityLabel="Seleccionar todo" style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
               <Casilla estado={todoMarcado ? 'on' : 'off'} onPress={marcarTodo} etiqueta="Todo" />
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>Todo</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Todo</Text>
             </Pressable>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.danger, fontSize: 18, fontWeight: '900' }}>
+              <Text style={{ color: colors.danger, fontSize: 18, fontWeight: peso.titulo }}>
                 Total: {lbXaf(total)}
               </Text>
               {ahorro > 0 ? (
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700' }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>
                   Ahorras {lbXaf(ahorro)}
                 </Text>
               ) : (
@@ -578,7 +578,7 @@ function CarritoContent() {
               accessibilityLabel={`Pagar ${unidades} productos`}
               style={[styles.ctaPagar, { backgroundColor: sel.length ? colors.primary : alpha(colors.textSecondary, 0.3) }]}
             >
-              <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: '900' }}>
+              <Text style={{ color: brand.white, fontSize: 14.5, fontWeight: peso.titulo }}>
                 Pagar({unidades})
               </Text>
             </Pressable>
@@ -590,7 +590,7 @@ function CarritoContent() {
       <Modal visible={!!varianteDe} transparent animationType="slide" onRequestClose={() => setVarianteDe(null)} statusBarTranslucent>
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={() => setVarianteDe(null)} />
         <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: insets.bottom + 16 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900', marginBottom: espaciado.e4 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo, marginBottom: espaciado.e4 }}>
             Opción de «{varianteDe?.title}»
           </Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e10 }}>
@@ -616,11 +616,11 @@ function CarritoContent() {
                       opacity: sinStock ? 0.45 : 1,
                     }}
                   >
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', flex: 1 }}>{v.name}</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo, flex: 1 }}>{v.name}</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                       {v.priceXaf === null ? 'A consultar' : lbXaf(v.priceXaf)}
                     </Text>
-                    {sinStock ? <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: '800' }}>Agotada</Text> : null}
+                    {sinStock ? <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: peso.maximo }}>Agotada</Text> : null}
                   </Pressable>
                 );
               })}
@@ -632,7 +632,7 @@ function CarritoContent() {
             </View>
           )}
           <Pressable onPress={() => setVarianteDe(null)} style={{ alignItems: 'center', paddingVertical: espaciado.e12 }}>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '800' }}>Cerrar</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Cerrar</Text>
           </Pressable>
         </View>
       </Modal>

@@ -256,7 +256,7 @@ export default function BillingCheckoutScreen() {
     return (
       <View style={[s.center, { backgroundColor: colors.background, padding: espaciado.e24 }]}>
         <XCircle size={48} color={colors.danger} />
-        <Text style={{ color: colors.danger, fontWeight: '700', marginTop: espaciado.e12, textAlign: 'center' }}>{error}</Text>
+        <Text style={{ color: colors.danger, fontWeight: peso.fuerte, marginTop: espaciado.e12, textAlign: 'center' }}>{error}</Text>
         <View style={{ marginTop: espaciado.e16 }}><GhostButton title="Reintentar" onPress={() => load('initial')} /></View>
         <View style={{ marginTop: espaciado.e8 }}><GhostButton title="Volver" onPress={() => router.back()} /></View>
       </View>
@@ -265,7 +265,7 @@ export default function BillingCheckoutScreen() {
   if (!plan) {
     return (
       <View style={[s.center, { backgroundColor: colors.background, padding: espaciado.e24 }]}>
-        <Text style={{ color: colors.danger, fontWeight: '700' }}>Plan no encontrado</Text>
+        <Text style={{ color: colors.danger, fontWeight: peso.fuerte }}>Plan no encontrado</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
     );
@@ -296,7 +296,7 @@ export default function BillingCheckoutScreen() {
               <Text style={{ flex: 1, color: colors.danger, fontWeight: peso.medio, fontSize: tipografia.body }}>{error}</Text>
             </View>
             <Pressable onPress={() => load('initial')} style={{ marginTop: espaciado.e8, alignSelf: 'flex-start' }} accessibilityRole="button">
-              <Text style={{ color: colors.primary, fontWeight: '700', fontSize: tipografia.caption }}>Reintentar</Text>
+              <Text style={{ color: colors.primary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>Reintentar</Text>
             </Pressable>
           </View>
         )}
@@ -304,8 +304,8 @@ export default function BillingCheckoutScreen() {
         {/* Plan */}
         <View style={[s.card, { borderColor: colors.border }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
-            <Text style={{ fontSize: tipografia.subtitle, fontWeight: '700', color: colors.textPrimary, flex: 1 }}>{plan.name}</Text>
-            <Text style={{ fontSize: 18, fontWeight: '800', color: colors.primary }}>{formatXAF(plan.priceXaf)}</Text>
+            <Text style={{ fontSize: tipografia.subtitle, fontWeight: peso.fuerte, color: colors.textPrimary, flex: 1 }}>{plan.name}</Text>
+            <Text style={{ fontSize: 18, fontWeight: peso.maximo, color: colors.primary }}>{formatXAF(plan.priceXaf)}</Text>
           </View>
           {plan.description ? <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e4 }}>{plan.description}</Text> : null}
         </View>
@@ -323,7 +323,7 @@ export default function BillingCheckoutScreen() {
           <>
             {/* Estado */}
             <View style={[s.card, { borderColor: st.color, backgroundColor: alpha(st.color, 0.06), marginTop: espaciado.e14 }]}>
-              <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: st.color }}>{st.label}</Text>
+              <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: st.color }}>{st.label}</Text>
               <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>
                 Orden {order.id.slice(0, 8)}… · {formatXAF(order.amountXaf)} · vence{' '}
                 {order.expiresAt
@@ -343,7 +343,7 @@ export default function BillingCheckoutScreen() {
               <View style={[s.card, { borderColor: colors.border, marginTop: espaciado.e12 }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginBottom: espaciado.e6 }}>
                   <Info size={14} color={colors.primary} />
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>Instrucciones de pago</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>Instrucciones de pago</Text>
                 </View>
                 <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, lineHeight: 18 }}>
                   {order.paymentInstructions ?? 'Paga por transferencia u Orange Money y sube el comprobante.'}
@@ -354,14 +354,14 @@ export default function BillingCheckoutScreen() {
             {/* Subir comprobante */}
             {(order.status === 'pending_payment' || order.status === 'rejected') && (
               <View style={{ marginTop: espaciado.e16, gap: espaciado.e10 }}>
-                <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>
+                <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>
                   {order.status === 'rejected' ? 'Sube un nuevo comprobante' : 'Sube tu comprobante de pago'}
                 </Text>
                 {proofUri ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                     <RNImage source={{ uri: proofUri }} style={{ width: 56, height: 56, borderRadius: radios.sm, backgroundColor: colors.surface }} />
                     <View style={{ flex: 1 }}>
-                      <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: '700' }}>Comprobante adjunto</Text>
+                      <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: peso.fuerte }}>Comprobante adjunto</Text>
                       <Text style={{ fontSize: 10.5, color: colors.textSecondary }}>jpg/png · máx 5 MB</Text>
                     </View>
                     <GhostButton title="Cambiar" onPress={pickProof} />
@@ -379,7 +379,7 @@ export default function BillingCheckoutScreen() {
                     style={({ pressed }) => [s.proofBox, { backgroundColor: colors.surface, borderColor: colors.border, opacity: pressed ? 0.8 : 1 }]}
                   >
                     <Camera size={18} color={colors.primary} />
-                    <Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: '700', marginLeft: espaciado.e8 }}>Foto del comprobante (cámara o galería)</Text>
+                    <Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: peso.fuerte, marginLeft: espaciado.e8 }}>Foto del comprobante (cámara o galería)</Text>
                   </Pressable>
                 )}
 

@@ -180,7 +180,7 @@ function MessagesContent() {
               backgroundColor: colors.surface,
               alignItems: 'center', justifyContent: 'center',
             }}>
-              <Text style={{ color: colors.primary, fontSize: 19, fontWeight: '900' }}>
+              <Text style={{ color: colors.primary, fontSize: 19, fontWeight: peso.titulo }}>
                 {(yo?.fullName?.trim()?.charAt(0) ?? '?').toUpperCase()}
               </Text>
             </View>
@@ -221,7 +221,7 @@ function MessagesContent() {
             accessibilityState={{ selected: filter === f }}
             style={[styles.filterChip, { backgroundColor: filter === f ? colors.primary : colors.surface }]}
           >
-            <Text style={{ color: filter === f ? brand.white : colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
+            <Text style={{ color: filter === f ? brand.white : colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
               {f === 'all' ? 'Todos' : f === 'unread' ? 'No leídos' : f === 'chats' ? 'Chats' : 'Grupos'}
             </Text>
           </Pressable>
@@ -235,9 +235,9 @@ function MessagesContent() {
         </View>
       ) : error && !convs ? (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12, padding: espaciado.e24 }}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', textAlign: 'center' }}>{error}</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
           <Pressable onPress={load} style={{ backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e9 }}>
-            <Text style={{ color: colors.primary, fontWeight: '800' }}>Reintentar</Text>
+            <Text style={{ color: colors.primary, fontWeight: peso.maximo }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -263,7 +263,7 @@ function MessagesContent() {
           ListEmptyComponent={
             <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 70, gap: espaciado.e8 }}>
               <MessageCircle size={40} color={alpha(colors.primary, 0.45)} />
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>
                 {filter === 'unread' ? 'No tienes mensajes sin leer.'
               : filter === 'chats' ? 'No tienes conversaciones de uno a uno.'
                 : filter === 'groups' ? 'No estás en ningún grupo todavía.'
@@ -324,7 +324,7 @@ function InboxShortcut({ icon, bg, label, badge, onPress }: {
         {icon}
         {badge > 0 ? (
           <View style={styles.inboxBadge}>
-            <Text style={{ color: brand.white, fontSize: 9, fontWeight: '900' }}>{badge > 9 ? '9+' : badge}</Text>
+            <Text style={{ color: brand.white, fontSize: 9, fontWeight: peso.titulo }}>{badge > 9 ? '9+' : badge}</Text>
           </View>
         ) : null}
       </View>
@@ -345,7 +345,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
     <Image source={{ uri: card.avatarUrl }} style={styles.convoAvatar} />
   ) : (
     <View style={[styles.convoAvatar, styles.avatarFallback, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-      <Text style={{ color: colors.primary, fontWeight: '800', fontSize: 15 }}>
+      <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: 15 }}>
         {card.name.trim().charAt(0).toUpperCase()}
       </Text>
     </View>
@@ -374,7 +374,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
           </Text>
           {card.isGroup ? (
             <View style={[styles.groupChip, { backgroundColor: alpha(colors.primary, 0.12) }]}>
-              <Text style={{ color: colors.primary, fontSize: 10, fontWeight: '700' }}>
+              <Text style={{ color: colors.primary, fontSize: 10, fontWeight: peso.fuerte }}>
                 👥 {card.memberCount ?? 0}
               </Text>
             </View>
@@ -404,7 +404,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
 
       {isUnread ? (
         <View style={styles.unreadBadge}>
-          <Text style={{ color: brand.white, fontSize: 10, fontWeight: '800' }}>
+          <Text style={{ color: brand.white, fontSize: 10, fontWeight: peso.maximo }}>
             {card.unreadCount > 99 ? '99+' : card.unreadCount}
           </Text>
         </View>
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e16,
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12,
   },
-  title: { fontSize: tipografia.title, fontWeight: '800' },
+  title: { fontSize: tipografia.title, fontWeight: peso.maximo },
   groupChip: {
     paddingHorizontal: espaciado.e6, paddingVertical: 1, borderRadius: radios.sm, marginLeft: espaciado.e6,
   },

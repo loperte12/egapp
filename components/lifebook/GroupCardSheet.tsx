@@ -12,7 +12,7 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Check, Clock, LogIn, ShieldQuestion, Users, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { lifebookGroupsApi, type LbGroupCard } from '../../api/lifebook';
@@ -104,7 +104,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
       <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={onClose} />
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1 }}>Ficha del grupo</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>Ficha del grupo</Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
             <X size={20} color={colors.textSecondary} />
           </Pressable>
@@ -116,13 +116,13 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
               <Image source={{ uri: absUrl(group.photoUrl) }} style={styles.photo} />
             ) : (
               <View style={[styles.photo, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.title }}>
+                <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.title }}>
                   {(group.title || '?').trim().charAt(0).toUpperCase()}
                 </Text>
               </View>
             )}
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }} numberOfLines={2}>{group.title}</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }} numberOfLines={2}>{group.title}</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e4 }}>
                 <Users size={13} color={colors.textSecondary} />
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{group.membersCount} miembros</Text>
@@ -135,7 +135,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
 
           {group.topic ? (
             <View style={[styles.chipRow, { backgroundColor: alpha(colors.primary, 0.08), marginTop: espaciado.e12 }]}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>📌 {group.topic}</Text>
+              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>📌 {group.topic}</Text>
             </View>
           ) : null}
 
@@ -179,7 +179,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
                   ) : (
                     <View style={[styles.memberAvatar, { backgroundColor: alpha(colors.primary, 0.18) }]} />
                   )}
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }} numberOfLines={1}>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }} numberOfLines={1}>
                     {(m.fullName ?? 'Usuario').split(' ')[0]}{m.role === 'owner' ? ' 👑' : ''}
                   </Text>
                 </View>
@@ -190,7 +190,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
           {/* Pregunta de ingreso */}
           {!soyMiembro && group.joinMode === 'question' && group.joinQuestion && !pendiente ? (
             <View style={{ marginTop: espaciado.e14 }}>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }}>PREGUNTA DEL ORGANIZADOR</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>PREGUNTA DEL ORGANIZADOR</Text>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, marginTop: espaciado.e4 }}>{group.joinQuestion}</Text>
               <TextInput
                 value={answer}
@@ -208,7 +208,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
             <View style={[styles.stateBox, { backgroundColor: alpha(colors.secondary, 0.10), borderColor: alpha(colors.secondary, 0.3) }]}>
               <Clock size={16} color={colors.secondary} />
               <View style={{ flex: 1 }}>
-                <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Solicitud enviada</Text>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Solicitud enviada</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                   El organizador la revisará y te avisará cuando te acepte.
                 </Text>
@@ -235,7 +235,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
             accessibilityLabel={`Abrir el chat de ${group.title}`}
             style={[styles.cta, { backgroundColor: colors.primary }]}
           >
-            <Text style={{ color: brand.white, fontWeight: '900', fontSize: 15 }}>Abrir el chat</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Abrir el chat</Text>
           </Pressable>
         ) : enlaceAgotado && !pendiente ? (
           /* El enlace ya ha dado todas las entradas que el dueño permitió. Se dice claro y
@@ -244,7 +244,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
             accessibilityLabel="Este enlace ya no admite a más gente"
             style={[styles.cta, { backgroundColor: alpha(colors.textSecondary, 0.12) }]}
           >
-            <Text style={{ color: colors.textSecondary, fontWeight: '900', fontSize: tipografia.body, textAlign: 'center' }}>
+            <Text style={{ color: colors.textSecondary, fontWeight: peso.titulo, fontSize: tipografia.body, textAlign: 'center' }}>
               Este enlace ya no admite a más gente
             </Text>
           </View>
@@ -252,21 +252,21 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
           <Pressable onPress={cancelar} disabled={busy} accessibilityLabel="Cancelar mi solicitud"
             style={[styles.cta, { backgroundColor: alpha(colors.textSecondary, 0.12) }]}>
             {busy ? <ActivityIndicator size="small" color={colors.textSecondary} /> : (
-              <Text style={{ color: colors.textSecondary, fontWeight: '900', fontSize: tipografia.body }}>Cancelar la solicitud</Text>
+              <Text style={{ color: colors.textSecondary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Cancelar la solicitud</Text>
             )}
           </Pressable>
         ) : group.joinMode === 'question' && group.joinQuestion ? (
           <Pressable onPress={() => unirse(true)} disabled={busy} accessibilityLabel="Enviar mi respuesta y unirme"
             style={[styles.cta, { backgroundColor: colors.primary }]}>
             {busy ? <ActivityIndicator size="small" color={brand.white} /> : (
-              <Text style={{ color: brand.white, fontWeight: '900', fontSize: 15 }}>Enviar respuesta y unirme</Text>
+              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Enviar respuesta y unirme</Text>
             )}
           </Pressable>
         ) : (
           <Pressable onPress={() => unirse(false)} disabled={busy} accessibilityLabel={`Unirme a ${group.title}`}
             style={[styles.cta, { backgroundColor: colors.primary }]}>
             {busy ? <ActivityIndicator size="small" color={brand.white} /> : (
-              <Text style={{ color: brand.white, fontWeight: '900', fontSize: 15 }}>
+              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>
                 {group.joinMode === 'approval' ? 'Pedir entrar' : 'Unirme'}
               </Text>
             )}
@@ -282,7 +282,7 @@ export function JoinedBadge({ colors, label }: { colors: any; label: string }) {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
       <Check size={13} color={colors.primary} />
-      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>{label}</Text>
+      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{label}</Text>
     </View>
   );
 }

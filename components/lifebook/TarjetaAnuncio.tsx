@@ -19,7 +19,7 @@
 import React, { useEffect } from 'react';
 import { Image, Linking, Pressable, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { alpha, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 import { adsApi, type HomeAd } from '../../api/ads';
 import { absUrl } from '../../api/config';
 import { ir as irSeguro } from '../../constants/rutas';
@@ -73,7 +73,7 @@ export function TarjetaAnuncio({ ad, tint, colors }: { ad: HomeAd; tint: string;
     <View style={{ marginTop: espaciado.e8 }}>
       {/* La etiqueta NO es opcional: sin ella el anuncio se lee como un comentario
           de alguien, y eso es engañar a quien lee. */}
-      <Text style={{ fontSize: 10, fontWeight: '900', letterSpacing: 0.6, color: colors.textSecondary, marginBottom: espaciado.e4 }}>
+      <Text style={{ fontSize: 10, fontWeight: peso.titulo, letterSpacing: 0.6, color: colors.textSecondary, marginBottom: espaciado.e4 }}>
         PUBLICIDAD
       </Text>
       <Pressable
@@ -94,7 +94,7 @@ export function TarjetaAnuncio({ ad, tint, colors }: { ad: HomeAd; tint: string;
           </View>
         )}
         <View style={{ flex: 1 }}>
-          <Text numberOfLines={2} style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary, lineHeight: 17 }}>
+          <Text numberOfLines={2} style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary, lineHeight: 17 }}>
             {ad.title}
           </Text>
           {ad.subtitle ? (

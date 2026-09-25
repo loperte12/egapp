@@ -25,7 +25,7 @@ import {
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -256,7 +256,7 @@ function Contenido() {
         <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Volver" hitSlop={10} style={styles.volver}>
           <Text style={{ color: colors.textPrimary, fontSize: 30, lineHeight: 32 }}>‹</Text>
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>
           {editando ? 'Editar habitación' : 'Nueva habitación'}
         </Text>
       </View>
@@ -303,7 +303,7 @@ function Contenido() {
                           onPress={() => setBeds((prev) => prev.map((x, j) => (j === i ? { ...x, kind: t } : x)))}
                           style={[styles.chip, { backgroundColor: on ? colors.primary : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                         >
-                          <Text style={{ color: on ? brand.white : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                          <Text style={{ color: on ? brand.white : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                             {ETIQUETA_CAMA[t] ?? t}
                           </Text>
                         </Pressable>
@@ -314,12 +314,12 @@ function Contenido() {
                 <Pressable
                   onPress={() => setBeds((prev) => prev.map((x, j) => (j === i ? { ...x, count: Math.max(1, x.count - 1) } : x)))}
                   style={[styles.paso, { borderColor: colors.border }]}
-                ><Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: '900' }}>−</Text></Pressable>
-                <Text style={{ color: colors.textPrimary, fontWeight: '900', minWidth: 16, textAlign: 'center' }}>{b.count}</Text>
+                ><Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo }}>−</Text></Pressable>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, minWidth: 16, textAlign: 'center' }}>{b.count}</Text>
                 <Pressable
                   onPress={() => setBeds((prev) => prev.map((x, j) => (j === i ? { ...x, count: Math.min(20, x.count + 1) } : x)))}
                   style={[styles.paso, { borderColor: colors.border }]}
-                ><Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: '900' }}>+</Text></Pressable>
+                ><Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo }}>+</Text></Pressable>
                 {beds.length > 1 ? (
                   <Pressable onPress={() => setBeds((prev) => prev.filter((_, j) => j !== i))} hitSlop={8} accessibilityLabel="Quitar esta línea de camas">
                     <X size={18} color={colors.textSecondary} />
@@ -392,14 +392,14 @@ function Contenido() {
               ya creadas con menos— pero se dice claramente cuántas faltan.
             */}
             {fotos.length < 3 ? (
-              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '800', marginBottom: espaciado.e10, lineHeight: 18 }}>
+              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginBottom: espaciado.e10, lineHeight: 18 }}>
                 ⚠ {fotos.length === 0
                   ? 'Sin fotos: una habitación sin fotos casi no se reserva.'
                   : `Con ${fotos.length} foto(s) se nota la falta: lo recomendado son 3 o más.`}
                 {' '}Mejor la fachada o la habitación entera, con luz.
               </Text>
             ) : (
-              <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: '800', marginBottom: espaciado.e10 }}>
+              <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: peso.maximo, marginBottom: espaciado.e10 }}>
                 ✓ {fotos.length} fotos: la primera es la que se ve en la lista de resultados.
               </Text>
             )}
@@ -410,7 +410,7 @@ function Contenido() {
                     <Image source={{ uri: url }} style={styles.foto} contentFit="cover" transition={0} />
                     {i === 0 ? (
                       <View style={[styles.portada, { backgroundColor: colors.primary }]}>
-                        <Text style={{ color: brand.white, fontSize: 9, fontWeight: '900' }}>PORTADA</Text>
+                        <Text style={{ color: brand.white, fontSize: 9, fontWeight: peso.titulo }}>PORTADA</Text>
                       </View>
                     ) : null}
                     <Pressable onPress={() => quitarFoto(url)} style={styles.quitarFoto} accessibilityLabel="Quitar esta foto" hitSlop={10}>
@@ -437,7 +437,7 @@ function Contenido() {
                     onPress={() => setAmenities((prev) => (on ? prev.filter((x) => x !== s.id) : [...prev, s.id]))}
                     style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                   >
-                    <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                    <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                       {on ? '✓ ' : ''}{s.label}
                     </Text>
                   </Pressable>
@@ -448,7 +448,7 @@ function Contenido() {
 
           <Bloque titulo="Disponibilidad" hint="Apagada = fuera del catálogo. Las reservas que ya tengas siguen en pie.">
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', flex: 1, paddingRight: espaciado.e12 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte, flex: 1, paddingRight: espaciado.e12 }}>
                 {isActive ? 'A la venta' : 'Apagada'}
               </Text>
               <Switch value={isActive} onValueChange={setIsActive} trackColor={{ true: alpha(colors.primary, 0.5) }} />
@@ -456,7 +456,7 @@ function Contenido() {
           </Bloque>
 
           <View style={[styles.resumen, { backgroundColor: alpha(colors.primary, 0.07), borderColor: alpha(colors.primary, 0.22) }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
               {name.trim() || 'Sin nombre'} · {xaf(num(basePriceXaf) ?? 0)} por noche
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 17 }}>
@@ -466,7 +466,7 @@ function Contenido() {
           </View>
 
           {problema ? (
-            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e10 }}>⚠️ {problema}</Text>
+            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>⚠️ {problema}</Text>
           ) : null}
 
           <View style={{ marginTop: espaciado.e14 }}>
@@ -487,7 +487,7 @@ function Bloque({ titulo, hint, children }: { titulo: string; hint?: string; chi
   const { colors } = useTheme();
   return (
     <View style={{ marginBottom: espaciado.e20 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: espaciado.e3 }}>{titulo}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginBottom: espaciado.e3 }}>{titulo}</Text>
       {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>{hint}</Text> : <View style={{ height: 7 }} />}
       {children}
     </View>
@@ -509,7 +509,7 @@ function Contador({ actual, max }: { actual: number; max: number }) {
     <Text
       style={{
         color: quedan <= 40 ? colors.secondary : colors.textSecondary,
-        fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6, marginLeft: espaciado.e4,
+        fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6, marginLeft: espaciado.e4,
       }}
       accessibilityLiveRegion="polite"
     >

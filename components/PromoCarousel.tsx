@@ -15,7 +15,7 @@ import { ChevronRight } from 'lucide-react-native';
 import { adsApi, type HomeAd } from '../api/ads';
 import { alpha } from '../constants/colors';
 import { useTheme } from '../theme/ThemeContext';
-import { brand, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const H_PADDING = 20;
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   emoji: { fontSize: 34, marginRight: espaciado.e12 },
   cardBody: { flex: 1 },
-  cardTitle: { fontSize: 14.5, fontWeight: '800' },
+  cardTitle: { fontSize: 14.5, fontWeight: peso.maximo },
   cardSubtitle: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   ctaChip: {
     marginTop: espaciado.e8,
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     paddingVertical: espaciado.e5,
     borderRadius: radios.full,
   },
-  ctaText: { color: brand.white, fontSize: tipografia.micro, fontWeight: '800' },
+  ctaText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.maximo },
   dots: { flexDirection: 'row', justifyContent: 'center', gap: espaciado.e5, marginTop: espaciado.e12 },
   dot: { height: 6, width: 6, borderRadius: 3 },
 });

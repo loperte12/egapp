@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ImagePlus, Megaphone, X } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { messagesApi } from '../../api/messages';
@@ -119,7 +119,7 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
           <Megaphone size={18} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: espaciado.e8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             Anuncio del grupo
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -178,11 +178,11 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
                 ? <ActivityIndicator size="small" color={colors.primary} />
                 : photo
                   ? <Image source={{ uri: photo }} style={styles.thumb} />
-                  : <><ImagePlus size={16} color={colors.primary} /><Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginLeft: espaciado.e6 }}>Foto</Text></>}
+                  : <><ImagePlus size={16} color={colors.primary} /><Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginLeft: espaciado.e6 }}>Foto</Text></>}
             </Pressable>
           </View>
 
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, fontWeight: '800' }}>ENLAZAR UN SERVICIO (OPCIONAL)</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, fontWeight: peso.maximo }}>ENLAZAR UN SERVICIO (OPCIONAL)</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e6 }}>
             {LINKS.map((l) => {
               const active = linkType === l.type;
@@ -196,7 +196,7 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
                     borderColor: active ? colors.primary : 'transparent',
                   }]}
                 >
-                  <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{l.label}</Text>
+                  <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{l.label}</Text>
                 </Pressable>
               );
             })}
@@ -214,7 +214,7 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
             opacity: pressed ? 0.85 : 1,
           }]}
         >
-          <Text style={{ color: brand.white, fontWeight: '900', fontSize: 15 }}>Publicar anuncio</Text>
+          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Publicar anuncio</Text>
         </Pressable>
       </View>
     </Modal>

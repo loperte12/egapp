@@ -20,7 +20,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Minus, Plus, Star } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodRestaurantDetail, SPICE_LABEL, SPICE_ICON } from '../api/food';
 import { foodCartCount, foodCartTotal, FoodCartLine, useFoodStore } from '../state/food';
 import { itemDetailSummary } from '../utils/foodItemDetails';
@@ -123,7 +123,7 @@ export default function FoodMenuScreen() {
             <Text style={[s_center.title, { color: colors.textPrimary }]}>No pudimos cargar el menú</Text>
             <Text style={[s_center.sub, { color: colors.textSecondary }]}>{error}</Text>
             <Pressable onPress={retry} accessibilityRole="button" style={s_center.btnPrimary}>
-              <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+              <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
             </Pressable>
           </View>
         ) : detail ? (
@@ -133,7 +133,7 @@ export default function FoodMenuScreen() {
 
             {isOpen === false && (
               <View style={[s.closedNote, { backgroundColor: alpha(colors.danger, 0.07), borderColor: alpha(colors.danger, 0.25) }]}>
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', lineHeight: 16 }}>
+                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, lineHeight: 16 }}>
                   Cerrado ahora · puedes dejar tu pedido y el restaurante lo confirmará cuando abra.
                 </Text>
               </View>
@@ -205,7 +205,7 @@ function RestaurantHeader({ detail }: { detail: FoodRestaurantDetail }) {
         {open !== null ? (
           <View style={[s_h.badge, { backgroundColor: open ? alpha(colors.success, 0.14) : alpha(colors.danger, 0.12) }]}>
             <View style={[s_h.dot, { backgroundColor: open ? colors.success : colors.danger }]} />
-            <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: open ? colors.success : colors.danger }}>
+            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: open ? colors.success : colors.danger }}>
               {open ? 'Abierto' : 'Cerrado'}
             </Text>
           </View>
@@ -226,7 +226,7 @@ function RestaurantHeader({ detail }: { detail: FoodRestaurantDetail }) {
         <Text numberOfLines={2} style={[s_h.sub, { color: colors.textSecondary, marginTop: espaciado.e2 }]}>📍 {detail.address}</Text>
       ) : null}
       {km > 0 ? (
-        <Text style={[s_h.sub, { color: ACCENT, fontWeight: '700', marginTop: espaciado.e2 }]}>🛵 Reparto hasta {km} km</Text>
+        <Text style={[s_h.sub, { color: ACCENT, fontWeight: peso.fuerte, marginTop: espaciado.e2 }]}>🛵 Reparto hasta {km} km</Text>
       ) : null}
     </View>
   );
@@ -250,7 +250,7 @@ function MenuItemRow({ item, qty, onAdd, onDec, onInc }: {
            que falta —el cliente cree que está viendo el plato y no está viendo nada—. Se deja un
            hueco limpio con la categoría escrita: es lo que hay, dicho claro. */
         <View style={[s_row.img, s_row.imgFallback]}>
-          <Text style={{ fontSize: 10, fontWeight: '700', color: colors.textSecondary, textAlign: 'center' }}>
+          <Text style={{ fontSize: 10, fontWeight: peso.fuerte, color: colors.textSecondary, textAlign: 'center' }}>
             {item.category === 'plato' ? 'Plato' : item.category === 'bebida' ? 'Bebida' : 'Postre'}
           </Text>
         </View>
@@ -344,7 +344,7 @@ function MenuSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['colors'
 }
 
 const s_h = StyleSheet.create({
-  name: { fontSize: 19, fontWeight: '900' },
+  name: { fontSize: 19, fontWeight: peso.titulo },
   sub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e5, flexWrap: 'wrap' },
   badge: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: 10, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
@@ -358,13 +358,13 @@ const s_row = StyleSheet.create({
   img: { width: 64, height: 64, borderRadius: 10 },
   imgFallback: { backgroundColor: 'rgba(255,107,53,0.08)', alignItems: 'center', justifyContent: 'center' },
   body: { flex: 1, marginLeft: espaciado.e10, marginRight: espaciado.e8 },
-  name: { fontSize: tipografia.body, fontWeight: '700' },
+  name: { fontSize: tipografia.body, fontWeight: peso.fuerte },
   desc: { fontSize: tipografia.micro, marginTop: 1, lineHeight: 14 },
-  price: { fontSize: tipografia.body, fontWeight: '900', color: ACCENT, marginTop: espaciado.e2 },
+  price: { fontSize: tipografia.body, fontWeight: peso.titulo, color: ACCENT, marginTop: espaciado.e2 },
   addBtn: { backgroundColor: ACCENT, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 10 },
   stepper: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
   stepBtn: { width: 30, height: 30, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
-  qty: { fontSize: tipografia.body, fontWeight: '800', minWidth: 18, textAlign: 'center' },
+  qty: { fontSize: tipografia.body, fontWeight: peso.maximo, minWidth: 18, textAlign: 'center' },
   // ── Detalle del plato (041) ──
   // Nota: `card` usa alignItems:'center' a propósito. Con detalles la tarjeta
   // crece a 3-5 líneas y la foto y el stepper quedan centrados en vertical, que
@@ -373,7 +373,7 @@ const s_row = StyleSheet.create({
   detailLine: { fontSize: 10.5, marginTop: espaciado.e2, lineHeight: 14 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5, marginTop: espaciado.e4 },
   miniChip: { borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
-  miniChipText: { fontSize: 10, fontWeight: '700', color: ACCENT },
+  miniChipText: { fontSize: 10, fontWeight: peso.fuerte, color: ACCENT },
 });
 
 const s_sk = StyleSheet.create({
@@ -382,7 +382,7 @@ const s_sk = StyleSheet.create({
 
 const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 48, paddingHorizontal: espaciado.e28 },
-  title: { fontSize: 15, fontWeight: '800', textAlign: 'center' },
+  title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
   btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
 });
@@ -390,9 +390,9 @@ const s_center = StyleSheet.create({
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   content: { padding: espaciado.e16 },
-  catTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary, marginBottom: espaciado.e8 },
+  catTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e8 },
   closedNote: { borderRadius: 10, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e12 },
   bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10, borderTopWidth: 1 },
   cta: { backgroundColor: ACCENT, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center' },
-  ctaText: { color: brand.white, fontSize: 15, fontWeight: '900' },
+  ctaText: { color: brand.white, fontSize: 15, fontWeight: peso.titulo },
 });

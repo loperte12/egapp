@@ -15,7 +15,7 @@ import {
   StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ShoppingCart, X } from 'lucide-react-native';
 import { lbXaf } from '../../constants/lifebook';
 import { lifebookOrdersApi } from '../../api/lifebook';
@@ -65,7 +65,7 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
 
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 }}>
             <ShoppingCart size={18} color={colors.primary} />
-            <Text style={{ fontSize: 15.5, fontWeight: '900', color: colors.textPrimary, flex: 1 }}>Confirmar pedido</Text>
+            <Text style={{ fontSize: 15.5, fontWeight: peso.titulo, color: colors.textPrimary, flex: 1 }}>Confirmar pedido</Text>
             <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar pedido"
               style={{ width: 32, height: 32, borderRadius: radios.lg, backgroundColor: alpha(colors.textPrimary, 0.07), alignItems: 'center', justifyContent: 'center' }}>
               <X size={18} color={colors.textPrimary} />
@@ -74,7 +74,7 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
 
           <View style={{ paddingHorizontal: espaciado.e16, paddingTop: espaciado.e6 }}>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
-              Vas a pedir este artículo por <Text style={{ color: colors.primary, fontWeight: '900' }}>{lbXaf(priceXaf)}</Text>
+              Vas a pedir este artículo por <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>{lbXaf(priceXaf)}</Text>
               {negotiable ? ' · el precio es negociable' : ''}
             </Text>
 
@@ -113,7 +113,7 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
             >
               {busy
                 ? <ActivityIndicator size="small" color={brand.white} />
-                : <Text style={{ color: brand.white, fontWeight: '900', fontSize: 14.5 }}>Enviar pedido</Text>}
+                : <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>Enviar pedido</Text>}
             </Pressable>
           </View>
         </View>

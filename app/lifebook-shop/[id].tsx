@@ -10,7 +10,7 @@ import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from '
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, MapPin, MessageCircle, Package, ShieldCheck, Store, Truck, Wrench,
 } from 'lucide-react-native';
@@ -190,7 +190,7 @@ function ShopContent() {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
         <Store size={40} color={alpha(colors.primary, 0.4)} />
-        <Text style={{ color: colors.textPrimary, fontWeight: '800' }}>Esta tienda no está disponible</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo }}>Esta tienda no está disponible</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
     );
@@ -245,12 +245,12 @@ function ShopContent() {
               </View>
 
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e10 }}>
-                <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: '900', flex: 1 }} numberOfLines={1}>
+                <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo, flex: 1 }} numberOfLines={1}>
                   {shop.name}
                 </Text>
                 {shop.isVerified ? <ShieldCheck size={16} color={colors.success} /> : null}
               </View>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
                 {nivel.icon} {nivel.label}
                 {shop.ecomerse ? ' · Tienda Ecomerse' : ''}
               </Text>
@@ -325,7 +325,7 @@ function ShopContent() {
                   />
                 ))}
                 <View style={{ marginTop: espaciado.e8 }}>
-                  <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body, marginBottom: espaciado.e6 }}>Pagos aceptados</Text>
+                  <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body, marginBottom: espaciado.e6 }}>Pagos aceptados</Text>
                   {shop.paymentMethods.map((pm) => (
                     <Text key={pm.method} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e3 }}>
                       · {lbPayLabel(pm.method)}{pm.status !== 'active' ? ` (${LB_PAY_STATUS_LABEL[pm.status] ?? pm.status})` : ''}
@@ -337,7 +337,7 @@ function ShopContent() {
                   accessibilityLabel="Ver el perfil del vendedor"
                   style={{ marginTop: espaciado.e16 }}
                 >
-                  <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>Ver el perfil de {shop.owner?.name ?? 'el vendedor'} →</Text>
+                  <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Ver el perfil de {shop.owner?.name ?? 'el vendedor'} →</Text>
                 </Pressable>
               </View>
             ) : null}
@@ -379,7 +379,7 @@ function ShopContent() {
                 <Package size={22} color={alpha(colors.primary, 0.5)} />
               </View>
             )}
-            <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 }}>
+            <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
               {item.title}
             </Text>
             {/* Marca visible del atajo: si se ha entrado desde la tarjeta del perfil, el
@@ -387,11 +387,11 @@ function ShopContent() {
                 un borde de color, que no se puede ni leer con un lector de pantalla (y que yo
                 tampoco podía comprobar en el teléfono). */}
             {resaltado === item.id ? (
-              <Text style={{ color: colors.primary, fontSize: 10.5, fontWeight: '900', marginTop: espaciado.e2 }}>
+              <Text style={{ color: colors.primary, fontSize: 10.5, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
                 📍 Es el que tocaste
               </Text>
             ) : null}
-            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e3 }}>
+            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
               {lbPriceLabel(item.priceXaf, item.priceMode, lbXaf)}
             </Text>
             <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
@@ -400,7 +400,7 @@ function ShopContent() {
             {/* «X vendidos»: el dato ya venía (`salesCount`) y no se pintaba. Solo si hay
                 ventas: un «0 vendidos» en la rejilla de la tienda ahuyenta. */}
             {item.salesCount > 0 ? (
-              <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '700', marginTop: 1 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte, marginTop: 1 }}>
                 {item.salesCount} vendido{item.salesCount === 1 ? '' : 's'}
               </Text>
             ) : null}

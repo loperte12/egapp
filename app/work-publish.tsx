@@ -219,11 +219,11 @@ export default function WorkPublishScreen() {
         {tab === 'publish' ? (
           catError ? (
             <View style={{ alignItems: 'center', paddingVertical: 60, paddingHorizontal: espaciado.e24 }}>
-              <Text style={{ color: colors.danger, fontWeight: '700', textAlign: 'center' }}>No se pudo cargar el catálogo de categorías y ciudades.</Text>
+              <Text style={{ color: colors.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>No se pudo cargar el catálogo de categorías y ciudades.</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e14 }}>Comprueba tu conexión e inténtalo de nuevo.</Text>
               <Pressable onPress={() => void loadCatalog()} accessibilityRole="button" accessibilityLabel="Reintentar cargar el catálogo"
                 style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
-                <RefreshCw size={15} color={brand.white} /><Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body, marginLeft: espaciado.e6 }}>Reintentar</Text>
+                <RefreshCw size={15} color={brand.white} /><Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body, marginLeft: espaciado.e6 }}>Reintentar</Text>
               </Pressable>
             </View>
           ) : !cat ? (
@@ -241,7 +241,7 @@ export default function WorkPublishScreen() {
               >
                 <Crown size={18} color={colors.primary} />
                 <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>
                     {plan ? `${plan.planName} · ${plan.activeJobs}/${plan.offerLimit} ofertas activas` : 'Cargando tu plan…'}
                   </Text>
                   <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 1 }}>
@@ -250,7 +250,7 @@ export default function WorkPublishScreen() {
                       : 'Toca para ver planes y mejorar tu cuota.'}
                   </Text>
                 </View>
-                <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.primary }}>Mejorar plan ›</Text>
+                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.primary }}>Mejorar plan ›</Text>
               </Pressable>
 
               <Text style={s.hint}>Cualquier usuario autenticado puede publicar. Las ofertas caducan automáticamente y las empresas verificadas muestran el sello de confianza.</Text>
@@ -284,13 +284,13 @@ export default function WorkPublishScreen() {
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e4 }}>
                 {latlng ? (
-                  <Text style={{ fontSize: tipografia.micro, color: colors.success, fontWeight: '700' }}>Punto fijado ✓</Text>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.success, fontWeight: peso.fuerte }}>Punto fijado ✓</Text>
                 ) : (
                   <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Sin punto (opcional)</Text>
                 )}
                 {latlng && (
                   <Pressable onPress={() => setLatlng(null)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Quitar el punto del mapa">
-                    <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: '700' }}>Quitar punto</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.fuerte }}>Quitar punto</Text>
                   </Pressable>
                 )}
               </View>
@@ -370,10 +370,10 @@ export default function WorkPublishScreen() {
             )}
             {!loadingMine && mineError && (
               <View style={{ alignItems: 'center', paddingVertical: espaciado.e30, paddingHorizontal: espaciado.e24 }}>
-                <Text style={{ color: colors.danger, fontWeight: '700', textAlign: 'center' }}>{mineError}</Text>
+                <Text style={{ color: colors.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>{mineError}</Text>
                 <Pressable onPress={() => void loadMine()} accessibilityRole="button" accessibilityLabel="Reintentar cargar tus ofertas"
                   style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e12, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e9, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
-                  <RefreshCw size={14} color={brand.white} /><Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.caption, marginLeft: espaciado.e6 }}>Reintentar</Text>
+                  <RefreshCw size={14} color={brand.white} /><Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.caption, marginLeft: espaciado.e6 }}>Reintentar</Text>
                 </Pressable>
               </View>
             )}
@@ -390,14 +390,14 @@ export default function WorkPublishScreen() {
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View style={{ flex: 1, paddingRight: espaciado.e8 }}>
-                      <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>{j.title}</Text>
+                      <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>{j.title}</Text>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }} numberOfLines={1}>{j.company} · {j.city} · {j.salary}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                       <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.1), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 10 }}>
-                        <Users size={11} color={colors.primary} /><Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: '700', marginLeft: espaciado.e3 }}>{j.applicantsCount}</Text>
+                        <Users size={11} color={colors.primary} /><Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.fuerte, marginLeft: espaciado.e3 }}>{j.applicantsCount}</Text>
                       </View>
-                      <Text style={{ fontSize: tipografia.micro, color: j.status === 'closed' ? colors.danger : colors.success, fontWeight: '700' }}>{j.status === 'closed' ? 'Cerrada' : 'Activa'}</Text>
+                      <Text style={{ fontSize: tipografia.micro, color: j.status === 'closed' ? colors.danger : colors.success, fontWeight: peso.fuerte }}>{j.status === 'closed' ? 'Cerrada' : 'Activa'}</Text>
                     </View>
                   </View>
                 </Pressable>
@@ -462,7 +462,7 @@ function MapPinBadge() {
   return (
     <View style={{ position: 'absolute', top: 10, right: 10, flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.textPrimary, 0.75), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 10 }}>
       <MapPin size={11} color={brand.white} />
-      <Text style={{ color: brand.white, fontSize: 10, fontWeight: '700', marginLeft: espaciado.e3 }}>Toca el mapa</Text>
+      <Text style={{ color: brand.white, fontSize: 10, fontWeight: peso.fuerte, marginLeft: espaciado.e3 }}>Toca el mapa</Text>
     </View>
   );
 }
@@ -477,7 +477,7 @@ function TabBtn({ active, label, onPress }: { active: boolean; label: string; on
       accessibilityLabel={label}
       style={({ pressed }) => [{ flex: 1, paddingVertical: espaciado.e9, borderRadius: radios.sm, alignItems: 'center', backgroundColor: active ? colors.primary : colors.surface, opacity: pressed ? 0.85 : 1 }]}
     >
-      <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: active ? brand.white : colors.textSecondary }}>{label}</Text>
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: active ? brand.white : colors.textSecondary }}>{label}</Text>
     </Pressable>
   );
 }
@@ -514,7 +514,7 @@ function MiniBtn({ label, bg, onPress, disabled, children }: { label: string; bg
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   hint: { fontSize: tipografia.caption, color: c.textSecondary, marginBottom: espaciado.e16, lineHeight: 18 },
-  label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
+  label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
   counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: espaciado.e4 },
   area: { minHeight: 80, borderRadius: 10, borderWidth: 1, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
 });

@@ -243,7 +243,7 @@ export default function SelectorDeVariante({
   /** Un bloque de eje (color con foto, o valores como botones). */
   const Eje = ({ g }: { g: LbOptionGroup }) => (
     <View style={{ marginTop: espaciado.e14 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginBottom: espaciado.e7 }}>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo, marginBottom: espaciado.e7 }}>
         {g.label}{sel[g.code] ? <Text style={{ color: colors.textSecondary, fontWeight: peso.medio }}>{`  ${sel[g.code]}`}</Text> : null}
       </Text>
       <View style={styles.valores}>
@@ -283,10 +283,10 @@ export default function SelectorDeVariante({
                     <Text style={{ fontSize: 9.5, color: colors.textSecondary }}>sin foto</Text>
                   </View>
                 )}
-                <Text numberOfLines={1} style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.micro, fontWeight: '700', marginTop: espaciado.e4, maxWidth: 68, textAlign: 'center' }}>
+                <Text numberOfLines={1} style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e4, maxWidth: 68, textAlign: 'center' }}>
                   {v.value}
                 </Text>
-                {agotadoAqui ? <Text style={{ color: colors.danger, fontSize: 9.5, fontWeight: '800' }}>agotado</Text> : null}
+                {agotadoAqui ? <Text style={{ color: colors.danger, fontSize: 9.5, fontWeight: peso.maximo }}>agotado</Text> : null}
               </Pressable>
             );
           }
@@ -304,7 +304,7 @@ export default function SelectorDeVariante({
             >
               <Text style={{
                 color: activo ? colors.primary : colors.textPrimary,
-                fontSize: tipografia.caption, fontWeight: '700',
+                fontSize: tipografia.caption, fontWeight: peso.fuerte,
                 textDecorationLine: libre ? 'none' : 'line-through',
               }}>
                 {v.value}
@@ -317,7 +317,7 @@ export default function SelectorDeVariante({
       {/* El enlace del asistente, solo si la tienda tiene tabla para ese tipo de prenda. */}
       {g.code === grupoTalla?.code && tablaDelGrupo ? (
         <Pressable onPress={() => setModo('talla')} accessibilityLabel="No sé mi talla" style={{ marginTop: espaciado.e8 }}>
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>¿No sabes tu talla?</Text>
+          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>¿No sabes tu talla?</Text>
         </Pressable>
       ) : null}
 
@@ -329,7 +329,7 @@ export default function SelectorDeVariante({
           </Text>
           <Pressable onPress={() => { void pedirAviso(avisoPara.code, avisoPara.value); }} disabled={busyAviso} accessibilityLabel="Sí, avisadme">
             {busyAviso ? <ActivityIndicator size="small" color={colors.primary} /> : (
-              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '900' }}>Avisadme</Text>
+              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Avisadme</Text>
             )}
           </Pressable>
           <Pressable onPress={() => setAvisoPara(null)} hitSlop={8} accessibilityLabel="No, gracias">
@@ -363,7 +363,7 @@ export default function SelectorDeVariante({
             )}
             <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8 }}>
-                <Text numberOfLines={1} style={{ color: colors.primary, fontSize: 19, fontWeight: '900', flexShrink: 1 }}>
+                <Text numberOfLines={1} style={{ color: colors.primary, fontSize: 19, fontWeight: peso.titulo, flexShrink: 1 }}>
                   {precioTexto}
                 </Text>
                 {precioAntiguo ? (
@@ -387,7 +387,7 @@ export default function SelectorDeVariante({
           {modo === 'talla' && grupoTalla ? (
             <View style={{ marginTop: espaciado.e10 }}>
               <Pressable onPress={() => setModo('elegir')} accessibilityLabel="Volver a las opciones" style={{ marginBottom: espaciado.e8 }}>
-                <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>← Volver a las opciones</Text>
+                <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>← Volver a las opciones</Text>
               </Pressable>
               <AsistenteDeTalla
                 product={product}
@@ -407,7 +407,7 @@ export default function SelectorDeVariante({
                 {/* ── Cantidad, con el tope real ── */}
                 <View style={{ marginTop: espaciado.e16, flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Cantidad</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Cantidad</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
                       {product.stockMode === 'exact' ? `Máx. ${tope || 0}` : ''}
                     </Text>
@@ -421,7 +421,7 @@ export default function SelectorDeVariante({
                     >
                       <Minus size={16} color={cant <= 1 ? alpha(colors.textSecondary, 0.5) : colors.textPrimary} />
                     </Pressable>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', minWidth: 30, textAlign: 'center' }}>{cant}</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo, minWidth: 30, textAlign: 'center' }}>{cant}</Text>
                     <Pressable
                       onPress={() => setCant((c) => Math.min(tope || 1, c + 1))}
                       disabled={cant >= (tope || 1)}
@@ -453,7 +453,7 @@ export default function SelectorDeVariante({
                   {busy === secundario ? (
                     <ActivityIndicator size="small" color={colors.primary} />
                   ) : (
-                    <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>
+                    <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                       {secundario === 'carrito' ? 'Al carrito' : 'Comprar now'}
                     </Text>
                   )}
@@ -469,7 +469,7 @@ export default function SelectorDeVariante({
                   {busy === principal ? (
                     <ActivityIndicator size="small" color={brand.white} />
                   ) : (
-                    <Text numberOfLines={1} style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '900' }}>
+                    <Text numberOfLines={1} style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                       {principal === 'carrito' ? 'Añadir al carrito' : 'Comprar now'}
                     </Text>
                   )}

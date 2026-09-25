@@ -14,7 +14,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Bike, Check } from 'lucide-react-native';
-import { EmptyState, espaciado, PrimaryButton, radios, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, PrimaryButton, radios, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { whatsappSoporte } from '../constants/soporte';
 import { AuthGate } from '../core/AuthGate';
 import { PinSheet } from '@egrouteplan/ui-kit';
@@ -113,7 +113,7 @@ function Contenido() {
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
               Enseña este código al agente junto con el efectivo:
             </Text>
-            <Text style={{ color: colors.primary, fontSize: 40, fontWeight: '900', letterSpacing: 10, textAlign: 'center', marginVertical: espaciado.e14 }}>
+            <Text style={{ color: colors.primary, fontSize: 40, fontWeight: peso.titulo, letterSpacing: 10, textAlign: 'center', marginVertical: espaciado.e14 }}>
               {otp}
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', lineHeight: 17 }}>
@@ -127,14 +127,14 @@ function Contenido() {
           <Text style={[styles.label, { color: colors.textSecondary }]}>Importe</Text>
           <View style={[styles.amountBox, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <TextInput
-              style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.display, fontWeight: '900' }}
+              style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.display, fontWeight: peso.titulo }}
               placeholder="0"
               placeholderTextColor={colors.textSecondary}
               value={importe}
               onChangeText={(t) => setImporte(t.replace(/\D/g, '').slice(0, 7))}
               keyboardType="number-pad"
             />
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '800' }}>XAF</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.maximo }}>XAF</Text>
           </View>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e6 }}>
             Hoy puedes recargar hasta {fmtXaf(restante)}.
@@ -172,7 +172,7 @@ function Contenido() {
                 <Bike size={18} color={colors.primary} />
               </View>
               <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{a.name}</Text>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{a.name}</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>{a.code} · {a.zone}</Text>
               </View>
               {agenteId === a.id && <Check size={18} color={colors.primary} />}
@@ -234,8 +234,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  headerTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
-  label: { fontSize: tipografia.body, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4 },
+  headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
+  label: { fontSize: tipografia.body, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.4 },
   amountBox: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.lg, borderWidth: 1,
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, marginTop: espaciado.e8,

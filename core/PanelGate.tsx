@@ -37,7 +37,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Lock } from 'lucide-react-native';
-import { alpha, espaciado, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, PrimaryButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { biometricAvailable, biometricVerify } from './biometric';
 import { useSession } from '../state/session';
 
@@ -105,7 +105,7 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
         <View style={[styles.candado, { backgroundColor: alpha(colors.primary, 0.1) }]}>
           <Lock size={26} color={colors.primary} />
         </View>
-        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', marginTop: espaciado.e14 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, marginTop: espaciado.e14 }}>
           Gestión de tu negocio
         </Text>
         <Text style={{
@@ -116,7 +116,7 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
           para entrar.
         </Text>
         {fallo ? (
-          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e10 }}>
+          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>
             {fallo}
           </Text>
         ) : null}
@@ -140,7 +140,7 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
           borderBottomColor: alpha(colors.secondary, 0.3),
           paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7,
         }}>
-          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700' }}>
+          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
             Este móvil no tiene huella ni PIN configurados: la gestión entra sin cerradura.
           </Text>
         </View>

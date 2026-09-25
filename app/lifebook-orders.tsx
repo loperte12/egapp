@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, EmptyState, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, MessageCircle, PackageOpen, ShoppingBag, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -89,13 +89,13 @@ function OrdersContent() {
             style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 }}
           >
             <Store size={13} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '900' }}>Mi tienda</Text>
+            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Mi tienda</Text>
           </Pressable>
         ) : null}
         <View style={{ flexDirection: 'row', backgroundColor: colors.surface, borderRadius: radios.full, padding: espaciado.e3 }}>
           {(['buyer', 'seller'] as const).map((s) => (
             <Pressable key={s} onPress={() => setSide(s)} style={[styles.seg, { backgroundColor: side === s ? colors.primary : 'transparent' }]}>
-              <Text style={{ color: side === s ? brand.white : colors.textSecondary, fontWeight: '900', fontSize: tipografia.caption }}>{s === 'buyer' ? 'Compras' : 'Ventas'}</Text>
+              <Text style={{ color: side === s ? brand.white : colors.textSecondary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>{s === 'buyer' ? 'Compras' : 'Ventas'}</Text>
             </Pressable>
           ))}
         </View>
@@ -110,7 +110,7 @@ function OrdersContent() {
           ListHeaderComponent={
             comercio.length ? (
               <View style={{ paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e6 }}>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e10, marginBottom: espaciado.e8 }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e10, marginBottom: espaciado.e8 }}>
                   Pedidos de tienda
                 </Text>
                 {comercio.map((o) => {
@@ -128,20 +128,20 @@ function OrdersContent() {
                         <View style={[styles.commerceThumb, { backgroundColor: colors.card }]} />
                       )}
                       <View style={{ flex: 1 }}>
-                        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                           {o.code} · {o.title}
                         </Text>
                         <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                           {side === 'buyer' ? (o.shop?.name ?? 'Tienda') : (o.buyer?.name ?? 'Cliente')}
                           {' · '}{o.itemsCount} artículo{o.itemsCount === 1 ? '' : 's'}
                         </Text>
-                        <Text style={{ color: meta.color, fontSize: tipografia.caption, fontWeight: '900', marginTop: espaciado.e3 }}>{meta.label}</Text>
+                        <Text style={{ color: meta.color, fontSize: tipografia.caption, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>{meta.label}</Text>
                       </View>
-                      <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body }}>{lbXaf(o.totalXaf)}</Text>
+                      <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body }}>{lbXaf(o.totalXaf)}</Text>
                     </Pressable>
                   );
                 })}
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e14, marginBottom: espaciado.e6 }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e14, marginBottom: espaciado.e6 }}>
                   Pedidos de publicaciones
                 </Text>
               </View>
@@ -178,12 +178,12 @@ function OrdersContent() {
                   )}
                   <View style={{ flex: 1 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e6 }}>
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '800' }}>{item.orderNo}</Text>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>{item.orderNo}</Text>
                       <View style={{ backgroundColor: alpha(meta.color, 0.13), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
-                        <Text style={{ color: meta.color, fontSize: 10.5, fontWeight: '900' }}>{meta.label}</Text>
+                        <Text style={{ color: meta.color, fontSize: 10.5, fontWeight: peso.titulo }}>{meta.label}</Text>
                       </View>
                     </View>
-                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '900', marginTop: espaciado.e3 }}>
+                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
                       {item.title ?? 'Producto'}
                     </Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>
@@ -201,15 +201,15 @@ function OrdersContent() {
                     <Pressable key={a} onPress={() => act(item, a)} disabled={busyId === item.id} style={[styles.actBtn, { backgroundColor: colors.primary }]}>
                       {busyId === item.id
                         ? <ActivityIndicator size="small" color={brand.white} />
-                        : <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>{LB_ORDER_ACTION_LABEL[a] ?? a}</Text>}
+                        : <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>{LB_ORDER_ACTION_LABEL[a] ?? a}</Text>}
                     </Pressable>
                   ))}
                   <Pressable onPress={() => irSeguro.libre('/lifebook-post/[id]', { id: item.postId })} style={[styles.actBtn, { backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1 }]}>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>Ver anuncio</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Ver anuncio</Text>
                   </Pressable>
                   <Pressable onPress={() => talk(item)} style={[styles.actBtn, { backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1 }]}>
                     <MessageCircle size={13} color={colors.textPrimary} />
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>Hablar</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Hablar</Text>
                   </Pressable>
                 </View>
               </View>
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
   commerceThumb: { width: 44, height: 44, borderRadius: radios.sm },
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: 19, fontWeight: '900', flex: 1 },
+  topTitle: { fontSize: 19, fontWeight: peso.titulo, flex: 1 },
   seg: { borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e6 },
   card: { borderRadius: radios.lg, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   thumb: { width: 62, height: 62, borderRadius: radios.md },

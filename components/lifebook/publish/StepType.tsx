@@ -17,7 +17,7 @@
  */
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import { espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { LB_SERVICE_TYPES } from '../../../constants/commerce';
 import { usePublishStore } from '../../../state/commercePublish';
 import type { LbCategory } from '../../../api/commerce';
@@ -59,7 +59,7 @@ export default function StepType({ categories }: { categories: LbCategory[] }) {
           title="Categoría"
           hint="Sirve para que te encuentren en los filtros y para sugerirte los detalles y las opciones típicas de lo que vendes (tallas, colores…)."
         >
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e6 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e6 }}>
             1 · ¿De qué es?
           </Text>
           <ChipRow>
@@ -79,7 +79,7 @@ export default function StepType({ categories }: { categories: LbCategory[] }) {
 
           {hijas.length > 0 ? (
             <View style={{ marginTop: espaciado.e12 }}>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e6 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e6 }}>
                 2 · ¿Cuál? {rama ? `(${rama.name})` : ''}
               </Text>
               <ChipRow>
@@ -93,7 +93,7 @@ export default function StepType({ categories }: { categories: LbCategory[] }) {
                 ))}
               </ChipRow>
               {sub ? (
-                <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 }}>
+                <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
                   Elegida: {sub.name}
                 </Text>
               ) : null}

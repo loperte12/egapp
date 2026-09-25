@@ -116,7 +116,7 @@ function SettingsContent() {
               style={({ pressed }) => [styles.sheetRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
             >
               <Text style={[styles.sheetRowTxt, { color: active ? colors.primary : colors.textPrimary }]}>{o}</Text>
-              {active ? <Check size={18} color={colors.primary} /> : (!allowAll ? <Text style={{ color: colors.textSecondary, fontSize: 10, fontWeight: '700' }}>Próximamente</Text> : null)}
+              {active ? <Check size={18} color={colors.primary} /> : (!allowAll ? <Text style={{ color: colors.textSecondary, fontSize: 10, fontWeight: peso.fuerte }}>Próximamente</Text> : null)}
             </Pressable>
           );
         })}
@@ -265,7 +265,7 @@ function SettingsContent() {
           style={({ pressed }) => [styles.emergency, { backgroundColor: pressed ? alpha(colors.danger, 0.14) : alpha(colors.danger, 0.08) }]}
         >
           <Siren size={19} color={colors.danger} />
-          <Text style={{ color: colors.danger, fontWeight: '800', fontSize: tipografia.body }}>Emergencia</Text>
+          <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.body }}>Emergencia</Text>
         </Pressable>
 
         {/* SESIÓN */}
@@ -284,10 +284,10 @@ function SettingsContent() {
             <Text style={[styles.confirmBody, { color: colors.textSecondary }]}>Podrás volver a entrar con tu teléfono y contraseña cuando quieras.</Text>
             <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e16 }}>
               <Pressable onPress={() => setConfirmLogout(false)} style={[styles.confirmBtn, { backgroundColor: colors.surface }]}>
-                <Text style={{ color: colors.textPrimary, fontWeight: '800' }}>Cancelar</Text>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo }}>Cancelar</Text>
               </Pressable>
               <Pressable onPress={doLogout} style={[styles.confirmBtn, { backgroundColor: colors.danger }]}>
-                <Text style={{ color: brand.white, fontWeight: '800' }}>Cerrar sesión</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.maximo }}>Cerrar sesión</Text>
               </Pressable>
             </View>
           </View>
@@ -366,7 +366,7 @@ function SettingsContent() {
             );
           })}
           <Pressable onPress={() => setCityOpen(false)} style={{ marginTop: espaciado.e8, alignSelf: 'center' }}>
-            <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body }}>Listo</Text>
+            <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Listo</Text>
           </Pressable>
         </View>
       </Modal>
@@ -411,13 +411,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  topTitle: { fontSize: 17, fontWeight: '900' },
+  topTitle: { fontSize: 17, fontWeight: peso.titulo },
   content: { padding: espaciado.e16, gap: espaciado.e6 },
-  groupTitle: { fontSize: tipografia.micro, fontWeight: '800', color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e8, marginBottom: espaciado.e2 },
+  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e8, marginBottom: espaciado.e2 },
   group: { borderRadius: radios.lg, overflow: 'hidden' },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12 },
   rowIcon: { width: 32, height: 32, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
-  rowLabel: { flex: 1, fontSize: tipografia.body, fontWeight: '700' },
+  rowLabel: { flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte },
   rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, color: '#8E8E93', maxWidth: '52%' },
   emergency: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8,
@@ -427,11 +427,11 @@ const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheetCard: { ...formaHoja },
   sheetHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e8 },
-  sheetTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
+  sheetTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   sheetRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e13 },
-  sheetRowTxt: { fontSize: 14.5, fontWeight: '700' },
+  sheetRowTxt: { fontSize: 14.5, fontWeight: peso.fuerte },
   confirmCard: { width: '84%', maxWidth: 340, borderRadius: 20, padding: espaciado.e20 },
-  confirmTitle: { fontSize: 17, fontWeight: '900', textAlign: 'center' },
+  confirmTitle: { fontSize: 17, fontWeight: peso.titulo, textAlign: 'center' },
   confirmBody: { fontSize: tipografia.body, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e8, lineHeight: 19 },
   confirmBtn: { flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: radios.md, paddingVertical: espaciado.e12 },
 });

@@ -30,7 +30,7 @@ import { useStatusStore } from '../state/statusStore';
 import StatusRingAvatar from './status/StatusRingAvatar';
 import StatusChip from './status/StatusChip';
 import StatusDetailModal from './status/StatusDetailModal';
-import { brand, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 
 /** Altura del banner (25 % de la pantalla, acotada). */
 const BANNER_H_RATIO = 0.25;
@@ -271,17 +271,17 @@ const styles = StyleSheet.create({
     borderWidth: 2, borderColor: 'rgba(255,255,255,0.9)',
   },
   avatarImg: { width: '100%', height: '100%' },
-  driverName: { fontSize: tipografia.body, fontWeight: '900', maxWidth: 180 },
+  driverName: { fontSize: tipografia.body, fontWeight: peso.titulo, maxWidth: 180 },
   onlineRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 },
   onlineDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: brand.success, borderWidth: 1, borderColor: 'rgba(255,255,255,0.7)' },
-  onlineTxt: { fontSize: 10.5, fontWeight: '900' },
+  onlineTxt: { fontSize: 10.5, fontWeight: peso.titulo },
   adCopy: { position: 'absolute', left: 14, right: 60, bottom: 10 },
   adTitle: {
-    color: brand.white, fontSize: 15, fontWeight: '900',
+    color: brand.white, fontSize: 15, fontWeight: peso.titulo,
     textShadowColor: 'rgba(0,0,0,0.55)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4,
   },
   adSub: {
-    color: 'rgba(255,255,255,0.95)', fontSize: tipografia.caption, fontWeight: '700', marginTop: 1,
+    color: 'rgba(255,255,255,0.95)', fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: 1,
     textShadowColor: 'rgba(0,0,0,0.55)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3,
   },
   adTag: {
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.62)', borderRadius: 6,
     paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3,
   },
-  adTagTxt: { color: brand.white, fontSize: 9, fontWeight: '900', letterSpacing: 0.4 },
+  adTagTxt: { color: brand.white, fontSize: 9, fontWeight: peso.titulo, letterSpacing: 0.4 },
   closeBtn: {
     position: 'absolute', top: 8, right: 10,
     width: 22, height: 22, borderRadius: 11,
@@ -306,5 +306,5 @@ const styles = StyleSheet.create({
     zIndex: 30,
     elevation: 3,
   },
-  cityTxt: { fontSize: tipografia.caption, fontWeight: '900', color: brand.primary, maxWidth: 180 },
+  cityTxt: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: brand.primary, maxWidth: 180 },
 });

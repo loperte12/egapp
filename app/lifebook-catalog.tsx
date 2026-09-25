@@ -10,7 +10,7 @@ import { ActivityIndicator, FlatList, Pressable, ScrollView, StyleSheet, Text, T
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Heart, Package, Search, ShoppingCart, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceApi, type LbProductCard } from '../api/commerce';
@@ -110,7 +110,7 @@ function CatalogContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, flex: 1, marginLeft: espaciado.e10 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, flex: 1, marginLeft: espaciado.e10 }}>
           Tiendas y servicios
         </Text>
         {/* MIS GUARDADOS, en la puerta del mercado: para volver a un producto no hace falta entrar en
@@ -135,7 +135,7 @@ function CatalogContent() {
           <ShoppingCart size={20} color={colors.textPrimary} />
           {carrito > 0 ? (
             <View style={[styles.globito, { backgroundColor: colors.primary }]}>
-              <Text style={{ color: brand.white, fontSize: 9, fontWeight: '900' }}>{carrito > 99 ? '99+' : carrito}</Text>
+              <Text style={{ color: brand.white, fontSize: 9, fontWeight: peso.titulo }}>{carrito > 99 ? '99+' : carrito}</Text>
             </View>
           ) : null}
         </Pressable>
@@ -144,7 +144,7 @@ function CatalogContent() {
           accessibilityLabel="Publicar en mi tienda"
           style={[styles.sellBtn, { backgroundColor: colors.primary }]}
         >
-          <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>+ Vender</Text>
+          <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>+ Vender</Text>
         </Pressable>
       </View>
 
@@ -194,7 +194,7 @@ function CatalogContent() {
                 borderColor: active ? colors.primary : alpha(colors.border, 0.7),
               }]}
             >
-              <Text style={{ color: active ? brand.white : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+              <Text style={{ color: active ? brand.white : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                 {c.icon} {c.label}
               </Text>
             </Pressable>
@@ -209,7 +209,7 @@ function CatalogContent() {
             onPress={() => setCity('')}
             style={[styles.miniChip, { borderColor: city === '' ? colors.primary : alpha(colors.border, 0.7), backgroundColor: city === '' ? alpha(colors.primary, 0.12) : 'transparent' }]}
           >
-            <Text style={{ color: city === '' ? colors.primary : colors.textSecondary, fontSize: tipografia.micro, fontWeight: '800' }}>Todas</Text>
+            <Text style={{ color: city === '' ? colors.primary : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>Todas</Text>
           </Pressable>
           {LB_CITIES.map((c) => (
             <Pressable
@@ -217,7 +217,7 @@ function CatalogContent() {
               onPress={() => setCity(c === city ? '' : c)}
               style={[styles.miniChip, { borderColor: city === c ? colors.primary : alpha(colors.border, 0.7), backgroundColor: city === c ? alpha(colors.primary, 0.12) : 'transparent' }]}
             >
-              <Text style={{ color: city === c ? colors.primary : colors.textSecondary, fontSize: tipografia.micro, fontWeight: '800' }}>{c}</Text>
+              <Text style={{ color: city === c ? colors.primary : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>{c}</Text>
             </Pressable>
           ))}
         </ScrollView>
@@ -225,7 +225,7 @@ function CatalogContent() {
       <View style={{ flexDirection: 'row', gap: espaciado.e6, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 }}>
         {SORTS.map((s) => (
           <Pressable key={s.id} onPress={() => setSort(s.id)} accessibilityRole="tab" accessibilityState={{ selected: sort === s.id }}>
-            <Text style={{ color: sort === s.id ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800', textDecorationLine: sort === s.id ? 'underline' : 'none' }}>
+            <Text style={{ color: sort === s.id ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo, textDecorationLine: sort === s.id ? 'underline' : 'none' }}>
               {s.label}
             </Text>
           </Pressable>
@@ -236,7 +236,7 @@ function CatalogContent() {
           resultados viejos sin ninguna pista de que estaba buscando (y al no encontrar nada,
           tampoco lo decía). */}
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 }}>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', flex: 1 }} numberOfLines={1}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, flex: 1 }} numberOfLines={1}>
           {debouncedQ
             ? (loading ? `Buscando «${debouncedQ}»…` : `${items.length} resultado${items.length === 1 ? '' : 's'} para «${debouncedQ}»`)
             : `${items.length}${cursor ? '+' : ''} producto${items.length === 1 ? '' : 's'} y servicios`}
@@ -261,12 +261,12 @@ function CatalogContent() {
           ListEmptyComponent={
             <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e10 }}>
               <Package size={40} color={alpha(colors.primary, 0.35)} />
-              <Text style={{ color: colors.textPrimary, fontWeight: '800' }}>Todavía no hay nada publicado aquí</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo }}>Todavía no hay nada publicado aquí</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 40 }}>
                 Abre tu tienda y publica tu primer producto o servicio: es gratis y se hace desde el móvil.
               </Text>
               <Pressable onPress={() => irSeguro.libre('/lifebook-sell')} style={[styles.sellBtn, { backgroundColor: colors.primary, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 }]}>
-                <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '900' }}>Abrir mi tienda</Text>
+                <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo }}>Abrir mi tienda</Text>
               </Pressable>
             </View>
           }

@@ -91,7 +91,7 @@ export function ReportSheet({ post, onClose, onReport, onBlocked }: Props) {
             style={({ pressed }) => [styles.blockBtn, { backgroundColor: pressed ? alpha(brand.like, 0.16) : alpha(brand.like, 0.1) }]}
           >
             <UserX size={16} color={brand.like} />
-            <Text style={{ color: brand.like, fontWeight: '800', fontSize: tipografia.body }}>
+            <Text style={{ color: brand.like, fontWeight: peso.maximo, fontSize: tipografia.body }}>
               Bloquear a {post.author.name}
             </Text>
           </Pressable>
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   sheet: { ...formaHoja },
   handle: { ...formaTirador },
   header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e4 },
-  title: { fontSize: 17, fontWeight: '900', flex: 1 },
+  title: { fontSize: 17, fontWeight: peso.titulo, flex: 1 },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(128,128,140,0.15)' },
   blockBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: radios.md, padding: espaciado.e14, marginTop: espaciado.e12 },
 });

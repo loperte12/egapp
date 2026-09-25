@@ -20,7 +20,7 @@ import React, { useMemo, useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Plus, X } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { absUrl } from '../../../api/config';
 import type { LbOptionSuggestion, LbSizeKind } from '../../../api/commerce';
 import {
@@ -82,7 +82,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
       {/* ── Lo que sugiere la categoría ── */}
       {sugeridos.length ? (
         <View style={{ marginBottom: espaciado.e10 }}>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e6 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e6 }}>
             Sugeridos por la categoría (toca para añadir)
           </Text>
           <ChipRow>
@@ -125,7 +125,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
         <View key={g.code} style={[styles.card, { borderColor: alpha(colors.border, 0.8), backgroundColor: colors.surface }]}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>{g.label}</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>{g.label}</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 {g.kind === 'color' ? 'Color · cada uno con su foto' : g.kind === 'size' ? 'Talla · con su tabla de medidas' : 'Valores'}
                 {' · '}{g.values.length} {g.values.length === 1 ? 'valor' : 'valores'}
@@ -144,7 +144,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
           {/* Tipo de tabla si es un eje de tallas (para el asistente «¿no sabes tu talla?») */}
           {g.kind === 'size' ? (
             <View style={{ marginTop: espaciado.e8 }}>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e5 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e5 }}>
                 ¿Qué parte de la prenda mide esta tabla?
               </Text>
               <ChipRow>
@@ -175,12 +175,12 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
                       {v.imageUrl ? (
                         <Image source={absUrl(v.imageUrl)} style={styles.colorImg} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                       ) : (
-                        <Text style={{ color: colors.danger, fontSize: 9.5, fontWeight: '800', textAlign: 'center' }}>FALTA{'\n'}FOTO</Text>
+                        <Text style={{ color: colors.danger, fontSize: 9.5, fontWeight: peso.maximo, textAlign: 'center' }}>FALTA{'\n'}FOTO</Text>
                       )}
                     </Pressable>
-                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.micro, fontWeight: '700', maxWidth: 62, textAlign: 'center' }}>{v.value}</Text>
+                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.micro, fontWeight: peso.fuerte, maxWidth: 62, textAlign: 'center' }}>{v.value}</Text>
                     <Pressable onPress={() => removeOptionValue(g.code, v.value)} accessibilityLabel={`Quitar ${v.value}`} hitSlop={8}>
-                      <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: '800' }}>quitar</Text>
+                      <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: peso.maximo }}>quitar</Text>
                     </Pressable>
                   </View>
                 ))}
@@ -214,7 +214,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
               </Pressable>
             </View>
             {g.kind === 'color' && g.values.some((v) => !v.imageUrl) ? (
-              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 }}>
+              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
                 Falta la foto real de ese color.
               </Text>
             ) : null}
@@ -225,7 +225,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
       {/* ── Añadir un eje que no venía sugerido ── */}
       {grupos.length < GRUPOS_MAX ? (
         <View style={{ marginTop: espaciado.e4 }}>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e5 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e5 }}>
             Otro eje (máximo {GRUPOS_MAX})
           </Text>
           <View style={{ flexDirection: 'row', gap: espaciado.e8, alignItems: 'center' }}>
@@ -271,7 +271,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
       {grupos.length ? (
         <View style={{ marginTop: espaciado.e14 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e6 }}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', flex: 1 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo, flex: 1 }}>
               Combinaciones {combosPosibles ? `(${combosPosibles})` : ''}
             </Text>
           </View>
@@ -289,7 +289,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
           />
           {form.variants.map((v, i) => (
             <View key={`${v.name}-${i}`} style={[styles.combo, { borderColor: alpha(colors.border, 0.7) }]}>
-              <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', flex: 1.2 }}>{v.name}</Text>
+              <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, flex: 1.2 }}>{v.name}</Text>
               <TextInput
                 value={v.priceXaf}
                 onChangeText={(t) => setVariant(i, { priceXaf: t.replace(/[^\d]/g, '') })}
@@ -323,7 +323,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
       <Modal visible={!!eligiendoFoto} transparent animationType="fade" onRequestClose={() => setEligiendoFoto(null)}>
         <Pressable style={styles.backdrop} onPress={() => setEligiendoFoto(null)}>
           <Pressable style={[styles.sheet, { backgroundColor: colors.background }]} onPress={() => { /* no cerrar */ }}>
-            <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body, marginBottom: espaciado.e4 }}>
+            <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body, marginBottom: espaciado.e4 }}>
               Foto real del color «{eligiendoFoto?.value}»
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>

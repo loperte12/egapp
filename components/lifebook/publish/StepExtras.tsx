@@ -15,7 +15,7 @@
 import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Plus } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { LB_COVERAGE, LB_TRANSPORT } from '../../../constants/commerce';
 import { usePublishStore } from '../../../state/commercePublish';
 import type { LbCategory, LbOptionSuggestion, LbSizeKind } from '../../../api/commerce';
@@ -77,7 +77,7 @@ export default function StepExtras({ categories }: { categories: LbCategory[] })
       >
         {sugeridos.map((a) => (
           <View key={a.key} style={{ marginBottom: espaciado.e8 }}>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e4 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e4 }}>
               {a.label ?? a.key}{a.type === 'select' && a.options?.length ? ` (${a.options.join(' / ')})` : ''}
             </Text>
             <TextInput

@@ -26,7 +26,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useScreenGuard, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useScreenGuard, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Briefcase, ChevronRight, Phone, Settings, Users } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -148,7 +148,7 @@ function Contenido() {
           <ArrowLeft size={21} color={colors.textPrimary} />
         </Pressable>
         <View style={{ flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900' }}>Hoy</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo }}>Hoy</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }} numberOfLines={2}>
             {empresa} · lo que caduca, no lo que se configura
           </Text>
@@ -179,7 +179,7 @@ function Contenido() {
               <Settings size={17} color={colors.primary} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Gestión</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Gestión</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 Mis ofertas, publicar, cerrar y plan
               </Text>
@@ -195,7 +195,7 @@ function Contenido() {
 
           {/* Resumen del día */}
           <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.surface, marginTop: espaciado.e14 }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }}>
               {activas.length} oferta(s) activa(s){cerradas ? ` · ${cerradas} cerrada(s)` : ''}
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4, lineHeight: 18 }}>
@@ -208,7 +208,7 @@ function Contenido() {
           </View>
 
           {/* ── LO QUE CADUCA: gente esperando respuesta ── */}
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: espaciado.e20, marginBottom: espaciado.e3 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e3 }}>
             Por contestar ({porContestar.length})
           </Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
@@ -220,7 +220,7 @@ function Contenido() {
               key={candidato.id}
               style={[styles.tarjeta, { borderColor: colors.border, backgroundColor: colors.card }]}
             >
-              <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '900' }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.titulo }}>
                 {candidato.fullName ?? 'Candidato sin nombre'}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }} numberOfLines={2}>
@@ -229,7 +229,7 @@ function Contenido() {
               {candidato.phone ? (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e6 }}>
                   <Phone size={13} color={colors.textSecondary} />
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{candidato.phone}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{candidato.phone}</Text>
                 </View>
               ) : null}
               {candidato.note ? (
@@ -260,7 +260,7 @@ function Contenido() {
             </View>
           )) : (
             <View style={[styles.resumen, { borderColor: alpha(colors.success, 0.35), backgroundColor: alpha(colors.success, 0.07) }]}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                 ✓ No hay nadie esperando respuesta
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
@@ -272,7 +272,7 @@ function Contenido() {
           {/* ── Ofertas que vencen: dejan de recibir candidaturas ── */}
           {porVencer.length ? (
             <>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginTop: espaciado.e22, marginBottom: espaciado.e3 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e22, marginBottom: espaciado.e3 }}>
                 Se te acaban ({porVencer.length})
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
@@ -287,7 +287,7 @@ function Contenido() {
                   style={[styles.pendiente, { borderColor: alpha(colors.secondary, 0.35), backgroundColor: alpha(colors.secondary, 0.06) }]}
                 >
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }} numberOfLines={2}>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }} numberOfLines={2}>
                       {o.title}
                     </Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>
@@ -303,7 +303,7 @@ function Contenido() {
 
           {!ofertas.length ? (
             <View style={[styles.resumen, { borderColor: colors.border, backgroundColor: colors.card, marginTop: espaciado.e18 }]}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }}>
                 Todavía no has publicado ninguna oferta
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e6 }}>

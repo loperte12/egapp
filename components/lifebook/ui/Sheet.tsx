@@ -28,7 +28,7 @@
 import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, useTheme, peso} from '@egrouteplan/ui-kit';
 import { X } from 'lucide-react-native';
 
 /**
@@ -80,7 +80,7 @@ export function SheetHeader({ title, onClose }: { title: string; onClose: () => 
   const { colors } = useTheme();
   return (
     <View style={styles.sheetHeader}>
-      <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1 }}>{title}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>{title}</Text>
       <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar"><X size={20} color={colors.textSecondary} /></Pressable>
     </View>
   );

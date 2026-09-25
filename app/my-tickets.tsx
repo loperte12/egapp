@@ -78,7 +78,7 @@ export default function MyTicketsScreen() {
           */
           <View style={{ gap: espaciado.e12 }}>
             {error ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={error} /></View> : null}
-            {loading && <Text style={{ color: colors.textSecondary, fontWeight: '700', textAlign: 'center' }}>Cargando…</Text>}
+            {loading && <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, textAlign: 'center' }}>Cargando…</Text>}
           </View>
         }
         ListEmptyComponent={
@@ -99,7 +99,7 @@ export default function MyTicketsScreen() {
           return (
             <Pressable onPress={() => setOpenId(open ? null : t.id)} style={[s.card, { borderColor: cancelled ? colors.border : colors.primary, opacity: cancelled ? 0.6 : 1 }]}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>
                   {t.trip?.route?.originDistrict ?? ''} → {t.trip?.route?.destinationDistrict ?? ''}
                 </Text>
                 {open ? <ChevronUp size={18} color={colors.primary} /> : <ChevronDown size={18} color={colors.primary} />}
@@ -119,13 +119,13 @@ export default function MyTicketsScreen() {
               {open && (
                 <View style={[s.qrBox, { borderColor: colors.primary }]}>
                   <Ticket size={22} color={colors.primary} />
-                  <Text style={{ color: colors.textPrimary, fontSize: 24, fontWeight: '900', letterSpacing: 2 }}>{t.shortCode ?? t.ticketQrCode}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: 24, fontWeight: peso.titulo, letterSpacing: 2 }}>{t.shortCode ?? t.ticketQrCode}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' }}>
                     {t.ticketQrCode} · muestra este código al conductor{t.payOn === 'destination' ? '; el viajero paga al llegar al destino' : ''}
                   </Text>
                   {t.passenger?.phone && (
                     <Pressable onPress={() => shareWhatsApp(t)} style={[s.waBtn, { backgroundColor: brand.whatsapp }]}>
-                      <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.caption }}>Enviar por WhatsApp</Text>
+                      <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Enviar por WhatsApp</Text>
                     </Pressable>
                   )}
                 </View>
@@ -141,7 +141,7 @@ export default function MyTicketsScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-    title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
+    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
     content: { padding: espaciado.e20, gap: espaciado.e12 },
     card: { borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14, gap: espaciado.e5 },
     qrBox: { alignItems: 'center', gap: espaciado.e6, borderWidth: 2, borderStyle: 'dashed', borderRadius: 14, padding: espaciado.e16, marginTop: espaciado.e8 },

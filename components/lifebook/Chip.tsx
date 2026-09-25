@@ -9,7 +9,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Check } from 'lucide-react-native';
-import { alpha, espaciado, radios, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, useTheme, peso} from '@egrouteplan/ui-kit';
 
 export function Chip({ label, active, onPress, icon, disabled, compact }: {
   label: string;
@@ -40,7 +40,7 @@ export function Chip({ label, active, onPress, icon, disabled, compact }: {
         style={{
           color: active ? colors.primary : colors.textPrimary,
           fontSize: compact ? 11.5 : 12.5,
-          fontWeight: '700',
+          fontWeight: peso.fuerte,
           marginLeft: active || icon ? 5 : 0,
         }}
       >

@@ -13,7 +13,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, ScrollText, Trophy, X } from 'lucide-react-native';
 import { lifebookChallengesApi, type LbChallenge } from '../../api/lifebook';
 import { LB_CITIES } from '../../constants/lifebook';
@@ -155,7 +155,7 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
           ) : (
             <ScrollText size={18} color={colors.primary} />
           )}
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: espaciado.e8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             {step === 'create' ? 'Crear un reto' : step === 'detail' ? 'Reto' : 'Plaza de retos'}
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -167,7 +167,7 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
           <>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
               <View style={{ flex: 1 }}>
-                <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Solo mis retos</Text>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Solo mis retos</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Los que yo he creado.</Text>
               </View>
               <Switch value={onlyMine} onValueChange={setOnlyMine} />
@@ -176,19 +176,19 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e6, paddingVertical: espaciado.e10 }}>
               <Pressable onPress={() => setFilterCity(null)} accessibilityLabel="Todas las ciudades"
                 style={[styles.chip, { backgroundColor: filterCity === null ? alpha(colors.primary, 0.14) : colors.surface, borderColor: filterCity === null ? colors.primary : 'transparent' }]}>
-                <Text style={{ color: filterCity === null ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>Todas</Text>
+                <Text style={{ color: filterCity === null ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Todas</Text>
               </Pressable>
               {LB_CITIES.map((c) => (
                 <Pressable key={c} onPress={() => setFilterCity(c)} accessibilityLabel={`Retos en ${c}`}
                   style={[styles.chip, { backgroundColor: filterCity === c ? alpha(colors.primary, 0.14) : colors.surface, borderColor: filterCity === c ? colors.primary : 'transparent' }]}>
-                  <Text style={{ color: filterCity === c ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{c}</Text>
+                  <Text style={{ color: filterCity === c ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{c}</Text>
                 </Pressable>
               ))}
             </ScrollView>
 
             <Pressable onPress={() => setStep('create')} accessibilityLabel="Crear un reto"
               style={[styles.cta, { backgroundColor: alpha(colors.primary, 0.12), marginTop: 0 }]}>
-              <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body }}>＋  Crear un reto</Text>
+              <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>＋  Crear un reto</Text>
             </Pressable>
 
             {loading ? (
@@ -204,7 +204,7 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
                     style={({ pressed }) => [styles.card, { backgroundColor: colors.surface, opacity: pressed ? 0.8 : 1 }]}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                       <Trophy size={14} color={brand.secondary} />
-                      <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body, flex: 1 }} numberOfLines={2}>{c.title}</Text>
+                      <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body, flex: 1 }} numberOfLines={2}>{c.title}</Text>
                     </View>
                     {c.body ? (
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4 }} numberOfLines={2}>{c.body}</Text>
@@ -216,7 +216,7 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8 }}>
                       <Pressable onPress={() => apuntarme(c)} accessibilityLabel={c.joinedByMe ? `Borrar me del reto ${c.title}` : `Apuntarme al reto ${c.title}`}
                         style={[styles.smallBtn, { backgroundColor: c.joinedByMe ? alpha(colors.primary, 0.12) : colors.primary }]}>
-                        <Text style={{ color: c.joinedByMe ? colors.primary : brand.white, fontWeight: '900', fontSize: tipografia.caption }}>
+                        <Text style={{ color: c.joinedByMe ? colors.primary : brand.white, fontWeight: peso.titulo, fontSize: tipografia.caption }}>
                           {c.joinedByMe ? '✓ Apuntado' : 'Apuntarme'}
                         </Text>
                       </Pressable>
@@ -250,38 +250,38 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
               accessibilityLabel="Premio del reto"
               style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary, marginTop: espaciado.e8 }]}
             />
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, fontWeight: '800' }}>CIUDAD</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, fontWeight: peso.maximo }}>CIUDAD</Text>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e6 }}>
               {LB_CITIES.map((c) => (
                 <Pressable key={c} onPress={() => setNewCity(newCity === c ? null : c)} accessibilityLabel={`Ciudad ${c}`}
                   style={[styles.chip, { backgroundColor: newCity === c ? alpha(colors.primary, 0.14) : colors.surface, borderColor: newCity === c ? colors.primary : 'transparent' }]}>
-                  <Text style={{ color: newCity === c ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{c}</Text>
+                  <Text style={{ color: newCity === c ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{c}</Text>
                 </Pressable>
               ))}
             </View>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, fontWeight: '800' }}>TERMINA</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e12, fontWeight: peso.maximo }}>TERMINA</Text>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e6 }}>
               {ENDS.map((e) => (
                 <Pressable key={e.label} onPress={() => setEndsDays(e.days)} accessibilityLabel={`Termina ${e.label}`}
                   style={[styles.chip, { backgroundColor: endsDays === e.days ? alpha(colors.primary, 0.14) : colors.surface, borderColor: endsDays === e.days ? colors.primary : 'transparent' }]}>
-                  <Text style={{ color: endsDays === e.days ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{e.label}</Text>
+                  <Text style={{ color: endsDays === e.days ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{e.label}</Text>
                 </Pressable>
               ))}
               <Pressable onPress={() => setEndsDays(null)} accessibilityLabel="Sin fecha de fin"
                 style={[styles.chip, { backgroundColor: endsDays === null ? alpha(colors.primary, 0.14) : colors.surface, borderColor: endsDays === null ? colors.primary : 'transparent' }]}>
-                <Text style={{ color: endsDays === null ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>Sin fecha</Text>
+                <Text style={{ color: endsDays === null ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Sin fecha</Text>
               </Pressable>
             </View>
             <Pressable onPress={crear} disabled={busy} accessibilityLabel="Publicar el reto"
               style={[styles.cta, { backgroundColor: colors.primary }]}>
               {busy ? <ActivityIndicator size="small" color={brand.white} /> : (
-                <Text style={{ color: brand.white, fontWeight: '900', fontSize: 15 }}>Publicar reto</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Publicar reto</Text>
               )}
             </Pressable>
           </ScrollView>
         ) : detail ? (
           <ScrollView style={{ maxHeight: 460 }} keyboardShouldPersistTaps="handled">
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>{detail.title}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>{detail.title}</Text>
             {detail.body ? (
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, marginTop: espaciado.e6, lineHeight: 19 }}>{detail.body}</Text>
             ) : null}
@@ -293,7 +293,7 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
               Lo creó {detail.author.fullName ?? 'alguien'}
             </Text>
 
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e14, fontWeight: '800' }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e14, fontWeight: peso.maximo }}>
               RANKING · {detail.entries} PARTICIPANTE{detail.entries === 1 ? '' : 'S'}
             </Text>
             {(detail.members ?? []).length === 0 ? (
@@ -303,9 +303,9 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
             ) : (
               (detail.members ?? []).map((m, i) => (
                 <View key={m.id} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e8 }}>
-                  <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body, width: 22 }}>{i + 1}º</Text>
+                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body, width: 22 }}>{i + 1}º</Text>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }} numberOfLines={1}>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }} numberOfLines={1}>
                       {m.fullName ?? 'Usuario'}
                     </Text>
                     {m.note ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }} numberOfLines={2}>{m.note}</Text> : null}
@@ -317,7 +317,7 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
             {detail.state === 'open' ? (
               <Pressable onPress={() => apuntarme(detail)} disabled={busy} accessibilityLabel={detail.joinedByMe ? 'Borrar me del reto' : 'Apuntarme al reto'}
                 style={[styles.cta, { backgroundColor: detail.joinedByMe ? alpha(colors.primary, 0.12) : colors.primary }]}>
-                <Text style={{ color: detail.joinedByMe ? colors.primary : brand.white, fontWeight: '900', fontSize: 15 }}>
+                <Text style={{ color: detail.joinedByMe ? colors.primary : brand.white, fontWeight: peso.titulo, fontSize: 15 }}>
                   {detail.joinedByMe ? '✓ Apuntado · borrarme' : 'Apuntarme'}
                 </Text>
               </Pressable>
@@ -329,7 +329,7 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
             {detail.mine && detail.state === 'open' ? (
               <Pressable onPress={() => cerrarReto(detail)} disabled={busy} accessibilityLabel="Cerrar el reto"
                 style={[styles.cta, { backgroundColor: alpha(colors.danger, 0.12) }]}>
-                <Text style={{ color: colors.danger, fontWeight: '900', fontSize: tipografia.body }}>Cerrar el reto</Text>
+                <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: tipografia.body }}>Cerrar el reto</Text>
               </Pressable>
             ) : null}
           </ScrollView>

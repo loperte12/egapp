@@ -23,7 +23,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AlertCircle, ArrowLeft, Info, Wallet } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceOrdersApi, type LbSaldoTienda } from '../api/commerce';
@@ -68,7 +68,7 @@ function DineroContent() {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
         <AlertCircle size={34} color={colors.danger} />
-        <Text style={{ color: colors.textPrimary, fontWeight: '800', textAlign: 'center' }}>{error}</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, textAlign: 'center' }}>{error}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
     );
@@ -84,7 +84,7 @@ function DineroContent() {
   const fila = (etiqueta: string, valor: string, destacado = false) => (
     <View key={etiqueta} style={[styles.fila, { borderBottomColor: alpha(colors.border, 0.4) }]}>
       <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, flex: 1 }}>{etiqueta}</Text>
-      <Text style={{ color: destacado ? colors.primary : colors.textPrimary, fontSize: destacado ? 16 : 14, fontWeight: '800' }}>
+      <Text style={{ color: destacado ? colors.primary : colors.textPrimary, fontSize: destacado ? 16 : 14, fontWeight: peso.maximo }}>
         {valor}
       </Text>
     </View>
@@ -96,7 +96,7 @@ function DineroContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
           El dinero de mi tienda
         </Text>
         <Wallet size={18} color={colors.primary} />
@@ -106,7 +106,7 @@ function DineroContent() {
         contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e28 }}
         refreshControl={<RefreshControl refreshing={cargando} onRefresh={() => cargar(saldo.shop.id)} tintColor={colors.primary} />}
       >
-        <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: '900' }}>{saldo.shop.name}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo }}>{saldo.shop.name}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
           {saldo.pedidos === 1 ? '1 pedido entregado' : `${saldo.pedidos} pedidos entregados`}
         </Text>
@@ -125,7 +125,7 @@ function DineroContent() {
                   backgroundColor: t.id === saldo.shop.id ? alpha(colors.primary, 0.12) : 'transparent',
                 }]}
               >
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{t.name}</Text>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{t.name}</Text>
               </Pressable>
             ))}
           </View>
@@ -162,13 +162,13 @@ function DineroContent() {
             {saldo.liquidaciones.map((l) => (
               <View key={l.id} style={[styles.fila, { borderBottomColor: alpha(colors.border, 0.4) }]}>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>{lbXaf(l.importeXaf)}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>{lbXaf(l.importeXaf)}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>
                     {new Date(l.pagadoAt).toLocaleDateString()} · {l.pedidos === 1 ? '1 pedido' : `${l.pedidos} pedidos`}
                     {l.nota ? ` · ${l.nota}` : ''}
                   </Text>
                 </View>
-                <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: '800' }}>Pagada</Text>
+                <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Pagada</Text>
               </View>
             ))}
           </View>
@@ -193,6 +193,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth, gap: espaciado.e10,
   },
-  seccion: { fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e20, marginBottom: espaciado.e8 },
+  seccion: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e20, marginBottom: espaciado.e8 },
   chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
 });

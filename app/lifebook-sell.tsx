@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, PrimaryButton, StepHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, StepHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceApi, type LbCategory, type LbShop } from '../api/commerce';
@@ -236,7 +236,7 @@ function SellContent() {
         <Pressable onPress={atras} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, flex: 1, marginLeft: espaciado.e10 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, flex: 1, marginLeft: espaciado.e10 }}>
           {editId ? 'Editar publicación' : 'Publicar en mi tienda'}
         </Text>
         {shopName ? (
@@ -247,7 +247,7 @@ function SellContent() {
             style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}
           >
             <Store size={13} color={colors.primary} />
-            <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', maxWidth: 120 }}>{shopName}</Text>
+            <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 120 }}>{shopName}</Text>
           </Pressable>
         ) : null}
       </View>

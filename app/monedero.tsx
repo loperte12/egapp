@@ -70,7 +70,7 @@ export function TxStatusChip({ status }: { status: string }) {
 }
 const chipStyles = StyleSheet.create({
   chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
-  txt: { fontSize: 10, fontWeight: '900' },
+  txt: { fontSize: 10, fontWeight: peso.titulo },
 });
 
 function MonederoContent() {
@@ -114,7 +114,7 @@ function MonederoContent() {
         <View style={styles.center}>
           <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>{error}</Text>
           <Tactil onPress={() => void cargar()} style={[styles.retryBtn, { backgroundColor: colors.primary }]} accessibilityRole="button">
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Tactil>
         </View>
       ) : (
@@ -126,9 +126,9 @@ function MonederoContent() {
           <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
               <Wallet size={16} color={colors.primary} />
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '700' }}>Saldo disponible</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>Saldo disponible</Text>
             </View>
-            <Text style={{ color: colors.textPrimary, fontSize: 34, fontWeight: '900', marginTop: espaciado.e6 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: 34, fontWeight: peso.titulo, marginTop: espaciado.e6 }}>
               {fmtXaf(Number(balance?.balanceAvailable ?? 0))}
             </Text>
             {Number(balance?.balanceEscrow ?? 0) > 0 && (
@@ -173,15 +173,15 @@ function MonederoContent() {
             accessibilityRole="button"
           >
             <KeyRound size={16} color={colors.textSecondary} />
-            <Text style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', marginLeft: espaciado.e10 }}>PIN del monedero</Text>
+            <Text style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte, marginLeft: espaciado.e10 }}>PIN del monedero</Text>
             <ChevronRight size={16} color={colors.textSecondary} />
           </Tactil>
 
           {/* Últimos movimientos */}
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e20, marginBottom: espaciado.e8 }}>
-            <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>Últimos movimientos</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>Últimos movimientos</Text>
             <Tactil onPress={() => router.push('/monedero-movimientos')} accessibilityRole="button">
-              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>Ver todos</Text>
+              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Ver todos</Text>
             </Tactil>
           </View>
           <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border, paddingVertical: espaciado.e4 }]}>
@@ -199,13 +199,13 @@ function MonederoContent() {
               return (
                 <View key={t.id} style={[styles.txRow, { borderBottomColor: colors.border }]}>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>{label}</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>{label}</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e2 }}>
                       {new Date(t.createdAt).toLocaleString('es-GQ', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
                     </Text>
                   </View>
                   <View style={{ alignItems: 'flex-end', gap: espaciado.e4 }}>
-                    <Text style={{ color: sign === '+' ? brand.successPressed : colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
+                    <Text style={{ color: sign === '+' ? brand.successPressed : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                       {sign}{fmtXaf(Math.abs(Number(t.amount)))}
                     </Text>
                     <TxStatusChip status={t.status} />
@@ -226,12 +226,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  headerTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
+  headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12 },
   retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
   card: { borderRadius: 18, borderWidth: 1, padding: espaciado.e16 },
   action: { flex: 1, borderRadius: 18, paddingVertical: espaciado.e16, alignItems: 'center', gap: espaciado.e4 },
-  actionTxt: { color: brand.white, fontSize: 14.5, fontWeight: '900' },
+  actionTxt: { color: brand.white, fontSize: 14.5, fontWeight: peso.titulo },
   actionHint: { color: 'rgba(255,255,255,0.75)', fontSize: 10.5, fontWeight: peso.medio },
   rowItem: {
     flexDirection: 'row', alignItems: 'center', borderRadius: 14, borderWidth: 1,

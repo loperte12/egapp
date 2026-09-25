@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Ban } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -60,7 +60,7 @@ function BlocksContent() {
           ListEmptyComponent={
             <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 90, gap: espaciado.e8 }}>
               <Ban size={40} color={alpha(colors.primary, 0.4)} />
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>No tienes usuarios bloqueados.</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>No tienes usuarios bloqueados.</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: espaciado.e30, lineHeight: 18 }}>
                 Cuando bloquees a alguien desde su perfil, aparecerá aquí y no verás su contenido ni te podrá escribir.
               </Text>
@@ -74,11 +74,11 @@ function BlocksContent() {
                   <Image source={{ uri: absUrl(item.avatarUrl) }} style={[styles.avatar, { backgroundColor: colors.surface }]} />
                 ) : (
                   <View style={[styles.avatar, { backgroundColor: alpha(colors.primary, 0.15), alignItems: 'center', justifyContent: 'center' }]}>
-                    <Text style={{ color: colors.primary, fontSize: tipografia.title, fontWeight: '900' }}>{(item.fullName ?? '?').charAt(0).toUpperCase()}</Text>
+                    <Text style={{ color: colors.primary, fontSize: tipografia.title, fontWeight: peso.titulo }}>{(item.fullName ?? '?').charAt(0).toUpperCase()}</Text>
                   </View>
                 )}
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '800' }} numberOfLines={1}>{item.fullName ?? 'Usuario'}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.maximo }} numberOfLines={1}>{item.fullName ?? 'Usuario'}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>Bloqueado {lbTimeAgo(item.blockedAt)}</Text>
                 </View>
                 <Pressable
@@ -86,7 +86,7 @@ function BlocksContent() {
                   disabled={busyId === item.id}
                   style={[styles.unblockBtn, { backgroundColor: alpha(colors.danger, 0.1) }]}
                 >
-                  {busyId === item.id ? <ActivityIndicator size="small" color={colors.danger} /> : <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '900' }}>Desbloquear</Text>}
+                  {busyId === item.id ? <ActivityIndicator size="small" color={colors.danger} /> : <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Desbloquear</Text>}
                 </Pressable>
               </View>
             </View>
@@ -99,7 +99,7 @@ function BlocksContent() {
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: 17, fontWeight: '900', flex: 1 },
+  topTitle: { fontSize: 17, fontWeight: peso.titulo, flex: 1 },
   card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   avatar: { width: 46, height: 46, borderRadius: 23 },
   unblockBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e8 },

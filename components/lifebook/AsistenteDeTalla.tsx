@@ -19,7 +19,7 @@
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { commerceApi, tallasApi, type LbMeasurements, type LbOptionGroup, type LbProduct, type LbSizeChart, type LbSizeKind, type LbSizeSuggestion } from '../../api/commerce';
 import { NUMEROS_CALZADO, cmDeNumero, numeroDeCm } from '../../constants/tallas';
 import { Chip, ChipRow } from './Chip';
@@ -234,7 +234,7 @@ export default function AsistenteDeTalla({
   if (!tabla) {
     return (
       <View>
-        <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: espaciado.e6 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginBottom: espaciado.e6 }}>
           Esta tienda todavía no tiene tabla de tallas
         </Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18 }}>
@@ -265,7 +265,7 @@ export default function AsistenteDeTalla({
        * también se deslizan, en la práctica no existe. Así que el pie va FIJO, fuera del scroll.
        */}
       <ScrollView showsVerticalScrollIndicator={false} style={{ maxHeight: 250 }} nestedScrollEnabled scrollEnabled={!arrastrando}>
-        <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', marginBottom: espaciado.e10 }}>Tu talla</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginBottom: espaciado.e10 }}>Tu talla</Text>
 
         {/* Sexo: las tablas son distintas, y si la de la tienda es unisex vale para los dos. */}
         <ChipRow>
@@ -295,7 +295,7 @@ export default function AsistenteDeTalla({
 
         {!verOpcionales ? (
           <Pressable onPress={() => setVerOpcionales(true)} accessibilityLabel="Añadir pecho, cintura o cadera" style={{ marginTop: espaciado.e8 }}>
-            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>+ Pecho · Cintura · Cadera</Text>
+            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>+ Pecho · Cintura · Cadera</Text>
           </Pressable>
         ) : null}
       </ScrollView>
@@ -312,7 +312,7 @@ export default function AsistenteDeTalla({
         }]}>
           {tallaRecomendada ? (
             <>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>
                 Tu talla: {tallaRecomendada}{resultado?.fit ? ` · ajuste ${resultado.fit}` : ''}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginTop: espaciado.e4 }}>{resultado?.reason}</Text>
@@ -322,16 +322,16 @@ export default function AsistenteDeTalla({
                   accessibilityLabel={`Usar la talla ${tallaRecomendada}`}
                   style={[styles.usar, { backgroundColor: colors.primary }]}
                 >
-                  <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '900' }}>Usar esta talla</Text>
+                  <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo }}>Usar esta talla</Text>
                 </Pressable>
               ) : (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e8 }}>
+                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e8 }}>
                   La tabla recomienda la {tallaRecomendada}, pero este producto no la tiene entre sus tallas. Elige la más cercana.
                 </Text>
               )}
             </>
           ) : (
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, lineHeight: 18, fontWeight: '700' }}>{resultado?.reason}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, lineHeight: 18, fontWeight: peso.fuerte }}>{resultado?.reason}</Text>
           )}
         </View>
       ) : null}
@@ -345,7 +345,7 @@ export default function AsistenteDeTalla({
         >
           {calculando
             ? <ActivityIndicator size="small" color={brand.white} />
-            : <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '900' }}>Ajustar mi talla</Text>}
+            : <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo }}>Ajustar mi talla</Text>}
         </Pressable>
         <Pressable
           onPress={() => { if (!guardando && !guardadas) void guardar(); }}
@@ -356,7 +356,7 @@ export default function AsistenteDeTalla({
           {guardando
             ? <ActivityIndicator size="small" color={colors.primary} />
             : (
-              <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>
+              <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                 {guardadas ? 'Guardadas ✓' : 'Guardar medidas'}
               </Text>
             )}
@@ -366,7 +366,7 @@ export default function AsistenteDeTalla({
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: espaciado.e6, gap: espaciado.e10 }}>
         {deGuardadas ? (
           <Pressable onPress={borrar} accessibilityLabel="Borrar mis medidas">
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '800' }}>Borrar mis medidas</Text>
+            <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Borrar mis medidas</Text>
           </Pressable>
         ) : null}
       </View>

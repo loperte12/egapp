@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import {
   Eraser, ImageOff, Lock, LogOut, MoreHorizontal, Palette, Pencil, Search, ShieldAlert, UserX, Users, X,
 } from 'lucide-react-native';
@@ -201,10 +201,10 @@ export function ChatOptionsSheet({
         <View style={styles.sheetHeader}>
           {step !== 'menu' ? (
             <Pressable onPress={() => setStep('menu')} hitSlop={10} accessibilityLabel="Volver al menú">
-              <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.body }}>‹ Atrás</Text>
+              <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>‹ Atrás</Text>
             </Pressable>
           ) : null}
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1 }}>{title}</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>{title}</Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar"><X size={20} color={colors.textSecondary} /></Pressable>
         </View>
 
@@ -266,7 +266,7 @@ export function ChatOptionsSheet({
                     accessibilityLabel={t.label}
                     style={[styles.chip, { backgroundColor: on ? colors.primary : alpha(colors.primary, 0.1) }]}
                   >
-                    <Text style={{ color: on ? brand.white : colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                    <Text style={{ color: on ? brand.white : colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                       {t.icon} {t.label}
                     </Text>
                   </Pressable>
@@ -298,7 +298,7 @@ export function ChatOptionsSheet({
                       {b.accent ? <View style={[styles.bgAccent, { backgroundColor: b.accent }]} /> : null}
                     </View>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: on ? '900' : '600', flex: 1 }}>{b.label}</Text>
-                    {on ? <Text style={{ color: colors.primary, fontWeight: '900' }}>✓</Text> : null}
+                    {on ? <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>✓</Text> : null}
                   </Pressable>
                 );
               })}
@@ -330,7 +330,7 @@ export function ChatOptionsSheet({
             >
               {busy === 'claim'
                 ? <ActivityIndicator size="small" color={brand.white} />
-                : <Text style={{ color: brand.white, fontWeight: '900', fontSize: 14.5 }}>Enviar reclamación</Text>}
+                : <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>Enviar reclamación</Text>}
             </Pressable>
           </>
         ) : null}
@@ -362,7 +362,7 @@ function Row({ icon, label, hint, right, onPress, danger }: {
     >
       <View style={[styles.rowIcon, { backgroundColor: alpha(danger ? colors.danger : colors.primary, 0.12) }]}>{icon}</View>
       <View style={{ flex: 1 }}>
-        <Text style={{ color: danger ? colors.danger : colors.textPrimary, fontSize: 14.5, fontWeight: '700' }}>{label}</Text>
+        <Text style={{ color: danger ? colors.danger : colors.textPrimary, fontSize: 14.5, fontWeight: peso.fuerte }}>{label}</Text>
         {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>{hint}</Text> : null}
       </View>
       {right ?? null}
@@ -407,7 +407,7 @@ function HistoryList({ tab, rows, colors, onOpenImage }: {
               </View>
             )}
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }} numberOfLines={2}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }} numberOfLines={2}>
                 {m.fileRef?.name ?? m.postRef?.title ?? m.text ?? tab.label}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>

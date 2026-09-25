@@ -8,7 +8,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft } from 'lucide-react-native';
-import { espaciado, radios, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { espaciado, radios, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { walletApi, type WalletTx } from '../api/wallet';
 import { fmtXaf, txLabel, TxStatusChip } from './monedero';
@@ -92,7 +92,7 @@ function Contenido() {
               style={[styles.filtro, { backgroundColor: filtro === f.id ? colors.primary : colors.card, borderColor: colors.border }]}
               accessibilityRole="button"
             >
-              <Text style={{ color: filtro === f.id ? brand.white : colors.textSecondary, fontSize: tipografia.body, fontWeight: '800' }}>{f.label}</Text>
+              <Text style={{ color: filtro === f.id ? brand.white : colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{f.label}</Text>
             </Tactil>
           ))}
         </ScrollView>
@@ -104,7 +104,7 @@ function Contenido() {
         <View style={styles.center}>
           <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>{error}</Text>
           <Tactil onPress={() => void cargar(filtro)} style={[styles.retryBtn, { backgroundColor: colors.primary }]} accessibilityRole="button">
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Tactil>
         </View>
       ) : (
@@ -127,13 +127,13 @@ function Contenido() {
             return (
               <View style={[styles.txRow, { borderBottomColor: colors.border }]}>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>{label}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>{label}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e2 }}>
                     {new Date(t.createdAt).toLocaleString('es-GQ', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                   </Text>
                 </View>
                 <View style={{ alignItems: 'flex-end', gap: espaciado.e4 }}>
-                  <Text style={{ color: sign === '+' ? brand.successPressed : colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
+                  <Text style={{ color: sign === '+' ? brand.successPressed : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                     {sign}{fmtXaf(Math.abs(Number(t.amount)))}
                   </Text>
                   <TxStatusChip status={t.status} />
@@ -155,7 +155,7 @@ function Contenido() {
               <Tactil onPress={() => void cargarMas()} style={[styles.masBtn, { borderColor: colors.border }]} accessibilityRole="button">
                 {cargandoMas
                   ? <ActivityIndicator color={colors.primary} size="small" />
-                  : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>Cargar más</Text>}
+                  : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Cargar más</Text>}
               </Tactil>
             ) : null
           }
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  headerTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
+  headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12 },
   retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
   filtro: { borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7 },

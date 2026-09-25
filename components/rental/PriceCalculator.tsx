@@ -171,7 +171,7 @@ const s2 = StyleSheet.create({
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   container: { borderRadius: 14, padding: espaciado.e16, marginBottom: espaciado.e20, borderWidth: 1, backgroundColor: c.surface },
-  title: { fontSize: tipografia.subtitle, fontWeight: '700', marginBottom: espaciado.e4 },
+  title: { fontSize: tipografia.subtitle, fontWeight: peso.fuerte, marginBottom: espaciado.e4 },
   subtitle: { fontSize: tipografia.caption, marginBottom: espaciado.e14 },
   controls: { marginBottom: espaciado.e16 },
   controlRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e12 },
@@ -179,8 +179,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   input: { borderWidth: 1, borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, width: 60, textAlign: 'center', fontSize: 15, fontWeight: peso.medio },
   breakdown: { borderRadius: 10, padding: espaciado.e14 },
   totalRow: { flexDirection: 'row', justifyContent: 'space-between', paddingTop: espaciado.e12, marginTop: espaciado.e4, gap: espaciado.e12, borderTopWidth: 1 },
-  totalLabel: { fontSize: 15, fontWeight: '700', flex: 1 },
-  totalValue: { fontSize: tipografia.subtitle, fontWeight: '800' },
+  totalLabel: { fontSize: 15, fontWeight: peso.fuerte, flex: 1 },
+  totalValue: { fontSize: tipografia.subtitle, fontWeight: peso.maximo },
   disclaimer: { fontSize: tipografia.micro, marginTop: espaciado.e12, lineHeight: 16 },
 });
 

@@ -364,23 +364,23 @@ function Tarjeta({
       <View style={[styles.dinero, { borderColor: colors.border, backgroundColor: colors.surface }]}>
         <View style={styles.linea}>
           <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Total</Text>
-          <Text style={[styles.lineaVal, { color: colors.textPrimary, fontWeight: '800' }]}>{xaf(r.totalXaf)}</Text>
+          <Text style={[styles.lineaVal, { color: colors.textPrimary, fontWeight: peso.maximo }]}>{xaf(r.totalXaf)}</Text>
         </View>
         {r.depositXaf > 0 ? (
           <>
             <View style={styles.linea}>
               <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Señal ({r.depositPercent} %)</Text>
-              <Text style={[styles.lineaVal, { color: colors.primary, fontWeight: '800' }]}>{xaf(r.depositXaf)}</Text>
+              <Text style={[styles.lineaVal, { color: colors.primary, fontWeight: peso.maximo }]}>{xaf(r.depositXaf)}</Text>
             </View>
             <View style={styles.linea}>
               <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Al llegar</Text>
-              <Text style={[styles.lineaVal, { color: colors.secondary, fontWeight: '800' }]}>{xaf(r.remainingXaf)}</Text>
+              <Text style={[styles.lineaVal, { color: colors.secondary, fontWeight: peso.maximo }]}>{xaf(r.remainingXaf)}</Text>
             </View>
           </>
         ) : (
           <View style={styles.linea}>
             <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Se paga al llegar</Text>
-            <Text style={[styles.lineaVal, { color: colors.secondary, fontWeight: '800' }]}>{xaf(r.totalXaf)}</Text>
+            <Text style={[styles.lineaVal, { color: colors.secondary, fontWeight: peso.maximo }]}>{xaf(r.totalXaf)}</Text>
           </View>
         )}
         <View style={styles.linea}>
@@ -460,30 +460,30 @@ const styles = StyleSheet.create({
   screen: { flex: 1 },
   barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
-  volverTxt: { fontSize: 26, fontWeight: '700', lineHeight: 28 },
-  titulo: { fontSize: 16.5, fontWeight: '800', flex: 1 },
+  volverTxt: { fontSize: 26, fontWeight: peso.fuerte, lineHeight: 28 },
+  titulo: { fontSize: 16.5, fontWeight: peso.maximo, flex: 1 },
   tabs: { flexDirection: 'row', borderBottomWidth: 1 },
   tab: { flex: 1, alignItems: 'center', paddingVertical: espaciado.e12, borderBottomWidth: 2 },
-  tabTxt: { fontSize: tipografia.body, fontWeight: '700' },
+  tabTxt: { fontSize: tipografia.body, fontWeight: peso.fuerte },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   bloque: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e4 },
-  etiqueta: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6 },
-  seccion: { fontSize: 14.5, fontWeight: '800' },
+  etiqueta: { fontSize: 10.5, fontWeight: peso.maximo, letterSpacing: 0.6 },
+  seccion: { fontSize: 14.5, fontWeight: peso.maximo },
   card: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e4 },
-  codigo: { fontSize: 15.5, fontWeight: '800', letterSpacing: 0.5 },
+  codigo: { fontSize: 15.5, fontWeight: peso.maximo, letterSpacing: 0.5 },
   sub: { fontSize: tipografia.caption },
   dato: { fontSize: tipografia.body, marginTop: espaciado.e2 },
   linea: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e10 },
   lineaEtq: { fontSize: tipografia.caption, flex: 1 },
   lineaVal: { fontSize: tipografia.body },
   badge: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
-  badgeTxt: { fontSize: 10.5, fontWeight: '800' },
+  badgeTxt: { fontSize: 10.5, fontWeight: peso.maximo },
   dinero: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e9, marginTop: espaciado.e6, gap: espaciado.e2 },
   aviso: { fontSize: tipografia.caption, marginTop: espaciado.e6, fontWeight: peso.medio },
   input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.punto, fontSize: tipografia.body },
   boton: { height: altura.punto, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-  botonTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: '800' },
+  botonTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo },
   botonFantasma: { borderWidth: 1, borderRadius: radios.md, height: altura.punto, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e8 },
-  botonFantasmaTxt: { fontSize: tipografia.body, fontWeight: '800' },
-  enlace: { fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e4 },
+  botonFantasmaTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
+  enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 },
 });

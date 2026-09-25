@@ -222,7 +222,7 @@ function ProductContent() {
   if (error || !product) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
-        <Text style={{ color: colors.textPrimary, fontWeight: '800', textAlign: 'center' }}>{error ?? 'Publicación no encontrada'}</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, textAlign: 'center' }}>{error ?? 'Publicación no encontrada'}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
     );
@@ -354,7 +354,7 @@ function ProductContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <X size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 15, flex: 1, marginLeft: espaciado.e10 }}>
+        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15, flex: 1, marginLeft: espaciado.e10 }}>
           {lbServiceLabel(p.serviceType)}
         </Text>
         <Pressable onPress={toggleSave} hitSlop={10} accessibilityLabel={saved ? 'Quitar de guardados' : 'Guardar'}>
@@ -388,7 +388,7 @@ function ProductContent() {
             />
             {photos.length > 1 ? (
               <View style={[styles.counter, { backgroundColor: alpha('#000000', 0.55) }]}>
-                <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>{imgIdx + 1}/{photos.length}</Text>
+                <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>{imgIdx + 1}/{photos.length}</Text>
               </View>
             ) : null}
           </View>
@@ -402,7 +402,7 @@ function ProductContent() {
           {/* ── Aviso para el dueño (moderación) ── */}
           {p.isMine && estado ? (
             <View style={[styles.notice, { backgroundColor: alpha(estado.tone === 'ok' ? colors.success : colors.primary, 0.1) }]}>
-              <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.caption }}>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>
                 {estado.label} · {estado.hint}
               </Text>
               {p.status === 'rejected' && p.rejectionReason ? (
@@ -416,7 +416,7 @@ function ProductContent() {
               les avisa por el chat automáticamente). */}
           {p.isMine && Number(p.waitingCount ?? 0) > 0 ? (
             <View style={[styles.notice, { backgroundColor: alpha(brand.secondary, 0.12) }]}>
-              <Text style={{ color: brand.warning, fontWeight: '900', fontSize: tipografia.caption }}>
+              <Text style={{ color: brand.warning, fontWeight: peso.titulo, fontSize: tipografia.caption }}>
                 🔔 {p.waitingCount} {p.waitingCount === 1 ? 'persona espera' : 'personas esperan'} este producto
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3, lineHeight: 16 }}>
@@ -485,11 +485,11 @@ function ProductContent() {
                     </View>
                   )}
                   <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                       {resumenEleccion || 'Elegir talla y color'}
                     </Text>
                   </View>
-                  <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.caption }}>
+                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>
                     {resumenEleccion ? 'Cambiar' : 'Elegir'}
                   </Text>
                 </Pressable>
@@ -505,7 +505,7 @@ function ProductContent() {
                 ) : (
                   <>
                     <ShoppingCart size={15} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>Añadir al carrito</Text>
+                    <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Añadir al carrito</Text>
                   </>
                 )}
               </Pressable>
@@ -586,7 +586,7 @@ function ProductContent() {
               </View>
             )}
             <View style={{ flex: 1, marginHorizontal: espaciado.e10 }}>
-              <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>{p.shop.name}</Text>
+              <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>{p.shop.name}</Text>
               <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 {[p.shop.city, lbRegionLabel(p.shop.region), p.shop.ratingCount > 0 ? `★ ${p.shop.rating.toFixed(1)} (${p.shop.ratingCount})` : null]
                   .filter(Boolean).join(' · ')}
@@ -597,7 +597,7 @@ function ProductContent() {
               accessibilityLabel={following ? 'Dejar de seguir la tienda' : 'Seguir la tienda'}
               style={[styles.followBtn, { borderColor: colors.primary, backgroundColor: following ? colors.primary : 'transparent' }]}
             >
-              <Text style={{ color: following ? brand.white : colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>
+              <Text style={{ color: following ? brand.white : colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>
                 {following ? 'Siguiendo' : 'Seguir'}
               </Text>
             </Pressable>
@@ -607,13 +607,13 @@ function ProductContent() {
             accessibilityLabel="Ver la tienda"
             style={{ marginTop: espaciado.e10, alignItems: 'center' }}
           >
-            <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>Ver todos los productos de la tienda →</Text>
+            <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Ver todos los productos de la tienda →</Text>
           </Pressable>
 
           {/* ── Mis acciones (dueño) ── */}
           {p.isMine ? (
             <View style={{ marginTop: espaciado.e18, gap: espaciado.e8 }}>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                 {p.salesCount} ventas · {p.savesCount} guardados · {p.ratingCount} valoraciones
               </Text>
               <View style={{ flexDirection: 'row', gap: espaciado.e8, flexWrap: 'wrap' }}>
@@ -660,7 +660,7 @@ function ProductContent() {
           <ShoppingCart size={18} color={colors.textPrimary} />
           {carritoCount > 0 ? (
             <View style={[styles.cartBadge, { backgroundColor: colors.primary }]}>
-              <Text style={{ color: brand.white, fontSize: 9.5, fontWeight: '900' }}>{carritoCount > 99 ? '99+' : carritoCount}</Text>
+              <Text style={{ color: brand.white, fontSize: 9.5, fontWeight: peso.titulo }}>{carritoCount > 99 ? '99+' : carritoCount}</Text>
             </View>
           ) : null}
         </Pressable>
@@ -724,7 +724,7 @@ function ProductContent() {
             ) : (
               /* `flexShrink: 1` + `numberOfLines`: si el texto no cupiera, se recorta CON puntos
                  suspensivos en vez de salirse de la píldora y quedar cortado por el borde. */
-              <Text numberOfLines={1} style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '900', flexShrink: 1, textAlign: 'center' }}>
+              <Text numberOfLines={1} style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo, flexShrink: 1, textAlign: 'center' }}>
                 {etiquetaCta}
               </Text>
             )}
@@ -804,7 +804,7 @@ function Badge({ colors, icon, text }: { colors: any; icon: React.ReactNode; tex
   return (
     <View style={[styles.badge, { borderColor: alpha(colors.border, 0.8), backgroundColor: colors.surface }]}>
       {icon}
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.micro, fontWeight: '700', marginLeft: espaciado.e4 }}>{text}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginLeft: espaciado.e4 }}>{text}</Text>
     </View>
   );
 }
@@ -812,7 +812,7 @@ function Badge({ colors, icon, text }: { colors: any; icon: React.ReactNode; tex
 function Section({ colors, title, children }: { colors: any; title: string; children: React.ReactNode }) {
   return (
     <View style={{ marginTop: espaciado.e20 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '800', marginBottom: espaciado.e8 }}>{title}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.maximo, marginBottom: espaciado.e8 }}>{title}</Text>
       {children}
     </View>
   );
@@ -836,9 +836,9 @@ const styles = StyleSheet.create({
   heroEmpty: { width: SCREEN_W, height: HERO_H * 0.6, alignItems: 'center', justifyContent: 'center' },
   counter: { position: 'absolute', bottom: 10, right: 12, borderRadius: radios.full, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e3 },
   priceRow: { flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e10 },
-  price: { fontSize: 24, fontWeight: '900' },
+  price: { fontSize: 24, fontWeight: peso.titulo },
   oldPrice: { fontSize: tipografia.body, textDecorationLine: 'line-through', marginBottom: espaciado.e3 },
-  title: { fontSize: 18.5, fontWeight: '800', marginTop: espaciado.e6, lineHeight: 24 },
+  title: { fontSize: 18.5, fontWeight: peso.maximo, marginTop: espaciado.e6, lineHeight: 24 },
   badges: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e12 },
   badge: {
     flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth,

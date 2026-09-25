@@ -27,7 +27,7 @@ import { ActivityIndicator, Alert, FlatList, Linking, Pressable, RefreshControl,
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, ExternalLink, ShieldCheck, XCircle } from 'lucide-react-native';
-import { alpha, EmptyState, espaciado, GhostButton, InlineError, PrimaryButton, radios, Sheet, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, GhostButton, InlineError, PrimaryButton, radios, Sheet, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ecomerseApi, type EcomerseDocPendiente } from '../api/ecomerse';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -123,7 +123,7 @@ export default function EcomerseDocsScreen() {
           renderItem={({ item }) => (
             <View style={[s.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
               {/* Qué se revisa: el documento Y su anuncio. */}
-              <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>
+              <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>
                 {DOC_LABEL[item.docType] ?? item.docType}
               </Text>
               <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e4 }}>
@@ -138,7 +138,7 @@ export default function EcomerseDocsScreen() {
               {/* El importe de la factura frente al del anuncio: es la comprobación más útil y la
                   que no se puede hacer desde un listado de papeles sueltos. */}
               {item.amountXaf !== null && item.amountXaf !== undefined && item.amountXaf !== item.producto.priceXaf ? (
-                <Text style={{ fontSize: tipografia.micro, color: brand.warningText, fontWeight: '700', marginTop: espaciado.e4 }}>
+                <Text style={{ fontSize: tipografia.micro, color: brand.warningText, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>
                   ⚠ El importe de la factura no coincide con el precio del anuncio.
                 </Text>
               ) : null}
@@ -150,7 +150,7 @@ export default function EcomerseDocsScreen() {
                 style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e10 }}
               >
                 <ExternalLink size={14} color={colors.primary} />
-                <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.primary }}>Ver el documento</Text>
+                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.primary }}>Ver el documento</Text>
               </Pressable>
 
               <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
@@ -163,7 +163,7 @@ export default function EcomerseDocsScreen() {
                     style={[s.btn, { backgroundColor: busy === item.id ? colors.border : brand.success }]}
                   >
                     <ShieldCheck size={15} color={brand.white} />
-                    <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.caption }}>
+                    <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.caption }}>
                       {busy === item.id ? 'Enviando…' : 'Aprobar'}
                     </Text>
                   </Pressable>
@@ -177,7 +177,7 @@ export default function EcomerseDocsScreen() {
                     style={[s.btn, { borderWidth: 1, borderColor: colors.danger }]}
                   >
                     <XCircle size={15} color={colors.danger} />
-                    <Text style={{ color: colors.danger, fontWeight: '800', fontSize: tipografia.caption }}>Rechazar</Text>
+                    <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Rechazar</Text>
                   </Pressable>
                 </View>
               </View>
@@ -221,7 +221,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1 },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: 1 },
   back: { padding: espaciado.e2 },
-  title: { fontSize: tipografia.body, fontWeight: '800' },
+  title: { fontSize: tipografia.body, fontWeight: peso.maximo },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   card: { borderRadius: radios.lg, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e12 },
   btn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, minHeight: 40, borderRadius: radios.md },

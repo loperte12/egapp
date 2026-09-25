@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowLeft, Bell, Clock, Eye, Globe, Heart, Lock, Plus, Search, Store, Users,
 } from 'lucide-react-native';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { useStatusStore } from '../state/statusStore';
 import StatusRingAvatar from '../components/status/StatusRingAvatar';
@@ -66,9 +66,9 @@ function StatusContent() {
           <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
         ) : error && !status ? (
           <View style={styles.center}>
-            <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700' }}>No se pudo cargar tu estado.</Text>
+            <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte }}>No se pudo cargar tu estado.</Text>
             <Pressable onPress={refresh} style={[styles.retry, { backgroundColor: colors.surface }]}>
-              <Text style={{ color: colors.primary, fontWeight: '800' }}>Reintentar</Text>
+              <Text style={{ color: colors.primary, fontWeight: peso.maximo }}>Reintentar</Text>
             </Pressable>
           </View>
         ) : (
@@ -95,10 +95,10 @@ function StatusContent() {
                   </View>
                   <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e14 }}>
                     <Pressable onPress={() => setEditorOpen(true)} style={[styles.actionBtn, { backgroundColor: colors.surface }]}>
-                      <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Cambiar estado</Text>
+                      <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Cambiar estado</Text>
                     </Pressable>
                     <Pressable onPress={() => { end().then(() => localExpire()).catch(() => {}); }} style={[styles.actionBtn, { backgroundColor: alpha(colors.danger, 0.08) }]}>
-                      <Text style={{ color: colors.danger, fontWeight: '800', fontSize: tipografia.body }}>Finalizar</Text>
+                      <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.body }}>Finalizar</Text>
                     </Pressable>
                   </View>
                 </>
@@ -108,7 +108,7 @@ function StatusContent() {
                     <Plus size={20} color={colors.primary} />
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>Agregar estado 24h</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>Agregar estado 24h</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>Comparte qué estás haciendo · dura 24 horas</Text>
                   </View>
                 </Pressable>
@@ -133,7 +133,7 @@ function StatusContent() {
                       style={[styles.visChip, { borderColor: active ? colors.primary : colors.border, backgroundColor: active ? alpha(colors.primary, 0.08) : colors.surface }]}
                     >
                       <Icon size={13} color={active ? colors.primary : colors.textSecondary} />
-                      <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>{o.label}</Text>
+                      <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{o.label}</Text>
                     </Pressable>
                   );
                 })}
@@ -175,7 +175,7 @@ function PrefRow({
         <Icon size={15} color={colors.primary} />
       </View>
       <View style={{ flex: 1 }}>
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{label}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{label}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 1 }}>{hint}</Text>
       </View>
       <Switch value={value} onValueChange={onChange} trackColor={{ true: colors.primary }} accessibilityLabel={label} />
@@ -189,12 +189,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: 1,
   },
-  topTitle: { fontSize: 17, fontWeight: '900' },
+  topTitle: { fontSize: 17, fontWeight: peso.titulo },
   center: { alignItems: 'center', paddingVertical: 60, gap: espaciado.e14 },
   retry: { borderRadius: radios.md, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
   card: { marginHorizontal: espaciado.e16, borderRadius: 18, borderWidth: 1, padding: espaciado.e14 },
   groupTitle: {
-    fontSize: tipografia.micro, fontWeight: '900', letterSpacing: 1, color: '#8E8E93',
+    fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 1, color: '#8E8E93',
     textTransform: 'uppercase', marginTop: espaciado.e18, marginBottom: espaciado.e6, marginHorizontal: espaciado.e18,
   },
   actionBtn: { flex: 1, alignItems: 'center', borderRadius: radios.md, paddingVertical: espaciado.e11 },
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14,
   },
   addIcon: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  subLabel: { fontSize: 10, fontWeight: '900', letterSpacing: 0.8, marginBottom: espaciado.e8 },
+  subLabel: { fontSize: 10, fontWeight: peso.titulo, letterSpacing: 0.8, marginBottom: espaciado.e8 },
   visRowWrap: { flexDirection: 'row', gap: espaciado.e8, marginBottom: espaciado.e14 },
   visChip: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,

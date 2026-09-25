@@ -111,7 +111,7 @@ function Avatar({ url, name, size = 40 }: { url?: string | null; name?: string |
   if (src) return <Image source={{ uri: src }} style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: colors.surface }} />;
   return (
     <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: alpha(colors.primary, 0.15), alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ color: colors.primary, fontSize: size * 0.5, fontWeight: '900' }}>{(name ?? '?').charAt(0).toUpperCase()}</Text>
+      <Text style={{ color: colors.primary, fontSize: size * 0.5, fontWeight: peso.titulo }}>{(name ?? '?').charAt(0).toUpperCase()}</Text>
     </View>
   );
 }
@@ -119,7 +119,7 @@ function Avatar({ url, name, size = 40 }: { url?: string | null; name?: string |
 function Chip({ text, color, bg }: { text: string; color: string; bg: string }) {
   return (
     <View style={{ backgroundColor: bg, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4 }}>
-      <Text style={{ color, fontSize: tipografia.caption, fontWeight: '800' }}>{text}</Text>
+      <Text style={{ color, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{text}</Text>
     </View>
   );
 }
@@ -144,7 +144,7 @@ function DetailActionButton({ icon, count, active, activeColor, colors, onPress,
       {icon}
       {typeof count === 'number' && count > 0 ? (
         <Text style={{
-          marginTop: espaciado.e2, fontSize: 10.5, fontWeight: '900',
+          marginTop: espaciado.e2, fontSize: 10.5, fontWeight: peso.titulo,
           color: active ? activeColor : colors.textSecondary,
         }}>
           {count > 999 ? '999+' : count}
@@ -393,10 +393,10 @@ function PostContent() {
           <Pressable onPress={() => router.back()} hitSlop={12} style={{ padding: espaciado.e4 }} accessibilityLabel="Volver">
             <ArrowLeft size={22} color={colors.textPrimary} />
           </Pressable>
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900', flex: 1 }}>Publicación</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, flex: 1 }}>Publicación</Text>
         </View>
         <View style={[styles.center, { flex: 1, padding: espaciado.e30, gap: espaciado.e8 }]}>
-          <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 15 }}>No se encontró esta publicación</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }}>No se encontró esta publicación</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
             Puede que se haya eliminado o que su visibilidad no te lo permita.
           </Text>
@@ -461,7 +461,7 @@ function PostContent() {
           accessibilityRole="button"
         >
           <Avatar url={post.author?.avatarUrl} name={post.author?.fullName} size={30} />
-          <Text numberOfLines={1} style={{ color: post.author?.nameColor || colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', flex: 1 }}>
+          <Text numberOfLines={1} style={{ color: post.author?.nameColor || colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte, flex: 1 }}>
             {post.author?.fullName ?? 'Usuario'}
           </Text>
         </Pressable>
@@ -473,7 +473,7 @@ function PostContent() {
             accessibilityState={{ selected: following }}
             style={[styles.followBtn, { backgroundColor: following ? alpha(colors.textSecondary, 0.08) : colors.primary }]}
           >
-            <Text style={{ color: following ? colors.textSecondary : brand.white, fontSize: tipografia.caption, fontWeight: '800' }}>
+            <Text style={{ color: following ? colors.textSecondary : brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
               {following ? 'Siguiendo' : 'Seguir'}
             </Text>
           </Pressable>
@@ -553,7 +553,7 @@ function PostContent() {
             {mediaUrls.length > 1 && (
               <>
                 <View style={[styles.countBadge, { backgroundColor: 'rgba(0,0,0,0.55)' }]}>
-                  <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>{imgIdx + 1}/{mediaUrls.length}</Text>
+                  <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>{imgIdx + 1}/{mediaUrls.length}</Text>
                 </View>
                 <View style={styles.dots}>
                   {mediaUrls.map((_, i) => (
@@ -600,13 +600,13 @@ function PostContent() {
                     </View>
                   )}
                   <View style={{ flex: 1 }}>
-                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{p.title}</Text>
-                    <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: 1 }}>
+                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{p.title}</Text>
+                    <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: 1 }}>
                       {lbPriceLabel(p.priceXaf, p.priceMode, lbXaf)}
                     </Text>
                   </View>
                   <View style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full, backgroundColor: colors.primary }}>
-                    <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>Ver</Text>
+                    <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Ver</Text>
                   </View>
                 </Pressable>
               ))}
@@ -660,7 +660,7 @@ function PostContent() {
               style={[styles.serviceBtn, { backgroundColor: linkColor }]}
             >
               {linkCfg ? <linkCfg.icon size={16} color={brand.white} /> : <Store size={16} color={brand.white} />}
-              <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>{linkLabel}</Text>
+              <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>{linkLabel}</Text>
               <ChevronRight size={14} color="rgba(255,255,255,0.7)" />
             </Pressable>
           ) : null}
@@ -756,7 +756,7 @@ function PostContent() {
                     accessibilityLabel="Añadir episodio"
                   >
                     <Plus size={14} color={TYPE_TINT.serie} />
-                    <Text style={{ color: TYPE_TINT.serie, fontSize: tipografia.caption, fontWeight: '900' }}>Añadir episodio</Text>
+                    <Text style={{ color: TYPE_TINT.serie, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Añadir episodio</Text>
                   </Pressable>
                 )}
               </View>
@@ -782,13 +782,13 @@ function PostContent() {
                       <Text style={{ fontSize: tipografia.subtitle }}>🎬</Text>
                     </View>
                     <View style={{ flex: 1 }}>
-                      <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body }}>
+                      <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                         {ep.label}{ep.title ? ` — ${ep.title}` : ''}
                       </Text>
                       {ep.body ? <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>{ep.body}</Text> : null}
                     </View>
                     {ep.durationSec != null && (
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700' }}>{fmtDur(ep.durationSec)}</Text>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>{fmtDur(ep.durationSec)}</Text>
                     )}
                     <Play size={15} color={colors.primary} fill={colors.primary} style={{ marginLeft: espaciado.e6 }} />
                   </Pressable>
@@ -808,8 +808,8 @@ function PostContent() {
           {/* ═══════ COMENTARIOS (vista previa → hoja) ═══════ */}
           <View style={{ marginTop: espaciado.e18 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ fontSize: tipografia.subtitle, fontWeight: '900', color: colors.textPrimary }}>{commentSectionTitle}</Text>
-              <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textSecondary }}>
+              <Text style={{ fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: colors.textPrimary }}>{commentSectionTitle}</Text>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textSecondary }}>
                 {formatCount(commentsTotal || (post.stats?.comments ?? 0))}
               </Text>
             </View>
@@ -827,7 +827,7 @@ function PostContent() {
                   backgroundColor: colors.surface, paddingVertical: espaciado.e16, alignItems: 'center',
                 }}
               >
-                <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textSecondary }}>Sé el primero en comentar</Text>
+                <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textSecondary }}>Sé el primero en comentar</Text>
               </Pressable>
             ) : (
               <View style={{ marginTop: espaciado.e4 }}>
@@ -850,7 +850,7 @@ function PostContent() {
                 accessibilityLabel={`Ver los ${commentsTotal} comentarios`}
                 style={{ marginTop: espaciado.e8, paddingVertical: espaciado.e10, alignItems: 'center' }}
               >
-                <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body }}>
+                <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                   Ver los {formatCount(commentsTotal || (post.stats?.comments ?? 0))} comentarios
                 </Text>
               </Pressable>
@@ -860,7 +860,7 @@ function PostContent() {
           {/* ═══════ DESCUBRIR MÁS (relacionadas) ═══════ */}
           {related.length > 0 && (
             <View style={{ marginTop: espaciado.e24 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '800', marginBottom: espaciado.e12 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.maximo, marginBottom: espaciado.e12 }}>
                 Descubrir más
               </Text>
               <View style={styles.masonryRow}>
@@ -913,7 +913,7 @@ function PostContent() {
               paddingHorizontal: espaciado.e14, justifyContent: 'center',
             }}
           >
-            <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '700' }}>
+            <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
               {post.allowComments ? commentPlaceholder : 'Comentarios desactivados'}
             </Text>
           </Pressable>
@@ -929,7 +929,7 @@ function PostContent() {
               }}
             >
               <ShoppingCart size={16} color={brand.white} />
-              <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.body }}>Comprar</Text>
+              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>Comprar</Text>
             </Pressable>
           ) : null}
 
@@ -1021,7 +1021,7 @@ function PostContent() {
                 onPress={toggleComments}
                 style={({ pressed }) => [styles.menuRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
               >
-                <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '700' }}>
+                <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.fuerte }}>
                   {post.allowComments ? 'Desactivar comentarios' : 'Activar comentarios'}
                 </Text>
               </Pressable>
@@ -1033,7 +1033,7 @@ function PostContent() {
                   { backgroundColor: pressed ? alpha(colors.danger, 0.05) : 'transparent', opacity: borrando ? 0.5 : 1 },
                 ]}
               >
-                <Text style={{ color: colors.danger, fontSize: 15, fontWeight: '800' }}>
+                <Text style={{ color: colors.danger, fontSize: 15, fontWeight: peso.maximo }}>
                   {borrando ? 'Eliminando…' : 'Eliminar publicación'}
                 </Text>
               </Pressable>
@@ -1043,11 +1043,11 @@ function PostContent() {
               onPress={() => { setMenuOpen(false); setReportOpen(true); }}
               style={({ pressed }) => [styles.menuRow, { backgroundColor: pressed ? alpha(colors.danger, 0.05) : 'transparent' }]}
             >
-              <Text style={{ color: colors.danger, fontSize: 15, fontWeight: '800' }}>Reportar publicación</Text>
+              <Text style={{ color: colors.danger, fontSize: 15, fontWeight: peso.maximo }}>Reportar publicación</Text>
             </Pressable>
           )}
           <Pressable onPress={() => setMenuOpen(false)} style={{ paddingVertical: espaciado.e10 }}>
-            <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
+            <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
         </View>
       </Modal>
@@ -1107,10 +1107,10 @@ function PostContent() {
 
           {mediaUrls.length > 1 ? (
             <View style={{ position: 'absolute', bottom: insets.bottom + 18, alignSelf: 'center', backgroundColor: 'rgba(255,255,255,0.16)', borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e5 }}>
-              <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.caption }}>{viewerIdx + 1}/{mediaUrls.length}</Text>
+              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.caption }}>{viewerIdx + 1}/{mediaUrls.length}</Text>
             </View>
           ) : null}
-          <Text style={{ position: 'absolute', bottom: insets.bottom + 18, right: 18, color: 'rgba(255,255,255,0.75)', fontSize: tipografia.caption, fontWeight: '700' }}>
+          <Text style={{ position: 'absolute', bottom: insets.bottom + 18, right: 18, color: 'rgba(255,255,255,0.75)', fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
             {viewerZoomed ? 'Doble toque: encajar' : 'Pellizca para ampliar'}
           </Text>
         </View>
@@ -1154,8 +1154,8 @@ const styles = StyleSheet.create({
   headerAuthor: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, flex: 1 },
   followBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e7 },
   hero: { height: 120, alignItems: 'center', justifyContent: 'center', gap: espaciado.e4 },
-  heroType: { fontSize: tipografia.title, fontWeight: '900', letterSpacing: 2 },
-  heroPrice: { fontSize: 17, fontWeight: '900' },
+  heroType: { fontSize: tipografia.title, fontWeight: peso.titulo, letterSpacing: 2 },
+  heroPrice: { fontSize: 17, fontWeight: peso.titulo },
   playOverlay: {
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
@@ -1173,7 +1173,7 @@ const styles = StyleSheet.create({
   dots: { position: 'absolute', bottom: 8, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e5 },
   countBadge: { position: 'absolute', top: 10, right: 12, borderRadius: radios.full, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e4 },
   dot: { width: 6, height: 6, borderRadius: 3 },
-  postTitle: { fontSize: 18, fontWeight: '900', lineHeight: 23 },
+  postTitle: { fontSize: 18, fontWeight: peso.titulo, lineHeight: 23 },
   postBody: { fontSize: 15.5, lineHeight: 22.5, marginTop: espaciado.e8 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: espaciado.e7, marginTop: espaciado.e12 },
   serviceBtn: {
@@ -1186,10 +1186,10 @@ const styles = StyleSheet.create({
     marginTop: espaciado.e14,
   },
   panel: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, marginTop: espaciado.e14 },
-  panelTitle: { fontSize: 15, fontWeight: '900' },
+  panelTitle: { fontSize: 15, fontWeight: peso.titulo },
   panelLine: { color: '#5B6470', fontSize: tipografia.body, marginTop: espaciado.e4, lineHeight: 18 },
   statsRow: { marginTop: espaciado.e14, paddingBottom: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },
-  sectionTitle: { fontSize: 14.5, fontWeight: '900', marginTop: espaciado.e20, marginBottom: espaciado.e8 },
+  sectionTitle: { fontSize: 14.5, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e8 },
   epAddBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, marginLeft: 'auto' },
   epRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e10, marginTop: espaciado.e8 },
   epThumb: { width: 40, height: 40, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },

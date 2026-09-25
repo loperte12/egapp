@@ -20,7 +20,7 @@ import {
 import { Image } from 'expo-image';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Eye, Package, Pencil, Plus, Star, Trash2, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -209,7 +209,7 @@ function ProductsContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }}>
           Mis publicaciones
         </Text>
         <Pressable onPress={() => irSeguro.libre('/lifebook-sell')} hitSlop={10} accessibilityLabel="Publicar algo nuevo">
@@ -227,10 +227,10 @@ function ProductsContent() {
           style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e8 }}
         >
           <Star size={16} color={brand.warning} fill={brand.warning} />
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
             Destacados en mi perfil
           </Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
             {destacados.length}/3
           </Text>
         </Pressable>
@@ -255,7 +255,7 @@ function ProductsContent() {
           {visibles.length === 0 ? (
             <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e8 }}>
               <Package size={42} color={alpha(colors.primary, 0.45)} />
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                 {filtro === 'todos' ? 'Todavía no vendes nada' : 'Nada en este estado'}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 40 }}>
@@ -282,26 +282,26 @@ function ProductsContent() {
                       </View>
                     )}
                     <View style={{ flex: 1 }}>
-                      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{p.title}</Text>
+                      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{p.title}</Text>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                         {lbServiceIcon(p.serviceType)} {lbServiceLabel(p.serviceType)} · {p.variants > 0 ? `${p.variants} opciones · ` : ''}
                         {p.stockMode === 'exact' || p.stockMode === 'approximate'
                           ? `${p.stockQuantity} disp.${esAgotado(p) ? ' (agotado)' : ''}`
                           : lbStockModeLabel(p.stockMode)}
                       </Text>
-                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e3 }}>
+                      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
                         {p.priceMode === 'on_request' || p.priceXaf === null ? 'A consultar' : lbXaf(p.priceXaf)}
                       </Text>
                     </View>
                     <View style={{ alignItems: 'flex-end', gap: espaciado.e6 }}>
                       <View style={{ backgroundColor: alpha(tone, 0.13), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
-                        <Text style={{ color: tone, fontSize: tipografia.micro, fontWeight: '900' }}>{meta.label}</Text>
+                        <Text style={{ color: tone, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{meta.label}</Text>
                       </View>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>👁 {p.viewsCount} · ❤ {p.savesCount}</Text>
                       {/* TANDA H: cuánta gente está esperando que vuelva a haber stock. Es el dato
                           que dice si merece la pena reponer. Solo sale si hay alguien esperando. */}
                       {Number(p.waitingCount ?? 0) > 0 ? (
-                        <Text style={{ color: brand.warning, fontSize: tipografia.micro, fontWeight: '900' }}>
+                        <Text style={{ color: brand.warning, fontSize: tipografia.micro, fontWeight: peso.titulo }}>
                           🔔 {p.waitingCount} esperan stock
                         </Text>
                       ) : null}
@@ -357,7 +357,7 @@ function ProductsContent() {
           <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={() => setDestacadosOpen(false)} />
           <View style={{ backgroundColor: colors.card, borderTopLeftRadius: radios.lg, borderTopRightRadius: radios.lg, padding: espaciado.e16, paddingBottom: insets.bottom + 16, maxHeight: '82%' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e4 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 }}>
                 Destacados en mi perfil
               </Text>
               <Pressable onPress={() => setDestacadosOpen(false)} hitSlop={10} accessibilityLabel="Cerrar">
@@ -399,17 +399,17 @@ function ProductsContent() {
                         )}
                       </View>
                       <View style={{ flex: 1 }}>
-                        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{p.title}</Text>
+                        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{p.title}</Text>
                         <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>
                           {p.priceXaf === null ? 'Precio a consultar' : lbXaf(p.priceXaf)}
                         </Text>
                       </View>
                       {activo ? (
                         <View style={{ width: 26, height: 26, borderRadius: radios.full, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' }}>
-                          <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.body }}>{puesto + 1}</Text>
+                          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>{puesto + 1}</Text>
                         </View>
                       ) : (
-                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.subtitle, fontWeight: '900' }}>+</Text>
+                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>+</Text>
                       )}
                     </Pressable>
                   );
@@ -457,12 +457,12 @@ function EdicionRapida({
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.overlay}>
         <Pressable style={StyleSheet.absoluteFill} onPress={onCerrar} accessibilityLabel="Cerrar" />
         <View style={[styles.sheet, { backgroundColor: colors.background, borderColor: colors.border, paddingBottom: insets.bottom + 16 }]}>
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>Precio y existencias</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>Precio y existencias</Text>
           <Text numberOfLines={2} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{producto.title}</Text>
 
           <View style={{ marginTop: espaciado.e14 }}>
             <Notice>
-              Esto es un ajuste del día a día: <Text style={{ fontWeight: '900' }}>no pasa por revisión</Text> y la
+              Esto es un ajuste del día a día: <Text style={{ fontWeight: peso.titulo }}>no pasa por revisión</Text> y la
               publicación sigue igual de visible. Para cambiar el título, las fotos o la descripción, usa «Editar todo».
             </Notice>
           </View>
@@ -531,6 +531,6 @@ const styles = StyleSheet.create({
   sheet: { borderTopWidth: StyleSheet.hairlineWidth, borderTopLeftRadius: radios.lg, borderTopRightRadius: radios.lg, padding: espaciado.e18 },
   input: {
     borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9,
-    fontSize: tipografia.body, fontWeight: '700',
+    fontSize: tipografia.body, fontWeight: peso.fuerte,
   },
 });

@@ -13,7 +13,7 @@ import { useTheme } from '../../theme/ThemeContext';
 import { statusBgColors, remainingShort } from '../../constants/status';
 import { useServerClock, formatRemainingMs } from '../../hooks/useServerClock';
 import type { UserStatus } from '../../api/status';
-import { brand, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 
 export default function StatusChip({
   status,
@@ -97,9 +97,9 @@ const styles = StyleSheet.create({
   dot: { width: 7, height: 7, borderRadius: 4 },
   emoji: { fontSize: tipografia.body },
   emojiCompact: { fontSize: 10 },
-  text: { fontSize: tipografia.caption, fontWeight: '800', maxWidth: 180 },
+  text: { fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 180 },
   textCompact: { fontSize: 10.5, maxWidth: 140 },
   timeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginLeft: espaciado.e2 },
-  time: { fontSize: 10, fontWeight: '700' },
+  time: { fontSize: 10, fontWeight: peso.fuerte },
   timeCompact: { fontSize: 8.5 },
 });

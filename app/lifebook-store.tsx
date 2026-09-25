@@ -8,7 +8,7 @@ import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View }
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWindowDimensions } from 'react-native';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, BadgeCheck, MapPin, MessageCircle, Star, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -74,7 +74,7 @@ function StoreContent() {
           <Text style={[styles.topTitle, { color: colors.textPrimary }]}>Tienda</Text>
         </View>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }}>
-          <Text style={{ color: colors.textPrimary, fontWeight: '800' }}>{error ?? 'Tienda'}</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo }}>{error ?? 'Tienda'}</Text>
         </View>
       </View>
     );
@@ -106,12 +106,12 @@ function StoreContent() {
                 <Image source={{ uri: absUrl(s.avatarUrl) }} style={[styles.logo, { backgroundColor: colors.surface }]} />
               ) : (
                 <View style={[styles.logo, { backgroundColor: alpha(colors.secondary, 0.15), alignItems: 'center', justifyContent: 'center' }]}>
-                  <Text style={{ color: colors.secondary, fontSize: tipografia.display, fontWeight: '900' }}>{(s.fullName ?? '?').charAt(0).toUpperCase()}</Text>
+                  <Text style={{ color: colors.secondary, fontSize: tipografia.display, fontWeight: peso.titulo }}>{(s.fullName ?? '?').charAt(0).toUpperCase()}</Text>
                 </View>
               )}
               <View style={{ flex: 1 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: '900', flexShrink: 1 }}>{s.fullName ?? 'Tienda'}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo, flexShrink: 1 }}>{s.fullName ?? 'Tienda'}</Text>
                   <BadgeCheck size={17} color={brand.primary} fill={brand.primary} stroke={brand.white} strokeWidth={2.5} />
                 </View>
                 {s.city ? (
@@ -123,7 +123,7 @@ function StoreContent() {
                 {s.ratingAvg != null && s.ratingAvg > 0 && (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e2 }}>
                     <Star size={12} color={brand.warning} fill={brand.warning} />
-                    <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.caption }}>{s.ratingAvg.toFixed(1)}</Text>
+                    <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>{s.ratingAvg.toFixed(1)}</Text>
                   </View>
                 )}
               </View>
@@ -134,7 +134,7 @@ function StoreContent() {
             {s.ecomerse && (
               <View style={[styles.ecomerseChip, { backgroundColor: alpha(colors.secondary, 0.12) }]}>
                 <Store size={13} color={colors.secondary} />
-                <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '900' }}>Tienda Ecomerse verificada · productos en el Mercado</Text>
+                <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Tienda Ecomerse verificada · productos en el Mercado</Text>
               </View>
             )}
 
@@ -142,7 +142,7 @@ function StoreContent() {
               {!s.relation.isSelf && (
                 <Pressable onPress={toggleFollow} style={[styles.btn, { flex: 1, backgroundColor: s.relation.isFollowing ? colors.surface : colors.primary, borderColor: s.relation.isFollowing ? colors.border : colors.primary, borderWidth: 1 }]}>
                   {busyFollow ? <ActivityIndicator size="small" color={s.relation.isFollowing ? colors.textPrimary : brand.white} /> : (
-                    <Text style={{ color: s.relation.isFollowing ? colors.textPrimary : brand.white, fontWeight: '900', fontSize: tipografia.body }}>
+                    <Text style={{ color: s.relation.isFollowing ? colors.textPrimary : brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                       {s.relation.isFollowing ? 'Siguiendo ✓' : '+ Seguir'}
                     </Text>
                   )}
@@ -150,19 +150,19 @@ function StoreContent() {
               )}
               <Pressable onPress={contact} style={[styles.btn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1 }]}>
                 <MessageCircle size={15} color={colors.textPrimary} />
-                <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body }}>Contactar</Text>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Contactar</Text>
               </Pressable>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e18 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>Productos</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>Productos</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{page.sales.length} en venta</Text>
             </View>
           </View>
         }
         ListEmptyComponent={
           <View style={{ alignItems: 'center', paddingTop: espaciado.e30, gap: espaciado.e4 }}>
-            <Text style={{ color: colors.textPrimary, fontWeight: '800' }}>Esta tienda aún no tiene productos activos.</Text>
+            <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo }}>Esta tienda aún no tiene productos activos.</Text>
           </View>
         }
         renderItem={({ item }) => (
@@ -177,7 +177,7 @@ function StoreContent() {
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: 19, fontWeight: '900', flex: 1 },
+  topTitle: { fontSize: 19, fontWeight: peso.titulo, flex: 1 },
   logo: { width: 68, height: 68, borderRadius: radios.lg },
   ecomerseChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, marginTop: espaciado.e12, alignSelf: 'flex-start' },
   btn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: radios.full, paddingVertical: espaciado.e11 },

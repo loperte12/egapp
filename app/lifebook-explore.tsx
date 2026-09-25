@@ -243,10 +243,10 @@ function ExploreContent() {
         <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
       ) : error ? (
         <View style={styles.center}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', textAlign: 'center', paddingHorizontal: espaciado.e30 }}>{error}</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center', paddingHorizontal: espaciado.e30 }}>{error}</Text>
           <Pressable onPress={() => load('initial')} style={[styles.retry, { backgroundColor: colors.surface }]}>
             <RefreshCw size={15} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+            <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -303,7 +303,7 @@ function ExploreContent() {
         <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={() => setFiltersOpen(false)} />
         <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 18 }]}>
           <View style={styles.sheetHeader}>
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1 }}>Filtrar por tipo</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>Filtrar por tipo</Text>
             <Pressable onPress={() => setFiltersOpen(false)} hitSlop={10}><X size={20} color={colors.textSecondary} /></Pressable>
           </View>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>

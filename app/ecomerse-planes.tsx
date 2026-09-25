@@ -14,7 +14,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Check, X } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, ilustracion, Precio, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, ilustracion, Precio, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseProduct, EcomerseShopPlan } from '../api/ecomerse';
 import { billingApi, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
@@ -158,10 +158,10 @@ export default function EcomersePlanesScreen() {
         <ScreenHeader titulo="Tu tienda" alVolver={() => router.back()} />
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32 }}>
           <Text style={{ fontSize: ilustracion.md, marginBottom: espaciado.e8 }}>📡</Text>
-          <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>No pudimos cargar tu tienda</Text>
+          <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>No pudimos cargar tu tienda</Text>
           <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
           <Pressable onPress={load} style={{ marginTop: espaciado.e18, backgroundColor: colors.primary, paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e11, borderRadius: radios.full }}>
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
       </View>
@@ -195,7 +195,7 @@ export default function EcomersePlanesScreen() {
         {/* Estado actual */}
         <View style={[s.current, { backgroundColor: alpha(colors.primary, 0.06) }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>🏪 {plan?.name ?? 'Tienda'}</Text>
+            <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>🏪 {plan?.name ?? 'Tienda'}</Text>
             {expiresTxt && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Activo hasta {expiresTxt}</Text>}
           </View>
           <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e4 }}>
@@ -203,7 +203,7 @@ export default function EcomersePlanesScreen() {
             {isPro && (plan?.freeFeaturedLeft ?? 0) > 0 ? ` · ⭐ ${plan.freeFeaturedLeft} destacado gratis este mes` : ''}
           </Text>
           {nearLimit && (
-            <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: brand.secondary, marginTop: espaciado.e4 }}>
+            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: brand.secondary, marginTop: espaciado.e4 }}>
               Estás al {Math.round((quotaUsed / quotaLimit) * 100)}% del límite: sube de plan para seguir publicando.
             </Text>
           )}
@@ -241,11 +241,11 @@ export default function EcomersePlanesScreen() {
                 <FeatureRow ok={!!f.priority} label="Prioridad en búsquedas" />
                 <FeatureRow ok={Number(f.monthlyFeatured) > 0} label={`${Number(f.monthlyFeatured) || 0} destacado gratis al mes`} />
                 {isFree ? (
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textSecondary, marginTop: espaciado.e10 }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textSecondary, marginTop: espaciado.e10 }}>
                     ✓ Incluida · {quota} publicaciones
                   </Text>
                 ) : current ? (
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.primary, marginTop: espaciado.e10 }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.primary, marginTop: espaciado.e10 }}>
                     ✓ Plan actual{expiresTxt ? ` · renueva ${expiresTxt}` : ''}
                   </Text>
                 ) : (
@@ -289,7 +289,7 @@ export default function EcomersePlanesScreen() {
                       </View>
                     )}
                     <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
-                      <Text numberOfLines={1} style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>{p.title}</Text>
+                      <Text numberOfLines={1} style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>{p.title}</Text>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>
                         {p.city}{p.isFeatured ? ' · 🔥 ya destacado (se extiende)' : ''}
                       </Text>
@@ -308,7 +308,7 @@ export default function EcomersePlanesScreen() {
             <Pressable onPress={useFree} disabled={busyFree} accessibilityRole="button"
               accessibilityLabel={`Usar ${plan?.freeFeaturedLeft} destacado gratis en ${selected.title}`}
               style={[s.freeBtn, { backgroundColor: alpha(brand.secondary, 0.12), borderColor: brand.secondary }]}>
-              <Text style={{ color: brand.secondary, fontSize: tipografia.caption, fontWeight: '900' }}>
+              <Text style={{ color: brand.secondary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>
                 ⭐ Usar {plan?.freeFeaturedLeft} destacado incluido (7 días, sin coste){busyFree ? '…' : ''}
               </Text>
             </Pressable>
@@ -323,7 +323,7 @@ export default function EcomersePlanesScreen() {
                 accessibilityLabel={`${fp.name} ${formatXAF(fp.priceXaf)} ${formatDuration(fp.durationDays)}`}
                 style={[s.featRow, { borderBottomColor: colors.border, opacity: selected ? 1 : 0.5 }]}>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>{fp.name.replace('Destacar · ', '')}</Text>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>{fp.name.replace('Destacar · ', '')}</Text>
                   <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>
                     {formatDuration(fp.durationDays)} · ≈{formatXAF(Math.round(fp.priceXaf / Math.max(1, fp.durationDays)))}/día
                   </Text>
@@ -362,18 +362,18 @@ function FeatureRow({ ok, label }: { ok: boolean; label: string }) {
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   current: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e16 },
-  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', color: c.textPrimary, marginBottom: espaciado.e8 },
-  label: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary },
+  sectionTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e8 },
+  label: { fontSize: tipografia.caption, fontWeight: peso.maximo, color: c.textSecondary },
   card: { backgroundColor: c.card, borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14 },
   cardHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e8 },
-  cardName: { fontSize: tipografia.body, fontWeight: '900', color: c.textPrimary },
+  cardName: { fontSize: tipografia.body, fontWeight: peso.titulo, color: c.textPrimary },
   /* `cardPrice` y `cardPeriod` se fueron con la primitiva `Precio`: el par cifra+unidad y el
      `/mes` ya no se escriben aquí. Eran, además, el último sitio del módulo que se construía el
      periodo a mano. */
   tagCurrent: { backgroundColor: 'rgba(16,185,129,0.12)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
-  tagCurrentText: { color: brand.success, fontSize: tipografia.micro, fontWeight: '900' },
+  tagCurrentText: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.titulo },
   tagRec: { backgroundColor: 'rgba(255,107,53,0.14)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
-  tagRecText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: '900' },
+  tagRecText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo },
   prodRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: espaciado.e8 },
   radio: { width: 18, height: 18, borderRadius: radios.full, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
   radioDot: { width: 10, height: 10, borderRadius: radios.full },

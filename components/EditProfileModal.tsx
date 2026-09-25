@@ -112,8 +112,8 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
                 style={[styles.pickBtn, { backgroundColor: colors.surface, borderColor: colors.border, opacity: busy || (picking !== null && picking !== 'camera') ? 0.45 : 1 }]}
               >
                 {picking === 'camera'
-                  ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>Procesando…</Text></View>
-                  : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>📷 Tomar foto</Text>}
+                  ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
+                  : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>📷 Tomar foto</Text>}
               </Pressable>
               <Pressable
                 onPress={pickFromLibrary}
@@ -123,8 +123,8 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
                 style={[styles.pickBtn, { backgroundColor: colors.surface, borderColor: colors.border, opacity: busy || (picking !== null && picking !== 'library') ? 0.45 : 1 }]}
               >
                 {picking === 'library'
-                  ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>Procesando…</Text></View>
-                  : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>🖼️ Desde galería</Text>}
+                  ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
+                  : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>🖼️ Desde galería</Text>}
               </Pressable>
             </View>
           </View>
@@ -141,7 +141,7 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
             editable={!busy}
           />
 
-          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>{error}</Text> : null}
+          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text> : null}
 
           <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e4 }}>
             <View style={{ flex: 1 }}>
@@ -162,11 +162,11 @@ const styles = StyleSheet.create({
   modalBackdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.45)' },
   modalCard: { borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: espaciado.e20, paddingBottom: espaciado.e30, gap: espaciado.e14 },
   modalHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  modalTitle: { fontSize: 17, fontWeight: '900' },
+  modalTitle: { fontSize: 17, fontWeight: peso.titulo },
   avatarEditRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14 },
   avatarLg: { width: 82, height: 82, borderRadius: 41, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   avatarLgImg: { width: '100%', height: '100%' },
-  avatarLgText: { fontSize: 32, fontWeight: '900' },
+  avatarLgText: { fontSize: 32, fontWeight: peso.titulo },
   avatarHint: { fontSize: tipografia.caption, fontWeight: peso.medio },
   pickBtn: { borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e12, minHeight: 44 },
   pickBusy: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },

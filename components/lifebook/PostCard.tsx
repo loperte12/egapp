@@ -200,12 +200,12 @@ export const PostCard = memo(function PostCard({ post, width, onPress, onMore, o
             />
           ) : (
             <View style={[styles.avatar, styles.avatarFallback, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-              <Text style={{ fontSize: 9, fontWeight: '800', color: colors.primary }}>
+              <Text style={{ fontSize: 9, fontWeight: peso.maximo, color: colors.primary }}>
                 {(post.author?.name ?? '?').trim().charAt(0).toUpperCase() || '?'}
               </Text>
             </View>
           )}
-          <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '500', flex: 1 }}>
+          <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio, flex: 1 }}>
             {post.author?.name ?? 'Usuario'}
           </Text>
         </View>
@@ -244,9 +244,9 @@ function formatCount(n: number): string {
 const styles = StyleSheet.create({
   card: { borderRadius: 10, overflow: 'hidden', paddingBottom: espaciado.e8 },
   noMedia: { borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e10 },
-  noMediaText: { fontSize: tipografia.caption, fontWeight: '700', lineHeight: 17, textAlign: 'center' },
+  noMediaText: { fontSize: tipografia.caption, fontWeight: peso.fuerte, lineHeight: 17, textAlign: 'center' },
   title: { fontSize: tipografia.body, fontWeight: peso.medio, lineHeight: 18, paddingHorizontal: espaciado.e6 },
-  meta: { fontSize: tipografia.micro, fontWeight: '500', paddingHorizontal: espaciado.e6, marginTop: espaciado.e2 },
+  meta: { fontSize: tipografia.micro, fontWeight: peso.medio, paddingHorizontal: espaciado.e6, marginTop: espaciado.e2 },
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e6, marginTop: espaciado.e6 },
   authorRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, flex: 1, marginRight: espaciado.e6 },
   avatar: { width: 18, height: 18, borderRadius: 9 },
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   heartPop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' },
   socialN: { color: '#8A8F99', fontSize: tipografia.micro, fontWeight: peso.medio, marginLeft: espaciado.e3 },
   chip: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2 },
-  chipText: { color: brand.white, fontSize: 10.5, fontWeight: '800' },
+  chipText: { color: brand.white, fontSize: 10.5, fontWeight: peso.maximo },
   chipTL: { top: 6, left: 6 },
   pricePill: { bottom: 8, left: 8 },
   countChip: { bottom: 8, right: 8 },

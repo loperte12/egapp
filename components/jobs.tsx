@@ -71,11 +71,11 @@ export function WorkJobCard({ job, onPress }: { job: WorkJob; onPress: () => voi
             </Text>
           </View>
           <View>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
               {recruiterName || 'Empresa'}
               {job.recruiter?.role ? ` · ${job.recruiter.role}` : ''}
             </Text>
-            <Text style={{ color: colors.success, fontSize: 10.5, fontWeight: '700' }}>
+            <Text style={{ color: colors.success, fontSize: 10.5, fontWeight: peso.fuerte }}>
               {job.applicantsCount > 0 ? `✓ ${job.applicantsCount} candidato${job.applicantsCount === 1 ? '' : 's'}` : 'Reclutando'}
             </Text>
           </View>
@@ -141,11 +141,11 @@ export function WorkEmptyState({ title, subtitle, actionLabel, onAction }: { tit
       <View style={[s.emptyIcon, { backgroundColor: colors.surface }]}>
         <Briefcase size={38} color={colors.textSecondary} />
       </View>
-      <Text style={{ fontSize: 15, fontWeight: '700', color: colors.textPrimary, textAlign: 'center' }}>{title}</Text>
+      <Text style={{ fontSize: 15, fontWeight: peso.fuerte, color: colors.textPrimary, textAlign: 'center' }}>{title}</Text>
       <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{subtitle}</Text>
       {actionLabel && onAction && (
         <Pressable onPress={onAction} style={{ marginTop: espaciado.e16, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10, backgroundColor: colors.primary, borderRadius: 10 }}>
-          <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '700' }}>{actionLabel}</Text>
+          <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{actionLabel}</Text>
         </Pressable>
       )}
     </View>
@@ -158,7 +158,7 @@ export function WorkSafetyNotice() {
   return (
     <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), borderRadius: 10, padding: espaciado.e10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
       <ShieldCheck size={16} color={colors.danger} />
-      <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', flex: 1 }}>
+      <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, flex: 1 }}>
         Empleo seguro: NUNCA pagues por un trabajo. Reporta cualquier oferta sospechosa.
       </Text>
     </View>
@@ -167,16 +167,16 @@ export function WorkSafetyNotice() {
 
 const s = StyleSheet.create({
   card: { marginHorizontal: espaciado.e16, marginBottom: espaciado.e10, borderRadius: 14, padding: espaciado.e13, borderWidth: 1 },
-  title: { fontSize: tipografia.subtitle, fontWeight: '800', flex: 1, lineHeight: 20 },
-  salary: { fontSize: tipografia.subtitle, fontWeight: '900', color: brand.secondary },
+  title: { fontSize: tipografia.subtitle, fontWeight: peso.maximo, flex: 1, lineHeight: 20 },
+  salary: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: brand.secondary },
   company: { fontSize: tipografia.body, fontWeight: peso.medio, flexShrink: 1 },
   urgentBadge: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: 4, backgroundColor: brand.danger },
-  urgentText: { color: brand.white, fontSize: 8.5, fontWeight: '800', letterSpacing: 0.4 },
+  urgentText: { color: brand.white, fontSize: 8.5, fontWeight: peso.maximo, letterSpacing: 0.4 },
   chip: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, borderWidth: StyleSheet.hairlineWidth },
   chipText: { fontSize: 10.5, fontWeight: peso.medio },
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e10, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   avatar: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
-  avatarText: { fontSize: tipografia.body, fontWeight: '900' },
+  avatarText: { fontSize: tipografia.body, fontWeight: peso.titulo },
   search: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 44, marginHorizontal: espaciado.e16, marginVertical: espaciado.e8, borderWidth: 1 },
   searchInput: { flex: 1, fontSize: tipografia.body, padding: 0 },
   sortBtn: { paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14 },

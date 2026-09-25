@@ -16,7 +16,7 @@ import { Image } from 'expo-image';
 import * as Crypto from 'expo-crypto';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Banknote, Building2, MapPin, Package, Store, Truck, Wallet } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -281,7 +281,7 @@ function CheckoutContent() {
   if (!product) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
-        <Text style={{ color: colors.textPrimary, fontWeight: '800', textAlign: 'center' }}>{error ?? 'No se pudo cargar'}</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, textAlign: 'center' }}>{error ?? 'No se pudo cargar'}</Text>
         <GhostButton title="Volver" onPress={() => irSeguro.atras()} />
       </View>
     );
@@ -307,7 +307,7 @@ function CheckoutContent() {
         <Pressable onPress={() => irSeguro.atras()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10 }}>Finalizar pedido</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, marginLeft: espaciado.e10 }}>Finalizar pedido</Text>
       </View>
 
       {/*
@@ -330,11 +330,11 @@ function CheckoutContent() {
             </View>
           )}
           <View style={{ flex: 1 }}>
-            <Text numberOfLines={2} style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>{product.title}</Text>
+            <Text numberOfLines={2} style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>{product.title}</Text>
             {variant ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>Opción: {variant.name}</Text> : null}
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>Cantidad: {quantity}</Text>
           </View>
-          <Text style={{ color: colors.primary, fontWeight: '900' }}>{lbXaf(subtotal)}</Text>
+          <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>{lbXaf(subtotal)}</Text>
         </View>
 
         {/* Entrega */}
@@ -403,7 +403,7 @@ function CheckoutContent() {
             );
           })}
           {metodosActivos.length === 0 ? (
-            <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', lineHeight: 17 }}>
+            <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, lineHeight: 17 }}>
               Esta tienda no tiene formas de pago activas: todavía no se puede pedir.
             </Text>
           ) : (
@@ -462,7 +462,7 @@ function CheckoutContent() {
           abajo, así que el botón parecía no hacer nada: es el fallo que reportó el dueño.
         */}
         {error ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e9 }}>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e9 }}>
             {error}
           </Text>
         ) : null}
@@ -472,7 +472,7 @@ function CheckoutContent() {
               Entrega: {envioAConsultar ? 'a acordar con la tienda' : lbXaf(deliveryCost)}
             </Text>
             {descuento > 0 ? (
-              <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: '800' }}>
+              <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                 Cupón {cuponElegido}: −{lbXaf(descuento)}
               </Text>
             ) : null}
@@ -484,9 +484,9 @@ function CheckoutContent() {
             }}>
               {paymentMethod ? `Pagas: ${lbPayLabel(paymentMethod)}` : 'Elige cómo pagas'}
             </Text>
-            <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: '900' }}>Total: {lbXaf(total)}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: peso.titulo }}>Total: {lbXaf(total)}</Text>
             {paymentMethod === 'likebook_wallet' && saldoMonedero !== null ? (
-              <Text style={{ color: saldoMonedero >= total ? brand.success : brand.dangerPressed, fontSize: tipografia.body, fontWeight: '700' }}>
+              <Text style={{ color: saldoMonedero >= total ? brand.success : brand.dangerPressed, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
                 Monedero: {lbXaf(saldoMonedero)}{saldoMonedero >= total ? '' : ' · no llega'}
               </Text>
             ) : null}
@@ -544,8 +544,8 @@ const styles = StyleSheet.create({
   card: { flexDirection: 'row', gap: espaciado.e12, alignItems: 'center', borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e12 },
   thumb: { width: 64, height: 64, borderRadius: 10 },
   /** Las secciones van juntas: el cuerpo no se desplaza, así que el hueco cuenta. */
-  section: { fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e13, marginBottom: espaciado.e8 },
-  label: { fontSize: tipografia.body, fontWeight: '700' },
+  section: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e13, marginBottom: espaciado.e8 },
+  label: { fontSize: tipografia.body, fontWeight: peso.fuerte },
   input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   area: { minHeight: 70, textAlignVertical: 'top' },
   footer: {

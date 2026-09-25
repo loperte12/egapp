@@ -82,7 +82,7 @@ export default function WorkScreen() {
           <ArrowLeft size={22} color={colors.textPrimary} />
         </Pressable>
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ fontSize: 17, fontWeight: '800', color: colors.textPrimary }}>Empleos en Guinea Ecuatorial</Text>
+          <Text style={{ fontSize: 17, fontWeight: peso.maximo, color: colors.textPrimary }}>Empleos en Guinea Ecuatorial</Text>
           <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>
             {loading ? 'Cargando…' : `${jobs.length} ofertas${loadedAt ? ` · ${getTimeAgo(loadedAt.toISOString())}` : ''}`}
           </Text>
@@ -104,7 +104,7 @@ export default function WorkScreen() {
       {/* Filtros activos */}
       {chips.length > 0 && (
         <View style={{ paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e6 }}>
-          <Text style={{ fontSize: tipografia.micro, fontWeight: '700', color: colors.primary, marginBottom: espaciado.e6 }}>Filtros activos ({chips.length})</Text>
+          <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: colors.primary, marginBottom: espaciado.e6 }}>Filtros activos ({chips.length})</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {chips.map((c, i) => (
               <Pressable key={`${c.label}-${i}`} onPress={c.remove} accessibilityRole="button" accessibilityLabel={`Quitar filtro ${c.label}`}
@@ -132,10 +132,10 @@ export default function WorkScreen() {
           ) : error ? (
             <View style={{ alignItems: 'center', paddingTop: 40, paddingHorizontal: espaciado.e32 }}>
               <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
-              <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary, textAlign: 'center' }}>Algo salió mal</Text>
+              <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>Algo salió mal</Text>
               <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
               <Pressable onPress={retry} accessibilityRole="button" accessibilityLabel="Reintentar" style={styles.retryBtn}>
-                <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
               </Pressable>
             </View>
           ) : (
@@ -151,7 +151,7 @@ export default function WorkScreen() {
           !loading && !error && shown.length > 0 && visibleCount < sorted.length ? (
             <Pressable onPress={loadMore} accessibilityRole="button" accessibilityLabel="Cargar más ofertas"
               style={{ paddingVertical: espaciado.e14, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, borderRadius: 10, backgroundColor: colors.surface, alignItems: 'center' }}>
-              <Text style={{ fontSize: tipografia.caption, color: colors.primary, fontWeight: '700' }}>Cargar más ofertas</Text>
+              <Text style={{ fontSize: tipografia.caption, color: colors.primary, fontWeight: peso.fuerte }}>Cargar más ofertas</Text>
             </Pressable>
           ) : !loading && !error && sorted.length > PAGE_SIZE && visibleCount >= sorted.length ? (
             <Text style={{ textAlign: 'center', fontSize: tipografia.micro, color: colors.textSecondary, paddingVertical: espaciado.e18 }}>Has visto todas las ofertas 🎉</Text>
@@ -167,7 +167,7 @@ export default function WorkScreen() {
         style={[styles.filterFab, { backgroundColor: colors.primary, bottom: insets.bottom + 16 }]}>
         <SlidersHorizontal size={18} color={brand.white} />
         {activeCount > 0 && (
-          <View style={styles.filterBadge}><Text style={{ color: brand.white, fontSize: 10, fontWeight: '800' }}>{activeCount}</Text></View>
+          <View style={styles.filterBadge}><Text style={{ color: brand.white, fontSize: 10, fontWeight: peso.maximo }}>{activeCount}</Text></View>
         )}
       </Pressable>
 
@@ -178,8 +178,8 @@ export default function WorkScreen() {
             <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: colors.border, alignSelf: 'center', marginTop: espaciado.e8, marginBottom: espaciado.e12 }} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e12, borderBottomWidth: 1, borderBottomColor: colors.border }}>
               <Pressable onPress={() => setFilterVisible(false)} hitSlop={10} accessibilityRole="button" accessibilityLabel="Cerrar filtros"><X size={22} color={colors.textPrimary} /></Pressable>
-              <Text style={{ fontSize: 17, fontWeight: '700', color: colors.textPrimary }}>Filtros avanzados</Text>
-              <View style={{ minWidth: 22 }}>{activeCount > 0 && <View style={styles.filterBadge}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: '700' }}>{activeCount}</Text></View>}</View>
+              <Text style={{ fontSize: 17, fontWeight: peso.fuerte, color: colors.textPrimary }}>Filtros avanzados</Text>
+              <View style={{ minWidth: 22 }}>{activeCount > 0 && <View style={styles.filterBadge}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>{activeCount}</Text></View>}</View>
             </View>
             <ScrollView style={{ maxHeight: '76%' }} showsVerticalScrollIndicator={false}>
               <Section title="Categoría profesional" subtitle="Selecciona uno o varios sectores">{CATEGORIES.map((id) => chip(CATEGORY_LABELS[id], filters.categories.includes(id), () => toggle('categories', id)))}</Section>
@@ -227,7 +227,7 @@ function Section({ title, subtitle, children }: { title: string; subtitle?: stri
   const { colors } = useTheme();
   return (
     <View style={{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e14, borderBottomWidth: 1, borderBottomColor: colors.border }}>
-      <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>{title}</Text>
+      <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>{title}</Text>
       {subtitle && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{subtitle}</Text>}
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: espaciado.e10 }}>{children}</View>
     </View>

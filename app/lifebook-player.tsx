@@ -36,7 +36,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-nati
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Pause, Play, Rewind, FastForward } from 'lucide-react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
@@ -176,7 +176,7 @@ function EpisodePlayerView({ src, title, insets, onClose }: { src: string; title
   if (!src) {
     return (
       <View style={[styles.videoRoot, { alignItems: 'center', justifyContent: 'center' }]}>
-        <Text style={{ color: brand.white, fontWeight: '800' }}>Este episodio no tiene vídeo</Text>
+        <Text style={{ color: brand.white, fontWeight: peso.maximo }}>Este episodio no tiene vídeo</Text>
       </View>
     );
   }
@@ -324,8 +324,8 @@ function AudioPlayerView({ src, title, cover, insets, onClose }: {
           <View style={[styles.progressFill, { backgroundColor: colors.primary, width: `${pct}%` }]} />
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>{fmtDur(cur)}</Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>{fmtDur(dur || 0)}</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{fmtDur(cur)}</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{fmtDur(dur || 0)}</Text>
         </View>
 
         {/* Controles */}
@@ -346,11 +346,11 @@ function AudioPlayerView({ src, title, cover, insets, onClose }: {
           style={[styles.speedBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}
           accessibilityLabel="Velocidad"
         >
-          <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body }}>{SPEEDS[speedIdx]}x</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body }}>{SPEEDS[speedIdx]}x</Text>
         </Pressable>
 
         {error && (
-          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e10 }}>No se pudo reproducir. Reintenta.</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>No se pudo reproducir. Reintenta.</Text>
         )}
         {!status?.isLoaded && (
           <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e14 }} />
@@ -379,8 +379,8 @@ const styles = StyleSheet.create({
   trackFill: { height: 4, borderRadius: 2 },
   knob: { position: 'absolute', width: 14, height: 14, borderRadius: 7, marginLeft: -7 },
   timeRow: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: TRACK_MARGIN, paddingBottom: espaciado.e6 },
-  timeTxt: { color: 'rgba(255,255,255,0.8)', fontSize: tipografia.caption, fontWeight: '700' },
-  errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: '700', textAlign: 'center', paddingHorizontal: espaciado.e24, paddingBottom: espaciado.e8 },
+  timeTxt: { color: 'rgba(255,255,255,0.8)', fontSize: tipografia.caption, fontWeight: peso.fuerte },
+  errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center', paddingHorizontal: espaciado.e24, paddingBottom: espaciado.e8 },
 
   // Estilos del AUDIO.
   audioRoot: { flex: 1 },
@@ -389,10 +389,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e14,
   },
   closeBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center' },
-  closeTitle: { flex: 1, textAlign: 'center', fontSize: tipografia.body, fontWeight: '800', marginHorizontal: espaciado.e10 },
+  closeTitle: { flex: 1, textAlign: 'center', fontSize: tipografia.body, fontWeight: peso.maximo, marginHorizontal: espaciado.e10 },
   coverFrame: { width: 220, height: 220, borderRadius: 18, borderWidth: 1, overflow: 'hidden' },
   cover: { width: '100%', height: '100%' },
-  audioTitle: { fontSize: 17, fontWeight: '800', textAlign: 'center', marginTop: espaciado.e16, marginBottom: espaciado.e18 },
+  audioTitle: { fontSize: 17, fontWeight: peso.maximo, textAlign: 'center', marginTop: espaciado.e16, marginBottom: espaciado.e18 },
   progressTrack: { width: '100%', height: 5, borderRadius: 3, backgroundColor: 'rgba(0,0,0,0.12)', overflow: 'hidden' },
   progressFill: { height: 5, borderRadius: 3 },
   playBig: { width: 62, height: 62, borderRadius: 31, alignItems: 'center', justifyContent: 'center' },

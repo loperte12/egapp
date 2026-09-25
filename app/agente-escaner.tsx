@@ -14,7 +14,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CameraView, useCameraPermissions, type BarcodeScanningResult } from 'expo-camera';
 import { ArrowLeft, Check, QrCode } from 'lucide-react-native';
-import { brand, espaciado, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { brand, espaciado, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { agentApi } from '../api/agent';
 
@@ -82,7 +82,7 @@ function Contenido() {
           <View style={[styles.okIcon, { backgroundColor: colors.surface }]}>
             <Check size={26} color={colors.primary} />
           </View>
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '800', textAlign: 'center', paddingHorizontal: espaciado.e28 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.maximo, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>
             {hecho}
           </Text>
           <PrimaryButton title="Volver al panel" onPress={() => router.back()} />
@@ -119,9 +119,9 @@ function Contenido() {
           )}
           {error && (
             <View style={styles.errorBox}>
-              <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '700', textAlign: 'center' }}>{error}</Text>
+              <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
               <Pressable onPress={() => { setError(null); yaLeido.current = false; }} accessibilityRole="button">
-                <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900', textDecorationLine: 'underline', marginTop: espaciado.e8 }}>
+                <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo, textDecorationLine: 'underline', marginTop: espaciado.e8 }}>
                   Reintentar
                 </Text>
               </Pressable>
@@ -139,12 +139,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  headerTitle: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: '900' },
+  headerTitle: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e14 },
   okIcon: { width: 60, height: 60, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
   overlay: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', gap: espaciado.e16 },
   marco: { width: 230, height: 230, borderRadius: 24, borderWidth: 3, borderColor: 'rgba(255,255,255,0.9)' },
-  ayuda: { color: brand.white, fontSize: tipografia.body, fontWeight: '800' },
+  ayuda: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo },
   busy: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.45)' },
   errorBox: {
     position: 'absolute', left: 20, right: 20, bottom: 40, borderRadius: radios.lg,

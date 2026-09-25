@@ -16,7 +16,7 @@ import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Compass, Home, MapPinOff } from 'lucide-react-native';
 import { ir } from '../constants/rutas';
 
@@ -32,7 +32,7 @@ export default function RutaFallidaScreen() {
           <MapPinOff size={30} color={colors.primary} />
         </View>
 
-        <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: '900', textAlign: 'center', marginTop: espaciado.e14 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: 19, fontWeight: peso.titulo, textAlign: 'center', marginTop: espaciado.e14 }}>
           No pudimos abrir esa pantalla
         </Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, lineHeight: 19, textAlign: 'center', marginTop: espaciado.e8 }}>
@@ -58,7 +58,7 @@ export default function RutaFallidaScreen() {
             style={[styles.boton, { backgroundColor: colors.primary }]}
           >
             <Home size={17} color={brand.white} />
-            <Text style={{ color: brand.white, fontWeight: '900', fontSize: 15 }}>Ir al inicio</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Ir al inicio</Text>
           </Pressable>
           <Pressable
             onPress={() => ir.atras()}
@@ -66,7 +66,7 @@ export default function RutaFallidaScreen() {
             style={[styles.boton, { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }]}
           >
             <Compass size={17} color={colors.textPrimary} />
-            <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 15 }}>Volver atrás</Text>
+            <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }}>Volver atrás</Text>
           </Pressable>
         </View>
       </ScrollView>

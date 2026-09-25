@@ -262,7 +262,7 @@ export default function FoodRiderScreen() {
           <Text style={[s_center.title, { color: colors.textPrimary }]}>Algo salió mal</Text>
           <Text style={[s_center.sub, { color: colors.textSecondary }]}>{error}</Text>
           <Pressable onPress={() => load('initial')} accessibilityRole="button" style={s_center.btnPrimary}>
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -295,23 +295,23 @@ export default function FoodRiderScreen() {
                 <View style={[s.reqBox, { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }]}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Entregas</Text>
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textPrimary }}>{contab.entregas}</Text>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textPrimary }}>{contab.entregas}</Text>
                   </View>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Tus comisiones</Text>
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: brand.success }}>{formatXAF(contab.comisionesXaf)}</Text>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: brand.success }}>{formatXAF(contab.comisionesXaf)}</Text>
                   </View>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Efectivo que llevas</Text>
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textPrimary }}>{formatXAF(contab.efectivoCobradoXaf)}</Text>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textPrimary }}>{formatXAF(contab.efectivoCobradoXaf)}</Text>
                   </View>
                   <View style={{ height: 1, backgroundColor: colors.border, marginVertical: espaciado.e8 }} />
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>Se te pagará</Text>
-                    <Text style={{ fontSize: tipografia.body, fontWeight: '900', color: brand.success }}>{formatXAF(contab.aPagarXaf)}</Text>
+                    <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>Se te pagará</Text>
+                    <Text style={{ fontSize: tipografia.body, fontWeight: peso.titulo, color: brand.success }}>{formatXAF(contab.aPagarXaf)}</Text>
                   </View>
                   {contab.deudaArrastradaXaf > 0 ? (
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.danger, marginTop: espaciado.e6 }}>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.danger, marginTop: espaciado.e6 }}>
                       ⚠ Debes {formatXAF(contab.deudaArrastradaXaf)} de efectivo: se descontará la semana que viene.
                     </Text>
                   ) : null}
@@ -330,7 +330,7 @@ export default function FoodRiderScreen() {
                 <Pressable key={v} onPress={() => setVehicle(v)} accessibilityRole="radio"
                   accessibilityState={{ checked: vehicle === v }}
                   style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: radios.lg, backgroundColor: vehicle === v ? colors.primary : colors.surface }}>
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: vehicle === v ? brand.white : colors.textPrimary }}>{VEHICLE_LABEL[v]}</Text>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: vehicle === v ? brand.white : colors.textPrimary }}>{VEHICLE_LABEL[v]}</Text>
                 </Pressable>
               ))}
             </View>
@@ -346,7 +346,7 @@ export default function FoodRiderScreen() {
 
             {rider?.status === 'rejected' && rider.rejectionReason ? (
               <View style={[s.rejectedBox, { backgroundColor: alpha(colors.danger, 0.08) }]}>
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>Motivo: {rider.rejectionReason}</Text>
+                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Motivo: {rider.rejectionReason}</Text>
               </View>
             ) : null}
 
@@ -362,7 +362,7 @@ export default function FoodRiderScreen() {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e22, marginBottom: espaciado.e10 }}>
                   <Text style={[s.sectionTitle, { marginBottom: 0 }]}>Mis entregas ({me?.deliveries.length ?? 0})</Text>
                   {rider.deliveriesCount > 0 ? (
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textSecondary }}>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textSecondary }}>
                       {rider.deliveriesCount} entregas completadas
                     </Text>
                   ) : null}
@@ -383,16 +383,16 @@ export default function FoodRiderScreen() {
                     return (
                       <View key={d.id} style={[s.delCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
-                          <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.body, fontWeight: '800', color: colors.textPrimary }}>{d.restaurantName}</Text>
+                          <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>{d.restaurantName}</Text>
                           <View style={{ backgroundColor: alpha(ACCENT, 0.12), paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, borderRadius: 7 }}>
-                            <Text style={{ fontSize: 10.5, fontWeight: '800', color: ACCENT }}>{stLabel}</Text>
+                            <Text style={{ fontSize: 10.5, fontWeight: peso.maximo, color: ACCENT }}>{stLabel}</Text>
                           </View>
                         </View>
                         <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>Tracking {d.trackingCode}</Text>
                         {d.items.map((it, i) => (
                           <Text key={`${d.id}-${it.itemId}-${i}`} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{it.qty} × {it.name}</Text>
                         ))}
-                        <Text style={{ fontSize: tipografia.caption, fontWeight: '900', color: ACCENT, marginTop: espaciado.e2 }}>{formatXAF(d.totalXaf)}</Text>
+                        <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: ACCENT, marginTop: espaciado.e2 }}>{formatXAF(d.totalXaf)}</Text>
 
                         {/* ── ¿HAY QUE COBRAR EN LA PUERTA? (C5) ────────────────────────────
                             El repartidor necesita saberlo ANTES de llegar, no al anotar. Sin esto
@@ -404,19 +404,19 @@ export default function FoodRiderScreen() {
                             viene a evitar. */}
                         {d.paymentMethod === 'cash' ? (
                           <View style={[s.payBadge, { backgroundColor: alpha(ACCENT, 0.14), borderColor: alpha(ACCENT, 0.4) }]}>
-                            <Text style={{ fontSize: tipografia.caption, fontWeight: '900', color: ACCENT }}>
+                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: ACCENT }}>
                               💵 COBRAR {formatXAF(d.totalXaf)} en la puerta
                             </Text>
                           </View>
                         ) : d.paymentMethod === 'billing' ? (
                           <View style={[s.payBadge, { backgroundColor: alpha(colors.success, 0.14), borderColor: alpha(colors.success, 0.4) }]}>
-                            <Text style={{ fontSize: tipografia.caption, fontWeight: '900', color: colors.success }}>
+                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.success }}>
                               ✓ Ya pagado — NO cobrar nada
                             </Text>
                           </View>
                         ) : (
                           <View style={[s.payBadge, { backgroundColor: alpha(brand.warning, 0.14), borderColor: alpha(brand.warning, 0.4) }]}>
-                            <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: brand.warningText }}>
+                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: brand.warningText }}>
                               ⚠️ No consta cómo se paga: pregunta al restaurante antes de cobrar
                             </Text>
                           </View>
@@ -441,7 +441,7 @@ export default function FoodRiderScreen() {
                             style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: 1, borderColor: alpha(ACCENT, 0.5), backgroundColor: alpha(ACCENT, 0.10) }}
                           >
                             <Navigation size={14} color={ACCENT} />
-                            <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT }}>
+                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
                               Cómo llegar{d.deliveryLat != null ? '' : ' (dirección escrita)'}
                             </Text>
                           </Pressable>
@@ -453,7 +453,7 @@ export default function FoodRiderScreen() {
                         {d.status !== 'delivered' ? (
                           d.meetingNote ? (
                             <View style={{ marginTop: espaciado.e8, borderRadius: 10, borderWidth: 1, padding: espaciado.e10, borderColor: alpha(colors.success, 0.4), backgroundColor: alpha(colors.success, 0.08) }}>
-                              <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.success }}>🤝 Punto de encuentro avisado</Text>
+                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.success }}>🤝 Punto de encuentro avisado</Text>
                               <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2, lineHeight: 15 }}>{d.meetingNote}</Text>
                               <Pressable
                                 onPress={() => { setPuntoDe(d.orderId); setPuntoTexto(d.meetingNote ?? ''); setPuntoCoords(null); }}
@@ -461,12 +461,12 @@ export default function FoodRiderScreen() {
                                 accessibilityLabel="Cambiar el punto de encuentro"
                                 style={{ marginTop: espaciado.e6, alignSelf: 'flex-start' }}
                               >
-                                <Text style={{ fontSize: tipografia.micro, fontWeight: '700', color: ACCENT }}>Cambiar</Text>
+                                <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: ACCENT }}>Cambiar</Text>
                               </Pressable>
                             </View>
                           ) : puntoDe === d.orderId ? (
                             <View style={{ marginTop: espaciado.e10 }}>
-                              <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary, marginBottom: espaciado.e4 }}>
+                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary, marginBottom: espaciado.e4 }}>
                                 ¿Dónde os encontráis? (hotel, portal, entrada…)
                               </Text>
                               <TextInput
@@ -487,7 +487,7 @@ export default function FoodRiderScreen() {
                                   style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: 1, borderColor: colors.border }}
                                 >
                                   <MapPin size={13} color={colors.textPrimary} />
-                                  <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>
+                                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>
                                     {puntoUbicando ? 'Buscando…' : puntoCoords ? '✓ Ubicación añadida' : 'Usar mi ubicación'}
                                   </Text>
                                 </Pressable>
@@ -498,7 +498,7 @@ export default function FoodRiderScreen() {
                                   accessibilityLabel="Avisar al cliente del punto de encuentro"
                                   style={{ paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 10, backgroundColor: ACCENT }}
                                 >
-                                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: brand.white }}>
+                                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: brand.white }}>
                                     {busyDeliveryId === d.orderId ? 'Avisando…' : 'Avisar al cliente'}
                                   </Text>
                                 </Pressable>
@@ -523,7 +523,7 @@ export default function FoodRiderScreen() {
                               style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: 1, borderColor: colors.border }}
                             >
                               <MapPin size={14} color={colors.textPrimary} />
-                              <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>Punto de encuentro</Text>
+                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>Punto de encuentro</Text>
                             </Pressable>
                           )
                         ) : null}
@@ -546,7 +546,7 @@ export default function FoodRiderScreen() {
                         {d.status === 'delivered' ? (
                           cobroDe === d.orderId ? (
                             <View style={{ marginTop: espaciado.e10 }}>
-                              <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary, marginBottom: espaciado.e4 }}>
+                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary, marginBottom: espaciado.e4 }}>
                                 ¿Cuánto cobraste en la puerta? (el pedido era de {formatXAF(d.totalXaf)}; si ya estaba pagado, pon 0)
                               </Text>
                               <View style={{ flexDirection: 'row', gap: espaciado.e8, alignItems: 'center' }}>
@@ -562,12 +562,12 @@ export default function FoodRiderScreen() {
                                 <Pressable onPress={() => guardarCobro(d.orderId)} disabled={busy}
                                   accessibilityRole="button" accessibilityLabel="Guardar el efectivo cobrado"
                                   style={[s.advBtn, { backgroundColor: ACCENT, marginTop: 0, paddingHorizontal: espaciado.e16 }]}>
-                                  {busy ? <ActivityIndicator size="small" color={brand.white} /> : <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Guardar</Text>}
+                                  {busy ? <ActivityIndicator size="small" color={brand.white} /> : <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Guardar</Text>}
                                 </Pressable>
                                 <Pressable onPress={() => { setCobroDe(null); setCobroTexto(''); }}
                                   accessibilityRole="button" accessibilityLabel="Cancelar la anotación"
                                   style={{ paddingHorizontal: espaciado.e6 }}>
-                                  <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.caption }}>Cancelar</Text>
+                                  <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>Cancelar</Text>
                                 </Pressable>
                               </View>
                             </View>
@@ -591,7 +591,7 @@ export default function FoodRiderScreen() {
                               accessibilityLabel="Anotar el efectivo que cobré en esta entrega"
                               style={{ marginTop: espaciado.e8, alignSelf: 'flex-start' }}
                             >
-                              <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.primary }}>
+                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.primary }}>
                                 💵 Anotar lo que cobré
                               </Text>
                             </Pressable>
@@ -608,7 +608,7 @@ export default function FoodRiderScreen() {
                               accessibilityLabel={meta.btn.replace(/^[^\s]+\s/, '')}
                               style={[s.advBtn, { backgroundColor: ACCENT }]}
                             >
-                              <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '800' }}>{meta.btn}</Text>
+                              <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo }}>{meta.btn}</Text>
                             </Pressable>
                           )
                         ) : null}
@@ -641,7 +641,7 @@ function CallBtn({ phone, label }: { phone: string | null; label: string }) {
       style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e5, borderWidth: 1, borderColor: colors.primary, borderRadius: 9, paddingVertical: espaciado.e8 }}
     >
       <Phone size={13} color={colors.primary} />
-      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>{label}</Text>
+      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{label}</Text>
     </Pressable>
   );
 }
@@ -655,7 +655,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
         <Text style={{ fontSize: tipografia.caption, fontWeight: peso.medio, color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
         {hint ? <Text style={{ fontSize: 10.5, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
       </View>
-      {onPress ? <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>→</Text> : null}
+      {onPress ? <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>→</Text> : null}
     </View>
   );
   return onPress ? (
@@ -668,7 +668,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
 const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: espaciado.e28 },
   wrapSoft: { alignItems: 'center', paddingTop: espaciado.e24, paddingHorizontal: espaciado.e20 },
-  title: { fontSize: 15, fontWeight: '800', textAlign: 'center' },
+  title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
   btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
 });
@@ -676,7 +676,7 @@ const s_center = StyleSheet.create({
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   reqBox: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14 },
-  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', marginBottom: espaciado.e10 },
+  sectionTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, marginBottom: espaciado.e10 },
   rejectedBox: { borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e12 },
   delCard: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e10, borderWidth: 1 },
   advBtn: { marginTop: espaciado.e10, borderRadius: 10, paddingVertical: espaciado.e11, alignItems: 'center' },

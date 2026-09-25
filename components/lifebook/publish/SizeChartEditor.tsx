@@ -19,7 +19,7 @@
  */
 import React, { useMemo, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { alpha, espaciado, GhostButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import type { LbSizeGender, LbSizeKind } from '../../../api/commerce';
 import { TALLAS_CALZADO } from '../../../constants/tallas';
 import { usePublishStore, type PublishSizeChartDraft, type PublishSizeRow } from '../../../state/commercePublish';
@@ -149,7 +149,7 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
 
   return (
     <View style={{ marginTop: espaciado.e4 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginBottom: espaciado.e6 }}>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo, marginBottom: espaciado.e6 }}>
         Tabla de tallas
       </Text>
 
@@ -197,7 +197,7 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
                   </>
                 ) : (
                   <>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700', marginBottom: espaciado.e6 }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginBottom: espaciado.e6 }}>
                       {rows.length} {rows.length === 1 ? 'talla' : 'tallas'} · medidas en cm{abierto === 'top' || abierto === 'bottom' || abierto === 'dress' ? ' y kg' : ''}
                     </Text>
                     {rows.map((r, i) => (
@@ -208,7 +208,7 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
                             onChangeText={(t) => guardar(abierto, gender, rows.map((x, j) => (j === i ? { ...x, sizeLabel: t } : x)), chart?.notes)}
                             placeholder="Talla"
                             placeholderTextColor={colors.textSecondary}
-                            style={[input, { width: 74, fontWeight: '800' }]}
+                            style={[input, { width: 74, fontWeight: peso.maximo }]}
                           />
                           <Pressable
                             onPress={() => {
@@ -219,7 +219,7 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
                             accessibilityLabel={`Quitar la talla ${r.sizeLabel}`}
                             hitSlop={8}
                           >
-                            <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '800' }}>quitar</Text>
+                            <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.maximo }}>quitar</Text>
                           </Pressable>
                         </View>
                         {campos.map((c) => {

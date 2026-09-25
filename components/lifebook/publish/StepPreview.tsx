@@ -10,7 +10,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { alpha, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { absUrl } from '../../../api/config';
 import { lbXaf } from '../../../constants/lifebook';
 import { LB_CONDITIONS, LB_PAY_STATUS_LABEL, lbCoverageLabel, lbPayLabel, lbPriceLabel, lbServiceLabel, lbTransportLabel } from '../../../constants/commerce';
@@ -44,10 +44,10 @@ export default function StepPreview({ categories, shop }: { categories: LbCatego
           </View>
         )}
         <View style={{ padding: espaciado.e12 }}>
-          <Text style={{ color: colors.primary, fontSize: 19, fontWeight: '900' }}>
+          <Text style={{ color: colors.primary, fontSize: 19, fontWeight: peso.titulo }}>
             {lbPriceLabel(form.priceMode === 'on_request' ? null : Number(form.price.replace(/\D/g, '')), form.priceMode, lbXaf)}
           </Text>
-          <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '800', marginTop: espaciado.e4 }} numberOfLines={3}>
+          <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.maximo, marginTop: espaciado.e4 }} numberOfLines={3}>
             {form.title || '(sin título)'}
           </Text>
           {form.shortDescription ? (
@@ -94,7 +94,7 @@ export default function StepPreview({ categories, shop }: { categories: LbCatego
       ) : null}
 
       <Notice tone="ok">
-        Al publicar, tu publicación entra <Text style={{ fontWeight: '900' }}>en revisión</Text>. El equipo la aprueba y
+        Al publicar, tu publicación entra <Text style={{ fontWeight: peso.titulo }}>en revisión</Text>. El equipo la aprueba y
         entonces aparece en el catálogo; recibirás el aviso en Mensajes.
       </Notice>
     </View>

@@ -17,7 +17,7 @@ import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, T
 import { Image } from 'expo-image';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, BarChart3, BedDouble, Bookmark, ChevronRight, MessageCircle, Package, Settings,
@@ -123,7 +123,7 @@ function MerchantContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }}>
           Mi tienda
         </Text>
         {shop ? (
@@ -172,7 +172,7 @@ function MerchantContent() {
               <Settings size={17} color={colors.primary} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>Gestión</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Gestión</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 Publicaciones, existencias, precios y ajustes de la tienda
               </Text>
@@ -196,7 +196,7 @@ function MerchantContent() {
               <View style={[styles.iconoSeccion, { backgroundColor: alpha(colors.primary, 0.16) }]}>
                 <BedDouble size={17} color={colors.primary} />
               </View>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', flex: 1 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, flex: 1 }}>
                 Tu alojamiento
               </Text>
             </View>
@@ -224,7 +224,7 @@ function MerchantContent() {
         {!shop ? (
           <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e10 }}>
             <Store size={44} color={alpha(colors.primary, 0.45)} />
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>Todavía no tienes tienda</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>Todavía no tienes tienda</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: espaciado.e30 }}>
               Abre tu tienda para vender productos, comida o servicios y gestionar tus pedidos desde aquí.
             </Text>
@@ -245,7 +245,7 @@ function MerchantContent() {
                   </View>
                 )}
                 <View style={{ flex: 1 }}>
-                  <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }}>{shop.name}</Text>
+                  <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>{shop.name}</Text>
                   <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                     {LB_VERIFICATION[shop.verificationLevel]?.icon} {LB_VERIFICATION[shop.verificationLevel]?.label}
                     {shop.city ? ` · ${shop.city}${shop.barrio ? ` (${shop.barrio})` : ''}` : ''}
@@ -265,7 +265,7 @@ function MerchantContent() {
                 </View>
                 {!shop.isActive ? (
                   <View style={{ backgroundColor: alpha(colors.danger, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
-                    <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: '900' }}>PAUSADA</Text>
+                    <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: peso.titulo }}>PAUSADA</Text>
                   </View>
                 ) : null}
               </View>
@@ -309,7 +309,7 @@ function MerchantContent() {
             <Seccion titulo="Caja" icono={<BarChart3 size={15} color={colors.textPrimary} />}>
               <View style={[styles.card, { borderColor: colors.border }]}>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Cobrado hoy</Text>
-                <Text style={{ color: colors.success, fontSize: tipografia.display, fontWeight: '900', marginTop: espaciado.e2 }}>
+                <Text style={{ color: colors.success, fontSize: tipografia.display, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
                   {lbXaf(data?.money?.paidTodayXaf ?? 0)}
                 </Text>
                 <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e12 }}>
@@ -393,7 +393,7 @@ function Seccion({ titulo, icono, children }: { titulo: string; icono: React.Rea
     <View style={{ marginTop: espaciado.e16 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginBottom: espaciado.e8 }}>
         {icono}
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>{titulo}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{titulo}</Text>
       </View>
       {children}
     </View>
@@ -405,7 +405,7 @@ function Mini({ label, valor }: { label: string; valor: string }) {
   return (
     <View style={{ flex: 1 }}>
       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }} numberOfLines={1}>{label}</Text>
-      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900', marginTop: 1 }} numberOfLines={1}>{valor}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: 1 }} numberOfLines={1}>{valor}</Text>
     </View>
   );
 }
@@ -414,7 +414,7 @@ function Aviso({ icon, color, texto, onPress }: { icon: React.ReactNode; color: 
   return (
     <Pressable onPress={onPress} style={[styles.aviso, { backgroundColor: color }]}>
       {icon}
-      <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '900' }}>{texto}</Text>
+      <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>{texto}</Text>
       <ChevronRight size={13} color={brand.white} />
     </Pressable>
   );
@@ -425,10 +425,10 @@ function Futuro({ titulo, detalle }: { titulo: string; detalle: string }) {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e8, paddingVertical: espaciado.e6 }}>
       <View style={{ backgroundColor: alpha(colors.textSecondary, 0.15), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e2, marginTop: 1 }}>
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '900' }}>PRÓXIMAMENTE</Text>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.titulo }}>PRÓXIMAMENTE</Text>
       </View>
       <View style={{ flex: 1 }}>
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>{titulo}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{titulo}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 16 }}>{detalle}</Text>
       </View>
     </View>

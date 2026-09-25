@@ -208,10 +208,10 @@ export default function BillingStatusScreen() {
       {error ? (
         <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: espaciado.e28 }}>
           <Text style={{ fontSize: 38, marginBottom: espaciado.e8 }}>📡</Text>
-          <Text style={{ fontSize: 15, fontWeight: '800', color: colors.textPrimary, textAlign: 'center' }}>Algo salió mal</Text>
+          <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>Algo salió mal</Text>
           <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
           <Pressable onPress={() => load('initial')} accessibilityRole="button" style={{ marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 }}>
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -282,7 +282,7 @@ export default function BillingStatusScreen() {
                 <View key={e.id} style={[s.entitleCard, { borderColor: brand.success, backgroundColor: alpha(brand.success, 0.06) }]}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                     <BadgeCheck size={16} color={brand.success} />
-                    <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>
+                    <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>
                       {entitlementLabel(e.code, e.module)}
                     </Text>
                   </View>
@@ -316,13 +316,13 @@ export default function BillingStatusScreen() {
                 <View key={o.id} style={[s.orderCard, { borderColor: colors.border }]}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
                     <View style={{ flex: 1 }}>
-                      <Text style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>{o.planName}</Text>
+                      <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>{o.planName}</Text>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>
                         {MODULE_LABEL[mod] ?? ''} · {formatXAF(o.amountXaf)} · {new Date(o.createdAt).toLocaleDateString('es-GQ')}
                       </Text>
                     </View>
                     <View style={{ paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6, backgroundColor: alpha(st.color, 0.12) }}>
-                      <Text style={{ fontSize: 10.5, fontWeight: '700', color: st.color }}>{st.label}</Text>
+                      <Text style={{ fontSize: 10.5, fontWeight: peso.fuerte, color: st.color }}>{st.label}</Text>
                     </View>
                   </View>
                   {o.status === 'rejected' && o.rejectionReason ? (
@@ -349,7 +349,7 @@ export default function BillingStatusScreen() {
                           {cancellingOrderId === o.id ? (
                             <ActivityIndicator size="small" color={colors.danger} />
                           ) : (
-                            <Text style={{ fontSize: tipografia.caption, color: colors.danger, fontWeight: '700' }}>Cancelar orden</Text>
+                            <Text style={{ fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.fuerte }}>Cancelar orden</Text>
                           )}
                         </Pressable>
                       )}
@@ -421,7 +421,7 @@ function ModulePlans() {
             { backgroundColor: colors.surface, borderColor: colors.border, opacity: pressed ? 0.7 : 1 },
           ]}
         >
-          <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>{MODULE_LABEL[mod] ?? mod}</Text>
+          <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>{MODULE_LABEL[mod] ?? mod}</Text>
         </Pressable>
       ))}
     </View>
@@ -440,7 +440,7 @@ function RenewCard({ tone, icon, title, body, cta, onPress, testID }: {
     <View style={[s_card.entitleCard, { borderColor: border, backgroundColor: bg, marginBottom: espaciado.e10 }]}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
         {icon}
-        <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: '700', color: titleColor }}>{title}</Text>
+        <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte, color: titleColor }}>{title}</Text>
       </View>
       <Text style={{ fontSize: tipografia.caption, color: bodyColor, marginTop: espaciado.e4 }}>{body}</Text>
       <View style={{ marginTop: espaciado.e8 }}><PrimaryButton title={cta} onPress={onPress} testID={testID} /></View>
@@ -465,7 +465,7 @@ const s_card = StyleSheet.create({
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     root: { flex: 1, backgroundColor: c.background },
-    sectionTitle: { fontSize: 15, fontWeight: '800', color: c.textPrimary, marginBottom: espaciado.e10 },
+    sectionTitle: { fontSize: 15, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e10 },
     empty: { fontSize: tipografia.caption, color: c.textSecondary, textAlign: 'center', marginVertical: espaciado.e16 },
     entitleCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: 1, marginBottom: espaciado.e8 },
     orderCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: 1, marginBottom: espaciado.e10 },

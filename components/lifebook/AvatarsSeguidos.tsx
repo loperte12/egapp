@@ -13,7 +13,7 @@
  */
 import React from 'react';
 import { FlatList, Image, Pressable, Text, View } from 'react-native';
-import { alpha, espaciado, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia, peso} from '@egrouteplan/ui-kit';
 import { absUrl } from '../../api/config';
 import type { LbSeguido } from '../../api/lifebookSeguidos';
 
@@ -27,7 +27,7 @@ export function AvatarsSeguidos({ gente, colors, onOpen }: {
   return (
     <View style={{ paddingTop: espaciado.e8, paddingBottom: espaciado.e6 }}>
       <Text style={{
-        fontSize: tipografia.micro, fontWeight: '900', letterSpacing: 0.4,
+        fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.4,
         color: colors.textSecondary, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e6,
       }}>
         A QUIEN SIGUES
@@ -62,7 +62,7 @@ export function AvatarsSeguidos({ gente, colors, onOpen }: {
                   backgroundColor: alpha(colors.primary, 0.16),
                   alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <Text style={{ color: colors.primary, fontWeight: '900', fontSize: 19 }}>{inicial}</Text>
+                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: 19 }}>{inicial}</Text>
                 </View>
               )}
               <Text

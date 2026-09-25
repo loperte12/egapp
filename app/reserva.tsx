@@ -150,10 +150,10 @@ export default function ReservaAnticipadaScreen() {
       <View style={[s.root, { alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }]}>
         <View style={[s.card, { alignItems: 'center', borderColor: colors.success, paddingVertical: espaciado.e28, width: '100%' }]}>
           <CheckCircle2 size={52} color={colors.success} />
-          <Text style={{ fontSize: tipografia.title, fontWeight: '800', color: colors.textPrimary, marginTop: espaciado.e12 }}>Reserva confirmada</Text>
+          <Text style={{ fontSize: tipografia.title, fontWeight: peso.maximo, color: colors.textPrimary, marginTop: espaciado.e12 }}>Reserva confirmada</Text>
           <Text style={{ fontSize: 15, color: colors.textSecondary, marginTop: espaciado.e8, textAlign: 'center' }}>{origin} → {dest}</Text>
           <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e4 }}>{whenLabel}</Text>
-          <Text style={{ fontSize: 26, fontWeight: '800', color: colors.textPrimary, marginTop: espaciado.e14 }}>
+          <Text style={{ fontSize: 26, fontWeight: peso.maximo, color: colors.textPrimary, marginTop: espaciado.e14 }}>
             {Number(booking.price).toLocaleString('es')} XAF
           </Text>
           <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>Ref: {booking.id.slice(0, 8)}</Text>
@@ -455,12 +455,12 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     root: { flex: 1 },
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e14, paddingBottom: espaciado.e6 },
     iconBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, minWidth: 64 },
-    title: { fontSize: 17, fontWeight: '800', color: c.textPrimary },
+    title: { fontSize: 17, fontWeight: peso.maximo, color: c.textPrimary },
     stepsRow: { flexDirection: 'row', gap: espaciado.e5, marginTop: espaciado.e4 },
     stepDot: { width: 18, height: 4, borderRadius: 2 },
-    securityText: { fontSize: 10, color: c.success, fontWeight: '700' },
+    securityText: { fontSize: 10, color: c.success, fontWeight: peso.fuerte },
 
-    stepTitle: { fontSize: tipografia.title, fontWeight: '800', color: c.textPrimary, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, marginBottom: espaciado.e12 },
+    stepTitle: { fontSize: tipografia.title, fontWeight: peso.maximo, color: c.textPrimary, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, marginBottom: espaciado.e12 },
     card: { backgroundColor: c.card, borderRadius: radios.lg, padding: espaciado.e14, marginHorizontal: espaciado.e16, marginBottom: espaciado.e12, borderWidth: 1, borderColor: c.border, shadowColor: c.shadow, shadowOpacity: 0.05, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 1 },
     routeRow: { flexDirection: 'row', gap: espaciado.e12 },
     routeRail: { alignItems: 'center', width: 10 },
@@ -469,34 +469,34 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     fieldRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e10 },
     input: { flex: 1, fontSize: 15, color: c.textPrimary, padding: 0 },
     divider: { height: 1, backgroundColor: c.border },
-    sumLine: { fontSize: 15, fontWeight: '700', color: c.textPrimary },
+    sumLine: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary },
 
     chipRow: { flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e16 },
     dayChip: { flex: 1, alignItems: 'center', borderWidth: 1.5, borderRadius: radios.md, paddingVertical: espaciado.e12 },
-    dayChipText: { fontSize: tipografia.body, fontWeight: '800' },
+    dayChipText: { fontSize: tipografia.body, fontWeight: peso.maximo },
 
     sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginBottom: espaciado.e8 },
-    sectionTitle: { fontSize: tipografia.body, fontWeight: '700', color: c.textPrimary },
-    label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, marginBottom: espaciado.e6 },
+    sectionTitle: { fontSize: tipografia.body, fontWeight: peso.fuerte, color: c.textPrimary },
+    label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, marginBottom: espaciado.e6 },
 
     chip: { paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e8, borderRadius: radios.full, borderWidth: 1, borderColor: c.border, marginRight: espaciado.e6, backgroundColor: c.background },
-    chipText: { fontSize: tipografia.body, color: c.textPrimary, fontWeight: '700' },
+    chipText: { fontSize: tipografia.body, color: c.textPrimary, fontWeight: peso.fuerte },
     miniLabel: { fontSize: tipografia.micro, color: c.textSecondary, marginBottom: espaciado.e4 },
-    pickSummary: { fontSize: tipografia.body, fontWeight: '800', color: c.primary, marginTop: espaciado.e12 },
+    pickSummary: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.primary, marginTop: espaciado.e12 },
 
     vehicleCard: { width: 124, padding: espaciado.e14, borderRadius: radios.lg, borderWidth: 1.5, borderColor: c.border, backgroundColor: c.card, alignItems: 'center', gap: espaciado.e6 },
-    vehicleName: { fontSize: tipografia.body, fontWeight: '800', textAlign: 'center' },
+    vehicleName: { fontSize: tipografia.body, fontWeight: peso.maximo, textAlign: 'center' },
     vehicleDesc: { fontSize: tipografia.micro, color: c.textSecondary, textAlign: 'center' },
 
-    priceBig: { fontSize: tipografia.display, fontWeight: '800', color: c.textPrimary },
+    priceBig: { fontSize: tipografia.display, fontWeight: peso.maximo, color: c.textPrimary },
     budgetRow: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: c.border, borderRadius: radios.md, paddingHorizontal: espaciado.e12, marginTop: espaciado.e6 },
     budgetInput: { flex: 1, fontSize: 15, color: c.textPrimary, paddingVertical: espaciado.e10 },
-    currencyTag: { fontSize: tipografia.body, fontWeight: '800', color: c.textSecondary },
+    currencyTag: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.textSecondary },
 
     hint: { textAlign: 'center', fontSize: tipografia.caption, color: c.textSecondary, marginTop: espaciado.e10, paddingHorizontal: espaciado.e24, lineHeight: 16 },
 
     footer: { position: 'absolute', left: 16, right: 16, bottom: 24 },
     confirmBtn: { backgroundColor: c.primary, borderRadius: radios.full, paddingVertical: 15, alignItems: 'center' },
-    confirmText: { fontSize: 16.5, fontWeight: '800', color: brand.white },
+    confirmText: { fontSize: 16.5, fontWeight: peso.maximo, color: brand.white },
     confirmSub: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
   });

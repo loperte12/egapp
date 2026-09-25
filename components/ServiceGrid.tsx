@@ -13,7 +13,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import { espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SERVICES, type ServiceItem } from '../constants/data';
@@ -225,7 +225,7 @@ export default function ServiceGrid({ onEmergencyPress, glass = false }: {
               </Pressable>
             ))}
             <Pressable onPress={() => setChoosing(null)} accessibilityRole="button" accessibilityLabel="Cancelar" style={{ paddingVertical: espaciado.e12 }}>
-              <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: '700' }}>Cancelar</Text>
+              <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: peso.fuerte }}>Cancelar</Text>
             </Pressable>
           </View>
         </View>
@@ -243,8 +243,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: StyleSheet.hairlineWidth,
   },
-  label: { fontSize: tipografia.micro, fontWeight: '800', textAlign: 'center', lineHeight: 13, paddingHorizontal: espaciado.e2 },
-  comingSoon: { fontSize: 7.5, fontWeight: '800', color: '#86909C', letterSpacing: 0.2, textTransform: 'uppercase' },
+  label: { fontSize: tipografia.micro, fontWeight: peso.maximo, textAlign: 'center', lineHeight: 13, paddingHorizontal: espaciado.e2 },
+  comingSoon: { fontSize: 7.5, fontWeight: peso.maximo, color: '#86909C', letterSpacing: 0.2, textTransform: 'uppercase' },
   moreBlock: {
     marginTop: espaciado.e16,
     borderRadius: radios.lg,
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     paddingVertical: espaciado.e10,
     paddingLeft: espaciado.e12,
   },
-  moreTitle: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e8 },
+  moreTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e8 },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -262,13 +262,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e12,
     paddingVertical: espaciado.e8,
   },
-  chipLabel: { fontSize: tipografia.caption, fontWeight: '700' },
+  chipLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   backdrop: { flex: 1, backgroundColor: 'rgba(10,15,31,0.55)', justifyContent: 'flex-end' },
   sheet: { borderTopLeftRadius: 22, borderTopRightRadius: 22, padding: espaciado.e20, paddingBottom: espaciado.e28 },
-  sheetTitle: { fontSize: 17, fontWeight: '900', textAlign: 'center', marginBottom: espaciado.e4 },
+  sheetTitle: { fontSize: 17, fontWeight: peso.titulo, textAlign: 'center', marginBottom: espaciado.e4 },
   sheetHint: { fontSize: tipografia.caption, textAlign: 'center', marginBottom: espaciado.e14, lineHeight: 17 },
   roleRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: 1, borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e10 },
   roleEmoji: { fontSize: tipografia.display },
-  roleLabel: { fontSize: 14.5, fontWeight: '800' },
+  roleLabel: { fontSize: 14.5, fontWeight: peso.maximo },
   roleHint: { fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 15 },
 });

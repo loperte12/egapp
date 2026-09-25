@@ -15,7 +15,7 @@ import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleS
 import { Image } from 'expo-image';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, FormField, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -167,7 +167,7 @@ function SettingsContent() {
         <Cabecera onBack={() => router.back()} colors={colors} insets={insets} />
         <View style={{ alignItems: 'center', paddingTop: 70, gap: espaciado.e10 }}>
           <Store size={42} color={alpha(colors.primary, 0.45)} />
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>Todavía no tienes tienda</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Todavía no tienes tienda</Text>
           <View style={{ minWidth: 220, marginTop: espaciado.e8 }}>
             <PrimaryButton title="Abrir mi tienda" onPress={() => irSeguro.libre('/lifebook-sell', undefined, true)} />
           </View>
@@ -201,7 +201,7 @@ function SettingsContent() {
               </View>
             )}
             <View style={{ flex: 1 }}>
-              <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body }}>{name || 'Mi tienda'}</Text>
+              <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body }}>{name || 'Mi tienda'}</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                 {LB_VERIFICATION[shop.verificationLevel]?.icon} {LB_VERIFICATION[shop.verificationLevel]?.label}
                 {' · '}{shop.activeProducts ?? 0} publicados
@@ -314,7 +314,7 @@ function SettingsContent() {
           onPress={() => irSeguro.libre('/lifebook-merchant-products')}
           style={{ marginTop: espaciado.e18, alignItems: 'center' }}
         >
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Ir a mis publicaciones →</Text>
+          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Ir a mis publicaciones →</Text>
         </Pressable>
       </ScrollView>
     </View>
@@ -327,7 +327,7 @@ function Cabecera({ onBack, colors, insets }: { onBack: () => void; colors: any;
       <Pressable onPress={onBack} hitSlop={10} accessibilityLabel="Volver">
         <ArrowLeft size={20} color={colors.textPrimary} />
       </Pressable>
-      <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }}>
+      <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }}>
         Ajustes de la tienda
       </Text>
     </View>

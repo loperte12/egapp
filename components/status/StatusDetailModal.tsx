@@ -300,7 +300,7 @@ function ServiceLink({ status, colors, onOpen }: { status: UserStatus; colors: a
       accessibilityRole="button"
       style={({ pressed }) => [styles.serviceBtn, { backgroundColor: 'rgba(0,132,255,0.08)', opacity: pressed ? 0.8 : 1 }]}
     >
-      <Text style={{ color: brand.primary, fontSize: tipografia.body, fontWeight: '900' }}>
+      <Text style={{ color: brand.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
         {labelMap[link.type] ?? 'Ver servicio'} →
       </Text>
     </Pressable>
@@ -386,14 +386,14 @@ const styles = StyleSheet.create({
     position: 'absolute', left: 14, right: 14,
     flexDirection: 'row', alignItems: 'center',
   },
-  heroName: { color: brand.white, fontSize: 15, fontWeight: '900', textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
+  heroName: { color: brand.white, fontSize: 15, fontWeight: peso.titulo, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
   timeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 },
-  timeTxt: { color: 'rgba(255,255,255,0.95)', fontSize: tipografia.micro, fontWeight: '700', textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
+  timeTxt: { color: 'rgba(255,255,255,0.95)', fontSize: tipografia.micro, fontWeight: peso.fuerte, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   iconBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.35)' },
   overlayText: { position: 'absolute', left: 18, right: 18 },
   overlayEmoji: { fontSize: 46, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 6 },
   overlayLine: {
-    color: brand.white, fontSize: 22, fontWeight: '900', lineHeight: 29,
+    color: brand.white, fontSize: 22, fontWeight: peso.titulo, lineHeight: 29,
     textShadowColor: 'rgba(0,0,0,0.7)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 6,
   },
   dots: { position: 'absolute', bottom: 10, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e6 },
@@ -406,14 +406,14 @@ const styles = StyleSheet.create({
   serviceBtn: { borderRadius: 14, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e14, marginBottom: espaciado.e12, alignItems: 'center' },
   actions: { flexDirection: 'row', gap: espaciado.e10 },
   action: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: 14, paddingVertical: espaciado.e12 },
-  actionTxt: { fontSize: tipografia.body, fontWeight: '800' },
+  actionTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
   reportBox: { borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e14 },
-  reportTitle: { fontSize: tipografia.body, fontWeight: '900', marginBottom: espaciado.e4 },
+  reportTitle: { fontSize: tipografia.body, fontWeight: peso.titulo, marginBottom: espaciado.e4 },
   reportRow: { paddingVertical: espaciado.e11, borderBottomWidth: 1 },
   reportRowTxt: { fontSize: tipografia.body, fontWeight: peso.medio },
-  reportCancel: { fontSize: tipografia.body, fontWeight: '700', textAlign: 'center', marginTop: espaciado.e4 },
+  reportCancel: { fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center', marginTop: espaciado.e4 },
   lightbox: { flex: 1, backgroundColor: '#000000' },
   lightboxClose: { position: 'absolute', right: 16, zIndex: 10, width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' },
   lightboxCounter: { position: 'absolute', left: 18, zIndex: 10, backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4 },
-  lightboxCounterTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: '900' },
+  lightboxCounterTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo },
 });

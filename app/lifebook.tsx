@@ -782,8 +782,8 @@ function LifeBookContent() {
           style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e9 }}
         >
           <MapPin size={15} color={colors.primary} />
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>{city}</Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>▾ cambiar</Text>
+          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{city}</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>▾ cambiar</Text>
         </Pressable>
       ) : null}
       {/* ═══ CHIPS DE DISTANCIA (solo en la sección CIUDAD · 同城) ═══
@@ -823,7 +823,7 @@ function LifeBookContent() {
           />
           {!miPos && distIdx !== LB_DISTANCIAS.length - 1 ? (
             <Pressable onPress={() => { void pedirUbicacion(); }} accessibilityLabel="Activar la ubicación" style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 }}>
-              <Text style={{ color: brand.warning, fontSize: tipografia.caption, fontWeight: '800' }}>📍 Activar la ubicación</Text>
+              <Text style={{ color: brand.warning, fontSize: tipografia.caption, fontWeight: peso.maximo }}>📍 Activar la ubicación</Text>
             </Pressable>
           ) : null}
         </View>
@@ -899,7 +899,7 @@ function LifeBookContent() {
             style={{
               color: colors.danger,
               fontSize: tipografia.body,
-              fontWeight: '700',
+              fontWeight: peso.fuerte,
               textAlign: 'center',
               paddingHorizontal: espaciado.e30,
               marginBottom: espaciado.e14,
@@ -912,7 +912,7 @@ function LifeBookContent() {
             style={[styles.retryBtn, { backgroundColor: colors.primary }]}
           >
             <RefreshCw size={14} color={brand.white} />
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>
               Reintentar
             </Text>
           </Pressable>
@@ -1128,7 +1128,7 @@ function LifeBookContent() {
                       style={{
                         color: colors.textPrimary,
                         fontSize: 15,
-                        fontWeight: '800',
+                        fontWeight: peso.maximo,
                       }}
                     >
                       {o.label}
@@ -1160,7 +1160,7 @@ function LifeBookContent() {
                 style={{
                   textAlign: 'center',
                   color: colors.textSecondary,
-                  fontWeight: '700',
+                  fontWeight: peso.fuerte,
                   fontSize: tipografia.body,
                 }}
               >
@@ -1258,7 +1258,7 @@ function LifeBookContent() {
               style={{ marginTop: espaciado.e12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e7 }}
             >
               <MapPin size={15} color={colors.primary} />
-              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>
+              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                 🗺️ Elegir en el mapa o buscar
               </Text>
             </Pressable>
@@ -1381,7 +1381,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e18,
     paddingVertical: espaciado.e10,
   },
-  emptyTitle: { fontSize: tipografia.subtitle, fontWeight: '800' },
+  emptyTitle: { fontSize: tipografia.subtitle, fontWeight: peso.maximo },
   emptyText: {
     fontSize: tipografia.body,
     textAlign: 'center',
@@ -1425,7 +1425,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: espaciado.e14,
   },
-  sheetTitle: { fontSize: 17, fontWeight: '900' },
+  sheetTitle: { fontSize: 17, fontWeight: peso.titulo },
   sheetHint: { fontSize: tipografia.caption, marginTop: espaciado.e3, marginBottom: espaciado.e10 },
   cityOption: {
     flexDirection: 'row',
@@ -1442,7 +1442,7 @@ const styles = StyleSheet.create({
   },
   pubSheetTitle: {
     fontSize: 17,
-    fontWeight: '900',
+    fontWeight: peso.titulo,
     marginBottom: espaciado.e14,
     textAlign: 'center',
   },

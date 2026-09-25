@@ -91,7 +91,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
               return (
                 <Pressable key={t.key} onPress={() => setActiveTab(t.key)} accessibilityRole="button" accessibilityState={{ selected: on }} style={[s.tab, on && { backgroundColor: colors.card, borderColor: colors.primary, borderWidth: 1 }]}>
                   <Icon size={16} color={on ? colors.primary : colors.textSecondary} />
-                  <Text style={{ color: on ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }} numberOfLines={1}>{t.label}</Text>
+                  <Text style={{ color: on ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }} numberOfLines={1}>{t.label}</Text>
                 </Pressable>
               );
             })}
@@ -104,12 +104,12 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                 <View style={[s.card, { borderColor: colors.border, gap: espaciado.e10 }]}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                     <Wallet size={18} color={colors.primary} />
-                    <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>Ganancias</Text>
+                    <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>Ganancias</Text>
                   </View>
                   <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                     {PERIODS.map((p) => (
                       <Pressable key={p.key} onPress={() => setPeriod(p.key)} style={[s.chip, { flex: 1, borderColor: period === p.key ? colors.primary : colors.border, backgroundColor: period === p.key ? alpha(colors.primary, 0.08) : 'transparent' }]}>
-                        <Text style={{ color: period === p.key ? colors.primary : colors.textSecondary, fontWeight: '800', fontSize: tipografia.caption }}>{p.label}</Text>
+                        <Text style={{ color: period === p.key ? colors.primary : colors.textSecondary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>{p.label}</Text>
                       </Pressable>
                     ))}
                   </View>
@@ -118,16 +118,16 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                   {!loadingE && !errE && earnings && (
                     <>
                       <View style={{ alignItems: 'center', gap: espaciado.e2 }}>
-                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700' }}>NETO ({period === 'all' ? 'total' : period})</Text>
-                        <Text style={{ color: colors.success, fontSize: 30, fontWeight: '900' }}>{xaf(earnings.totalNet)}</Text>
+                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>NETO ({period === 'all' ? 'total' : period})</Text>
+                        <Text style={{ color: colors.success, fontSize: 30, fontWeight: peso.titulo }}>{xaf(earnings.totalNet)}</Text>
                       </View>
                       <View style={[s.statRow, { backgroundColor: alpha(colors.border, 0.2) }]}>
-                        <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>🚕 Taxi ciudad</Text>
-                        <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.body }}>{earnings.city.trips} viajes · {xaf(earnings.city.net)}</Text>
+                        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>🚕 Taxi ciudad</Text>
+                        <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>{earnings.city.trips} viajes · {xaf(earnings.city.net)}</Text>
                       </View>
                       <View style={[s.statRow, { backgroundColor: alpha(colors.border, 0.2) }]}>
-                        <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>🚌 Ciudad a Ciudad</Text>
-                        <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.body }}>{earnings.intercity.bookings} reservas · {xaf(earnings.intercity.gross)}</Text>
+                        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>🚌 Ciudad a Ciudad</Text>
+                        <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>{earnings.intercity.bookings} reservas · {xaf(earnings.intercity.gross)}</Text>
                       </View>
                     </>
                   )}
@@ -140,7 +140,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     accessibilityLabel="Historial de viajes"
                   >
                     <History size={16} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.body }}>Historial de viajes</Text>
+                    <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Historial de viajes</Text>
                     <ChevronRight size={16} color={colors.textSecondary} style={{ marginLeft: 'auto' }} />
                   </Pressable>
                 </View>
@@ -151,14 +151,14 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     <Star size={22} color={brand.warning} fill={brand.warning} />
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>Puntuación</Text>
+                    <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>Puntuación</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 }}>
                       {drRating > 0
                         ? `${drRating.toFixed(1)} ★ · ${driver.ratingCount} valoración(es)`
                         : 'Aún no tienes valoraciones suficientes.'}
                     </Text>
                   </View>
-                  {drRating > 0 && <Text style={{ color: colors.textPrimary, fontSize: 26, fontWeight: '900' }}>{drRating.toFixed(1)}</Text>}
+                  {drRating > 0 && <Text style={{ color: colors.textPrimary, fontSize: 26, fontWeight: peso.titulo }}>{drRating.toFixed(1)}</Text>}
                 </View>
               </View>
             )}
@@ -187,7 +187,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                   </View>
                 </Pressable>
                 <Pressable onPress={() => { onClose(); router.push('/food' as any); }} style={[s.vidaRow, { borderColor: colors.border }]}>
-                  <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>😋 Ver pedidos recientes de comida</Text>
+                  <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>😋 Ver pedidos recientes de comida</Text>
                   <ChevronRight size={16} color={colors.textSecondary} />
                 </Pressable>
               </View>
@@ -199,13 +199,13 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                 <View style={[s.card, { borderColor: colors.border, gap: 0 }]}>
                   <View style={[dh.row, { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border }]}>
                     <Moon size={18} color={colors.primary} />
-                    <Text style={{ flex: 1, color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Tema oscuro</Text>
+                    <Text style={{ flex: 1, color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Tema oscuro</Text>
                     <Switch value={isDark} onValueChange={(v) => setMode(v ? 'dark' : 'light')} trackColor={{ true: colors.primary }} />
                   </View>
                   <View style={[dh.row, { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border }]}>
                     <Globe size={18} color={colors.primary} />
                     <View style={{ flex: 1 }}>
-                      <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Idioma</Text>
+                      <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Idioma</Text>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>Español (Guinea Ecuatorial) · ES/FR/EN pendiente por fases</Text>
                     </View>
                     <ChevronRight size={16} color={colors.textSecondary} />
@@ -213,7 +213,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                   <Pressable onPress={() => setRulesOpen((v) => !v)} accessibilityRole="button" style={dh.row}>
                     <FileText size={18} color={colors.primary} />
                     <View style={{ flex: 1 }}>
-                      <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Normas y términos</Text>
+                      <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Normas y términos</Text>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>{rulesOpen ? 'Toca para ocultar' : 'Toca para leer las normas de la comunidad'}</Text>
                     </View>
                     <ChevronRight size={16} color={colors.textSecondary} />
@@ -240,7 +240,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                 <View style={[s.card, { borderColor: colors.border, gap: espaciado.e6 }]}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                     <ShieldCheck size={18} color={colors.primary} />
-                    <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Conductor verificado</Text>
+                    <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Conductor verificado</Text>
                   </View>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                     Tu cuenta de conductor está activa{drRating > 0 ? ` con ${drRating.toFixed(1)} ★` : ''}.
@@ -250,7 +250,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                 <Pressable onPress={handleLogout} accessibilityRole="button" accessibilityLabel="Cerrar sesión" style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }]}>
                   <LogOut size={18} color={colors.danger} />
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.danger, fontWeight: '900', fontSize: 15 }}>Cerrar sesión</Text>
+                    <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: 15 }}>Cerrar sesión</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>Solo desde aquí (por seguridad)</Text>
                   </View>
                   <ChevronRight size={16} color={colors.danger} />
@@ -274,9 +274,9 @@ const dh = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e13 },
   ratingBox: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   vidaTextWrap: { flex: 1, gap: espaciado.e2 },
-  vidaTitle: { color: brand.white, fontSize: 21, fontWeight: '900' },
+  vidaTitle: { color: brand.white, fontSize: 21, fontWeight: peso.titulo },
   vidaSub: { color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio },
-  vidaCta: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e6, textDecorationLine: 'underline' },
+  vidaCta: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e6, textDecorationLine: 'underline' },
   vidaArt: { width: 72, height: 72, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
 });
 

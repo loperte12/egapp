@@ -17,7 +17,7 @@
 import React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { alpha, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 import { absUrl } from '../../api/config';
 import type { LbAdjuntoRef } from '../../api/lifebookComentarios';
 
@@ -93,7 +93,7 @@ export function PublicacionTarjeta({ data, tint, colors, compacta = false }: {
       )}
 
       <View style={{ flex: 1 }}>
-        <Text numberOfLines={2} style={{ fontSize: compacta ? 12.5 : 13, fontWeight: '800', color: colors.textPrimary, lineHeight: compacta ? 17 : 18 }}>
+        <Text numberOfLines={2} style={{ fontSize: compacta ? 12.5 : 13, fontWeight: peso.maximo, color: colors.textPrimary, lineHeight: compacta ? 17 : 18 }}>
           {titulo}
         </Text>
         <Text numberOfLines={1} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>

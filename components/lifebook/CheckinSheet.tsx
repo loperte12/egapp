@@ -14,7 +14,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { CalendarCheck, Clock, X } from 'lucide-react-native';
 import type { LbPickedLocation } from './LocationPickerSheet';
 import { formaHoja } from './ui/Sheet';
@@ -87,7 +87,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
           <CalendarCheck size={18} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: espaciado.e8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             ¿Cuándo es la quedada?
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -98,7 +98,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
         <View style={[styles.placeRow, { backgroundColor: alpha(colors.primary, 0.08), borderColor: alpha(colors.primary, 0.28) }]}>
           <Text style={{ fontSize: 18 }}>📍</Text>
           <View style={{ flex: 1 }}>
-            <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>
+            <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>
               {place?.label ?? 'Sin lugar'}
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
@@ -109,7 +109,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
 
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e14 }}>
           <Clock size={15} color={colors.textSecondary} />
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }}>HORA</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>HORA</Text>
         </View>
 
         <ScrollView style={{ maxHeight: 260 }} keyboardShouldPersistTaps="handled">
@@ -121,7 +121,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
               style={({ pressed }) => [styles.opt, { backgroundColor: colors.surface, opacity: pressed ? 0.75 : 1 }]}
             >
               <Text style={{ fontSize: tipografia.subtitle }}>{o.icon ?? '📅'}</Text>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700', flex: 1 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte, flex: 1 }}>
                 {o.at.toLocaleString('es-GQ', { weekday: 'short', hour: '2-digit', minute: '2-digit' })}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{o.label}</Text>
@@ -144,7 +144,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
               accessibilityLabel="Crear la quedada con esa hora"
               style={({ pressed }) => [styles.smallCta, { backgroundColor: alpha(colors.primary, 0.14), opacity: pressed ? 0.8 : 1 }]}
             >
-              <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body }}>Usar</Text>
+              <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Usar</Text>
             </Pressable>
           </View>
         </ScrollView>

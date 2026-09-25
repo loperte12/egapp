@@ -225,7 +225,7 @@ export default function DriverOnboardingScreen() {
   if (loading) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ color: colors.textSecondary, fontWeight: '700' }}>Cargando tu alta…</Text>
+        <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte }}>Cargando tu alta…</Text>
       </View>
     );
   }
@@ -274,7 +274,7 @@ export default function DriverOnboardingScreen() {
               <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                 {([['national', 'Sí'], ['foreign', 'No (extranjero)']] as const).map(([v, l]) => (
                   <Pressable key={v} onPress={() => setNationality(v)} style={[s.chip, { borderColor: nationality === v ? colors.primary : colors.border }]}>
-                    <Text style={{ color: colors.textPrimary, fontWeight: '700' }}>{l}</Text>
+                    <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte }}>{l}</Text>
                   </Pressable>
                 ))}
               </View>
@@ -292,7 +292,7 @@ export default function DriverOnboardingScreen() {
                 <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                   {['car', 'van', 'truck'].map((t) => (
                     <Pressable key={t} onPress={() => setVehicle((v) => ({ ...v, vehicleType: t }))} style={[s.chip, { borderColor: vehicle.vehicleType === t ? colors.primary : colors.border }]}>
-                      <Text style={{ color: colors.textPrimary, fontWeight: '700' }}>{t === 'car' ? 'Coche' : t === 'van' ? 'Furgoneta' : 'Camión'}</Text>
+                      <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte }}>{t === 'car' ? 'Coche' : t === 'van' ? 'Furgoneta' : 'Camión'}</Text>
                     </Pressable>
                   ))}
                 </View>
@@ -335,7 +335,7 @@ export default function DriverOnboardingScreen() {
                   </Pressable>
                 )}
                 {vehicle.vehiclePhoto.startsWith('captured://') && (
-                  <Text style={{ fontSize: tipografia.micro, color: colors.secondary, fontWeight: '700' }}>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.secondary, fontWeight: peso.fuerte }}>
                     ⚠️ Captura de prueba (sin cámara real). En el dispositivo se tomará la foto real.
                   </Text>
                 )}
@@ -357,13 +357,13 @@ export default function DriverOnboardingScreen() {
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                         <Text style={[s.docLabel, { color: colors.textPrimary }]}>{d.label}</Text>
                         <View style={[s.badge, { backgroundColor: req ? colors.danger + '22' : colors.border }]}>
-                          <Text style={{ fontSize: 10, fontWeight: '800', color: req ? colors.danger : colors.textSecondary }}>
+                          <Text style={{ fontSize: 10, fontWeight: peso.maximo, color: req ? colors.danger : colors.textSecondary }}>
                             {req ? 'OBLIGATORIO' : d.code === 'residence_permit' ? 'OPCIONAL (solo extranjeros)' : 'OPCIONAL'}
                           </Text>
                         </View>
                       </View>
                       {d.note && <Text style={[s.docNote, { color: colors.textSecondary }]}>{d.note}</Text>}
-                      <Text style={{ color: done ? colors.success : colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e2 }}>
+                      <Text style={{ color: done ? colors.success : colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
                         {done ? `✓ ${d.photos === 2 ? 'frente + reverso' : 'foto'}` : 'Toca para fotografiar'}
                       </Text>
                     </View>
@@ -428,9 +428,9 @@ export default function DriverOnboardingScreen() {
         {capturing && step === 'docs' && (
           <View style={s.cameraBox}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingBottom: espaciado.e6 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>{capturing.label}</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>{capturing.label}</Text>
               <Pressable onPress={() => setCapturing(null)} hitSlop={10}>
-                <Text style={{ color: colors.danger, fontWeight: '800' }}>Cancelar</Text>
+                <Text style={{ color: colors.danger, fontWeight: peso.maximo }}>Cancelar</Text>
               </Pressable>
             </View>
             <CameraCapture
@@ -448,12 +448,12 @@ export default function DriverOnboardingScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-    title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
+    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
     content: { padding: espaciado.e20, gap: espaciado.e16 },
     block: { gap: espaciado.e12 },
-    big: { fontSize: tipografia.title, fontWeight: '900', color: c.textPrimary, textAlign: 'center' },
+    big: { fontSize: tipografia.title, fontWeight: peso.titulo, color: c.textPrimary, textAlign: 'center' },
     body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: peso.medio },
-    label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary },
+    label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary },
     stepsRow: { flexDirection: 'row', justifyContent: 'center', gap: espaciado.e10 },
     stepDot: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
     vehicleBox: { gap: espaciado.e10, borderWidth: 1.5, borderRadius: radios.lg, padding: espaciado.e14 },
@@ -461,10 +461,10 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     colorRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
     colorChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, borderWidth: 1.2, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 },
     colorDot: { width: 16, height: 16, borderRadius: radios.sm, borderWidth: 1 },
-    colorTxt: { fontSize: tipografia.caption, fontWeight: '800', maxWidth: 74 },
+    colorTxt: { fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 74 },
     vehiclePreview: { height: 150, borderRadius: 14, borderWidth: 1 },
     docRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1.5, borderRadius: 14, padding: espaciado.e12 },
-    docLabel: { fontSize: tipografia.body, fontWeight: '800', flexShrink: 1 },
+    docLabel: { fontSize: tipografia.body, fontWeight: peso.maximo, flexShrink: 1 },
     docNote: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 },
     badge: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: 6 },
     cameraBox: { borderRadius: 20, overflow: 'hidden', height: 380 },

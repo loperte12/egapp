@@ -283,7 +283,7 @@ const s = StyleSheet.create({
    *  usos. Migrarlo a 700 o a 900 cambiaría el aspecto de todos ellos, así que es una decisión de
    *  diseño pendiente y no una que se tome dentro de un refactor de tarjetas. Todo lo demás de este
    *  fichero —`peso.titulo`, `peso.fuerte`, `trazo.fino` y cada tamaño y radio— va por token. */
-  titulo: { fontSize: tipografia.body, fontWeight: '800', color: brand.white, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
+  titulo: { fontSize: tipografia.body, fontWeight: peso.maximo, color: brand.white, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   /** Todo lo demás de la pastilla —fondo, borde, radio, relleno y tipografía— lo pone `Precio`, que
    *  es quien sabe que la cifra y su unidad son una sola pieza y no pueden partirse en dos líneas.
    *  Aquí sólo el hueco con el título, y en la escala de espaciado. */

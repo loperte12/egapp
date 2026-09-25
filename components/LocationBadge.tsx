@@ -10,7 +10,7 @@
  */
 
 import React from 'react';
-import { espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 import { Platform, Pressable, StyleSheet, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MapPin, ChevronDown } from 'lucide-react-native';
@@ -80,5 +80,5 @@ const styles = StyleSheet.create({
       android: { elevation: 4 },
     }),
   },
-  label: { fontSize: tipografia.caption, fontWeight: '700', maxWidth: 230, letterSpacing: -0.2 },
+  label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, maxWidth: 230, letterSpacing: -0.2 },
 });

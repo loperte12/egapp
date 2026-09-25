@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { brand, espaciado, tipografia } from '@egrouteplan/ui-kit';
+import { brand, espaciado, tipografia, peso} from '@egrouteplan/ui-kit';
 
 interface State { error: Error | null; }
 type Sink = (err: Error) => void;
@@ -74,8 +74,8 @@ function CrashView({ error }: { error: Error }) {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: '#1A0A0A' },
   content: { padding: espaciado.e20, paddingTop: 80 },
-  title: { color: brand.danger, fontSize: tipografia.title, fontWeight: '900', marginBottom: espaciado.e12 },
-  msg: { color: '#FFD2D2', fontSize: 15, fontWeight: '700', marginBottom: espaciado.e12 },
+  title: { color: brand.danger, fontSize: tipografia.title, fontWeight: peso.titulo, marginBottom: espaciado.e12 },
+  msg: { color: '#FFD2D2', fontSize: 15, fontWeight: peso.fuerte, marginBottom: espaciado.e12 },
   box: { backgroundColor: '#2A1010', borderRadius: 10, padding: espaciado.e12 },
   stack: { color: '#FFB3B3', fontSize: tipografia.caption, fontFamily: 'monospace' },
   hint: { color: '#999', fontSize: tipografia.caption, marginTop: espaciado.e16, textAlign: 'center' },

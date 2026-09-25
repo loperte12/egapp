@@ -172,7 +172,7 @@ export default function WorkPlanesScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: '700' }}>Cargando planes…</Text>
+        <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: peso.fuerte }}>Cargando planes…</Text>
       </View>
     );
   }
@@ -194,7 +194,7 @@ export default function WorkPlanesScreen() {
 
         {myPlan && (
           <View style={{ backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14 }}>
-            <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>
+            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>
               Tu plan: {myPlan.planName} · {activeJobs}/{myPlan.offerLimit} ofertas activas
             </Text>
             {myPlan.expiresAt && (
@@ -207,13 +207,13 @@ export default function WorkPlanesScreen() {
 
         {error && ordered.length === 0 && (
           <View style={{ alignItems: 'center', paddingVertical: espaciado.e30, paddingHorizontal: espaciado.e24 }}>
-            <Text style={{ color: colors.danger, fontWeight: '700', textAlign: 'center' }}>{error}</Text>
+            <Text style={{ color: colors.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
             <Pressable
               onPress={() => void load()}
               accessibilityRole="button" accessibilityLabel="Reintentar cargar los planes"
               style={({ pressed }) => [{ marginTop: espaciado.e12, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
             >
-              <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+              <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
             </Pressable>
           </View>
         )}
@@ -287,20 +287,20 @@ export default function WorkPlanesScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  title: { fontSize: 22, fontWeight: '800', color: c.textPrimary, marginBottom: espaciado.e6 },
+  title: { fontSize: 22, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e6 },
   subtitle: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 19, marginBottom: espaciado.e18 },
   planCard: { borderRadius: radios.lg, padding: espaciado.e18, marginBottom: espaciado.e16 },
-  planName: { fontSize: 18, fontWeight: '700' },
+  planName: { fontSize: 18, fontWeight: peso.fuerte },
   currentBadge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
   currentBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.medio },
-  price: { fontSize: tipografia.title, fontWeight: '800', color: c.textPrimary },
+  price: { fontSize: tipografia.title, fontWeight: peso.maximo, color: c.textPrimary },
   period: { fontSize: tipografia.body, color: c.textSecondary },
   featureRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: espaciado.e6, borderBottomWidth: 1, borderBottomColor: c.border },
   featureLabel: { fontSize: tipografia.body, color: c.textSecondary, flex: 1 },
   featureValue: { fontSize: tipografia.body, fontWeight: peso.medio, color: c.textPrimary },
   selectButton: { borderRadius: 10, paddingVertical: espaciado.e14, alignItems: 'center' },
-  selectButtonText: { color: brand.white, fontSize: 15, fontWeight: '700' },
+  selectButtonText: { color: brand.white, fontSize: 15, fontWeight: peso.fuerte },
   paymentNote: { backgroundColor: c.card, borderRadius: radios.md, padding: espaciado.e16, marginTop: espaciado.e8, borderWidth: 1 },
-  paymentNoteTitle: { fontSize: 15, fontWeight: '700', color: c.textPrimary, marginBottom: espaciado.e8 },
+  paymentNoteTitle: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e8 },
   paymentNoteText: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 22 },
 });

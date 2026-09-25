@@ -260,7 +260,7 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
         {busy ? (
           <ActivityIndicator size="small" color={brand.white} />
         ) : (
-          <Text style={{ color: brand.white, fontWeight: '900', fontSize: 14.5 }}>
+          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 }}>
             Crear grupo{picked.length ? ` (${picked.length + 1})` : ''}
           </Text>
         )}
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
   },
   collage: { flexDirection: 'row', flexWrap: 'wrap', width: 48, justifyContent: 'center' },
   collageImg: { width: 22, height: 22, borderRadius: 6, margin: 1 },
-  titleInput: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body, fontWeight: '700' },
+  titleInput: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body, fontWeight: peso.fuerte },
   chip: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e5,
     borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, marginRight: espaciado.e6,
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e12, height: 36, marginTop: espaciado.e8,
   },
   optChip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6 },
-  sectionTitle: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', marginTop: espaciado.e10, marginBottom: espaciado.e4, letterSpacing: 0.5 },
+  sectionTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, textTransform: 'uppercase', marginTop: espaciado.e10, marginBottom: espaciado.e4, letterSpacing: 0.5 },
   check: {
     width: 20, height: 20, borderRadius: 10, borderWidth: 1.5,
     alignItems: 'center', justifyContent: 'center',

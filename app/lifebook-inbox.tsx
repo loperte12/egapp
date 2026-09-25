@@ -14,7 +14,7 @@ import React, { useCallback, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, EmptyState, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, AtSign, ChevronRight, Heart, UserPlus } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { messagesApi, type LbInboxItem, type LbInboxType } from '../api/messages';
@@ -103,7 +103,7 @@ function InboxContent() {
         <Pressable onPress={() => router.back()} hitSlop={8} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 17, flex: 1, marginLeft: espaciado.e10 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 17, flex: 1, marginLeft: espaciado.e10 }}>
           Notificaciones
         </Text>
         <Pressable
@@ -127,7 +127,7 @@ function InboxContent() {
               accessibilityState={{ selected: isActive }}
               style={[styles.tab, { backgroundColor: isActive ? colors.primary : colors.surface }]}
             >
-              <Text numberOfLines={1} style={{ color: isActive ? brand.white : colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
+              <Text numberOfLines={1} style={{ color: isActive ? brand.white : colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                 {t.label}
               </Text>
             </Pressable>
@@ -142,9 +142,9 @@ function InboxContent() {
         </View>
       ) : error ? (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12, padding: espaciado.e24 }}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', textAlign: 'center' }}>{error}</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
           <Pressable onPress={() => load(active)} style={{ backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e9 }}>
-            <Text style={{ color: colors.primary, fontWeight: '800' }}>Reintentar</Text>
+            <Text style={{ color: colors.primary, fontWeight: peso.maximo }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -223,7 +223,7 @@ function InboxCard({ item, colors, busy, onOpen, onFollow, onThank }: {
           <Image source={{ uri: item.actor.avatarUrl }} style={styles.avatar} />
         ) : (
           <View style={[styles.avatar, styles.avatarFallback, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-            <Text style={{ color: colors.primary, fontWeight: '800' }}>
+            <Text style={{ color: colors.primary, fontWeight: peso.maximo }}>
               {(item.actor.name ?? '?').trim().charAt(0).toUpperCase()}
             </Text>
           </View>
@@ -233,7 +233,7 @@ function InboxCard({ item, colors, busy, onOpen, onFollow, onThank }: {
 
       <View style={{ flex: 1 }}>
         <Text style={{ fontSize: tipografia.body, lineHeight: 18 }}>
-          <Text style={{ color: colors.textPrimary, fontWeight: '700' }}>{item.actor.name ?? 'Usuario'}</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte }}>{item.actor.name ?? 'Usuario'}</Text>
           <Text style={{ color: colors.textSecondary }}> {item.action}</Text>
         </Text>
 
@@ -258,12 +258,12 @@ function InboxCard({ item, colors, busy, onOpen, onFollow, onThank }: {
             >
               {busy
                 ? <ActivityIndicator size="small" color={brand.white} />
-                : <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: '700' }}>Seguir de vuelta</Text>}
+                : <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Seguir de vuelta</Text>}
             </Pressable>
           ) : null}
           {item.kind === 'likes' ? (
             <Pressable onPress={onThank} style={[styles.actionBtn, { backgroundColor: alpha(colors.primary, 0.1) }]}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Agradecer por mensaje</Text>
+              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Agradecer por mensaje</Text>
             </Pressable>
           ) : null}
         </View>

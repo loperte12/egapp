@@ -248,12 +248,12 @@ export default function OnboardingAuthScreen() {
 const styles = StyleSheet.create({
   content: { padding: espaciado.e24, paddingBottom: 48, gap: espaciado.e16 },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e8 },
-  headerTitle: { fontSize: 17, fontWeight: '800' },
+  headerTitle: { fontSize: 17, fontWeight: peso.maximo },
   block: { gap: espaciado.e12, alignItems: 'stretch' },
   iconWrap: { width: 80, height: 80, borderRadius: 40, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: espaciado.e12 },
-  title: { fontSize: tipografia.title, fontWeight: '800', textAlign: 'center' },
+  title: { fontSize: tipografia.title, fontWeight: peso.maximo, textAlign: 'center' },
   body: { fontSize: tipografia.body, lineHeight: 20, textAlign: 'center', fontWeight: peso.medio },
   actions: { gap: espaciado.e10, marginTop: espaciado.e8 },
   gap: { height: 8 },
-  error: { fontSize: tipografia.body, fontWeight: '700', textAlign: 'center' },
+  error: { fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' },
 });

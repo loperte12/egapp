@@ -108,8 +108,8 @@ export default function ConductorHubScreen() {
               {/* Checklist de onboarding */}
               <View style={[s.checklistCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
                 <View style={[s.checklistHeader, { borderBottomColor: colors.border }]}>
-                  <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.body }}>Alta de conductor</Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
+                  <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Alta de conductor</Text>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                     {isAuthenticated ? '0 de 5 completados' : 'Inicia sesión para empezar'}
                   </Text>
                 </View>
@@ -117,10 +117,10 @@ export default function ConductorHubScreen() {
                   <View key={stp.label} style={[s.checkRow, { borderBottomColor: colors.border }]}>
                     <Circle size={18} color={colors.textSecondary} strokeWidth={2} />
                     <View style={{ flex: 1 }}>
-                      <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>{stp.label}</Text>
+                      <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>{stp.label}</Text>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>{stp.hint}</Text>
                     </View>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '800' }}>Paso {i + 1}</Text>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>Paso {i + 1}</Text>
                   </View>
                 ))}
               </View>
@@ -161,7 +161,7 @@ export default function ConductorHubScreen() {
               <ShieldCheck size={20} color={colors.success} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.success, fontWeight: '900', fontSize: tipografia.body }}>Conductor aprobado</Text>
+              <Text style={{ color: colors.success, fontWeight: peso.titulo, fontSize: tipografia.body }}>Conductor aprobado</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 }}>
                 {vehicle || 'Vehículo no registrado'} · Modo actual: {mode === 'intercity' ? 'Ciudad a Ciudad' : mode === 'city' ? 'Taxi urbano' : 'Ambos'}
               </Text>
@@ -185,7 +185,7 @@ export default function ConductorHubScreen() {
               <CarTaxiFront size={24} color={brand.success} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>Taxi urbano</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>Taxi urbano</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>
                 Sal en línea, recibe solicitudes en la ciudad y gestiona tus carreras.
               </Text>
@@ -205,7 +205,7 @@ export default function ConductorHubScreen() {
               <Bus size={24} color={brand.primary} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>Ciudad a Ciudad</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>Ciudad a Ciudad</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>
                 Publica viajes interurbanos (Malabo ↔ Bata, etc.), reservas y cobros.
               </Text>
@@ -219,12 +219,12 @@ export default function ConductorHubScreen() {
               <Truck size={24} color={colors.textSecondary} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>Mudanza</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>Mudanza</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>
                 Traslados de carga y mudanzas. Llegará pronto a tu zona.
               </Text>
             </View>
-            <Text style={{ color: colors.textSecondary, fontSize: 9, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.4 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: 9, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.4 }}>
               Próximamente
             </Text>
           </View>
@@ -239,21 +239,21 @@ export default function ConductorHubScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-    title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
+    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
     center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e28, gap: espaciado.e12 },
-    big: { fontSize: tipografia.title, fontWeight: '900', textAlign: 'center' },
+    big: { fontSize: tipografia.title, fontWeight: peso.titulo, textAlign: 'center' },
     body: { fontSize: tipografia.body, lineHeight: 20, textAlign: 'center', fontWeight: peso.medio },
     content: { padding: espaciado.e20, gap: espaciado.e12 },
     statusCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14 },
     statusIcon: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
-    question: { fontSize: 17, fontWeight: '900', marginTop: espaciado.e8 },
+    question: { fontSize: 17, fontWeight: peso.titulo, marginTop: espaciado.e8 },
     sub: { fontSize: tipografia.caption, lineHeight: 18, fontWeight: peso.medio, marginTop: -6 },
     opt: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14, borderRadius: 18, borderWidth: 1.5, padding: espaciado.e16 },
     optIcon: { width: 52, height: 52, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },
     // Checklist onboarding (estilo Uber Driver)
     onboard: { padding: espaciado.e16, gap: espaciado.e12, flexGrow: 1 },
     welcomeCard: { alignItems: 'center', borderRadius: 18, borderWidth: 1, padding: espaciado.e20, gap: espaciado.e6 },
-    welcomeTitle: { fontSize: 19, fontWeight: '900', textAlign: 'center', marginTop: espaciado.e6 },
+    welcomeTitle: { fontSize: 19, fontWeight: peso.titulo, textAlign: 'center', marginTop: espaciado.e6 },
     welcomeSub: { fontSize: tipografia.body, color: c.textSecondary, textAlign: 'center', lineHeight: 18, fontWeight: peso.medio },
     checklistCard: { borderRadius: 18, borderWidth: 1, paddingHorizontal: espaciado.e16, overflow: 'hidden' },
     checklistHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e12, borderBottomWidth: 1 },

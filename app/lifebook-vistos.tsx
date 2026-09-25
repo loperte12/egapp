@@ -16,7 +16,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, EmptyState, espaciado, InlineError, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, InlineError, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Clock } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceApi, type LbViewedProduct } from '../api/commerce';
@@ -104,14 +104,14 @@ function VistosContent() {
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
         <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-          <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>Historial de productos</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>Historial de productos</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>Solo lo ves tú</Text>
         </View>
         {items.length && !loading ? (
           <Pressable onPress={borrar} hitSlop={8} disabled={borrando} accessibilityLabel="Borrar el historial">
             {borrando
               ? <ActivityIndicator size="small" color={colors.textSecondary} />
-              : <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }}>Borrar</Text>}
+              : <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Borrar</Text>}
           </Pressable>
         ) : null}
       </View>
@@ -172,7 +172,7 @@ function VistosContent() {
                     {item.times > 1 ? ` · ${item.times} veces` : ''}
                   </Text>
                   {!item.available ? (
-                    <Text style={{ color: colors.danger, fontSize: 10, fontWeight: '800' }}>Ya no está a la venta</Text>
+                    <Text style={{ color: colors.danger, fontSize: 10, fontWeight: peso.maximo }}>Ya no está a la venta</Text>
                   ) : null}
                 </View>
               }

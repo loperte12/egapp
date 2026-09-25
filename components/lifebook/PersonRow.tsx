@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { alpha, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 
 export function PersonRow({ name, avatarUrl, subtitle, actions }: {
   name: string; avatarUrl?: string | null; subtitle?: string; actions: React.ReactNode;
@@ -17,11 +17,11 @@ export function PersonRow({ name, avatarUrl, subtitle, actions }: {
         <Image source={{ uri: avatarUrl }} style={styles.personAvatar} />
       ) : (
         <View style={[styles.personAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-          <Text style={{ color: colors.primary, fontWeight: '900' }}>{name.trim().charAt(0).toUpperCase() || '?'}</Text>
+          <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>{name.trim().charAt(0).toUpperCase() || '?'}</Text>
         </View>
       )}
       <View style={{ flex: 1 }}>
-        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.body }}>{name}</Text>
+        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>{name}</Text>
         {subtitle ? <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{subtitle}</Text> : null}
       </View>
       <View style={{ flexDirection: 'row', gap: espaciado.e6 }}>{actions}</View>

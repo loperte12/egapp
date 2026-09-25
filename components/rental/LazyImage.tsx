@@ -149,6 +149,6 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   placeholderEmoji: { fontSize: 26 },
   placeholderText: { fontSize: tipografia.micro, color: c.textSecondary, fontWeight: peso.medio },
   retryBtn: { marginTop: espaciado.e2, backgroundColor: c.primary, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e6, borderRadius: radios.sm },
-  retryText: { color: brand.white, fontSize: tipografia.caption, fontWeight: '700' },
+  retryText: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.fuerte },
   loading: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center' },
 });

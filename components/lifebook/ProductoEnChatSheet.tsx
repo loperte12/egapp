@@ -22,7 +22,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ChevronDown, Minus, Plus, ShoppingCart, Store, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { commerceApi, type LbProduct, type LbProductVariant } from '../../api/commerce';
@@ -121,7 +121,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
         </Pressable>
 
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e6 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 }} numberOfLines={1}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 }} numberOfLines={1}>
             {expandido ? 'Confirmar la compra' : 'Producto'}
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -152,7 +152,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
             )}
 
             <View>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }} numberOfLines={expandido ? 1 : 3}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }} numberOfLines={expandido ? 1 : 3}>
                 {producto.title}
               </Text>
               {!expandido && producto.shortDescription ? (
@@ -160,10 +160,10 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                   {producto.shortDescription}
                 </Text>
               ) : null}
-              <Text style={{ color: colors.primary, fontSize: 19, fontWeight: '900', marginTop: espaciado.e6 }}>
+              <Text style={{ color: colors.primary, fontSize: 19, fontWeight: peso.titulo, marginTop: espaciado.e6 }}>
                 {lbPriceLabel(precioUnitario, producto.priceMode, lbXaf)}
                 {cantidad > 1 && precioUnitario !== null ? (
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                     {'   '}{cantidad} × {lbXaf(precioUnitario)}
                   </Text>
                 ) : null}
@@ -179,7 +179,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
             {/* Variantes: se eligen aquí mismo, sin salir del chat. */}
             {Array.isArray(producto.variants) && producto.variants.length > 0 ? (
               <View>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', marginBottom: espaciado.e6 }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginBottom: espaciado.e6 }}>
                   Elige una opción{necesitaVariante ? ' (obligatorio)' : ''}
                 </Text>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
@@ -197,7 +197,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                           backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface,
                         }]}
                       >
-                        <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                        <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                           {v.name}{v.priceXaf !== null && v.priceXaf !== undefined ? ` · ${lbXaf(v.priceXaf)}` : ''}
                         </Text>
                       </Pressable>
@@ -209,11 +209,11 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
 
             {/* Cantidad */}
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', flex: 1 }}>Cantidad</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, flex: 1 }}>Cantidad</Text>
               <Pressable onPress={() => setCantidad((n) => Math.max(1, n - 1))} accessibilityLabel="Quitar una unidad" style={[styles.paso, { borderColor: colors.border }]}>
                 <Minus size={14} color={colors.textPrimary} />
               </Pressable>
-              <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15, minWidth: 26, textAlign: 'center' }}>{cantidad}</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15, minWidth: 26, textAlign: 'center' }}>{cantidad}</Text>
               <Pressable onPress={() => setCantidad((n) => Math.min(99, n + 1))} accessibilityLabel="Añadir una unidad" style={[styles.paso, { borderColor: colors.border }]}>
                 <Plus size={14} color={colors.textPrimary} />
               </Pressable>
@@ -224,13 +224,13 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
               <View style={{ gap: espaciado.e6, marginTop: espaciado.e4 }}>
                 <View style={[styles.linea, { borderTopColor: alpha(colors.border, 0.6) }]}>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Producto</Text>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                     {variante ? `${producto.title} · ${variante.name}` : producto.title}
                   </Text>
                 </View>
                 <View style={styles.linea}>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Subtotal</Text>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{total === null ? '—' : lbXaf(total)}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{total === null ? '—' : lbXaf(total)}</Text>
                 </View>
                 <View style={styles.linea}>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Envío</Text>
@@ -241,8 +241,8 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>se elige en la caja</Text>
                 </View>
                 <View style={[styles.linea, { marginTop: espaciado.e4 }]}>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>Total a pagar</Text>
-                  <Text style={{ color: colors.primary, fontSize: 17, fontWeight: '900' }}>{total === null ? 'A consultar' : lbXaf(total)}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Total a pagar</Text>
+                  <Text style={{ color: colors.primary, fontSize: 17, fontWeight: peso.titulo }}>{total === null ? 'A consultar' : lbXaf(total)}</Text>
                 </View>
                 <Pressable
                   onPress={() => {
@@ -261,7 +261,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                   accessibilityLabel="Pagar"
                   style={[styles.pagar, { backgroundColor: colors.primary }]}
                 >
-                  <Text style={{ color: brand.white, fontSize: 15.5, fontWeight: '900' }}>
+                  <Text style={{ color: brand.white, fontSize: 15.5, fontWeight: peso.titulo }}>
                     Pagar{total !== null ? ` ${lbXaf(total)}` : ''}
                   </Text>
                 </Pressable>
@@ -283,7 +283,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
               style={[styles.accionSec, { borderColor: colors.primary }]}
             >
               {ocupado ? <ActivityIndicator size="small" color={colors.primary} /> : (
-                <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900' }}>Añadir al carrito</Text>
+                <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Añadir al carrito</Text>
               )}
             </Pressable>
             <Pressable
@@ -294,7 +294,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
               accessibilityLabel="Comprar ahora"
               style={[styles.accionPri, { backgroundColor: colors.primary }]}
             >
-              <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '900' }}>Comprar ahora</Text>
+              <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo }}>Comprar ahora</Text>
             </Pressable>
           </View>
         ) : null}
@@ -306,7 +306,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
             style={[styles.encoger, { borderTopColor: alpha(colors.border, 0.6) }]}
           >
             <ChevronDown size={16} color={colors.textSecondary} />
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }}>Seguir mirando el producto</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Seguir mirando el producto</Text>
           </Pressable>
         ) : null}
       </View>

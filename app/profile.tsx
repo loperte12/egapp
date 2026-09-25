@@ -372,7 +372,7 @@ function ProfileContent() {
                 <CarTaxiFront size={20} color={brand.secondary} />
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={{ color: brand.secondary, fontSize: 10.5, fontWeight: '900', letterSpacing: 0.3 }}>{activeTripLabel(String(activeTrip.status))}</Text>
+                <Text style={{ color: brand.secondary, fontSize: 10.5, fontWeight: peso.titulo, letterSpacing: 0.3 }}>{activeTripLabel(String(activeTrip.status))}</Text>
                 <Text style={[tripCard.title, { color: colors.textPrimary }]}>Mi viaje en curso</Text>
                 <Text style={[tripCard.sub, { color: colors.textSecondary }]} numberOfLines={1}>
                   {String(activeTrip.pickup_address ?? 'Punto de recogida')} → {String(activeTrip.dropoff_address ?? 'Destino')}
@@ -390,7 +390,7 @@ function ProfileContent() {
           */}
           {negocios && negocios.length ? (
             <View style={{ marginBottom: espaciado.e16 }}>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '900', letterSpacing: 0.5, marginBottom: espaciado.e7, marginLeft: espaciado.e2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.5, marginBottom: espaciado.e7, marginLeft: espaciado.e2 }}>
                 {negocios.length > 1 ? `TUS NEGOCIOS (${negocios.length})` : 'TU NEGOCIO'}
               </Text>
 
@@ -422,7 +422,7 @@ function ProfileContent() {
               `@Roles('ADMIN')`; esto es solo no enseñar una puerta que no se puede abrir. */}
           {profile?.role === 'ADMIN' ? (
             <View style={{ marginBottom: espaciado.e16 }}>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '900', letterSpacing: 0.5, marginBottom: espaciado.e7, marginLeft: espaciado.e2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.5, marginBottom: espaciado.e7, marginLeft: espaciado.e2 }}>
                 MODERACIÓN
               </Text>
               <FilaNegocio
@@ -601,10 +601,10 @@ function FilaNegocio({ icono, titulo, detalle, nota, onPress }: {
         {icono}
       </View>
       <View style={{ flex: 1 }}>
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{titulo}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{titulo}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 17 }}>{detalle}</Text>
         {nota ? (
-          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e3, lineHeight: 16 }}>
+          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e3, lineHeight: 16 }}>
             {nota}
           </Text>
         ) : null}
@@ -625,7 +625,7 @@ function ChipBtn({ label, onPress }: { label: string; onPress: () => void }) {
 
 const chipStyles = StyleSheet.create({
   chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
-  label: { fontSize: tipografia.caption, fontWeight: '700' },
+  label: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
 });
 
 /** Modal "Cambiar foto de perfil": SOLO cambia la foto. Usa core/pickImage
@@ -686,8 +686,8 @@ function PhotoModal({ visible, profile, onClose, onSaved }: { visible: boolean; 
               style={[styles.pickBtn, { backgroundColor: colors.surface, borderColor: colors.border, opacity: busy || (picking !== null && picking !== 'camera') ? 0.45 : 1 }]}
             >
               {picking === 'camera'
-                ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>Procesando…</Text></View>
-                : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>📷 Cámara</Text>}
+                ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
+                : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>📷 Cámara</Text>}
             </Pressable>
             <Pressable
               onPress={() => pick(false)}
@@ -697,11 +697,11 @@ function PhotoModal({ visible, profile, onClose, onSaved }: { visible: boolean; 
               style={[styles.pickBtn, { backgroundColor: colors.surface, borderColor: colors.border, opacity: busy || (picking !== null && picking !== 'library') ? 0.45 : 1 }]}
             >
               {picking === 'library'
-                ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>Procesando…</Text></View>
-                : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>🖼️ Galería</Text>}
+                ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
+                : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>🖼️ Galería</Text>}
             </Pressable>
           </View>
-          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', textAlign: 'center' }}>{error}</Text> : null}
+          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text> : null}
           <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e6 }}>
             <View style={{ flex: 1 }}><GhostButton title="Cancelar" onPress={onClose} disabled={busy} /></View>
             <View style={{ flex: 1.4 }}><PrimaryButton title={busy ? 'Guardando…' : 'Guardar foto'} onPress={save} loading={busy} disabled={!newPhoto} /></View>
@@ -812,7 +812,7 @@ function LocationModal({ visible, profile, onClose, onSaved }: { visible: boolea
                   const active = city === c;
                   return (
                     <Pressable key={c} onPress={() => setCity(active ? '' : c)} style={[styles.cityChip, { backgroundColor: active ? alpha(colors.primary, 0.14) : colors.surface, borderColor: active ? colors.primary : colors.border }]}>
-                      <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{c}</Text>
+                      <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{c}</Text>
                     </Pressable>
                   );
                 })}
@@ -821,7 +821,7 @@ function LocationModal({ visible, profile, onClose, onSaved }: { visible: boolea
           ) : (
             <FormField label="Ciudad" placeholder="Escribe tu ciudad…" value={city} onChangeText={setCity} />
           )}
-          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>{error}</Text> : null}
+          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text> : null}
           <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e8 }}>
             <View style={{ flex: 1 }}><GhostButton title="Cancelar" onPress={onClose} disabled={busy} /></View>
             <View style={{ flex: 1.4 }}><PrimaryButton title={busy ? 'Guardando…' : 'Guardar ubicación'} onPress={save} loading={busy} /></View>
@@ -875,7 +875,7 @@ function ProfessionModal({ visible, profile, onClose, onSaved }: { visible: bool
             })}
           </ScrollView>
           <FormField label="Otra profesión…" placeholder="Escribe tu profesión" value={custom} onChangeText={setCustom} />
-          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>{error}</Text> : null}
+          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text> : null}
           <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e6 }}>
             <View style={{ flex: 1 }}><GhostButton title="Cancelar" onPress={onClose} disabled={busy} /></View>
             <View style={{ flex: 1.4 }}>
@@ -898,7 +898,7 @@ function activeTripLabel(status: string): string {
 const tripCard = StyleSheet.create({
   card: { borderRadius: 18, borderWidth: 1.5, padding: espaciado.e14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, marginTop: espaciado.e14 },
   iconBox: { width: 40, height: 40, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-  title: { fontSize: 14.5, fontWeight: '900', marginTop: 1 },
+  title: { fontSize: 14.5, fontWeight: peso.titulo, marginTop: 1 },
   sub: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 },
 });
 
@@ -913,42 +913,42 @@ const styles = StyleSheet.create({
   coverScrimBottom: { position: 'absolute', left: 0, right: 0, bottom: 0, height: '72%', backgroundColor: 'rgba(8,14,24,0.50)' },
   coverActions: { position: 'absolute', left: 12, alignItems: 'flex-start', gap: espaciado.e8, zIndex: 6 },
   editCapsule: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: radios.full, backgroundColor: 'rgba(0,0,0,0.35)' },
-  editCapsuleTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800' },
+  editCapsuleTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo },
   menuGhostBtn: { width: 30, height: 30, alignItems: 'center', justifyContent: 'center' },
 
   identityBlock: { paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e16 },
   identityTopRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 },
   avatar: { width: 76, height: 76, borderRadius: 38, borderWidth: 3, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   avatarImg: { width: '100%', height: '100%' },
-  avatarText: { fontSize: 30, fontWeight: '900', color: brand.white, textShadowColor: 'rgba(0,0,0,0.4)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
+  avatarText: { fontSize: 30, fontWeight: peso.titulo, color: brand.white, textShadowColor: 'rgba(0,0,0,0.4)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   nameRow: { flexDirection: 'row', alignItems: 'center' },
-  name: { fontSize: 21, fontWeight: '900', color: brand.white, flexShrink: 1, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
+  name: { fontSize: 21, fontWeight: peso.titulo, color: brand.white, flexShrink: 1, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
   egIdRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e3 },
-  egId: { color: 'rgba(255,255,255,0.95)', fontSize: 10.5, fontWeight: '800', letterSpacing: 0.3 },
+  egId: { color: 'rgba(255,255,255,0.95)', fontSize: 10.5, fontWeight: peso.maximo, letterSpacing: 0.3 },
   qrMini: { width: 20, height: 20, borderRadius: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.18)' },
   locRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 },
   locTxt: { color: 'rgba(255,255,255,0.92)', fontSize: tipografia.micro, fontWeight: peso.medio },
   addStatusBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, alignSelf: 'flex-start', borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e9, paddingVertical: 3.5, marginTop: espaciado.e6, backgroundColor: 'rgba(0,0,0,0.25)' },
-  addStatusTxt: { color: 'rgba(255,255,255,0.95)', fontSize: 10.5, fontWeight: '800' },
+  addStatusTxt: { color: 'rgba(255,255,255,0.95)', fontSize: 10.5, fontWeight: peso.maximo },
 
   statsRow: { flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e10 },
   statItem: { alignItems: 'center', minWidth: 62 },
-  statValue: { color: brand.white, fontSize: 15, fontWeight: '900' },
-  statLabel: { color: 'rgba(255,255,255,0.85)', fontSize: 9.5, fontWeight: '700', marginTop: 1 },
+  statValue: { color: brand.white, fontSize: 15, fontWeight: peso.titulo },
+  statLabel: { color: 'rgba(255,255,255,0.85)', fontSize: 9.5, fontWeight: peso.fuerte, marginTop: 1 },
   ratingValueRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 },
 
   bioTxt: { color: 'rgba(255,255,255,0.92)', fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e6, lineHeight: 16 },
 
   linksArea: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5, marginTop: espaciado.e8 },
   linkChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: radios.full, borderWidth: 1, borderColor: 'rgba(255,255,255,0.35)', paddingHorizontal: espaciado.e8, paddingVertical: 3.5, maxWidth: '92%' },
-  linkChipTxt: { color: brand.white, fontSize: 10.5, fontWeight: '700', maxWidth: 130 },
+  linkChipTxt: { color: brand.white, fontSize: 10.5, fontWeight: peso.fuerte, maxWidth: 130 },
   // Chip de OCUPACIÓN: va el primero en la fila de correos/enlaces (delante).
   occupChip: { backgroundColor: 'rgba(255,209,102,0.22)' },
 
   lbTitleWrap: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e18 },
-  lbTitleCover: { fontSize: 26, fontWeight: '900', color: brand.white, letterSpacing: 0.3, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 },
+  lbTitleCover: { fontSize: 26, fontWeight: peso.titulo, color: brand.white, letterSpacing: 0.3, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 },
   publishCoverBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, backgroundColor: 'rgba(255,255,255,0.24)', borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderWidth: 1, borderColor: 'rgba(255,255,255,0.55)' },
-  publishCoverTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: '900' },
+  publishCoverTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo },
 
   body: { paddingHorizontal: espaciado.e18 },
   tabsRow: { flexDirection: 'row', gap: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth, marginTop: espaciado.e4 },
@@ -958,7 +958,7 @@ const styles = StyleSheet.create({
 
   lbEmpty: { borderRadius: radios.lg, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e16, marginTop: espaciado.e12, alignItems: 'center' },
   lbEmptyIcon: { width: 52, height: 52, borderRadius: 26, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e8 },
-  lbEmptyTitle: { fontSize: tipografia.body, fontWeight: '900', textAlign: 'center' },
+  lbEmptyTitle: { fontSize: tipografia.body, fontWeight: peso.titulo, textAlign: 'center' },
   lbEmptyBody: { fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e4, lineHeight: 16 },
   lbActions: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 },
   version: { textAlign: 'center', fontSize: tipografia.micro, marginTop: espaciado.e16, fontWeight: peso.medio },
@@ -969,12 +969,12 @@ const styles = StyleSheet.create({
   sheetCard: { borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: espaciado.e20, paddingBottom: 34, gap: espaciado.e12 },
   sheetCardTall: { borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: espaciado.e18, paddingBottom: 34, maxHeight: '88%' },
   sheetHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  sheetTitle: { fontSize: 17, fontWeight: '900' },
+  sheetTitle: { fontSize: 17, fontWeight: peso.titulo },
   sheetSub: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 },
   pickRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e4, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(0,0,0,0.06)' },
   pickRowTxt: { flex: 1, fontSize: tipografia.body, fontWeight: peso.medio },
-  pickRowCode: { fontSize: tipografia.micro, fontWeight: '800' },
-  pickLabel: { fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e4 },
+  pickRowCode: { fontSize: tipografia.micro, fontWeight: peso.maximo },
+  pickLabel: { fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e4 },
   cityChips: { gap: espaciado.e6 },
   cityChip: { borderRadius: radios.full, borderWidth: 1.2, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6 },
 
@@ -982,17 +982,17 @@ const styles = StyleSheet.create({
   qrCard: { width: '86%', maxWidth: 340, borderRadius: 22, padding: espaciado.e18, alignItems: 'center' },
   qrSub: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2, alignSelf: 'flex-start' },
   qrBox: { backgroundColor: brand.white, padding: espaciado.e12, borderRadius: 14, marginTop: espaciado.e14 },
-  qrId: { fontSize: 15, fontWeight: '900', marginTop: espaciado.e12, letterSpacing: 0.5 },
+  qrId: { fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e12, letterSpacing: 0.5 },
   qrHint: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e6, textAlign: 'center' },
   emptyCard: { width: '84%', maxWidth: 330, borderRadius: 22, padding: espaciado.e22, alignItems: 'center' },
   emptyIcon: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e10 },
-  emptyTitle: { fontSize: tipografia.subtitle, fontWeight: '900', textAlign: 'center' },
+  emptyTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, textAlign: 'center' },
   emptyBody: { fontSize: tipografia.body, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 19 },
   emptyOk: { marginTop: espaciado.e16, borderRadius: radios.full, paddingHorizontal: espaciado.e26, paddingVertical: espaciado.e10 },
-  emptyOkTxt: { color: brand.white, fontWeight: '900', fontSize: tipografia.body },
+  emptyOkTxt: { color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body },
   photoLg: { width: 110, height: 110, borderRadius: 55, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   photoLgImg: { width: '100%', height: '100%' },
-  photoLgTxt: { fontSize: 40, fontWeight: '900' },
+  photoLgTxt: { fontSize: 40, fontWeight: peso.titulo },
   pickBtn: { flex: 1, borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e12, minHeight: 44 },
   pickBusy: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
 });

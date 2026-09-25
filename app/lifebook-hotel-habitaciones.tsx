@@ -157,7 +157,7 @@ function Contenido() {
         <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Volver" hitSlop={12} style={styles.volver}>
           <ArrowLeft size={21} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1 }}>Habitaciones</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>Habitaciones</Text>
         <Pressable
           onPress={() => router.push('/lifebook-hotel-habitacion' as never)}
           accessibilityRole="button"
@@ -190,7 +190,7 @@ function Contenido() {
           ) : null}
 
           {rooms.length ? (
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e10 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e10 }}>
               {rooms.length} tipo(s) · {totalUnidades} habitación(es) a la venta · {publicadas} publicada(s)
             </Text>
           ) : null}
@@ -239,16 +239,16 @@ function Contenido() {
                       del precio. Antes iban en la misma fila y el chip «Se puede reservar» se
                       comía la mitad del nombre: el dato del dueño perdía contra una etiqueta.
                     */}
-                    <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }} numberOfLines={2}>
+                    <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }} numberOfLines={2}>
                       {r.name}
                     </Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e6 }}>
-                      <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>
+                      <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }}>
                         {xaf(r.basePriceXaf)}
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}> por noche</Text>
                       </Text>
                       <View style={[styles.etiqueta, { backgroundColor: alpha(est.color, 0.12) }]}>
-                        <Text style={{ color: est.color, fontSize: tipografia.micro, fontWeight: '900' }}>{est.txt}</Text>
+                        <Text style={{ color: est.color, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{est.txt}</Text>
                       </View>
                     </View>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>{resumenHabitacion(r)}</Text>
@@ -272,7 +272,7 @@ function Contenido() {
                         accessibilityLabel={abierta ? 'Ver menos' : 'Ver la descripción completa'}
                         style={styles.verMas}
                       >
-                        <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                        <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                           {abierta ? 'Ver menos' : 'Ver más'}
                         </Text>
                       </Pressable>
@@ -280,14 +280,14 @@ function Contenido() {
                   </View>
                 ) : (
                   <View style={[styles.descripcion, { borderTopColor: colors.border }]}>
-                    <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700' }}>
+                    <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                       Sin descripción: el huésped decide con lo que le cuentes (toca para escribirla)
                     </Text>
                   </View>
                 )}
 
                 {r.productStatus === 'pending' && r.isActive ? (
-                  <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e8, lineHeight: 18 }}>
+                  <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8, lineHeight: 18 }}>
                     ⏳ En revisión: la administración tiene que aprobarla antes de que se pueda reservar. Mientras
                     tanto puedes ponerle precios y cerrar fechas.
                   </Text>
@@ -314,12 +314,12 @@ function Contenido() {
                   return (
                     <View style={[styles.comprobacion, { borderTopColor: colors.border }]}>
                       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e7 }}>
-                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '900', letterSpacing: 0.5 }}>
+                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.5 }}>
                           FICHA
                         </Text>
                         <Text style={{
                           color: faltan.length ? colors.secondary : colors.success,
-                          fontSize: tipografia.caption, fontWeight: '900', marginLeft: 'auto',
+                          fontSize: tipografia.caption, fontWeight: peso.titulo, marginLeft: 'auto',
                         }}>
                           {faltan.length ? `Falta: ${faltan.join(' · ')}` : 'Completa'}
                         </Text>
@@ -345,11 +345,11 @@ function Contenido() {
                     style={[styles.pieBtn, { borderColor: colors.border }]}
                   >
                     <CalendarDays size={16} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Precios y fechas</Text>
+                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Precios y fechas</Text>
                   </Pressable>
 
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginLeft: 'auto' }}>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                       {ocupado === r.id ? 'Cambiando…' : r.isActive ? 'A la venta' : 'Apagada'}
                     </Text>
                     <Switch
@@ -367,7 +367,7 @@ function Contenido() {
 
           {!rooms.length ? (
             <View style={[styles.tarjeta, { backgroundColor: colors.card, borderColor: colors.border }]}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>Todavía no tienes habitaciones</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: peso.titulo }}>Todavía no tienes habitaciones</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e6 }}>
                 Un «tipo de habitación» es lo que se vende: por ejemplo «Doble con aire», con su precio por noche,
                 cuántas tienes de ese tipo y su estancia mínima. De cada tipo se reservan unidades sueltas, así que
@@ -406,7 +406,7 @@ function Sello({ ok, texto, colors }: {
       borderWidth: 1, borderColor: color, borderRadius: radios.full,
       paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3,
     }}>
-      <Text style={{ color, fontSize: tipografia.micro, fontWeight: '800' }}>
+      <Text style={{ color, fontSize: tipografia.micro, fontWeight: peso.maximo }}>
         {ok ? '' : '⚠ '}{texto}
       </Text>
     </View>
@@ -430,7 +430,7 @@ function ChipFiltro({ activo, texto, onPress }: { activo: boolean; texto: string
         backgroundColor: activo ? alpha(colors.primary, 0.12) : colors.surface,
       }}
     >
-      <Text style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800' }}>
+      <Text style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
         {texto}
       </Text>
     </Pressable>

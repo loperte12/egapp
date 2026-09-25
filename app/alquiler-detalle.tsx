@@ -135,7 +135,7 @@ function FeatureItem({ value, label }: { value: string | number; label: string }
   const { colors } = useTheme();
   return (
     <View style={styles(colors).featureItem}>
-      <Text style={{ fontSize: 18, fontWeight: '700', color: colors.textPrimary }}>{value}</Text>
+      <Text style={{ fontSize: 18, fontWeight: peso.fuerte, color: colors.textPrimary }}>{value}</Text>
       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{label}</Text>
     </View>
   );
@@ -340,7 +340,7 @@ export default function AlquilerDetalleScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: '700' }}>{TEXTS.loading}</Text>
+        <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: peso.fuerte }}>{TEXTS.loading}</Text>
       </View>
     );
   }
@@ -349,7 +349,7 @@ export default function AlquilerDetalleScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }}>
         <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><Flag size={26} color={colors.danger} /></View>
-        <Text style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.subtitle, textAlign: 'center' }}>{TEXTS.loadErrorTitle}</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.subtitle, textAlign: 'center' }}>{TEXTS.loadErrorTitle}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e16 }}>{error}</Text>
         <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
           <GhostButton title="Volver" onPress={() => router.back()} />
@@ -358,7 +358,7 @@ export default function AlquilerDetalleScreen() {
             accessibilityRole="button" accessibilityLabel={TEXTS.retry}
             style={({ pressed }) => [{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
           >
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>{TEXTS.retry}</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>{TEXTS.retry}</Text>
           </Pressable>
         </View>
       </View>
@@ -407,7 +407,7 @@ export default function AlquilerDetalleScreen() {
           <View style={{ position: 'absolute', top: insets.top + 8, left: 56, flexDirection: 'row', gap: espaciado.e6 }}>
             {prop.isFeatured && <FeaturedBadge />}
             {prop.isPremium && <PremiumBadge />}
-            {prop.isSocialHousing && <View style={{ backgroundColor: brand.success, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 }}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: '700' }}>Vivienda social</Text></View>}
+            {prop.isSocialHousing && <View style={{ backgroundColor: brand.success, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 }}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>Vivienda social</Text></View>}
           </View>
 
           {/* Acciones: atrás + favorito + compartir */}
@@ -577,7 +577,7 @@ export default function AlquilerDetalleScreen() {
           style={({ pressed }) => [{ flex: 1, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: espaciado.e6, backgroundColor: colors.surface, opacity: busy || !hasPhone ? 0.5 : pressed ? 0.85 : 1 }]}
         >
           <Phone size={15} color={colors.textPrimary} />
-          <Text style={{ fontSize: 15, fontWeight: '700', color: colors.textPrimary }}>{TEXTS.call}</Text>
+          <Text style={{ fontSize: 15, fontWeight: peso.fuerte, color: colors.textPrimary }}>{TEXTS.call}</Text>
         </Pressable>
         <Pressable
           onPress={() => void handleContact('whatsapp')}
@@ -586,7 +586,7 @@ export default function AlquilerDetalleScreen() {
           style={({ pressed }) => [{ flex: 2, backgroundColor: brand.whatsapp, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: espaciado.e6, opacity: busy || !hasPhone ? 0.6 : pressed ? 0.85 : 1 }]}
         >
           {busy ? <ActivityIndicator size="small" color={brand.white} /> : <MessageSquare size={15} color={brand.white} />}
-          <Text style={{ fontSize: 15, fontWeight: '700', color: brand.white }}>{busy ? '…' : TEXTS.whatsapp}</Text>
+          <Text style={{ fontSize: 15, fontWeight: peso.fuerte, color: brand.white }}>{busy ? '…' : TEXTS.whatsapp}</Text>
         </Pressable>
       </View>
     </View>
@@ -595,13 +595,13 @@ export default function AlquilerDetalleScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   content: { padding: espaciado.e16 },
-  price: { flexShrink: 1, fontSize: 24, fontWeight: '800' },
-  title: { fontSize: tipografia.title, fontWeight: '700', marginBottom: espaciado.e6 },
+  price: { flexShrink: 1, fontSize: 24, fontWeight: peso.maximo },
+  title: { fontSize: tipografia.title, fontWeight: peso.fuerte, marginBottom: espaciado.e6 },
   typeLabel: { fontSize: tipografia.body, marginBottom: espaciado.e16 },
   featuresGrid: { flexDirection: 'row', borderRadius: radios.md, padding: espaciado.e14, marginBottom: espaciado.e20, gap: espaciado.e8, borderWidth: 1 },
   featureItem: { flex: 1, alignItems: 'center' },
   section: { marginBottom: espaciado.e22 },
-  sectionTitle: { fontSize: tipografia.subtitle, fontWeight: '700', marginBottom: espaciado.e10 },
+  sectionTitle: { fontSize: tipografia.subtitle, fontWeight: peso.fuerte, marginBottom: espaciado.e10 },
   costRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: 1, gap: espaciado.e12 },
   costLabel: { fontSize: tipografia.body, flex: 1 },
   poiRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: 1, gap: espaciado.e12 },

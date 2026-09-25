@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, Compass, Lock, QrCode, Search, ShieldQuestion, Users, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -166,14 +166,14 @@ function GroupsContent() {
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
         <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900' }}>Descubrir grupos</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo }}>Descubrir grupos</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Rutas y comunidades abiertas cerca de ti</Text>
         </View>
         {/* Parte 28 (G4): entrar con el código que te hayan pasado */}
         <Pressable onPress={() => { setCodeOpen(true); setCodeError(null); }} hitSlop={8} accessibilityLabel="Tengo un código de ruta"
           style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 }}>
           <QrCode size={14} color={colors.primary} />
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Código</Text>
+          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Código</Text>
         </Pressable>
       </View>
 
@@ -211,7 +211,7 @@ function GroupsContent() {
               accessibilityLabel={`Ciudad ${item.label}`}
               style={[styles.chip, { backgroundColor: active ? alpha(colors.primary, 0.14) : colors.surface, borderColor: active ? colors.primary : 'transparent' }]}
             >
-              <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{item.label}</Text>
+              <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{item.label}</Text>
             </Pressable>
           );
         }}
@@ -231,7 +231,7 @@ function GroupsContent() {
               accessibilityLabel={`Categoría ${item.label}`}
               style={[styles.chip, { backgroundColor: active ? alpha(colors.secondary, 0.14) : colors.surface, borderColor: active ? colors.secondary : 'transparent' }]}
             >
-              <Text style={{ color: active ? colors.secondary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{item.label}</Text>
+              <Text style={{ color: active ? colors.secondary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{item.label}</Text>
             </Pressable>
           );
         }}
@@ -273,13 +273,13 @@ function GroupsContent() {
                 <Image source={{ uri: absUrl(item.photoUrl) }} style={styles.groupPhoto} />
               ) : (
                 <View style={[styles.groupPhoto, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                  <Text style={{ color: colors.primary, fontWeight: '900', fontSize: 18 }}>
+                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: 18 }}>
                     {(item.title || '?').trim().charAt(0).toUpperCase()}
                   </Text>
                 </View>
               )}
               <View style={{ flex: 1 }}>
-                <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 14.5 }} numberOfLines={1}>{item.title}</Text>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 14.5 }} numberOfLines={1}>{item.title}</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e3 }}>
                   <Users size={12} color={colors.textSecondary} />
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{item.membersCount}</Text>
@@ -294,19 +294,19 @@ function GroupsContent() {
                   {item.myRole ? (
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
                       <Check size={12} color={colors.primary} />
-                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>
+                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                         {item.myRole === 'owner' ? 'Eres el organizador' : 'Ya estás dentro'}
                       </Text>
                     </View>
                   ) : item.requestState === 'pending' ? (
-                    <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '800' }}>Solicitud enviada</Text>
+                    <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Solicitud enviada</Text>
                   ) : (
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
                       {item.joinMode === 'open'
-                        ? <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Entrada libre</Text>
+                        ? <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Entrada libre</Text>
                         : item.joinMode === 'approval'
-                          ? <><Lock size={12} color={colors.secondary} /><Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '800' }}>Pide entrar</Text></>
-                          : <><ShieldQuestion size={12} color={colors.secondary} /><Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: '800' }}>Responde para entrar</Text></>}
+                          ? <><Lock size={12} color={colors.secondary} /><Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Pide entrar</Text></>
+                          : <><ShieldQuestion size={12} color={colors.secondary} /><Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Responde para entrar</Text></>}
                     </View>
                   )}
                 </View>
@@ -337,7 +337,7 @@ function GroupsContent() {
         <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e10 }}>
             <QrCode size={18} color={colors.primary} />
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: espaciado.e8 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
               Tengo un código de ruta
             </Text>
             <Pressable onPress={() => setCodeOpen(false)} hitSlop={10} accessibilityLabel="Cerrar">
@@ -361,7 +361,7 @@ function GroupsContent() {
           <Pressable onPress={abrirPorCodigo} disabled={codeBusy} accessibilityLabel="Abrir el grupo con ese código"
             style={[styles.cta, { backgroundColor: colors.primary }]}>
             {codeBusy ? <ActivityIndicator size="small" color={brand.white} /> : (
-              <Text style={{ color: brand.white, fontWeight: '900', fontSize: 15 }}>Abrir el grupo</Text>
+              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Abrir el grupo</Text>
             )}
           </Pressable>
         </View>
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
   codeInput: {
-    borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: 22, fontWeight: '900',
+    borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: 22, fontWeight: peso.titulo,
     letterSpacing: 6, textAlign: 'center',
   },
   cta: { marginTop: espaciado.e14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },

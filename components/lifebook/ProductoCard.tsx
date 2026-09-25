@@ -14,7 +14,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Package, ShieldCheck, Store } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { lbXaf } from '../../constants/lifebook';
@@ -73,13 +73,13 @@ export function ProductoCard({ item, onPress, pie, apagado }: {
           <Package size={22} color={alpha(colors.primary, 0.5)} />
         </View>
       )}
-      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e5 }}>
+      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e5 }}>
         {item.title}
       </Text>
-      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '900', marginTop: espaciado.e2 }}>
+      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
         {lbPriceLabel(item.priceXaf, item.priceMode as never, lbXaf)}
         {item.oldPriceXaf ? (
-          <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '700', textDecorationLine: 'line-through' }}>
+          <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte, textDecorationLine: 'line-through' }}>
             {'  '}{lbXaf(item.oldPriceXaf)}
           </Text>
         ) : null}
@@ -95,7 +95,7 @@ export function ProductoCard({ item, onPress, pie, apagado }: {
         {item.shop.isVerified ? <ShieldCheck size={11} color={colors.success} /> : <Store size={11} color={colors.textSecondary} />}
         <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, flex: 1 }}>{item.shop.name}</Text>
         {ventas > 0 ? (
-          <Text style={{ color: colors.textSecondary, fontSize: 10, fontWeight: '700' }}>
+          <Text style={{ color: colors.textSecondary, fontSize: 10, fontWeight: peso.fuerte }}>
             {ventas} vendido{ventas === 1 ? '' : 's'}
           </Text>
         ) : null}

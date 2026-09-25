@@ -8,7 +8,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ArrowLeft, ScanLine } from 'lucide-react-native';
-import { brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
@@ -23,7 +23,7 @@ export default function LifeBookScan() {
         <Pressable onPress={() => router.back()} hitSlop={8} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={brand.white} />
         </Pressable>
-        <Text style={{ color: brand.white, fontWeight: '800', marginLeft: espaciado.e10, fontSize: tipografia.subtitle }}>Escanear</Text>
+        <Text style={{ color: brand.white, fontWeight: peso.maximo, marginLeft: espaciado.e10, fontSize: tipografia.subtitle }}>Escanear</Text>
       </View>
 
       {/* Aquí se integrará expo-camera / lector de QR */}

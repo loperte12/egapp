@@ -10,7 +10,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Plus, Trash2, Vote, X } from 'lucide-react-native';
 import { formaHoja } from './ui/Sheet';
 
@@ -65,7 +65,7 @@ export function VoteSheet({ visible, onClose, onSubmit }: Props) {
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
           <Vote size={18} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: '900', flex: 1, marginLeft: espaciado.e8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             Crear votación
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -115,7 +115,7 @@ export function VoteSheet({ visible, onClose, onSubmit }: Props) {
             style={({ pressed }) => [styles.addRow, { borderColor: alpha(colors.border, 0.9), opacity: pressed ? 0.7 : 1 }]}
           >
             <Plus size={16} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.body, marginLeft: espaciado.e6 }}>
+            <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body, marginLeft: espaciado.e6 }}>
               Añadir opción ({options.length}/{OPTIONS_MAX})
             </Text>
           </Pressable>
@@ -136,7 +136,7 @@ export function VoteSheet({ visible, onClose, onSubmit }: Props) {
             opacity: pressed ? 0.85 : 1,
           }]}
         >
-          <Text style={{ color: brand.white, fontWeight: '900', fontSize: 15 }}>Publicar votación</Text>
+          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Publicar votación</Text>
         </Pressable>
       </View>
     </Modal>

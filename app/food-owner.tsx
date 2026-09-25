@@ -427,10 +427,10 @@ export default function FoodOwnerScreen() {
         accion={
           <>
             <Tactil onPress={() => router.push('/food-rider' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Pantalla de repartidor">
-              <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>Repartir</Text>
+              <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Repartir</Text>
             </Tactil>
             <Tactil onPress={() => router.push('/food-orders?as=owner' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Pedidos recibidos">
-              <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>Pedidos</Text>
+              <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Pedidos</Text>
             </Tactil>
           </>
         }
@@ -444,7 +444,7 @@ export default function FoodOwnerScreen() {
           <Text style={[s_center.title, { color: colors.textPrimary }]}>Algo salió mal</Text>
           <Text style={[s_center.sub, { color: colors.textSecondary }]}>{error}</Text>
           <Pressable onPress={() => load('initial')} accessibilityRole="button" style={s_center.btnPrimary}>
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -483,12 +483,12 @@ export default function FoodOwnerScreen() {
                   style={[s.photoBtn, { borderColor: ACCENT }]}>
                   {photoBusy
                     ? <ActivityIndicator size="small" color={ACCENT} />
-                    : <Text style={{ color: ACCENT, fontWeight: '800', fontSize: tipografia.body }}>📷 {photoUrl ? 'Cambiar foto' : 'Añadir foto'}</Text>}
+                    : <Text style={{ color: ACCENT, fontWeight: peso.maximo, fontSize: tipografia.body }}>📷 {photoUrl ? 'Cambiar foto' : 'Añadir foto'}</Text>}
                 </Pressable>
                 {photoUrl ? (
                   <Pressable onPress={() => setPhotoUrl(null)} accessibilityRole="button" accessibilityLabel="Quitar foto"
                     style={{ marginTop: espaciado.e6, alignSelf: 'flex-start' }}>
-                    <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>Quitar foto</Text>
+                    <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Quitar foto</Text>
                   </Pressable>
                 ) : (
                   <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e6 }}>Máx 8 MB · se ve en la lista de restaurantes</Text>
@@ -554,7 +554,7 @@ export default function FoodOwnerScreen() {
 
             {rest?.status === 'rejected' && rest.rejectionReason ? (
               <View style={[s.rejectedBox, { backgroundColor: alpha(colors.danger, 0.08) }]}>
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700' }}>Motivo: {rest.rejectionReason}</Text>
+                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Motivo: {rest.rejectionReason}</Text>
               </View>
             ) : null}
 
@@ -572,14 +572,14 @@ export default function FoodOwnerScreen() {
                   error={iPriceErr ?? undefined}
                 />
                 {pricePreview ? (
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT, marginTop: espaciado.e4, marginLeft: espaciado.e2 }}>{pricePreview}</Text>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT, marginTop: espaciado.e4, marginLeft: espaciado.e2 }}>{pricePreview}</Text>
                 ) : null}
                 <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e10 }}>
                   {CATS.map((c) => (
                     <Pressable key={c.key} onPress={() => setICat(c.key)} accessibilityRole="radio"
                       accessibilityState={{ checked: iCat === c.key }}
                       style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: iCat === c.key ? colors.primary : colors.surface }}>
-                      <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: iCat === c.key ? brand.white : colors.textPrimary }}>{c.label}</Text>
+                      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: iCat === c.key ? brand.white : colors.textPrimary }}>{c.label}</Text>
                     </Pressable>
                   ))}
                 </View>
@@ -600,11 +600,11 @@ export default function FoodOwnerScreen() {
                       <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e8 }}>
                         <Pressable onPress={() => { void elegirFotoPlato().then((u) => { if (u) setIPhoto(u); }); }}
                           hitSlop={8} accessibilityRole="button" accessibilityLabel="Cambiar la foto del plato">
-                          <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT }}>Cambiar</Text>
+                          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>Cambiar</Text>
                         </Pressable>
                         <Pressable onPress={() => setIPhoto(null)} hitSlop={8}
                           accessibilityRole="button" accessibilityLabel="Quitar la foto del plato">
-                          <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.danger }}>Quitar</Text>
+                          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.danger }}>Quitar</Text>
                         </Pressable>
                       </View>
                     </View>
@@ -622,7 +622,7 @@ export default function FoodOwnerScreen() {
                     ) : (
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                         <Camera size={16} color={ACCENT} />
-                        <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT }}>Hacer o elegir una foto</Text>
+                        <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>Hacer o elegir una foto</Text>
                       </View>
                     )}
                   </Pressable>
@@ -645,10 +645,10 @@ export default function FoodOwnerScreen() {
                   accessibilityLabel="Detalles del plato, opcional"
                   style={[s.detailsHead, { backgroundColor: alpha(ACCENT, 0.06), borderColor: alpha(ACCENT, 0.25) }]}
                 >
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
                     Detalles del plato (opcional)
                   </Text>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: '800', color: ACCENT }}>{showDetails ? '−' : '+'}</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: ACCENT }}>{showDetails ? '−' : '+'}</Text>
                 </Pressable>
 
                 {showDetails && (
@@ -682,7 +682,7 @@ export default function FoodOwnerScreen() {
                             accessibilityLabel={SPICE_LABEL[lvl]}
                             style={[s.chip, { borderColor: active ? ACCENT : colors.border, backgroundColor: active ? alpha(ACCENT, 0.1) : colors.surface }]}
                           >
-                            <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: active ? ACCENT : colors.textPrimary }}>
+                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: active ? ACCENT : colors.textPrimary }}>
                               {SPICE_ICON[lvl]} {SPICE_LABEL[lvl]}
                             </Text>
                           </Pressable>
@@ -711,7 +711,7 @@ export default function FoodOwnerScreen() {
                       accessibilityLabel="Bebida incluida"
                       style={[s.switchRow, { borderColor: colors.border }]}
                     >
-                      <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.textPrimary }}>🥤 Incluye bebida</Text>
+                      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>🥤 Incluye bebida</Text>
                       <View style={[s.switchTrack, { backgroundColor: iDrink ? ACCENT : colors.border }]}>
                         <View style={[s.switchKnob, { transform: [{ translateX: iDrink ? 18 : 0 }] }]} />
                       </View>
@@ -840,11 +840,11 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
         </Pressable>
       )}
       <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-        <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>{item.name}</Text>
+        <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>{item.name}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-          <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: ACCENT }}>{formatXAF(item.priceXaf)}</Text>
-          <Text style={{ fontSize: 10.5, fontWeight: '700', color: statusColor }}>{statusText}</Text>
-          {!photo ? <Text style={{ fontSize: 10.5, fontWeight: '700', color: brand.warning }}>· falta foto</Text> : null}
+          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>{formatXAF(item.priceXaf)}</Text>
+          <Text style={{ fontSize: 10.5, fontWeight: peso.fuerte, color: statusColor }}>{statusText}</Text>
+          {!photo ? <Text style={{ fontSize: 10.5, fontWeight: peso.fuerte, color: brand.warning }}>· falta foto</Text> : null}
         </View>
       </View>
       {busy ? (
@@ -877,7 +877,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
         <Text style={{ fontSize: tipografia.caption, fontWeight: peso.medio, color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
         {hint ? <Text style={{ fontSize: 10.5, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
       </View>
-      {onPress ? <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>→</Text> : null}
+      {onPress ? <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>→</Text> : null}
     </View>
   );
   return onPress ? (
@@ -903,7 +903,7 @@ const s_row = StyleSheet.create({
 
 const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: espaciado.e28 },
-  title: { fontSize: 15, fontWeight: '800', textAlign: 'center' },
+  title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
   btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
 });
@@ -911,7 +911,7 @@ const s_center = StyleSheet.create({
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   reqBox: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14 },
-  sectionTitle: { fontSize: tipografia.body, fontWeight: '800', marginBottom: espaciado.e10 },
+  sectionTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, marginBottom: espaciado.e10 },
   photo: { width: 84, height: 84, borderRadius: 14 },
   photoFallback: { backgroundColor: alpha(ACCENT, 0.08), alignItems: 'center', justifyContent: 'center' },
   photoBtn: { borderWidth: 1.5, borderRadius: radios.md, paddingVertical: espaciado.e10, alignItems: 'center' },
@@ -922,9 +922,9 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   // ── Detalles del plato (041) ──
   detailsHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },
   detailsBody: { borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e8, backgroundColor: c.background },
-  fieldLabel: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary, marginBottom: espaciado.e6, marginLeft: espaciado.e2 },
+  fieldLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, marginBottom: espaciado.e6, marginLeft: espaciado.e2 },
   fieldHint: { fontSize: 10.5, color: c.textSecondary, marginTop: espaciado.e5, marginLeft: espaciado.e2, lineHeight: 15 },
-  fieldErr: { fontSize: tipografia.micro, fontWeight: '700', color: c.danger, marginTop: espaciado.e5, marginLeft: espaciado.e2 },
+  fieldErr: { fontSize: tipografia.micro, fontWeight: peso.fuerte, color: c.danger, marginTop: espaciado.e5, marginLeft: espaciado.e2 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
   chip: { borderWidth: 1, borderRadius: radios.lg, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
   switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },

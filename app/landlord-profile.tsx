@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { espaciado, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { espaciado, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { LandlordCard, type LandlordCardData } from '../components/rental/LandlordCard';
 import { rentalApi, type RentalProperty } from '../api/rental';
 import { PropertyCard } from '../components/rental/PropertyCard';
@@ -67,8 +67,8 @@ export default function LandlordProfileScreen() {
   if (!landlord) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }}>
-        <Text style={{ color: colors.danger, fontWeight: '700' }}>{error ?? 'Arrendador no encontrado'}</Text>
-        <Pressable onPress={() => router.back()} style={{ marginTop: espaciado.e12 }}><Text style={{ color: colors.primary, fontWeight: '700' }}>Volver</Text></Pressable>
+        <Text style={{ color: colors.danger, fontWeight: peso.fuerte }}>{error ?? 'Arrendador no encontrado'}</Text>
+        <Pressable onPress={() => router.back()} style={{ marginTop: espaciado.e12 }}><Text style={{ color: colors.primary, fontWeight: peso.fuerte }}>Volver</Text></Pressable>
       </View>
     );
   }
@@ -110,5 +110,5 @@ export default function LandlordProfileScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  sectionTitle: { fontSize: tipografia.subtitle, fontWeight: '700', color: c.textPrimary, marginBottom: espaciado.e10 },
+  sectionTitle: { fontSize: tipografia.subtitle, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e10 },
 });

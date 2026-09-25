@@ -32,7 +32,7 @@ function BulletList({ title, items, dot, check }: { title: string; items: string
   const { colors } = useTheme();
   return (
     <View style={{ marginBottom: espaciado.e20 }}>
-      <Text style={{ fontSize: 15, fontWeight: '700', color: colors.textPrimary, marginBottom: espaciado.e10 }}>{title}</Text>
+      <Text style={{ fontSize: 15, fontWeight: peso.fuerte, color: colors.textPrimary, marginBottom: espaciado.e10 }}>{title}</Text>
       {items.map((it, i) => (
         <View key={i} style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: espaciado.e8 }}>
           {dot ? (
@@ -216,7 +216,7 @@ export default function WorkDetailScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: '700' }}>Cargando oferta…</Text>
+        <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: peso.fuerte }}>Cargando oferta…</Text>
       </View>
     );
   }
@@ -224,7 +224,7 @@ export default function WorkDetailScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }}>
         <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><Flag size={26} color={colors.danger} /></View>
-        <Text style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.subtitle, textAlign: 'center' }}>No pudimos cargar esta oferta</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.subtitle, textAlign: 'center' }}>No pudimos cargar esta oferta</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e16 }}>{error}</Text>
         <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
           <GhostButton title="Volver" onPress={() => router.back()} />
@@ -234,7 +234,7 @@ export default function WorkDetailScreen() {
             accessibilityLabel="Reintentar cargar la oferta"
             style={({ pressed }) => [s.retryBtn, { backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
           >
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
       </View>
@@ -274,14 +274,14 @@ export default function WorkDetailScreen() {
             {job.isUrgent && <View style={[s.badge, { backgroundColor: brand.danger }]}><Text style={s.badgeText}>URGENTE</Text></View>}
             {(job.applicantsCount ?? 0) > 0 && (
               <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.1), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 4 }}>
-                <Text style={{ fontSize: 10, color: colors.primary, fontWeight: '700' }}>
+                <Text style={{ fontSize: 10, color: colors.primary, fontWeight: peso.fuerte }}>
                   {job.applicantsCount === 1 ? '1 aplicante' : `${job.applicantsCount} aplicantes`}
                 </Text>
               </View>
             )}
           </View>
-          <Text style={{ fontSize: 18, fontWeight: '700', color: colors.textPrimary, marginBottom: espaciado.e6 }}>{job.title}</Text>
-          <Text style={{ fontSize: 19, fontWeight: '800', color: colors.primary, marginBottom: espaciado.e2 }}>{job.salary}</Text>
+          <Text style={{ fontSize: 18, fontWeight: peso.fuerte, color: colors.textPrimary, marginBottom: espaciado.e6 }}>{job.title}</Text>
+          <Text style={{ fontSize: 19, fontWeight: peso.maximo, color: colors.primary, marginBottom: espaciado.e2 }}>{job.salary}</Text>
           {showMonthlyCaption && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: espaciado.e12 }}>/ mes · Neto</Text>}
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e12, marginBottom: espaciado.e12 }}>
             <Meta icon={MapPin} text={job.location || job.city} />
@@ -342,7 +342,7 @@ export default function WorkDetailScreen() {
           <Text style={s.sectionTitle}>Información de la empresa</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e16 }}>
             <View style={[s.logoBig, { backgroundColor: job.companyColor || colors.primary }]}>
-              <Text style={{ color: brand.white, fontSize: tipografia.title, fontWeight: '800' }}>{job.company.charAt(0).toUpperCase()}</Text>
+              <Text style={{ color: brand.white, fontSize: tipografia.title, fontWeight: peso.maximo }}>{job.company.charAt(0).toUpperCase()}</Text>
               {job.companyVerified && <View style={[s.vBadge, { backgroundColor: brand.success }]}><Check size={9} color={brand.white} strokeWidth={3} /></View>}
             </View>
             <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
@@ -357,7 +357,7 @@ export default function WorkDetailScreen() {
           {job.recruiter?.name && (
             <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, padding: espaciado.e12, borderRadius: 10 }}>
               <View style={[s.recAvatar, { backgroundColor: job.recruiter.avatarColor || colors.secondary }]}>
-                <Text style={{ color: brand.white, fontSize: 15, fontWeight: '700' }}>{job.recruiter.name.charAt(0)}</Text>
+                <Text style={{ color: brand.white, fontSize: 15, fontWeight: peso.fuerte }}>{job.recruiter.name.charAt(0)}</Text>
               </View>
               <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
                 <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary }}>{job.recruiter.name}</Text>
@@ -417,13 +417,13 @@ export default function WorkDetailScreen() {
                 >
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: espaciado.e8 }}>
                     <View style={{ width: 32, height: 32, borderRadius: radios.sm, backgroundColor: sj.companyColor || colors.primary, alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '700' }}>{sj.company.charAt(0)}</Text>
+                      <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.fuerte }}>{sj.company.charAt(0)}</Text>
                     </View>
                     {sj.isUrgent && <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: brand.danger }} />}
                   </View>
                   <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary, minHeight: 34 }} numberOfLines={2}>{sj.title}</Text>
                   <Text style={{ fontSize: tipografia.micro, color: colors.primary, marginBottom: espaciado.e4 }} numberOfLines={1}>{sj.company}</Text>
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: '700', color: colors.primary, marginBottom: espaciado.e6 }} numberOfLines={1}>{sj.salary}</Text>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.primary, marginBottom: espaciado.e6 }} numberOfLines={1}>{sj.salary}</Text>
                 </Pressable>
               ))}
             </ScrollView>
@@ -465,7 +465,7 @@ export default function WorkDetailScreen() {
             accessibilityRole="button"
             style={[s.applyBtn, { backgroundColor: colors.border }]}
           >
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '700' }}>Oferta cerrada</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>Oferta cerrada</Text>
           </Pressable>
         ) : (
           <Pressable
@@ -476,7 +476,7 @@ export default function WorkDetailScreen() {
             style={({ pressed }) => [s.applyBtn, { backgroundColor: applied ? brand.success : colors.primary, opacity: busy ? 0.6 : applied ? 1 : pressed ? 0.85 : 1 }]}
           >
             <Send size={15} color={brand.white} />
-            <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '700' }}>{applied ? 'Ya postulado' : busy ? 'Postulando…' : 'Postularse'}</Text>
+            <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.fuerte }}>{applied ? 'Ya postulado' : busy ? 'Postulando…' : 'Postularse'}</Text>
           </Pressable>
         )}
       </View>
@@ -487,8 +487,8 @@ export default function WorkDetailScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   card: { borderRadius: 14, padding: espaciado.e16, borderWidth: 1, marginBottom: espaciado.e16 },
   badge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 4 },
-  badgeText: { color: brand.white, fontSize: 10, fontWeight: '800', letterSpacing: 0.3 },
-  sectionTitle: { fontSize: 15, fontWeight: '700', color: c.textPrimary, marginBottom: espaciado.e10 },
+  badgeText: { color: brand.white, fontSize: 10, fontWeight: peso.maximo, letterSpacing: 0.3 },
+  sectionTitle: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e10 },
   errIcon: { width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
   retryBtn: { paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10 },
   logoBig: { width: 50, height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center', position: 'relative' },

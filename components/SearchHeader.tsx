@@ -93,7 +93,7 @@ function alpha(hex: string, opacity: number): string {
 const styles = StyleSheet.create({
   locationRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e2 },
   originDot: { width: 11, height: 11, borderRadius: 6 },
-  locationText: { fontSize: 15, fontWeight: '800', letterSpacing: 0.1 },
+  locationText: { fontSize: 15, fontWeight: peso.maximo, letterSpacing: 0.1 },
   cityName: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 },
   destBox: {
     marginTop: espaciado.e12,
@@ -107,6 +107,6 @@ const styles = StyleSheet.create({
     ...elevation.sm,
   },
   searchIconWrap: { width: 34, height: 34, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-  destText: { flex: 1, fontSize: tipografia.subtitle, fontWeight: '700', paddingVertical: espaciado.e4 },
+  destText: { flex: 1, fontSize: tipografia.subtitle, fontWeight: peso.fuerte, paddingVertical: espaciado.e4 },
   micWrap: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
 });

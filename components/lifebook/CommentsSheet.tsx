@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Heart, MessageCircle, Pencil, Plus, Send, Trash2, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { lifebookApi, lifebookActionsApi, type LbCommentItem, type LbPostBase } from '../../api/lifebook';
@@ -117,7 +117,7 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
           <Image source={{ uri: avatar }} style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: alpha(colors.textPrimary, 0.08) }} />
         ) : (
           <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: alpha(tint, 0.16), alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ color: tint, fontWeight: '900', fontSize: isReply ? 12 : 13 }}>{initial}</Text>
+            <Text style={{ color: tint, fontWeight: peso.titulo, fontSize: isReply ? 12 : 13 }}>{initial}</Text>
           </View>
         )}
       </Pressable>
@@ -126,11 +126,11 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, flex: 1 }}>
             <Pressable onPress={openProfile} hitSlop={6}>
-              <Text numberOfLines={1} style={{ fontSize: isReply ? 12 : 12.5, fontWeight: '800', color: colors.textSecondary }}>{name}</Text>
+              <Text numberOfLines={1} style={{ fontSize: isReply ? 12 : 12.5, fontWeight: peso.maximo, color: colors.textSecondary }}>{name}</Text>
             </Pressable>
             {mine ? (
               <View style={{ backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e6, paddingVertical: 1 }}>
-                <Text style={{ color: colors.primary, fontSize: 9.5, fontWeight: '900' }}>TÚ</Text>
+                <Text style={{ color: colors.primary, fontSize: 9.5, fontWeight: peso.titulo }}>TÚ</Text>
               </View>
             ) : null}
           </View>
@@ -141,7 +141,7 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
 
         {/* A quién responde: sin esto no se sabía de qué comentario era la respuesta */}
         {isReply && c.replyToName ? (
-          <Text style={{ fontSize: tipografia.caption, color: colors.primary, marginTop: espaciado.e2, fontWeight: '700' }}>
+          <Text style={{ fontSize: tipografia.caption, color: colors.primary, marginTop: espaciado.e2, fontWeight: peso.fuerte }}>
             → {c.replyToName}
           </Text>
         ) : null}
@@ -163,18 +163,18 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
 
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e14, marginTop: espaciado.e6 }}>
           <Pressable onPress={onReply} hitSlop={8} accessibilityLabel={`Responder a ${name}`}>
-            <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textSecondary }}>Responder</Text>
+            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textSecondary }}>Responder</Text>
           </Pressable>
           {mine && onEdit ? (
             <Pressable onPress={onEdit} hitSlop={8} accessibilityLabel="Editar mi comentario" style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
               <Pencil size={11} color={colors.textSecondary} />
-              <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.textSecondary }}>Editar</Text>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textSecondary }}>Editar</Text>
             </Pressable>
           ) : null}
           {mine && onDelete ? (
             <Pressable onPress={onDelete} hitSlop={8} accessibilityLabel="Eliminar mi comentario" style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
               <Trash2 size={11} color={colors.danger} />
-              <Text style={{ fontSize: tipografia.caption, fontWeight: '800', color: colors.danger }}>Eliminar</Text>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.danger }}>Eliminar</Text>
             </Pressable>
           ) : null}
         </View>
@@ -188,7 +188,7 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
       >
         <Heart size={16} color={c.likedByMe ? brand.like : colors.textSecondary} fill={c.likedByMe ? brand.like : 'transparent'} />
         {likes > 0 ? (
-          <Text style={{ marginTop: espaciado.e3, fontSize: 10.5, fontWeight: '800', color: colors.textSecondary }}>{likes}</Text>
+          <Text style={{ marginTop: espaciado.e3, fontSize: 10.5, fontWeight: peso.maximo, color: colors.textSecondary }}>{likes}</Text>
         ) : null}
       </Pressable>
     </View>
@@ -263,7 +263,7 @@ export function CommentsSheet({
       flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e7,
       backgroundColor: alpha(colors.primary, 0.10), borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6,
     }}>
-      <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.caption, fontWeight: '800', color: colors.primary }}>
+      <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.primary }}>
         Adjuntando: {adjunto.title?.trim() || 'publicación'}
       </Text>
       <Pressable onPress={() => setAdjunto(null)} hitSlop={8} accessibilityLabel="Quitar la publicación adjunta">
@@ -455,14 +455,14 @@ export function CommentsSheet({
             />
             <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 }}>
               <Pressable onPress={() => setEditing(null)} style={{ flex: 1, alignItems: 'center', paddingVertical: espaciado.e8 }}>
-                <Text style={{ color: colors.textSecondary, fontWeight: '800', fontSize: tipografia.body }}>Cancelar</Text>
+                <Text style={{ color: colors.textSecondary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Cancelar</Text>
               </Pressable>
               <Pressable
                 onPress={submit}
                 accessibilityLabel="Guardar cambios del comentario"
                 style={{ flex: 1.4, alignItems: 'center', paddingVertical: espaciado.e8, backgroundColor: colors.primary, borderRadius: radios.full }}
               >
-                <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.body }}>Guardar</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>Guardar</Text>
               </Pressable>
             </View>
           </View>
@@ -492,7 +492,7 @@ export function CommentsSheet({
                 enviar quedaba apretujado contra el borde. El dueño lo describió tal cual.
                 `numberOfLines={1}` para que un nombre larguísimo recorte en vez de empujar
                 el campo fuera de la pantalla. */}
-            <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginBottom: espaciado.e6 }}>
+            <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginBottom: espaciado.e6 }}>
               Respondiendo a @{replyTo.name}
             </Text>
             {chipAdjunto()}
@@ -543,14 +543,14 @@ export function CommentsSheet({
               </Pressable>
             </View>
             <Pressable onPress={() => { setReplyTo(null); setReplyDraft(''); }} style={{ paddingVertical: espaciado.e6 }} accessibilityLabel="Cancelar respuesta">
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800' }}>Cancelar</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Cancelar</Text>
             </Pressable>
           </View>
         ) : null}
 
         {(item.repliesCount ?? 0) > 0 ? (
           <Pressable onPress={() => toggleReplies(item.id)} style={{ paddingLeft: 44, paddingBottom: espaciado.e8 }} accessibilityLabel="Ver respuestas">
-            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>
+            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
               {openReplies[item.id] ? 'Ocultar respuestas' : `Ver ${item.repliesCount} respuesta${item.repliesCount === 1 ? '' : 's'}`}
             </Text>
           </Pressable>
@@ -578,7 +578,7 @@ export function CommentsSheet({
                     onDelete={() => confirmDelete(r)}
                   />
                   {replyTo?.id === item.id && replyTo.name === (r.author?.fullName ?? 'Usuario') ? (
-                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', paddingLeft: 38, paddingBottom: espaciado.e6 }}>
+                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, paddingLeft: 38, paddingBottom: espaciado.e6 }}>
                       Escribiendo la respuesta arriba ↑
                     </Text>
                   ) : null}
@@ -608,7 +608,7 @@ export function CommentsSheet({
           <View style={{ height: 4, width: 44, borderRadius: radios.full, backgroundColor: alpha(colors.textPrimary, 0.14), alignSelf: 'center', marginTop: espaciado.e10 }} />
 
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e10 }}>
-            <Text style={{ fontSize: 15, fontWeight: '900', color: colors.textPrimary }}>{title} · {total}</Text>
+            <Text style={{ fontSize: 15, fontWeight: peso.titulo, color: colors.textPrimary }}>{title} · {total}</Text>
             <Pressable
               onPress={onClose}
               hitSlop={10}
@@ -634,7 +634,7 @@ export function CommentsSheet({
               ListEmptyComponent={
                 <View style={{ paddingVertical: 34, alignItems: 'center' }}>
                   <MessageCircle size={28} color={colors.textSecondary} />
-                  <Text style={{ marginTop: espaciado.e10, color: colors.textSecondary, fontWeight: '800' }}>
+                  <Text style={{ marginTop: espaciado.e10, color: colors.textSecondary, fontWeight: peso.maximo }}>
                     {allowComments ? 'Todavía no hay comentarios' : 'Los comentarios están desactivados'}
                   </Text>
                   <Text style={{ marginTop: espaciado.e4, color: alpha(colors.textSecondary, 0.8), fontSize: tipografia.caption, textAlign: 'center' }}>
@@ -762,7 +762,7 @@ export function CommentsSheet({
             maxHeight: '62%', paddingBottom: insets.bottom + 10,
           }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e14, paddingBottom: espaciado.e6 }}>
-              <Text style={{ fontSize: 15, fontWeight: '900', color: colors.textPrimary }}>Adjuntar una publicación</Text>
+              <Text style={{ fontSize: 15, fontWeight: peso.titulo, color: colors.textPrimary }}>Adjuntar una publicación</Text>
               <Pressable onPress={() => setPickerOpen(false)} hitSlop={10} accessibilityLabel="Cerrar el selector">
                 <X size={18} color={colors.textSecondary} />
               </Pressable>
@@ -801,7 +801,7 @@ export function CommentsSheet({
                         </Text>
                       </View>
                       <View style={{ flex: 1 }}>
-                        <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: '700', color: colors.textPrimary }}>
+                        <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>
                           {p.title?.trim() || '(sin título)'}
                         </Text>
                         <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 1 }}>

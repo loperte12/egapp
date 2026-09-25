@@ -15,7 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Package, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { productosEnNotaApi, MAX_PRODUCTOS_POR_NOTA } from '../../api/lifebookProductos';
@@ -65,7 +65,7 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
       <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)' }} onPress={onClose} />
       <View style={{ backgroundColor: colors.card, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: insets.bottom + 16, maxHeight: '80%' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e4 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 }}>{titulo}</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 }}>{titulo}</Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
             <X size={20} color={colors.textSecondary} />
           </Pressable>
@@ -106,17 +106,17 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
                     </View>
                   )}
                   <View style={{ flex: 1 }}>
-                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>{p.title}</Text>
+                    <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{p.title}</Text>
                     <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>
                       {p.priceXaf === null ? 'Precio a consultar' : `${p.priceXaf} XAF`}
                     </Text>
                   </View>
                   {on ? (
                     <View style={{ width: 26, height: 26, borderRadius: 13, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.body }}>{puesto + 1}</Text>
+                      <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>{puesto + 1}</Text>
                     </View>
                   ) : (
-                    <Text style={{ color: colors.textSecondary, fontSize: 18, fontWeight: '900' }}>+</Text>
+                    <Text style={{ color: colors.textSecondary, fontSize: 18, fontWeight: peso.titulo }}>+</Text>
                   )}
                 </Pressable>
               );
@@ -129,7 +129,7 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
           accessibilityLabel="Listo"
           style={[styles.listo, { backgroundColor: colors.primary }]}
         >
-          <Text style={{ color: brand.white, fontSize: 15, fontWeight: '900' }}>
+          <Text style={{ color: brand.white, fontSize: 15, fontWeight: peso.titulo }}>
             {seleccion.length ? `Listo (${seleccion.length})` : 'Listo'}
           </Text>
         </Pressable>

@@ -311,7 +311,7 @@ function EditProfileContent() {
   if (!profile || loadError) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, paddingHorizontal: espaciado.e28 }]}>
-        <Text style={{ color: colors.danger, fontWeight: '700', textAlign: 'center', fontSize: tipografia.body }}>No se pudo cargar tu perfil.</Text>
+        <Text style={{ color: colors.danger, fontWeight: peso.fuerte, textAlign: 'center', fontSize: tipografia.body }}>No se pudo cargar tu perfil.</Text>
         {loadError ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e16 }}>{loadError}</Text> : null}
         <Pressable
           onPress={() => setReloadKey((k) => k + 1)}
@@ -319,7 +319,7 @@ function EditProfileContent() {
           accessibilityLabel="Reintentar"
           style={({ pressed }) => [{ backgroundColor: colors.primary, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e11, borderRadius: radios.md, opacity: pressed ? 0.85 : 1 }]}
         >
-          <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+          <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
         </Pressable>
       </View>
     );
@@ -349,7 +349,7 @@ function EditProfileContent() {
         </Pressable>
         <Text style={[styles.topTitle, { color: colors.textPrimary }]} numberOfLines={1}>Editar perfil</Text>
         <Pressable onPress={() => setPreviewOpen(true)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Vista previa del perfil" style={{ width: 72, alignItems: 'flex-end' }}>
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>Vista previa</Text>
+          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Vista previa</Text>
         </Pressable>
       </View>
 
@@ -370,7 +370,7 @@ function EditProfileContent() {
               <View style={[styles.coverBlob, { left: -40, bottom: -46, backgroundColor: alpha(colors.primary, 0.16) }]} pointerEvents="none" />
               <View style={styles.coverFallbackHint} pointerEvents="none">
                 <ImagePlus size={16} color={alpha(colors.primary, 0.85)} />
-                <Text style={{ color: alpha(colors.primary, 0.9), fontSize: tipografia.micro, fontWeight: '800' }}>Añade una portada</Text>
+                <Text style={{ color: alpha(colors.primary, 0.9), fontSize: tipografia.micro, fontWeight: peso.maximo }}>Añade una portada</Text>
               </View>
             </View>
           )}
@@ -391,10 +391,10 @@ function EditProfileContent() {
             <MiniAction icon={Camera} label="Cambiar foto de perfil" busy={pickingAvatar} disabled={picking !== null} onPress={() => pedirOrigen('avatar')} />
             <MiniAction icon={ImagePlus} label="Cambiar portada" busy={pickingCover} disabled={picking !== null} onPress={() => pedirOrigen('cover')} />
             {imageError ? (
-              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e4 }}>{imageError}</Text>
+              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>{imageError}</Text>
             ) : null}
             {(newAvatar || newCover) ? (
-              <Text style={{ color: colors.success, fontSize: tipografia.micro, fontWeight: '700', marginTop: espaciado.e4 }}>
+              <Text style={{ color: colors.success, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>
                 Imagen{newAvatar && newCover ? 'es' : ''} nueva elegida · se aplicará al guardar
               </Text>
             ) : null}
@@ -439,7 +439,7 @@ function EditProfileContent() {
                 accessibilityLabel="Color por defecto (blanco)"
                 style={[styles.nameColorReset, { borderColor: colors.border, backgroundColor: colors.surface }]}
               >
-                <Text style={{ color: colors.textSecondary, fontSize: 10, fontWeight: '800' }}>Blanco</Text>
+                <Text style={{ color: colors.textSecondary, fontSize: 10, fontWeight: peso.maximo }}>Blanco</Text>
               </Pressable>
             </View>
             <Text style={[styles.fieldHint, { color: colors.textSecondary }]}>
@@ -457,7 +457,7 @@ function EditProfileContent() {
               style={({ pressed }) => [styles.statusRow, { borderColor: colors.border, backgroundColor: colors.surface, opacity: pressed ? 0.75 : 1 }]}
             >
               <View style={{ flex: 1 }}>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800' }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                   {hasStatus24 ? 'Ver y cambiar mi estado' : 'Agregar estado 24h'}
                 </Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 1 }}>
@@ -483,7 +483,7 @@ function EditProfileContent() {
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
             <Text style={[styles.fieldLabel, { color: colors.textSecondary }]}>Biografía</Text>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700' }}>{bioCount}/300</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>{bioCount}/300</Text>
           </View>
           <Text style={[styles.fieldHint, { color: colors.textSecondary, marginTop: espaciado.e2 }]}>
             😀 Cuéntale a la comunidad quién eres · 📍 Puedes mencionar tu ciudad
@@ -564,13 +564,13 @@ function EditProfileContent() {
               <BadgeCheck size={18} color={ocColor} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>Información original</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>Información original</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 }}>
                 Estado de creador original en Life Book
               </Text>
             </View>
             <View style={[styles.statusPill, { backgroundColor: alpha(ocColor, 0.14) }]}>
-              <Text style={{ color: ocColor, fontSize: 10.5, fontWeight: '900' }}>{ocLabel}</Text>
+              <Text style={{ color: ocColor, fontSize: 10.5, fontWeight: peso.titulo }}>{ocLabel}</Text>
             </View>
           </View>
         </View>
@@ -610,8 +610,8 @@ function EditProfileContent() {
             style={({ pressed }) => [styles.addLinkRow, { borderColor: colors.border, backgroundColor: colors.surface, opacity: pressed ? 0.75 : 1 }]}
           >
             <Plus size={17} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>Añadir enlace o correo</Text>
-            <Text style={{ marginLeft: 'auto', color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '700' }}>{links.length}/8</Text>
+            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Añadir enlace o correo</Text>
+            <Text style={{ marginLeft: 'auto', color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{links.length}/8</Text>
           </Pressable>
 
           {/* P3 — ENLAZAR UN GRUPO MÍO. Va aparte del botón de arriba porque aquí no se
@@ -623,7 +623,7 @@ function EditProfileContent() {
             style={({ pressed }) => [styles.addLinkRow, { borderColor: colors.border, backgroundColor: colors.surface, opacity: pressed ? 0.75 : 1, marginTop: espaciado.e8 }]}
           >
             <Users size={17} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '800' }}>Enlazar uno de mis grupos</Text>
+            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Enlazar uno de mis grupos</Text>
           </Pressable>
 
           {links.length === 0 ? (
@@ -640,7 +640,7 @@ function EditProfileContent() {
                     <Icon size={18} color={colors.primary} />
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }} numberOfLines={1}>{l.label}</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }} numberOfLines={1}>{l.label}</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 }} numberOfLines={1}>{l.value}</Text>
                   </View>
                   {/* ── FIJAR ──
@@ -685,7 +685,7 @@ function EditProfileContent() {
 
         {/* ============ 6) Pie: Guardar ============ */}
         {saveError ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', textAlign: 'center', marginTop: espaciado.e18 }}>
+          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center', marginTop: espaciado.e18 }}>
             {saveError}
           </Text>
         ) : null}
@@ -724,7 +724,7 @@ function EditProfileContent() {
                   )}
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: nameColor || colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }} numberOfLines={1}>
+                  <Text style={{ color: nameColor || colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo }} numberOfLines={1}>
                     {fullName.trim() || profile.fullName || 'Usuario'}
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 }} numberOfLines={1}>
@@ -873,7 +873,7 @@ function MisMedidasCard({ colors }: { colors: any }) {
     <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
       <View style={styles.row}>
         <View style={{ flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>Mis medidas</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>Mis medidas</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{texto}</Text>
         </View>
         {texto !== 'Sin medidas guardadas' ? (
@@ -883,7 +883,7 @@ function MisMedidasCard({ colors }: { colors: any }) {
             accessibilityLabel="Borrar mis medidas"
             style={{ paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8 }}
           >
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '800' }}>
+            <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
               {borrando ? 'Borrando…' : 'Borrar'}
             </Text>
           </Pressable>
@@ -943,7 +943,7 @@ function FilaDeCampo({ icon: Icon, label, hint, onPress, right, last }: {
       <View style={[styles.rowIcon, { backgroundColor: alpha(colors.primary, 0.08) }]}>
         <Icon size={18} color={colors.primary} />
       </View>
-      <Text style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }} numberOfLines={1}>{label}</Text>
+      <Text style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }} numberOfLines={1}>{label}</Text>
       {hint ? (
         <Text style={[styles.rowHint, { color: colors.textSecondary }]} numberOfLines={1}>{hint}</Text>
       ) : null}
@@ -975,12 +975,12 @@ function MiniAction({ icon: Icon, label, onPress, busy = false, disabled = false
       {busy ? (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
           <ActivityIndicator size="small" color={colors.primary} />
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800' }}>Procesando…</Text>
+          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Procesando…</Text>
         </View>
       ) : (
         <>
           <Icon size={15} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', flexShrink: 1 }} numberOfLines={1}>{label}</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, flexShrink: 1 }} numberOfLines={1}>{label}</Text>
         </>
       )}
     </Pressable>
@@ -1117,7 +1117,7 @@ function ModalSelectorPais({ visible, country, countryCode, city, onApply, onClo
                 <Text style={[styles.pickRowTxt, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? '900' : '600' }]}>
                   {c.name}
                 </Text>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '700', marginRight: espaciado.e8 }}>{c.code}</Text>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginRight: espaciado.e8 }}>{c.code}</Text>
                 {active ? <Check size={18} color={colors.primary} /> : null}
               </Pressable>
             );
@@ -1137,7 +1137,7 @@ function ModalSelectorPais({ visible, country, countryCode, city, onApply, onClo
                   onPress={() => { setCityV(active ? '' : c); setOtra(false); }}
                   style={({ pressed }) => [styles.cityChip, { backgroundColor: active ? alpha(colors.primary, 0.14) : colors.surface, borderColor: active ? colors.primary : colors.border, opacity: pressed ? 0.75 : 1 }]}
                 >
-                  <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{c}</Text>
+                  <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{c}</Text>
                 </Pressable>
               );
             })}
@@ -1145,7 +1145,7 @@ function ModalSelectorPais({ visible, country, countryCode, city, onApply, onClo
               onPress={() => setOtra((o) => !o)}
               style={({ pressed }) => [styles.cityChip, { backgroundColor: otra ? alpha(colors.primary, 0.14) : colors.surface, borderColor: otra ? colors.primary : colors.border, opacity: pressed ? 0.75 : 1 }]}
             >
-              <Text style={{ color: otra ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>Otra ciudad…</Text>
+              <Text style={{ color: otra ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Otra ciudad…</Text>
             </Pressable>
           </View>
           {otra ? (
@@ -1295,7 +1295,7 @@ function ModalEnlace({ visible, onAdd, onClose }: {
         />
       </View>
 
-      {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e8 }}>{error}</Text> : null}
+      {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8 }}>{error}</Text> : null}
 
       <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e14 }}>
         <View style={{ flex: 1 }}><GhostButton title="Cancelar" onPress={onClose} /></View>
@@ -1393,7 +1393,7 @@ function ModalGrupo({ visible, onAdd, onClose }: {
                 </View>
               )}
               <View style={{ flex: 1 }}>
-                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }} numberOfLines={1}>{g.title}</Text>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }} numberOfLines={1}>{g.title}</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 }} numberOfLines={1}>
                   {g.members} {g.members === 1 ? 'miembro' : 'miembros'} · {g.myRole === 'owner' ? 'eres el dueño' : 'eres administrador'}
                 </Text>
@@ -1407,7 +1407,7 @@ function ModalGrupo({ visible, onAdd, onClose }: {
       )}
 
       {error && grupos && grupos.length > 0 ? (
-        <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e10 }}>{error}</Text>
+        <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>{error}</Text>
       ) : null}
 
       <View style={{ marginTop: espaciado.e14 }}>
@@ -1430,11 +1430,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  topTitle: { fontSize: 17, fontWeight: '900', flex: 1, textAlign: 'center' },
+  topTitle: { fontSize: 17, fontWeight: peso.titulo, flex: 1, textAlign: 'center' },
 
   // Títulos de grupo
   groupTitle: {
-    fontSize: tipografia.micro, fontWeight: '800', color: '#8E8E93', letterSpacing: 0.5,
+    fontSize: tipografia.micro, fontWeight: peso.maximo, color: '#8E8E93', letterSpacing: 0.5,
     textTransform: 'uppercase', marginTop: espaciado.e20, marginBottom: espaciado.e8, marginLeft: espaciado.e4,
   },
 
@@ -1444,7 +1444,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e16,
   },
   sep: { height: StyleSheet.hairlineWidth, marginVertical: espaciado.e16 },
-  fieldLabel: { fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e6, marginLeft: espaciado.e4 },
+  fieldLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e6, marginLeft: espaciado.e4 },
   fieldHint: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e5, marginLeft: espaciado.e4, lineHeight: 15 },
   nameColorDot: {
     width: 30, height: 30, borderRadius: 15, borderWidth: 1,
@@ -1480,7 +1480,7 @@ const styles = StyleSheet.create({
   },
   avatarImg: { width: '100%', height: '100%' },
   avatarEmpty: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  avatarInitial: { fontSize: 30, fontWeight: '900' },
+  avatarInitial: { fontSize: 30, fontWeight: peso.titulo },
   imageActions: { marginTop: 52, paddingLeft: 116, paddingRight: espaciado.e14, gap: espaciado.e8 },
   miniAction: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
@@ -1498,7 +1498,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     borderRadius: 14, paddingHorizontal: espaciado.e14, height: 48,
   },
-  idTxt: { fontSize: 15, fontWeight: '800', letterSpacing: 1 },
+  idTxt: { fontSize: 15, fontWeight: peso.maximo, letterSpacing: 1 },
 
   // Chip
   chip: {
@@ -1539,7 +1539,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
   },
   previewAvatarImg: { width: '100%', height: '100%' },
-  previewAvatarTxt: { fontSize: 24, fontWeight: '900' },
+  previewAvatarTxt: { fontSize: 24, fontWeight: peso.titulo },
 
   // Hojas inferiores
   sheetRoot: { flex: 1, justifyContent: 'flex-end' },
@@ -1551,10 +1551,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between',
     marginBottom: espaciado.e6,
   },
-  modalTitle: { fontSize: 17, fontWeight: '900' },
+  modalTitle: { fontSize: 17, fontWeight: peso.titulo },
 
   // Listas dentro de las hojas
-  groupHeader: { fontSize: tipografia.micro, fontWeight: '800', letterSpacing: 0.5, textTransform: 'uppercase', marginTop: espaciado.e10, marginBottom: espaciado.e2, marginLeft: espaciado.e4 },
+  groupHeader: { fontSize: tipografia.micro, fontWeight: peso.maximo, letterSpacing: 0.5, textTransform: 'uppercase', marginTop: espaciado.e10, marginBottom: espaciado.e2, marginLeft: espaciado.e4 },
   pickRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e4 },
   pickRowTxt: { flex: 1, fontSize: tipografia.body, fontWeight: peso.medio },
   cityChip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },

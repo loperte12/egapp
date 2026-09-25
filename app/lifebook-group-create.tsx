@@ -256,7 +256,7 @@ function GroupCreateContent() {
         <Pressable onPress={back} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900', flex: 1 }}>{titles[step]}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 }}>{titles[step]}</Text>
         {step !== 'success' ? (
           <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Cerrar">
             <X size={20} color={colors.textSecondary} />
@@ -315,7 +315,7 @@ function GroupCreateContent() {
 
             <Card colors={colors} row>
               <View style={{ flex: 1 }}>
-                <Text style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.body }}>Mostrar en mi perfil</Text>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>Mostrar en mi perfil</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>La ruta será visible en tu página personal.</Text>
               </View>
               <Switch value={showInProfile} onValueChange={setShowInProfile} />
@@ -369,7 +369,7 @@ function GroupCreateContent() {
             >
               <Text style={{ fontSize: tipografia.title }}>🙈</Text>
               <View style={{ flex: 1 }}>
-                <Text style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.body }}>No mostrar ubicación</Text>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>No mostrar ubicación</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Solo los miembros verán el punto.</Text>
               </View>
             </Pressable>
@@ -395,7 +395,7 @@ function GroupCreateContent() {
               >
                 <MapPin size={18} color={colors.primary} />
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.body }} numberOfLines={1}>{r.name}</Text>
+                  <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.body }} numberOfLines={1}>{r.name}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                     {KIND_LABEL[r.kind] ?? 'Lugar'} · {r.lat.toFixed(4)}, {r.lon.toFixed(4)}
                   </Text>
@@ -512,7 +512,7 @@ function GroupCreateContent() {
             <View style={[styles.successCircle, { backgroundColor: alpha(colors.success, 0.15) }]}>
               <Text style={{ fontSize: 34 }}>✅</Text>
             </View>
-            <Text style={{ color: colors.textPrimary, fontSize: 24, fontWeight: '900', textAlign: 'center' }}>¡Ruta creada!</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: 24, fontWeight: peso.titulo, textAlign: 'center' }}>¡Ruta creada!</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', lineHeight: 20 }}>
               {created.title} · {created.membersCount} miembro{created.membersCount === 1 ? '' : 's'}
               {selectedType ? ` · ${selectedType.icon} ${selectedType.label}` : ''}
@@ -522,10 +522,10 @@ function GroupCreateContent() {
               <Text style={styles.primaryText}>Ir al grupo</Text>
             </Pressable>
             <Pressable onPress={() => goToGroup(true)} style={[styles.secondaryBtn, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-              <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 14.5 }}>Invitar a más personas</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 14.5 }}>Invitar a más personas</Text>
             </Pressable>
             <Pressable onPress={() => router.back()} style={{ paddingVertical: espaciado.e8 }} accessibilityLabel="Volver a Mensajes">
-              <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.body }}>Volver a Mensajes</Text>
+              <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>Volver a Mensajes</Text>
             </Pressable>
           </View>
         ) : null}
@@ -587,7 +587,7 @@ function Field({ label, required, hint, children, colors }: {
   return (
     <View style={{ gap: espaciado.e6 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
           {label}{required ? <Text style={{ color: colors.danger }}> *</Text> : null}
         </Text>
         {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{hint}</Text> : null}
@@ -611,7 +611,7 @@ function PickRow({ label, value, onPress, colors, last }: {
     >
       <View style={{ flex: 1 }}>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{label}</Text>
-        <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '700', marginTop: 1 }} numberOfLines={1}>{value}</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.fuerte, marginTop: 1 }} numberOfLines={1}>{value}</Text>
       </View>
       <Text style={{ color: colors.textSecondary, fontSize: tipografia.subtitle }}>›</Text>
     </Pressable>
@@ -634,7 +634,7 @@ function OptionRow({ icon, title, subtitle, selected, onPress, colors }: {
     >
       <Text style={{ fontSize: 22 }}>{icon}</Text>
       <View style={{ flex: 1 }}>
-        <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: 14.5 }}>{title}</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 14.5 }}>{title}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{subtitle}</Text>
       </View>
       <View style={{
@@ -651,7 +651,7 @@ function OptionRow({ icon, title, subtitle, selected, onPress, colors }: {
 
 function SectionTitle({ text, colors }: { text: string; colors: any }) {
   return (
-    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '800', letterSpacing: 0.5, marginTop: espaciado.e8 }}>
+    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo, letterSpacing: 0.5, marginTop: espaciado.e8 }}>
       {text.toUpperCase()}
     </Text>
   );
@@ -672,11 +672,11 @@ function SelectablePerson({ p, on, onPress, colors }: { p: Person; on: boolean; 
         <Image source={{ uri: p.avatarUrl }} style={styles.avatar} />
       ) : (
         <View style={[styles.avatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-          <Text style={{ color: colors.primary, fontWeight: '900' }}>{p.name.charAt(0).toUpperCase()}</Text>
+          <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>{p.name.charAt(0).toUpperCase()}</Text>
         </View>
       )}
       <View style={{ flex: 1 }}>
-        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: '700', fontSize: tipografia.body }}>{p.name}</Text>
+        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>{p.name}</Text>
         {p.note ? <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{p.note}</Text> : null}
       </View>
       <View style={{
@@ -705,7 +705,7 @@ const styles = StyleSheet.create({
   avatar: { width: 40, height: 40, borderRadius: 20 },
   center: { alignItems: 'center', justifyContent: 'center' },
   primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e14, alignItems: 'center' },
-  primaryText: { color: brand.white, fontWeight: '900', fontSize: 14.5 },
+  primaryText: { color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 },
   secondaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', borderWidth: 1, alignSelf: 'stretch' },
   footer: { paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   successCircle: { width: 84, height: 84, borderRadius: 42, alignItems: 'center', justifyContent: 'center' },

@@ -17,7 +17,7 @@
  */
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { alpha, brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import type { HotelRoom, HotelSearchResult } from '../api/hotel';
 import { xaf } from '../utils/datetime';
 import { LazyImage } from './rental/LazyImage';
@@ -165,19 +165,19 @@ const styles = StyleSheet.create({
   // Foto del alojamiento en la fila (92×92, redondeada, con hueco gris si no hay).
   portada: { width: 92, height: 92, borderRadius: 14, borderWidth: 1, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   portadaImg: { width: '100%', height: '100%' },
-  tarjetaTitulo: { fontSize: 15.5, fontWeight: '800' },
+  tarjetaTitulo: { fontSize: 15.5, fontWeight: peso.maximo },
   tarjetaSub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
-  precio: { fontSize: 15, fontWeight: '800' },
+  precio: { fontSize: 15, fontWeight: peso.maximo },
   precioSub: { fontSize: 10.5 },
   habitacion: { borderWidth: 1, borderRadius: 14, padding: espaciado.e10, flexDirection: 'row', gap: espaciado.e10, alignItems: 'center' },
   // Foto de la habitación en su fila (56×56): «fotos reales de las habitaciones».
   habFoto: { width: 56, height: 56, borderRadius: 10, borderWidth: 1, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   habFotoImg: { width: '100%', height: '100%' },
-  habNombre: { fontSize: tipografia.body, fontWeight: '800' },
+  habNombre: { fontSize: tipografia.body, fontWeight: peso.maximo },
   habDatos: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
-  habTotal: { fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e4 },
+  habTotal: { fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 },
   habAviso: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
-  habLibre: { fontSize: tipografia.micro, fontWeight: '700' },
+  habLibre: { fontSize: tipografia.micro, fontWeight: peso.fuerte },
   reservarBtn: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
-  reservarTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800' },
+  reservarTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo },
 });

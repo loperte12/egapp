@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Image as ImageIcon, MapPin, Megaphone, Paperclip, Search, Vote, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -152,7 +152,7 @@ function MessageSearchContent() {
                 borderColor: activo ? colors.primary : 'transparent',
               }]}
             >
-              <Text style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{item.label}</Text>
+              <Text style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{item.label}</Text>
             </Pressable>
           );
         }}
@@ -194,14 +194,14 @@ function MessageSearchContent() {
                   <Image source={{ uri: absUrl(item.conversation.photoUrl) }} style={styles.hitAvatar} />
                 ) : (
                   <View style={[styles.hitAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                    <Text style={{ color: colors.primary, fontWeight: '900', fontSize: tipografia.body }}>
+                    <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                       {(item.conversation.title || '?').trim().charAt(0).toUpperCase()}
                     </Text>
                   </View>
                 )}
                 <View style={{ flex: 1 }}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
-                    <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body, flex: 1 }} numberOfLines={1}>
+                    <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body, flex: 1 }} numberOfLines={1}>
                       {item.conversation.title}
                     </Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>{lbTimeAgo(item.createdAt)}</Text>

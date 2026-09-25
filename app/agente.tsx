@@ -24,7 +24,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowLeft, BadgeCheck, Banknote, PackageCheck, PackageOpen, QrCode, RefreshCw,
 } from 'lucide-react-native';
-import { EmptyState, espaciado, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PinSheet } from '@egrouteplan/ui-kit';
 import { agentApi, type CargaDeTrabajo, type OperacionDeEfectivo, type RecadoEscrow } from '../api/agent';
@@ -121,7 +121,7 @@ function Contenido() {
         <View style={styles.center}>
           <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>{error}</Text>
           <Pressable onPress={() => void cargar()} style={[styles.retryBtn, { backgroundColor: colors.primary }]} accessibilityRole="button">
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Reintentar</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -133,7 +133,7 @@ function Contenido() {
           <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
               <BadgeCheck size={16} color={colors.primary} />
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>
+              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>
                 {perfil ? `${perfil.code} · ${perfil.zone}` : 'Agente'}
               </Text>
             </View>
@@ -142,14 +142,14 @@ function Contenido() {
                 Límite diario de efectivo: {fmtXaf(perfil.dailyCashLimit)}
               </Text>
             )}
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e10 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e10 }}>
               {totalPendiente === 0 ? 'Sin trabajo pendiente' : `${totalPendiente} tarea(s) esperando`}
             </Text>
           </View>
 
           {aviso ? (
             <View style={[styles.aviso, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{aviso}</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{aviso}</Text>
             </View>
           ) : null}
 
@@ -177,14 +177,14 @@ function Contenido() {
                     <Banknote size={17} color={recibir ? brand.successPressed : colors.primary} />
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                       {recibir ? 'Recibir efectivo' : 'Entregar efectivo'}
                     </Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                       {op.user.name} · {op.user.phone}
                     </Text>
                   </View>
-                  <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>{fmtXaf(op.amount)}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>{fmtXaf(op.amount)}</Text>
                 </View>
                 {op.justification ? (
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>{op.justification}</Text>
@@ -222,12 +222,12 @@ function Contenido() {
                     {recoger ? <PackageOpen size={17} color={colors.primary} /> : <PackageCheck size={17} color={colors.primary} />}
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '900' }}>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                       {r.product ?? 'Compra protegida'}
                     </Text>
-                    <Text style={{ color: est.color, fontSize: tipografia.caption, fontWeight: '700' }}>{est.label}</Text>
+                    <Text style={{ color: est.color, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{est.label}</Text>
                   </View>
-                  <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: '900' }}>{fmtXaf(r.amount)}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>{fmtXaf(r.amount)}</Text>
                 </View>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>
                   {recoger ? `Recoges de ${r.seller.name} · ${r.seller.phone}` : `Entregas a ${r.buyer.name} · ${r.buyer.phone}`}
@@ -238,7 +238,7 @@ function Contenido() {
                   accessibilityRole="button"
                 >
                   <QrCode size={16} color={colors.primary} />
-                  <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '900', marginLeft: espaciado.e8 }}>
+                  <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo, marginLeft: espaciado.e8 }}>
                     {recoger ? 'Escanear recogida' : 'Escanear entrega'}
                   </Text>
                 </Pressable>
@@ -270,12 +270,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  headerTitle: { fontSize: tipografia.subtitle, fontWeight: '900' },
+  headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12 },
   retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
   card: { borderRadius: 18, borderWidth: 1, padding: espaciado.e16 },
   aviso: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, marginTop: espaciado.e12 },
-  sectionTitle: { fontSize: 15, fontWeight: '900', marginTop: espaciado.e20, marginBottom: espaciado.e4 },
+  sectionTitle: { fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e4 },
   tile: { width: 38, height: 38, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   scanBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',

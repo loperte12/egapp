@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 import { Linking, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Siren, Phone, X, type LucideIcon } from 'lucide-react-native';
 import { EMERGENCY_CONTACTS, type EmergencyContact } from '../constants/data';
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e16 },
   sirenWrap: { width: 44, height: 44, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },
   headerText: { flex: 1, marginLeft: espaciado.e12 },
-  title: { fontSize: 19, fontWeight: '800' },
+  title: { fontSize: 19, fontWeight: peso.maximo },
   subtitle: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   contactRow: {
     flexDirection: 'row',
@@ -117,9 +117,9 @@ const styles = StyleSheet.create({
   },
   contactIcon: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   contactText: { flex: 1, marginLeft: espaciado.e12 },
-  contactLabel: { fontSize: 14.5, fontWeight: '800' },
+  contactLabel: { fontSize: 14.5, fontWeight: peso.maximo },
   contactNote: { fontSize: tipografia.micro, marginTop: 1 },
-  contactNumber: { fontSize: 15, fontWeight: '800' },
+  contactNumber: { fontSize: 15, fontWeight: peso.maximo },
   cancelBtn: { marginTop: espaciado.e6, alignItems: 'center', paddingVertical: espaciado.e13, borderRadius: 14 },
-  cancelText: { fontSize: tipografia.body, fontWeight: '700' },
+  cancelText: { fontSize: tipografia.body, fontWeight: peso.fuerte },
 });

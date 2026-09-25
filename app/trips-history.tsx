@@ -66,9 +66,9 @@ export default function TripsHistoryScreen() {
         <View style={s.center}><ActivityIndicator color={colors.primary} /></View>
       ) : error ? (
         <View style={[s.center, { gap: espaciado.e10 }]}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '700', textAlign: 'center' }}>{error}</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
           <Pressable onPress={load} style={[s.retry, { borderColor: colors.border }]}>
-            <Text style={{ color: colors.primary, fontWeight: '800' }}>Reintentar</Text>
+            <Text style={{ color: colors.primary, fontWeight: peso.maximo }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -101,7 +101,7 @@ export default function TripsHistoryScreen() {
               <View style={[s.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                   {done ? <CarTaxiFront size={16} color={brand.success} /> : <XCircle size={16} color={brand.danger} />}
-                  <Text style={{ color: done ? brand.success : brand.danger, fontWeight: '900', fontSize: tipografia.body, flex: 1 }}>
+                  <Text style={{ color: done ? brand.success : brand.danger, fontWeight: peso.titulo, fontSize: tipografia.body, flex: 1 }}>
                     {done ? 'Completado' : 'Cancelado'}
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>{fmtDate(done ? t.completed_at : t.cancelled_at) || fmtDate(t.created_at)}</Text>
@@ -111,14 +111,14 @@ export default function TripsHistoryScreen() {
                   <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio }} numberOfLines={1}>
                     🟢 {t.pickup_address || 'Origen'}
                   </Text>
-                  <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '700' }} numberOfLines={1}>
+                  <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.fuerte }} numberOfLines={1}>
                     🟠 {t.dropoff_address || 'Destino'}
                   </Text>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e8 }}>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '700' }}>
+                    <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: peso.fuerte }}>
                       {asDriver ? 'Pasajero' : 'Conductor'}: {t.counterpart_name || '—'}
                     </Text>
                     {t.vehicle_plate && (
@@ -127,12 +127,12 @@ export default function TripsHistoryScreen() {
                       </Text>
                     )}
                     {!done && t.cancelled_reason && (
-                      <Text style={{ fontSize: tipografia.micro, color: brand.danger, fontWeight: '700', marginTop: espaciado.e2 }}>
+                      <Text style={{ fontSize: tipografia.micro, color: brand.danger, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
                         Motivo: {t.cancelled_reason}
                       </Text>
                     )}
                   </View>
-                  <Text style={{ fontSize: 15, fontWeight: '900', color: brand.secondary }}>{xaf(done ? t.final_price : t.requested_price)}</Text>
+                  <Text style={{ fontSize: 15, fontWeight: peso.titulo, color: brand.secondary }}>{xaf(done ? t.final_price : t.requested_price)}</Text>
                 </View>
 
                 {/* ── P1-c: detalle de LIQUIDACIÓN (qué se pagó, comisión y neto) ── */}
@@ -142,7 +142,7 @@ export default function TripsHistoryScreen() {
                   const fare = Number(t.final_price ?? 0);
                   if (kind === 'CASH') {
                     return (
-                      <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '700', marginTop: espaciado.e6 }}>
+                      <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
                         💵 Pagado en efectivo al conductor · sin cargo en el monedero
                       </Text>
                     );
@@ -154,7 +154,7 @@ export default function TripsHistoryScreen() {
                   const resolvedDisp = !!set.dispute?.resolved_at;
                   return (
                     <View style={{ marginTop: espaciado.e6, padding: espaciado.e8, borderRadius: 10, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, gap: espaciado.e2 }}>
-                      <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: '800' }}>
+                      <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: peso.maximo }}>
                         Liquidación ({t.city ?? '—'}) · monedero
                       </Text>
                       {done ? (
@@ -171,7 +171,7 @@ export default function TripsHistoryScreen() {
                         </Text>
                       )}
                       {disputed && (
-                        <Text style={{ fontSize: tipografia.caption, color: resolvedDisp ? brand.success : brand.primary, fontWeight: '800' }}>
+                        <Text style={{ fontSize: tipografia.caption, color: resolvedDisp ? brand.success : brand.primary, fontWeight: peso.maximo }}>
                           {resolvedDisp
                             ? `⚖️ Disputa resuelta: ${String(set.dispute?.outcome ?? '').replace(/_/g, ' ').toLowerCase()}`
                             : '⚖️ Disputa abierta — en revisión'}
@@ -212,7 +212,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     root: { flex: 1, backgroundColor: c.background },
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
-    title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
+    title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
     center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
     retry: { borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
     content: { padding: espaciado.e16, gap: espaciado.e10, paddingBottom: 40 },

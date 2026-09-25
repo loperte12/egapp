@@ -17,7 +17,7 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AlertCircle, ArrowLeft, Camera, CheckCircle2, MessageCircle, Package, Truck } from 'lucide-react-native';
 import { AuthGate } from '../../core/AuthGate';
 import { absUrl } from '../../api/config';
@@ -273,7 +273,7 @@ function OrderContent() {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
         <AlertCircle size={34} color={colors.danger} />
-        <Text style={{ color: colors.textPrimary, fontWeight: '800', textAlign: 'center' }}>{error}</Text>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, textAlign: 'center' }}>{error}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
     );
@@ -314,10 +314,10 @@ function OrderContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
           Pedido {order.code}
         </Text>
-        <Text style={{ color: meta.color, fontWeight: '900', fontSize: tipografia.caption }}>{meta.label}</Text>
+        <Text style={{ color: meta.color, fontWeight: peso.titulo, fontSize: tipografia.caption }}>{meta.label}</Text>
       </View>
 
       <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e24 }}>
@@ -327,7 +327,7 @@ function OrderContent() {
             : enDisputa ? <AlertCircle size={40} color={colors.secondary} />
               : order.status === 'delivered' ? <CheckCircle2 size={40} color={colors.success} />
                 : <Truck size={40} color={colors.primary} />}
-          <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: '900' }}>
+          <Text style={{ color: colors.textPrimary, fontSize: 18, fontWeight: peso.titulo }}>
             {cancelado ? 'Pedido cancelado' : enDisputa ? 'Pedido en reclamación'
               : order.status === 'delivered' ? 'Pedido entregado' : 'Tu pedido está en marcha'}
           </Text>
@@ -346,7 +346,7 @@ function OrderContent() {
               return (
                 <View key={f.status} style={{ flex: 1, alignItems: 'center', gap: espaciado.e5 }}>
                   <View style={[styles.dot, { backgroundColor: activo ? colors.primary : alpha(colors.border, 0.8) }]} />
-                  <Text numberOfLines={2} style={{ color: activo ? colors.textPrimary : colors.textSecondary, fontSize: 9.5, fontWeight: '700', textAlign: 'center' }}>
+                  <Text numberOfLines={2} style={{ color: activo ? colors.textPrimary : colors.textSecondary, fontSize: 9.5, fontWeight: peso.fuerte, textAlign: 'center' }}>
                     {f.label}
                   </Text>
                 </View>
@@ -361,7 +361,7 @@ function OrderContent() {
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, textAlign: 'center' }}>
               Lee este código a quien te entregue y paga en efectivo:
             </Text>
-            <Text style={{ color: colors.primary, fontSize: 34, fontWeight: '900', letterSpacing: 8 }}>{order.deliveryCode}</Text>
+            <Text style={{ color: colors.primary, fontSize: 34, fontWeight: peso.titulo, letterSpacing: 8 }}>{order.deliveryCode}</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center' }}>
               La tienda lo confirma y el pedido queda entregado y cobrado.
             </Text>
@@ -371,7 +371,7 @@ function OrderContent() {
         {/* Vendedor: confirmar el código que le da el comprador */}
         {!esComprador && order.paymentMethod === 'cash_on_delivery' && order.status !== 'delivered' && !cancelado ? (
           <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9) }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', textAlign: 'center' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center' }}>
               Cobro en efectivo: pide al comprador su código de 4 dígitos
             </Text>
             <TextInput
@@ -401,11 +401,11 @@ function OrderContent() {
                 </View>
               )}
               <View style={{ flex: 1 }}>
-                <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700' }}>{it.titleSnapshot}</Text>
+                <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{it.titleSnapshot}</Text>
                 {it.variantSnapshot ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{it.variantSnapshot}</Text> : null}
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{it.quantity} × {lbXaf(it.unitPriceXaf)}</Text>
               </View>
-              <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.caption }}>{lbXaf(it.lineTotalXaf)}</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>{lbXaf(it.lineTotalXaf)}</Text>
             </View>
           ))}
           <SummaryRow label="Subtotal" value={lbXaf(order.subtotalXaf)} />
@@ -432,7 +432,7 @@ function OrderContent() {
             accessibilityRole="button"
             accessibilityLabel="Ver el justificante del cobro"
           >
-            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 }}>Ver el justificante</Text>
+            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>Ver el justificante</Text>
           </Pressable>
         ) : null}
 
@@ -503,7 +503,7 @@ function OrderContent() {
         */}
         {puedeReclamar ? (
           <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: espaciado.e16 }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', textAlign: 'center' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, textAlign: 'center' }}>
               ¿Algo ha ido mal?
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center' }}>
@@ -536,7 +536,7 @@ function OrderContent() {
         {!esComprador && !cancelado && !enDisputa && order.status !== 'delivered'
           && order.deliveryMode !== 'pickup' && order.paymentStatus !== 'paid' ? (
           <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: espaciado.e16 }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', textAlign: 'center' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, textAlign: 'center' }}>
               El reparto ({lbTransportLabel(order.deliveryMode)})
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center' }}>
@@ -571,7 +571,7 @@ function OrderContent() {
         */}
         {!esComprador && !cancelado && !enDisputa && order.paymentStatus !== 'paid' ? (
           <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: espaciado.e16 }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', textAlign: 'center' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, textAlign: 'center' }}>
               ¿Ya te han pagado? ({lbPayLabel(order.paymentMethod)})
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center' }}>
@@ -593,7 +593,7 @@ function OrderContent() {
               style={[styles.adjunto, { borderColor: alpha(colors.border, 0.9) }]}
             >
               <Camera size={16} color={colors.textPrimary} />
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '700', flex: 1 }} numberOfLines={1}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, flex: 1 }} numberOfLines={1}>
                 {subiendo ? 'Subiendo la foto…'
                   : justificante ? 'Comprobante adjunto ✓'
                     : necesitaComprobante ? 'Adjuntar el comprobante (obligatorio)'
@@ -617,7 +617,7 @@ function OrderContent() {
         */}
         {esComprador && order.status === 'delivered' && !order.review ? (
           <View style={[styles.codeBox, { borderColor: alpha(colors.border, 0.9), alignItems: 'stretch', marginTop: espaciado.e16 }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '800', textAlign: 'center' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, textAlign: 'center' }}>
               ¿Cómo fue la compra?
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center' }}>
@@ -670,7 +670,7 @@ function OrderContent() {
       <Modal visible={verJustificante} transparent animationType="fade" onRequestClose={() => setVerJustificante(false)}>
         <View style={styles.modalFondo}>
           <Pressable style={StyleSheet.absoluteFill} onPress={() => setVerJustificante(false)} accessibilityLabel="Cerrar el justificante" />
-          <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '800' }}>Justificante del cobro</Text>
+          <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo }}>Justificante del cobro</Text>
           {order.paymentProofUrl ? (
             justificanteFalla ? (
               <Text style={{ color: brand.white, fontSize: tipografia.body, textAlign: 'center', paddingHorizontal: espaciado.e24 }}>
@@ -687,7 +687,7 @@ function OrderContent() {
             )
           ) : null}
           <Pressable onPress={() => setVerJustificante(false)} style={styles.cerrarModal} accessibilityRole="button" accessibilityLabel="Cerrar">
-            <Text style={{ color: brand.white, fontWeight: '800', fontSize: tipografia.body }}>Cerrar</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Cerrar</Text>
           </Pressable>
         </View>
       </Modal>
@@ -715,7 +715,7 @@ const styles = StyleSheet.create({
   codeBox: { borderWidth: 1.5, borderRadius: 14, padding: espaciado.e14, marginTop: espaciado.e10, gap: espaciado.e8, alignItems: 'center' },
   codeInput: {
     borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8,
-    fontSize: 22, fontWeight: '900', letterSpacing: 8, textAlign: 'center', width: 140,
+    fontSize: 22, fontWeight: peso.titulo, letterSpacing: 8, textAlign: 'center', width: 140,
   },
   /** TANDA R (R.5b): la referencia del cobro y el botón del justificante. */
   notaInput: {
@@ -734,7 +734,7 @@ const styles = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(255,255,255,0.45)', borderRadius: 10,
     paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e10,
   },
-  section: { fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e20, marginBottom: espaciado.e8 },
+  section: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e20, marginBottom: espaciado.e8 },
   card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e12 },
   itemRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginBottom: espaciado.e10 },
   thumb: { width: 48, height: 48, borderRadius: radios.sm },

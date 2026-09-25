@@ -33,7 +33,7 @@ import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-na
 import MapBackground from './MapBackground';
 import { EgMarkers, EgRoutePolyline, type Coord, type EgMapViewHandle } from '../packages/map';
 import { taxiApi } from '../api/taxi';
-import { brand, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 
 // ─── Tipos TypeScript (públicos) ────────────────────────────────────────────
 
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     position: 'absolute', top: 86, alignSelf: 'center',
     paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: radios.full,
   },
-  lostTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: '700' },
+  lostTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.fuerte },
 });
 
 export default DriverLiveMap;

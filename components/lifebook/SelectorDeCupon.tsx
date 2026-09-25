@@ -16,7 +16,7 @@
  */
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { alpha, brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { cuponAplicable, descuentoDeCupon, type LbCupon } from '../../api/commerce';
 import { lbXaf } from '../../constants/lifebook';
 import { Chip, ChipRow } from './Chip';
@@ -94,15 +94,15 @@ export function SelectorDeCupon({
           accessibilityLabel="Usar el código del cupón"
           style={[styles.boton, { backgroundColor: codigo.trim() && !ocupado ? colors.primary : alpha(colors.primary, 0.4) }]}
         >
-          <Text style={{ color: brand.white, fontWeight: '900', fontSize: tipografia.body }}>Usar</Text>
+          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>Usar</Text>
         </Pressable>
       </View>
 
       {aviso ? (
-        <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e6 }}>{aviso}</Text>
+        <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>{aviso}</Text>
       ) : null}
       {descuento > 0 ? (
-        <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e6 }}>
+        <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e6 }}>
           Cupón aplicado: −{lbXaf(descuento)}
         </Text>
       ) : null}
