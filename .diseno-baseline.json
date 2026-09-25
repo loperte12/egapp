@@ -7,7 +7,7 @@
     "borderWidth": 5,
     "espaciado": 183,
     "precioFigura": 5,
-    "strokeWidth": 33
+    "strokeWidth": 0
   },
   "porArchivo": {
     "app/agente.tsx": {
@@ -29,16 +29,6 @@
       "espaciado": 1,
       "precioFigura": 0,
       "strokeWidth": 0
-    },
-    "app/alquiler-planes.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0,
-      "strokeWidth": 2
     },
     "app/alquiler-publicar.tsx": {
       "hex": 0,
@@ -98,7 +88,7 @@
       "borderWidth": 0,
       "espaciado": 1,
       "precioFigura": 0,
-      "strokeWidth": 1
+      "strokeWidth": 0
     },
     "app/conductor.tsx": {
       "hex": 0,
@@ -108,7 +98,7 @@
       "borderWidth": 0,
       "espaciado": 9,
       "precioFigura": 0,
-      "strokeWidth": 1
+      "strokeWidth": 0
     },
     "app/ecomerse-checkout.tsx": {
       "hex": 0,
@@ -228,7 +218,7 @@
       "borderWidth": 0,
       "espaciado": 3,
       "precioFigura": 0,
-      "strokeWidth": 2
+      "strokeWidth": 0
     },
     "app/food-menu.tsx": {
       "hex": 0,
@@ -238,7 +228,7 @@
       "borderWidth": 0,
       "espaciado": 3,
       "precioFigura": 0,
-      "strokeWidth": 3
+      "strokeWidth": 0
     },
     "app/food-orders.tsx": {
       "hex": 0,
@@ -269,16 +259,6 @@
       "espaciado": 3,
       "precioFigura": 0,
       "strokeWidth": 0
-    },
-    "app/intercity-planes.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0,
-      "strokeWidth": 2
     },
     "app/intercity-publish.tsx": {
       "hex": 0,
@@ -570,16 +550,6 @@
       "precioFigura": 0,
       "strokeWidth": 0
     },
-    "app/lifebook-store.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0,
-      "strokeWidth": 1
-    },
     "app/lifebook-user.tsx": {
       "hex": 0,
       "fontSize": 0,
@@ -588,7 +558,7 @@
       "borderWidth": 0,
       "espaciado": 3,
       "precioFigura": 0,
-      "strokeWidth": 1
+      "strokeWidth": 0
     },
     "app/lifebook-vistos.tsx": {
       "hex": 0,
@@ -608,7 +578,7 @@
       "borderWidth": 0,
       "espaciado": 3,
       "precioFigura": 0,
-      "strokeWidth": 2
+      "strokeWidth": 0
     },
     "app/monedero-movimientos.tsx": {
       "hex": 0,
@@ -730,26 +700,6 @@
       "precioFigura": 0,
       "strokeWidth": 0
     },
-    "app/work-detail.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0,
-      "strokeWidth": 1
-    },
-    "app/work-planes.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0,
-      "strokeWidth": 2
-    },
     "app/work-publish.tsx": {
       "hex": 0,
       "fontSize": 0,
@@ -798,17 +748,7 @@
       "borderWidth": 0,
       "espaciado": 2,
       "precioFigura": 0,
-      "strokeWidth": 1
-    },
-    "components/FloatingFooter.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0,
-      "strokeWidth": 2
+      "strokeWidth": 0
     },
     "components/jobs.tsx": {
       "hex": 0,
@@ -930,26 +870,6 @@
       "precioFigura": 0,
       "strokeWidth": 0
     },
-    "components/MapTools.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0,
-      "strokeWidth": 1
-    },
-    "components/PromoCarousel.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0,
-      "strokeWidth": 1
-    },
     "components/SearchHeader.tsx": {
       "hex": 0,
       "fontSize": 0,
@@ -959,16 +879,6 @@
       "espaciado": 1,
       "precioFigura": 0,
       "strokeWidth": 0
-    },
-    "components/ServiceGrid.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0,
-      "strokeWidth": 2
     },
     "components/ServicesDrawer.tsx": {
       "hex": 0,
@@ -1049,24 +959,6 @@
       "espaciado": 2,
       "precioFigura": 0,
       "strokeWidth": 0
-    },
-    "packages/ui-kit/src/primitives/CameraCapture.tsx": {
-      "strokeWidth": 1
-    },
-    "packages/ui-kit/src/primitives/DocumentChoiceTree.tsx": {
-      "strokeWidth": 2
-    },
-    "packages/ui-kit/src/primitives/KycStatusBanner.tsx": {
-      "strokeWidth": 1
-    },
-    "packages/ui-kit/src/primitives/LivenessChallengeView.tsx": {
-      "strokeWidth": 2
-    },
-    "packages/ui-kit/src/micro/Corazon.tsx": {
-      "strokeWidth": 1
-    },
-    "packages/ui-kit/src/micro/Estrellas.tsx": {
-      "strokeWidth": 1
     }
   }
 }
