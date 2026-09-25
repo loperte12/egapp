@@ -29,7 +29,7 @@ import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera, Check, Info, RefreshCw, X, XCircle } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, peso, Precio, PrimaryButton, radios, ScreenHeader, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { billingApi, BillingOrder, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -305,7 +305,7 @@ export default function BillingCheckoutScreen() {
         <View style={[s.card, { borderColor: colors.border }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
             <Text style={{ fontSize: tipografia.subtitle, fontWeight: peso.fuerte, color: colors.textPrimary, flex: 1 }}>{plan.name}</Text>
-            <Text style={{ fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: colors.primary }}>{formatXAF(plan.priceXaf)}</Text>
+            <Precio valor={plan.priceXaf} tamano="lg" color={colors.primary} />
           </View>
           {plan.description ? <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e4 }}>{plan.description}</Text> : null}
         </View>

@@ -17,7 +17,7 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, peso, Precio, PrimaryButton, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { AlertCircle, ArrowLeft, Camera, CheckCircle2, MessageCircle, Package, Truck } from 'lucide-react-native';
 import { AuthGate } from '../../core/AuthGate';
 import { absUrl } from '../../api/config';
@@ -405,7 +405,7 @@ function OrderContent() {
                 {it.variantSnapshot ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{it.variantSnapshot}</Text> : null}
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{it.quantity} × {lbXaf(it.unitPriceXaf)}</Text>
               </View>
-              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>{lbXaf(it.lineTotalXaf)}</Text>
+              <Precio valor={it.lineTotalXaf} tamano="sm" color={colors.textPrimary} />
             </View>
           ))}
           <SummaryRow label="Subtotal" value={lbXaf(order.subtotalXaf)} />

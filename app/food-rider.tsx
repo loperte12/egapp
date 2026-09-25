@@ -24,7 +24,7 @@ import {
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, MapPin, Navigation, Phone, XCircle } from 'lucide-react-native';
-import {FormField, PrimaryButton, ScreenHeader, alpha, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, neutro, peso, Precio, PrimaryButton, radios, ScreenHeader, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { foodApi, FoodDelivery, FoodRiderMe, ContabilidadRepartidor } from '../api/food';
 import { getGqPositionIfAllowed } from '../api/locate';
 import { formatXAF } from '../utils/formatHelpers';
@@ -299,16 +299,16 @@ export default function FoodRiderScreen() {
                   </View>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Tus comisiones</Text>
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: brand.success }}>{formatXAF(contab.comisionesXaf)}</Text>
+                    <Precio valor={contab.comisionesXaf} tamano="sm" color={brand.success} />
                   </View>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Efectivo que llevas</Text>
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textPrimary }}>{formatXAF(contab.efectivoCobradoXaf)}</Text>
+                    <Precio valor={contab.efectivoCobradoXaf} tamano="sm" color={colors.textPrimary} />
                   </View>
                   <View style={{ height: 1, backgroundColor: colors.border, marginVertical: espaciado.e8 }} />
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>Se te pagará</Text>
-                    <Text style={{ fontSize: tipografia.body, fontWeight: peso.titulo, color: brand.success }}>{formatXAF(contab.aPagarXaf)}</Text>
+                    <Precio valor={contab.aPagarXaf} tamano="md" color={brand.success} />
                   </View>
                   {contab.deudaArrastradaXaf > 0 ? (
                     <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.danger, marginTop: espaciado.e6 }}>
@@ -392,7 +392,7 @@ export default function FoodRiderScreen() {
                         {d.items.map((it, i) => (
                           <Text key={`${d.id}-${it.itemId}-${i}`} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{it.qty} × {it.name}</Text>
                         ))}
-                        <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: ACCENT, marginTop: espaciado.e2 }}>{formatXAF(d.totalXaf)}</Text>
+                        <Precio valor={d.totalXaf} tamano="sm" color={ACCENT} style={{ marginTop: espaciado.e2 }} />
 
                         {/* ── ¿HAY QUE COBRAR EN LA PUERTA? (C5) ────────────────────────────
                             El repartidor necesita saberlo ANTES de llegar, no al anotar. Sin esto

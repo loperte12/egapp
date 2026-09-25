@@ -35,7 +35,7 @@ import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleShee
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Banknote, Bike, CreditCard, MapPin, Minus, Plus, Store, Trash2, Wallet } from 'lucide-react-native';
-import { alpha, espaciado, FormField, MasOpciones, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, MasOpciones, peso, Precio, PrimaryButton, radios, ScreenHeader, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { foodApi, FoodRestaurantDetail } from '../api/food';
 import { walletApi } from '../api/wallet';
 import { fijarPin } from '../api/settlement';
@@ -366,7 +366,7 @@ export default function FoodCheckoutScreen() {
               <View style={s.breakdown}>
                 <View style={s.brRow}>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Subtotal</Text>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>{formatXAF(total)}</Text>
+                  <Precio valor={total} tamano="md" color={colors.textPrimary} />
                 </View>
                 <View style={s.brRow}>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Envío</Text>
@@ -374,7 +374,7 @@ export default function FoodCheckoutScreen() {
                 </View>
                 <View style={[s.brRow, { marginTop: espaciado.e4 }]}>
                   <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary }}>Total</Text>
-                  <Text style={{ fontSize: tipografia.title, fontWeight: peso.titulo, color: ACCENT }}>{formatXAF(total)}</Text>
+                  <Precio valor={total} tamano="lg" color={ACCENT} />
                 </View>
                 {/* Honestidad sobre las comisiones: existen y las paga el restaurante. Se dice
                     aquí porque el dueño decidió que la comisión se muestre a ambos, y el
@@ -581,7 +581,7 @@ function CartLineRow({ name, price, qty, lineTotal, onDec, onInc, onRemove }: {
       <View style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8 }}>
           <Text numberOfLines={2} style={{ flex: 1, fontSize: tipografia.body, color: colors.textPrimary }}>{name}</Text>
-          <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>{formatXAF(lineTotal)}</Text>
+          <Precio valor={lineTotal} tamano="md" color={colors.textPrimary} />
         </View>
         <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 1 }}>{formatXAF(price)} c/u</Text>
         <View style={s_line.controls}>

@@ -20,7 +20,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Minus, Plus, Star } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, peso, Precio, radios, ScreenHeader, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodRestaurantDetail, SPICE_LABEL, SPICE_ICON } from '../api/food';
 import { foodCartCount, foodCartTotal, FoodCartLine, useFoodStore } from '../state/food';
 import { itemDetailSummary } from '../utils/foodItemDetails';
@@ -295,7 +295,7 @@ function MenuItemRow({ item, qty, onAdd, onDec, onInc }: {
           </View>
         ) : null}
 
-        <Text style={s_row.price}>{formatXAF(item.priceXaf)}</Text>
+        <Precio valor={item.priceXaf} tamano="md" color={ACCENT} style={{ marginTop: espaciado.e2 }} />
       </View>
       {qty === 0 ? (
         <Pressable onPress={onAdd} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Añadir ${item.name}`}

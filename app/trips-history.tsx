@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ArrowLeft, CarTaxiFront, Star, XCircle } from 'lucide-react-native';
-import { EmptyState, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { taxiApi, TripHistoryItem } from '../api/taxi';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -132,7 +132,7 @@ export default function TripsHistoryScreen() {
                       </Text>
                     )}
                   </View>
-                  <Text style={{ fontSize: 15, fontWeight: peso.titulo, color: brand.secondary }}>{xaf(done ? t.final_price : t.requested_price)}</Text>
+                  <Precio valor={done ? t.final_price : t.requested_price} tamano="md" color={brand.secondary} />
                 </View>
 
                 {/* ── P1-c: detalle de LIQUIDACIÓN (qué se pagó, comisión y neto) ── */}

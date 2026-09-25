@@ -17,7 +17,7 @@ import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, T
 import { Image } from 'expo-image';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, peso, Precio, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, BarChart3, BedDouble, Bookmark, ChevronRight, MessageCircle, Package, Settings,
@@ -309,9 +309,7 @@ function MerchantContent() {
             <Seccion titulo="Caja" icono={<BarChart3 size={15} color={colors.textPrimary} />}>
               <View style={[styles.card, { borderColor: colors.border }]}>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Cobrado hoy</Text>
-                <Text style={{ color: colors.success, fontSize: tipografia.display, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
-                  {lbXaf(data?.money?.paidTodayXaf ?? 0)}
-                </Text>
+                <Precio valor={data?.money?.paidTodayXaf ?? 0} tamano="xl" color={colors.success} style={{ marginTop: espaciado.e2 }} />
                 <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e12 }}>
                   <Mini label="Este mes" valor={lbXaf(data?.money?.paidMonthXaf ?? 0)} />
                   <Mini label="Por cobrar" valor={lbXaf(data?.money?.pendingCodXaf ?? 0)} />

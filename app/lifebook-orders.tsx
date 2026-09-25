@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, EmptyState, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, MessageCircle, PackageOpen, ShoppingBag, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -137,7 +137,7 @@ function OrdersContent() {
                         </Text>
                         <Text style={{ color: meta.color, fontSize: tipografia.caption, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>{meta.label}</Text>
                       </View>
-                      <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body }}>{lbXaf(o.totalXaf)}</Text>
+                      <Precio valor={o.totalXaf} tamano="md" color={colors.textPrimary} />
                     </Pressable>
                   );
                 })}

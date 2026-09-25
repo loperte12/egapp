@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowDownToLine, ArrowLeft, ArrowUpFromLine, ChevronRight, KeyRound, ShieldCheck, Wallet,
 } from 'lucide-react-native';
-import {EmptyState, Tactil, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, neutro, peso, Precio, radios, Tactil, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { walletApi, type WalletBalance, type WalletTx } from '../api/wallet';
 import { brand } from '@egrouteplan/ui-kit';
@@ -128,9 +128,7 @@ function MonederoContent() {
               <Wallet size={16} color={colors.primary} />
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>Saldo disponible</Text>
             </View>
-            <Text style={{ color: colors.textPrimary, fontSize: tipografia.heroGrande, fontWeight: peso.titulo, marginTop: espaciado.e6 }}>
-              {fmtXaf(Number(balance?.balanceAvailable ?? 0))}
-            </Text>
+            <Precio valor={Number(balance?.balanceAvailable ?? 0)} tamano="xl" color={colors.textPrimary} style={{ marginTop: espaciado.e6 }} />
             {Number(balance?.balanceEscrow ?? 0) > 0 && (
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e4 }}>
                 En garantía: {fmtXaf(Number(balance?.balanceEscrow ?? 0))}

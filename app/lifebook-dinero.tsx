@@ -23,7 +23,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { AlertCircle, ArrowLeft, Info, Wallet } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceOrdersApi, type LbSaldoTienda } from '../api/commerce';
@@ -162,7 +162,7 @@ function DineroContent() {
             {saldo.liquidaciones.map((l) => (
               <View key={l.id} style={[styles.fila, { borderBottomColor: alpha(colors.border, 0.4) }]}>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>{lbXaf(l.importeXaf)}</Text>
+                  <Precio valor={l.importeXaf} tamano="md" color={colors.textPrimary} />
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>
                     {new Date(l.pagadoAt).toLocaleDateString()} · {l.pedidos === 1 ? '1 pedido' : `${l.pedidos} pedidos`}
                     {l.nota ? ` · ${l.nota}` : ''}

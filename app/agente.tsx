@@ -24,7 +24,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowLeft, BadgeCheck, Banknote, PackageCheck, PackageOpen, QrCode, RefreshCw,
 } from 'lucide-react-native';
-import { EmptyState, espaciado, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, peso, Precio, PrimaryButton, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PinSheet } from '@egrouteplan/ui-kit';
 import { agentApi, type CargaDeTrabajo, type OperacionDeEfectivo, type RecadoEscrow } from '../api/agent';
@@ -184,7 +184,7 @@ function Contenido() {
                       {op.user.name} · {op.user.phone}
                     </Text>
                   </View>
-                  <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>{fmtXaf(op.amount)}</Text>
+                  <Precio valor={op.amount} tamano="md" color={colors.textPrimary} />
                 </View>
                 {op.justification ? (
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>{op.justification}</Text>
@@ -227,7 +227,7 @@ function Contenido() {
                     </Text>
                     <Text style={{ color: est.color, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{est.label}</Text>
                   </View>
-                  <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>{fmtXaf(r.amount)}</Text>
+                  <Precio valor={r.amount} tamano="md" color={colors.textPrimary} />
                 </View>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>
                   {recoger ? `Recoges de ${r.seller.name} · ${r.seller.phone}` : `Entregas a ${r.buyer.name} · ${r.buyer.phone}`}

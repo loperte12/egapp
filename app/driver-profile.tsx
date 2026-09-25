@@ -10,7 +10,7 @@ import { Alert, Image, ScrollView, StyleSheet, Text, View, Pressable } from 'rea
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Wallet, FileWarning, Truck, Siren, ChevronRight, ShieldCheck, Percent } from 'lucide-react-native';
-import { alpha, brand, espaciado, GhostButton, InlineError, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, InlineError, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { driverApi, DocExpiry } from '../api/driver';
 import { intercityApi, DriverEarnings } from '../api/intercity';
 import { absUrl } from '../api/config';
@@ -139,7 +139,7 @@ export default function DriverProfileScreen() {
             <>
               <View style={{ alignItems: 'center', gap: espaciado.e2 }}>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>NETO ({period === 'all' ? 'total' : period})</Text>
-                <Text style={{ color: colors.success, fontSize: tipografia.hero, fontWeight: peso.titulo }}>{xaf(earnings.totalNet)}</Text>
+                <Precio valor={earnings.totalNet} tamano="xl" color={colors.success} />
               </View>
               <View style={[s.statRow, { backgroundColor: alpha(colors.border, 0.2) }]}>
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>🚕 Taxi ciudad</Text>

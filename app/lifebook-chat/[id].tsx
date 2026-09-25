@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, ShoppingBag, ShoppingCart, X } from 'lucide-react-native';
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
@@ -1363,7 +1363,7 @@ function ChatThreadContent() {
                       <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.medio }}>
                         {post.title?.trim() || post.body?.trim() || 'Publicación'}
                       </Text>
-                      {price ? <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e2 }}>{lbXaf(price)}</Text> : null}
+                      {price ? <Precio valor={price} tamano="sm" color={colors.primary} style={{ marginTop: espaciado.e2 }} /> : null}
                     </View>
                   </Pressable>
                 );
@@ -1681,7 +1681,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           </Text>
         ) : null}
         {pr.priceXaf !== null && pr.priceXaf !== undefined ? (
-          <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body, marginTop: espaciado.e2 }}>{lbXaf(pr.priceXaf)}</Text>
+          <Precio valor={pr.priceXaf} tamano="md" color={colors.primary} style={{ marginTop: espaciado.e2 }} />
         ) : (
           <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>Precio a consultar</Text>
         )}
@@ -1723,7 +1723,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           {msg.kind === 'sale' ? '🏷️ ' : ''}{msg.postRef.title}
         </Text>
         {msg.postRef.priceXaf !== undefined ? (
-          <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{lbXaf(msg.postRef.priceXaf)}</Text>
+          <Precio valor={msg.postRef.priceXaf} tamano="sm" color={colors.primary} style={{ marginTop: espaciado.e2 }} />
         ) : null}
       </View>,
     );
@@ -1952,7 +1952,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: espaciado.e6, lineHeight: 17 }} numberOfLines={5}>{ar.text}</Text>
         ) : null}
         {ar.priceXaf ? (
-          <Text style={{ color: brand.secondary, fontWeight: peso.titulo, fontSize: tipografia.body, marginTop: espaciado.e6 }}>{lbXaf(ar.priceXaf)}</Text>
+          <Precio valor={ar.priceXaf} tamano="md" color={brand.secondary} style={{ marginTop: espaciado.e6 }} />
         ) : null}
         {route ? (
           <Pressable

@@ -20,7 +20,7 @@ import * as Clipboard from 'expo-clipboard';
 import { ExpoSpeechRecognitionModule, useSpeechRecognitionEvent } from 'expo-speech-recognition';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { Check, CheckSquare, Clock, Copy, Heart, Mic, MoreHorizontal, Plus, Send, Sparkles, Store, ThumbsUp, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { pickImageFromCamera, pickImageFromLibrary, uriToBase64 } from '../core/pickImage';
@@ -431,7 +431,7 @@ function Contenido() {
                     {[t.subtitulo, t.ciudad].filter(Boolean).join(' · ')}
                   </Text>
                   {t.precioXaf !== null && t.precioXaf !== undefined ? (
-                    <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>{lbXaf(t.precioXaf)}</Text>
+                    <Precio valor={t.precioXaf} tamano="md" color={colors.primary} style={{ marginTop: espaciado.e3 }} />
                   ) : null}
                 </View>
               </Pressable>
@@ -691,7 +691,7 @@ function Contenido() {
                   <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                     <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{item.title}</Text>
                     {item.priceXaf !== null && item.priceXaf !== undefined ? (
-                      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>{lbXaf(item.priceXaf)}</Text>
+                      <Precio valor={item.priceXaf} tamano="md" color={colors.primary} style={{ marginTop: espaciado.e3 }} />
                     ) : null}
                   </View>
                 </Pressable>

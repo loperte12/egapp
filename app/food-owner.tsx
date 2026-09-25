@@ -27,7 +27,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, Camera, Eye, EyeOff, Plus, Trash2, X, XCircle } from 'lucide-react-native';
-import {FormField, PrimaryButton, ScreenHeader, Sheet, Tactil, alpha, altura, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
+import { alpha, altura, espaciado, FormField, neutro, peso, Precio, PrimaryButton, radios, ScreenHeader, Sheet, Tactil, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodOwnerMe, SPICE_LABEL, SPICE_ICON, SIDES_MAX, type SpiceLevel } from '../api/food';
 import { formatXAF } from '../utils/formatHelpers';
 import { foodHoursError } from '../utils/foodHours';
@@ -842,7 +842,7 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
       <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
         <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>{item.name}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>{formatXAF(item.priceXaf)}</Text>
+          <Precio valor={item.priceXaf} tamano="sm" color={ACCENT} />
           <Text style={{ fontSize: 10.5, fontWeight: peso.fuerte, color: statusColor }}>{statusText}</Text>
           {!photo ? <Text style={{ fontSize: 10.5, fontWeight: peso.fuerte, color: brand.warning }}>· falta foto</Text> : null}
         </View>

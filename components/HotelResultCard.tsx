@@ -17,7 +17,7 @@
  */
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { alpha, brand, espaciado, tipografia, useTheme, peso, trazo, radios} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import type { HotelRoom, HotelSearchResult } from '../api/hotel';
 import { xaf } from '../utils/datetime';
 import { LazyImage } from './rental/LazyImage';
@@ -79,9 +79,7 @@ export function HotelResultCard({
             </Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
-            <Text style={[styles.precio, { color: soldOut ? colors.textSecondary : colors.secondary }]}>
-              {xaf(fromPricePerNightXaf)}
-            </Text>
+            <Precio valor={fromPricePerNightXaf} tamano="md" color={soldOut ? colors.textSecondary : colors.secondary} />
             <Text style={[styles.precioSub, { color: colors.textSecondary }]}>
               {soldOut ? 'sin disponibilidad' : 'por noche · desde'}
             </Text>

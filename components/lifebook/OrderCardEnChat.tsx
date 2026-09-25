@@ -19,7 +19,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import {alpha, espaciado, neutro, peso, radios, tipografia, useTheme} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, neutro, peso, Precio, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { Package } from 'lucide-react-native';
 import type { LbMessageOrderRef } from '../../api/messages';
 import { LB_ORDER_META, lbXaf } from '../../constants/lifebook';
@@ -160,7 +160,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
       ) : null}
 
       <View style={[styles.total, { borderTopColor: alpha(colors.border, 0.6) }]}>
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{lbXaf(pedido.totalXaf)}</Text>
+        <Precio valor={pedido.totalXaf} tamano="md" color={colors.textPrimary} />
         <Text style={{ color: colors.textSecondary, fontSize: 10.5 }} numberOfLines={1}>
           {/* En las tarjetas de tienda la entrega ya va en el ticket de arriba: aquí no se repite. */}
           {pedido.social && pedido.deliveryMode ? lbTransportLabel(pedido.deliveryMode) : ''}

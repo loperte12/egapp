@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, tipografia, useTheme, peso, trazo, radios} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { Car, Navigation } from 'lucide-react-native';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import { PhotoGallery } from '../components/PhotoGallery';
@@ -394,7 +394,7 @@ export default function HotelDetalleScreen() {
                       </Text>
                     </View>
                     <View style={{ alignItems: 'flex-end' }}>
-                      <Text style={[styles.precio, { color: colors.secondary }]}>{xaf(r.basePriceXaf)}</Text>
+                      <Precio valor={r.basePriceXaf} tamano="md" color={colors.secondary} />
                       {/* ── EL PRECIO EN LA MONEDA DEL HUÉSPED ────────────────────────
                           El precio real es el XAF (es lo que se cobra, en efectivo, al llegar). El
                           equivalente se enseña para que un huésped de fuera sepa cuánto es: lo calcula

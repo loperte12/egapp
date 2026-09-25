@@ -27,7 +27,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ChevronRight, Settings } from 'lucide-react-native';
-import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -366,23 +366,23 @@ function Tarjeta({
       <View style={[styles.dinero, { borderColor: colors.border, backgroundColor: colors.surface }]}>
         <View style={styles.linea}>
           <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Total</Text>
-          <Text style={[styles.lineaVal, { color: colors.textPrimary, fontWeight: peso.maximo }]}>{xaf(r.totalXaf)}</Text>
+          <Precio valor={r.totalXaf} tamano="md" color={colors.textPrimary} />
         </View>
         {r.depositXaf > 0 ? (
           <>
             <View style={styles.linea}>
               <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Señal ({r.depositPercent} %)</Text>
-              <Text style={[styles.lineaVal, { color: colors.primary, fontWeight: peso.maximo }]}>{xaf(r.depositXaf)}</Text>
+              <Precio valor={r.depositXaf} tamano="md" color={colors.primary} />
             </View>
             <View style={styles.linea}>
               <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Al llegar</Text>
-              <Text style={[styles.lineaVal, { color: colors.secondary, fontWeight: peso.maximo }]}>{xaf(r.remainingXaf)}</Text>
+              <Precio valor={r.remainingXaf} tamano="md" color={colors.secondary} />
             </View>
           </>
         ) : (
           <View style={styles.linea}>
             <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Se paga al llegar</Text>
-            <Text style={[styles.lineaVal, { color: colors.secondary, fontWeight: peso.maximo }]}>{xaf(r.totalXaf)}</Text>
+            <Precio valor={r.totalXaf} tamano="md" color={colors.secondary} />
           </View>
         )}
         <View style={styles.linea}>

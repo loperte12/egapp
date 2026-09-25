@@ -16,7 +16,7 @@ import { Image } from 'expo-image';
 import * as Crypto from 'expo-crypto';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {GhostButton, PrimaryButton, alpha, espaciado, neutro, peso, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, neutro, peso, Precio, PrimaryButton, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Banknote, Building2, MapPin, Package, Store, Truck, Wallet } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -334,7 +334,7 @@ function CheckoutContent() {
             {variant ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>Opción: {variant.name}</Text> : null}
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>Cantidad: {quantity}</Text>
           </View>
-          <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>{lbXaf(subtotal)}</Text>
+          <Precio valor={subtotal} tamano="md" color={colors.primary} />
         </View>
 
         {/* Entrega */}

@@ -7,7 +7,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View, type StyleProp, type ViewStyle } from 'react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import type { RentalProperty } from '../../api/rental';
 import { formatXAF, isLandType } from '../../utils/formatHelpers';
 
@@ -139,7 +139,7 @@ export function PriceCalculator({ property, style }: { property: RentalProperty;
         />
         <View style={[s.totalRow, { borderTopColor: colors.border }]}>
           <Text style={[s.totalLabel, { color: colors.textPrimary }]}>Total estimado / mes</Text>
-          <Text style={[s.totalValue, { color: colors.primary }]}>{formatXAF(estimates.total)}</Text>
+          <Precio valor={estimates.total} tamano="md" color={colors.primary} />
         </View>
       </View>
 

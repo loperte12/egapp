@@ -21,7 +21,7 @@ import { Image } from 'expo-image';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { runOnJS } from 'react-native-reanimated';
 import { Heart, MoreHorizontal, Play } from 'lucide-react-native';
-import {alpha, espaciado, neutro, peso, radios, tipografia, useTheme} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, neutro, peso, Precio, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { LB_CARD_DEFAULT_RATIO, type LbPostCard } from '../../api/lifebook';
 import { lbXaf } from '../../constants/lifebook';
 import { brand } from '@egrouteplan/ui-kit';
@@ -146,7 +146,7 @@ export const PostCard = memo(function PostCard({ post, width, onPress, onMore, o
         {/* Precio — abajo izquierda */}
         {post.priceXaf !== undefined ? (
           <View style={[styles.chip, styles.pricePill]}>
-            <Text style={styles.chipText}>{lbXaf(post.priceXaf)}</Text>
+            <Precio valor={post.priceXaf} tamano="sm" color={brand.white} />
           </View>
         ) : null}
 

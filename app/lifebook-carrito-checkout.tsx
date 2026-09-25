@@ -22,7 +22,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, MasOpciones, PinSheet, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, MasOpciones, peso, PinSheet, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, Store } from 'lucide-react-native';
 import * as Crypto from 'expo-crypto';
 import { AuthGate } from '../core/AuthGate';
@@ -505,9 +505,7 @@ function CheckoutContent() {
               ) : null}
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Total de este pedido</Text>
-                <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
-                  {lbXaf(Math.max(0, g.subtotalXaf + (envio ?? 0) - descuentoDeCupon(cuponDe(g), g.subtotalXaf)))}
-                </Text>
+                <Precio valor={Math.max(0, g.subtotalXaf + (envio ?? 0) - descuentoDeCupon(cuponDe(g), g.subtotalXaf))} tamano="md" color={colors.primary} />
               </View>
             </View>
           );

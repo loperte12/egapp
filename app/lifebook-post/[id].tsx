@@ -28,7 +28,7 @@ import {
 import { Image as ExpoImage } from 'expo-image';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {alpha, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, neutro, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, Bookmark, Briefcase, Car, ChevronRight, Heart, Home, MapPin,
   MoreHorizontal, Package, Play, Plus, Send, Share2, ShoppingBag, ShoppingCart, Store, Utensils, X,
@@ -566,7 +566,7 @@ function PostContent() {
         ) : (
           <View style={[styles.hero, { backgroundColor: alpha(tint, 0.12) }]}>
             <Text style={[styles.heroType, { color: tint }]}>{lbTypeLabel(post.type)}</Text>
-            {price !== undefined && <Text style={[styles.heroPrice, { color: tint }]}>{lbXaf(price)}</Text>}
+            {price !== undefined && <Precio valor={price} tamano="md" color={tint} />}
           </View>
         )}
 
