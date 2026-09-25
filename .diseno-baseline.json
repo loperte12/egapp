@@ -6,7 +6,7 @@
     "fontWeight": 0,
     "borderWidth": 5,
     "espaciado": 183,
-    "precioFigura": 50
+    "precioFigura": 47
   },
   "porArchivo": {
     "app/agente-escaner.tsx": {
@@ -259,7 +259,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 3,
-      "precioFigura": 4
+      "precioFigura": 3
     },
     "app/food-menu.tsx": {
       "hex": 0,
@@ -1195,7 +1195,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 1
+      "precioFigura": 0
     },
     "components/lifebook/PersonRow.tsx": {
       "hex": 0,
@@ -1222,7 +1222,7 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
-      "precioFigura": 1
+      "precioFigura": 0
     },
     "components/lifebook/ProductoEnChatSheet.tsx": {
       "hex": 0,

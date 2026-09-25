@@ -162,10 +162,14 @@ function cuentaHex(txt, rel) {
  *   · `xaf`        — copia LOCAL, definida en 4 ficheros distintos.        13 figuras
  *   · `fmtXaf`     — copia LOCAL, definida en 3 ficheros.                   5 figuras
  *
- * Y `formateaXAF` —el formateador del KIT, escrito justo para esto— tiene **0 usos en la app**. Es el
- * fallo 18/26 del skill `codemod-seguro`: un trinquete ciego a una FORMA de escribir la deuda no
- * aprieta esa forma, y la deuda existe igual. Igual que el hex de ocho dígitos del 25/09, esto SUBE
- * el número al ampliarlo, y sube porque gana VISIBILIDAD, no deuda.
+ * `formatXAF` **es** el formateador del kit, reexportado: `utils/formatHelpers.ts` hace
+ * `import { formateaXAF as formatXAF }`. Los otros tres NO: son **copias locales** de la misma
+ * lógica, y peores — usan `toLocaleString('es-GQ')`, que depende del ICU que traiga el dispositivo y
+ * puede pintar «6,500» sin avisar. O sea: el formateador bueno ya existía, con tres copias al lado.
+ *
+ * Es el fallo 18/26 del skill `codemod-seguro`: un trinquete ciego a una FORMA de escribir la deuda
+ * no aprieta esa forma, y la deuda existe igual. Igual que el hex de ocho dígitos del 25/09, esto
+ * SUBE el número al ampliarlo, y sube porque gana VISIBILIDAD, no deuda.
  *
  * El `\b` de delante de `xaf` es lo que impide que case dentro de `formatXAF(` o `lbXaf(`: ahí la `x`
  * va precedida de una letra, así que no hay límite de palabra. `fmtXaf` va aparte porque lleva la
@@ -192,7 +196,21 @@ const LITERAL = /'[^'\n]*'|"[^"\n]*"|`[^`]*`/g;
  * El cierre del tag se toma como el PRIMER `>` tras `<Text`: si el tag llevara una flecha
  * (`onPress={() => …}`), ese `>` cae dentro del tag y la cuenta se descarta (falso negativo
  * silencioso). Preferimos eso a un falso positivo, que bloquearía un cambio legítimo.
+ *
+ * UN `<Text>` ANIDADO NO ES UNA FIGURA — corregido el 25/09/2026 (50 → 47). Antes se contaban tres
+ * sitios que no lo son. La razón no es de gusto: `Precio` devuelve una `View`, y un `View` **no se
+ * puede renderizar dentro de un `Text`**. O sea que un `<Text>` dentro de otro es una FRASE por
+ * construcción, y la doctrina del propio componente lo dice (`primitives/Precio.tsx`: «FRASE — …
+ * no debe envolverse en este componente»). Contarlos obligaba a reestructurar oraciones en filas,
+ * que es justo lo que la primitiva advierte que no se haga.
  */
+function profundidadText(txt, pos) {
+  const antes = txt.slice(0, pos);
+  const abre = (antes.match(/<Text(?![A-Za-z])/g) ?? []).length;
+  const cierra = (antes.match(/<\/Text>/g) ?? []).length;
+  return abre - cierra;
+}
+
 function cuentaPrecioFigura(txt) {
   let n = 0;
   const re = new RegExp(FORMATO_A_MANO.source, 'g');
@@ -202,6 +220,8 @@ function cuentaPrecioFigura(txt) {
     const abre = txt.lastIndexOf('<Text', i);
     if (abre < 0) continue;
     if (txt.lastIndexOf('</Text>', i) > abre) continue;
+    /* Anidado en otro `<Text>` → es frase, no figura: una `View` no cabe ahí. */
+    if (profundidadText(txt, abre) > 0) continue;
     const finTag = txt.indexOf('>', abre);
     if (finTag < 0 || finTag > i) continue;
     const cierra = txt.indexOf('</Text>', i);
