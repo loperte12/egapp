@@ -204,7 +204,7 @@ export function ChatOptionsSheet({
               <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>‹ Atrás</Text>
             </Pressable>
           ) : null}
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>{title}</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>{title}</Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar"><X size={20} color={colors.textSecondary} /></Pressable>
         </View>
 
@@ -426,13 +426,13 @@ const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja, maxHeight: '84%' },
   sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginBottom: espaciado.e8 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: 14, paddingVertical: espaciado.e9, paddingHorizontal: espaciado.e8 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: radios.campo, paddingVertical: espaciado.e9, paddingHorizontal: espaciado.e8 },
   rowIcon: { width: 34, height: 34, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   chip: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
-  bgRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e10, marginBottom: espaciado.e8 },
-  bgSwatch: { width: 40, height: 40, borderRadius: 10, borderWidth: trazo.fino, overflow: 'hidden' },
+  bgRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: trazo.base, borderRadius: radios.campo, padding: espaciado.e10, marginBottom: espaciado.e8 },
+  bgSwatch: { width: 40, height: 40, borderRadius: radios.chip, borderWidth: trazo.fino, overflow: 'hidden' },
   bgAccent: { position: 'absolute', right: -10, bottom: -10, width: 34, height: 34, borderRadius: radios.full, opacity: 0.8 },
-  noteInput: { borderRadius: 14, minHeight: 96, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
+  noteInput: { borderRadius: radios.campo, minHeight: 96, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
   primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e14 },
   histRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth },
   histThumb: { width: 46, height: 46, borderRadius: radios.sm },

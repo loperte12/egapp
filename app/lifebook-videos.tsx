@@ -1098,7 +1098,7 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
               del vídeo ([P1]: fuera los ±5 s y ±15 s, que vivían en el reproductor). */}
           {paused && isActive && !esLargo ? (
             <View style={s.pauseDot} pointerEvents="none">
-              <Text style={{ fontSize: 26, color: brand.white }}>▶</Text>
+              <Text style={{ fontSize: tipografia.display, color: brand.white }}>▶</Text>
             </View>
           ) : null}
 
@@ -1226,7 +1226,7 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
         {productos.length > 0 ? (
           <View style={{ alignSelf: 'flex-start', marginBottom: espaciado.e10, maxWidth: '100%', zIndex: 6 }}>
             {stickerAbierto ? (
-              <View style={{ backgroundColor: 'rgba(0,0,0,0.72)', borderRadius: 14, padding: espaciado.e10, width: 216 }}>
+              <View style={{ backgroundColor: 'rgba(0,0,0,0.72)', borderRadius: radios.campo, padding: espaciado.e10, width: 216 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                   {productos[0].coverUrl ? (
                     <Image source={{ uri: productos[0].coverUrl }} style={{ width: 42, height: 42, borderRadius: radios.hermano }} />
@@ -1243,7 +1243,7 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
                   </View>
                 </View>
                 {productos.length > 1 ? (
-                  <Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: 10.5, marginTop: espaciado.e6 }}>
+                  <Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: tipografia.micro, marginTop: espaciado.e6 }}>
                     y {productos.length - 1} producto{productos.length - 1 === 1 ? '' : 's'} más en esta publicación
                   </Text>
                 ) : null}
@@ -1271,9 +1271,9 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
                 style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: radios.full, paddingLeft: espaciado.e4, paddingRight: espaciado.e12, paddingVertical: espaciado.e4 }}
               >
                 {productos[0].coverUrl ? (
-                  <Image source={{ uri: productos[0].coverUrl }} style={{ width: 28, height: 28, borderRadius: 14 }} />
+                  <Image source={{ uri: productos[0].coverUrl }} style={{ width: 28, height: 28, borderRadius: radios.full }} />
                 ) : (
-                  <View style={{ width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.15)' }}>
+                  <View style={{ width: 28, height: 28, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.15)' }}>
                     <ShoppingBag size={14} color={brand.white} />
                   </View>
                 )}
@@ -1281,7 +1281,7 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
                   {productos[0].priceXaf === null ? 'Ver producto' : lbXaf(productos[0].priceXaf)}
                 </Text>
                 {productos.length > 1 ? (
-                  <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 10.5, fontWeight: peso.maximo }}>+{productos.length - 1}</Text>
+                  <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: tipografia.micro, fontWeight: peso.maximo }}>+{productos.length - 1}</Text>
                 ) : null}
               </Pressable>
             )}
@@ -1372,7 +1372,7 @@ const s = StyleSheet.create({
   tlTimeTxt: {
     color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo,
     backgroundColor: 'rgba(0,0,0,0.55)', overflow: 'hidden',
-    paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4, borderRadius: 10,
+    paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4, borderRadius: radios.chip,
   },
   // El degradado inferior ya no es un estilo: se genera por franjas en `BottomScrim`.
   actions: { position: 'absolute', right: 10, zIndex: 3, alignItems: 'center', gap: espaciado.e16 },
@@ -1383,11 +1383,11 @@ const s = StyleSheet.create({
   avatar: { width: 26, height: 26, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   author: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo, flexShrink: 1 },
   durChip: { backgroundColor: 'rgba(0,0,0,0.45)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
-  durText: { color: brand.white, fontSize: 10.5, fontWeight: peso.maximo },
+  durText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.maximo },
   title: { color: 'rgba(255,255,255,0.94)', fontSize: tipografia.body, lineHeight: 18, marginTop: espaciado.e6 },
   // [P8] fila «Búsquedas relacionadas»
   relBox: { marginTop: espaciado.e9 },
-  relLabel: { color: 'rgba(255,255,255,0.62)', fontSize: 10.5, fontWeight: peso.maximo, marginBottom: espaciado.e6 },
+  relLabel: { color: 'rgba(255,255,255,0.62)', fontSize: tipografia.micro, fontWeight: peso.maximo, marginBottom: espaciado.e6 },
   relRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 },
   relChip: {
     backgroundColor: 'rgba(255,255,255,0.16)', borderRadius: radios.md,

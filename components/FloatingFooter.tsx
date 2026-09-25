@@ -156,5 +156,5 @@ const styles = StyleSheet.create({
     borderColor: brand.white,
     paddingHorizontal: espaciado.e3,
   },
-  badgeText: { color: brand.white, fontSize: 9, fontWeight: peso.titulo },
+  badgeText: { color: brand.white, fontSize: tipografia.rotulo, fontWeight: peso.titulo },
 });

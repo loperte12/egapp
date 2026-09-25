@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
   closeTitle: { flex: 1, textAlign: 'center', fontSize: tipografia.body, fontWeight: peso.maximo, marginHorizontal: espaciado.e10 },
   coverFrame: { width: 220, height: 220, borderRadius: radios.panel, borderWidth: trazo.fino, overflow: 'hidden' },
   cover: { width: '100%', height: '100%' },
-  audioTitle: { fontSize: 17, fontWeight: peso.maximo, textAlign: 'center', marginTop: espaciado.e16, marginBottom: espaciado.e18 },
+  audioTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.maximo, textAlign: 'center', marginTop: espaciado.e16, marginBottom: espaciado.e18 },
   progressTrack: { width: '100%', height: 5, borderRadius: radios.punta, backgroundColor: 'rgba(0,0,0,0.12)', overflow: 'hidden' },
   progressFill: { height: 5, borderRadius: radios.punta },
   playBig: { width: 62, height: 62, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },

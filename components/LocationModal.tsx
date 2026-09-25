@@ -136,10 +136,10 @@ const styles = StyleSheet.create({
     maxHeight: '85%',
   },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e10 },
-  title: { fontSize: 17, fontWeight: peso.maximo },
+  title: { fontSize: tipografia.subCabecera, fontWeight: peso.maximo },
   sectionHeader: { fontSize: tipografia.micro, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.4, marginTop: espaciado.e10, marginBottom: espaciado.e2, marginLeft: espaciado.e8 },
-  row: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e8, borderRadius: 14, marginBottom: espaciado.e4 },
+  row: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e8, borderRadius: radios.campo, marginBottom: espaciado.e4 },
   pinWrap: { width: 34, height: 34, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   rowText: { flex: 1, marginLeft: espaciado.e12 },
-  cityName: { fontSize: 15 },
+  cityName: { fontSize: tipografia.cuerpo },
 });

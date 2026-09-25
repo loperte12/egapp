@@ -251,7 +251,7 @@ function CarritoContent() {
       <Pressable onPress={() => irSeguro.atras()} hitSlop={10} accessibilityLabel="Volver">
         <ArrowLeft size={20} color={colors.textPrimary} />
       </Pressable>
-      <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 17, flex: 1, textAlign: 'center' }}>
+      <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subCabecera, flex: 1, textAlign: 'center' }}>
         Carrito{carrito?.count ? ` (${carrito.count})` : ''}
       </Text>
       {items.length > 0 ? (
@@ -390,7 +390,7 @@ function CarritoContent() {
                         accessibilityLabel={l.variantName ? `Cambiar la opción ${l.variantName}` : 'Elegir una opción'}
                         style={[styles.pildora, { borderColor: alpha(colors.border, 0.9), backgroundColor: colors.surface }]}
                       >
-                        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte }}>
+                        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>
                           {l.variantName ?? 'Elegir opción'}
                         </Text>
                       </Pressable>
@@ -398,21 +398,21 @@ function CarritoContent() {
                       {/* Etiquetas de estado (solo las que de verdad aplican) */}
                       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5 }}>
                         {l.statusLabel ? (
-                          <Text style={{ color: colors.danger, fontSize: 10.5, fontWeight: peso.titulo }}>{l.statusLabel}</Text>
+                          <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{l.statusLabel}</Text>
                         ) : null}
                         {l.priceChanged && l.available ? (
-                          <Text style={{ color: brand.secondary, fontSize: 10.5, fontWeight: peso.titulo }}>Precio cambió</Text>
+                          <Text style={{ color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo }}>Precio cambió</Text>
                         ) : null}
                         {l.sourceKind === 'grupo' ? (
-                          <Text style={{ color: colors.primary, fontSize: 10.5, fontWeight: peso.titulo }}>
+                          <Text style={{ color: colors.primary, fontSize: tipografia.micro, fontWeight: peso.titulo }}>
                             Precio del grupo{l.sourceLabel ? ` · ${l.sourceLabel}` : ''}
                           </Text>
                         ) : null}
                         {l.sourceKind === 'live' ? (
-                          <Text style={{ color: brand.social, fontSize: 10.5, fontWeight: peso.titulo }}>Precio de live</Text>
+                          <Text style={{ color: brand.social, fontSize: tipografia.micro, fontWeight: peso.titulo }}>Precio de live</Text>
                         ) : null}
                         {l.maxQuantity <= l.quantity && l.available && l.maxQuantity < 99 ? (
-                          <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte }}>
+                          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>
                             Solo quedan {l.maxQuantity}
                           </Text>
                         ) : null}
@@ -458,7 +458,7 @@ function CarritoContent() {
                           <Plus size={13} color={colors.textPrimary} />
                         </Pressable>
                         {l.lineTotalXaf !== null && l.quantity > 1 ? (
-                          <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginLeft: espaciado.e2 }}>
+                          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginLeft: espaciado.e2 }}>
                             = {lbXaf(l.lineTotalXaf)}
                           </Text>
                         ) : null}
@@ -650,13 +650,13 @@ const styles = StyleSheet.create({
   toque: { width: altura.punto, height: altura.punto, alignItems: 'center', justifyContent: 'center' },
   /** El círculo VISIBLE. No se toca: sigue midiendo 21, que es lo que pide el diseño. */
   casilla: { width: 21, height: 21, borderRadius: radios.full, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
-  bloque: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e10, gap: espaciado.e10 },
+  bloque: { borderRadius: radios.campo, borderWidth: trazo.fino, padding: espaciado.e10, gap: espaciado.e10 },
   cabeceraTienda: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
   /** Aviso de «no llega a tu zona»: naranja, bajo la cabecera de la tienda. */
-  avisoZona: { borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7, marginTop: espaciado.e6 },
+  avisoZona: { borderRadius: radios.chip, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7, marginTop: espaciado.e6 },
   logoTienda: { width: 24, height: 24, borderRadius: radios.md },
   linea: { flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e9, paddingVertical: espaciado.e4 },
-  foto: { width: 78, height: 78, borderRadius: 10 },
+  foto: { width: 78, height: 78, borderRadius: radios.chip },
   pildora: { alignSelf: 'flex-start', borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, maxWidth: '100%' },
   paso: { width: 26, height: 26, borderRadius: radios.sm, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
   accionDeslizar: { width: 78, alignItems: 'center', justifyContent: 'center', gap: espaciado.e2, borderRadius: radios.md, marginVertical: espaciado.e4 },

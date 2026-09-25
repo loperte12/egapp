@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import {brand, espaciado, neutro, peso, tipografia} from '@egrouteplan/ui-kit';
+import {brand, espaciado, neutro, peso, tipografia, radios} from '@egrouteplan/ui-kit';
 
 interface State { error: Error | null; }
 type Sink = (err: Error) => void;
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: brand.decoBrasa },
   content: { padding: espaciado.e20, paddingTop: 80 },
   title: { color: brand.danger, fontSize: tipografia.title, fontWeight: peso.titulo, marginBottom: espaciado.e12 },
-  msg: { color: brand.decoRosaClaro, fontSize: 15, fontWeight: peso.fuerte, marginBottom: espaciado.e12 },
-  box: { backgroundColor: brand.decoBrasaClaro, borderRadius: 10, padding: espaciado.e12 },
+  msg: { color: brand.decoRosaClaro, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, marginBottom: espaciado.e12 },
+  box: { backgroundColor: brand.decoBrasaClaro, borderRadius: radios.chip, padding: espaciado.e12 },
   stack: { color: brand.decoRosa, fontSize: tipografia.caption, fontFamily: 'monospace' },
   hint: { color: neutro.n600, fontSize: tipografia.caption, marginTop: espaciado.e16, textAlign: 'center' },
 });

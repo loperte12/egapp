@@ -195,16 +195,16 @@ export function VideoCoverSheet({
 
 const s = StyleSheet.create({
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
-  card: { borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e16 },
+  card: { borderTopLeftRadius: radios.tarjeta, borderTopRightRadius: radios.tarjeta, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e16 },
   head: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e12 },
   title: { flex: 1, fontSize: tipografia.subtitle, fontWeight: peso.maximo },
   center: { alignItems: 'center', paddingVertical: 34 },
   hint: { fontSize: tipografia.caption, lineHeight: 16 },
-  errorBox: { borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e8 },
-  thumbWrap: { borderRadius: 10, overflow: 'hidden' },
+  errorBox: { borderRadius: radios.chip, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e8 },
+  thumbWrap: { borderRadius: radios.chip, overflow: 'hidden' },
   thumb: { width: 96, height: 128, backgroundColor: 'rgba(0,0,0,0.08)' },
   thumbTime: {
-    position: 'absolute', left: 4, bottom: 4, borderRadius: 6,
+    position: 'absolute', left: 4, bottom: 4, borderRadius: radios.marca,
     backgroundColor: 'rgba(0,0,0,0.62)', paddingHorizontal: espaciado.e5, paddingVertical: 1,
   },
   thumbTimeText: { color: brand.white, fontSize: tipografia.nota, fontWeight: peso.maximo },

@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
   backBtn: { padding: espaciado.e4 },
   searchBox: {
     flex: 1, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
-    borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e12, height: 48,
+    borderWidth: trazo.fino, borderRadius: radios.campo, paddingHorizontal: espaciado.e12, height: 48,
   },
   input: { flex: 1, fontSize: tipografia.subtitle, fontWeight: peso.medio, paddingVertical: 0 },
   shortcuts: { flexDirection: 'row', gap: espaciado.e10, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
@@ -336,8 +336,8 @@ const styles = StyleSheet.create({
   shortcutLabel: { fontSize: tipografia.caption, fontWeight: peso.maximo, flexShrink: 1 },
   sectionTitle: { fontSize: tipografia.caption, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e6, marginTop: espaciado.e8, marginLeft: espaciado.e4 },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e10 },
-  iconWrap: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  iconWrap: { width: 42, height: 42, borderRadius: radios.campo, alignItems: 'center', justifyContent: 'center' },
   rowBody: { flex: 1 },
-  rowTitle: { fontSize: 15, fontWeight: peso.fuerte },
+  rowTitle: { fontSize: tipografia.cuerpo, fontWeight: peso.fuerte },
   rowSub: { fontSize: tipografia.caption, marginTop: 1 },
 });

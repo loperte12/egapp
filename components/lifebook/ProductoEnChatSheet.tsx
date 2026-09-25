@@ -152,7 +152,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
             )}
 
             <View>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }} numberOfLines={expandido ? 1 : 3}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }} numberOfLines={expandido ? 1 : 3}>
                 {producto.title}
               </Text>
               {!expandido && producto.shortDescription ? (
@@ -213,7 +213,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
               <Pressable onPress={() => setCantidad((n) => Math.max(1, n - 1))} accessibilityLabel="Quitar una unidad" style={[styles.paso, { borderColor: colors.border }]}>
                 <Minus size={14} color={colors.textPrimary} />
               </Pressable>
-              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15, minWidth: 26, textAlign: 'center' }}>{cantidad}</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo, minWidth: 26, textAlign: 'center' }}>{cantidad}</Text>
               <Pressable onPress={() => setCantidad((n) => Math.min(99, n + 1))} accessibilityLabel="Añadir una unidad" style={[styles.paso, { borderColor: colors.border }]}>
                 <Plus size={14} color={colors.textPrimary} />
               </Pressable>
@@ -242,7 +242,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                 </View>
                 <View style={[styles.linea, { marginTop: espaciado.e4 }]}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Total a pagar</Text>
-                  <Text style={{ color: colors.primary, fontSize: 17, fontWeight: peso.titulo }}>{total === null ? 'A consultar' : lbXaf(total)}</Text>
+                  <Text style={{ color: colors.primary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo }}>{total === null ? 'A consultar' : lbXaf(total)}</Text>
                 </View>
                 <Pressable
                   onPress={() => {
@@ -316,16 +316,16 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
 
 const styles = StyleSheet.create({
   backdrop: { flex: 1 },
-  sheet: { borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden' },
+  sheet: { borderTopLeftRadius: radios.tarjeta, borderTopRightRadius: radios.tarjeta, overflow: 'hidden' },
   handleWrap: { alignItems: 'center', paddingTop: espaciado.e8, paddingBottom: espaciado.e2 },
   handle: { width: 38, height: 4, borderRadius: radios.pista },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   chip: { borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   paso: { width: 30, height: 30, borderRadius: radios.sm, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
   linea: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e10 },
-  pagar: { borderRadius: 14, paddingVertical: espaciado.e14, alignItems: 'center', marginTop: espaciado.e6 },
+  pagar: { borderRadius: radios.campo, paddingVertical: espaciado.e14, alignItems: 'center', marginTop: espaciado.e6 },
   acciones: { flexDirection: 'row', gap: espaciado.e10, padding: espaciado.e12, borderTopWidth: StyleSheet.hairlineWidth },
-  accionSec: { flex: 1, borderWidth: trazo.base, borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center' },
-  accionPri: { flex: 1, borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center' },
+  accionSec: { flex: 1, borderWidth: trazo.base, borderRadius: radios.campo, paddingVertical: espaciado.e12, alignItems: 'center' },
+  accionPri: { flex: 1, borderRadius: radios.campo, paddingVertical: espaciado.e12, alignItems: 'center' },
   encoger: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, paddingVertical: espaciado.e12, borderTopWidth: StyleSheet.hairlineWidth },
 });

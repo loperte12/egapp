@@ -362,7 +362,7 @@ export default function BillingCheckoutScreen() {
                     <RNImage source={{ uri: proofUri }} style={{ width: 56, height: 56, borderRadius: radios.sm, backgroundColor: colors.surface }} />
                     <View style={{ flex: 1 }}>
                       <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: peso.fuerte }}>Comprobante adjunto</Text>
-                      <Text style={{ fontSize: 10.5, color: colors.textSecondary }}>jpg/png · máx 5 MB</Text>
+                      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>jpg/png · máx 5 MB</Text>
                     </View>
                     <GhostButton title="Cambiar" onPress={pickProof} />
                     <Pressable onPress={() => setProofUri(null)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Quitar comprobante" testID="billing-remove-proof">
@@ -456,7 +456,7 @@ export default function BillingCheckoutScreen() {
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     card: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: trazo.fino },
-    proofBox: { flexDirection: 'row', alignItems: 'center', padding: espaciado.e14, borderRadius: 10, borderWidth: trazo.fino },
+    proofBox: { flexDirection: 'row', alignItems: 'center', padding: espaciado.e14, borderRadius: radios.chip, borderWidth: trazo.fino },
     refreshRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, marginTop: espaciado.e16, paddingVertical: espaciado.e8 },
     center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   });

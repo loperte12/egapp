@@ -211,7 +211,7 @@ export default function WorkPlanesScreen() {
             <Pressable
               onPress={() => void load()}
               accessibilityRole="button" accessibilityLabel="Reintentar cargar los planes"
-              style={({ pressed }) => [{ marginTop: espaciado.e12, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
+              style={({ pressed }) => [{ marginTop: espaciado.e12, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: radios.chip, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
             >
               <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
             </Pressable>
@@ -291,16 +291,16 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   subtitle: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 19, marginBottom: espaciado.e18 },
   planCard: { borderRadius: radios.lg, padding: espaciado.e18, marginBottom: espaciado.e16 },
   planName: { fontSize: tipografia.cabecera, fontWeight: peso.fuerte },
-  currentBadge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
+  currentBadge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.marca, marginTop: espaciado.e6, alignSelf: 'flex-start' },
   currentBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.medio },
   price: { fontSize: tipografia.title, fontWeight: peso.maximo, color: c.textPrimary },
   period: { fontSize: tipografia.body, color: c.textSecondary },
   featureRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: espaciado.e6, borderBottomWidth: trazo.fino, borderBottomColor: c.border },
   featureLabel: { fontSize: tipografia.body, color: c.textSecondary, flex: 1 },
   featureValue: { fontSize: tipografia.body, fontWeight: peso.medio, color: c.textPrimary },
-  selectButton: { borderRadius: 10, paddingVertical: espaciado.e14, alignItems: 'center' },
-  selectButtonText: { color: brand.white, fontSize: 15, fontWeight: peso.fuerte },
+  selectButton: { borderRadius: radios.chip, paddingVertical: espaciado.e14, alignItems: 'center' },
+  selectButtonText: { color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte },
   paymentNote: { backgroundColor: c.card, borderRadius: radios.md, padding: espaciado.e16, marginTop: espaciado.e8, borderWidth: trazo.fino },
-  paymentNoteTitle: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e8 },
+  paymentNoteTitle: { fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e8 },
   paymentNoteText: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 22 },
 });

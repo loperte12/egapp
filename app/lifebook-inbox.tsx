@@ -103,7 +103,7 @@ function InboxContent() {
         <Pressable onPress={() => router.back()} hitSlop={8} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 17, flex: 1, marginLeft: espaciado.e10 }}>
+        <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.subCabecera, flex: 1, marginLeft: espaciado.e10 }}>
           Notificaciones
         </Text>
         <Pressable
@@ -280,12 +280,12 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10 },
   tabRow: { flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8 },
   tab: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, flex: 1, alignItems: 'center' },
-  card: { flexDirection: 'row', gap: espaciado.e10, borderRadius: 14, padding: espaciado.e12 },
+  card: { flexDirection: 'row', gap: espaciado.e10, borderRadius: radios.campo, padding: espaciado.e12 },
   avatar: { width: 42, height: 42, borderRadius: radios.full },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
   kindBadge: {
     position: 'absolute', bottom: -2, right: -2,
-    width: 20, height: 20, borderRadius: 10,
+    width: 20, height: 20, borderRadius: radios.full,
     alignItems: 'center', justifyContent: 'center',
     borderWidth: trazo.fuerte, borderColor: brand.white,
   },

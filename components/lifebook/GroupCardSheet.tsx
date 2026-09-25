@@ -104,7 +104,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
       <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={onClose} />
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>Ficha del grupo</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>Ficha del grupo</Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
             <X size={20} color={colors.textSecondary} />
           </Pressable>
@@ -235,7 +235,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
             accessibilityLabel={`Abrir el chat de ${group.title}`}
             style={[styles.cta, { backgroundColor: colors.primary }]}
           >
-            <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Abrir el chat</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Abrir el chat</Text>
           </Pressable>
         ) : enlaceAgotado && !pendiente ? (
           /* El enlace ya ha dado todas las entradas que el dueño permitió. Se dice claro y
@@ -259,14 +259,14 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
           <Pressable onPress={() => unirse(true)} disabled={busy} accessibilityLabel="Enviar mi respuesta y unirme"
             style={[styles.cta, { backgroundColor: colors.primary }]}>
             {busy ? <ActivityIndicator size="small" color={brand.white} /> : (
-              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Enviar respuesta y unirme</Text>
+              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Enviar respuesta y unirme</Text>
             )}
           </Pressable>
         ) : (
           <Pressable onPress={() => unirse(false)} disabled={busy} accessibilityLabel={`Unirme a ${group.title}`}
             style={[styles.cta, { backgroundColor: colors.primary }]}>
             {busy ? <ActivityIndicator size="small" color={brand.white} /> : (
-              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>
+              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>
                 {group.joinMode === 'approval' ? 'Pedir entrar' : 'Unirme'}
               </Text>
             )}
@@ -291,12 +291,12 @@ const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e10 },
-  photo: { width: 56, height: 56, borderRadius: 14 },
+  photo: { width: 56, height: 56, borderRadius: radios.campo },
   center: { alignItems: 'center', justifyContent: 'center' },
-  chipRow: { borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8 },
+  chipRow: { borderRadius: radios.chip, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8 },
   input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   memberChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
   memberAvatar: { width: 18, height: 18, borderRadius: radios.full },
   stateBox: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e10, marginTop: espaciado.e12 },
-  cta: { marginTop: espaciado.e14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
+  cta: { marginTop: espaciado.e14, borderRadius: radios.campo, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

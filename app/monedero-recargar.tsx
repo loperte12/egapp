@@ -246,5 +246,5 @@ const styles = StyleSheet.create({
   },
   agentIcon: { width: 38, height: 38, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   doneWrap: { flex: 1, padding: espaciado.e20, justifyContent: 'center', gap: espaciado.e18 },
-  otpCard: { borderRadius: 20, borderWidth: trazo.fino, padding: espaciado.e22 },
+  otpCard: { borderRadius: radios.tarjeta, borderWidth: trazo.fino, padding: espaciado.e22 },
 });

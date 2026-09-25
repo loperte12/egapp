@@ -123,6 +123,6 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
 }
 
 const styles = StyleSheet.create({
-  input: { borderRadius: 14, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, fontSize: tipografia.fino, marginTop: espaciado.e6 },
+  input: { borderRadius: radios.campo, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, fontSize: tipografia.fino, marginTop: espaciado.e6 },
   area: { minHeight: 70, textAlignVertical: 'top' },
 });

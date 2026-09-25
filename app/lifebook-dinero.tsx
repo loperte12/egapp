@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  tarjeta: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e14 },
+  tarjeta: { borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.campo, padding: espaciado.e14 },
   fila: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth, gap: espaciado.e10,

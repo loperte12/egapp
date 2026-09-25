@@ -43,7 +43,7 @@ import { takeGeoPick } from '../state/geoPick';
 import { getCurrentGqPosition, nearestCityName as nearestCityOf } from '../api/locate';
 import { reverseGeocode, pickReverseLabel } from '../api/geocode';
 import { ir as irSeguro } from '../constants/rutas';
-import { elevation, espaciado } from '@egrouteplan/ui-kit';
+import { elevation, espaciado, radios} from '@egrouteplan/ui-kit';
 
 // Única fuente de verdad de los snap points.
 const SNAP = ['36%', '64%', '92%'] as const;
@@ -267,7 +267,7 @@ export default function HomeScreen() {
 function SheetGlassBackground({ style }: { style?: any }) {
   const { isDark } = useTheme();
   return (
-    <View style={[{ flex: 1, borderRadius: 20, overflow: 'hidden' }, style]}>
+    <View style={[{ flex: 1, borderRadius: radios.tarjeta, overflow: 'hidden' }, style]}>
       <BlurView
         style={StyleSheet.absoluteFill}
         intensity={36}

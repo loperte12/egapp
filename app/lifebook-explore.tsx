@@ -303,7 +303,7 @@ function ExploreContent() {
         <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={() => setFiltersOpen(false)} />
         <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 18 }]}>
           <View style={styles.sheetHeader}>
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>Filtrar por tipo</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>Filtrar por tipo</Text>
             <Pressable onPress={() => setFiltersOpen(false)} hitSlop={10}><X size={20} color={colors.textSecondary} /></Pressable>
           </View>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>

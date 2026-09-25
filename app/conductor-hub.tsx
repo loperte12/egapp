@@ -185,7 +185,7 @@ export default function ConductorHubScreen() {
               <CarTaxiFront size={24} color={brand.success} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>Taxi urbano</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Taxi urbano</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>
                 Sal en línea, recibe solicitudes en la ciudad y gestiona tus carreras.
               </Text>
@@ -205,7 +205,7 @@ export default function ConductorHubScreen() {
               <Bus size={24} color={brand.primary} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>Ciudad a Ciudad</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Ciudad a Ciudad</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>
                 Publica viajes interurbanos (Malabo ↔ Bata, etc.), reservas y cobros.
               </Text>
@@ -219,12 +219,12 @@ export default function ConductorHubScreen() {
               <Truck size={24} color={colors.textSecondary} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>Mudanza</Text>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Mudanza</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 16 }}>
                 Traslados de carga y mudanzas. Llegará pronto a tu zona.
               </Text>
             </View>
-            <Text style={{ color: colors.textSecondary, fontSize: 9, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.4 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.rotulo, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.4 }}>
               Próximamente
             </Text>
           </View>
@@ -245,8 +245,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     body: { fontSize: tipografia.body, lineHeight: 20, textAlign: 'center', fontWeight: peso.medio },
     content: { padding: espaciado.e20, gap: espaciado.e12 },
     statusCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14 },
-    statusIcon: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
-    question: { fontSize: 17, fontWeight: peso.titulo, marginTop: espaciado.e8 },
+    statusIcon: { width: 40, height: 40, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
+    question: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo, marginTop: espaciado.e8 },
     sub: { fontSize: tipografia.caption, lineHeight: 18, fontWeight: peso.medio, marginTop: -6 },
     opt: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14, borderRadius: radios.panel, borderWidth: trazo.base, padding: espaciado.e16 },
     optIcon: { width: 52, height: 52, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },

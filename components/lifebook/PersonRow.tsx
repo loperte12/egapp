@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { alpha, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia, useTheme, peso, radios} from '@egrouteplan/ui-kit';
 
 export function PersonRow({ name, avatarUrl, subtitle, actions }: {
   name: string; avatarUrl?: string | null; subtitle?: string; actions: React.ReactNode;
@@ -31,6 +31,6 @@ export function PersonRow({ name, avatarUrl, subtitle, actions }: {
 
 const styles = StyleSheet.create({
   personRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
-  personAvatar: { width: 40, height: 40, borderRadius: 20 },
+  personAvatar: { width: 40, height: 40, borderRadius: radios.full },
   center: { alignItems: 'center', justifyContent: 'center' },
 });

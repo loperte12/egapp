@@ -157,7 +157,7 @@ function FollowersContent() {
           ListEmptyComponent={
             <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e8 }}>
               <Users size={36} color={alpha(colors.primary, 0.45)} />
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>Sin novedades de seguidores</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>Sin novedades de seguidores</Text>
             </View>
           }
         />
@@ -170,6 +170,6 @@ const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: tipografia.anchoFuerte, fontWeight: peso.titulo, flex: 1 },
   sectionTitle: { fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.6, marginTop: espaciado.e6, marginBottom: espaciado.e8 },
-  card: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12, marginBottom: espaciado.e8 },
+  card: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.campo, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12, marginBottom: espaciado.e8 },
   followBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderWidth: trazo.fino },
 });

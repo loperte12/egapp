@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   title: { fontSize: tipografia.body, fontWeight: peso.maximo },
   subtitle: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
   priceBlock: { alignItems: 'flex-end' },
-  price: { fontSize: 15, fontWeight: peso.maximo },
+  price: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
   bandRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e2 },
   band: { fontSize: tipografia.minimo, fontWeight: peso.medio },
   loadingText: { fontSize: tipografia.caption, fontWeight: peso.medio, marginLeft: espaciado.e8 },

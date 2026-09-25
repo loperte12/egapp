@@ -151,9 +151,9 @@ export default function ReservaAnticipadaScreen() {
         <View style={[s.card, { alignItems: 'center', borderColor: colors.success, paddingVertical: espaciado.e28, width: '100%' }]}>
           <CheckCircle2 size={52} color={colors.success} />
           <Text style={{ fontSize: tipografia.title, fontWeight: peso.maximo, color: colors.textPrimary, marginTop: espaciado.e12 }}>Reserva confirmada</Text>
-          <Text style={{ fontSize: 15, color: colors.textSecondary, marginTop: espaciado.e8, textAlign: 'center' }}>{origin} → {dest}</Text>
+          <Text style={{ fontSize: tipografia.cuerpo, color: colors.textSecondary, marginTop: espaciado.e8, textAlign: 'center' }}>{origin} → {dest}</Text>
           <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e4 }}>{whenLabel}</Text>
-          <Text style={{ fontSize: 26, fontWeight: peso.maximo, color: colors.textPrimary, marginTop: espaciado.e14 }}>
+          <Text style={{ fontSize: tipografia.display, fontWeight: peso.maximo, color: colors.textPrimary, marginTop: espaciado.e14 }}>
             {Number(booking.price).toLocaleString('es')} XAF
           </Text>
           <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>Ref: {booking.id.slice(0, 8)}</Text>
@@ -455,7 +455,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     root: { flex: 1 },
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e14, paddingBottom: espaciado.e6 },
     iconBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, minWidth: 64 },
-    title: { fontSize: 17, fontWeight: peso.maximo, color: c.textPrimary },
+    title: { fontSize: tipografia.subCabecera, fontWeight: peso.maximo, color: c.textPrimary },
     stepsRow: { flexDirection: 'row', gap: espaciado.e5, marginTop: espaciado.e4 },
     stepDot: { width: 18, height: 4, borderRadius: radios.pista },
     securityText: { fontSize: tipografia.nota, color: c.success, fontWeight: peso.fuerte },
@@ -467,9 +467,9 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     routeDot: { width: 10, height: 10, borderRadius: radios.marca },
     routeLine: { width: 2, flex: 1, backgroundColor: c.border, marginVertical: espaciado.e2 },
     fieldRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e10 },
-    input: { flex: 1, fontSize: 15, color: c.textPrimary, padding: 0 },
+    input: { flex: 1, fontSize: tipografia.cuerpo, color: c.textPrimary, padding: 0 },
     divider: { height: 1, backgroundColor: c.border },
-    sumLine: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary },
+    sumLine: { fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, color: c.textPrimary },
 
     chipRow: { flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e16 },
     dayChip: { flex: 1, alignItems: 'center', borderWidth: trazo.base, borderRadius: radios.md, paddingVertical: espaciado.e12 },
@@ -490,7 +490,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
 
     priceBig: { fontSize: tipografia.display, fontWeight: peso.maximo, color: c.textPrimary },
     budgetRow: { flexDirection: 'row', alignItems: 'center', borderWidth: trazo.fino, borderColor: c.border, borderRadius: radios.md, paddingHorizontal: espaciado.e12, marginTop: espaciado.e6 },
-    budgetInput: { flex: 1, fontSize: 15, color: c.textPrimary, paddingVertical: espaciado.e10 },
+    budgetInput: { flex: 1, fontSize: tipografia.cuerpo, color: c.textPrimary, paddingVertical: espaciado.e10 },
     currencyTag: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.textSecondary },
 
     hint: { textAlign: 'center', fontSize: tipografia.caption, color: c.textSecondary, marginTop: espaciado.e10, paddingHorizontal: espaciado.e24, lineHeight: 16 },

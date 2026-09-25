@@ -1127,7 +1127,7 @@ function LifeBookContent() {
                     <Text
                       style={{
                         color: colors.textPrimary,
-                        fontSize: 15,
+                        fontSize: tipografia.cuerpo,
                         fontWeight: peso.maximo,
                       }}
                     >
@@ -1237,7 +1237,7 @@ function LifeBookContent() {
                       color: active
                         ? colors.primary
                         : colors.textPrimary,
-                      fontSize: 15,
+                      fontSize: tipografia.cuerpo,
                       fontWeight: active ? peso.maximo : peso.medio,
                     }}
                   >
@@ -1414,8 +1414,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   sheet: {
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: radios.tarjeta,
+    borderTopRightRadius: radios.tarjeta,
     padding: espaciado.e18,
   },
   sheetHandle: {
@@ -1425,7 +1425,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: espaciado.e14,
   },
-  sheetTitle: { fontSize: 17, fontWeight: peso.titulo },
+  sheetTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
   sheetHint: { fontSize: tipografia.caption, marginTop: espaciado.e3, marginBottom: espaciado.e10 },
   cityOption: {
     flexDirection: 'row',
@@ -1441,7 +1441,7 @@ const styles = StyleSheet.create({
     padding: espaciado.e18,
   },
   pubSheetTitle: {
-    fontSize: 17,
+    fontSize: tipografia.subCabecera,
     fontWeight: peso.titulo,
     marginBottom: espaciado.e14,
     textAlign: 'center',
@@ -1450,7 +1450,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: espaciado.e12,
-    borderRadius: 14,
+    borderRadius: radios.campo,
     padding: espaciado.e13,
     marginBottom: espaciado.e8,
   },

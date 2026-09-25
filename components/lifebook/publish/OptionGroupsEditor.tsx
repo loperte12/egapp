@@ -358,13 +358,13 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
 }
 
 const styles = StyleSheet.create({
-  input: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8, fontSize: tipografia.caption },
-  card: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e10 },
+  input: { borderWidth: trazo.fino, borderRadius: radios.chip, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8, fontSize: tipografia.caption },
+  card: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12, marginBottom: espaciado.e10 },
   colores: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10 },
   colorItem: { alignItems: 'center', gap: espaciado.e3 },
   colorFoto: { width: 62, height: 62, borderRadius: radios.md, borderWidth: trazo.fuerte, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   colorImg: { width: '100%', height: '100%' },
-  addBtn: { width: 40, height: 40, borderRadius: 10, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
+  addBtn: { width: 40, height: 40, borderRadius: radios.chip, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
   delBtn: { width: 30, height: 30, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   combo: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e7 },
   comboInput: { width: 78 },

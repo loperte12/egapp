@@ -157,7 +157,7 @@ function Contenido() {
         <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Volver" hitSlop={12} style={styles.volver}>
           <ArrowLeft size={21} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>Habitaciones</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>Habitaciones</Text>
         <Pressable
           onPress={() => router.push('/lifebook-hotel-habitacion' as never)}
           accessibilityRole="button"
@@ -445,13 +445,13 @@ function EsqueletoTarjeta() {
       <View style={{ flexDirection: 'row' }}>
         <View style={[styles.portada, { backgroundColor: gris, borderColor: colors.border }]} />
         <View style={{ flex: 1, paddingLeft: espaciado.e12, gap: espaciado.e8 }}>
-          <View style={{ height: 14, width: '70%', borderRadius: 6, backgroundColor: gris }} />
-          <View style={{ height: 11, width: '50%', borderRadius: 6, backgroundColor: gris }} />
-          <View style={{ height: 14, width: '35%', borderRadius: 6, backgroundColor: gris }} />
+          <View style={{ height: 14, width: '70%', borderRadius: radios.marca, backgroundColor: gris }} />
+          <View style={{ height: 11, width: '50%', borderRadius: radios.marca, backgroundColor: gris }} />
+          <View style={{ height: 14, width: '35%', borderRadius: radios.marca, backgroundColor: gris }} />
         </View>
       </View>
-      <View style={{ height: 11, width: '90%', borderRadius: 6, backgroundColor: gris, marginTop: espaciado.e14 }} />
-      <View style={{ height: 11, width: '60%', borderRadius: 6, backgroundColor: gris, marginTop: espaciado.e8 }} />
+      <View style={{ height: 11, width: '90%', borderRadius: radios.marca, backgroundColor: gris, marginTop: espaciado.e14 }} />
+      <View style={{ height: 11, width: '60%', borderRadius: radios.marca, backgroundColor: gris, marginTop: espaciado.e8 }} />
     </View>
   );
 }

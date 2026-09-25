@@ -570,7 +570,7 @@ function EditProfileContent() {
               </Text>
             </View>
             <View style={[styles.statusPill, { backgroundColor: alpha(ocColor, 0.14) }]}>
-              <Text style={{ color: ocColor, fontSize: 10.5, fontWeight: peso.titulo }}>{ocLabel}</Text>
+              <Text style={{ color: ocColor, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{ocLabel}</Text>
             </View>
           </View>
         </View>
@@ -1380,7 +1380,7 @@ function ModalGrupo({ visible, onAdd, onClose }: {
               accessibilityLabel={`Enlazar el grupo ${g.title}`}
               style={({ pressed }) => [{
                 flexDirection: 'row' as const, alignItems: 'center' as const, gap: espaciado.e10,
-                backgroundColor: colors.surface, borderRadius: 14, padding: espaciado.e10,
+                backgroundColor: colors.surface, borderRadius: radios.campo, padding: espaciado.e10,
                 borderWidth: trazo.fino, borderColor: colors.border,
                 opacity: pressed ? 0.8 : 1,
               }]}
@@ -1430,7 +1430,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  topTitle: { fontSize: 17, fontWeight: peso.titulo, flex: 1, textAlign: 'center' },
+  topTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, textAlign: 'center' },
 
   // Títulos de grupo
   groupTitle: {
@@ -1455,7 +1455,7 @@ const styles = StyleSheet.create({
   },
   statusRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
-    borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e13, marginTop: espaciado.e8,
+    borderRadius: radios.campo, borderWidth: trazo.fino, padding: espaciado.e13, marginTop: espaciado.e8,
   },
 
   // Bloque imagen
@@ -1496,9 +1496,9 @@ const styles = StyleSheet.create({
   // ID de EG Route Plan
   idBox: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    borderRadius: 14, paddingHorizontal: espaciado.e14, height: 48,
+    borderRadius: radios.campo, paddingHorizontal: espaciado.e14, height: 48,
   },
-  idTxt: { fontSize: 15, fontWeight: peso.maximo, letterSpacing: 1 },
+  idTxt: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo, letterSpacing: 1 },
 
   // Chip
   chip: {
@@ -1507,14 +1507,14 @@ const styles = StyleSheet.create({
 
   // Biografía
   bioInput: {
-    borderRadius: 14, borderWidth: trazo.base, minHeight: 112,
+    borderRadius: radios.campo, borderWidth: trazo.base, minHeight: 112,
     paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: tipografia.fino, fontWeight: peso.medio, lineHeight: 20,
   },
 
   // Enlaces
   addLinkRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
-    borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e11,
+    borderWidth: trazo.fino, borderRadius: radios.campo, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e11,
   },
   linkRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
@@ -1522,7 +1522,7 @@ const styles = StyleSheet.create({
   },
 
   // Pie
-  footNote: { textAlign: 'center', fontSize: 10.5, fontWeight: peso.medio, marginTop: espaciado.e10 },
+  footNote: { textAlign: 'center', fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e10 },
 
   // Modales
   backdrop: { flex: 1 },
@@ -1551,7 +1551,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between',
     marginBottom: espaciado.e6,
   },
-  modalTitle: { fontSize: 17, fontWeight: peso.titulo },
+  modalTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
 
   // Listas dentro de las hojas
   groupHeader: { fontSize: tipografia.micro, fontWeight: peso.maximo, letterSpacing: 0.5, textTransform: 'uppercase', marginTop: espaciado.e10, marginBottom: espaciado.e2, marginLeft: espaciado.e4 },

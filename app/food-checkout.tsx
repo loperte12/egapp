@@ -329,7 +329,7 @@ export default function FoodCheckoutScreen() {
                       {c.name}: {formatXAF(c.antes)} → <Text style={{ fontWeight: peso.maximo, color: brand.warningText }}>{formatXAF(c.ahora)}</Text>
                     </Text>
                   ))}
-                  <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e3 }}>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e3 }}>
                     Los importes de abajo ya están actualizados.
                   </Text>
                 </View>
@@ -373,7 +373,7 @@ export default function FoodCheckoutScreen() {
                   <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.primary }}>Gratis</Text>
                 </View>
                 <View style={[s.brRow, { marginTop: espaciado.e4 }]}>
-                  <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary }}>Total</Text>
+                  <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.maximo, color: colors.textPrimary }}>Total</Text>
                   <Precio valor={total} tamano="lg" color={ACCENT} />
                 </View>
                 {/* Honestidad sobre las comisiones: existen y las paga el restaurante. Se dice
@@ -383,7 +383,7 @@ export default function FoodCheckoutScreen() {
                     (`wallet.food_commission_config`) y `mapRestaurant` no la devuelve — ver el
                     parche `CHECKOUT-fees-y-minimo.md`. Hasta que se exponga, se explica sin cifras
                     en vez de inventar un cálculo que podría no coincidir con el del servidor. */}
-                <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4, lineHeight: 14 }}>
+                <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4, lineHeight: 14 }}>
                   El reparto es gratis para ti. Las comisiones de la plataforma y del reparto las
                   paga el restaurante: van incluidas en estos precios, no se te suman.
                 </Text>
@@ -442,7 +442,7 @@ export default function FoodCheckoutScreen() {
                     disabled={ubicando}
                     accessibilityRole="button"
                     accessibilityLabel="Añadir mi ubicación exacta para el reparto"
-                    style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10, borderWidth: trazo.fino, borderColor: pin ? alpha(colors.success, 0.5) : colors.border, backgroundColor: pin ? alpha(colors.success, 0.08) : 'transparent' }}
+                    style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: pin ? alpha(colors.success, 0.5) : colors.border, backgroundColor: pin ? alpha(colors.success, 0.08) : 'transparent' }}
                   >
                     <MapPin size={15} color={pin ? colors.success : colors.textPrimary} />
                     <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte, color: pin ? colors.success : colors.textPrimary }}>
@@ -455,7 +455,7 @@ export default function FoodCheckoutScreen() {
                     ) : null}
                   </Pressable>
                   {pin ? (
-                    <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4 }}>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>
                       Se envía solo con este pedido y el repartidor lo usa para llegar.
                     </Text>
                   ) : null}
@@ -583,7 +583,7 @@ function CartLineRow({ name, price, qty, lineTotal, onDec, onInc, onRemove }: {
           <Text numberOfLines={2} style={{ flex: 1, fontSize: tipografia.body, color: colors.textPrimary }}>{name}</Text>
           <Precio valor={lineTotal} tamano="md" color={colors.textPrimary} />
         </View>
-        <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: 1 }}>{formatXAF(price)} c/u</Text>
+        <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: 1 }}>{formatXAF(price)} c/u</Text>
         <View style={s_line.controls}>
           <Pressable onPress={onRemove} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Quitar ${name} del pedido`}
             style={[s_line.iconBtn, { backgroundColor: alpha(colors.danger, 0.1) }]}>
@@ -614,7 +614,7 @@ const s_line = StyleSheet.create({
 
 const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: espaciado.e28 },
-  title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
+  title: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.body, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
   btnPrimary: { marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e28, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
 });
@@ -626,7 +626,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   breakdown: { backgroundColor: c.surface, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e10 },
   brRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e2 },
   modeCard: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e14, backgroundColor: c.surface },
-  warnBox: { borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e10 },
-  area: { minHeight: 64, borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
-  errorBox: { borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e14 },
+  warnBox: { borderRadius: radios.chip, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e10 },
+  area: { minHeight: 64, borderRadius: radios.campo, borderWidth: trazo.fino, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
+  errorBox: { borderRadius: radios.chip, padding: espaciado.e10, marginTop: espaciado.e14 },
 });

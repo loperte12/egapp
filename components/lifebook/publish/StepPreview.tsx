@@ -10,7 +10,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { alpha, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia, useTheme, peso, radios} from '@egrouteplan/ui-kit';
 import { absUrl } from '../../../api/config';
 import { lbXaf } from '../../../constants/lifebook';
 import { LB_CONDITIONS, LB_PAY_STATUS_LABEL, lbCoverageLabel, lbPayLabel, lbPriceLabel, lbServiceLabel, lbTransportLabel } from '../../../constants/commerce';
@@ -102,7 +102,7 @@ export default function StepPreview({ categories, shop }: { categories: LbCatego
 }
 
 const styles = StyleSheet.create({
-  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, overflow: 'hidden', marginBottom: espaciado.e16 },
+  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.campo, overflow: 'hidden', marginBottom: espaciado.e16 },
   cover: { width: '100%', height: 190 },
   coverEmpty: { alignItems: 'center', justifyContent: 'center' },
 });

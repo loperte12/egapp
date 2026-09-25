@@ -134,7 +134,7 @@ function Contenido() {
           <ArrowLeft size={21} color={colors.textPrimary} />
         </Pressable>
         <View style={{ flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo }}>Gestión</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo }}>Gestión</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }} numberOfLines={2}>
             {ofertas[0]?.company ?? 'Tu empresa'} · lo que se configura, no lo del día
           </Text>
@@ -166,7 +166,7 @@ function Contenido() {
             <View style={{ marginTop: espaciado.e18 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e8 }}>
                 <TriangleAlert size={16} color={colors.secondary} />
-                <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginLeft: espaciado.e7 }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginLeft: espaciado.e7 }}>
                   Te falta por completar ({pendientes.length})
                 </Text>
               </View>
@@ -193,7 +193,7 @@ function Contenido() {
             </View>
           ) : null}
 
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e22, marginBottom: espaciado.e8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginTop: espaciado.e22, marginBottom: espaciado.e8 }}>
             Configurar
           </Text>
 
@@ -275,11 +275,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
-  resumen: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e13 },
+  resumen: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e13 },
   pendiente: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56 },
   fila: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
-    borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
+    borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
   },
   filaIcono: { width: 34, height: 34, borderRadius: radios.nota, alignItems: 'center', justifyContent: 'center' },
 });

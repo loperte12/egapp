@@ -492,7 +492,7 @@ function LifeBookSearchContent() {
                 >
                   <Text
                     style={{
-                      fontSize: 15,
+                      fontSize: tipografia.cuerpo,
                       fontWeight: peso.titulo,
                       color: i < 3 ? brand.like : colors.textSecondary,
                       width: 20,
@@ -585,7 +585,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: espaciado.e8,
-    borderRadius: 20,
+    borderRadius: radios.tarjeta,
     paddingHorizontal: espaciado.e12,
     paddingVertical: espaciado.e8,
   },

@@ -162,7 +162,7 @@ export default function IntercityPlanesScreen() {
         </Text>
 
         {plansError && (
-          <View style={{ marginBottom: espaciado.e10, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: 10 }}>
+          <View style={{ marginBottom: espaciado.e10, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: radios.chip }}>
             <Text style={{ color: colors.danger, fontSize: tipografia.caption }}>{plansError}</Text>
             <Pressable onPress={() => void loadPlans()} accessibilityRole="button" accessibilityLabel="Reintentar cargar planes" hitSlop={6}>
               <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar planes</Text>
@@ -170,7 +170,7 @@ export default function IntercityPlanesScreen() {
           </View>
         )}
         {myPlanError && (
-          <View style={{ marginBottom: espaciado.e10, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: 10 }}>
+          <View style={{ marginBottom: espaciado.e10, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: radios.chip }}>
             <Text style={{ color: colors.danger, fontSize: tipografia.caption }}>{myPlanError}</Text>
             <Pressable onPress={() => void loadMyPlan()} accessibilityRole="button" accessibilityLabel="Reintentar cargar mi plan" hitSlop={6}>
               <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar mi plan</Text>
@@ -179,7 +179,7 @@ export default function IntercityPlanesScreen() {
         )}
 
         {myPlan && (
-          <View style={{ backgroundColor: alpha(colors.primary, 0.07), borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e14 }}>
+          <View style={{ backgroundColor: alpha(colors.primary, 0.07), borderRadius: radios.campo, padding: espaciado.e12, marginBottom: espaciado.e14 }}>
             <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>
               Tu plan: {myPlan.planName} · {unlimited ? 'viajes ilimitados' : `${used}/${limit} viajes este mes`}
             </Text>
@@ -199,7 +199,7 @@ export default function IntercityPlanesScreen() {
                   <Pressable
                     onPress={() => void goCheckout(proPlan)}
                     accessibilityRole="button" accessibilityLabel="Mejorar a Pro"
-                    style={({ pressed }) => [{ marginTop: espaciado.e10, backgroundColor: colors.primary, borderRadius: 10, paddingVertical: espaciado.e10, alignItems: 'center', opacity: pressed ? 0.85 : 1 }]}
+                    style={({ pressed }) => [{ marginTop: espaciado.e10, backgroundColor: colors.primary, borderRadius: radios.chip, paddingVertical: espaciado.e10, alignItems: 'center', opacity: pressed ? 0.85 : 1 }]}
                   >
                     <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Límite alcanzado · Pasar a viajes ilimitados</Text>
                   </Pressable>
@@ -288,16 +288,16 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   subtitle: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 19, marginBottom: espaciado.e18 },
   planCard: { backgroundColor: c.card, borderRadius: radios.lg, padding: espaciado.e18, marginBottom: espaciado.e16, borderWidth: trazo.fino },
   planName: { fontSize: tipografia.cabecera, fontWeight: peso.fuerte },
-  currentBadge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
+  currentBadge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.marca, marginTop: espaciado.e6, alignSelf: 'flex-start' },
   currentBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.medio },
   price: { fontSize: tipografia.title, fontWeight: peso.maximo, color: c.textPrimary },
   period: { fontSize: tipografia.body, color: c.textSecondary },
   featureRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: espaciado.e6, borderBottomWidth: trazo.fino, borderBottomColor: c.border },
   featureLabel: { fontSize: tipografia.body, color: c.textSecondary, flex: 1 },
   featureValue: { fontSize: tipografia.body, fontWeight: peso.medio, color: c.textPrimary },
-  selectButton: { borderRadius: 10, paddingVertical: espaciado.e14, alignItems: 'center' },
-  selectButtonText: { color: brand.white, fontSize: 15, fontWeight: peso.fuerte },
+  selectButton: { borderRadius: radios.chip, paddingVertical: espaciado.e14, alignItems: 'center' },
+  selectButtonText: { color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte },
   paymentNote: { backgroundColor: c.card, borderRadius: radios.md, padding: espaciado.e16, marginTop: espaciado.e8, borderWidth: trazo.fino },
-  paymentNoteTitle: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e8 },
+  paymentNoteTitle: { fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e8 },
   paymentNoteText: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 22 },
 });

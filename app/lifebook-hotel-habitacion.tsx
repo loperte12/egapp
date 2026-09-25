@@ -256,7 +256,7 @@ function Contenido() {
         <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Volver" hitSlop={10} style={styles.volver}>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.hero, lineHeight: 32 }}>‹</Text>
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>
           {editando ? 'Editar habitación' : 'Nueva habitación'}
         </Text>
       </View>
@@ -410,7 +410,7 @@ function Contenido() {
                     <Image source={{ uri: url }} style={styles.foto} contentFit="cover" transition={0} />
                     {i === 0 ? (
                       <View style={[styles.portada, { backgroundColor: colors.primary }]}>
-                        <Text style={{ color: brand.white, fontSize: 9, fontWeight: peso.titulo }}>PORTADA</Text>
+                        <Text style={{ color: brand.white, fontSize: tipografia.rotulo, fontWeight: peso.titulo }}>PORTADA</Text>
                       </View>
                     ) : null}
                     <Pressable onPress={() => quitarFoto(url)} style={styles.quitarFoto} accessibilityLabel="Quitar esta foto" hitSlop={10}>
@@ -487,7 +487,7 @@ function Bloque({ titulo, hint, children }: { titulo: string; hint?: string; chi
   const { colors } = useTheme();
   return (
     <View style={{ marginBottom: espaciado.e20 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginBottom: espaciado.e3 }}>{titulo}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginBottom: espaciado.e3 }}>{titulo}</Text>
       {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>{hint}</Text> : <View style={{ height: 7 }} />}
       {children}
     </View>
@@ -529,12 +529,12 @@ const styles = StyleSheet.create({
   rejilla: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginBottom: espaciado.e10 },
   miniatura: { width: 96, height: 96, borderRadius: radios.md, overflow: 'hidden' },
   foto: { width: '100%', height: '100%' },
-  portada: { position: 'absolute', left: 0, bottom: 0, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e3, borderTopRightRadius: 8 },
+  portada: { position: 'absolute', left: 0, bottom: 0, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e3, borderTopRightRadius: radios.sm },
   // Círculo visible pequeño + `hitSlop` para llegar a los 44 px de objetivo táctil sin
   // comerse la foto: el círculo de antes (22 px) se fallaba con el dedo.
   quitarFoto: {
-    position: 'absolute', right: 4, top: 4, width: 28, height: 28, borderRadius: 14,
+    position: 'absolute', right: 4, top: 4, width: 28, height: 28, borderRadius: radios.full,
     backgroundColor: 'rgba(0,0,0,0.6)', alignItems: 'center', justifyContent: 'center',
   },
-  resumen: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e4 },
+  resumen: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12, marginTop: espaciado.e4 },
 });

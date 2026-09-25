@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   contactText: { flex: 1, marginLeft: espaciado.e12 },
   contactLabel: { fontSize: tipografia.fino, fontWeight: peso.maximo },
   contactNote: { fontSize: tipografia.micro, marginTop: 1 },
-  contactNumber: { fontSize: 15, fontWeight: peso.maximo },
-  cancelBtn: { marginTop: espaciado.e6, alignItems: 'center', paddingVertical: espaciado.e13, borderRadius: 14 },
+  contactNumber: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
+  cancelBtn: { marginTop: espaciado.e6, alignItems: 'center', paddingVertical: espaciado.e13, borderRadius: radios.campo },
   cancelText: { fontSize: tipografia.body, fontWeight: peso.fuerte },
 });

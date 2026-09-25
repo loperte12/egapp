@@ -103,9 +103,9 @@ export function OrderCardEnChat({ pedido, onOpen }: {
               {primero.title}
             </Text>
             {primero.variant ? (
-              <Text style={{ color: colors.textSecondary, fontSize: 10.5 }} numberOfLines={1}>{primero.variant}</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }} numberOfLines={1}>{primero.variant}</Text>
             ) : null}
-            <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: 1 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: 1 }}>
               {primero.quantity > 1 ? `${primero.quantity} unidades · ` : ''}{lbXaf(primero.lineTotalXaf)}
             </Text>
           </View>
@@ -113,7 +113,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
       ) : null}
 
       {resto > 0 ? (
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e5 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e5 }}>
           y {resto} {resto === 1 ? 'artículo más' : 'artículos más'}
         </Text>
       ) : null}
@@ -161,13 +161,13 @@ export function OrderCardEnChat({ pedido, onOpen }: {
 
       <View style={[styles.total, { borderTopColor: alpha(colors.border, 0.6) }]}>
         <Precio valor={pedido.totalXaf} tamano="md" color={colors.textPrimary} />
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5 }} numberOfLines={1}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }} numberOfLines={1}>
           {/* En las tarjetas de tienda la entrega ya va en el ticket de arriba: aquí no se repite. */}
           {pedido.social && pedido.deliveryMode ? lbTransportLabel(pedido.deliveryMode) : ''}
         </Text>
       </View>
 
-      <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e3 }} numberOfLines={2}>
+      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e3 }} numberOfLines={2}>
         {quePasaAhora(pedido)}
       </Text>
 
@@ -185,7 +185,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
 }
 
 const styles = StyleSheet.create({
-  card: { width: 236, borderRadius: 14, padding: espaciado.e10, flexShrink: 1 },
+  card: { width: 236, borderRadius: radios.campo, padding: espaciado.e10, flexShrink: 1 },
   cabecera: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 },
   pill: { borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3, maxWidth: 120 },
   linea: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8, alignItems: 'center' },
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
   /** El bloque del ticket: nombre, pago, entrega y nota. */
   ticket: { marginTop: espaciado.e8, paddingTop: espaciado.e6, borderTopWidth: StyleSheet.hairlineWidth, gap: espaciado.e2 },
-  ticketLinea: { fontSize: 10.5, lineHeight: 14 },
+  ticketLinea: { fontSize: tipografia.micro, lineHeight: 14 },
   ticketEtiqueta: { color: neutro.n600, fontSize: tipografia.nota, fontWeight: peso.titulo },
   boton: { marginTop: espaciado.e8, borderRadius: radios.full, paddingVertical: espaciado.e7, alignItems: 'center' },
 });

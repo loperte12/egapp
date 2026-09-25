@@ -331,7 +331,7 @@ function MenuSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['colors'
       <View style={{ height: 13, borderRadius: radios.punta, backgroundColor: colors.border, width: 90, marginBottom: espaciado.e10 }} />
       {[0, 1, 2].map((i) => (
         <View key={i} style={[s_sk.row, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-          <View style={{ width: 52, height: 52, borderRadius: 10, backgroundColor: colors.border }} />
+          <View style={{ width: 52, height: 52, borderRadius: radios.chip, backgroundColor: colors.border }} />
           <View style={{ flex: 1, marginLeft: espaciado.e10, gap: espaciado.e6 }}>
             <View style={{ height: 11, borderRadius: radios.punta, backgroundColor: colors.border, width: '70%' }} />
             <View style={{ height: 10, borderRadius: radios.punta, backgroundColor: colors.border, width: '45%' }} />
@@ -347,7 +347,7 @@ const s_h = StyleSheet.create({
   name: { fontSize: tipografia.cifra, fontWeight: peso.titulo },
   sub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e5, flexWrap: 'wrap' },
-  badge: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: 10, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
+  badge: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.chip, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
   dot: { width: 6, height: 6, borderRadius: radios.punta },
 });
 
@@ -355,13 +355,13 @@ const s_row = StyleSheet.create({
   card: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e8, borderWidth: trazo.fino },
   // 64 en vez de 52: la foto de un plato es lo primero que mira el cliente («¿esto tiene buena
   // pinta?»). A 52 px no se distinguía el plato; a 64 se ve, y sigue cabiendo en la fila.
-  img: { width: 64, height: 64, borderRadius: 10 },
+  img: { width: 64, height: 64, borderRadius: radios.chip },
   imgFallback: { backgroundColor: 'rgba(255,107,53,0.08)', alignItems: 'center', justifyContent: 'center' },
   body: { flex: 1, marginLeft: espaciado.e10, marginRight: espaciado.e8 },
   name: { fontSize: tipografia.body, fontWeight: peso.fuerte },
   desc: { fontSize: tipografia.micro, marginTop: 1, lineHeight: 14 },
   price: { fontSize: tipografia.body, fontWeight: peso.titulo, color: ACCENT, marginTop: espaciado.e2 },
-  addBtn: { backgroundColor: ACCENT, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 10 },
+  addBtn: { backgroundColor: ACCENT, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: radios.chip },
   stepper: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
   stepBtn: { width: 30, height: 30, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
   qty: { fontSize: tipografia.body, fontWeight: peso.maximo, minWidth: 18, textAlign: 'center' },
@@ -370,7 +370,7 @@ const s_row = StyleSheet.create({
   // crece a 3-5 líneas y la foto y el stepper quedan centrados en vertical, que
   // es lo que ya pasa hoy con la descripción larga. No se cambia para no mover
   // el aspecto de los platos que no declaran ningún detalle.
-  detailLine: { fontSize: 10.5, marginTop: espaciado.e2, lineHeight: 14 },
+  detailLine: { fontSize: tipografia.micro, marginTop: espaciado.e2, lineHeight: 14 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5, marginTop: espaciado.e4 },
   miniChip: { borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
   miniChipText: { fontSize: tipografia.nota, fontWeight: peso.fuerte, color: ACCENT },
@@ -382,7 +382,7 @@ const s_sk = StyleSheet.create({
 
 const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 48, paddingHorizontal: espaciado.e28 },
-  title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
+  title: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
   btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
 });
@@ -391,8 +391,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   content: { padding: espaciado.e16 },
   catTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e8 },
-  closedNote: { borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e12 },
+  closedNote: { borderRadius: radios.chip, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e12 },
   bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10, borderTopWidth: trazo.fino },
   cta: { backgroundColor: ACCENT, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center' },
-  ctaText: { color: brand.white, fontSize: 15, fontWeight: peso.titulo },
+  ctaText: { color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.titulo },
 });

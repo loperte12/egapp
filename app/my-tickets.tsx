@@ -99,7 +99,7 @@ export default function MyTicketsScreen() {
           return (
             <Pressable onPress={() => setOpenId(open ? null : t.id)} style={[s.card, { borderColor: cancelled ? colors.border : colors.primary, opacity: cancelled ? 0.6 : 1 }]}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>
                   {t.trip?.route?.originDistrict ?? ''} → {t.trip?.route?.destinationDistrict ?? ''}
                 </Text>
                 {open ? <ChevronUp size={18} color={colors.primary} /> : <ChevronDown size={18} color={colors.primary} />}
@@ -144,6 +144,6 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     title: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, color: c.textPrimary },
     content: { padding: espaciado.e20, gap: espaciado.e12 },
     card: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14, gap: espaciado.e5 },
-    qrBox: { alignItems: 'center', gap: espaciado.e6, borderWidth: trazo.fuerte, borderStyle: 'dashed', borderRadius: 14, padding: espaciado.e16, marginTop: espaciado.e8 },
-    waBtn: { borderRadius: 10, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, marginTop: espaciado.e4 },
+    qrBox: { alignItems: 'center', gap: espaciado.e6, borderWidth: trazo.fuerte, borderStyle: 'dashed', borderRadius: radios.campo, padding: espaciado.e16, marginTop: espaciado.e8 },
+    waBtn: { borderRadius: radios.chip, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, marginTop: espaciado.e4 },
   });

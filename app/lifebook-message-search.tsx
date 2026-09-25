@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
   searchBox: { flex: 1, flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 42 },
   chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderWidth: trazo.fino },
-  hit: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: 14, padding: espaciado.e12 },
+  hit: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.campo, padding: espaciado.e12 },
   hitAvatar: { width: 40, height: 40, borderRadius: radios.md },
   center: { alignItems: 'center', justifyContent: 'center' },
 });

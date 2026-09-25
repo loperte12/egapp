@@ -79,7 +79,7 @@ export function ProductoCard({ item, onPress, pie, apagado }: {
       <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
         {lbPriceLabel(item.priceXaf, item.priceMode as never, lbXaf)}
         {item.oldPriceXaf ? (
-          <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte, textDecorationLine: 'line-through' }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, textDecorationLine: 'line-through' }}>
             {'  '}{lbXaf(item.oldPriceXaf)}
           </Text>
         ) : null}
@@ -87,13 +87,13 @@ export function ProductoCard({ item, onPress, pie, apagado }: {
       {/* La rejilla pide DESCRIPCIÓN CORTA (una línea, en gris). Antes aquí iba la ciudad, que no
           ayuda a decidir y hacía la tarjeta más alta. */}
       {item.shortDescription ? (
-        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e2 }}>
+        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
           {item.shortDescription}
         </Text>
       ) : null}
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e3 }}>
         {item.shop.isVerified ? <ShieldCheck size={11} color={colors.success} /> : <Store size={11} color={colors.textSecondary} />}
-        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, flex: 1 }}>{item.shop.name}</Text>
+        <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, flex: 1 }}>{item.shop.name}</Text>
         {ventas > 0 ? (
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.nota, fontWeight: peso.fuerte }}>
             {ventas} vendido{ventas === 1 ? '' : 's'}

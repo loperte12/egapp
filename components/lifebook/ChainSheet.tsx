@@ -59,7 +59,7 @@ export function ChainSheet({ visible, onClose, onSubmit }: Props) {
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
           <Link2 size={18} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             Crear cadena
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -76,7 +76,7 @@ export function ChainSheet({ visible, onClose, onSubmit }: Props) {
           accessibilityLabel="Título de la cadena"
           style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary }]}
         />
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5, textAlign: 'right', marginTop: espaciado.e4 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'right', marginTop: espaciado.e4 }}>
           {title.length}/{TITLE_MAX}
         </Text>
 
@@ -123,7 +123,7 @@ export function ChainSheet({ visible, onClose, onSubmit }: Props) {
             opacity: pressed ? 0.85 : 1,
           }]}
         >
-          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Publicar cadena</Text>
+          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Publicar cadena</Text>
         </Pressable>
       </View>
     </Modal>
@@ -135,5 +135,5 @@ const styles = StyleSheet.create({
   sheet: { ...formaHoja },
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 },
   input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
-  cta: { marginTop: espaciado.e16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
+  cta: { marginTop: espaciado.e16, borderRadius: radios.campo, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

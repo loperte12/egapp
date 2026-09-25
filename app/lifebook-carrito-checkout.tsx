@@ -614,7 +614,7 @@ function CheckoutContent() {
             {enviando ? (
               <ActivityIndicator size="small" color={brand.white} />
             ) : (
-              <Text style={{ color: bloques.length ? brand.white : colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>
+              <Text style={{ color: bloques.length ? brand.white : colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>
                 {!bloques.length ? 'Elige productos' : sinPago.length ? 'Elige cómo pagas' : `Pagar ${lbXaf(resumen.total)}`}
               </Text>
             )}
@@ -641,10 +641,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  bloque: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, marginBottom: espaciado.e12 },
-  etiqueta: { fontSize: 10.5, fontWeight: peso.titulo, letterSpacing: 0.7, marginTop: espaciado.e12, marginBottom: espaciado.e6 },
+  bloque: { borderRadius: radios.campo, borderWidth: trazo.fino, padding: espaciado.e12, marginBottom: espaciado.e12 },
+  etiqueta: { fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.7, marginTop: espaciado.e12, marginBottom: espaciado.e6 },
   chip: { borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
-  input: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
+  input: { borderWidth: trazo.fino, borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
   pie: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   cta: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e12, alignItems: 'center', justifyContent: 'center' },
   okIcono: { width: 62, height: 62, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },

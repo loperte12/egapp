@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, marginTop: espaciado.e8,
   },
   agentIcon: { width: 38, height: 38, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-  input: { borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.body, marginTop: espaciado.e8 },
+  input: { borderWidth: trazo.fino, borderRadius: radios.campo, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.body, marginTop: espaciado.e8 },
   doneWrap: { flex: 1, padding: espaciado.e20, justifyContent: 'center', gap: espaciado.e18 },
-  otpCard: { borderRadius: 20, borderWidth: trazo.fino, padding: espaciado.e22 },
+  otpCard: { borderRadius: radios.tarjeta, borderWidth: trazo.fino, padding: espaciado.e22 },
 });

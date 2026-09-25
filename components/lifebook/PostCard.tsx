@@ -200,7 +200,7 @@ export const PostCard = memo(function PostCard({ post, width, onPress, onMore, o
             />
           ) : (
             <View style={[styles.avatar, styles.avatarFallback, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-              <Text style={{ fontSize: 9, fontWeight: peso.maximo, color: colors.primary }}>
+              <Text style={{ fontSize: tipografia.rotulo, fontWeight: peso.maximo, color: colors.primary }}>
                 {(post.author?.name ?? '?').trim().charAt(0).toUpperCase() || '?'}
               </Text>
             </View>
@@ -242,7 +242,7 @@ function formatCount(n: number): string {
 }
 
 const styles = StyleSheet.create({
-  card: { borderRadius: 10, overflow: 'hidden', paddingBottom: espaciado.e8 },
+  card: { borderRadius: radios.chip, overflow: 'hidden', paddingBottom: espaciado.e8 },
   noMedia: { borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e10 },
   noMediaText: { fontSize: tipografia.caption, fontWeight: peso.fuerte, lineHeight: 17, textAlign: 'center' },
   title: { fontSize: tipografia.body, fontWeight: peso.medio, lineHeight: 18, paddingHorizontal: espaciado.e6 },
@@ -256,13 +256,13 @@ const styles = StyleSheet.create({
   heartPop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' },
   socialN: { color: neutro.n600, fontSize: tipografia.micro, fontWeight: peso.medio, marginLeft: espaciado.e3 },
   chip: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2 },
-  chipText: { color: brand.white, fontSize: 10.5, fontWeight: peso.maximo },
+  chipText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.maximo },
   chipTL: { top: 6, left: 6 },
   pricePill: { bottom: 8, left: 8 },
   countChip: { bottom: 8, right: 8 },
   playBadge: {
     position: 'absolute', top: '50%', left: '50%', marginTop: -14, marginLeft: -14,
-    width: 28, height: 28, borderRadius: 14, backgroundColor: 'rgba(0,0,0,0.5)',
+    width: 28, height: 28, borderRadius: radios.full, backgroundColor: 'rgba(0,0,0,0.5)',
     alignItems: 'center', justifyContent: 'center',
   },
   moreBtn: {

@@ -214,7 +214,7 @@ function Contenido() {
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.hero, lineHeight: 32 }}>‹</Text>
         </Pressable>
         <View style={{ flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo }}>Precios y fechas</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo }}>Precios y fechas</Text>
           {/* El nombre de la habitación es del hotelero: dos líneas, sin recortar a media palabra. */}
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }} numberOfLines={2}>
             {room?.name ?? String(p.nombre ?? 'Habitación')} · {xaf(base)} por noche
@@ -246,7 +246,7 @@ function Contenido() {
           ) : null}
 
           {/* ── Rango de noches ── */}
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginBottom: espaciado.e3 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginBottom: espaciado.e3 }}>
             1. Elige las noches
           </Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
@@ -354,7 +354,7 @@ function Contenido() {
           </View>
 
           {/* ── Qué aplicar ── */}
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e22, marginBottom: espaciado.e3 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginTop: espaciado.e22, marginBottom: espaciado.e3 }}>
             2. Qué aplicar a esas noches
           </Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
@@ -433,7 +433,7 @@ function Contenido() {
           {/* ── Cómo queda ── */}
           {dias.length ? (
             <>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e24, marginBottom: espaciado.e8 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginTop: espaciado.e24, marginBottom: espaciado.e8 }}>
                 Cómo queda el próximo mes y medio
               </Text>
               {dias.filter((d) => d.closed || Number(d.priceXaf) !== Number(d.basePriceXaf)).slice(0, 40).map((d) => (
@@ -468,13 +468,13 @@ const styles = StyleSheet.create({
   aviso: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e14 },
   rango: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
-    borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e12,
+    borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12, marginBottom: espaciado.e12,
   },
   mes: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e10 },
   mesCabecera: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e4, marginBottom: espaciado.e6 },
   fila: { flexDirection: 'row' },
   dow: { flex: 1, textAlign: 'center', fontSize: tipografia.micro, fontWeight: peso.maximo, marginBottom: espaciado.e2 },
-  celda: { flex: 1, aspectRatio: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10, margin: 1 },
+  celda: { flex: 1, aspectRatio: 1, alignItems: 'center', justifyContent: 'center', borderRadius: radios.chip, margin: 1 },
   punto: { width: 4, height: 4, borderRadius: radios.full },
   chip: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
   linea: {

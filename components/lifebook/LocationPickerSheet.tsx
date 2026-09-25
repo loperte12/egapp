@@ -113,7 +113,7 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
       <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={onClose} />
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>
             {title ?? 'Compartir ubicación'}
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 },
   myLoc: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
-    borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e12,
+    borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12, marginBottom: espaciado.e12,
   },
   searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 42 },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e11, borderBottomWidth: StyleSheet.hairlineWidth },

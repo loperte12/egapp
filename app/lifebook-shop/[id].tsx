@@ -387,7 +387,7 @@ function ShopContent() {
                 un borde de color, que no se puede ni leer con un lector de pantalla (y que yo
                 tampoco podía comprobar en el teléfono). */}
             {resaltado === item.id ? (
-              <Text style={{ color: colors.primary, fontSize: 10.5, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
+              <Text style={{ color: colors.primary, fontSize: tipografia.micro, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
                 📍 Es el que tocaste
               </Text>
             ) : null}
@@ -400,7 +400,7 @@ function ShopContent() {
             {/* «X vendidos»: el dato ya venía (`salesCount`) y no se pintaba. Solo si hay
                 ventas: un «0 vendidos» en la rejilla de la tienda ahuyenta. */}
             {item.salesCount > 0 ? (
-              <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte, marginTop: 1 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: 1 }}>
                 {item.salesCount} vendido{item.salesCount === 1 ? '' : 's'}
               </Text>
             ) : null}

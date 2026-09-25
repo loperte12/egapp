@@ -10,7 +10,7 @@
 import React from 'react';
 import { Pressable, View } from 'react-native';
 import { Maximize2, Minus, Plus } from 'lucide-react-native';
-import { brand, espaciado } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios} from '@egrouteplan/ui-kit';
 
 export function ViewerButton({ children, onPress, label }: {
   children: React.ReactNode;
@@ -24,7 +24,7 @@ export function ViewerButton({ children, onPress, label }: {
       accessibilityRole="button"
       accessibilityLabel={label}
       style={{
-        width: 40, height: 40, borderRadius: 20,
+        width: 40, height: 40, borderRadius: radios.full,
         backgroundColor: 'rgba(255,255,255,0.18)',
         alignItems: 'center', justifyContent: 'center',
       }}

@@ -354,7 +354,7 @@ function ProductContent() {
         <Pressable onPress={() => router.back()} hitSlop={10} accessibilityLabel="Volver">
           <X size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15, flex: 1, marginLeft: espaciado.e10 }}>
+        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo, flex: 1, marginLeft: espaciado.e10 }}>
           {lbServiceLabel(p.serviceType)}
         </Text>
         <Pressable onPress={toggleSave} hitSlop={10} accessibilityLabel={saved ? 'Quitar de guardados' : 'Guardar'}>
@@ -851,7 +851,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   notice: { borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e12 },
-  shopCard: { flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e22 },
+  shopCard: { flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.campo, padding: espaciado.e12, marginTop: espaciado.e22 },
   shopLogo: { width: 44, height: 44, borderRadius: radios.full },
   followBtn: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7 },
   bottomBar: {

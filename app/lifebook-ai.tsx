@@ -405,8 +405,8 @@ function Contenido() {
           style={[
           styles.burbuja,
           mio
-            ? { backgroundColor: colors.primary, borderBottomRightRadius: 6 }
-            : { backgroundColor: colors.surface, borderBottomLeftRadius: 6, borderWidth: StyleSheet.hairlineWidth, borderColor: alpha(colors.border, 0.8) },
+            ? { backgroundColor: colors.primary, borderBottomRightRadius: radios.marca }
+            : { backgroundColor: colors.surface, borderBottomLeftRadius: radios.marca, borderWidth: StyleSheet.hairlineWidth, borderColor: alpha(colors.border, 0.8) },
         ]}>
           <Text style={{ color: mio ? brand.white : colors.textPrimary, fontSize: tipografia.body, lineHeight: 19 }}>{m.text}</Text>
         </Pressable>
@@ -471,7 +471,7 @@ function Contenido() {
         </Pressable>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, flex: 1, marginLeft: espaciado.e10 }}>
           <Sparkles size={17} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>Cucucul</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Cucucul</Text>
         </View>
         {quedan !== null ? (
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginRight: espaciado.e12 }}>{quedan} hoy</Text>
@@ -562,7 +562,7 @@ function Contenido() {
                 </View>
               ) : (
                 <>
-                  <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, textAlign: 'center' }}>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, textAlign: 'center' }}>
                     ¿Qué buscas?
                   </Text>
                   <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, justifyContent: 'center', marginTop: espaciado.e14 }}>
@@ -670,7 +670,7 @@ function Contenido() {
       <Modal visible={eligiendo} transparent animationType="slide" onRequestClose={() => setEligiendo(false)}>
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' }} onPress={() => setEligiendo(false)}>
           <Pressable style={{ backgroundColor: colors.background, borderTopLeftRadius: radios.panel, borderTopRightRadius: radios.panel, padding: espaciado.e16, paddingBottom: insets.bottom + 16 }} onPress={() => { /* dentro no cierra */ }}>
-            <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15, marginBottom: espaciado.e10 }}>Productos que te gustan</Text>
+            <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo, marginBottom: espaciado.e10 }}>Productos que te gustan</Text>
             <FlatList
               data={guardados}
               keyExtractor={(p) => p.id}
@@ -713,10 +713,10 @@ const styles = StyleSheet.create({
   burbuja: { maxWidth: '86%', borderRadius: radios.lg, paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e10 },
   tarjeta: {
     flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 14, padding: espaciado.e9,
+    borderRadius: radios.campo, padding: espaciado.e9,
   },
-  foto: { width: 54, height: 54, borderRadius: 10 },
-  aviso: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e14 },
+  foto: { width: 54, height: 54, borderRadius: radios.chip },
+  aviso: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e14 },
   sugerencia: { borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e9 },
   input: {
     flex: 1, maxHeight: 110, borderWidth: trazo.fino, borderRadius: radios.md,

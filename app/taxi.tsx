@@ -1154,7 +1154,7 @@ export default function TaxiScreen() {
           {status === 'requested' && (
             <View style={{ alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e6 }}>
               <SearchRadar color={brand.secondary} />
-              <Text style={{ color: brand.secondary, fontWeight: peso.maximo, fontSize: 15 }}>
+              <Text style={{ color: brand.secondary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>
                 {relaunching ? 'Re-lanzando solicitud…' : 'Buscando taxi…'}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center' }}>
@@ -1185,7 +1185,7 @@ export default function TaxiScreen() {
                       <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>Listo ✕</Text>
                     </Pressable>
                   </View>
-                  <Text style={{ fontSize: 10.5, color: colors.textSecondary, fontWeight: peso.medio }}>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: peso.medio }}>
                     Se cancela esta búsqueda y se lanza una nueva con tus cambios.
                   </Text>
                   {relaunching ? (
@@ -1288,7 +1288,7 @@ export default function TaxiScreen() {
               valoración/viajes, coche, precio, PIN y acciones. */}
           {approach && (
             <View style={[s.card, { backgroundColor: brand.successSoft, borderColor: brand.successSoftBorde, gap: espaciado.e10 }]}>
-              <Text style={{ color: brand.success, fontWeight: peso.titulo, fontSize: 15, textAlign: 'center' }}>🚕 Conductor en camino</Text>
+              <Text style={{ color: brand.success, fontWeight: peso.titulo, fontSize: tipografia.cuerpo, textAlign: 'center' }}>🚕 Conductor en camino</Text>
               {(() => {
                 const t = (trip ?? {}) as Record<string, any>;
                 const name = String(t.driver_name ?? 'Conductor');
@@ -1369,7 +1369,7 @@ export default function TaxiScreen() {
                         <Text style={{ color: brand.secondary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>
                           {t.final_price != null ? `${Number(t.final_price).toLocaleString('es')} XAF` : '—'}
                         </Text>
-                        <Text style={{ color: colors.textSecondary, fontSize: 10.5 }}>Precio acordado</Text>
+                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>Precio acordado</Text>
                       </View>
                     </View>
                     {/* Matrícula DESTACADA (P1): placa visible de un vistazo */}
@@ -1481,7 +1481,7 @@ export default function TaxiScreen() {
               payout; con disputa, el admin puede devolver el viaje entero. */}
           {arrived && (
             <View style={[s.card, { backgroundColor: brand.warningSoft, borderColor: brand.warningSoftBorde, gap: espaciado.e10 }]}>
-              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15, textAlign: 'center' }}>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo, textAlign: 'center' }}>
                 🏁 El conductor dice que habéis llegado
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center' }}>
@@ -1519,14 +1519,14 @@ export default function TaxiScreen() {
                     <>
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                         {photo ? (
-                          <Image source={{ uri: photo }} style={{ width: 40, height: 40, borderRadius: 20 }} />
+                          <Image source={{ uri: photo }} style={{ width: 40, height: 40, borderRadius: radios.full }} />
                         ) : (
-                          <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' }}>
+                          <View style={{ width: 40, height: 40, borderRadius: radios.full, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cabecera }}>{(name || 'C').charAt(0).toUpperCase()}</Text>
                           </View>
                         )}
                         <View style={{ flex: 1 }}>
-                          <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: 15 }} numberOfLines={1}>{name}</Text>
+                          <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }} numberOfLines={1}>{name}</Text>
                           <Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: tipografia.caption, fontWeight: peso.medio }}>
                             {[model, plate].filter(Boolean).join(' · ') || 'Conductor'}
                           </Text>
@@ -1677,7 +1677,7 @@ export default function TaxiScreen() {
                       }]}
                     >
                       <Text style={[s.paxNum, { color: active ? colors.primary : colors.textPrimary }]}>{n}</Text>
-                      <Text style={{ fontSize: 9, color: active ? colors.primary : colors.textSecondary, fontWeight: peso.fuerte }}>
+                      <Text style={{ fontSize: tipografia.rotulo, color: active ? colors.primary : colors.textSecondary, fontWeight: peso.fuerte }}>
                         {n === 1 ? 'persona' : 'personas'}
                       </Text>
                     </Pressable>
@@ -1718,7 +1718,7 @@ export default function TaxiScreen() {
             )}
             <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
               <View style={[s.priceBox, { backgroundColor: colors.surface }]}>
-                <Text style={{ fontSize: 17, fontWeight: peso.maximo, color: colors.textPrimary }}>
+                <Text style={{ fontSize: tipografia.subCabecera, fontWeight: peso.maximo, color: colors.textPrimary }}>
                   {suggestedTotal != null ? `${suggestedTotal.toLocaleString('es')} XAF` : '—'}
                 </Text>
                 <Text style={{ fontSize: tipografia.nota, color: colors.textSecondary }}>
@@ -1727,7 +1727,7 @@ export default function TaxiScreen() {
                 <Text style={{ fontSize: tipografia.nota, color: colors.primary, fontWeight: peso.fuerte }}>{distanceKm || '—'} km · {etaMin != null ? `${etaMin} min` : '—'}</Text>
               </View>
               <View style={[s.priceBox, { backgroundColor: colors.surface }]}>
-                <Text style={{ fontSize: 17, fontWeight: peso.maximo, color: userPriceOk ? brand.secondary : colors.textSecondary }}>
+                <Text style={{ fontSize: tipografia.subCabecera, fontWeight: peso.maximo, color: userPriceOk ? brand.secondary : colors.textSecondary }}>
                   {userPriceOk ? `${up.toLocaleString('es')} XAF` : '—'}
                 </Text>
                 <Text style={{ fontSize: tipografia.nota, color: colors.textSecondary }}>Tu presupuesto</Text>
@@ -1744,7 +1744,7 @@ export default function TaxiScreen() {
               {tripId && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>Ref: {tripId.slice(0, 8)}</Text>}
               {/* P1-c: resumen de la liquidación + puerta de disputa (7 días). */}
               {sv && (sv.state === 'settled' || sv.state === 'disputed') && sv.kind === 'WALLET' && (
-                <View style={{ alignSelf: 'stretch', gap: espaciado.e4, padding: espaciado.e10, borderRadius: 10, backgroundColor: colors.surface, borderWidth: trazo.fino, borderColor: colors.border, marginTop: espaciado.e6 }}>
+                <View style={{ alignSelf: 'stretch', gap: espaciado.e4, padding: espaciado.e10, borderRadius: radios.chip, backgroundColor: colors.surface, borderWidth: trazo.fino, borderColor: colors.border, marginTop: espaciado.e6 }}>
                   <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>
                     {sv.state === 'disputed' ? '⚖️ Viaje en disputa (en revisión)' : 'Liquidación del viaje'}
                   </Text>
@@ -1808,7 +1808,7 @@ export default function TaxiScreen() {
       <Modal visible={cancelOpen} transparent animationType="fade" onRequestClose={() => { if (!cancelBusy) setCancelOpen(false); }}>
         <View style={s.modalOverlay}>
           <View style={[s.modalCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, textAlign: 'center' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, textAlign: 'center' }}>
               ¿Por qué cancelas el viaje?
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e4 }}>
@@ -1840,7 +1840,7 @@ export default function TaxiScreen() {
       <Modal visible={ratingOpen} transparent animationType="fade" onRequestClose={() => { if (!ratingBusy) setRatingOpen(false); }}>
         <View style={s.modalOverlay}>
           <View style={[s.modalCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, textAlign: 'center' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, textAlign: 'center' }}>
               ¿Cómo fue tu viaje?
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e4 }}>
@@ -1907,7 +1907,7 @@ export default function TaxiScreen() {
       <Modal visible={pinOpen} transparent animationType="fade" onRequestClose={() => { if (!payBusy) setPinOpen(false); }}>
         <View style={s.modalOverlay}>
           <View style={[s.modalCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, textAlign: 'center' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, textAlign: 'center' }}>
               Confirmar {Number(sv?.fare ?? 0).toLocaleString('es')} XAF
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e4 }}>
@@ -1962,7 +1962,7 @@ export default function TaxiScreen() {
       <Modal visible={dispOpen} transparent animationType="fade" onRequestClose={() => { if (!dispBusy) setDispOpen(false); }}>
         <View style={s.modalOverlay}>
           <View style={[s.modalCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, textAlign: 'center' }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, textAlign: 'center' }}>
               Disputar este viaje
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e4 }}>
@@ -2019,10 +2019,10 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     connectorCol: { width: 16, height: '100%', alignItems: 'center', justifyContent: 'center', position: 'relative' },
     connectorVLine: { position: 'absolute', left: 7, top: 0, bottom: 0, width: 2, borderRadius: radios.pista },
     swapBtn: { width: 24, height: 24, borderRadius: radios.md, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 3 },
-    stopLabel: { fontSize: 9, fontWeight: peso.fuerte, textTransform: 'uppercase', letterSpacing: 0.4 },
+    stopLabel: { fontSize: tipografia.rotulo, fontWeight: peso.fuerte, textTransform: 'uppercase', letterSpacing: 0.4 },
     stopValue: { fontSize: tipografia.body, fontWeight: peso.fuerte, marginLeft: espaciado.e2 },
     stopValueDest: { fontSize: tipografia.body, fontWeight: peso.maximo, marginLeft: espaciado.e2 },
-    mapPickBtn: { width: 28, height: 28, borderRadius: 14, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', marginLeft: espaciado.e4 },
+    mapPickBtn: { width: 28, height: 28, borderRadius: radios.full, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', marginLeft: espaciado.e4 },
     // FAB centrar (abajo-derecha sobre el mapa, visible al colapsar panel)
     mapFabRow: { position: 'absolute', right: 14, bottom: 84 },
     mapFab: { borderRadius: radios.full, borderWidth: trazo.fino, padding: espaciado.e11, ...elevation.md },
@@ -2034,26 +2034,26 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
       ...elevation.lg,
     },
     askDestBanner: { alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e7, marginVertical: espaciado.e6 },
-    summaryRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: 14, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
+    summaryRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.campo, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
     summaryOrigin: { fontSize: tipografia.body, fontWeight: peso.fuerte },
     summaryDest: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e2 },
-    summaryKm: { fontSize: 15, fontWeight: peso.maximo },
+    summaryKm: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
     content: { padding: espaciado.e16, paddingBottom: espaciado.e14, gap: espaciado.e12 },
     card: { borderRadius: radios.lg, padding: espaciado.e14, borderWidth: trazo.fino },
     label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary },
-    input: { fontSize: 15, padding: 0, marginTop: espaciado.e4 },
-    sectionTitle: { fontSize: 15, fontWeight: peso.maximo, color: c.textPrimary, marginTop: espaciado.e2 },
+    input: { fontSize: tipografia.cuerpo, padding: 0, marginTop: espaciado.e4 },
+    sectionTitle: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo, color: c.textPrimary, marginTop: espaciado.e2 },
     modeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: radios.lg, padding: espaciado.e12 },
     modeIconWrap: { width: 40, height: 40, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-    modeName: { fontSize: 15, fontWeight: peso.maximo },
-    modePrice: { fontSize: 17, fontWeight: peso.maximo },
+    modeName: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
+    modePrice: { fontSize: tipografia.subCabecera, fontWeight: peso.maximo },
     avatar: { width: 44, height: 44, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
-    carThumb: { width: 34, height: 26, borderRadius: 6, overflow: 'hidden', backgroundColor: neutro.n300 },
-    colorSwatch: { width: 12, height: 12, borderRadius: 6, borderWidth: trazo.fino, borderColor: 'rgba(0,0,0,0.2)' },
-    waBtn: { borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e2 },
+    carThumb: { width: 34, height: 26, borderRadius: radios.marca, overflow: 'hidden', backgroundColor: neutro.n300 },
+    colorSwatch: { width: 12, height: 12, borderRadius: radios.full, borderWidth: trazo.fino, borderColor: 'rgba(0,0,0,0.2)' },
+    waBtn: { borderRadius: radios.campo, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e2 },
     cancelLink: { borderRadius: radios.full, borderWidth: trazo.fino, paddingVertical: espaciado.e7, paddingHorizontal: espaciado.e18, alignSelf: 'center', marginTop: espaciado.e2 },
     modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e24 },
-    modalCard: { width: '100%', maxWidth: 420, borderRadius: 20, borderWidth: trazo.fino, padding: espaciado.e20 },
+    modalCard: { width: '100%', maxWidth: 420, borderRadius: radios.tarjeta, borderWidth: trazo.fino, padding: espaciado.e20 },
     ratingInput: { borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body, marginTop: espaciado.e12, minHeight: 46 },
     reasonRow: { borderRadius: radios.md, borderWidth: trazo.fino, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e14 },
     paxRow: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e10 },
@@ -2065,7 +2065,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     priceRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, marginTop: espaciado.e6 },
     priceBox: { flex: 1, borderRadius: radios.md, padding: espaciado.e10, alignItems: 'center' },
     // Matrícula DESTACADA del coche (estilo placa, P1).
-    plateBox: { alignSelf: 'center', borderWidth: trazo.base, borderColor: neutro.n900, borderRadius: 6, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e5, backgroundColor: c.surface, marginTop: espaciado.e2 },
+    plateBox: { alignSelf: 'center', borderWidth: trazo.base, borderColor: neutro.n900, borderRadius: radios.marca, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e5, backgroundColor: c.surface, marginTop: espaciado.e2 },
     plateTxt: { fontSize: tipografia.cifra, fontWeight: peso.titulo, letterSpacing: 2, color: c.textPrimary },
     footer: { padding: espaciado.e14, paddingBottom: espaciado.e18, borderTopWidth: trazo.fino },
     loading: { position: 'absolute', top: '50%', alignSelf: 'center' },

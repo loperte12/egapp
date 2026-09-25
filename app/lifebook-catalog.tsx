@@ -135,7 +135,7 @@ function CatalogContent() {
           <ShoppingCart size={20} color={colors.textPrimary} />
           {carrito > 0 ? (
             <View style={[styles.globito, { backgroundColor: colors.primary }]}>
-              <Text style={{ color: brand.white, fontSize: 9, fontWeight: peso.titulo }}>{carrito > 99 ? '99+' : carrito}</Text>
+              <Text style={{ color: brand.white, fontSize: tipografia.rotulo, fontWeight: peso.titulo }}>{carrito > 99 ? '99+' : carrito}</Text>
             </View>
           ) : null}
         </Pressable>

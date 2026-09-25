@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   coverFallback: { overflow: 'hidden' },
   identity: { position: 'absolute', flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, zIndex: 30 },
   avatar: {
-    width: 40, height: 40, borderRadius: 20, overflow: 'hidden',
+    width: 40, height: 40, borderRadius: radios.full, overflow: 'hidden',
     alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.30)',
     borderWidth: trazo.fuerte, borderColor: 'rgba(255,255,255,0.9)',
   },
@@ -274,10 +274,10 @@ const styles = StyleSheet.create({
   driverName: { fontSize: tipografia.body, fontWeight: peso.titulo, maxWidth: 180 },
   onlineRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 },
   onlineDot: { width: 7, height: 7, borderRadius: radios.full, backgroundColor: brand.success, borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.7)' },
-  onlineTxt: { fontSize: 10.5, fontWeight: peso.titulo },
+  onlineTxt: { fontSize: tipografia.micro, fontWeight: peso.titulo },
   adCopy: { position: 'absolute', left: 14, right: 60, bottom: 10 },
   adTitle: {
-    color: brand.white, fontSize: 15, fontWeight: peso.titulo,
+    color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.titulo,
     textShadowColor: 'rgba(0,0,0,0.55)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4,
   },
   adSub: {
@@ -286,10 +286,10 @@ const styles = StyleSheet.create({
   },
   adTag: {
     position: 'absolute', top: 10, right: 40,
-    backgroundColor: 'rgba(0,0,0,0.62)', borderRadius: 6,
+    backgroundColor: 'rgba(0,0,0,0.62)', borderRadius: radios.marca,
     paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3,
   },
-  adTagTxt: { color: brand.white, fontSize: 9, fontWeight: peso.titulo, letterSpacing: 0.4 },
+  adTagTxt: { color: brand.white, fontSize: tipografia.rotulo, fontWeight: peso.titulo, letterSpacing: 0.4 },
   closeBtn: {
     position: 'absolute', top: 8, right: 10,
     width: 22, height: 22, borderRadius: radios.full,

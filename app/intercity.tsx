@@ -353,7 +353,7 @@ export default function IntercityScreen() {
             <Text style={s.body}>{booking.message}</Text>
             <View style={[s.ticketBox, { borderColor: colors.primary }]}>
               <Ticket size={26} color={colors.primary} />
-              <Text style={{ color: colors.textPrimary, fontSize: 26, fontWeight: peso.titulo, letterSpacing: 2 }}>{booking.booking?.shortCode ?? booking.ticketQrCode}</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.display, fontWeight: peso.titulo, letterSpacing: 2 }}>{booking.booking?.shortCode ?? booking.ticketQrCode}</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{booking.ticketQrCode} · muestra este código al conductor</Text>
             </View>
             {phone.trim() && (
@@ -427,7 +427,7 @@ export default function IntercityScreen() {
                 <View style={[s.avatar, { backgroundColor: alpha(colors.primary, 0.15) }]}><RouteIcon size={20} color={colors.primary} /></View>
               )}
               <View style={{ flex: 1, gap: espaciado.e3 }}>
-                <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>
+                <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>
                   {new Date(t.departureTime).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })}
                   <Text style={{ color: colors.textSecondary, fontWeight: peso.medio, fontSize: tipografia.caption }}>
                     {'  '}{new Date(t.departureTime).toLocaleDateString('es', { day: 'numeric', month: 'short' })}
@@ -495,7 +495,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   zone: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.primary },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
   chip: { borderRadius: radios.md, borderWidth: trazo.base, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
-  tripCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e14 },
+  tripCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.base, borderRadius: radios.campo, padding: espaciado.e14 },
   avatar: { width: 44, height: 44, borderRadius: radios.full, overflow: 'hidden', backgroundColor: c.surface },
   warnBox: { borderRadius: radios.md, padding: espaciado.e12 },
   summary: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14 },

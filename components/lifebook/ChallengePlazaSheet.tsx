@@ -155,7 +155,7 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
           ) : (
             <ScrollText size={18} color={colors.primary} />
           )}
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             {step === 'create' ? 'Crear un reto' : step === 'detail' ? 'Reto' : 'Plaza de retos'}
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -275,7 +275,7 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
             <Pressable onPress={crear} disabled={busy} accessibilityLabel="Publicar el reto"
               style={[styles.cta, { backgroundColor: colors.primary }]}>
               {busy ? <ActivityIndicator size="small" color={brand.white} /> : (
-                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Publicar reto</Text>
+                <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Publicar reto</Text>
               )}
             </Pressable>
           </ScrollView>
@@ -317,7 +317,7 @@ export function ChallengePlazaSheet({ visible, onClose, city }: Props) {
             {detail.state === 'open' ? (
               <Pressable onPress={() => apuntarme(detail)} disabled={busy} accessibilityLabel={detail.joinedByMe ? 'Borrar me del reto' : 'Apuntarme al reto'}
                 style={[styles.cta, { backgroundColor: detail.joinedByMe ? alpha(colors.primary, 0.12) : colors.primary }]}>
-                <Text style={{ color: detail.joinedByMe ? colors.primary : brand.white, fontWeight: peso.titulo, fontSize: 15 }}>
+                <Text style={{ color: detail.joinedByMe ? colors.primary : brand.white, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>
                   {detail.joinedByMe ? '✓ Apuntado · borrarme' : 'Apuntarme'}
                 </Text>
               </Pressable>
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e10 },
   input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderWidth: trazo.fino },
-  card: { borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e10 },
-  smallBtn: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
-  cta: { marginTop: espaciado.e14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e13 },
+  card: { borderRadius: radios.campo, padding: espaciado.e12, marginTop: espaciado.e10 },
+  smallBtn: { borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
+  cta: { marginTop: espaciado.e14, borderRadius: radios.campo, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e13 },
 });

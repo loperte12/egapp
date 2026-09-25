@@ -356,7 +356,7 @@ export default function AlquilerDetalleScreen() {
           <Pressable
             onPress={() => void load()}
             accessibilityRole="button" accessibilityLabel={TEXTS.retry}
-            style={({ pressed }) => [{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
+            style={({ pressed }) => [{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: radios.chip, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
           >
             <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>{TEXTS.retry}</Text>
           </Pressable>
@@ -407,7 +407,7 @@ export default function AlquilerDetalleScreen() {
           <View style={{ position: 'absolute', top: insets.top + 8, left: 56, flexDirection: 'row', gap: espaciado.e6 }}>
             {prop.isFeatured && <FeaturedBadge />}
             {prop.isPremium && <PremiumBadge />}
-            {prop.isSocialHousing && <View style={{ backgroundColor: brand.success, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 }}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>Vivienda social</Text></View>}
+            {prop.isSocialHousing && <View style={{ backgroundColor: brand.success, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: radios.marca }}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>Vivienda social</Text></View>}
           </View>
 
           {/* Acciones: atrás + favorito + compartir */}
@@ -491,7 +491,7 @@ export default function AlquilerDetalleScreen() {
               <Text style={[s.sectionTitle, { color: colors.textPrimary }]}>{TEXTS.services}</Text>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
                 {availableServices.map(([k]) => (
-                  <View key={k} style={{ backgroundColor: colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: 20, borderWidth: trazo.fino, borderColor: colors.border }}>
+                  <View key={k} style={{ backgroundColor: colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.tarjeta, borderWidth: trazo.fino, borderColor: colors.border }}>
                     <Text style={{ fontSize: tipografia.body, color: colors.textPrimary }}>{SERVICE_LABELS[k] ?? k}</Text>
                   </View>
                 ))}
@@ -511,7 +511,7 @@ export default function AlquilerDetalleScreen() {
           {latitude && longitude ? (
             <View style={s.section}>
               <Text style={[s.sectionTitle, { color: colors.textPrimary }]}>Ubicación</Text>
-              <View style={{ height: 160, borderRadius: 14, overflow: 'hidden' }}>
+              <View style={{ height: 160, borderRadius: radios.campo, overflow: 'hidden' }}>
                 <MapBackground>
                   <EgCamera centerCoordinate={[longitude, latitude]} zoomLevel={13} animationMode="moveTo" />
                   <EgMarkers markers={[{ id: 'prop', coordinate: [longitude, latitude] as [number, number], kind: 'origin' as const, label: prop.location.neighborhood }]} />
@@ -543,7 +543,7 @@ export default function AlquilerDetalleScreen() {
           ) : null}
 
           {/* Aviso anti-estafa */}
-          <View style={{ marginBottom: espaciado.e14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.07), padding: espaciado.e12, borderRadius: 10 }}>
+          <View style={{ marginBottom: espaciado.e14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.07), padding: espaciado.e12, borderRadius: radios.chip }}>
             <ShieldAlert size={16} color={colors.danger} />
             <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.medio, lineHeight: 16 }}>
               No pagues por adelantado ni envíes documentación antes de visitar el inmueble. Si algo parece sospechoso, repórtalo.
@@ -560,7 +560,7 @@ export default function AlquilerDetalleScreen() {
             onPress={handleReport}
             accessibilityRole="button"
             accessibilityLabel={TEXTS.reportTitle}
-            style={({ pressed }) => [{ alignSelf: 'center', marginTop: espaciado.e12, paddingVertical: espaciado.e8, paddingHorizontal: espaciado.e12, borderRadius: 10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, opacity: pressed ? 0.7 : 1 }]}
+            style={({ pressed }) => [{ alignSelf: 'center', marginTop: espaciado.e12, paddingVertical: espaciado.e8, paddingHorizontal: espaciado.e12, borderRadius: radios.chip, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, opacity: pressed ? 0.7 : 1 }]}
           >
             <Flag size={13} color={colors.textSecondary} />
             <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: peso.medio }}>{TEXTS.reportTitle}</Text>
@@ -577,7 +577,7 @@ export default function AlquilerDetalleScreen() {
           style={({ pressed }) => [{ flex: 1, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: espaciado.e6, backgroundColor: colors.surface, opacity: busy || !hasPhone ? 0.5 : pressed ? 0.85 : 1 }]}
         >
           <Phone size={15} color={colors.textPrimary} />
-          <Text style={{ fontSize: 15, fontWeight: peso.fuerte, color: colors.textPrimary }}>{TEXTS.call}</Text>
+          <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, color: colors.textPrimary }}>{TEXTS.call}</Text>
         </Pressable>
         <Pressable
           onPress={() => void handleContact('whatsapp')}
@@ -586,7 +586,7 @@ export default function AlquilerDetalleScreen() {
           style={({ pressed }) => [{ flex: 2, backgroundColor: brand.whatsapp, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: espaciado.e6, opacity: busy || !hasPhone ? 0.6 : pressed ? 0.85 : 1 }]}
         >
           {busy ? <ActivityIndicator size="small" color={brand.white} /> : <MessageSquare size={15} color={brand.white} />}
-          <Text style={{ fontSize: 15, fontWeight: peso.fuerte, color: brand.white }}>{busy ? '…' : TEXTS.whatsapp}</Text>
+          <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, color: brand.white }}>{busy ? '…' : TEXTS.whatsapp}</Text>
         </Pressable>
       </View>
     </View>

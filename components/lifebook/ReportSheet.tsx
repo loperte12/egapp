@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   sheet: { ...formaHoja },
   handle: { ...formaTirador },
   header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e4 },
-  title: { fontSize: 17, fontWeight: peso.titulo, flex: 1 },
+  title: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(128,128,140,0.15)' },
   blockBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: radios.md, padding: espaciado.e14, marginTop: espaciado.e12 },
 });

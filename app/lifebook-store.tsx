@@ -155,7 +155,7 @@ function StoreContent() {
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e18 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>Productos</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>Productos</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{page.sales.length} en venta</Text>
             </View>
           </View>

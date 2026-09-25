@@ -129,7 +129,7 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
           accessibilityLabel="Listo"
           style={[styles.listo, { backgroundColor: colors.primary }]}
         >
-          <Text style={{ color: brand.white, fontSize: 15, fontWeight: peso.titulo }}>
+          <Text style={{ color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>
             {seleccion.length ? `Listo (${seleccion.length})` : 'Listo'}
           </Text>
         </Pressable>
@@ -139,6 +139,6 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
 }
 
 const styles = StyleSheet.create({
-  mini: { width: 44, height: 44, borderRadius: 10 },
-  listo: { borderRadius: 14, paddingVertical: espaciado.e13, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e12 },
+  mini: { width: 44, height: 44, borderRadius: radios.chip },
+  listo: { borderRadius: radios.campo, paddingVertical: espaciado.e13, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e12 },
 });

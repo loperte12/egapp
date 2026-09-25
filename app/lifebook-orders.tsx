@@ -180,7 +180,7 @@ function OrdersContent() {
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e6 }}>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>{item.orderNo}</Text>
                       <View style={{ backgroundColor: alpha(meta.color, 0.13), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
-                        <Text style={{ color: meta.color, fontSize: 10.5, fontWeight: peso.titulo }}>{meta.label}</Text>
+                        <Text style={{ color: meta.color, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{meta.label}</Text>
                       </View>
                     </View>
                     <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
@@ -192,7 +192,7 @@ function OrdersContent() {
                   </View>
                 </View>
                 {item.message ? (
-                  <Text numberOfLines={2} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8, backgroundColor: colors.surface, borderRadius: 10, padding: espaciado.e8 }}>
+                  <Text numberOfLines={2} style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8, backgroundColor: colors.surface, borderRadius: radios.chip, padding: espaciado.e8 }}>
                     💬 “{item.message}”
                   </Text>
                 ) : null}

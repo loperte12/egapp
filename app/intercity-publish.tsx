@@ -392,7 +392,7 @@ export default function IntercityPublishScreen() {
             <View key={t.id} style={[s.card, { borderColor: colors.border }]}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>
+                  <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>
                     {new Date(t.departureTime).toLocaleDateString('es', { weekday: 'short', day: 'numeric', month: 'short' })} · {new Date(t.departureTime).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })}
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>
@@ -555,10 +555,10 @@ export default function IntercityPublishScreen() {
                   <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10 }}>
                     {f.carPhotos.map((p, i) => (
                       <View key={i} style={{ position: 'relative' }}>
-                        <Image source={{ uri: p }} style={{ width: 64, height: 64, borderRadius: 10, backgroundColor: colors.border }} />
+                        <Image source={{ uri: p }} style={{ width: 64, height: 64, borderRadius: radios.chip, backgroundColor: colors.border }} />
                         <Pressable onPress={() => setF((pr) => ({ ...pr, carPhotos: pr.carPhotos.filter((_, j) => j !== i) }))}
                           accessibilityRole="button" accessibilityLabel="Quitar foto"
-                          style={{ position: 'absolute', top: -6, right: -6, backgroundColor: colors.danger, borderRadius: 10, width: 18, height: 18, alignItems: 'center', justifyContent: 'center' }}>
+                          style={{ position: 'absolute', top: -6, right: -6, backgroundColor: colors.danger, borderRadius: radios.full, width: 18, height: 18, alignItems: 'center', justifyContent: 'center' }}>
                           <X size={11} color={brand.white} />
                         </Pressable>
                       </View>
@@ -571,7 +571,7 @@ export default function IntercityPublishScreen() {
                       <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Añadir foto del coche ({f.carPhotos.length}/{MAX_PHOTOS})</Text>
                     </Pressable>
                   )}
-                  <Text style={{ fontSize: 10.5, color: colors.textSecondary }}>Se comprimen al elegirlas. Máx. ~{MAX_PHOTO_B64_KB} KB por foto.</Text>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Se comprimen al elegirlas. Máx. ~{MAX_PHOTO_B64_KB} KB por foto.</Text>
 
                   {error && <Text style={s.err}>{error}</Text>}
                   {Number(f.price) > 0 && (
@@ -579,7 +579,7 @@ export default function IntercityPublishScreen() {
                       <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>
                         {f.oDist && f.dDist ? `${f.oDist} → ${f.dDist}` : 'Tu ruta'} · {f.seats} asientos × {Number(f.price).toLocaleString('es')} XAF
                       </Text>
-                      <Text style={{ color: priceColor, fontWeight: peso.titulo, fontSize: 17, marginTop: espaciado.e2 }}>
+                      <Text style={{ color: priceColor, fontWeight: peso.titulo, fontSize: tipografia.subCabecera, marginTop: espaciado.e2 }}>
                         = {(f.seats * Number(f.price)).toLocaleString('es')} XAF por viaje
                         {f.days.length > 0 ? ` · × ${f.days.length} día${f.days.length === 1 ? '' : 's'}/semana` : ''}
                       </Text>
@@ -623,8 +623,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     label: { fontSize: tipografia.caption, fontWeight: peso.maximo, color: c.textSecondary, marginTop: espaciado.e4 },
     chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
     chip: { borderRadius: radios.md, borderWidth: trazo.base, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
-    card: { borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
-    bookingRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: 10, padding: espaciado.e8 },
+    card: { borderWidth: trazo.base, borderRadius: radios.campo, padding: espaciado.e12, gap: espaciado.e6 },
+    bookingRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.chip, padding: espaciado.e8 },
     miniBtn: { borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
     photoAdd: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderWidth: trazo.base, borderStyle: 'dashed', borderRadius: radios.md, paddingVertical: espaciado.e12 },
     err: { color: c.danger, fontSize: tipografia.body, fontWeight: peso.fuerte },

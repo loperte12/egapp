@@ -105,7 +105,7 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
         <View style={[styles.candado, { backgroundColor: alpha(colors.primary, 0.1) }]}>
           <Lock size={26} color={colors.primary} />
         </View>
-        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, marginTop: espaciado.e14 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, marginTop: espaciado.e14 }}>
           Gestión de tu negocio
         </Text>
         <Text style={{

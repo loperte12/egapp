@@ -146,7 +146,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   container: { position: 'relative', overflow: 'hidden', backgroundColor: c.surface },
   placeholder: { backgroundColor: c.surface, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   placeholderInner: { alignItems: 'center', justifyContent: 'center', gap: espaciado.e6 },
-  placeholderEmoji: { fontSize: 26 },
+  placeholderEmoji: { fontSize: tipografia.display },
   placeholderText: { fontSize: tipografia.micro, color: c.textSecondary, fontWeight: peso.medio },
   retryBtn: { marginTop: espaciado.e2, backgroundColor: c.primary, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e6, borderRadius: radios.sm },
   retryText: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.fuerte },

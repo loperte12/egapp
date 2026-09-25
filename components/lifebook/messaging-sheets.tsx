@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   center: { alignItems: 'center', justifyContent: 'center' },
   searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e12, height: 38, marginBottom: espaciado.e10 },
   personRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
-  personAvatar: { width: 40, height: 40, borderRadius: 20 },
+  personAvatar: { width: 40, height: 40, borderRadius: radios.full },
   badge: { borderRadius: radios.full, minWidth: 18, height: 18, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e5 },
   badgeText: { color: brand.white, fontSize: tipografia.nota, fontWeight: peso.maximo },
   smallBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, minWidth: 78, justifyContent: 'center' },
@@ -217,5 +217,5 @@ const styles = StyleSheet.create({
   notice: { borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e10 },
   titleInput: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 44, fontSize: tipografia.fino, marginBottom: espaciado.e8 },
   primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e12 },
-  optionRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e8 },
+  optionRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: radios.campo, padding: espaciado.e14, marginBottom: espaciado.e8 },
 });

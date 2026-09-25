@@ -491,7 +491,7 @@ export default function FoodOwnerScreen() {
                     <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Quitar foto</Text>
                   </Pressable>
                 ) : (
-                  <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e6 }}>Máx 8 MB · se ve en la lista de restaurantes</Text>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e6 }}>Máx 8 MB · se ve en la lista de restaurantes</Text>
                 )}
               </View>
             </View>
@@ -530,7 +530,7 @@ export default function FoodOwnerScreen() {
               error={hoursErr ?? undefined}
             />
             {!hoursErr && hours.trim() ? (
-              <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4, marginLeft: espaciado.e2 }}>
+              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4, marginLeft: espaciado.e2 }}>
                 Ej: 09:00-13:00, 16:00-20:00 · 24h · todo el día · cerrado
               </Text>
             ) : null}
@@ -803,7 +803,7 @@ export default function FoodOwnerScreen() {
               accessibilityRole="button"
               style={[s.cityItem, { borderBottomColor: colors.border }]}>
               <Text style={{ fontSize: tipografia.body, fontWeight: city === c.name ? peso.maximo : peso.medio, color: city === c.name ? ACCENT : colors.textPrimary }}>{c.name}</Text>
-              {c.region ? <Text style={{ fontSize: 10.5, color: colors.textSecondary }}>{c.region}</Text> : null}
+              {c.region ? <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>{c.region}</Text> : null}
             </Pressable>
           ))}
         </ScrollView>
@@ -826,7 +826,7 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
   const statusColor = item.status === 'active' ? brand.success : item.status === 'rejected' ? colors.danger : colors.secondary;
   const statusText = item.status === 'active' ? (item.available ? '✓ Activo' : 'Oculto') : item.status === 'rejected' ? '✗ Rechazado' : 'En revisión';
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: 10, padding: espaciado.e10, marginBottom: espaciado.e6, borderWidth: trazo.fino, borderColor: colors.border }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: radios.chip, padding: espaciado.e10, marginBottom: espaciado.e6, borderWidth: trazo.fino, borderColor: colors.border }}>
       {photo ? (
         <RNImage source={{ uri: photo }} style={{ width: 40, height: 40, borderRadius: radios.sm }} />
       ) : (
@@ -843,8 +843,8 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
         <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>{item.name}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
           <Precio valor={item.priceXaf} tamano="sm" color={ACCENT} />
-          <Text style={{ fontSize: 10.5, fontWeight: peso.fuerte, color: statusColor }}>{statusText}</Text>
-          {!photo ? <Text style={{ fontSize: 10.5, fontWeight: peso.fuerte, color: brand.warning }}>· falta foto</Text> : null}
+          <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: statusColor }}>{statusText}</Text>
+          {!photo ? <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: brand.warning }}>· falta foto</Text> : null}
         </View>
       </View>
       {busy ? (
@@ -875,7 +875,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
       {ok ? <BadgeCheck size={16} color={brand.success} /> : <XCircle size={16} color={neutro.n400} />}
       <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
         <Text style={{ fontSize: tipografia.caption, fontWeight: peso.medio, color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
-        {hint ? <Text style={{ fontSize: 10.5, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
+        {hint ? <Text style={{ fontSize: tipografia.micro, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
       </View>
       {onPress ? <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>→</Text> : null}
     </View>
@@ -903,7 +903,7 @@ const s_row = StyleSheet.create({
 
 const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: espaciado.e28 },
-  title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
+  title: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
   btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
 });
@@ -912,18 +912,18 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   reqBox: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14 },
   sectionTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, marginBottom: espaciado.e10 },
-  photo: { width: 84, height: 84, borderRadius: 14 },
+  photo: { width: 84, height: 84, borderRadius: radios.campo },
   photoFallback: { backgroundColor: alpha(ACCENT, 0.08), alignItems: 'center', justifyContent: 'center' },
   photoBtn: { borderWidth: trazo.base, borderRadius: radios.md, paddingVertical: espaciado.e10, alignItems: 'center' },
-  cityBox: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: 14, borderWidth: trazo.base, paddingHorizontal: espaciado.e14, height: altura.campo },
-  area: { minHeight: 70, borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
-  rejectedBox: { borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e12 },
+  cityBox: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.campo, borderWidth: trazo.base, paddingHorizontal: espaciado.e14, height: altura.campo },
+  area: { minHeight: 70, borderRadius: radios.campo, borderWidth: trazo.fino, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
+  rejectedBox: { borderRadius: radios.chip, padding: espaciado.e10, marginTop: espaciado.e12 },
   cityItem: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e13, borderBottomWidth: trazo.fino },
   // ── Detalles del plato (041) ──
   detailsHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },
   detailsBody: { borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e8, backgroundColor: c.background },
   fieldLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, marginBottom: espaciado.e6, marginLeft: espaciado.e2 },
-  fieldHint: { fontSize: 10.5, color: c.textSecondary, marginTop: espaciado.e5, marginLeft: espaciado.e2, lineHeight: 15 },
+  fieldHint: { fontSize: tipografia.micro, color: c.textSecondary, marginTop: espaciado.e5, marginLeft: espaciado.e2, lineHeight: 15 },
   fieldErr: { fontSize: tipografia.micro, fontWeight: peso.fuerte, color: c.danger, marginTop: espaciado.e5, marginLeft: espaciado.e2 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
   chip: { borderWidth: trazo.fino, borderRadius: radios.lg, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },

@@ -144,7 +144,7 @@ function DetailActionButton({ icon, count, active, activeColor, colors, onPress,
       {icon}
       {typeof count === 'number' && count > 0 ? (
         <Text style={{
-          marginTop: espaciado.e2, fontSize: 10.5, fontWeight: peso.titulo,
+          marginTop: espaciado.e2, fontSize: tipografia.micro, fontWeight: peso.titulo,
           color: active ? activeColor : colors.textSecondary,
         }}>
           {count > 999 ? '999+' : count}
@@ -393,10 +393,10 @@ function PostContent() {
           <Pressable onPress={() => router.back()} hitSlop={12} style={{ padding: espaciado.e4 }} accessibilityLabel="Volver">
             <ArrowLeft size={22} color={colors.textPrimary} />
           </Pressable>
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, flex: 1 }}>Publicación</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, flex: 1 }}>Publicación</Text>
         </View>
         <View style={[styles.center, { flex: 1, padding: espaciado.e30, gap: espaciado.e8 }]}>
-          <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }}>No se encontró esta publicación</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>No se encontró esta publicación</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
             Puede que se haya eliminado o que su visibilidad no te lo permita.
           </Text>
@@ -593,9 +593,9 @@ function PostContent() {
                   }}
                 >
                   {p.coverUrl ? (
-                    <Image source={{ uri: absUrl(p.coverUrl) }} style={{ width: 46, height: 46, borderRadius: 10 }} />
+                    <Image source={{ uri: absUrl(p.coverUrl) }} style={{ width: 46, height: 46, borderRadius: radios.chip }} />
                   ) : (
-                    <View style={{ width: 46, height: 46, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.12) }}>
+                    <View style={{ width: 46, height: 46, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.12) }}>
                       <Package size={18} color={colors.primary} />
                     </View>
                   )}
@@ -860,7 +860,7 @@ function PostContent() {
           {/* ═══════ DESCUBRIR MÁS (relacionadas) ═══════ */}
           {related.length > 0 && (
             <View style={{ marginTop: espaciado.e24 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.maximo, marginBottom: espaciado.e12 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.maximo, marginBottom: espaciado.e12 }}>
                 Descubrir más
               </Text>
               <View style={styles.masonryRow}>
@@ -1021,7 +1021,7 @@ function PostContent() {
                 onPress={toggleComments}
                 style={({ pressed }) => [styles.menuRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
               >
-                <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.fuerte }}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte }}>
                   {post.allowComments ? 'Desactivar comentarios' : 'Activar comentarios'}
                 </Text>
               </Pressable>
@@ -1033,7 +1033,7 @@ function PostContent() {
                   { backgroundColor: pressed ? alpha(colors.danger, 0.05) : 'transparent', opacity: borrando ? 0.5 : 1 },
                 ]}
               >
-                <Text style={{ color: colors.danger, fontSize: 15, fontWeight: peso.maximo }}>
+                <Text style={{ color: colors.danger, fontSize: tipografia.cuerpo, fontWeight: peso.maximo }}>
                   {borrando ? 'Eliminando…' : 'Eliminar publicación'}
                 </Text>
               </Pressable>
@@ -1043,7 +1043,7 @@ function PostContent() {
               onPress={() => { setMenuOpen(false); setReportOpen(true); }}
               style={({ pressed }) => [styles.menuRow, { backgroundColor: pressed ? alpha(colors.danger, 0.05) : 'transparent' }]}
             >
-              <Text style={{ color: colors.danger, fontSize: 15, fontWeight: peso.maximo }}>Reportar publicación</Text>
+              <Text style={{ color: colors.danger, fontSize: tipografia.cuerpo, fontWeight: peso.maximo }}>Reportar publicación</Text>
             </Pressable>
           )}
           <Pressable onPress={() => setMenuOpen(false)} style={{ paddingVertical: espaciado.e10 }}>
@@ -1155,7 +1155,7 @@ const styles = StyleSheet.create({
   followBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e7 },
   hero: { height: 120, alignItems: 'center', justifyContent: 'center', gap: espaciado.e4 },
   heroType: { fontSize: tipografia.title, fontWeight: peso.titulo, letterSpacing: 2 },
-  heroPrice: { fontSize: 17, fontWeight: peso.titulo },
+  heroPrice: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
   playOverlay: {
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
@@ -1185,8 +1185,8 @@ const styles = StyleSheet.create({
     paddingVertical: espaciado.e12,
     marginTop: espaciado.e14,
   },
-  panel: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, marginTop: espaciado.e14 },
-  panelTitle: { fontSize: 15, fontWeight: peso.titulo },
+  panel: { borderRadius: radios.campo, borderWidth: trazo.fino, padding: espaciado.e12, marginTop: espaciado.e14 },
+  panelTitle: { fontSize: tipografia.cuerpo, fontWeight: peso.titulo },
   panelLine: { color: neutro.n700, fontSize: tipografia.body, marginTop: espaciado.e4, lineHeight: 18 },
   statsRow: { marginTop: espaciado.e14, paddingBottom: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },
   sectionTitle: { fontSize: tipografia.fino, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e8 },

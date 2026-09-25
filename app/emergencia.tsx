@@ -50,7 +50,7 @@ function EmergenciaContent() {
         <Pressable onPress={() => ir.atras()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: 17, flex: 1, marginLeft: espaciado.e10 }}>
+        <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: tipografia.subCabecera, flex: 1, marginLeft: espaciado.e10 }}>
           Emergencia
         </Text>
       </View>
@@ -78,7 +78,7 @@ function EmergenciaContent() {
               {c.id === 'policia' ? <Siren size={22} color={colors.danger} /> : <Phone size={22} color={colors.danger} />}
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>{c.label}</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>{c.label}</Text>
               {c.note ? (
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{c.note}</Text>
               ) : null}
@@ -121,7 +121,7 @@ function EmergenciaContent() {
 const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   aviso: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e12 },
-  tarjeta: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12 },
+  tarjeta: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12 },
   icono: { width: 44, height: 44, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   salida: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderWidth: trazo.fino, borderRadius: radios.md, paddingVertical: espaciado.e12 },
 });

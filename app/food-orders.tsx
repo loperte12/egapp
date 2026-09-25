@@ -518,7 +518,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           <Text style={{ fontSize: tipografia.micro, fontWeight: peso.maximo, color: st.color }}>{st.label}</Text>
         </View>
       </View>
-      <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>{formatDateTime(o.createdAt)}</Text>
+      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{formatDateTime(o.createdAt)}</Text>
 
       {/* Líneas */}
       {o.items.map((it, i) => (
@@ -584,7 +584,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
               </Text>
             </View>
           ) : (
-            <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4, lineHeight: 14 }}>
+            <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4, lineHeight: 14 }}>
               Estas comisiones las paga el restaurante, no tú: ya van incluidas en el precio que pagaste.
             </Text>
           )}
@@ -604,7 +604,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           viviendas sociales o el portal sin número, donde la dirección no basta para encontrarse.
           Se muestra en cuanto existe, sin tocar nada: el repartidor ya avisó por SMS también. */}
       {o.meetingNote ? (
-        <View style={{ marginTop: espaciado.e6, borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e10, borderColor: alpha(colors.success, 0.45), backgroundColor: alpha(colors.success, 0.10) }}>
+        <View style={{ marginTop: espaciado.e6, borderRadius: radios.chip, borderWidth: trazo.fino, padding: espaciado.e10, borderColor: alpha(colors.success, 0.45), backgroundColor: alpha(colors.success, 0.10) }}>
           <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.success }}>🤝 El repartidor te espera aquí</Text>
           <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, marginTop: espaciado.e3, lineHeight: 16 }}>{o.meetingNote}</Text>
           {typeof o.meetingLat === 'number' && typeof o.meetingLng === 'number' ? (
@@ -664,7 +664,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
             ⏱️ Tiempo de cocina estimado: ~{o.estPrepMinutes} min
           </Text>
-          <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>
+          <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>
             {o.status === 'placed'
               ? 'Se cuenta desde que el restaurante confirme tu pedido.'
               : 'A contar desde que el restaurante empieza a preparar.'}
@@ -797,9 +797,9 @@ const s_chip = StyleSheet.create({
 });
 
 const s_card = StyleSheet.create({
-  card: { borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e12, borderWidth: trazo.fino },
-  cancelledBox: { borderRadius: 10, padding: espaciado.e8, marginTop: espaciado.e10, alignItems: 'center' },
-  etaBox: { borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e9, marginTop: espaciado.e10 },
+  card: { borderRadius: radios.campo, padding: espaciado.e14, marginBottom: espaciado.e12, borderWidth: trazo.fino },
+  cancelledBox: { borderRadius: radios.chip, padding: espaciado.e8, marginTop: espaciado.e10, alignItems: 'center' },
+  etaBox: { borderRadius: radios.chip, borderWidth: trazo.fino, padding: espaciado.e9, marginTop: espaciado.e10 },
 });
 
 const s_rm = StyleSheet.create({
@@ -808,12 +808,12 @@ const s_rm = StyleSheet.create({
 });
 
 const s_sk = StyleSheet.create({
-  card: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e14, marginBottom: espaciado.e12 },
+  card: { borderRadius: radios.campo, borderWidth: trazo.fino, padding: espaciado.e14, marginBottom: espaciado.e12 },
 });
 
 const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 48, paddingHorizontal: espaciado.e28 },
-  title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
+  title: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
   btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
   btnGhost: { marginTop: espaciado.e18, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho, borderWidth: trazo.fino, borderColor: ACCENT },
@@ -824,7 +824,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   resultsLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, marginBottom: espaciado.e10 },
   footerNote: { paddingVertical: espaciado.e16, alignItems: 'center' },
   modalWrap: { flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' },
-  modalCard: { borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: espaciado.e18, maxHeight: '75%' },
+  modalCard: { borderTopLeftRadius: radios.tarjeta, borderTopRightRadius: radios.tarjeta, padding: espaciado.e18, maxHeight: '75%' },
   modalTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, marginBottom: espaciado.e4 },
   riderRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e12, marginBottom: espaciado.e8 },
 });

@@ -234,7 +234,7 @@ export default function AsistenteDeTalla({
   if (!tabla) {
     return (
       <View>
-        <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginBottom: espaciado.e6 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginBottom: espaciado.e6 }}>
           Esta tienda todavía no tiene tabla de tallas
         </Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 18 }}>
@@ -265,7 +265,7 @@ export default function AsistenteDeTalla({
        * también se deslizan, en la práctica no existe. Así que el pie va FIJO, fuera del scroll.
        */}
       <ScrollView showsVerticalScrollIndicator={false} style={{ maxHeight: 250 }} nestedScrollEnabled scrollEnabled={!arrastrando}>
-        <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginBottom: espaciado.e10 }}>Tu talla</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginBottom: espaciado.e10 }}>Tu talla</Text>
 
         {/* Sexo: las tablas son distintas, y si la de la tienda es unisex vale para los dos. */}
         <ChipRow>
@@ -312,7 +312,7 @@ export default function AsistenteDeTalla({
         }]}>
           {tallaRecomendada ? (
             <>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>
                 Tu talla: {tallaRecomendada}{resultado?.fit ? ` · ajuste ${resultado.fit}` : ''}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginTop: espaciado.e4 }}>{resultado?.reason}</Text>
@@ -377,7 +377,7 @@ export default function AsistenteDeTalla({
 const styles = StyleSheet.create({
   ruletas: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10, marginTop: espaciado.e12, marginBottom: espaciado.e4 },
   tarjeta: { borderWidth: trazo.base, borderRadius: radios.md, padding: espaciado.e11, marginTop: espaciado.e12 },
-  usar: { marginTop: espaciado.e10, height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  usar: { marginTop: espaciado.e10, height: 40, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center' },
   /** Los botones del pie fijo: la misma altura que los del panel, para que la fila cuadre. */
   botonPie: { height: 46, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e10 },
 });

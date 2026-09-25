@@ -248,7 +248,7 @@ export function LandlordCard({
 }
 
 const styles = StyleSheet.create({
-  container: { borderRadius: 14, padding: espaciado.e16, borderWidth: trazo.fino },
+  container: { borderRadius: radios.campo, padding: espaciado.e16, borderWidth: trazo.fino },
   header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 },
   avatar: { width: 52, height: 52, borderRadius: radios.full },
   avatarInitials: { width: 52, height: 52, borderRadius: radios.full, justifyContent: 'center', alignItems: 'center' },
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   responseText: { fontSize: tipografia.body },
   statsRow: { flexDirection: 'row', borderRadius: radios.md, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e10, marginTop: espaciado.e14, gap: espaciado.e8, borderWidth: trazo.fino },
   statItem: { flex: 1, alignItems: 'center' },
-  statValue: { fontSize: 15, fontWeight: peso.fuerte },
+  statValue: { fontSize: tipografia.cuerpo, fontWeight: peso.fuerte },
   statLabel: { fontSize: tipografia.micro, marginTop: espaciado.e3 },
   description: { marginTop: espaciado.e14, fontSize: tipografia.body, lineHeight: 20 },
   actionsContainer: { marginTop: espaciado.e16 },
@@ -278,13 +278,13 @@ const styles = StyleSheet.create({
   disabledButton: { opacity: 0.5 },
   trustNote: { marginTop: espaciado.e14, fontSize: tipografia.micro, lineHeight: 16 },
   compactContainer: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e12, gap: espaciado.e10, borderWidth: trazo.fino },
-  compactAvatar: { width: 40, height: 40, borderRadius: 20 },
-  compactAvatarInitials: { width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' },
+  compactAvatar: { width: 40, height: 40, borderRadius: radios.full },
+  compactAvatarInitials: { width: 40, height: 40, borderRadius: radios.full, justifyContent: 'center', alignItems: 'center' },
   compactAvatarText: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.fuerte },
   compactInfo: { flex: 1 },
   compactName: { fontSize: tipografia.body, fontWeight: peso.fuerte },
   compactMeta: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e4 },
   compactRating: { fontSize: tipografia.caption, fontWeight: peso.medio },
-  compactButton: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
+  compactButton: { borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
   compactButtonText: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
 });

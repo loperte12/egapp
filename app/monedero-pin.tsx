@@ -11,7 +11,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, KeyRound } from 'lucide-react-native';
-import { espaciado, InlineError, PrimaryButton, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { espaciado, InlineError, PrimaryButton, tipografia, useTheme, peso, trazo, radios} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { fijarPin } from '../api/settlement';
 import { brand } from '@egrouteplan/ui-kit';
@@ -132,11 +132,11 @@ const styles = StyleSheet.create({
   },
   headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   label: { fontSize: tipografia.caption, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.4, marginBottom: espaciado.e8 },
-  input: { borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.body },
+  input: { borderWidth: trazo.fino, borderRadius: radios.campo, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.body },
   pinInput: {
-    borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11,
+    borderWidth: trazo.fino, borderRadius: radios.campo, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11,
     fontSize: tipografia.subtitulo, letterSpacing: 8, textAlign: 'center',
   },
   doneWrap: { flex: 1, padding: espaciado.e20, justifyContent: 'center', gap: espaciado.e16 },
-  okIcon: { width: 60, height: 60, borderRadius: 20, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
+  okIcon: { width: 60, height: 60, borderRadius: radios.tarjeta, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
 });

@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: tipografia.anchoFuerte, fontWeight: peso.titulo, flex: 1 },
   tabPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderWidth: trazo.fino },
-  card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
+  card: { borderRadius: radios.campo, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   avatar: { width: 42, height: 42, borderRadius: radios.full },
-  postRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e9, borderRadius: 10, padding: espaciado.e8, marginTop: espaciado.e10 },
+  postRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e9, borderRadius: radios.chip, padding: espaciado.e8, marginTop: espaciado.e10 },
   thumb: { width: 38, height: 38, borderRadius: radios.sm },
 });

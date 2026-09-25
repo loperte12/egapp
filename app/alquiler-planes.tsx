@@ -233,7 +233,7 @@ export default function AlquilerPlanesScreen() {
         </Text>
 
         {plansError && (
-          <View style={{ marginBottom: espaciado.e12, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: 10 }}>
+          <View style={{ marginBottom: espaciado.e12, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: radios.chip }}>
             <Text style={{ color: colors.danger, fontSize: tipografia.caption }}>{plansError}</Text>
             <Pressable onPress={() => void loadPlans()} accessibilityRole="button" accessibilityLabel="Reintentar cargar planes" hitSlop={6}>
               <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar planes</Text>
@@ -241,7 +241,7 @@ export default function AlquilerPlanesScreen() {
           </View>
         )}
         {landlordError && (
-          <View style={{ marginBottom: espaciado.e12, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: 10 }}>
+          <View style={{ marginBottom: espaciado.e12, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: radios.chip }}>
             <Text style={{ color: colors.danger, fontSize: tipografia.caption }}>{landlordError}</Text>
             <Pressable onPress={() => void loadLandlord()} accessibilityRole="button" accessibilityLabel="Reintentar cargar estado de arrendador" hitSlop={6}>
               <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar mi estado</Text>
@@ -329,16 +329,16 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   subtitle: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 19, marginBottom: espaciado.e18 },
   planCard: { backgroundColor: c.card, borderRadius: radios.lg, padding: espaciado.e18, marginBottom: espaciado.e16, borderWidth: trazo.fino },
   planName: { fontSize: tipografia.cabecera, fontWeight: peso.fuerte },
-  currentBadge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
+  currentBadge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.marca, marginTop: espaciado.e6, alignSelf: 'flex-start' },
   currentBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.medio },
   price: { fontSize: tipografia.title, fontWeight: peso.maximo, color: c.textPrimary },
   period: { fontSize: tipografia.body, color: c.textSecondary },
   featureRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: espaciado.e6, borderBottomWidth: trazo.fino, borderBottomColor: c.border },
   featureLabel: { fontSize: tipografia.body, color: c.textSecondary, flex: 1 },
   featureValue: { fontSize: tipografia.body, fontWeight: peso.medio, color: c.textPrimary },
-  selectButton: { borderRadius: 10, paddingVertical: espaciado.e14, alignItems: 'center' },
-  selectButtonText: { color: brand.white, fontSize: 15, fontWeight: peso.fuerte },
+  selectButton: { borderRadius: radios.chip, paddingVertical: espaciado.e14, alignItems: 'center' },
+  selectButtonText: { color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte },
   paymentNote: { backgroundColor: c.card, borderRadius: radios.md, padding: espaciado.e16, marginTop: espaciado.e8, borderWidth: trazo.fino },
-  paymentNoteTitle: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e8 },
+  paymentNoteTitle: { fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e8 },
   paymentNoteText: { fontSize: tipografia.body, color: c.textSecondary, lineHeight: 22 },
 });

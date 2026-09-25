@@ -359,7 +359,7 @@ function UserContent() {
           <View style={{ width: 22 }} />
         </View>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e30, gap: espaciado.e6 }}>
-          <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }}>{error ?? 'Perfil'}</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>{error ?? 'Perfil'}</Text>
         </View>
       </View>
     );
@@ -511,7 +511,7 @@ function UserContent() {
                       return (
                         <View key={v.key} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, backgroundColor: alpha(v.color, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
                           <Icon size={11} color={v.color} />
-                          <Text style={{ color: v.color, fontSize: 10.5, fontWeight: peso.titulo }}>{v.label} ✓</Text>
+                          <Text style={{ color: v.color, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{v.label} ✓</Text>
                         </View>
                       );
                     })}
@@ -610,7 +610,7 @@ function UserContent() {
                               </Text>
                             </View>
                           </View>
-                          <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e4 }}>
+                          <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e4 }}>
                             {f.title}
                           </Text>
                         </Pressable>
@@ -714,7 +714,7 @@ function UserContent() {
                       accessibilityLabel={vivo ? `Abrir el grupo ${card?.title ?? g.label}` : (ficha?.motivo || 'Enlace de grupo')}
                       style={({ pressed }) => [{
                         flexDirection: 'row' as const, alignItems: 'center' as const, gap: espaciado.e10,
-                        backgroundColor: colors.surface, borderRadius: 14, padding: espaciado.e10,
+                        backgroundColor: colors.surface, borderRadius: radios.campo, padding: espaciado.e10,
                         opacity: pressed ? 0.8 : 1,
                         /* Fijado: se distingue igual que los chips fijados. */
                         ...(g.pinned ? { borderWidth: trazo.fino, borderColor: colors.primary } : {}),
@@ -888,7 +888,7 @@ function UserContent() {
         ListEmptyComponent={
           !loadingPosts && posts.length === 0 ? (
             <View style={{ alignItems: 'center', paddingTop: 44, gap: espaciado.e6 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }}>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>
                 {tab === 'productos' ? 'Sin productos' : tab === 'coleccion' ? 'Sin guardados' : tab === 'note' ? 'Sin notas' : tab === 'video' ? 'Sin videos' : tab === 'podcast' ? 'Sin podcasts' : tab === 'serie' ? 'Sin series' : tab === 'sale' ? 'Sin ventas' : 'Sin publicaciones'}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: espaciado.e30 }}>
@@ -921,7 +921,7 @@ function UserContent() {
             onPress={askToggleBlock}
             style={({ pressed }) => [styles.userMenuRow, { backgroundColor: pressed ? alpha(colors.danger, 0.05) : 'transparent' }]}
           >
-            <Text style={{ color: blocked ? colors.primary : colors.danger, fontSize: 15, fontWeight: peso.maximo }}>
+            <Text style={{ color: blocked ? colors.primary : colors.danger, fontSize: tipografia.cuerpo, fontWeight: peso.maximo }}>
               {blocked ? 'Desbloquear usuario' : 'Bloquear usuario'}
             </Text>
           </Pressable>
@@ -929,7 +929,7 @@ function UserContent() {
             onPress={() => { setUserMenuOpen(false); irSeguro.libre('/lifebook-blocks'); }}
             style={({ pressed }) => [styles.userMenuRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
           >
-            <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.fuerte }}>Usuarios bloqueados</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte }}>Usuarios bloqueados</Text>
           </Pressable>
           <Pressable onPress={() => setUserMenuOpen(false)} style={{ paddingVertical: espaciado.e10 }}>
             <Text style={{ textAlign: 'center', color: colors.textSecondary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Cancelar</Text>
@@ -978,7 +978,7 @@ function TarjetaProducto({ producto, colors, ancho, onPress }: {
     <Pressable
       onPress={onPress}
       accessibilityLabel={producto.title}
-      style={{ width: ancho, backgroundColor: colors.card, borderRadius: 14, borderWidth: trazo.fino, borderColor: alpha(colors.border, 0.5), padding: espaciado.e8 }}
+      style={{ width: ancho, backgroundColor: colors.card, borderRadius: radios.campo, borderWidth: trazo.fino, borderColor: alpha(colors.border, 0.5), padding: espaciado.e8 }}
     >
       {producto.coverUrl ? (
         <Image source={{ uri: absUrl(producto.coverUrl) }} style={styles.prodImg} resizeMode="cover" />
@@ -999,7 +999,7 @@ function TarjetaProducto({ producto, colors, ancho, onPress }: {
         </Text>
       ) : null}
       {producto.salesCount > 0 ? (
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
           {producto.salesCount} vendido{producto.salesCount === 1 ? '' : 's'}
         </Text>
       ) : null}
@@ -1012,12 +1012,12 @@ const styles = StyleSheet.create({
   prodImg: { width: '100%', aspectRatio: 1, borderRadius: radios.md, backgroundColor: 'rgba(0,0,0,0.04)' },
 
   /* ── Tanda A: la tarjeta de la tienda ─────────────────────────────────────────── */
-  tiendaCard: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e10 },
+  tiendaCard: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e10 },
   tiendaLogo: { width: 30, height: 30, borderRadius: radios.sm },
   /* Miniatura CASI cuadrada (la especificación pide «cuadradas o casi»). 96×96 para que
      quepan tres y se vea que hay más desplazando. */
   tiendaThumb: {
-    width: 96, height: 96, borderRadius: 10, overflow: 'hidden',
+    width: 96, height: 96, borderRadius: radios.chip, overflow: 'hidden',
     backgroundColor: 'rgba(0,0,0,0.04)',
   },
   /* El precio va ENCIMA de la foto, en la esquina inferior, con fondo oscuro
@@ -1036,7 +1036,7 @@ const styles = StyleSheet.create({
   avatar: { width: 86, height: 86, borderRadius: radios.full, borderWidth: trazo.anillo },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
   fullName: { fontSize: tipografia.title, fontWeight: peso.titulo, flexShrink: 1 },
-  statsRow: { flexDirection: 'row', marginHorizontal: espaciado.e16, marginTop: espaciado.e12, borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e10 },
+  statsRow: { flexDirection: 'row', marginHorizontal: espaciado.e16, marginTop: espaciado.e12, borderRadius: radios.campo, borderWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e10 },
   stat: { flex: 1, alignItems: 'center' },
   mainBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e7, borderRadius: radios.full, paddingVertical: espaciado.e11, borderWidth: trazo.fino, borderColor: 'transparent' },
   tabs: { flexDirection: 'row', marginTop: espaciado.e14, borderBottomWidth: StyleSheet.hairlineWidth },

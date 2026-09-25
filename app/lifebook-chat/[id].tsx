@@ -986,13 +986,13 @@ function ChatThreadContent() {
               <Image source={{ uri: peer.avatarUrl }} style={styles.headAvatar} />
             ) : (
               <View style={[styles.headAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: 15 }}>
+                <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>
                   {(peer?.name ?? peerName).trim().charAt(0).toUpperCase() || '?'}
                 </Text>
               </View>
             )}
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }} numberOfLines={1}>
+              <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }} numberOfLines={1}>
                 {peer?.name ?? peerName}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }} numberOfLines={1}>
@@ -1014,11 +1014,11 @@ function ChatThreadContent() {
             accessibilityLabel="Anuncio del grupo, toca para cerrar"
             style={{
               flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e8,
-              marginHorizontal: espaciado.e12, marginTop: espaciado.e8, padding: espaciado.e10, borderRadius: 14,
+              marginHorizontal: espaciado.e12, marginTop: espaciado.e8, padding: espaciado.e10, borderRadius: radios.campo,
               backgroundColor: alpha(colors.secondary, 0.10), borderWidth: trazo.fino, borderColor: alpha(colors.secondary, 0.25),
             }}
           >
-            <Text style={{ fontSize: 15 }}>📣</Text>
+            <Text style={{ fontSize: tipografia.cuerpo }}>📣</Text>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Anuncio del grupo</Text>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, lineHeight: 18, marginTop: espaciado.e2 }}>
@@ -1234,9 +1234,9 @@ function ChatThreadContent() {
                   }}
                 >
                   {p.coverUrl ? (
-                    <ExpoImage source={absUrl(p.coverUrl)} style={{ width: 44, height: 44, borderRadius: 10 }} contentFit="cover" transition={0} />
+                    <ExpoImage source={absUrl(p.coverUrl)} style={{ width: 44, height: 44, borderRadius: radios.chip }} contentFit="cover" transition={0} />
                   ) : (
-                    <View style={{ width: 44, height: 44, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.08) }}>
+                    <View style={{ width: 44, height: 44, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.08) }}>
                       <ShoppingBag size={18} color={alpha(colors.primary, 0.6)} />
                     </View>
                   )}
@@ -1282,7 +1282,7 @@ function ChatThreadContent() {
               <X size={20} color={colors.textPrimary} />
             </Pressable>
             <View style={{ flex: 1 }}>
-              <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }}>
+              <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>
                 📍 {mapLabel}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>
@@ -1314,7 +1314,7 @@ function ChatThreadContent() {
                 opacity: pressed ? 0.85 : 1,
               }]}
             >
-              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>🚕  Pedir taxi hasta aquí</Text>
+              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>🚕  Pedir taxi hasta aquí</Text>
             </Pressable>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center', marginTop: espaciado.e8 }}>
               Abre el taxi con este punto como destino y calcula la ruta desde donde estés.
@@ -1328,7 +1328,7 @@ function ChatThreadContent() {
         <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={() => setPickerOpen(null)} />
         <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
           <View style={styles.sheetHeader}>
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>
               {pickerOpen === 'sale' ? 'Compartir una venta' : 'Compartir una nota'}
             </Text>
             <Pressable onPress={() => setPickerOpen(null)} hitSlop={10} accessibilityLabel="Cerrar">
@@ -1475,7 +1475,7 @@ function ChatThreadContent() {
         <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={() => setForwardMsg(null)} />
         <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
           <View style={styles.sheetHeader}>
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>Enviar a otro chat</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>Enviar a otro chat</Text>
             <Pressable onPress={() => setForwardMsg(null)} hitSlop={10} accessibilityLabel="Cerrar"><X size={20} color={colors.textSecondary} /></Pressable>
           </View>
           {busyAction === 'forward' ? (
@@ -1539,7 +1539,7 @@ function MenuRow({ icon, label, onPress, colors, danger }: {
       style={({ pressed }) => [styles.menuRow, { backgroundColor: pressed ? alpha(danger ? colors.danger : colors.primary, 0.06) : 'transparent' }]}
     >
       <Text style={{ fontSize: tipografia.subtitle }}>{icon}</Text>
-      <Text style={{ color: danger ? colors.danger : colors.textPrimary, fontSize: 15, fontWeight: peso.fuerte }}>{label}</Text>
+      <Text style={{ color: danger ? colors.danger : colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte }}>{label}</Text>
     </Pressable>
   );
 }
@@ -1676,7 +1676,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
         ) : null}
         {/* Aviso de consulta: alguien pregunta por ESTE producto. */}
         {pr.asking ? (
-          <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.fuerte, marginTop: espaciado.e3 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e3 }}>
             Consultando sobre este producto
           </Text>
         ) : null}
@@ -1804,13 +1804,13 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
                 ) : (
                   <View style={{ width: 16, height: 16, borderRadius: radios.sm, backgroundColor: alpha(colors.primary, 0.18) }} />
                 )}
-                <Text style={{ color: colors.textPrimary, fontSize: 10.5, fontWeight: peso.fuerte }} numberOfLines={1}>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.micro, fontWeight: peso.fuerte }} numberOfLines={1}>
                   {p.name.split(' ')[0]}
                 </Text>
               </View>
             ))}
             {(cr.members ?? []).length > 6 ? (
-              <Text style={{ color: colors.textSecondary, fontSize: 10.5 }}>+{(cr.members ?? []).length - 6}</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>+{(cr.members ?? []).length - 6}</Text>
             ) : null}
           </View>
         ) : null}
@@ -1902,7 +1902,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
         <Pressable onPress={onOpenLocation} accessibilityLabel={`Ver ${msg.locationRef.label} en el mapa`}>
           <View style={[styles.locPreview, { backgroundColor: alpha(colors.primary, 0.08) }]}>
             <MapPin size={22} color={colors.primary} />
-            <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e4, fontWeight: peso.fuerte }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e4, fontWeight: peso.fuerte }}>
               {hasCoords ? 'Toca para ver el mapa' : 'Sin coordenadas'}
             </Text>
           </View>
@@ -1910,7 +1910,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
             📍 {msg.locationRef.label}
           </Text>
           {hasCoords ? (
-            <Text style={{ color: colors.textSecondary, fontSize: 10.5, marginTop: espaciado.e2 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>
               {lat.toFixed(5)}, {lng.toFixed(5)}
             </Text>
           ) : null}
@@ -1946,7 +1946,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           </Text>
         </View>
         {ar.imageUrl ? (
-          <Image source={{ uri: absUrl(ar.imageUrl) }} style={{ width: '100%', height: 120, borderRadius: 10, marginTop: espaciado.e8 }} />
+          <Image source={{ uri: absUrl(ar.imageUrl) }} style={{ width: '100%', height: 120, borderRadius: radios.chip, marginTop: espaciado.e8 }} />
         ) : null}
         {ar.text ? (
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: espaciado.e6, lineHeight: 17 }} numberOfLines={5}>{ar.text}</Text>
@@ -2011,25 +2011,25 @@ const styles = StyleSheet.create({
   bgAccent: { position: 'absolute', right: -60, top: -40, width: 200, height: 200, borderRadius: radios.full, opacity: 0.22 },
   headAvatar: { width: 34, height: 34, borderRadius: radios.full },
   msgAvatar: { width: 26, height: 26, borderRadius: radios.full },
-  imgBubble: { width: 200, height: 200, borderRadius: 14, backgroundColor: 'rgba(128,128,128,0.15)' },
-  cardBubble: { borderRadius: 14, padding: espaciado.e10, flexDirection: 'row', alignItems: 'center', flexShrink: 1 },
+  imgBubble: { width: 200, height: 200, borderRadius: radios.campo, backgroundColor: 'rgba(128,128,128,0.15)' },
+  cardBubble: { borderRadius: radios.campo, padding: espaciado.e10, flexDirection: 'row', alignItems: 'center', flexShrink: 1 },
   postCover: { width: '100%', height: 120, borderRadius: radios.sm },
   voteOpt: { borderRadius: radios.sm, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7, marginTop: espaciado.e6, borderWidth: trazo.fino, overflow: 'hidden' },
   voteBar: { position: 'absolute', left: 0, top: 0, bottom: 0 },
-  locPreview: { height: 84, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  locPreview: { height: 84, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center' },
   /** Parte 25: botón de apuntarse / pedir taxi dentro de las burbujas. */
-  joinBtn: { marginTop: espaciado.e8, borderRadius: 10, paddingVertical: espaciado.e9, alignItems: 'center', justifyContent: 'center' },
-  taxiCta: { borderRadius: 14, paddingVertical: espaciado.e14, alignItems: 'center', justifyContent: 'center' },
+  joinBtn: { marginTop: espaciado.e8, borderRadius: radios.chip, paddingVertical: espaciado.e9, alignItems: 'center', justifyContent: 'center' },
+  taxiCta: { borderRadius: radios.campo, paddingVertical: espaciado.e14, alignItems: 'center', justifyContent: 'center' },
   /** Parte 28 (G4): barra de ubicación en vivo. */
   liveBar: {
-    marginHorizontal: espaciado.e12, marginTop: espaciado.e8, padding: espaciado.e10, borderRadius: 14,
+    marginHorizontal: espaciado.e12, marginTop: espaciado.e8, padding: espaciado.e10, borderRadius: radios.campo,
     borderWidth: trazo.fino, gap: espaciado.e6,
   },
   liveChip: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
     borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, maxWidth: 240,
   },
-  liveStop: { alignSelf: 'flex-start', borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, marginTop: espaciado.e2 },
+  liveStop: { alignSelf: 'flex-start', borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, marginTop: espaciado.e2 },
   rowGap8: { flexDirection: 'row', gap: espaciado.e8 },
   pillBubble: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, maxWidth: '85%' },
   backdrop: { ...StyleSheet.absoluteFillObject },

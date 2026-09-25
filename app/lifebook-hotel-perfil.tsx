@@ -197,7 +197,7 @@ function Contenido() {
         <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Volver" hitSlop={10} style={styles.volver}>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.hero, lineHeight: 32 }}>‹</Text>
         </Pressable>
-        <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>Ficha del hotel</Text>
+        <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>Ficha del hotel</Text>
       </View>
 
       {error ? (
@@ -254,7 +254,7 @@ function Contenido() {
                     accessibilityLabel={`${n} estrella(s)`}
                     style={[styles.estrella, { borderColor: on ? colors.secondary : colors.border, backgroundColor: on ? alpha(colors.secondary, 0.12) : colors.surface }]}
                   >
-                    <Text style={{ color: on ? colors.secondary : colors.textSecondary, fontSize: 15, fontWeight: peso.titulo }}>{n}★</Text>
+                    <Text style={{ color: on ? colors.secondary : colors.textSecondary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>{n}★</Text>
                   </Pressable>
                 );
               })}
@@ -436,7 +436,7 @@ function Bloque({ titulo, hint, children }: { titulo: string; hint?: string; chi
   const { colors } = useTheme();
   return (
     <View style={{ marginTop: espaciado.e22 }}>
-      <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginBottom: espaciado.e3 }}>{titulo}</Text>
+      <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginBottom: espaciado.e3 }}>{titulo}</Text>
       {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>{hint}</Text> : <View style={{ height: 7 }} />}
       {children}
     </View>
@@ -461,6 +461,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center',
     paddingVertical: espaciado.e11,
   },
-  grupo: { borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e12, marginTop: espaciado.e12 },
+  grupo: { borderWidth: trazo.fino, borderRadius: radios.campo, paddingHorizontal: espaciado.e12, marginTop: espaciado.e12 },
   pago: { borderWidth: trazo.base, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center' },
 });

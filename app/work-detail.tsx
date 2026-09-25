@@ -32,7 +32,7 @@ function BulletList({ title, items, dot, check }: { title: string; items: string
   const { colors } = useTheme();
   return (
     <View style={{ marginBottom: espaciado.e20 }}>
-      <Text style={{ fontSize: 15, fontWeight: peso.fuerte, color: colors.textPrimary, marginBottom: espaciado.e10 }}>{title}</Text>
+      <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, color: colors.textPrimary, marginBottom: espaciado.e10 }}>{title}</Text>
       {items.map((it, i) => (
         <View key={i} style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: espaciado.e8 }}>
           {dot ? (
@@ -291,7 +291,7 @@ export default function WorkDetailScreen() {
           {(job.benefits || []).length > 0 && (
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginBottom: espaciado.e12 }}>
               {(job.benefits || []).map((b, i) => (
-                <View key={i} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 }}>
+                <View key={i} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: radios.marca }}>
                   <Check size={10} color={colors.primary} style={{ marginRight: espaciado.e3 }} />
                   <Text style={{ fontSize: tipografia.nota, color: colors.primary, fontWeight: peso.medio }}>{BENEFIT_LABELS[b] ?? b}</Text>
                 </View>
@@ -324,14 +324,14 @@ export default function WorkDetailScreen() {
             <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>{job.location || job.city}{job.distance ? ` · ${job.distance} km de distancia` : ''}</Text>
           </View>
           {latitude && longitude ? (
-            <View style={{ height: 150, borderRadius: 14, overflow: 'hidden', backgroundColor: colors.surface }}>
+            <View style={{ height: 150, borderRadius: radios.campo, overflow: 'hidden', backgroundColor: colors.surface }}>
               <MapBackground>
                 <EgCamera centerCoordinate={[longitude, latitude]} zoomLevel={13} animationMode="moveTo" />
                 <EgMarkers markers={[{ id: 'job', coordinate: [longitude, latitude] as [number, number], kind: 'origin' as const, label: job.location || job.city }]} />
               </MapBackground>
             </View>
           ) : (
-            <View style={{ height: 80, borderRadius: 14, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ height: 80, borderRadius: radios.campo, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }}>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{job.city} · {job.zone || 'sin zona'}</Text>
             </View>
           )}
@@ -355,9 +355,9 @@ export default function WorkDetailScreen() {
           </View>
 
           {job.recruiter?.name && (
-            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, padding: espaciado.e12, borderRadius: 10 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, padding: espaciado.e12, borderRadius: radios.chip }}>
               <View style={[s.recAvatar, { backgroundColor: job.recruiter.avatarColor || colors.secondary }]}>
-                <Text style={{ color: brand.white, fontSize: 15, fontWeight: peso.fuerte }}>{job.recruiter.name.charAt(0)}</Text>
+                <Text style={{ color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte }}>{job.recruiter.name.charAt(0)}</Text>
               </View>
               <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
                 <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary }}>{job.recruiter.name}</Text>
@@ -485,13 +485,13 @@ export default function WorkDetailScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  card: { borderRadius: 14, padding: espaciado.e16, borderWidth: trazo.fino, marginBottom: espaciado.e16 },
+  card: { borderRadius: radios.campo, padding: espaciado.e16, borderWidth: trazo.fino, marginBottom: espaciado.e16 },
   badge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.punta },
   badgeText: { color: brand.white, fontSize: tipografia.nota, fontWeight: peso.maximo, letterSpacing: 0.3 },
-  sectionTitle: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e10 },
+  sectionTitle: { fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e10 },
   errIcon: { width: 60, height: 60, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
-  retryBtn: { paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10 },
-  logoBig: { width: 50, height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  retryBtn: { paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: radios.chip },
+  logoBig: { width: 50, height: 50, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   vBadge: { position: 'absolute', bottom: -2, right: -2, width: 16, height: 16, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center', borderWidth: trazo.fuerte, borderColor: brand.white },
   recAvatar: { width: 38, height: 38, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   roundBtn: { width: 36, height: 36, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },

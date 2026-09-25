@@ -403,7 +403,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>‹ Atrás</Text>
             </Pressable>
           ) : null}
-          <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1 }}>
+          <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>
             {detailMember ? (detailMember.fullName ?? 'Miembro') : titles[step]}
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar"><X size={20} color={colors.textSecondary} /></Pressable>
@@ -1098,17 +1098,17 @@ const styles = StyleSheet.create({
   sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginBottom: espaciado.e10 },
   row: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino,
-    borderColor: 'transparent', borderRadius: 14, paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e10, marginTop: espaciado.e6,
+    borderColor: 'transparent', borderRadius: radios.campo, paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e10, marginTop: espaciado.e6,
   },
   sectionTitle: { fontSize: tipografia.caption, fontWeight: peso.maximo, letterSpacing: 0.6, marginTop: espaciado.e16, marginBottom: espaciado.e2 },
   groupAvatar: { width: 52, height: 52, borderRadius: radios.lg },
-  avatar: { width: 40, height: 40, borderRadius: 20 },
+  avatar: { width: 40, height: 40, borderRadius: radios.full },
   center: { alignItems: 'center', justifyContent: 'center' },
   /** Parte 27 (G3): solicitudes para entrar. */
-  requestRow: { borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8 },
+  requestRow: { borderRadius: radios.campo, padding: espaciado.e12, marginBottom: espaciado.e8 },
   reqAvatar: { width: 36, height: 36, borderRadius: radios.full },
-  reqBtn: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, minWidth: 74, alignItems: 'center', justifyContent: 'center' },
-  badge: { minWidth: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e5 },
+  reqBtn: { borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, minWidth: 74, alignItems: 'center', justifyContent: 'center' },
+  badge: { minWidth: 20, height: 20, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e5 },
   iconBtn: { width: 32, height: 32, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,128,255,0.10)' },
   iconBtnDanger: { width: 32, height: 32, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },
   memberRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth },

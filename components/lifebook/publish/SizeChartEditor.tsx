@@ -228,7 +228,7 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
                           const kMax = `${c.key}Max${suf}`;
                           return (
                             <View key={c.key} style={styles.medida}>
-                              <Text style={{ color: colors.textSecondary, fontSize: 10.5, width: 78 }} numberOfLines={1}>
+                              <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, width: 78 }} numberOfLines={1}>
                                 {c.label} ({UNIDAD[c.key]})
                               </Text>
                               <TextInput
@@ -284,7 +284,7 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
 const styles = StyleSheet.create({
   input: { borderWidth: trazo.fino, borderRadius: radios.hermano, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e7, fontSize: tipografia.caption },
   mini: { width: 58 },
-  card: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e10 },
+  card: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12, marginTop: espaciado.e10 },
   fila: { borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e8 },
   medida: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e5 },
 });

@@ -166,7 +166,7 @@ function GroupsContent() {
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
         <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo }}>Descubrir grupos</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo }}>Descubrir grupos</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Rutas y comunidades abiertas cerca de ti</Text>
         </View>
         {/* Parte 28 (G4): entrar con el código que te hayan pasado */}
@@ -337,7 +337,7 @@ function GroupsContent() {
         <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e10 }}>
             <QrCode size={18} color={colors.primary} />
-            <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
               Tengo un código de ruta
             </Text>
             <Pressable onPress={() => setCodeOpen(false)} hitSlop={10} accessibilityLabel="Cerrar">
@@ -361,7 +361,7 @@ function GroupsContent() {
           <Pressable onPress={abrirPorCodigo} disabled={codeBusy} accessibilityLabel="Abrir el grupo con ese código"
             style={[styles.cta, { backgroundColor: colors.primary }]}>
             {codeBusy ? <ActivityIndicator size="small" color={brand.white} /> : (
-              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Abrir el grupo</Text>
+              <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Abrir el grupo</Text>
             )}
           </Pressable>
         </View>
@@ -378,13 +378,13 @@ const styles = StyleSheet.create({
   // contra la fila contigua (medido en el móvil: 17 px de alto en ciudades vs 23 en categorías).
   chipRow: { flexGrow: 0, flexShrink: 0, marginVertical: espaciado.e5 },
   groupRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: radios.lg, padding: espaciado.e12 },
-  groupPhoto: { width: 54, height: 54, borderRadius: 14 },
+  groupPhoto: { width: 54, height: 54, borderRadius: radios.campo },
   center: { alignItems: 'center', justifyContent: 'center' },
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
   codeInput: {
-    borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: tipografia.subtitulo, fontWeight: peso.titulo,
+    borderRadius: radios.campo, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: tipografia.subtitulo, fontWeight: peso.titulo,
     letterSpacing: 6, textAlign: 'center',
   },
-  cta: { marginTop: espaciado.e14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
+  cta: { marginTop: espaciado.e14, borderRadius: radios.campo, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

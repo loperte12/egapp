@@ -177,5 +177,5 @@ const styles = StyleSheet.create({
   filtro: { borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7 },
   card: { borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e16 },
   txRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },
-  masBtn: { borderRadius: 14, borderWidth: trazo.fino, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e14 },
+  masBtn: { borderRadius: radios.campo, borderWidth: trazo.fino, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e14 },
 });

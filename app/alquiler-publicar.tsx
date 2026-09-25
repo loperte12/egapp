@@ -276,7 +276,7 @@ export default function AlquilerPublicarScreen() {
           <Text style={{ color: colors.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>No se pudieron cargar tus datos.</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e14 }}>{landlordError}</Text>
           <Pressable onPress={() => void loadLandlord()} accessibilityRole="button" accessibilityLabel="Reintentar"
-            style={({ pressed }) => [{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
+            style={({ pressed }) => [{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: radios.chip, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
             <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
         </View>
@@ -285,7 +285,7 @@ export default function AlquilerPublicarScreen() {
           {/* Banner de plan */}
           <View style={[s.planBanner, { backgroundColor: colors.textPrimary }]}>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: brand.white, fontSize: 15, fontWeight: peso.fuerte }}>Plan actual: {planLabel}</Text>
+              <Text style={{ color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte }}>Plan actual: {planLabel}</Text>
               <Text style={{ color: neutro.n600, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 {activeProps}/{plan.properties} propiedades · {photos.length}/{plan.photos} fotos
                 {landlord?.verificationLevel ? ` · Nivel ${landlord.verificationLevel}` : ''}
@@ -304,7 +304,7 @@ export default function AlquilerPublicarScreen() {
           </View>
 
           {approved && atPlanLimit && (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), padding: espaciado.e12, borderRadius: 10, marginBottom: espaciado.e14 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), padding: espaciado.e12, borderRadius: radios.chip, marginBottom: espaciado.e14 }}>
               <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.medio, lineHeight: 17 }}>
                 Has alcanzado el límite de tu plan ({plan.properties} anuncio(s) activos). Cierra alguno o mejora tu plan para seguir publicando.
               </Text>
@@ -338,7 +338,7 @@ export default function AlquilerPublicarScreen() {
                         </View>
                         <View style={{ flex: 1 }}>
                           <Text style={{ fontSize: tipografia.caption, color: colors.success, fontWeight: peso.fuerte }}>Documento adjunto</Text>
-                          <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>~{b64SizeKB(llDocPhoto)} KB</Text>
+                          <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>~{b64SizeKB(llDocPhoto)} KB</Text>
                         </View>
                         <GhostButton title="Cambiar" onPress={() => void pickDocPhoto()} />
                         <Pressable onPress={() => setLlDocPhoto(null)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Quitar documento"><X size={18} color={colors.danger} /></Pressable>
@@ -347,19 +347,19 @@ export default function AlquilerPublicarScreen() {
                       <Pressable
                         onPress={() => void pickDocPhoto()}
                         accessibilityRole="button" accessibilityLabel="Subir foto del documento"
-                        style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10, borderWidth: trazo.fino, borderColor: colors.border, opacity: pressed ? 0.85 : 1 }]}
+                        style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: colors.border, opacity: pressed ? 0.85 : 1 }]}
                       >
                         <ImageIcon size={18} color={colors.primary} /><Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: peso.medio }}>Subir foto del documento</Text>
                       </Pressable>
                     )}
-                    <Text style={{ fontSize: 10.5, color: colors.textSecondary }}>Máx. ~{MAX_PHOTO_B64_KB} KB (se comprime al elegirla).</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Máx. ~{MAX_PHOTO_B64_KB} KB (se comprime al elegirla).</Text>
                     {applyError ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={applyError} /></View> : null}
                     <PrimaryButton title={llBusy ? 'Enviando…' : 'Enviar solicitud'} onPress={submitApply} disabled={llBusy} />
                   </>
                 ) : (
                   <View style={{ alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e30 }}>
                     <Text style={{ fontSize: tipografia.emoji }}>🏠</Text>
-                    <Text style={{ fontSize: 15, fontWeight: peso.fuerte, color: colors.textPrimary, textAlign: 'center' }}>
+                    <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, color: colors.textPrimary, textAlign: 'center' }}>
                       {landlord?.status === 'pending' ? 'Tu solicitud de arrendador está pendiente de revisión' : 'Necesitas verificar tu identidad para publicar'}
                     </Text>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', paddingHorizontal: espaciado.e20, lineHeight: 18 }}>
@@ -398,7 +398,7 @@ export default function AlquilerPublicarScreen() {
                   <>
                     <Text style={s.label}>Renta mensual (XAF) *</Text>
                     <FormField value={monthlyRent} onChangeText={setMonthlyRent} placeholder="250000" keyboardType="decimal-pad" />
-                    <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>Por noche × 28 debería superar la renta mensual (así no se contradicen).</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>Por noche × 28 debería superar la renta mensual (así no se contradicen).</Text>
                   </>
                 )}
                 {rentalType === 'long_term' && (
@@ -438,7 +438,7 @@ export default function AlquilerPublicarScreen() {
                 <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: espaciado.e6 }}>
                   Toca el mapa para fijar la vivienda. Si no lo haces, usaremos el centro del barrio.
                 </Text>
-                <View style={{ height: 160, borderRadius: 14, overflow: 'hidden', marginBottom: espaciado.e6 }}>
+                <View style={{ height: 160, borderRadius: radios.campo, overflow: 'hidden', marginBottom: espaciado.e6 }}>
                   <MapBackground onMapPress={(c) => setCoords([c[0], c[1]])} pin={coords} />
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -492,16 +492,16 @@ export default function AlquilerPublicarScreen() {
                   {photos.length < plan.photos && (
                     <Pressable onPress={() => void pickPhoto()} accessibilityRole="button" accessibilityLabel="Añadir foto"
                       style={({ pressed }) => [{ width: 74, height: 74, borderRadius: radios.sm, borderWidth: trazo.fuerte, borderColor: colors.border, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.7 : 1 }]}>
-                      <Text style={{ fontSize: 26, color: colors.textSecondary }}>+</Text>
+                      <Text style={{ fontSize: tipografia.display, color: colors.textSecondary }}>+</Text>
                     </Pressable>
                   )}
                 </View>
-                <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4 }}>Se comprimen al elegirlas. Máx. ~{MAX_PHOTO_B64_KB} KB cada una.</Text>
+                <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>Se comprimen al elegirlas. Máx. ~{MAX_PHOTO_B64_KB} KB cada una.</Text>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: espaciado.e16, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: espaciado.e16, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: radios.chip }}>
                   <View style={{ flex: 1, paddingRight: espaciado.e8 }}>
                     <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio }}>Marcar como destacado</Text>
-                    {!canFeaturePlan && <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>Requiere plan Agencia Pro o Premium.</Text>}
+                    {!canFeaturePlan && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>Requiere plan Agencia Pro o Premium.</Text>}
                   </View>
                   <Switch
                     value={isFeatured} onValueChange={setIsFeatured} disabled={!canFeaturePlan}
@@ -509,7 +509,7 @@ export default function AlquilerPublicarScreen() {
                     accessibilityRole="switch" accessibilityLabel="Marcar como destacado" accessibilityState={{ checked: isFeatured, disabled: !canFeaturePlan }}
                   />
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: radios.chip }}>
                   <Text style={{ flex: 1, fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio }}>Vivienda social / asequible</Text>
                   <Switch value={isSocialHousing} onValueChange={setIsSocialHousing} trackColor={{ true: colors.primary, false: colors.border }}
                     accessibilityRole="switch" accessibilityLabel="Vivienda social o asequible" accessibilityState={{ checked: isSocialHousing }} />
@@ -596,5 +596,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   planBanner: { borderRadius: radios.md, padding: espaciado.e14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e16 },
   label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
   counter: { fontSize: tipografia.nota, color: c.textSecondary, textAlign: 'right', marginBottom: espaciado.e4 },
-  area: { minHeight: 90, borderRadius: 10, borderWidth: trazo.fino, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
+  area: { minHeight: 90, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
 });

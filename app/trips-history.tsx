@@ -153,7 +153,7 @@ export default function TripsHistoryScreen() {
                   const disputed = !!t.disputed_at;
                   const resolvedDisp = !!set.dispute?.resolved_at;
                   return (
-                    <View style={{ marginTop: espaciado.e6, padding: espaciado.e8, borderRadius: 10, backgroundColor: colors.surface, borderWidth: trazo.fino, borderColor: colors.border, gap: espaciado.e2 }}>
+                    <View style={{ marginTop: espaciado.e6, padding: espaciado.e8, borderRadius: radios.chip, backgroundColor: colors.surface, borderWidth: trazo.fino, borderColor: colors.border, gap: espaciado.e2 }}>
                       <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: peso.maximo }}>
                         Liquidación ({t.city ?? '—'}) · monedero
                       </Text>

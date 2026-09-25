@@ -75,12 +75,12 @@ export function WorkJobCard({ job, onPress }: { job: WorkJob; onPress: () => voi
               {recruiterName || 'Empresa'}
               {job.recruiter?.role ? ` · ${job.recruiter.role}` : ''}
             </Text>
-            <Text style={{ color: colors.success, fontSize: 10.5, fontWeight: peso.fuerte }}>
+            <Text style={{ color: colors.success, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>
               {job.applicantsCount > 0 ? `✓ ${job.applicantsCount} candidato${job.applicantsCount === 1 ? '' : 's'}` : 'Reclutando'}
             </Text>
           </View>
         </View>
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.medio }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>
           {daysAgo === 0 ? 'Hoy' : `Hace ${daysAgo}d`}
         </Text>
       </View>
@@ -141,10 +141,10 @@ export function WorkEmptyState({ title, subtitle, actionLabel, onAction }: { tit
       <View style={[s.emptyIcon, { backgroundColor: colors.surface }]}>
         <Briefcase size={38} color={colors.textSecondary} />
       </View>
-      <Text style={{ fontSize: 15, fontWeight: peso.fuerte, color: colors.textPrimary, textAlign: 'center' }}>{title}</Text>
+      <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, color: colors.textPrimary, textAlign: 'center' }}>{title}</Text>
       <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{subtitle}</Text>
       {actionLabel && onAction && (
-        <Pressable onPress={onAction} style={{ marginTop: espaciado.e16, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10, backgroundColor: colors.primary, borderRadius: 10 }}>
+        <Pressable onPress={onAction} style={{ marginTop: espaciado.e16, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10, backgroundColor: colors.primary, borderRadius: radios.chip }}>
           <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{actionLabel}</Text>
         </Pressable>
       )}
@@ -156,7 +156,7 @@ export function WorkEmptyState({ title, subtitle, actionLabel, onAction }: { tit
 export function WorkSafetyNotice() {
   const { colors } = useTheme();
   return (
-    <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), borderRadius: 10, padding: espaciado.e10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
+    <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), borderRadius: radios.chip, padding: espaciado.e10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
       <ShieldCheck size={16} color={colors.danger} />
       <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, flex: 1 }}>
         Empleo seguro: NUNCA pagues por un trabajo. Reporta cualquier oferta sospechosa.
@@ -166,19 +166,19 @@ export function WorkSafetyNotice() {
 }
 
 const s = StyleSheet.create({
-  card: { marginHorizontal: espaciado.e16, marginBottom: espaciado.e10, borderRadius: 14, padding: espaciado.e13, borderWidth: trazo.fino },
+  card: { marginHorizontal: espaciado.e16, marginBottom: espaciado.e10, borderRadius: radios.campo, padding: espaciado.e13, borderWidth: trazo.fino },
   title: { fontSize: tipografia.subtitle, fontWeight: peso.maximo, flex: 1, lineHeight: 20 },
   salary: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: brand.secondary },
   company: { fontSize: tipografia.body, fontWeight: peso.medio, flexShrink: 1 },
   urgentBadge: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: radios.punta, backgroundColor: brand.danger },
   urgentText: { color: brand.white, fontSize: tipografia.sello, fontWeight: peso.maximo, letterSpacing: 0.4 },
-  chip: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, borderWidth: StyleSheet.hairlineWidth },
-  chipText: { fontSize: 10.5, fontWeight: peso.medio },
+  chip: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.marca, borderWidth: StyleSheet.hairlineWidth },
+  chipText: { fontSize: tipografia.micro, fontWeight: peso.medio },
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e10, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   avatar: { width: 30, height: 30, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
   avatarText: { fontSize: tipografia.body, fontWeight: peso.titulo },
   search: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 44, marginHorizontal: espaciado.e16, marginVertical: espaciado.e8, borderWidth: trazo.fino },
   searchInput: { flex: 1, fontSize: tipografia.body, padding: 0 },
-  sortBtn: { paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14 },
+  sortBtn: { paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: radios.campo },
   emptyIcon: { width: 80, height: 80, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e16 },
 });

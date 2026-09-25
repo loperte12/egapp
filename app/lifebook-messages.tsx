@@ -263,7 +263,7 @@ function MessagesContent() {
           ListEmptyComponent={
             <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 70, gap: espaciado.e8 }}>
               <MessageCircle size={40} color={alpha(colors.primary, 0.45)} />
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>
                 {filter === 'unread' ? 'No tienes mensajes sin leer.'
               : filter === 'chats' ? 'No tienes conversaciones de uno a uno.'
                 : filter === 'groups' ? 'No estás en ningún grupo todavía.'
@@ -324,7 +324,7 @@ function InboxShortcut({ icon, bg, label, badge, onPress }: {
         {icon}
         {badge > 0 ? (
           <View style={styles.inboxBadge}>
-            <Text style={{ color: brand.white, fontSize: 9, fontWeight: peso.titulo }}>{badge > 9 ? '9+' : badge}</Text>
+            <Text style={{ color: brand.white, fontSize: tipografia.rotulo, fontWeight: peso.titulo }}>{badge > 9 ? '9+' : badge}</Text>
           </View>
         ) : null}
       </View>
@@ -345,7 +345,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
     <Image source={{ uri: card.avatarUrl }} style={styles.convoAvatar} />
   ) : (
     <View style={[styles.convoAvatar, styles.avatarFallback, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-      <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: 15 }}>
+      <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>
         {card.name.trim().charAt(0).toUpperCase()}
       </Text>
     </View>

@@ -151,14 +151,14 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     <Star size={22} color={brand.warning} fill={brand.warning} />
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>Puntuación</Text>
+                    <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Puntuación</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 }}>
                       {drRating > 0
                         ? `${drRating.toFixed(1)} ★ · ${driver.ratingCount} valoración(es)`
                         : 'Aún no tienes valoraciones suficientes.'}
                     </Text>
                   </View>
-                  {drRating > 0 && <Text style={{ color: colors.textPrimary, fontSize: 26, fontWeight: peso.titulo }}>{drRating.toFixed(1)}</Text>}
+                  {drRating > 0 && <Text style={{ color: colors.textPrimary, fontSize: tipografia.display, fontWeight: peso.titulo }}>{drRating.toFixed(1)}</Text>}
                 </View>
               </View>
             )}
@@ -250,7 +250,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                 <Pressable onPress={handleLogout} accessibilityRole="button" accessibilityLabel="Cerrar sesión" style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }]}>
                   <LogOut size={18} color={colors.danger} />
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: 15 }}>Cerrar sesión</Text>
+                    <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Cerrar sesión</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>Solo desde aquí (por seguridad)</Text>
                   </View>
                   <ChevronRight size={16} color={colors.danger} />
@@ -258,7 +258,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
               </View>
             )}
 
-            {activeTab === 'perfil' && <Text style={{ color: colors.textSecondary, fontSize: 10.5, textAlign: 'center', fontWeight: peso.medio }}>EG Route Plan · Conductor · v1.0.0</Text>}
+            {activeTab === 'perfil' && <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center', fontWeight: peso.medio }}>EG Route Plan · Conductor · v1.0.0</Text>}
           </ScrollView>
         </View>
       </View>
@@ -277,7 +277,7 @@ const dh = StyleSheet.create({
   vidaTitle: { color: brand.white, fontSize: tipografia.cifraGrande, fontWeight: peso.titulo },
   vidaSub: { color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio },
   vidaCta: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e6, textDecorationLine: 'underline' },
-  vidaArt: { width: 72, height: 72, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
+  vidaArt: { width: 72, height: 72, borderRadius: radios.tarjeta, alignItems: 'center', justifyContent: 'center' },
 });
 
 const dhStyles = (c: ReturnType<typeof useTheme>['colors']) =>
@@ -287,15 +287,15 @@ const dhStyles = (c: ReturnType<typeof useTheme>['colors']) =>
       maxHeight: '86%', minHeight: 240,
       ...elevation.lg,
     },
-    tabs: { flexDirection: 'row', gap: espaciado.e8, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, borderRadius: 14, padding: espaciado.e5 },
-    tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: 10, paddingVertical: espaciado.e9 },
+    tabs: { flexDirection: 'row', gap: espaciado.e8, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, borderRadius: radios.campo, padding: espaciado.e5 },
+    tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: radios.chip, paddingVertical: espaciado.e9 },
     card: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14 },
-    chip: { borderRadius: 10, borderWidth: trazo.base, paddingVertical: espaciado.e7, alignItems: 'center' },
-    statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
+    chip: { borderRadius: radios.chip, borderWidth: trazo.base, paddingVertical: espaciado.e7, alignItems: 'center' },
+    statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
     linkRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12 },
     vidaCard: {
-      borderRadius: 20, padding: espaciado.e18, flexDirection: 'row', alignItems: 'center', gap: espaciado.e14,
+      borderRadius: radios.tarjeta, padding: espaciado.e18, flexDirection: 'row', alignItems: 'center', gap: espaciado.e14,
       ...elevation.md,
     },
-    vidaRow: { borderRadius: 14, borderWidth: trazo.base, padding: espaciado.e13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+    vidaRow: { borderRadius: radios.campo, borderWidth: trazo.base, padding: espaciado.e13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   });

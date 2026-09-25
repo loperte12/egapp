@@ -87,7 +87,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
           <CalendarCheck size={18} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             ¿Cuándo es la quedada?
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 },
-  placeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12 },
+  placeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12 },
   opt: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12, marginTop: espaciado.e8 },
   input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   smallCta: { borderRadius: radios.md, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e11 },

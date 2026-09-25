@@ -338,7 +338,7 @@ function RestaurantCard({ item, onPress }: { item: FoodRestaurant; onPress: () =
             {km > 0 ? `🛵 Reparto hasta ${km} km` : (item.hours ? `🕐 ${item.hours}` : 'Pide y recoge')}
           </Text>
           {showRating && (
-            <Text style={{ fontSize: 10.5, color: colors.textSecondary, fontWeight: peso.medio }}>
+            <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: peso.medio }}>
               {item.ratingCount} valoraciones
             </Text>
           )}
@@ -377,14 +377,14 @@ const s_card = StyleSheet.create({
   badgeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 },
   chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3, maxWidth: '60%' },
   dot: { width: 6, height: 6, borderRadius: radios.punta },
-  chipText: { fontSize: 10.5, fontWeight: peso.maximo, flexShrink: 1 },
+  chipText: { fontSize: tipografia.micro, fontWeight: peso.maximo, flexShrink: 1 },
   sub: { fontSize: tipografia.micro, fontWeight: peso.medio },
   metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8, marginTop: espaciado.e6 },
   meta: { fontSize: tipografia.caption, fontWeight: peso.maximo, flexShrink: 1 },
 });
 
 const s_sk = StyleSheet.create({
-  card: { flexDirection: 'row', borderRadius: 14, overflow: 'hidden', borderWidth: trazo.fino, marginBottom: espaciado.e10 },
+  card: { flexDirection: 'row', borderRadius: radios.campo, overflow: 'hidden', borderWidth: trazo.fino, marginBottom: espaciado.e10 },
 });
 
 

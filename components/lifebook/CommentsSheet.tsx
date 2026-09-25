@@ -188,7 +188,7 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
       >
         <Heart size={16} color={c.likedByMe ? brand.like : colors.textSecondary} fill={c.likedByMe ? brand.like : 'transparent'} />
         {likes > 0 ? (
-          <Text style={{ marginTop: espaciado.e3, fontSize: 10.5, fontWeight: peso.maximo, color: colors.textSecondary }}>{likes}</Text>
+          <Text style={{ marginTop: espaciado.e3, fontSize: tipografia.micro, fontWeight: peso.maximo, color: colors.textSecondary }}>{likes}</Text>
         ) : null}
       </Pressable>
     </View>
@@ -498,7 +498,7 @@ export function CommentsSheet({
             {chipAdjunto()}
             <View style={{
               flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8,
-              backgroundColor: alpha(colors.textPrimary, 0.06), borderRadius: 20,
+              backgroundColor: alpha(colors.textPrimary, 0.06), borderRadius: radios.tarjeta,
               paddingLeft: espaciado.e6, paddingRight: espaciado.e6, paddingVertical: espaciado.e5,
             }}>
               {meId ? (
@@ -608,7 +608,7 @@ export function CommentsSheet({
           <View style={{ height: 4, width: 44, borderRadius: radios.full, backgroundColor: alpha(colors.textPrimary, 0.14), alignSelf: 'center', marginTop: espaciado.e10 }} />
 
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e10 }}>
-            <Text style={{ fontSize: 15, fontWeight: peso.titulo, color: colors.textPrimary }}>{title} · {total}</Text>
+            <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.titulo, color: colors.textPrimary }}>{title} · {total}</Text>
             <Pressable
               onPress={onClose}
               hitSlop={10}
@@ -762,7 +762,7 @@ export function CommentsSheet({
             maxHeight: '62%', paddingBottom: insets.bottom + 10,
           }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e14, paddingBottom: espaciado.e6 }}>
-              <Text style={{ fontSize: 15, fontWeight: peso.titulo, color: colors.textPrimary }}>Adjuntar una publicación</Text>
+              <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.titulo, color: colors.textPrimary }}>Adjuntar una publicación</Text>
               <Pressable onPress={() => setPickerOpen(false)} hitSlop={10} accessibilityLabel="Cerrar el selector">
                 <X size={18} color={colors.textSecondary} />
               </Pressable>
@@ -796,7 +796,7 @@ export function CommentsSheet({
                       }}
                     >
                       <View style={{ width: 34, height: 34, borderRadius: radios.hermano, backgroundColor: alpha(tint, 0.16), alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 15 }}>
+                        <Text style={{ fontSize: tipografia.cuerpo }}>
                           {p.type === 'video' ? '🎬' : p.type === 'sale' ? '🏷️' : p.type === 'podcast' ? '🎙️' : p.type === 'serie' ? '📺' : '📝'}
                         </Text>
                       </View>

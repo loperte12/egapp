@@ -7,7 +7,7 @@
  */
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
-import { alpha, espaciado, PrimaryButton, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, PrimaryButton, tipografia, useTheme, peso, trazo, radios} from '@egrouteplan/ui-kit';
 import { commerceApi } from '../../../api/commerce';
 import { LB_CITIES } from '../../../constants/lifebook';
 import { LB_PAY_METHODS, LB_REGIONS } from '../../../constants/commerce';
@@ -160,6 +160,6 @@ export default function StepShop({ onCreated }: { onCreated: (name: string) => v
 }
 
 const styles = StyleSheet.create({
-  input: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
+  input: { borderWidth: trazo.fino, borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   area: { minHeight: 80, textAlignVertical: 'top' },
 });

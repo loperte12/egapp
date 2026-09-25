@@ -119,7 +119,7 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
           <Megaphone size={18} color={colors.primary} />
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             Anuncio del grupo
           </Text>
           <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar">
@@ -214,7 +214,7 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
             opacity: pressed ? 0.85 : 1,
           }]}
         >
-          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Publicar anuncio</Text>
+          <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Publicar anuncio</Text>
         </Pressable>
       </View>
     </Modal>
@@ -232,5 +232,5 @@ const styles = StyleSheet.create({
   },
   thumb: { width: 34, height: 34, borderRadius: radios.sm },
   chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderWidth: trazo.fino },
-  cta: { marginTop: espaciado.e16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
+  cta: { marginTop: espaciado.e16, borderRadius: radios.campo, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

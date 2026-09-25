@@ -148,7 +148,7 @@ function Contenido() {
           <ArrowLeft size={21} color={colors.textPrimary} />
         </Pressable>
         <View style={{ flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: 17, fontWeight: peso.titulo }}>Hoy</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo }}>Hoy</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }} numberOfLines={2}>
             {empresa} · lo que caduca, no lo que se configura
           </Text>
@@ -208,7 +208,7 @@ function Contenido() {
           </View>
 
           {/* ── LO QUE CADUCA: gente esperando respuesta ── */}
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e3 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e3 }}>
             Por contestar ({porContestar.length})
           </Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
@@ -272,7 +272,7 @@ function Contenido() {
           {/* ── Ofertas que vencen: dejan de recibir candidaturas ── */}
           {porVencer.length ? (
             <>
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e22, marginBottom: espaciado.e3 }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginTop: espaciado.e22, marginBottom: espaciado.e3 }}>
                 Se te acaban ({porVencer.length})
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, lineHeight: 17, marginBottom: espaciado.e10 }}>
@@ -357,12 +357,12 @@ const styles = StyleSheet.create({
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   puente: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
-    borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, minHeight: 56,
+    borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12, minHeight: 56,
   },
-  puenteIcono: { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  puenteIcono: { width: 32, height: 32, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center' },
   aviso: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e11, marginTop: espaciado.e12 },
-  resumen: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e13 },
-  tarjeta: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e13, marginBottom: espaciado.e10 },
+  resumen: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e13 },
+  tarjeta: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e13, marginBottom: espaciado.e10 },
   pendiente: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
     borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,

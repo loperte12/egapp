@@ -100,7 +100,7 @@ export default function DriverProfileScreen() {
           <View style={[s.avatar, { backgroundColor: alpha(colors.primary, 0.15) }]}>
             <ShieldCheck size={26} color={colors.primary} />
           </View>
-          <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 17 }}>Conductor</Text>
+          <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subCabecera }}>Conductor</Text>
           <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>Estado: {status}</Text>
           {vehicle && (
             <>
@@ -113,7 +113,7 @@ export default function DriverProfileScreen() {
                 </Text>
               )}
               {vehicle.vehicle_photo_url && !vehicle.vehicle_photo_url.startsWith('captured://') && (
-                <View style={{ width: 120, height: 84, borderRadius: 10, overflow: 'hidden', marginTop: espaciado.e2, borderWidth: trazo.fino, borderColor: colors.border }}>
+                <View style={{ width: 120, height: 84, borderRadius: radios.chip, overflow: 'hidden', marginTop: espaciado.e2, borderWidth: trazo.fino, borderColor: colors.border }}>
                   <Image source={{ uri: absUrl(vehicle.vehicle_photo_url) }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                 </View>
               )}
@@ -212,7 +212,7 @@ export default function DriverProfileScreen() {
         {/* Emergencia */}
         <Pressable onPress={() => setEmergencyOpen(true)} style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.05), flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }]}>
           <Siren size={20} color={colors.danger} />
-          <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: 15, flex: 1 }}>Emergencia · marcación directa 24/7</Text>
+          <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: tipografia.cuerpo, flex: 1 }}>Emergencia · marcación directa 24/7</Text>
           <ChevronRight size={18} color={colors.danger} />
         </Pressable>
 
@@ -236,5 +236,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     card: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e16 },
     avatar: { width: 56, height: 56, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
     chip: { borderRadius: radios.md, borderWidth: trazo.base, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8 },
-    statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10 },
+    statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10 },
   });

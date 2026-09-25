@@ -638,7 +638,7 @@ function OptionRow({ icon, title, subtitle, selected, onPress, colors }: {
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{subtitle}</Text>
       </View>
       <View style={{
-        width: 20, height: 20, borderRadius: 10, borderWidth: trazo.base,
+        width: 20, height: 20, borderRadius: radios.full, borderWidth: trazo.base,
         borderColor: selected ? colors.primary : alpha(colors.border, 1),
         backgroundColor: selected ? colors.primary : 'transparent',
         alignItems: 'center', justifyContent: 'center',
@@ -696,13 +696,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  input: { borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.fino },
+  input: { borderRadius: radios.campo, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.fino },
   textarea: { minHeight: 110, textAlignVertical: 'top' },
   searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e14, height: 40 },
   option: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, padding: espaciado.e14, borderRadius: radios.lg, borderWidth: trazo.fino },
   chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
   chipAvatar: { width: 18, height: 18, borderRadius: radios.full },
-  avatar: { width: 40, height: 40, borderRadius: 20 },
+  avatar: { width: 40, height: 40, borderRadius: radios.full },
   center: { alignItems: 'center', justifyContent: 'center' },
   primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e14, alignItems: 'center' },
   primaryText: { color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.fino },

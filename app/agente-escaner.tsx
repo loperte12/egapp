@@ -82,7 +82,7 @@ function Contenido() {
           <View style={[styles.okIcon, { backgroundColor: colors.surface }]}>
             <Check size={26} color={colors.primary} />
           </View>
-          <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.maximo, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.maximo, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>
             {hecho}
           </Text>
           <PrimaryButton title="Volver al panel" onPress={() => router.back()} />
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e14 },
-  okIcon: { width: 60, height: 60, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
+  okIcon: { width: 60, height: 60, borderRadius: radios.tarjeta, alignItems: 'center', justifyContent: 'center' },
   overlay: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', gap: espaciado.e16 },
   marco: { width: 230, height: 230, borderRadius: radios.marco, borderWidth: trazo.anillo, borderColor: 'rgba(255,255,255,0.9)' },
   ayuda: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo },

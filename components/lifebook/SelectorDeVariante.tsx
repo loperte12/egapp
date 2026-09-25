@@ -358,7 +358,7 @@ export default function SelectorDeVariante({
               <Image source={foto} style={[styles.foto, { borderColor: alpha(colors.border, 0.8) }]} contentFit="cover" cachePolicy="memory-disk" transition={0} />
             ) : (
               <View style={[styles.foto, { borderColor: alpha(colors.border, 0.8), backgroundColor: alpha(colors.primary, 0.1), alignItems: 'center', justifyContent: 'center' }]}>
-                <Text style={{ fontSize: 26 }}>📦</Text>
+                <Text style={{ fontSize: tipografia.display }}>📦</Text>
               </View>
             )}
             <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
@@ -485,17 +485,17 @@ export default function SelectorDeVariante({
 
 const styles = StyleSheet.create({
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' },
-  sheet: { borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e24 },
+  sheet: { borderTopLeftRadius: radios.tarjeta, borderTopRightRadius: radios.tarjeta, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e24 },
   tiradorZona: { paddingVertical: espaciado.e8, alignItems: 'center' },
   tirador: { width: 44, height: 4, borderRadius: radios.pista },
   foto: { width: 92, height: 92, borderRadius: radios.md, borderWidth: trazo.fino, overflow: 'hidden' },
   valores: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e9 },
   colorCaja: { alignItems: 'center', borderRadius: radios.md, padding: espaciado.e5 },
   colorImg: { width: 58, height: 58, borderRadius: radios.hermano },
-  chip: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e13, minHeight: 44, minWidth: 46, alignItems: 'center', justifyContent: 'center' },
-  stepper: { flexDirection: 'row', alignItems: 'center', borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e4, minHeight: 44 },
+  chip: { borderWidth: trazo.fino, borderRadius: radios.chip, paddingHorizontal: espaciado.e13, minHeight: 44, minWidth: 46, alignItems: 'center', justifyContent: 'center' },
+  stepper: { flexDirection: 'row', alignItems: 'center', borderWidth: trazo.fino, borderRadius: radios.chip, paddingHorizontal: espaciado.e4, minHeight: 44 },
   stepBtn: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center' },
-  aviso: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino, borderRadius: 10, padding: espaciado.e9, marginTop: espaciado.e8 },
+  aviso: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino, borderRadius: radios.chip, padding: espaciado.e9, marginTop: espaciado.e8 },
   secBtn: { flex: 1, height: 46, borderRadius: radios.md, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e8 },
   priBtn: { flex: 1.4, height: 46, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e10 },
 });

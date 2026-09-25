@@ -108,7 +108,7 @@ function StatusContent() {
                     <Plus size={20} color={colors.primary} />
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>Agregar estado 24h</Text>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>Agregar estado 24h</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>Comparte qué estás haciendo · dura 24 horas</Text>
                   </View>
                 </Pressable>
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: trazo.fino,
   },
-  topTitle: { fontSize: 17, fontWeight: peso.titulo },
+  topTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
   center: { alignItems: 'center', paddingVertical: 60, gap: espaciado.e14 },
   retry: { borderRadius: radios.md, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
   card: { marginHorizontal: espaciado.e16, borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e14 },
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
     borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14,
   },
-  addIcon: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  addIcon: { width: 42, height: 42, borderRadius: radios.campo, alignItems: 'center', justifyContent: 'center' },
   subLabel: { fontSize: tipografia.nota, fontWeight: peso.titulo, letterSpacing: 0.8, marginBottom: espaciado.e8 },
   visRowWrap: { flexDirection: 'row', gap: espaciado.e8, marginBottom: espaciado.e14 },
   visChip: {
@@ -213,5 +213,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10,
   },
   prefIcon: { width: 32, height: 32, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
-  infoBox: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, margin: espaciado.e16, borderRadius: 14, padding: espaciado.e12 },
+  infoBox: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, margin: espaciado.e16, borderRadius: radios.campo, padding: espaciado.e12 },
 });

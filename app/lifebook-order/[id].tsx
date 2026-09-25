@@ -712,17 +712,17 @@ const styles = StyleSheet.create({
   },
   flow: { flexDirection: 'row', marginTop: espaciado.e14, marginBottom: espaciado.e6 },
   dot: { width: 10, height: 10, borderRadius: radios.marca },
-  codeBox: { borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e14, marginTop: espaciado.e10, gap: espaciado.e8, alignItems: 'center' },
+  codeBox: { borderWidth: trazo.base, borderRadius: radios.campo, padding: espaciado.e14, marginTop: espaciado.e10, gap: espaciado.e8, alignItems: 'center' },
   codeInput: {
-    borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8,
+    borderWidth: trazo.fino, borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8,
     fontSize: tipografia.subtitulo, fontWeight: peso.titulo, letterSpacing: 8, textAlign: 'center', width: 140,
   },
   /** TANDA R (R.5b): la referencia del cobro y el botón del justificante. */
   notaInput: {
-    borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body,
+    borderWidth: trazo.fino, borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body,
   },
   adjunto: {
-    flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fino, borderRadius: 10,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fino, borderRadius: radios.chip,
     paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10,
   },
   /** TANDA T (T.7): una estrella de la valoración (se toca para puntuar). */
@@ -731,11 +731,11 @@ const styles = StyleSheet.create({
   modalFondo: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12, padding: espaciado.e20, backgroundColor: 'rgba(0,0,0,0.92)' },
   justificante: { width: '100%', height: '74%', borderRadius: radios.md },
   cerrarModal: {
-    borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.45)', borderRadius: 10,
+    borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.45)', borderRadius: radios.chip,
     paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e10,
   },
   section: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e20, marginBottom: espaciado.e8 },
-  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e12 },
+  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.campo, padding: espaciado.e12 },
   itemRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginBottom: espaciado.e10 },
   thumb: { width: 48, height: 48, borderRadius: radios.sm },
   footer: {

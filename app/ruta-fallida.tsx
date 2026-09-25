@@ -58,7 +58,7 @@ export default function RutaFallidaScreen() {
             style={[styles.boton, { backgroundColor: colors.primary }]}
           >
             <Home size={17} color={brand.white} />
-            <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: 15 }}>Ir al inicio</Text>
+            <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Ir al inicio</Text>
           </Pressable>
           <Pressable
             onPress={() => ir.atras()}
@@ -66,7 +66,7 @@ export default function RutaFallidaScreen() {
             style={[styles.boton, { backgroundColor: colors.surface, borderWidth: trazo.fino, borderColor: colors.border }]}
           >
             <Compass size={17} color={colors.textPrimary} />
-            <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }}>Volver atrás</Text>
+            <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>Volver atrás</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -76,5 +76,5 @@ export default function RutaFallidaScreen() {
 
 const styles = StyleSheet.create({
   icono: { width: 64, height: 64, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
-  boton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: 14, paddingVertical: espaciado.e14 },
+  boton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: radios.campo, paddingVertical: espaciado.e14 },
 });

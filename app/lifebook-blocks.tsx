@@ -60,7 +60,7 @@ function BlocksContent() {
           ListEmptyComponent={
             <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 90, gap: espaciado.e8 }}>
               <Ban size={40} color={alpha(colors.primary, 0.4)} />
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>No tienes usuarios bloqueados.</Text>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>No tienes usuarios bloqueados.</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: espaciado.e30, lineHeight: 18 }}>
                 Cuando bloquees a alguien desde su perfil, aparecerá aquí y no verás su contenido ni te podrá escribir.
               </Text>
@@ -78,7 +78,7 @@ function BlocksContent() {
                   </View>
                 )}
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.maximo }} numberOfLines={1}>{item.fullName ?? 'Usuario'}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.maximo }} numberOfLines={1}>{item.fullName ?? 'Usuario'}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>Bloqueado {lbTimeAgo(item.blockedAt)}</Text>
                 </View>
                 <Pressable
@@ -99,8 +99,8 @@ function BlocksContent() {
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  topTitle: { fontSize: 17, fontWeight: peso.titulo, flex: 1 },
-  card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
+  topTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 },
+  card: { borderRadius: radios.campo, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   avatar: { width: 46, height: 46, borderRadius: radios.full },
   unblockBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e8 },
 });

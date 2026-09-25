@@ -315,7 +315,7 @@ export default function FoodRiderScreen() {
                       ⚠ Debes {formatXAF(contab.deudaArrastradaXaf)} de efectivo: se descontará la semana que viene.
                     </Text>
                   ) : null}
-                  <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e6 }}>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e6 }}>
                     Se paga cada semana, el efectivo que cobras en la puerta se descuenta de lo que ganas.
                   </Text>
                 </View>
@@ -385,10 +385,10 @@ export default function FoodRiderScreen() {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
                           <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>{d.restaurantName}</Text>
                           <View style={{ backgroundColor: alpha(ACCENT, 0.12), paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, borderRadius: radios.marca }}>
-                            <Text style={{ fontSize: 10.5, fontWeight: peso.maximo, color: ACCENT }}>{stLabel}</Text>
+                            <Text style={{ fontSize: tipografia.micro, fontWeight: peso.maximo, color: ACCENT }}>{stLabel}</Text>
                           </View>
                         </View>
-                        <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>Tracking {d.trackingCode}</Text>
+                        <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>Tracking {d.trackingCode}</Text>
                         {d.items.map((it, i) => (
                           <Text key={`${d.id}-${it.itemId}-${i}`} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{it.qty} × {it.name}</Text>
                         ))}
@@ -438,7 +438,7 @@ export default function FoodRiderScreen() {
                             onPress={() => abrirMapa(d.deliveryLat ?? null, d.deliveryLng ?? null, d.deliveryAddress ?? null)}
                             accessibilityRole="button"
                             accessibilityLabel={`Cómo llegar a la entrega${d.deliveryLat != null ? ' (con ubicación exacta)' : ' (por la dirección escrita)'}`}
-                            style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: trazo.fino, borderColor: alpha(ACCENT, 0.5), backgroundColor: alpha(ACCENT, 0.10) }}
+                            style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: alpha(ACCENT, 0.5), backgroundColor: alpha(ACCENT, 0.10) }}
                           >
                             <Navigation size={14} color={ACCENT} />
                             <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
@@ -452,7 +452,7 @@ export default function FoodRiderScreen() {
                             número. El repartidor dice dónde está y el cliente lo ve al momento. */}
                         {d.status !== 'delivered' ? (
                           d.meetingNote ? (
-                            <View style={{ marginTop: espaciado.e8, borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e10, borderColor: alpha(colors.success, 0.4), backgroundColor: alpha(colors.success, 0.08) }}>
+                            <View style={{ marginTop: espaciado.e8, borderRadius: radios.chip, borderWidth: trazo.fino, padding: espaciado.e10, borderColor: alpha(colors.success, 0.4), backgroundColor: alpha(colors.success, 0.08) }}>
                               <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.success }}>🤝 Punto de encuentro avisado</Text>
                               <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2, lineHeight: 15 }}>{d.meetingNote}</Text>
                               <Pressable
@@ -476,7 +476,7 @@ export default function FoodRiderScreen() {
                                 placeholderTextColor={colors.textSecondary}
                                 maxLength={200}
                                 accessibilityLabel="Punto de encuentro"
-                                style={{ minHeight: 44, borderRadius: 10, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderColor: colors.border, color: colors.textPrimary, backgroundColor: colors.background }}
+                                style={{ minHeight: 44, borderRadius: radios.chip, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderColor: colors.border, color: colors.textPrimary, backgroundColor: colors.background }}
                               />
                               <View style={{ flexDirection: 'row', gap: espaciado.e8, alignItems: 'center', marginTop: espaciado.e8, flexWrap: 'wrap' }}>
                                 <Pressable
@@ -484,7 +484,7 @@ export default function FoodRiderScreen() {
                                   disabled={puntoUbicando}
                                   accessibilityRole="button"
                                   accessibilityLabel="Usar mi ubicación para el punto de encuentro"
-                                  style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: trazo.fino, borderColor: colors.border }}
+                                  style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: colors.border }}
                                 >
                                   <MapPin size={13} color={colors.textPrimary} />
                                   <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>
@@ -496,7 +496,7 @@ export default function FoodRiderScreen() {
                                   disabled={busyDeliveryId === d.orderId}
                                   accessibilityRole="button"
                                   accessibilityLabel="Avisar al cliente del punto de encuentro"
-                                  style={{ paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 10, backgroundColor: ACCENT }}
+                                  style={{ paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: radios.chip, backgroundColor: ACCENT }}
                                 >
                                   <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: brand.white }}>
                                     {busyDeliveryId === d.orderId ? 'Avisando…' : 'Avisar al cliente'}
@@ -511,7 +511,7 @@ export default function FoodRiderScreen() {
                                   <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Cancelar</Text>
                                 </Pressable>
                               </View>
-                              <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e4 }}>
+                              <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>
                                 El cliente lo verá en su pedido y recibirá un SMS: no hace falta que llames.
                               </Text>
                             </View>
@@ -520,7 +520,7 @@ export default function FoodRiderScreen() {
                               onPress={() => { setPuntoDe(d.orderId); setPuntoTexto(''); setPuntoCoords(null); }}
                               accessibilityRole="button"
                               accessibilityLabel="Indicar el punto de encuentro al cliente"
-                              style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: trazo.fino, borderColor: colors.border }}
+                              style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: colors.border }}
                             >
                               <MapPin size={14} color={colors.textPrimary} />
                               <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>Punto de encuentro</Text>
@@ -557,7 +557,7 @@ export default function FoodRiderScreen() {
                                   placeholder="0"
                                   placeholderTextColor={colors.textSecondary}
                                   accessibilityLabel="Efectivo cobrado en esta entrega"
-                                  style={{ flex: 1, height: 44, borderRadius: 10, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, borderColor: colors.border, color: colors.textPrimary, backgroundColor: colors.background }}
+                                  style={{ flex: 1, height: 44, borderRadius: radios.chip, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, borderColor: colors.border, color: colors.textPrimary, backgroundColor: colors.background }}
                                 />
                                 <Pressable onPress={() => guardarCobro(d.orderId)} disabled={busy}
                                   accessibilityRole="button" accessibilityLabel="Guardar el efectivo cobrado"
@@ -653,7 +653,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
       {ok ? <BadgeCheck size={16} color={brand.success} /> : <XCircle size={16} color={neutro.n400} />}
       <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
         <Text style={{ fontSize: tipografia.caption, fontWeight: peso.medio, color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
-        {hint ? <Text style={{ fontSize: 10.5, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
+        {hint ? <Text style={{ fontSize: tipografia.micro, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
       </View>
       {onPress ? <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>→</Text> : null}
     </View>
@@ -668,7 +668,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
 const s_center = StyleSheet.create({
   wrap: { alignItems: 'center', paddingTop: 56, paddingHorizontal: espaciado.e28 },
   wrapSoft: { alignItems: 'center', paddingTop: espaciado.e24, paddingHorizontal: espaciado.e20 },
-  title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
+  title: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
   btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho },
 });
@@ -677,9 +677,9 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   reqBox: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14 },
   sectionTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, marginBottom: espaciado.e10 },
-  rejectedBox: { borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e12 },
+  rejectedBox: { borderRadius: radios.chip, padding: espaciado.e10, marginTop: espaciado.e12 },
   delCard: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e10, borderWidth: trazo.fino },
-  advBtn: { marginTop: espaciado.e10, borderRadius: 10, paddingVertical: espaciado.e11, alignItems: 'center' },
+  advBtn: { marginTop: espaciado.e10, borderRadius: radios.chip, paddingVertical: espaciado.e11, alignItems: 'center' },
   // Distintivo de «cobrar en la puerta» (C5): se ve antes de llegar, no al anotar.
   payBadge: { borderRadius: radios.hermano, borderWidth: trazo.fino, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
 });

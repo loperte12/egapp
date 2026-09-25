@@ -18,7 +18,7 @@ import { useRouter } from 'expo-router';
 import { LocateFixed, ScanLine, Cross } from 'lucide-react-native';
 import { alpha } from '../constants/colors';
 import { useTheme } from '../theme/ThemeContext';
-import { brand, elevation, espaciado } from '@egrouteplan/ui-kit';
+import { brand, elevation, espaciado, radios} from '@egrouteplan/ui-kit';
 
 export default function MapTools({ onRecenter, recenterLabel = 'Centrar en mi ubicación', topOffset = 10, onEmergency }: {
   onRecenter: () => void;
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   button: {
     width: 48,
     height: 48,
-    borderRadius: 14,
+    borderRadius: radios.campo,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: StyleSheet.hairlineWidth,

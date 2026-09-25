@@ -67,7 +67,7 @@ export function AvatarsSeguidos({ gente, colors, onOpen }: {
               )}
               <Text
                 numberOfLines={1}
-                style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e5, maxWidth: 62, textAlign: 'center' }}
+                style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e5, maxWidth: 62, textAlign: 'center' }}
               >
                 {nombre.split(' ')[0]}
               </Text>

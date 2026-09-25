@@ -208,7 +208,7 @@ export default function BillingStatusScreen() {
       {error ? (
         <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: espaciado.e28 }}>
           <Text style={{ fontSize: tipografia.kpi, marginBottom: espaciado.e8 }}>📡</Text>
-          <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>Algo salió mal</Text>
+          <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>Algo salió mal</Text>
           <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>{error}</Text>
           <Pressable onPress={() => load('initial')} accessibilityRole="button" style={{ marginTop: espaciado.e18, backgroundColor: brand.secondary, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: radios.panelAncho }}>
             <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
@@ -321,8 +321,8 @@ export default function BillingStatusScreen() {
                         {MODULE_LABEL[mod] ?? ''} · {formatXAF(o.amountXaf)} · {new Date(o.createdAt).toLocaleDateString('es-GQ')}
                       </Text>
                     </View>
-                    <View style={{ paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6, backgroundColor: alpha(st.color, 0.12) }}>
-                      <Text style={{ fontSize: 10.5, fontWeight: peso.fuerte, color: st.color }}>{st.label}</Text>
+                    <View style={{ paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: radios.marca, backgroundColor: alpha(st.color, 0.12) }}>
+                      <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: st.color }}>{st.label}</Text>
                     </View>
                   </View>
                   {o.status === 'rejected' && o.rejectionReason ? (
@@ -465,7 +465,7 @@ const s_card = StyleSheet.create({
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     root: { flex: 1, backgroundColor: c.background },
-    sectionTitle: { fontSize: 15, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e10 },
+    sectionTitle: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e10 },
     empty: { fontSize: tipografia.caption, color: c.textSecondary, textAlign: 'center', marginVertical: espaciado.e16 },
     entitleCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: trazo.fino, marginBottom: espaciado.e8 },
     orderCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: trazo.fino, marginBottom: espaciado.e10 },

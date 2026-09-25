@@ -319,8 +319,8 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
   },
   collage: { flexDirection: 'row', flexWrap: 'wrap', width: 48, justifyContent: 'center' },
-  collageImg: { width: 22, height: 22, borderRadius: 6, margin: 1 },
-  titleInput: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body, fontWeight: peso.fuerte },
+  collageImg: { width: 22, height: 22, borderRadius: radios.marca, margin: 1 },
+  titleInput: { borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body, fontWeight: peso.fuerte },
   chip: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e5,
     borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, marginRight: espaciado.e6,
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
   optChip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6 },
   sectionTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, textTransform: 'uppercase', marginTop: espaciado.e10, marginBottom: espaciado.e4, letterSpacing: 0.5 },
   check: {
-    width: 20, height: 20, borderRadius: 10, borderWidth: trazo.base,
+    width: 20, height: 20, borderRadius: radios.full, borderWidth: trazo.base,
     alignItems: 'center', justifyContent: 'center',
   },
   primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e12 },

@@ -120,7 +120,7 @@ function LikesContent() {
                   <Image source={{ uri: absUrl(item.post.thumb.url) }} style={[styles.thumb, { backgroundColor: colors.card }]} />
                 ) : (
                   <View style={[styles.thumb, { backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center' }]}>
-                    <Text style={{ fontSize: 15 }}>📝</Text>
+                    <Text style={{ fontSize: tipografia.cuerpo }}>📝</Text>
                   </View>
                 )}
                 <Text style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.medio }} numberOfLines={2}>
@@ -152,9 +152,9 @@ const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: tipografia.anchoFuerte, fontWeight: peso.titulo, flex: 1 },
   tabPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderWidth: trazo.fino },
-  card: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
+  card: { borderRadius: radios.campo, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12 },
   avatar: { width: 42, height: 42, borderRadius: radios.full },
-  postRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e9, borderRadius: 10, padding: espaciado.e8, marginTop: espaciado.e10 },
+  postRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e9, borderRadius: radios.chip, padding: espaciado.e8, marginTop: espaciado.e10 },
   thumb: { width: 40, height: 40, borderRadius: radios.sm },
   actBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: radios.full, paddingVertical: espaciado.e8, marginTop: espaciado.e10 },
 });

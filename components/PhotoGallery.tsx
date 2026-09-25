@@ -128,6 +128,6 @@ const styles = StyleSheet.create({
   dots: { position: 'absolute', bottom: 12, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e6 },
   dot: { width: 7, height: 7, borderRadius: radios.full },
   dotActive: { width: 18 },
-  contador: { position: 'absolute', top: 12, right: 12, borderRadius: 10, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
+  contador: { position: 'absolute', top: 12, right: 12, borderRadius: radios.chip, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
   contadorTxt: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte },
 });

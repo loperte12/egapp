@@ -82,7 +82,7 @@ export default function WorkScreen() {
           <ArrowLeft size={22} color={colors.textPrimary} />
         </Pressable>
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ fontSize: 17, fontWeight: peso.maximo, color: colors.textPrimary }}>Empleos en Guinea Ecuatorial</Text>
+          <Text style={{ fontSize: tipografia.subCabecera, fontWeight: peso.maximo, color: colors.textPrimary }}>Empleos en Guinea Ecuatorial</Text>
           <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>
             {loading ? 'Cargando…' : `${jobs.length} ofertas${loadedAt ? ` · ${getTimeAgo(loadedAt.toISOString())}` : ''}`}
           </Text>
@@ -108,7 +108,7 @@ export default function WorkScreen() {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {chips.map((c, i) => (
               <Pressable key={`${c.label}-${i}`} onPress={c.remove} accessibilityRole="button" accessibilityLabel={`Quitar filtro ${c.label}`}
-                style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14, borderWidth: trazo.fino, borderColor: colors.primary, marginRight: espaciado.e6 }}>
+                style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: radios.campo, borderWidth: trazo.fino, borderColor: colors.primary, marginRight: espaciado.e6 }}>
                 <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.medio }}>{c.label}</Text>
                 <X size={12} color={colors.primary} style={{ marginLeft: espaciado.e4 }} />
               </Pressable>
@@ -150,7 +150,7 @@ export default function WorkScreen() {
         ListFooterComponent={
           !loading && !error && shown.length > 0 && visibleCount < sorted.length ? (
             <Pressable onPress={loadMore} accessibilityRole="button" accessibilityLabel="Cargar más ofertas"
-              style={{ paddingVertical: espaciado.e14, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, borderRadius: 10, backgroundColor: colors.surface, alignItems: 'center' }}>
+              style={{ paddingVertical: espaciado.e14, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, borderRadius: radios.chip, backgroundColor: colors.surface, alignItems: 'center' }}>
               <Text style={{ fontSize: tipografia.caption, color: colors.primary, fontWeight: peso.fuerte }}>Cargar más ofertas</Text>
             </Pressable>
           ) : !loading && !error && sorted.length > PAGE_SIZE && visibleCount >= sorted.length ? (
@@ -178,7 +178,7 @@ export default function WorkScreen() {
             <View style={{ width: 40, height: 4, borderRadius: radios.pista, backgroundColor: colors.border, alignSelf: 'center', marginTop: espaciado.e8, marginBottom: espaciado.e12 }} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e12, borderBottomWidth: trazo.fino, borderBottomColor: colors.border }}>
               <Pressable onPress={() => setFilterVisible(false)} hitSlop={10} accessibilityRole="button" accessibilityLabel="Cerrar filtros"><X size={22} color={colors.textPrimary} /></Pressable>
-              <Text style={{ fontSize: 17, fontWeight: peso.fuerte, color: colors.textPrimary }}>Filtros avanzados</Text>
+              <Text style={{ fontSize: tipografia.subCabecera, fontWeight: peso.fuerte, color: colors.textPrimary }}>Filtros avanzados</Text>
               <View style={{ minWidth: 22 }}>{activeCount > 0 && <View style={styles.filterBadge}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>{activeCount}</Text></View>}</View>
             </View>
             <ScrollView style={{ maxHeight: '76%' }} showsVerticalScrollIndicator={false}>
@@ -248,7 +248,7 @@ function ToggleRow({ label, sub, value, onChange }: { label: string; sub: string
 }
 
 const s_chip = StyleSheet.create({
-  base: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: 20, marginRight: espaciado.e8, marginBottom: espaciado.e8, borderWidth: trazo.fino },
+  base: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.tarjeta, marginRight: espaciado.e8, marginBottom: espaciado.e8, borderWidth: trazo.fino },
 });
 
 const styles = StyleSheet.create({

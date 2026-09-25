@@ -165,21 +165,21 @@ function ToggleRow({ label, value, onPress, activeText, inactiveText }: { label:
 const s2 = StyleSheet.create({
   toggleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e10 },
   controlLabel: { fontSize: tipografia.body, flex: 1, marginRight: espaciado.e12 },
-  toggle: { paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: 20, minWidth: 64, alignItems: 'center' },
+  toggle: { paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.tarjeta, minWidth: 64, alignItems: 'center' },
   toggleText: { fontSize: tipografia.body, fontWeight: peso.medio, color: brand.white },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  container: { borderRadius: 14, padding: espaciado.e16, marginBottom: espaciado.e20, borderWidth: trazo.fino, backgroundColor: c.surface },
+  container: { borderRadius: radios.campo, padding: espaciado.e16, marginBottom: espaciado.e20, borderWidth: trazo.fino, backgroundColor: c.surface },
   title: { fontSize: tipografia.subtitle, fontWeight: peso.fuerte, marginBottom: espaciado.e4 },
   subtitle: { fontSize: tipografia.caption, marginBottom: espaciado.e14 },
   controls: { marginBottom: espaciado.e16 },
   controlRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e12 },
   controlLabel: { fontSize: tipografia.body, flex: 1, marginRight: espaciado.e12 },
-  input: { borderWidth: trazo.fino, borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, width: 60, textAlign: 'center', fontSize: 15, fontWeight: peso.medio },
-  breakdown: { borderRadius: 10, padding: espaciado.e14 },
+  input: { borderWidth: trazo.fino, borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, width: 60, textAlign: 'center', fontSize: tipografia.cuerpo, fontWeight: peso.medio },
+  breakdown: { borderRadius: radios.chip, padding: espaciado.e14 },
   totalRow: { flexDirection: 'row', justifyContent: 'space-between', paddingTop: espaciado.e12, marginTop: espaciado.e4, gap: espaciado.e12, borderTopWidth: trazo.fino },
-  totalLabel: { fontSize: 15, fontWeight: peso.fuerte, flex: 1 },
+  totalLabel: { fontSize: tipografia.cuerpo, fontWeight: peso.fuerte, flex: 1 },
   totalValue: { fontSize: tipografia.subtitle, fontWeight: peso.maximo },
   disclaimer: { fontSize: tipografia.micro, marginTop: espaciado.e12, lineHeight: 16 },
 });

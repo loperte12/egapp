@@ -248,7 +248,7 @@ export default function OnboardingAuthScreen() {
 const styles = StyleSheet.create({
   content: { padding: espaciado.e24, paddingBottom: 48, gap: espaciado.e16 },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e8 },
-  headerTitle: { fontSize: 17, fontWeight: peso.maximo },
+  headerTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.maximo },
   block: { gap: espaciado.e12, alignItems: 'stretch' },
   iconWrap: { width: 80, height: 80, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: espaciado.e12 },
   title: { fontSize: tipografia.title, fontWeight: peso.maximo, textAlign: 'center' },

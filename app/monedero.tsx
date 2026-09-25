@@ -177,7 +177,7 @@ function MonederoContent() {
 
           {/* Últimos movimientos */}
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e20, marginBottom: espaciado.e8 }}>
-            <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>Últimos movimientos</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>Últimos movimientos</Text>
             <Tactil onPress={() => router.push('/monedero-movimientos')} accessibilityRole="button">
               <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Ver todos</Text>
             </Tactil>
@@ -230,9 +230,9 @@ const styles = StyleSheet.create({
   card: { borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e16 },
   action: { flex: 1, borderRadius: radios.panel, paddingVertical: espaciado.e16, alignItems: 'center', gap: espaciado.e4 },
   actionTxt: { color: brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo },
-  actionHint: { color: 'rgba(255,255,255,0.75)', fontSize: 10.5, fontWeight: peso.medio },
+  actionHint: { color: 'rgba(255,255,255,0.75)', fontSize: tipografia.micro, fontWeight: peso.medio },
   rowItem: {
-    flexDirection: 'row', alignItems: 'center', borderRadius: 14, borderWidth: trazo.fino,
+    flexDirection: 'row', alignItems: 'center', borderRadius: radios.campo, borderWidth: trazo.fino,
     paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e13, marginTop: espaciado.e14,
   },
   txRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },

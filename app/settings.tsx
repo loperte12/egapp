@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  topTitle: { fontSize: 17, fontWeight: peso.titulo },
+  topTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
   content: { padding: espaciado.e16, gap: espaciado.e6 },
   groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: neutro.n600, textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e8, marginBottom: espaciado.e2 },
   group: { borderRadius: radios.lg, overflow: 'hidden' },
@@ -421,7 +421,7 @@ const styles = StyleSheet.create({
   rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, color: neutro.n600, maxWidth: '52%' },
   emergency: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8,
-    borderRadius: 14, paddingVertical: espaciado.e13, marginTop: espaciado.e10,
+    borderRadius: radios.campo, paddingVertical: espaciado.e13, marginTop: espaciado.e10,
   },
   version: { textAlign: 'center', fontSize: tipografia.micro, marginTop: espaciado.e16, fontWeight: peso.medio },
   backdrop: { ...StyleSheet.absoluteFillObject },
@@ -430,8 +430,8 @@ const styles = StyleSheet.create({
   sheetTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   sheetRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e13 },
   sheetRowTxt: { fontSize: tipografia.fino, fontWeight: peso.fuerte },
-  confirmCard: { width: '84%', maxWidth: 340, borderRadius: 20, padding: espaciado.e20 },
-  confirmTitle: { fontSize: 17, fontWeight: peso.titulo, textAlign: 'center' },
+  confirmCard: { width: '84%', maxWidth: 340, borderRadius: radios.tarjeta, padding: espaciado.e20 },
+  confirmTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo, textAlign: 'center' },
   confirmBody: { fontSize: tipografia.body, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e8, lineHeight: 19 },
   confirmBtn: { flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: radios.md, paddingVertical: espaciado.e12 },
 });

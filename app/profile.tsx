@@ -372,7 +372,7 @@ function ProfileContent() {
                 <CarTaxiFront size={20} color={brand.secondary} />
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={{ color: brand.secondary, fontSize: 10.5, fontWeight: peso.titulo, letterSpacing: 0.3 }}>{activeTripLabel(String(activeTrip.status))}</Text>
+                <Text style={{ color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.3 }}>{activeTripLabel(String(activeTrip.status))}</Text>
                 <Text style={[tripCard.title, { color: colors.textPrimary }]}>Mi viaje en curso</Text>
                 <Text style={[tripCard.sub, { color: colors.textSecondary }]} numberOfLines={1}>
                   {String(activeTrip.pickup_address ?? 'Punto de recogida')} → {String(activeTrip.dropoff_address ?? 'Destino')}
@@ -592,7 +592,7 @@ function FilaNegocio({ icono, titulo, detalle, nota, onPress }: {
       accessibilityLabel={`${titulo}. ${detalle}${nota ? ` ${nota}` : ''}`}
       style={({ pressed }) => [{
         flexDirection: 'row' as const, alignItems: 'center' as const, gap: espaciado.e11,
-        borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
+        borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
         borderColor: colors.border, backgroundColor: colors.card,
         opacity: pressed ? 0.8 : 1,
       }]}
@@ -924,16 +924,16 @@ const styles = StyleSheet.create({
   nameRow: { flexDirection: 'row', alignItems: 'center' },
   name: { fontSize: tipografia.cifraGrande, fontWeight: peso.titulo, color: brand.white, flexShrink: 1, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
   egIdRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e3 },
-  egId: { color: 'rgba(255,255,255,0.95)', fontSize: 10.5, fontWeight: peso.maximo, letterSpacing: 0.3 },
-  qrMini: { width: 20, height: 20, borderRadius: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.18)' },
+  egId: { color: 'rgba(255,255,255,0.95)', fontSize: tipografia.micro, fontWeight: peso.maximo, letterSpacing: 0.3 },
+  qrMini: { width: 20, height: 20, borderRadius: radios.marca, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.18)' },
   locRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 },
   locTxt: { color: 'rgba(255,255,255,0.92)', fontSize: tipografia.micro, fontWeight: peso.medio },
   addStatusBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, alignSelf: 'flex-start', borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e9, paddingVertical: 3.5, marginTop: espaciado.e6, backgroundColor: 'rgba(0,0,0,0.25)' },
-  addStatusTxt: { color: 'rgba(255,255,255,0.95)', fontSize: 10.5, fontWeight: peso.maximo },
+  addStatusTxt: { color: 'rgba(255,255,255,0.95)', fontSize: tipografia.micro, fontWeight: peso.maximo },
 
   statsRow: { flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e10 },
   statItem: { alignItems: 'center', minWidth: 62 },
-  statValue: { color: brand.white, fontSize: 15, fontWeight: peso.titulo },
+  statValue: { color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.titulo },
   statLabel: { color: 'rgba(255,255,255,0.85)', fontSize: tipografia.minimo, fontWeight: peso.fuerte, marginTop: 1 },
   ratingValueRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 },
 
@@ -941,12 +941,12 @@ const styles = StyleSheet.create({
 
   linksArea: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5, marginTop: espaciado.e8 },
   linkChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: radios.full, borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.35)', paddingHorizontal: espaciado.e8, paddingVertical: 3.5, maxWidth: '92%' },
-  linkChipTxt: { color: brand.white, fontSize: 10.5, fontWeight: peso.fuerte, maxWidth: 130 },
+  linkChipTxt: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte, maxWidth: 130 },
   // Chip de OCUPACIÓN: va el primero en la fila de correos/enlaces (delante).
   occupChip: { backgroundColor: 'rgba(255,209,102,0.22)' },
 
   lbTitleWrap: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e18 },
-  lbTitleCover: { fontSize: 26, fontWeight: peso.titulo, color: brand.white, letterSpacing: 0.3, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 },
+  lbTitleCover: { fontSize: tipografia.display, fontWeight: peso.titulo, color: brand.white, letterSpacing: 0.3, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 },
   publishCoverBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, backgroundColor: 'rgba(255,255,255,0.24)', borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.55)' },
   publishCoverTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo },
 
@@ -969,7 +969,7 @@ const styles = StyleSheet.create({
   sheetCard: { borderTopLeftRadius: radios.marco, borderTopRightRadius: radios.marco, padding: espaciado.e20, paddingBottom: 34, gap: espaciado.e12 },
   sheetCardTall: { borderTopLeftRadius: radios.marco, borderTopRightRadius: radios.marco, padding: espaciado.e18, paddingBottom: 34, maxHeight: '88%' },
   sheetHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  sheetTitle: { fontSize: 17, fontWeight: peso.titulo },
+  sheetTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
   sheetSub: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 },
   pickRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e4, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(0,0,0,0.06)' },
   pickRowTxt: { flex: 1, fontSize: tipografia.body, fontWeight: peso.medio },
@@ -981,8 +981,8 @@ const styles = StyleSheet.create({
   lbGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10, marginTop: espaciado.e12 },
   qrCard: { width: '86%', maxWidth: 340, borderRadius: radios.panelAncho, padding: espaciado.e18, alignItems: 'center' },
   qrSub: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2, alignSelf: 'flex-start' },
-  qrBox: { backgroundColor: brand.white, padding: espaciado.e12, borderRadius: 14, marginTop: espaciado.e14 },
-  qrId: { fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e12, letterSpacing: 0.5 },
+  qrBox: { backgroundColor: brand.white, padding: espaciado.e12, borderRadius: radios.campo, marginTop: espaciado.e14 },
+  qrId: { fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginTop: espaciado.e12, letterSpacing: 0.5 },
   qrHint: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e6, textAlign: 'center' },
   emptyCard: { width: '84%', maxWidth: 330, borderRadius: radios.panelAncho, padding: espaciado.e22, alignItems: 'center' },
   emptyIcon: { width: 64, height: 64, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e10 },
@@ -993,7 +993,7 @@ const styles = StyleSheet.create({
   photoLg: { width: 110, height: 110, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   photoLgImg: { width: '100%', height: '100%' },
   photoLgTxt: { fontSize: tipografia.emoji, fontWeight: peso.titulo },
-  pickBtn: { flex: 1, borderRadius: 14, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e12, minHeight: 44 },
+  pickBtn: { flex: 1, borderRadius: radios.campo, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e12, minHeight: 44 },
   pickBusy: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
 });
 

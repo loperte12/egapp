@@ -1158,7 +1158,7 @@ export default function ConductorScreen() {
             </View>
           )}
           {selfieErr && !busy && (
-            <View style={{ position: 'absolute', bottom: 120, alignSelf: 'center', backgroundColor: 'rgba(245,63,63,0.92)', borderRadius: 14, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e12, marginHorizontal: espaciado.e24 }}>
+            <View style={{ position: 'absolute', bottom: 120, alignSelf: 'center', backgroundColor: 'rgba(245,63,63,0.92)', borderRadius: radios.campo, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e12, marginHorizontal: espaciado.e24 }}>
               <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body, textAlign: 'center' }}>{selfieErr}</Text>
               <Text style={{ color: brand.white, opacity: 0.9, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6 }}>
                 Pulsa el botón blanco para reintentar.
@@ -1321,7 +1321,7 @@ export default function ConductorScreen() {
                   <View style={s.statusRow}>
                     <View style={[s.statusDot, { backgroundColor: brand.warning }]} />
                     <View style={{ flex: 1 }}>
-                      <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: 15 }}>Cobro pendiente de confirmar</Text>
+                      <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Cobro pendiente de confirmar</Text>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                         No recibirás solicitudes nuevas hasta confirmar que cobraste el último viaje en efectivo.
                       </Text>
@@ -1346,7 +1346,7 @@ export default function ConductorScreen() {
                         {resting ? 'En descanso · sigues recibiendo solicitudes' : 'Buscando solicitudes…'}
                       </Text>
                     </View>
-                    <Text style={{ color: 'rgba(255,255,255,0.55)', fontSize: 10.5, fontWeight: peso.medio, marginTop: espaciado.e2 }}>
+                    <Text style={{ color: 'rgba(255,255,255,0.55)', fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e2 }}>
                       Toca el mapa para fijar tu zona
                     </Text>
                   </View>
@@ -1528,7 +1528,7 @@ export default function ConductorScreen() {
                       accessibilityLabel={resting ? 'Volver a trabajar (sin selfie)' : 'Descansar (sigues recibiendo solicitudes)'}
                       style={[s.dvBtn, { backgroundColor: resting ? brand.warning : alpha(colors.card, 0.92), borderColor: resting ? brand.warning : colors.border }]}
                     >
-                      {busy ? <ActivityIndicator size="small" color={resting ? colors.shadow : colors.textSecondary} /> : <Text style={{ fontSize: 17, color: resting ? colors.shadow : colors.textSecondary }}>☕</Text>}
+                      {busy ? <ActivityIndicator size="small" color={resting ? colors.shadow : colors.textSecondary} /> : <Text style={{ fontSize: tipografia.subCabecera, color: resting ? colors.shadow : colors.textSecondary }}>☕</Text>}
                     </Pressable>
                   </View>
 
@@ -1588,7 +1588,7 @@ export default function ConductorScreen() {
                             <Flag size={12} color={brand.secondary} />
                             <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio, flex: 1 }} numberOfLines={1}>{dropoff}</Text>
                           </View>
-                          <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,0.6)', fontSize: 10.5, fontWeight: peso.medio }}>
+                          <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,0.6)', fontSize: tipografia.micro, fontWeight: peso.medio }}>
                             👤 {current.passenger_name || 'Pasajero'} · {paxCount} {paxCount === 1 ? 'pasajero' : 'pasajeros'}
                           </Text>
                         </View>
@@ -1632,7 +1632,7 @@ export default function ConductorScreen() {
                   {leg === 'approach' && (navKmLeft ?? 1) < 0.08 && current?.passenger_phone ? (
                     <View pointerEvents="none" style={[s.dvPin, { backgroundColor: 'rgba(15,20,28,0.6)', borderColor: 'rgba(43,194,106,0.5)' }]}>
                       <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: tipografia.nota, fontWeight: peso.maximo, letterSpacing: 0.4 }}>CÓDIGO DEL PASAJERO</Text>
-                      <Text style={{ color: brand.success, fontSize: 17, fontWeight: peso.titulo, letterSpacing: 5 }}>{pinLast4(current.passenger_phone)}</Text>
+                      <Text style={{ color: brand.success, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, letterSpacing: 5 }}>{pinLast4(current.passenger_phone)}</Text>
                     </View>
                   ) : null}
 
@@ -1676,7 +1676,7 @@ export default function ConductorScreen() {
                       ) : walletRide ? (
                         rideArrived ? (
                           <>
-                            <Text style={{ fontSize: 15 }}>⏳</Text>
+                            <Text style={{ fontSize: tipografia.cuerpo }}>⏳</Text>
                             <Text style={s.dvMainText}>Esperando confirmación del pasajero</Text>
                           </>
                         ) : (
@@ -1842,7 +1842,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
           <View style={pps.boxRow}>
             {[0, 1, 2, 3].map((i) => (
               <View key={i} style={[pps.box, { borderColor: err ? brand.danger : digits.length > i ? brand.success : neutro.n300 }]}>
-                <Text style={{ color: colors.textPrimary, fontSize: 26, fontWeight: peso.titulo }}>{digits[i] ?? ''}</Text>
+                <Text style={{ color: colors.textPrimary, fontSize: tipografia.display, fontWeight: peso.titulo }}>{digits[i] ?? ''}</Text>
               </View>
             ))}
           </View>
@@ -1944,19 +1944,19 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
       ...elevation.lg,
     },
     offerContent: { gap: espaciado.e12, paddingBottom: espaciado.e6 },
-    warnStrip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, marginHorizontal: espaciado.e12, marginTop: espaciado.e6, backgroundColor: c.dangerSoft, borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 },
+    warnStrip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, marginHorizontal: espaciado.e12, marginTop: espaciado.e6, backgroundColor: c.dangerSoft, borderRadius: radios.chip, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 },
     rutaNoticePill: {
       alignSelf: 'center', marginTop: espaciado.e8, borderRadius: radios.full, borderWidth: trazo.fino,
       backgroundColor: 'rgba(15,20,28,0.82)', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8,
     },
     statusRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, width: '100%' },
-    statusDot: { width: 12, height: 12, borderRadius: 6 },
+    statusDot: { width: 12, height: 12, borderRadius: radios.full },
     goOnlineBtn: { width: '100%', backgroundColor: brand.success, borderRadius: radios.full, paddingVertical: 15, alignItems: 'center', elevation: 4 },
     goOnlineText: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo, letterSpacing: 0.2 },
     followBtn: { position: 'absolute', top: 8, right: 10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, elevation: 4 },
     navRow: { flexDirection: 'row', alignItems: 'baseline', gap: espaciado.e6, marginTop: espaciado.e2 },
     badge: { position: 'absolute', top: 64, alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e6, elevation: 4 },
-    panel: { flex: 1, margin: espaciado.e12, borderRadius: 20, borderWidth: trazo.fino, padding: espaciado.e16, gap: espaciado.e10, alignItems: 'center', justifyContent: 'center' },
+    panel: { flex: 1, margin: espaciado.e12, borderRadius: radios.tarjeta, borderWidth: trazo.fino, padding: espaciado.e16, gap: espaciado.e10, alignItems: 'center', justifyContent: 'center' },
     waitText: { fontSize: tipografia.body, fontWeight: peso.medio, marginTop: espaciado.e8 },
     countRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, width: '100%' },
     countTrack: { flex: 1, height: 6, borderRadius: radios.punta, backgroundColor: c.border, overflow: 'hidden' },
@@ -1967,21 +1967,21 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     routeText: { fontSize: tipografia.body, fontWeight: peso.fuerte, flex: 1 },
     meta: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e4 },
     priceRow: { flexDirection: 'row', gap: espaciado.e10, width: '100%' },
-    priceChip: { flex: 1, borderRadius: 14, borderWidth: trazo.base, padding: espaciado.e10, alignItems: 'center', gap: espaciado.e2 },
+    priceChip: { flex: 1, borderRadius: radios.campo, borderWidth: trazo.base, padding: espaciado.e10, alignItems: 'center', gap: espaciado.e2 },
     acceptBtn: { width: '100%', backgroundColor: brand.success, borderRadius: radios.panel, paddingVertical: 15, alignItems: 'center', gap: espaciado.e2, elevation: 4 },
-    acceptText: { color: brand.white, fontSize: 17, fontWeight: peso.titulo },
+    acceptText: { color: brand.white, fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
     bigAccept: { width: '100%', borderRadius: radios.lg, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e14, alignItems: 'center', gap: espaciado.e2, elevation: 3 },
-    bigAcceptTop: { color: brand.white, fontSize: 17, fontWeight: peso.titulo },
+    bigAcceptTop: { color: brand.white, fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
     bigAcceptSub: { color: 'rgba(255,255,255,0.9)', fontSize: tipografia.caption, fontWeight: peso.medio },
     headerState: { fontSize: tipografia.subtitle, fontWeight: peso.maximo },
     passenger: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, width: '100%' },
     avatar: { width: 46, height: 46, borderRadius: radios.full, backgroundColor: brand.primary, alignItems: 'center', justifyContent: 'center' },
     roundBtn: { width: 46, height: 46, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
     goBtn: { width: '100%', backgroundColor: brand.primary, borderRadius: radios.lg, paddingVertical: espaciado.e13, alignItems: 'center' },
-    goText: { color: brand.white, fontSize: 15, fontWeight: peso.maximo },
+    goText: { color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
     endBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, width: '100%', backgroundColor: brand.danger, borderRadius: radios.lg, paddingVertical: espaciado.e14 },
-    endText: { color: brand.white, fontSize: 15, fontWeight: peso.titulo },
-    alertBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, width: '100%', borderWidth: trazo.fino, borderColor: c.dangerSoftFuerte, borderRadius: 14, paddingVertical: espaciado.e11, backgroundColor: c.dangerSoft },
+    endText: { color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.titulo },
+    alertBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, width: '100%', borderWidth: trazo.fino, borderColor: c.dangerSoftFuerte, borderRadius: radios.campo, paddingVertical: espaciado.e11, backgroundColor: c.dangerSoft },
     // ── Vista de conducción ──
     dvState: { paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e4, marginTop: espaciado.e2 },
     dvStateText: { fontSize: tipografia.caption, fontWeight: peso.maximo, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full, borderWidth: trazo.fino, overflow: 'hidden' },
@@ -1991,39 +1991,39 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     dvLaneGlyph2: { color: brand.white, fontSize: tipografia.cifra, fontWeight: peso.titulo },
     dvLaneDist2: { fontSize: tipografia.caption, fontWeight: peso.maximo, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.sm, borderWidth: trazo.fino, color: brand.white, backgroundColor: 'rgba(10,16,28,0.7)', borderColor: 'transparent' },
     dvLaneGlyph: { color: brand.white, fontSize: tipografia.heroGrande, fontWeight: peso.titulo },
-    dvLaneDist: { color: brand.white, fontSize: 10.5, fontWeight: peso.titulo, marginTop: -4 },
+    dvLaneDist: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.titulo, marginTop: -4 },
     dvMvCard: { position: 'absolute', top: 150, alignSelf: 'center', maxWidth: '82%', flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.full, backgroundColor: 'rgba(10,16,28,0.80)', paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, ...elevation.lg },
     dvMvGlyphBox: { width: 42, height: 42, borderRadius: radios.full, backgroundColor: 'rgba(255,255,255,0.16)', alignItems: 'center', justifyContent: 'center' },
     dvMvGlyphBig: { fontSize: tipografia.tituloFicha, fontWeight: peso.titulo },
-    dvMvGlyphSmall: { fontSize: 15 },
+    dvMvGlyphSmall: { fontSize: tipografia.cuerpo },
     dvMvDist: { fontSize: tipografia.cifraGrande, fontWeight: peso.titulo, color: brand.white },
     dvMvName: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: 'rgba(255,255,255,0.85)', marginTop: 1 },
     dvMvNext: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderLeftWidth: trazo.fino, borderLeftColor: 'rgba(255,255,255,0.3)', paddingLeft: espaciado.e8, maxWidth: 90 },
-    dvMvNextText: { fontSize: 10.5, fontWeight: peso.medio, color: 'rgba(255,255,255,0.8)' },
+    dvMvNextText: { fontSize: tipografia.micro, fontWeight: peso.medio, color: 'rgba(255,255,255,0.8)' },
     dvCtrls: { position: 'absolute', top: 8, right: 10, gap: espaciado.e8 },
     dvDbg: { position: 'absolute', top: 210, right: 10, borderRadius: radios.sm, borderWidth: trazo.fino, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
     dvBtn: { width: 42, height: 42, borderRadius: radios.full, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', elevation: 4 },
     dvSpeed: { position: 'absolute', bottom: 104, left: 14, width: 74, height: 74, borderRadius: radios.full, borderWidth: trazo.fuerte, alignItems: 'center', justifyContent: 'center', elevation: 5 },
     dvSpeedNum: { fontSize: tipografia.cifraGrande, fontWeight: peso.titulo },
-    dvSpeedUnit: { fontSize: 9, fontWeight: peso.fuerte },
-    dvEta: { position: 'absolute', bottom: 96, right: 14, borderRadius: 14, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, elevation: 5 },
+    dvSpeedUnit: { fontSize: tipografia.rotulo, fontWeight: peso.fuerte },
+    dvEta: { position: 'absolute', bottom: 96, right: 14, borderRadius: radios.campo, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, elevation: 5 },
     dvEtaClock: { fontSize: tipografia.body, fontWeight: peso.titulo },
     dvEtaSub: { fontSize: tipografia.micro, fontWeight: peso.medio },
     dvActions: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 },
     dvPin: { position: 'absolute', bottom: 172, alignSelf: 'center', alignItems: 'center', borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e5, elevation: 5 },
     // P4: tarjeta del viaje EN MARCHA (TOTAL efectivo + hora + "Más" expandible)
     dvTrip: {
-      position: 'absolute', bottom: 96, right: 14, left: 118, borderRadius: 14, borderWidth: trazo.fino,
+      position: 'absolute', bottom: 96, right: 14, left: 118, borderRadius: radios.campo, borderWidth: trazo.fino,
       paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, elevation: 5,
     },
-    dvTripFare: { fontSize: 17, fontWeight: peso.titulo },
-    dvMoreBtn: { flexDirection: 'column', alignItems: 'center', gap: 1, borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e4 },
+    dvTripFare: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
+    dvMoreBtn: { flexDirection: 'column', alignItems: 'center', gap: 1, borderWidth: trazo.fino, borderRadius: radios.chip, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e4 },
     dvTripMore: {
       position: 'absolute', bottom: 172, right: 14, left: 118, borderRadius: radios.md, borderWidth: trazo.fino,
       padding: espaciado.e8, gap: espaciado.e5, elevation: 5,
     },
     dvCancel: { width: 48, height: 48, borderRadius: radios.full, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', elevation: 5 },
-    dvMain: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: 20, paddingVertical: espaciado.e13, elevation: 6 },
+    dvMain: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: radios.tarjeta, paddingVertical: espaciado.e13, elevation: 6 },
     dvMainText: { color: brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo },
     // P1: botón de perfil TRANSPARENTE abajo-derecha sobre el mapa (Home sheet)
     homeFab: {
@@ -2047,7 +2047,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     },
     // ── Ruta: tarjetas A/B compactas y translúcidas + botones ──
     dvCardA: {
-      position: 'absolute', bottom: 96, right: 14, left: 118, borderRadius: 14, borderWidth: trazo.fino,
+      position: 'absolute', bottom: 96, right: 14, left: 118, borderRadius: radios.campo, borderWidth: trazo.fino,
       paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, elevation: 5,
     },
     contactBtn: { width: 36, height: 36, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center', elevation: 3 },
@@ -2056,7 +2056,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
 // ── P2 DiDi: estilos de la tarjeta de SOLICITUD OSCURA (paleta fija, no sigue
 // el tema claro/oscuro de la app). El fondo/borde van inline sobre s.bottomCard. ──
 const PK = StyleSheet.create({
-  countTxt: { color: 'rgba(255,255,255,0.85)', fontWeight: peso.fuerte, fontSize: 15 },
+  countTxt: { color: 'rgba(255,255,255,0.85)', fontWeight: peso.fuerte, fontSize: tipografia.cuerpo },
   paxRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e11, width: '100%' },
   avatar: { width: 46, height: 46, borderRadius: radios.full, backgroundColor: brand.primary, alignItems: 'center', justifyContent: 'center' },
   avatarTxt: { color: brand.white, fontSize: tipografia.title, fontWeight: peso.titulo },
@@ -2065,12 +2065,12 @@ const PK = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e3,
     backgroundColor: 'rgba(43,194,106,0.16)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2,
   },
-  badgeGreenTxt: { color: brand.success, fontSize: 10.5, fontWeight: peso.maximo },
+  badgeGreenTxt: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.maximo },
   badgeGray: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e3,
     backgroundColor: 'rgba(255,255,255,0.10)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2,
   },
-  badgeGrayTxt: { color: 'rgba(255,255,255,0.6)', fontSize: 10.5, fontWeight: peso.fuerte },
+  badgeGrayTxt: { color: 'rgba(255,255,255,0.6)', fontSize: tipografia.micro, fontWeight: peso.fuerte },
   metaTxt: { color: 'rgba(255,255,255,0.66)', fontSize: tipografia.caption, fontWeight: peso.medio },
   vLine: { width: 2, height: 16, backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: radios.pista, marginVertical: 1 },
 });

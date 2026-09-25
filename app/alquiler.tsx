@@ -87,7 +87,7 @@ export default function AlquilerScreen() {
       {/* Buscador + botón filtros */}
       <View style={{ paddingHorizontal: espaciado.e16, gap: espaciado.e8, marginBottom: espaciado.e6 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: 10, paddingHorizontal: espaciado.e12, borderWidth: trazo.fino, borderColor: colors.border }}>
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: radios.chip, paddingHorizontal: espaciado.e12, borderWidth: trazo.fino, borderColor: colors.border }}>
             <TextInput
               value={query}
               onChangeText={setQuery}
@@ -102,7 +102,7 @@ export default function AlquilerScreen() {
             accessibilityRole="button"
             accessibilityLabel={activeCount ? `Filtros aplicados (${activeCount})` : 'Abrir filtros'}
             accessibilityState={{ selected: activeCount > 0 }}
-            style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, backgroundColor: activeCount ? colors.primary : colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10, borderWidth: trazo.fino, borderColor: activeCount ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
+            style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, backgroundColor: activeCount ? colors.primary : colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: activeCount ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
           >
             <SlidersHorizontal size={15} color={activeCount ? brand.white : colors.textPrimary} />
             {activeCount > 0 && <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: brand.white }}>{activeCount}</Text>}
@@ -126,7 +126,7 @@ export default function AlquilerScreen() {
       </View>
 
       {/* Aviso anti-estafa (tokens del tema) */}
-      <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10 }}>
+      <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: radios.chip }}>
         <ShieldAlert size={16} color={colors.danger} />
         <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.medio, lineHeight: 16 }}>
           No pagues por adelantado ni envíes DNI antes de ver el inmueble. Denuncia anuncios sospechosos.
@@ -135,7 +135,7 @@ export default function AlquilerScreen() {
 
       {/* Banner de datos desactualizados (refresco fallido con datos previos) */}
       {!loading && error && anyResult && (
-        <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.07), paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10 }}>
+        <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.07), paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: radios.chip }}>
           <WifiOff size={14} color={colors.danger} />
           <Text style={{ flex: 1, fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.medio }}>No se pudo actualizar: mostrando datos anteriores.</Text>
           <Pressable onPress={() => void reload()} accessibilityRole="button" accessibilityLabel="Reintentar actualizar" hitSlop={8}>
@@ -182,12 +182,12 @@ export default function AlquilerScreen() {
           ) : !loading && error && properties.length === 0 ? (
             <View style={{ alignItems: 'center', marginTop: 50, paddingHorizontal: espaciado.e30 }}>
               <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><WifiOff size={28} color={colors.danger} /></View>
-              <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>No pudimos cargar los alquileres</Text>
+              <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>No pudimos cargar los alquileres</Text>
               <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e14 }}>{error}</Text>
               <Pressable
                 onPress={() => void reload()}
                 accessibilityRole="button" accessibilityLabel="Reintentar cargar alquileres"
-                style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
+                style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: radios.chip, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}
               >
                 <RefreshCw size={15} color={brand.white} /><Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body, marginLeft: espaciado.e6 }}>Reintentar</Text>
               </Pressable>
@@ -195,7 +195,7 @@ export default function AlquilerScreen() {
           ) : (
             <View style={{ alignItems: 'center', marginTop: 50, paddingHorizontal: espaciado.e30 }}>
               <View style={[s.errIcon, { backgroundColor: colors.surface }]}><MapPin size={30} color={colors.textSecondary} /></View>
-              <Text style={{ fontSize: 15, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>
+              <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>
                 {hasSearchOrFilters ? 'Sin resultados con estos filtros' : 'Aún no hay alquileres publicados'}
               </Text>
               <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 }}>
@@ -210,7 +210,7 @@ export default function AlquilerScreen() {
             <Pressable
               onPress={loadMore}
               accessibilityRole="button" accessibilityLabel="Cargar más anuncios"
-              style={({ pressed }) => [{ paddingVertical: espaciado.e14, borderRadius: 10, backgroundColor: colors.surface, alignItems: 'center', opacity: pressed ? 0.7 : 1 }]}
+              style={({ pressed }) => [{ paddingVertical: espaciado.e14, borderRadius: radios.chip, backgroundColor: colors.surface, alignItems: 'center', opacity: pressed ? 0.7 : 1 }]}
             >
               <Text style={{ fontSize: tipografia.caption, color: colors.primary, fontWeight: peso.fuerte }}>Cargar más anuncios</Text>
             </Pressable>
@@ -221,9 +221,9 @@ export default function AlquilerScreen() {
       {/* Modal de filtros (borrador local + Aplicar/Cancelar) */}
       <Modal visible={filterVisible} transparent animationType="slide" onRequestClose={cancelDraft}>
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' }}>
-          <View style={{ backgroundColor: colors.background, borderTopLeftRadius: 20, borderTopRightRadius: 20, maxHeight: '92%', padding: espaciado.e20, paddingBottom: Math.max(insets.bottom, 16) }}>
+          <View style={{ backgroundColor: colors.background, borderTopLeftRadius: radios.tarjeta, borderTopRightRadius: radios.tarjeta, maxHeight: '92%', padding: espaciado.e20, paddingBottom: Math.max(insets.bottom, 16) }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e12 }}>
-              <Text style={{ fontSize: 17, fontWeight: peso.maximo, color: colors.textPrimary }}>Filtros</Text>
+              <Text style={{ fontSize: tipografia.subCabecera, fontWeight: peso.maximo, color: colors.textPrimary }}>Filtros</Text>
               <Pressable onPress={cancelDraft} hitSlop={10} accessibilityRole="button" accessibilityLabel="Cerrar filtros">
                 <X size={22} color={colors.textPrimary} />
               </Pressable>
@@ -302,7 +302,7 @@ function FilterChip({ label, selected, onPress }: { label: string; selected: boo
       accessibilityRole="button"
       accessibilityState={{ selected }}
       accessibilityLabel={label}
-      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: 20, marginRight: espaciado.e8, marginBottom: espaciado.e8, backgroundColor: selected ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: selected ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
+      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.tarjeta, marginRight: espaciado.e8, marginBottom: espaciado.e8, backgroundColor: selected ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: selected ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
     >
       <Text style={{ fontSize: tipografia.caption, color: selected ? brand.white : colors.textPrimary, fontWeight: selected ? peso.fuerte : peso.medio }}>{label}</Text>
       {selected && <Check size={12} color={brand.white} style={{ marginLeft: espaciado.e4 }} />}
@@ -317,7 +317,7 @@ function ActiveChip({ label, onRemove }: { label: string; onRemove: () => void }
       onPress={onRemove}
       accessibilityRole="button"
       accessibilityLabel={`Quitar filtro: ${label}`}
-      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14, borderWidth: trazo.fino, borderColor: colors.primary, marginRight: espaciado.e6, opacity: pressed ? 0.7 : 1 }]}
+      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: radios.campo, borderWidth: trazo.fino, borderColor: colors.primary, marginRight: espaciado.e6, opacity: pressed ? 0.7 : 1 }]}
     >
       <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.medio }}>{label}</Text>
       <X size={12} color={colors.primary} style={{ marginLeft: espaciado.e4 }} />

@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   emoji: { fontSize: tipografia.body },
   emojiCompact: { fontSize: tipografia.nota },
   text: { fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 180 },
-  textCompact: { fontSize: 10.5, maxWidth: 140 },
+  textCompact: { fontSize: tipografia.micro, maxWidth: 140 },
   timeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginLeft: espaciado.e2 },
   time: { fontSize: tipografia.nota, fontWeight: peso.fuerte },
   timeCompact: { fontSize: tipografia.sello },

@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
   leyenda: { gap: espaciado.e12, paddingVertical: espaciado.e8, paddingHorizontal: espaciado.e2, alignItems: 'center' },
   leyendaItem: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 },
   punto: { width: 9, height: 9, borderRadius: radios.marca },
-  leyendaTxt: { fontSize: 10.5 },
+  leyendaTxt: { fontSize: tipografia.micro },
   resumen: { borderTopWidth: trazo.fino, paddingTop: espaciado.e10, paddingHorizontal: espaciado.e4, gap: espaciado.e2 },
   resumenTxt: { fontSize: tipografia.body, fontWeight: peso.fuerte },
   resumenSub: { fontSize: tipografia.caption },

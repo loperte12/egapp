@@ -133,7 +133,7 @@ function Contenido() {
           <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
               <BadgeCheck size={16} color={colors.primary} />
-              <Text style={{ color: colors.textPrimary, fontSize: 15, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>
                 {perfil ? `${perfil.code} · ${perfil.zone}` : 'Agente'}
               </Text>
             </View>
@@ -274,11 +274,11 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12 },
   retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
   card: { borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e16 },
-  aviso: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, marginTop: espaciado.e12 },
-  sectionTitle: { fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e4 },
+  aviso: { borderRadius: radios.campo, borderWidth: trazo.fino, padding: espaciado.e12, marginTop: espaciado.e12 },
+  sectionTitle: { fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e4 },
   tile: { width: 38, height: 38, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   scanBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    borderRadius: 14, borderWidth: trazo.fino, paddingVertical: espaciado.e11, marginTop: espaciado.e12,
+    borderRadius: radios.campo, borderWidth: trazo.fino, paddingVertical: espaciado.e11, marginTop: espaciado.e12,
   },
 });
