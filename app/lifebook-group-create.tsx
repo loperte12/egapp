@@ -3,7 +3,7 @@
  * Ruta: `/lifebook-group-create`
  *
  * Es el diseño que envió el dueño (`RouteGroupFlow`) pasado a la app, con la
- * paleta oficial (azul #0084FF / naranja #FF7D00) en vez del rojo del boceto.
+ * paleta oficial (azul el azul de accion / naranja el naranja de servicios) en vez del rojo del boceto.
  * Pasos:
  *   1. `form`    → nombre (24) + descripción (160) + tipo + punto de encuentro
  *                  + condición de ingreso + «mostrar en mi perfil».

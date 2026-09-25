@@ -14,7 +14,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Check, X } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, ilustracion, Precio, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {EmptyState, Precio, PrimaryButton, ScreenHeader, alpha, brand, espaciado, ilustracion, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseProduct, EcomerseShopPlan } from '../api/ecomerse';
 import { billingApi, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
@@ -353,7 +353,7 @@ function FeatureRow({ ok, label }: { ok: boolean; label: string }) {
   const { colors } = useTheme();
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e3 }}>
-      {ok ? <Check size={14} color={brand.success} /> : <X size={14} color="#CBD5E1" />}
+      {ok ? <Check size={14} color={brand.success} /> : <X size={14} color={neutro.n400} />}
       <Text style={{ fontSize: tipografia.caption, color: ok ? colors.textPrimary : colors.textSecondary, marginLeft: espaciado.e7, flex: 1 }}>{label}</Text>
     </View>
   );

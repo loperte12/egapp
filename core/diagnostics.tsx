@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { brand, espaciado, tipografia, peso} from '@egrouteplan/ui-kit';
+import {brand, espaciado, neutro, peso, tipografia} from '@egrouteplan/ui-kit';
 
 interface State { error: Error | null; }
 type Sink = (err: Error) => void;
@@ -78,5 +78,5 @@ const styles = StyleSheet.create({
   msg: { color: '#FFD2D2', fontSize: 15, fontWeight: peso.fuerte, marginBottom: espaciado.e12 },
   box: { backgroundColor: '#2A1010', borderRadius: 10, padding: espaciado.e12 },
   stack: { color: '#FFB3B3', fontSize: tipografia.caption, fontFamily: 'monospace' },
-  hint: { color: '#999', fontSize: tipografia.caption, marginTop: espaciado.e16, textAlign: 'center' },
+  hint: { color: neutro.n600, fontSize: tipografia.caption, marginTop: espaciado.e16, textAlign: 'center' },
 });

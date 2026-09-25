@@ -893,7 +893,7 @@ function MisMedidasCard({ colors }: { colors: any }) {
   );
 }
 
-/** Título de grupo: mayúsculas 11 #8E8E93 con espaciado. */
+/** Título de grupo: mayúsculas 11 el gris secundario del sistema con espaciado. */
 function SeccionTitle({ children }: { children: React.ReactNode }) {  return <Text style={styles.groupTitle}>{children}</Text>;
 }
 
@@ -1201,7 +1201,7 @@ function ModalProfesion({ visible, current, onApply, onClose }: {
       <ScrollView style={{ flexShrink: 1, marginTop: espaciado.e4 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         {PROFESSION_GROUPS.map((g) => (
           <View key={g.categoryId}>
-            <Text style={[styles.groupHeader, { color: '#8E8E93' }]}>{g.categoryLabel}</Text>
+            <Text style={[styles.groupHeader, { color: 'el gris secundario del sistema' }]}>{g.categoryLabel}</Text>
             {g.items.map((p) => {
               const active = sel === p.label;
               return (
@@ -1434,7 +1434,7 @@ const styles = StyleSheet.create({
 
   // Títulos de grupo
   groupTitle: {
-    fontSize: tipografia.micro, fontWeight: peso.maximo, color: '#8E8E93', letterSpacing: 0.5,
+    fontSize: tipografia.micro, fontWeight: peso.maximo, color: 'el gris secundario del sistema', letterSpacing: 0.5,
     textTransform: 'uppercase', marginTop: espaciado.e20, marginBottom: espaciado.e8, marginLeft: espaciado.e4,
   },
 

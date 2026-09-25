@@ -1441,7 +1441,7 @@ function ChatThreadContent() {
       {/* ═══════ Foto a pantalla completa: pinza/doble toque + botones (Parte 32) ═══════
           Sin animación de fundido (era parte del parpadeo) y con caché de disco. */}
       <Modal visible={!!viewerUrl} transparent animationType="none" onRequestClose={() => setViewerUrl(null)} statusBarTranslucent>
-        <View style={{ flex: 1, backgroundColor: '#000000' }}>
+        <View style={{ flex: 1, backgroundColor: brand.visor }}>
           {viewerUrl ? (
             <ZoomableImage
               ref={zoomRef}

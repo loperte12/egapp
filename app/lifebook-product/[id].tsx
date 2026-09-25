@@ -387,7 +387,7 @@ function ProductContent() {
               )}
             />
             {photos.length > 1 ? (
-              <View style={[styles.counter, { backgroundColor: alpha('#000000', 0.55) }]}>
+              <View style={[styles.counter, { backgroundColor: alpha(brand.visor, 0.55) }]}>
                 <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>{imgIdx + 1}/{photos.length}</Text>
               </View>
             ) : null}
@@ -755,7 +755,7 @@ function ProductContent() {
 
       {/* ── Visor de fotos (zoom de la Parte 32) ── */}
       <Modal visible={viewerOpen} transparent animationType="none" onRequestClose={() => setViewerOpen(false)} statusBarTranslucent>
-        <View style={{ flex: 1, backgroundColor: '#000000' }}>
+        <View style={{ flex: 1, backgroundColor: brand.visor }}>
           <FlatList
             ref={viewerListRef}
             data={photos}

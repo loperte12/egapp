@@ -114,7 +114,7 @@ export function PhotoGallery({
       <GalleryDots total={urls.length} activeIndex={activa} />
 
       {urls.length > 1 ? (
-        <View style={[styles.contador, { backgroundColor: alpha('#000000', 0.55) }]}>
+        <View style={[styles.contador, { backgroundColor: alpha(brand.visor, 0.55) }]}>
           <Text style={styles.contadorTxt}>{activa + 1}/{urls.length}</Text>
         </View>
       ) : null}

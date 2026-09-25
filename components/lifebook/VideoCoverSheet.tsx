@@ -208,7 +208,7 @@ const s = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.62)', paddingHorizontal: espaciado.e5, paddingVertical: 1,
   },
   thumbTimeText: { color: brand.white, fontSize: tipografia.nota, fontWeight: peso.maximo },
-  preview: { width: 170, height: 226, borderRadius: radios.md, borderWidth: trazo.fino, backgroundColor: '#000000' },
+  preview: { width: 170, height: 226, borderRadius: radios.md, borderWidth: trazo.fino, backgroundColor: brand.visor },
   confirm: { borderRadius: radios.md, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e16 },
   confirmText: { color: brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo },
 });

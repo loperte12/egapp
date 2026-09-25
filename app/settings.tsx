@@ -16,7 +16,7 @@ import {
   ArrowLeft, Ban, Bell, Check, ChevronRight, Clock, Eye, FileWarning, Flag, Globe, Headset,
   HelpCircle, Languages, LogOut, Mail, MapPin, Moon, Phone, Siren, Type, X,
 } from 'lucide-react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import {alpha, brand, espaciado, neutro, peso, radios, tipografia, useTheme} from '@egrouteplan/ui-kit';
 import { Volver } from '../components/Volver';
 import { AuthGate } from '../core/AuthGate';
 import { useSession } from '../state/session';
@@ -413,12 +413,12 @@ const styles = StyleSheet.create({
   },
   topTitle: { fontSize: 17, fontWeight: peso.titulo },
   content: { padding: espaciado.e16, gap: espaciado.e6 },
-  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e8, marginBottom: espaciado.e2 },
+  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: neutro.n600, textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e8, marginBottom: espaciado.e2 },
   group: { borderRadius: radios.lg, overflow: 'hidden' },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12 },
   rowIcon: { width: 32, height: 32, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
   rowLabel: { flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte },
-  rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, color: '#8E8E93', maxWidth: '52%' },
+  rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, color: neutro.n600, maxWidth: '52%' },
   emergency: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8,
     borderRadius: 14, paddingVertical: espaciado.e13, marginTop: espaciado.e10,

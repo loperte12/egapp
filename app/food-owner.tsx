@@ -27,7 +27,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, Camera, Eye, EyeOff, Plus, Trash2, X, XCircle } from 'lucide-react-native';
-import { alpha, altura, espaciado, FormField, PrimaryButton, radios, ScreenHeader, Sheet, Tactil, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {FormField, PrimaryButton, ScreenHeader, Sheet, Tactil, alpha, altura, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodOwnerMe, SPICE_LABEL, SPICE_ICON, SIDES_MAX, type SpiceLevel } from '../api/food';
 import { formatXAF } from '../utils/formatHelpers';
 import { foodHoursError } from '../utils/foodHours';
@@ -872,7 +872,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
   const { colors } = useTheme();
   const row = (
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e5 }}>
-      {ok ? <BadgeCheck size={16} color={brand.success} /> : <XCircle size={16} color="#CBD5E1" />}
+      {ok ? <BadgeCheck size={16} color={brand.success} /> : <XCircle size={16} color={neutro.n400} />}
       <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
         <Text style={{ fontSize: tipografia.caption, fontWeight: peso.medio, color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
         {hint ? <Text style={{ fontSize: 10.5, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}

@@ -29,7 +29,7 @@ import { formatXAF } from '../utils/formatHelpers';
 const CAT_ORDER = ['plato', 'bebida', 'postre'] as const;
 const CAT_LABEL: Record<string, string> = { plato: 'Platos', bebida: 'Bebidas', postre: 'Postres' };
 // Acento del flujo de servicios (naranja), consistente con la home de Comida y
-// Ecomerse. Nota DS: migración a token del theme (secondary #FF7D00) sería un
+// Ecomerse. Nota DS: migración a token del theme (secondary el naranja de servicios) sería un
 // repintado global del marketplace — pendiente como ronda de design system.
 const ACCENT = brand.primary; // A1: la acción avanza en azul
 

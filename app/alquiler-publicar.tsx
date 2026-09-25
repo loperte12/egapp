@@ -18,7 +18,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { ImageIcon, X } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {EmptyState, FormField, GhostButton, InlineError, PrimaryButton, ScreenHeader, alpha, brand, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { rentalApi, type LandlordMe, type RentalProperty, type RentalCatalog } from '../api/rental';
 import { formatXAF } from '../utils/formatHelpers';
@@ -286,7 +286,7 @@ export default function AlquilerPublicarScreen() {
           <View style={[s.planBanner, { backgroundColor: colors.textPrimary }]}>
             <View style={{ flex: 1 }}>
               <Text style={{ color: brand.white, fontSize: 15, fontWeight: peso.fuerte }}>Plan actual: {planLabel}</Text>
-              <Text style={{ color: '#94a3b8', fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
+              <Text style={{ color: neutro.n600, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 {activeProps}/{plan.properties} propiedades · {photos.length}/{plan.photos} fotos
                 {landlord?.verificationLevel ? ` · Nivel ${landlord.verificationLevel}` : ''}
               </Text>

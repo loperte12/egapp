@@ -724,7 +724,7 @@ function QrModal({ visible, egId, onClose }: { visible: boolean; egId: string; o
             <Pressable onPress={onClose} hitSlop={10}><X size={20} color={colors.textSecondary} /></Pressable>
           </View>
           <Text style={[styles.qrSub, { color: colors.textSecondary }]}>Escanea para seguirme en EG Route Plan</Text>
-          <View style={styles.qrBox}><QRCode value={egId} size={168} color="#10202E" backgroundColor={brand.white} /></View>
+          <View style={styles.qrBox}><QRCode value={egId} size={168} color={colors.textPrimary} backgroundColor={brand.white} /></View>
           <Text style={[styles.qrId, { color: colors.textPrimary }]}>{egId}</Text>
           <Text style={[styles.qrHint, { color: colors.textSecondary }]}>Tu EG Route Plan ID es único y no se puede cambiar.</Text>
         </View>

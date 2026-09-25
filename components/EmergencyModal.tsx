@@ -1,7 +1,7 @@
 /**
  * EmergencyModal — acción rápida de emergencia: marcación directa a
  * Policía / Hospital / Taxi de emergencia (Linking tel:).
- * Todo el componente usa el ROJO crítico (#F53F3F) según la semántica estricta.
+ * Todo el componente usa el ROJO crítico (el rojo critico) según la semántica estricta.
  */
 
 import React from 'react';

@@ -12,7 +12,7 @@ import {
   ActivityIndicator, Alert, Image, KeyboardAvoidingView, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';import { Check, Clock, ImagePlus, Link2, Lock, Globe, Users, Trash2, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {alpha, brand, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import type { UserStatus } from '../../api/status';
 import { STATUS_TEXT_MAX, VISIBILITY_OPTIONS } from '../../constants/status';
 import { statusBgColors } from '../../constants/status';
@@ -387,7 +387,7 @@ function PreviewPhoto({ uri }: { uri: string }) {
       {natural ? (
         <Image source={{ uri }} style={StyleSheet.absoluteFill} resizeMode={clamped ? 'contain' : 'cover'} />
       ) : (
-        <View style={styles.previewPhotoLoading}><ActivityIndicator color="#8E8E93" size="small" /></View>
+        <View style={styles.previewPhotoLoading}><ActivityIndicator color={neutro.n600} size="small" /></View>
       )}
     </View>
   );

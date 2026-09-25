@@ -18,7 +18,7 @@ export default function LifeBookScan() {
   const router = useRouter();
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#000000', paddingTop: insets.top }}>
+    <View style={{ flex: 1, backgroundColor: brand.visor, paddingTop: insets.top }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10 }}>
         <Pressable onPress={() => router.back()} hitSlop={8} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={brand.white} />

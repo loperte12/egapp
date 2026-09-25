@@ -13,7 +13,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import { espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
+import {espaciado, neutro, peso, radios, tipografia, trazo} from '@egrouteplan/ui-kit';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SERVICES, type ServiceItem } from '../constants/data';
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
   },
   label: { fontSize: tipografia.micro, fontWeight: peso.maximo, textAlign: 'center', lineHeight: 13, paddingHorizontal: espaciado.e2 },
-  comingSoon: { fontSize: tipografia.sello, fontWeight: peso.maximo, color: '#86909C', letterSpacing: 0.2, textTransform: 'uppercase' },
+  comingSoon: { fontSize: tipografia.sello, fontWeight: peso.maximo, color: neutro.n600, letterSpacing: 0.2, textTransform: 'uppercase' },
   moreBlock: {
     marginTop: espaciado.e16,
     borderRadius: radios.lg,

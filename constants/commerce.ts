@@ -5,7 +5,7 @@
  * de modo que la app y el formulario nunca digan cosas distintas.
  */
 import type { LbCondition, LbPayMethod, LbPriceMode, LbProductStatus, LbServiceType, LbStockMode } from '../api/commerce';
-import { brand } from '@egrouteplan/ui-kit';
+import {brand, neutro} from '@egrouteplan/ui-kit';
 
 /** Tipos de publicación (el «Life Services» de la hoja de ruta). */
 export const LB_SERVICE_TYPES: { id: LbServiceType; label: string; icon: string; action: string; hint: string }[] = [
@@ -131,7 +131,7 @@ export const LB_TONE_COLOR: Record<'ok' | 'wait' | 'bad' | 'off', string> = {
   ok: brand.success,
   wait: brand.secondary,
   bad: brand.danger,
-  off: '#86909C',
+  off: neutro.n600,
 };
 
 export type LbProductAction = 'hide' | 'activate' | 'sold_out' | 'draft' | 'publish';

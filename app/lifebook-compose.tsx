@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {alpha, brand, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Globe, ImagePlus, Lock, MapPin, Package, Send, Users, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { authApi } from '../api/auth';
@@ -405,12 +405,12 @@ const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 },
   publishBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 74, alignItems: 'center' },
-  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: '#86909C', letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
+  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: neutro.n600, letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
   textArea: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, fontSize: 15, minHeight: 110, textAlignVertical: 'top' },
   input: { borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
   counter: { fontSize: 10.5, textAlign: 'right', marginTop: espaciado.e3 },
   photoRow: { flexDirection: 'row', gap: espaciado.e8, flexWrap: 'wrap' },
-  photo: { width: 74, height: 74, borderRadius: radios.md, backgroundColor: '#EEE' },
+  photo: { width: 74, height: 74, borderRadius: radios.md, backgroundColor: neutro.n200 },
   photoX: { position: 'absolute', top: -6, right: -6, borderRadius: 10, width: 20, height: 20, alignItems: 'center', justifyContent: 'center' },
   coverBadge: { position: 'absolute', bottom: 4, left: 4, backgroundColor: 'rgba(0,0,0,0.6)', color: brand.white, fontSize: 9, fontWeight: peso.titulo, borderRadius: 6, overflow: 'hidden', paddingHorizontal: espaciado.e5, paddingVertical: 1 },
   addPhoto: { width: 74, height: 74, borderRadius: radios.md, borderWidth: trazo.fino, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', gap: espaciado.e2 },

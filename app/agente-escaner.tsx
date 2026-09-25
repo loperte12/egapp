@@ -68,7 +68,7 @@ function Contenido() {
   const titulo = paso === 'pickup' ? 'Recogida del paquete' : 'Entrega al comprador';
 
   return (
-    <View style={[styles.root, { backgroundColor: '#000000', paddingTop: insets.top }]}>
+    <View style={[styles.root, { backgroundColor: brand.visor, paddingTop: insets.top }]}>
       <View style={[styles.header, { borderBottomColor: 'rgba(255,255,255,0.15)' }]}>
         <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel="Volver">
           <ArrowLeft size={22} color={brand.white} />

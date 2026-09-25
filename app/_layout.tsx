@@ -4,7 +4,7 @@
  *
  * ── EL DESTELLO BLANCO (arreglado el 2026-09-12, y por qué estaba) ─────────────
  * Medido con pantallazos al arrancar en modo oscuro: los dos primeros fotogramas salían con **luma
- * 246 de 255** (casi blanco) y el resto con 40 (la app oscura). Ese 246 es exactamente `#F5F7FA`, que
+ * 246 de 255** (casi blanco) y el resto con 40 (la app oscura). Ese 246 es exactamente `el casi blanco`, que
  * era el `backgroundColor` de `app.json` y el `android:windowBackground` del tema nativo: Android pinta
  * la ventana con ese color **desde que arranca la actividad hasta que la app dibuja**. En luz no se
  * notaba (claro sobre claro); en oscuro era un fogonazo.

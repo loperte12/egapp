@@ -30,7 +30,7 @@ import { useStatusStore } from '../state/statusStore';
 import StatusRingAvatar from './status/StatusRingAvatar';
 import StatusChip from './status/StatusChip';
 import StatusDetailModal from './status/StatusDetailModal';
-import { brand, espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
+import {brand, espaciado, neutro, peso, radios, tipografia, trazo} from '@egrouteplan/ui-kit';
 
 /** Altura del banner (25 % de la pantalla, acotada). */
 const BANNER_H_RATIO = 0.25;
@@ -114,7 +114,7 @@ export default function SocialHomeHeader({
   const isDriver = role === 'DRIVER';
   const hasSessionIdentity = isAuthenticated && (avatarUrl || displayName);
   const profileCover = coverUrl ? absUrl(coverUrl) : null;
-  const fadeTo = isDark ? '#0B1220' : '#E7EDF4';
+  const fadeTo = isDark ? colors.shadow : neutro.n200;
   const bannerH = homeBannerHeight(winH);
   const showAd = !!ad && isAdVisible;
   const nameTint = nameColor ?? (isDriver ? brand.white : brand.white);
@@ -130,8 +130,8 @@ export default function SocialHomeHeader({
             <Svg height="100%" width="100%">
               <Defs>
                 <SvgLinearGradient id="profBg" x1="0" y1="0" x2="1" y2="1">
-                  <Stop offset="0" stopColor={isDark ? '#16202E' : '#DFEAF2'} />
-                  <Stop offset="1" stopColor={isDark ? '#0F1620' : '#F6EEDC'} />
+                  <Stop offset="0" stopColor={isDark ? colors.textPrimary : '#DFEAF2'} />
+                  <Stop offset="1" stopColor={isDark ? colors.shadow : '#F6EEDC'} />
                 </SvgLinearGradient>
               </Defs>
               <Rect x="0" y="0" width="100%" height="100%" fill="url(#profBg)" />

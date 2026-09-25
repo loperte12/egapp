@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowLeft, Bell, Clock, Eye, Globe, Heart, Lock, Plus, Search, Store, Users,
 } from 'lucide-react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {alpha, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { useStatusStore } from '../state/statusStore';
 import StatusRingAvatar from '../components/status/StatusRingAvatar';
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   retry: { borderRadius: radios.md, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
   card: { marginHorizontal: espaciado.e16, borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e14 },
   groupTitle: {
-    fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 1, color: '#8E8E93',
+    fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 1, color: neutro.n600,
     textTransform: 'uppercase', marginTop: espaciado.e18, marginBottom: espaciado.e6, marginHorizontal: espaciado.e18,
   },
   actionBtn: { flex: 1, alignItems: 'center', borderRadius: radios.md, paddingVertical: espaciado.e11 },

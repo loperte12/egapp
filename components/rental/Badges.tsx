@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Badge } from './Badge';
-import { brand } from '@egrouteplan/ui-kit';
+import {brand, neutro} from '@egrouteplan/ui-kit';
 
 export function FeaturedBadge({ size = 'normal' }: { size?: 'normal' | 'small' }) {
   return (
@@ -57,8 +57,8 @@ const getVerificationConfig = (level: number) => {
     default:
       return {
         label: 'Teléfono',
-        backgroundColor: '#e2e8f0',
-        textColor: '#334155',
+        backgroundColor: neutro.n300,
+        textColor: neutro.n900,
         accessibilityLabel: 'Anunciante con teléfono registrado',
       };
   }

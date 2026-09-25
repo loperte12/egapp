@@ -17,7 +17,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Eye, Flag, Heart, MapPin, ShieldCheck, ShoppingCart, Star } from 'lucide-react-native';
-import { useTheme, alpha, espaciado, peso, tipografia, radios, trazo, Sheet, EstadoDinero, ilustracion, Precio, ScreenHeader, Tactil } from '@egrouteplan/ui-kit';
+import {EstadoDinero, Precio, ScreenHeader, Sheet, Tactil, alpha, espaciado, ilustracion, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseProduct, EcomerseProductVariant } from '../api/ecomerse';
 import { useAccionesProducto } from '../components/ecomerse/useAccionesProducto';
 import SelectorDeVariante, { type Eleccion, type ModoSelector } from '../components/ecomerse/SelectorDeVariante';
@@ -687,7 +687,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   /** Fila de acciones: antes era la barra entera; ahora la nota va arriba y esto debajo. */
   acciones: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
   iconCol: { alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e2 },
-  /** Añadir: secundaria de contorno. Antes era un bloque relleno ('#FFD8C4') que pesaba como el CTA. */
+  /** Añadir: secundaria de contorno. Antes era un bloque relleno (neutro.n300) que pesaba como el CTA. */
   cartBtn: { borderRadius: radios.md, borderWidth: trazo.base, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e16, alignItems: 'center' },
   /** Comprar: la única acción dominante. Crece para quedarse con el espacio sobrante. */
   buyBtn: { flex: 1, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center' },

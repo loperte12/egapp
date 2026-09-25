@@ -27,7 +27,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
-import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {alpha, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Clapperboard, ImagePlus, Mic, ShoppingBag, Upload, Video } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { authApi } from '../api/auth';
@@ -645,9 +645,9 @@ const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 },
   publishBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 76, alignItems: 'center' },
-  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: '#86909C', letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
+  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: neutro.n600, letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
   dropZone: { borderRadius: radios.lg, borderWidth: trazo.base, borderStyle: 'dashed', paddingVertical: espaciado.e26, paddingHorizontal: espaciado.e16, alignItems: 'center' },
-  coverPreview: { width: 84, height: 84, borderRadius: 14, backgroundColor: '#EEE' },
+  coverPreview: { width: 84, height: 84, borderRadius: 14, backgroundColor: neutro.n200 },
   photoX: { position: 'absolute', top: -6, right: -6, width: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   coverAdd: { borderRadius: 14, borderWidth: trazo.fino, borderStyle: 'dashed', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, alignItems: 'center', gap: espaciado.e4 },
   input: { borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },

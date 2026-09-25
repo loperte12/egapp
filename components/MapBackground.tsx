@@ -29,7 +29,7 @@ import {
 } from '../packages/map';
 import { useTheme } from '../theme/ThemeContext';
 import { ISLAND_CENTER, ISLAND_ZOOM } from '../constants/geo';
-import { brand, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
+import {brand, espaciado, neutro, peso, radios, tipografia} from '@egrouteplan/ui-kit';
 
 const LOAD_TIMEOUT_MS = 12000;
 
@@ -108,14 +108,14 @@ const MapBackground = forwardRef<EgMapViewHandle, MapBackgroundProps>(function M
       </EgMapView>
 
       {!ready && !timedOut && (
-        <View style={[styles.overlay, { backgroundColor: isDark ? '#0B1220' : '#E9EEF4' }]} pointerEvents="none">
+        <View style={[styles.overlay, { backgroundColor: isDark ? colors.shadow : neutro.n200 }]} pointerEvents="none">
           <ActivityIndicator size="large" color={colors.primary} />
           <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontSize: tipografia.body }}>Cargando mapa…</Text>
         </View>
       )}
 
       {timedOut && (
-        <View style={[styles.overlay, { backgroundColor: isDark ? '#0B1220' : '#E9EEF4' }]}>
+        <View style={[styles.overlay, { backgroundColor: isDark ? colors.shadow : neutro.n200 }]}>
           <MapPin size={26} color={colors.danger} />
           <Text style={[styles.errTitle, { color: colors.textPrimary }]}>No se pudo cargar el mapa</Text>
           <Text style={[styles.errHint, { color: colors.textSecondary }]}>

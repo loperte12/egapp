@@ -21,7 +21,7 @@ import { Image } from 'expo-image';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { runOnJS } from 'react-native-reanimated';
 import { Heart, MoreHorizontal, Play } from 'lucide-react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import {alpha, espaciado, neutro, peso, radios, tipografia, useTheme} from '@egrouteplan/ui-kit';
 import { LB_CARD_DEFAULT_RATIO, type LbPostCard } from '../../api/lifebook';
 import { lbXaf } from '../../constants/lifebook';
 import { brand } from '@egrouteplan/ui-kit';
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   socialRow: { flexDirection: 'row', alignItems: 'center' },
   socialBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, paddingHorizontal: espaciado.e4, paddingVertical: espaciado.e2 },
   heartPop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' },
-  socialN: { color: '#8A8F99', fontSize: tipografia.micro, fontWeight: peso.medio, marginLeft: espaciado.e3 },
+  socialN: { color: neutro.n600, fontSize: tipografia.micro, fontWeight: peso.medio, marginLeft: espaciado.e3 },
   chip: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2 },
   chipText: { color: brand.white, fontSize: 10.5, fontWeight: peso.maximo },
   chipTL: { top: 6, left: 6 },

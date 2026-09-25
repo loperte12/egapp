@@ -835,7 +835,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                   {inviteCode.code}
                 </Text>
                 <View style={{ backgroundColor: brand.white, padding: espaciado.e14, borderRadius: radios.lg, marginTop: espaciado.e12 }}>
-                  <QRCode value={inviteCode.link} size={170} color="#10202E" backgroundColor={brand.white} />
+                  <QRCode value={inviteCode.link} size={170} color={colors.textPrimary} backgroundColor={brand.white} />
                 </View>
                 {/* Antes este texto decía que el código valía «mientras el grupo exista».
                     Ya no es verdad: caduca (7 días) y además puede tener tope de entradas.

@@ -15,7 +15,7 @@ import {
   ArrowLeft, BadgeCheck, Banknote, Box, Bus, Camera, CarFront, CheckCircle2, ChevronDown, ChevronUp, Compass, Flag, MessageCircle, Navigation, Phone, ShieldCheck, Star, Tag,
   Users, User, UserRound, MapPin, Siren, Volume2, VolumeX, X,
 } from 'lucide-react-native';
-import { alpha, altura, CameraCapture, elevation, espaciado, GhostButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {CameraCapture, GhostButton, alpha, altura, elevation, espaciado, neutro, peso, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import EmergencyModal from '../components/EmergencyModal';
 import DriverHomeSheet, { type HomeTab } from '../components/DriverHomeSheet';
 import { EgMapView, EgCamera, EgMarkers, EgRoutePolyline, type EgMapViewHandle, type Coord } from '../packages/map';
@@ -1128,7 +1128,7 @@ export default function ConductorScreen() {
       {driverStatus === 'approved' && !online && workMode !== 'intercity' && null}
 
       {selfieOpen && (
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: '#000000', zIndex: 20 }]}>
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: brand.visor, zIndex: 20 }]}>
           <CameraCapture variant="selfie" instruction="Pon tu cara dentro del óvalo, con buena luz y sin gorra ni gafas" onCapture={async (photo) => {
             setBusy(true); setSelfieErr(null);
             try {
@@ -1357,7 +1357,7 @@ export default function ConductorScreen() {
                     accessibilityLabel={resting ? 'Volver a trabajar' : 'Descansar (sigues recibiendo solicitudes)'}
                     style={[s.restPill, { borderColor: 'rgba(255,255,255,0.22)', backgroundColor: resting ? 'rgba(245,166,35,0.9)' : 'rgba(15,20,28,0.45)' }]}
                   >
-                    {busy ? <ActivityIndicator size="small" color={brand.white} /> : <Text style={{ color: resting ? '#141414' : 'rgba(255,255,255,0.9)', fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+                    {busy ? <ActivityIndicator size="small" color={brand.white} /> : <Text style={{ color: resting ? colors.shadow : 'rgba(255,255,255,0.9)', fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                       {resting ? 'Volver a trabajar' : '☕ Descansar'}
                     </Text>}
                   </Pressable>
@@ -1528,7 +1528,7 @@ export default function ConductorScreen() {
                       accessibilityLabel={resting ? 'Volver a trabajar (sin selfie)' : 'Descansar (sigues recibiendo solicitudes)'}
                       style={[s.dvBtn, { backgroundColor: resting ? brand.warning : alpha(colors.card, 0.92), borderColor: resting ? brand.warning : colors.border }]}
                     >
-                      {busy ? <ActivityIndicator size="small" color={resting ? '#141414' : colors.textSecondary} /> : <Text style={{ fontSize: 17, color: resting ? '#141414' : colors.textSecondary }}>☕</Text>}
+                      {busy ? <ActivityIndicator size="small" color={resting ? colors.shadow : colors.textSecondary} /> : <Text style={{ fontSize: 17, color: resting ? colors.shadow : colors.textSecondary }}>☕</Text>}
                     </Pressable>
                   </View>
 
@@ -1665,7 +1665,7 @@ export default function ConductorScreen() {
                       style={[s.dvMain, {
                         backgroundColor: leg === 'approach' && (navKmLeft ?? 1) < 0.08
                           ? brand.success
-                          : walletRide ? (rideArrived ? '#8A8F98' : brand.warning) : brand.danger,
+                          : walletRide ? (rideArrived ? neutro.n600 : brand.warning) : brand.danger,
                       }, busy && { opacity: 0.6 }]}
                     >
                       {leg === 'approach' && (navKmLeft ?? 1) < 0.08 ? (
@@ -1823,7 +1823,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
           {/* Cajas del código */}
           <View style={pps.boxRow}>
             {[0, 1, 2, 3].map((i) => (
-              <View key={i} style={[pps.box, { borderColor: err ? brand.danger : digits.length > i ? brand.success : '#E5E7EB' }]}>
+              <View key={i} style={[pps.box, { borderColor: err ? brand.danger : digits.length > i ? brand.success : neutro.n300 }]}>
                 <Text style={{ color: '#111827', fontSize: 26, fontWeight: peso.titulo }}>{digits[i] ?? ''}</Text>
               </View>
             ))}
@@ -1838,7 +1838,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
                 : (
                   <Pressable key={idx} onPress={() => press(k)} disabled={busy || checking}
                     accessibilityRole="button" accessibilityLabel={k === 'DEL' ? 'Borrar dígito' : `Dígito ${k}`}
-                    style={({ pressed }) => [pps.key, { backgroundColor: k === 'DEL' ? '#F53F3F10' : '#F3F4F6', opacity: pressed ? 0.6 : 1 }]}>
+                    style={({ pressed }) => [pps.key, { backgroundColor: k === 'DEL' ? '#F53F3F10' : neutro.n100, opacity: pressed ? 0.6 : 1 }]}>
                     {k === 'DEL'
                       ? <X size={20} color={brand.danger} />
                       : <Text style={{ color: '#111827', fontSize: tipografia.subtitulo, fontWeight: peso.maximo }}>{k}</Text>}
@@ -1921,7 +1921,7 @@ const cfm = StyleSheet.create({
   btnYesTxt: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   btnNo: { width: '100%', borderWidth: trazo.base, borderColor: '#F53F3F55', borderRadius: radios.lg, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e8, backgroundColor: '#F53F3F0C' },
   btnNoTxt: { color: brand.danger, fontSize: tipografia.fino, fontWeight: peso.maximo },
-  note: { color: '#9CA3AF', fontSize: tipografia.micro, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6 },
+  note: { color: neutro.n600, fontSize: tipografia.micro, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6 },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>

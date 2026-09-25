@@ -16,7 +16,7 @@ import { Image } from 'expo-image';
 import * as Crypto from 'expo-crypto';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, PrimaryButton, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
+import {GhostButton, PrimaryButton, alpha, espaciado, neutro, peso, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Banknote, Building2, MapPin, Package, Store, Truck, Wallet } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -34,7 +34,7 @@ import { brand } from '@egrouteplan/ui-kit';
 
 const PAY_ICON: Record<string, React.ReactNode> = {
   cash_on_delivery: <Banknote size={15} color={brand.success} />,
-  likebook_wallet: <Wallet size={15} color="#86909C" />,
+  likebook_wallet: <Wallet size={15} color={neutro.n600} />,
   billing: <Building2 size={15} color={brand.primary} />,
 };
 

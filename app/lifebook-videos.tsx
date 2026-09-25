@@ -505,7 +505,7 @@ export default function LifeBookVideosScreen() {
   const keyExtractor = useCallback((p: LbPostBase) => p.id, []);
 
   return (
-    <View style={[s.root, { backgroundColor: '#000000' }]}>
+    <View style={[s.root, { backgroundColor: brand.visor }]}>
       {loading && posts.length === 0 ? (
         <View style={s.center}>
           <ActivityIndicator color={brand.white} />
@@ -1015,7 +1015,7 @@ function VideoPage({ post, height, isActive, muted, paused, onTogglePause, onLik
   }, [topics, post.city, post.author?.fullName, post.author?.name, title]);
 
   return (
-    <View style={{ height, width: '100%', backgroundColor: '#000000' }}>
+    <View style={{ height, width: '100%', backgroundColor: brand.visor }}>
       <GestureDetector gesture={composed}>
         <View style={conComentarios
           ? {
@@ -1348,7 +1348,7 @@ function fmtCount(n: number): string {
 
 const s = StyleSheet.create({
   root: { flex: 1 },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32, backgroundColor: '#000000' },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e32, backgroundColor: brand.visor },
   topBar: {
     position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5,
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e14,

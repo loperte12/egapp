@@ -14,7 +14,7 @@ import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Camera, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, GhostButton, radios, tipografia, useTheme, trazo} from '@egrouteplan/ui-kit';
+import {GhostButton, alpha, brand, espaciado, neutro, radios, tipografia, trazo, useTheme} from '@egrouteplan/ui-kit';
 import { lifebookMediaApi } from '../../../api/lifebook';
 import { pickImagesFromLibrary } from '../../../core/pickImage';
 import { usePublishStore } from '../../../state/commercePublish';
@@ -112,7 +112,7 @@ export default function StepMedia() {
 
 const styles = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
-  thumb: { width: 92, height: 92, borderRadius: radios.md, overflow: 'hidden', backgroundColor: '#eee' },
+  thumb: { width: 92, height: 92, borderRadius: radios.md, overflow: 'hidden', backgroundColor: neutro.n200 },
   del: {
     position: 'absolute', top: 5, right: 5, width: 22, height: 22, borderRadius: radios.full,
     backgroundColor: 'rgba(0,0,0,0.6)', alignItems: 'center', justifyContent: 'center',

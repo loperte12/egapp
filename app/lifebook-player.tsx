@@ -201,7 +201,7 @@ function EpisodePlayerView({ src, title, insets, onClose }: { src: string; title
   };
 
   return (
-    <View style={[styles.videoRoot, { backgroundColor: '#000000' }]}>
+    <View style={[styles.videoRoot, { backgroundColor: brand.visor }]}>
       <CloseBar onClose={onClose} title={title} dark />
 
       {/* `contain`: el episodio entero, sin recortar. Aquí no hay feed que llenar, así que
@@ -364,8 +364,8 @@ function AudioPlayerView({ src, title, cover, insets, onClose }: {
 const styles = StyleSheet.create({
   /* Estilos del EPISODIO (el reproductor de vídeo de publicación ya no existe; éstos son
      los del único reproductor de vídeo que queda). */
-  videoRoot: { flex: 1, backgroundColor: '#000000' },
-  videoBox: { flex: 1, justifyContent: 'center', backgroundColor: '#000000', paddingTop: 46 },
+  videoRoot: { flex: 1, backgroundColor: brand.visor },
+  videoBox: { flex: 1, justifyContent: 'center', backgroundColor: brand.visor, paddingTop: 46 },
   video: { width: '100%', height: '100%' },
   centerPlay: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 3 },
   centerPlayBg: {

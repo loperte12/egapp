@@ -75,6 +75,44 @@ export const brand = {
   warningDark: '#F5B942', // 10,14 · 8,86
   /** Blanco de superficie. Destino de las 554 ocurrencias de blanco escrito a mano. */
   white: '#FFFFFF',
+  /* ---------------------------------------------------------------------------------------------
+     IDENTIDAD DE PRODUCTO — colores que NO son de la paleta de marca y aun así son legítimos.
+     POR QUÉ EXISTEN (auditoría de tokens, H1, 25/09/2026): en la app había tres familias de color
+     que no eran ni marca ni neutro, y se escribían a mano en 14 ficheros:
+       · VIOLETA (#8B5CF6 / #7C3AED) — el acento de lifebook: grupos, vídeo, mapas, hojas de driver.
+       · ROSA    (#E0439A) — el acento SOCIAL: comercio, cultura, podcast, música, disputa.
+       · NEGRO   (#000000) — el fondo de los visores a pantalla completa (vídeo, escáner, fotos).
+     Decisión de Bernardo (25/09): NO son accidentes, son identidad → entran como tokens de marca.
+     Se unifican a UNO por familia: el violeta tenía 5 valores distintos (#8B5CF6, #7C3AED, #B57BFF,
+     #7B4BE0, #C08BFF) y el rosa 3 (#E0439A, #E0397B, #FF7BAC) — el mismo color a ojos del usuario.
+     `lifebookFuerte` es la variante oscura, para cuando el violeta va sobre fondo claro.
+     --------------------------------------------------------------------------------------------- */
+  lifebook: '#8B5CF6',
+  lifebookFuerte: '#7C3AED',
+  social: '#E0439A',
+  /** Fondo de los visores a pantalla completa. NO es `shadow`: sombra es un valor de elevación. */
+  visor: '#000000',
+  /* ---------------------------------------------------------------------------------------------
+     DECORATIVO — colores de ADORNO, no de semántica. No significan estado ni marca: son el color
+     de un avatar, un degradado de cabecera, el fondo de una tarjeta de diagnóstico.
+     POR QUÉ EXISTEN: en la auditoría aparecieron 17 colores de un solo uso a más de 20/441 de
+     cualquier peldaño, casi todos en `diagnostics.tsx` y `edit-profile.tsx`. Unificarlos al rojo
+     o al verde de estado sería un ERROR semántico: un avatar rosa no es un error.
+     REGLA: si el color comunica algo (estado, marca, categoría), NO va aquí.
+     --------------------------------------------------------------------------------------------- */
+  decoRosa: '#FFB3B3',
+  /** Variante clara de `decoRosa`: fondos y rellenos de adorno. */
+  decoRosaClaro: '#FFD2D2',
+  decoMenta: '#ADFADE',
+  decoArena: '#F6EEDC',
+  /** Ámbar suave, distinto del `warning` de aviso. */
+  decoAmbar: '#FFE08A',
+  /** Azul cielo claro: extremo claro del degradado de portada. */
+  decoCielo: '#DFEAF2',
+  /** Rosa fuerte de adorno (distinto de `social`: es decoración, no categoría). */
+  decoRosaFuerte: '#FF7BAC',
+  /** Violeta claro de adorno (variante clara de `lifebook`). */
+  decoVioletaClaro: '#B57BFF',
 } as const;
 
 export interface ThemeColors {
@@ -108,6 +146,21 @@ export interface ThemeColors {
   neutralDark: string;
   warningDark: string;
   white: string;
+  /** Identidad de producto: acento de lifebook y de lo social. Ver el bloque en `brand`. */
+  lifebook: string;
+  lifebookFuerte: string;
+  social: string;
+  /** Fondo de visores a pantalla completa (vídeo, escáner). */
+  visor: string;
+  /** Adorno sin semántica (avatares, degradados, diagnósticos). Ver el bloque en `brand`. */
+  decoRosa: string;
+  decoRosaClaro: string;
+  decoMenta: string;
+  decoArena: string;
+  decoAmbar: string;
+  decoCielo: string;
+  decoRosaFuerte: string;
+  decoVioletaClaro: string;
   textPrimary: string;
   textSecondary: string;
   background: string;

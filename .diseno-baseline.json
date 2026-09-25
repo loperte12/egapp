@@ -1,6 +1,6 @@
 {
   "total": {
-    "hex": 189,
+    "hex": 126,
     "fontSize": 360,
     "borderRadius": 390,
     "fontWeight": 0,
@@ -10,7 +10,7 @@
   },
   "porArchivo": {
     "app/agente-escaner.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 1,
       "borderRadius": 1,
       "fontWeight": 0,
@@ -46,7 +46,7 @@
       "precioFigura": 0
     },
     "app/alquiler-publicar.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 8,
       "borderRadius": 7,
       "fontWeight": 0,
@@ -109,7 +109,7 @@
       "precioFigura": 0
     },
     "app/conductor.tsx": {
-      "hex": 16,
+      "hex": 8,
       "fontSize": 19,
       "borderRadius": 11,
       "fontWeight": 0,
@@ -154,7 +154,7 @@
       "precioFigura": 0
     },
     "app/ecomerse-detail.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 0,
       "borderRadius": 0,
       "fontWeight": 0,
@@ -190,7 +190,7 @@
       "precioFigura": 0
     },
     "app/ecomerse-planes.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 0,
       "borderRadius": 0,
       "fontWeight": 0,
@@ -235,7 +235,7 @@
       "precioFigura": 0
     },
     "app/edit-profile.tsx": {
-      "hex": 6,
+      "hex": 3,
       "fontSize": 5,
       "borderRadius": 5,
       "fontWeight": 0,
@@ -262,7 +262,7 @@
       "precioFigura": 4
     },
     "app/food-menu.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 3,
       "borderRadius": 5,
       "fontWeight": 0,
@@ -280,7 +280,7 @@
       "precioFigura": 0
     },
     "app/food-owner.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 8,
       "borderRadius": 5,
       "fontWeight": 0,
@@ -289,7 +289,7 @@
       "precioFigura": 1
     },
     "app/food-rider.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 6,
       "borderRadius": 9,
       "fontWeight": 0,
@@ -397,7 +397,7 @@
       "precioFigura": 0
     },
     "app/lifebook-chat/[id].tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 13,
       "borderRadius": 11,
       "fontWeight": 0,
@@ -406,7 +406,7 @@
       "precioFigura": 0
     },
     "app/lifebook-checkout.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 0,
       "borderRadius": 3,
       "fontWeight": 0,
@@ -415,7 +415,7 @@
       "precioFigura": 0
     },
     "app/lifebook-compose.tsx": {
-      "hex": 2,
+      "hex": 0,
       "fontSize": 3,
       "borderRadius": 3,
       "fontWeight": 0,
@@ -442,7 +442,7 @@
       "precioFigura": 0
     },
     "app/lifebook-group-create.tsx": {
-      "hex": 2,
+      "hex": 0,
       "fontSize": 0,
       "borderRadius": 3,
       "fontWeight": 0,
@@ -622,7 +622,7 @@
       "precioFigura": 0
     },
     "app/lifebook-media.tsx": {
-      "hex": 4,
+      "hex": 2,
       "fontSize": 1,
       "borderRadius": 4,
       "fontWeight": 0,
@@ -667,7 +667,7 @@
       "precioFigura": 0
     },
     "app/lifebook-messages.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 3,
       "borderRadius": 0,
       "fontWeight": 0,
@@ -694,7 +694,7 @@
       "precioFigura": 0
     },
     "app/lifebook-player.tsx": {
-      "hex": 5,
+      "hex": 2,
       "fontSize": 1,
       "borderRadius": 0,
       "fontWeight": 0,
@@ -712,18 +712,9 @@
       "precioFigura": 0
     },
     "app/lifebook-product/[id].tsx": {
-      "hex": 2,
+      "hex": 0,
       "fontSize": 1,
       "borderRadius": 1,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0
-    },
-    "app/lifebook-scan.tsx": {
-      "hex": 1,
-      "fontSize": 0,
-      "borderRadius": 0,
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
@@ -766,7 +757,7 @@
       "precioFigura": 0
     },
     "app/lifebook-videos.tsx": {
-      "hex": 3,
+      "hex": 0,
       "fontSize": 5,
       "borderRadius": 4,
       "fontWeight": 0,
@@ -847,7 +838,7 @@
       "precioFigura": 0
     },
     "app/profile.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 8,
       "borderRadius": 4,
       "fontWeight": 0,
@@ -883,7 +874,7 @@
       "precioFigura": 0
     },
     "app/settings.tsx": {
-      "hex": 2,
+      "hex": 0,
       "fontSize": 2,
       "borderRadius": 2,
       "fontWeight": 0,
@@ -892,7 +883,7 @@
       "precioFigura": 0
     },
     "app/status.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 2,
       "borderRadius": 2,
       "fontWeight": 0,
@@ -964,7 +955,7 @@
       "precioFigura": 0
     },
     "app/work-planes.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 2,
       "borderRadius": 3,
       "fontWeight": 0,
@@ -988,15 +979,6 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
-    },
-    "app/_layout.tsx": {
-      "hex": 1,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
       "precioFigura": 0
     },
     "components/CalendarPicker.tsx": {
@@ -1027,7 +1009,7 @@
       "precioFigura": 0
     },
     "components/EmergencyModal.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 1,
       "borderRadius": 1,
       "fontWeight": 0,
@@ -1171,7 +1153,7 @@
       "precioFigura": 0
     },
     "components/lifebook/GroupManageSheet.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 1,
       "borderRadius": 5,
       "fontWeight": 0,
@@ -1198,7 +1180,7 @@
       "precioFigura": 0
     },
     "components/lifebook/OrderCardEnChat.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 6,
       "borderRadius": 1,
       "fontWeight": 0,
@@ -1225,7 +1207,7 @@
       "precioFigura": 0
     },
     "components/lifebook/PostCard.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 2,
       "borderRadius": 2,
       "fontWeight": 0,
@@ -1282,15 +1264,6 @@
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 2,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0
-    },
-    "components/lifebook/publish/StepMedia.tsx": {
-      "hex": 1,
-      "fontSize": 0,
-      "borderRadius": 0,
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
@@ -1360,7 +1333,7 @@
       "precioFigura": 0
     },
     "components/lifebook/VideoCoverSheet.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 0,
       "borderRadius": 5,
       "fontWeight": 0,
@@ -1396,7 +1369,7 @@
       "precioFigura": 0
     },
     "components/MapBackground.tsx": {
-      "hex": 4,
+      "hex": 0,
       "fontSize": 0,
       "borderRadius": 0,
       "fontWeight": 0,
@@ -1414,7 +1387,7 @@
       "precioFigura": 0
     },
     "components/PhotoGallery.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 0,
       "borderRadius": 1,
       "fontWeight": 0,
@@ -1426,15 +1399,6 @@
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 1,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0
-    },
-    "components/rental/Badges.tsx": {
-      "hex": 2,
-      "fontSize": 0,
-      "borderRadius": 0,
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
@@ -1486,7 +1450,7 @@
       "precioFigura": 0
     },
     "components/ServiceGrid.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 1,
       "borderRadius": 1,
       "fontWeight": 0,
@@ -1504,7 +1468,7 @@
       "precioFigura": 0
     },
     "components/SocialHomeHeader.tsx": {
-      "hex": 7,
+      "hex": 3,
       "fontSize": 3,
       "borderRadius": 2,
       "fontWeight": 0,
@@ -1531,7 +1495,7 @@
       "precioFigura": 0
     },
     "components/status/StatusEditorModal.tsx": {
-      "hex": 1,
+      "hex": 0,
       "fontSize": 8,
       "borderRadius": 7,
       "fontWeight": 0,
@@ -1549,7 +1513,7 @@
       "precioFigura": 0
     },
     "core/diagnostics.tsx": {
-      "hex": 5,
+      "hex": 4,
       "fontSize": 1,
       "borderRadius": 1,
       "fontWeight": 0,
@@ -1564,15 +1528,6 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
-    },
-    "constants/commerce.ts": {
-      "hex": 1,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
       "precioFigura": 0
     },
     "constants/lifebook-chat.ts": {

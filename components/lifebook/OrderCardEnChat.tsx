@@ -19,7 +19,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import {alpha, espaciado, neutro, peso, radios, tipografia, useTheme} from '@egrouteplan/ui-kit';
 import { Package } from 'lucide-react-native';
 import type { LbMessageOrderRef } from '../../api/messages';
 import { LB_ORDER_META, lbXaf } from '../../constants/lifebook';
@@ -197,6 +197,6 @@ const styles = StyleSheet.create({
   /** El bloque del ticket: nombre, pago, entrega y nota. */
   ticket: { marginTop: espaciado.e8, paddingTop: espaciado.e6, borderTopWidth: StyleSheet.hairlineWidth, gap: espaciado.e2 },
   ticketLinea: { fontSize: 10.5, lineHeight: 14 },
-  ticketEtiqueta: { color: '#86909C', fontSize: tipografia.nota, fontWeight: peso.titulo },
+  ticketEtiqueta: { color: neutro.n600, fontSize: tipografia.nota, fontWeight: peso.titulo },
   boton: { marginTop: espaciado.e8, borderRadius: radios.full, paddingVertical: espaciado.e7, alignItems: 'center' },
 });
