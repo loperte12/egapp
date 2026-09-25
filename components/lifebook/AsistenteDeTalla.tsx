@@ -19,7 +19,7 @@
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { commerceApi, tallasApi, type LbMeasurements, type LbOptionGroup, type LbProduct, type LbSizeChart, type LbSizeKind, type LbSizeSuggestion } from '../../api/commerce';
 import { NUMEROS_CALZADO, cmDeNumero, numeroDeCm } from '../../constants/tallas';
 import { Chip, ChipRow } from './Chip';
@@ -351,7 +351,7 @@ export default function AsistenteDeTalla({
           onPress={() => { if (!guardando && !guardadas) void guardar(); }}
           disabled={guardando || guardadas}
           accessibilityLabel="Guardar mis medidas"
-          style={[styles.botonPie, { flex: 1, borderWidth: 1.5, borderColor: colors.primary }]}
+          style={[styles.botonPie, { flex: 1, borderWidth: trazo.base, borderColor: colors.primary }]}
         >
           {guardando
             ? <ActivityIndicator size="small" color={colors.primary} />
@@ -376,7 +376,7 @@ export default function AsistenteDeTalla({
 
 const styles = StyleSheet.create({
   ruletas: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10, marginTop: espaciado.e12, marginBottom: espaciado.e4 },
-  tarjeta: { borderWidth: 1.5, borderRadius: radios.md, padding: espaciado.e11, marginTop: espaciado.e12 },
+  tarjeta: { borderWidth: trazo.base, borderRadius: radios.md, padding: espaciado.e11, marginTop: espaciado.e12 },
   usar: { marginTop: espaciado.e10, height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   /** Los botones del pie fijo: la misma altura que los del panel, para que la fila cuadre. */
   botonPie: { height: 46, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e10 },

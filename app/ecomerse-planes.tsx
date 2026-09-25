@@ -14,7 +14,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Check, X } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, ilustracion, Precio, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, ilustracion, Precio, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseProduct, EcomerseShopPlan } from '../api/ecomerse';
 import { billingApi, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
@@ -364,7 +364,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   current: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e16 },
   sectionTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e8 },
   label: { fontSize: tipografia.caption, fontWeight: peso.maximo, color: c.textSecondary },
-  card: { backgroundColor: c.card, borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14 },
+  card: { backgroundColor: c.card, borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14 },
   cardHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e8 },
   cardName: { fontSize: tipografia.body, fontWeight: peso.titulo, color: c.textPrimary },
   /* `cardPrice` y `cardPeriod` se fueron con la primitiva `Precio`: el par cifra+unidad y el
@@ -374,9 +374,9 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   tagCurrentText: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.titulo },
   tagRec: { backgroundColor: 'rgba(255,107,53,0.14)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
   tagRecText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo },
-  prodRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: espaciado.e8 },
-  radio: { width: 18, height: 18, borderRadius: radios.full, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
+  prodRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e8 },
+  radio: { width: 18, height: 18, borderRadius: radios.full, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
   radioDot: { width: 10, height: 10, borderRadius: radios.full },
-  freeBtn: { borderWidth: 1, borderRadius: radios.md, paddingVertical: espaciado.e9, alignItems: 'center', marginBottom: espaciado.e8 },
-  featRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e9, borderBottomWidth: 1 },
+  freeBtn: { borderWidth: trazo.fino, borderRadius: radios.md, paddingVertical: espaciado.e9, alignItems: 'center', marginBottom: espaciado.e8 },
+  featRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e9, borderBottomWidth: trazo.fino },
 });

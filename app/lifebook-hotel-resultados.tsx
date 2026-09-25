@@ -17,7 +17,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { HotelResultCard } from '../components/HotelResultCard';
 import { hotelApi, type HotelRoom, type HotelSearchResult } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
@@ -331,17 +331,17 @@ export default function HotelResultadosScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
+  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: trazo.fino },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: peso.fuerte, lineHeight: 28 },
   titulo: { fontSize: 16.5, fontWeight: peso.maximo },
   sub: { fontSize: tipografia.caption },
-  cambiar: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7 },
+  cambiar: { borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7 },
   cambiarTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e8 },
-  aviso: { margin: espaciado.e14, borderWidth: 1, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
+  aviso: { margin: espaciado.e14, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
   enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
-  vacio: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e14, gap: espaciado.e6 },
+  vacio: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e14, gap: espaciado.e6 },
   vacioTitulo: { fontSize: 14.5, fontWeight: peso.maximo },
   // Barra de filtros y panel: el precio es filtro de primer nivel, va siempre a la vista.
   filtros: {
@@ -349,6 +349,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   // 44 px de alto mínimo: un chip de 33 px se falla con el dedo.
-  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
+  chip: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
   panelFiltro: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e14, borderBottomWidth: StyleSheet.hairlineWidth },
 });

@@ -21,7 +21,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import {
@@ -661,30 +661,30 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center',
   },
   volverFlotanteTxt: { color: brand.white, fontSize: 24, fontWeight: peso.fuerte, lineHeight: 26 },
-  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
+  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: trazo.fino },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: peso.fuerte, lineHeight: 28 },
   titulo: { fontSize: 16.5, fontWeight: peso.maximo },
   sub: { fontSize: tipografia.caption },
   dato: { fontSize: tipografia.body, fontWeight: peso.medio },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  bloque: { borderWidth: 1, borderRadius: 18, padding: espaciado.e12, gap: espaciado.e3 },
+  bloque: { borderWidth: trazo.fino, borderRadius: 18, padding: espaciado.e12, gap: espaciado.e3 },
   etiqueta: { fontSize: 10.5, fontWeight: peso.maximo, letterSpacing: 0.6 },
   linea: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e6 },
   lineaEtq: { fontSize: tipografia.caption, flex: 1 },
   lineaVal: { fontSize: tipografia.body },
   separador: { height: 1, marginVertical: espaciado.e7 },
-  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.control, fontSize: 14.5, marginTop: espaciado.e4 },
+  input: { borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.control, fontSize: 14.5, marginTop: espaciado.e4 },
   metodos: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e8 },
-  chip: { borderWidth: 1, borderRadius: 20, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
+  chip: { borderWidth: trazo.fino, borderRadius: 20, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   chipTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
-  pasoBtn: { width: 34, height: 34, borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  pasoBtn: { width: 34, height: 34, borderWidth: trazo.fino, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   pasoBtnTxt: { fontSize: 18, fontWeight: peso.maximo, lineHeight: 20 },
   pasoVal: { fontSize: 15, fontWeight: peso.maximo, minWidth: 22, textAlign: 'center' },
   aviso: { fontSize: tipografia.caption, marginTop: espaciado.e8, fontWeight: peso.medio },
-  error: { borderWidth: 1, borderRadius: 14, padding: espaciado.e12 },
+  error: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12 },
   pie: {
-    position: 'absolute', left: 0, right: 0, bottom: 0, borderTopWidth: 1,
+    position: 'absolute', left: 0, right: 0, bottom: 0, borderTopWidth: trazo.fino,
     paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
   },
   pieEtq: { fontSize: tipografia.micro },

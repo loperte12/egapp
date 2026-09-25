@@ -15,7 +15,7 @@ import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleS
 import { Image } from 'expo-image';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, FormField, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -341,5 +341,5 @@ const styles = StyleSheet.create({
   },
   preview: { borderWidth: StyleSheet.hairlineWidth, borderRadius: radios.lg, overflow: 'hidden', marginBottom: espaciado.e18 },
   cover: { width: '100%', height: 96 },
-  logo: { width: 52, height: 52, borderRadius: radios.lg, borderWidth: 3 },
+  logo: { width: 52, height: 52, borderRadius: radios.lg, borderWidth: trazo.anillo },
 });

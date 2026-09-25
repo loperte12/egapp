@@ -20,7 +20,7 @@ import * as Clipboard from 'expo-clipboard';
 import { ExpoSpeechRecognitionModule, useSpeechRecognitionEvent } from 'expo-speech-recognition';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { Check, CheckSquare, Clock, Copy, Heart, Mic, MoreHorizontal, Plus, Send, Sparkles, Store, ThumbsUp, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { pickImageFromCamera, pickImageFromLibrary, uriToBase64 } from '../core/pickImage';
@@ -503,7 +503,7 @@ function Contenido() {
           onPress={() => { void nueva(); }}
           hitSlop={10}
           accessibilityLabel="Abrir otra conversación"
-          style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderWidth: 1, borderColor: colors.primary, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 }}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderWidth: trazo.fino, borderColor: colors.primary, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 }}
         >
           <Plus size={15} color={colors.primary} />
           <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Nueva</Text>
@@ -716,10 +716,10 @@ const styles = StyleSheet.create({
     borderRadius: 14, padding: espaciado.e9,
   },
   foto: { width: 54, height: 54, borderRadius: 10 },
-  aviso: { borderWidth: 1, borderRadius: 14, padding: espaciado.e14 },
-  sugerencia: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e9 },
+  aviso: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e14 },
+  sugerencia: { borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e9 },
   input: {
-    flex: 1, maxHeight: 110, borderWidth: 1, borderRadius: radios.md,
+    flex: 1, maxHeight: 110, borderWidth: trazo.fino, borderRadius: radios.md,
     paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body,
   },
   barra: {
@@ -728,9 +728,9 @@ const styles = StyleSheet.create({
   },
   enviar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   /** El botón de adjuntar: al lado de la barra de escribir. */
-  adjuntar: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  adjuntar: { width: 44, height: 44, borderRadius: 22, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
   /** El micro (dictado): mismo tamaño que los otros dos botones de la barra. */
-  micro: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  micro: { width: 44, height: 44, borderRadius: 22, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
   /** La foto que manda la persona: se ve grande, que es lo suyo. */
   fotoGrande: { width: 190, height: 190, borderRadius: radios.md },
 });

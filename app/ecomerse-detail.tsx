@@ -143,7 +143,7 @@ export default function EcomerseDetailScreen() {
           <Pressable onPress={load} style={{ backgroundColor: brand.secondary, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e11, borderRadius: radios.full }}>
             <Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.body }}>Reintentar</Text>
           </Pressable>
-          <Pressable onPress={() => router.back()} style={{ paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e11, borderRadius: radios.full, borderWidth: 1, borderColor: colors.border }}>
+          <Pressable onPress={() => router.back()} style={{ paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e11, borderRadius: radios.full, borderWidth: trazo.fino, borderColor: colors.border }}>
             <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Volver</Text>
           </Pressable>
         </View>
@@ -499,7 +499,7 @@ export default function EcomerseDetailScreen() {
           {ficha.length > 0 && (
             <View style={{ marginTop: espaciado.e18 }}>
               <Text style={s.sectionTitle}>Características</Text>
-              <View style={{ borderRadius: radios.md, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' }}>
+              <View style={{ borderRadius: radios.md, borderWidth: trazo.fino, borderColor: colors.border, overflow: 'hidden' }}>
                 {ficha.map((f, i) => (
                   <View
                     key={f.label}
@@ -639,7 +639,7 @@ export default function EcomerseDetailScreen() {
           style={[s.reportInput, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.textPrimary }]}
         />
         <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
-          <Pressable onPress={() => setReportOpen(false)} style={[s.modalBtn, { borderWidth: 1, borderColor: colors.border }]}>
+          <Pressable onPress={() => setReportOpen(false)} style={[s.modalBtn, { borderWidth: trazo.fino, borderColor: colors.border }]}>
             <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
           <Pressable onPress={sendReport} disabled={reportBusy} style={[s.modalBtn, { backgroundColor: colors.danger, flex: 1 }]}>
@@ -677,20 +677,20 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   tagSoftText: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.maximo },
   title: { fontSize: tipografia.subtitle, fontWeight: peso.maximo, color: c.textPrimary, marginTop: espaciado.e6, lineHeight: 23 },
   metrics: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e12, marginTop: espaciado.e10 },
-  warranty: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginTop: espaciado.e12 },
+  warranty: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e10, marginTop: espaciado.e12 },
   qtyRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e14 },
-  qtyBtn: { width: 34, height: 34, borderRadius: radios.md, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  qtyBtn: { width: 34, height: 34, borderRadius: radios.md, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
   sectionTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e8 },
-  bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e8, borderTopWidth: 1, gap: espaciado.e6 },
+  bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e8, borderTopWidth: trazo.fino, gap: espaciado.e6 },
   /** Nota de alcance de la garantía: encima de las acciones, a sangre dentro de la barra. */
   notaFuera: { textAlign: 'center', fontSize: tipografia.micro },
   /** Fila de acciones: antes era la barra entera; ahora la nota va arriba y esto debajo. */
   acciones: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
   iconCol: { alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e2 },
   /** Añadir: secundaria de contorno. Antes era un bloque relleno ('#FFD8C4') que pesaba como el CTA. */
-  cartBtn: { borderRadius: radios.md, borderWidth: 1.5, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e16, alignItems: 'center' },
+  cartBtn: { borderRadius: radios.md, borderWidth: trazo.base, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e16, alignItems: 'center' },
   /** Comprar: la única acción dominante. Crece para quedarse con el espacio sobrante. */
   buyBtn: { flex: 1, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center' },
-  reportInput: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, minHeight: 90, textAlignVertical: 'top', fontSize: tipografia.body },
+  reportInput: { borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, minHeight: 90, textAlignVertical: 'top', fontSize: tipografia.body },
   modalBtn: { paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e16, borderRadius: radios.md, alignItems: 'center' },
 });

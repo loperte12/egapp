@@ -20,7 +20,7 @@ import {
   ScanLine, Settings, ShoppingBag, ShoppingCart, Siren, Sparkles, StickyNote, Store,
   Ticket, UserCog, UserPlus, UserRound, Utensils, UtensilsCrossed, Wallet, Wrench,
 } from 'lucide-react-native';
-import { alpha, elevation, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, elevation, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { absUrl } from '../api/config';
 import { useMisNegocios, type VerticalNegocio } from '../core/useMisNegocios';
 import { useSoyAgente } from '../core/useSoyAgente';
@@ -125,7 +125,7 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
         <Text style={[styles.groupTitle, { color: colors.secondary }]}>
           {negocios.length > 2 ? `TUS NEGOCIOS (${negocios.length})` : 'TU NEGOCIO'}
         </Text>
-        <View style={[styles.groupCard, { backgroundColor: colors.card, borderColor: alpha(colors.secondary, 0.35), borderWidth: 1 }]}>
+        <View style={[styles.groupCard, { backgroundColor: colors.card, borderColor: alpha(colors.secondary, 0.35), borderWidth: trazo.fino }]}>
           {negocios.map((n, i) => {
             const Icon = iconoDeVerticalDrawer(n.vertical);
             return (

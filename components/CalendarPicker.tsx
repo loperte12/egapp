@@ -20,7 +20,7 @@
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import {
   DOW_SHORT, addDaysIso, dowMondayFirst, isWeekendNight, longDate, monthGrid,
   monthIndex, monthLabel, nightsBetween, nightsList, parseIso, shiftMonth, todayIso, xaf,
@@ -279,7 +279,7 @@ export function CalendarPicker({
               style={({ pressed }) => [
                 styles.cell,
                 { backgroundColor: fondo, opacity: pressed ? 0.7 : 1 },
-                c.iso === hoy && !esEntrada && !esSalida ? { borderColor: colors.primary, borderWidth: 1 } : null,
+                c.iso === hoy && !esEntrada && !esSalida ? { borderColor: colors.primary, borderWidth: trazo.fino } : null,
               ]}
             >
               <Text style={[styles.dia, { color: texto, opacity: c.inMonth ? 1 : 0.4 }]}>{c.day}</Text>
@@ -352,10 +352,10 @@ function Leyenda({ color, texto, colors }: { color: string; texto: string; color
 }
 
 const styles = StyleSheet.create({
-  wrap: { borderWidth: 1, borderRadius: 18, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e10 },
+  wrap: { borderWidth: trazo.fino, borderRadius: 18, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e10 },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e4 },
   headMid: { flex: 1, alignItems: 'center' },
-  nav: { width: 38, height: 38, borderRadius: radios.md, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  nav: { width: 38, height: 38, borderRadius: radios.md, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
   navTxt: { fontSize: 22, fontWeight: peso.maximo, lineHeight: 24 },
   mes: { fontSize: tipografia.subtitle, fontWeight: peso.maximo, textTransform: 'capitalize' },
   cargando: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
   leyendaItem: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 },
   punto: { width: 9, height: 9, borderRadius: 5 },
   leyendaTxt: { fontSize: 10.5 },
-  resumen: { borderTopWidth: 1, paddingTop: espaciado.e10, paddingHorizontal: espaciado.e4, gap: espaciado.e2 },
+  resumen: { borderTopWidth: trazo.fino, paddingTop: espaciado.e10, paddingHorizontal: espaciado.e4, gap: espaciado.e2 },
   resumenTxt: { fontSize: tipografia.body, fontWeight: peso.fuerte },
   resumenSub: { fontSize: tipografia.caption },
   total: { fontSize: 14.5, fontWeight: peso.maximo, marginTop: espaciado.e2 },

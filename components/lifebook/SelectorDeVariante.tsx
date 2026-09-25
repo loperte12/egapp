@@ -30,7 +30,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Minus, Plus, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { absUrl } from '../../api/config';
 import { avisoStockApi, commerceApi, type LbOptionGroup, type LbProduct, type LbProductVariant, type LbSizeChart } from '../../api/commerce';
 import { lbXaf } from '../../constants/lifebook';
@@ -488,14 +488,14 @@ const styles = StyleSheet.create({
   sheet: { borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e24 },
   tiradorZona: { paddingVertical: espaciado.e8, alignItems: 'center' },
   tirador: { width: 44, height: 4, borderRadius: 2 },
-  foto: { width: 92, height: 92, borderRadius: radios.md, borderWidth: 1, overflow: 'hidden' },
+  foto: { width: 92, height: 92, borderRadius: radios.md, borderWidth: trazo.fino, overflow: 'hidden' },
   valores: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e9 },
   colorCaja: { alignItems: 'center', borderRadius: radios.md, padding: espaciado.e5 },
   colorImg: { width: 58, height: 58, borderRadius: 9 },
-  chip: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e13, minHeight: 44, minWidth: 46, alignItems: 'center', justifyContent: 'center' },
-  stepper: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e4, minHeight: 44 },
+  chip: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e13, minHeight: 44, minWidth: 46, alignItems: 'center', justifyContent: 'center' },
+  stepper: { flexDirection: 'row', alignItems: 'center', borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e4, minHeight: 44 },
   stepBtn: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center' },
-  aviso: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1, borderRadius: 10, padding: espaciado.e9, marginTop: espaciado.e8 },
-  secBtn: { flex: 1, height: 46, borderRadius: radios.md, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e8 },
+  aviso: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino, borderRadius: 10, padding: espaciado.e9, marginTop: espaciado.e8 },
+  secBtn: { flex: 1, height: 46, borderRadius: radios.md, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e8 },
   priBtn: { flex: 1.4, height: 46, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e10 },
 });

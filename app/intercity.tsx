@@ -20,7 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowLeft, Route as RouteIcon, Ticket, CheckCircle2, ChevronRight, Crown, BadgeCheck,
 } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { intercityApi, type IcBooking, type IcLocation, type IcTrip, IC_VEHICLE_TYPES, IC_VEHICLE_LABELS } from '../api/intercity';
 import { LazyImage } from '../components/rental/LazyImage';
@@ -494,11 +494,11 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   labelInline: { fontSize: tipografia.caption, fontWeight: peso.maximo, color: c.textSecondary, marginTop: espaciado.e4, alignSelf: 'center' },
   zone: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.primary },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
-  chip: { borderRadius: radios.md, borderWidth: 1.5, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
-  tripCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1.5, borderRadius: 14, padding: espaciado.e14 },
+  chip: { borderRadius: radios.md, borderWidth: trazo.base, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
+  tripCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e14 },
   avatar: { width: 44, height: 44, borderRadius: 22, overflow: 'hidden', backgroundColor: c.surface },
   warnBox: { borderRadius: radios.md, padding: espaciado.e12 },
-  summary: { borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14 },
-  ticketBox: { alignItems: 'center', gap: espaciado.e8, borderWidth: 2, borderRadius: 18, padding: espaciado.e22, width: '100%', borderStyle: 'dashed' },
+  summary: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14 },
+  ticketBox: { alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fuerte, borderRadius: 18, padding: espaciado.e22, width: '100%', borderStyle: 'dashed' },
   err: { color: c.danger, fontSize: tipografia.body, fontWeight: peso.fuerte },
 });

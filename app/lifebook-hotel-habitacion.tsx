@@ -25,7 +25,7 @@ import {
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -524,8 +524,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 40, height: 34, alignItems: 'center', justifyContent: 'center' },
-  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
-  paso: { width: 44, height: 44, borderRadius: 22, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
+  chip: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
+  paso: { width: 44, height: 44, borderRadius: 22, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
   rejilla: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginBottom: espaciado.e10 },
   miniatura: { width: 96, height: 96, borderRadius: radios.md, overflow: 'hidden' },
   foto: { width: '100%', height: '100%' },
@@ -536,5 +536,5 @@ const styles = StyleSheet.create({
     position: 'absolute', right: 4, top: 4, width: 28, height: 28, borderRadius: 14,
     backgroundColor: 'rgba(0,0,0,0.6)', alignItems: 'center', justifyContent: 'center',
   },
-  resumen: { borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e4 },
+  resumen: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e4 },
 });

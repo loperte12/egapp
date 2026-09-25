@@ -19,7 +19,7 @@ import {
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import {
   Banknote, Building2, CheckCircle2, Clock, Eye, Heart, MapPin, MessageCircle, Package, ShoppingCart,
   Plane, ShieldCheck, Ship, Store, Truck, Wallet, X,
@@ -845,7 +845,7 @@ const styles = StyleSheet.create({
     borderRadius: radios.full, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e5,
   },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
-  chip: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
+  chip: { flexDirection: 'row', alignItems: 'center', borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
   attrRow: {
     flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e7,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -853,7 +853,7 @@ const styles = StyleSheet.create({
   notice: { borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e12 },
   shopCard: { flexDirection: 'row', alignItems: 'center', borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e22 },
   shopLogo: { width: 44, height: 44, borderRadius: 22 },
-  followBtn: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7 },
+  followBtn: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7 },
   bottomBar: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
     paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth,
@@ -868,11 +868,11 @@ const styles = StyleSheet.create({
    */
   anadirBtn: {
     alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: espaciado.e7,
-    height: 40, borderRadius: radios.full, borderWidth: 1.5, paddingHorizontal: espaciado.e14, marginTop: espaciado.e12,
+    height: 40, borderRadius: radios.full, borderWidth: trazo.base, paddingHorizontal: espaciado.e14, marginTop: espaciado.e12,
   },
   /** TANDA K: la fila que enseña lo elegido (con la foto del color) y abre el selector. */
   elegirRow: {
-    flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderRadius: radios.md,
+    flexDirection: 'row', alignItems: 'center', borderWidth: trazo.fino, borderRadius: radios.md,
     padding: espaciado.e9, marginTop: espaciado.e12,
   },
   elegirFoto: { width: 40, height: 40, borderRadius: 9 },

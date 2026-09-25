@@ -17,7 +17,7 @@ import React from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Home, Phone, Siren } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { EMERGENCY_CONTACTS } from '../constants/data';
@@ -120,8 +120,8 @@ function EmergenciaContent() {
 
 const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
-  aviso: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1, borderRadius: radios.md, padding: espaciado.e12 },
-  tarjeta: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: 1, borderRadius: 14, padding: espaciado.e12 },
+  aviso: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e12 },
+  tarjeta: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12 },
   icono: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
-  salida: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderWidth: 1, borderRadius: radios.md, paddingVertical: espaciado.e12 },
+  salida: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderWidth: trazo.fino, borderRadius: radios.md, paddingVertical: espaciado.e12 },
 });

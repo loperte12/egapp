@@ -28,7 +28,7 @@ import { Image } from 'expo-image';
 import { Swipeable } from 'react-native-gesture-handler';
 import { useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, altura, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, ChevronRight, Minus, Plus, ShoppingCart, Store, Trash2, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -610,7 +610,7 @@ function CarritoContent() {
                     disabled={sinStock}
                     accessibilityLabel={`Opción ${v.name}`}
                     style={{
-                      flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10,
+                      flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e10,
                       borderColor: activa ? colors.primary : alpha(colors.border, 0.7),
                       backgroundColor: activa ? alpha(colors.primary, 0.08) : colors.surface,
                       opacity: sinStock ? 0.45 : 1,
@@ -649,18 +649,18 @@ const styles = StyleSheet.create({
   /** Área táctil real de la casilla: 44 dp, el mínimo que pide la plataforma. */
   toque: { width: altura.punto, height: altura.punto, alignItems: 'center', justifyContent: 'center' },
   /** El círculo VISIBLE. No se toca: sigue midiendo 21, que es lo que pide el diseño. */
-  casilla: { width: 21, height: 21, borderRadius: 11, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
-  bloque: { borderRadius: 14, borderWidth: 1, padding: espaciado.e10, gap: espaciado.e10 },
+  casilla: { width: 21, height: 21, borderRadius: 11, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
+  bloque: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e10, gap: espaciado.e10 },
   cabeceraTienda: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
   /** Aviso de «no llega a tu zona»: naranja, bajo la cabecera de la tienda. */
   avisoZona: { borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7, marginTop: espaciado.e6 },
   logoTienda: { width: 24, height: 24, borderRadius: radios.md },
   linea: { flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e9, paddingVertical: espaciado.e4 },
   foto: { width: 78, height: 78, borderRadius: 10 },
-  pildora: { alignSelf: 'flex-start', borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, maxWidth: '100%' },
-  paso: { width: 26, height: 26, borderRadius: radios.sm, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  pildora: { alignSelf: 'flex-start', borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, maxWidth: '100%' },
+  paso: { width: 26, height: 26, borderRadius: radios.sm, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
   accionDeslizar: { width: 78, alignItems: 'center', justifyContent: 'center', gap: espaciado.e2, borderRadius: radios.md, marginVertical: espaciado.e4 },
   pie: { paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   ctaPagar: { borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e11, alignItems: 'center', justifyContent: 'center' },
-  accionEditar: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
+  accionEditar: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
 });

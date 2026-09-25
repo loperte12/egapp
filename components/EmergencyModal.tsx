@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
 import { Linking, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Siren, Phone, X, type LucideIcon } from 'lucide-react-native';
 import { EMERGENCY_CONTACTS, type EmergencyContact } from '../constants/data';
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   contactRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: trazo.fino,
     borderRadius: radios.lg,
     padding: espaciado.e12,
     marginBottom: espaciado.e10,

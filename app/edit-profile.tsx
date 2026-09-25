@@ -35,7 +35,7 @@ import {
   Globe, ImagePlus, Link2, Mail, MapPin, Phone, Plus, QrCode, School,
   Sparkles, Store, Trash2, Users, X,
 } from 'lucide-react-native';
-import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { pickImageFromCamera, pickImageFromLibrary } from '../core/pickImage';
 import { authApi, type MeProfile, type ProfileLink, type UpdateProfilePayload, DEFAULT_WIDGETS } from '../api/auth';
@@ -428,7 +428,7 @@ function EditProfileContent() {
                     style={[
                       styles.nameColorDot,
                       { backgroundColor: c.hex, borderColor: active ? colors.primary : colors.border },
-                      active && { transform: [{ scale: 1.18 }], borderWidth: 2 },
+                      active && { transform: [{ scale: 1.18 }], borderWidth: trazo.fuerte },
                     ]}
                   />
                 );
@@ -1381,7 +1381,7 @@ function ModalGrupo({ visible, onAdd, onClose }: {
               style={({ pressed }) => [{
                 flexDirection: 'row' as const, alignItems: 'center' as const, gap: espaciado.e10,
                 backgroundColor: colors.surface, borderRadius: 14, padding: espaciado.e10,
-                borderWidth: 1, borderColor: colors.border,
+                borderWidth: trazo.fino, borderColor: colors.border,
                 opacity: pressed ? 0.8 : 1,
               }]}
             >
@@ -1447,15 +1447,15 @@ const styles = StyleSheet.create({
   fieldLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, marginBottom: espaciado.e6, marginLeft: espaciado.e4 },
   fieldHint: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e5, marginLeft: espaciado.e4, lineHeight: 15 },
   nameColorDot: {
-    width: 30, height: 30, borderRadius: 15, borderWidth: 1,
+    width: 30, height: 30, borderRadius: 15, borderWidth: trazo.fino,
   },
   nameColorReset: {
     borderRadius: radios.full, paddingHorizontal: espaciado.e10, justifyContent: 'center',
-    borderWidth: 1, minHeight: 30,
+    borderWidth: trazo.fino, minHeight: 30,
   },
   statusRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
-    borderRadius: 14, borderWidth: 1, padding: espaciado.e13, marginTop: espaciado.e8,
+    borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e13, marginTop: espaciado.e8,
   },
 
   // Bloque imagen
@@ -1475,7 +1475,7 @@ const styles = StyleSheet.create({
   },
   avatarWrap: {
     position: 'absolute', top: 120 - 42, left: 14,
-    width: 84, height: 84, borderRadius: 42, borderWidth: 3,
+    width: 84, height: 84, borderRadius: 42, borderWidth: trazo.anillo,
     overflow: 'hidden',
   },
   avatarImg: { width: '100%', height: '100%' },
@@ -1502,19 +1502,19 @@ const styles = StyleSheet.create({
 
   // Chip
   chip: {
-    borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8,
+    borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8,
   },
 
   // Biografía
   bioInput: {
-    borderRadius: 14, borderWidth: 1.5, minHeight: 112,
+    borderRadius: 14, borderWidth: trazo.base, minHeight: 112,
     paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: 14.5, fontWeight: peso.medio, lineHeight: 20,
   },
 
   // Enlaces
   addLinkRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
-    borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e11,
+    borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e11,
   },
   linkRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
@@ -1535,7 +1535,7 @@ const styles = StyleSheet.create({
     padding: espaciado.e14, marginTop: espaciado.e14,
   },
   previewAvatar: {
-    width: 64, height: 64, borderRadius: 32, borderWidth: 2,
+    width: 64, height: 64, borderRadius: 32, borderWidth: trazo.fuerte,
     alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
   },
   previewAvatarImg: { width: '100%', height: '100%' },
@@ -1557,6 +1557,6 @@ const styles = StyleSheet.create({
   groupHeader: { fontSize: tipografia.micro, fontWeight: peso.maximo, letterSpacing: 0.5, textTransform: 'uppercase', marginTop: espaciado.e10, marginBottom: espaciado.e2, marginLeft: espaciado.e4 },
   pickRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e4 },
   pickRowTxt: { flex: 1, fontSize: tipografia.body, fontWeight: peso.medio },
-  cityChip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
+  cityChip: { borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   statusPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 },
 });

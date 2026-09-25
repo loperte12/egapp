@@ -31,7 +31,7 @@ import {
   MapPin, Menu, Pencil, Phone, Plus, QrCode, Settings, ShieldCheck, Sparkles, Star, Store, UserPlus, Users,
   UtensilsCrossed, X,
 } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { authApi, type MeProfile } from '../api/auth';
 import { hotelApi } from '../api/hotel';
@@ -592,7 +592,7 @@ function FilaNegocio({ icono, titulo, detalle, nota, onPress }: {
       accessibilityLabel={`${titulo}. ${detalle}${nota ? ` ${nota}` : ''}`}
       style={({ pressed }) => [{
         flexDirection: 'row' as const, alignItems: 'center' as const, gap: espaciado.e11,
-        borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
+        borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
         borderColor: colors.border, backgroundColor: colors.card,
         opacity: pressed ? 0.8 : 1,
       }]}
@@ -624,7 +624,7 @@ function ChipBtn({ label, onPress }: { label: string; onPress: () => void }) {
 }
 
 const chipStyles = StyleSheet.create({
-  chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
+  chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   label: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
 });
 
@@ -896,7 +896,7 @@ function activeTripLabel(status: string): string {
 }
 
 const tripCard = StyleSheet.create({
-  card: { borderRadius: 18, borderWidth: 1.5, padding: espaciado.e14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, marginTop: espaciado.e14 },
+  card: { borderRadius: 18, borderWidth: trazo.base, padding: espaciado.e14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, marginTop: espaciado.e14 },
   iconBox: { width: 40, height: 40, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   title: { fontSize: 14.5, fontWeight: peso.titulo, marginTop: 1 },
   sub: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 },
@@ -918,7 +918,7 @@ const styles = StyleSheet.create({
 
   identityBlock: { paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e16 },
   identityTopRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 },
-  avatar: { width: 76, height: 76, borderRadius: 38, borderWidth: 3, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  avatar: { width: 76, height: 76, borderRadius: 38, borderWidth: trazo.anillo, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   avatarImg: { width: '100%', height: '100%' },
   avatarText: { fontSize: 30, fontWeight: peso.titulo, color: brand.white, textShadowColor: 'rgba(0,0,0,0.4)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   nameRow: { flexDirection: 'row', alignItems: 'center' },
@@ -928,7 +928,7 @@ const styles = StyleSheet.create({
   qrMini: { width: 20, height: 20, borderRadius: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.18)' },
   locRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 },
   locTxt: { color: 'rgba(255,255,255,0.92)', fontSize: tipografia.micro, fontWeight: peso.medio },
-  addStatusBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, alignSelf: 'flex-start', borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e9, paddingVertical: 3.5, marginTop: espaciado.e6, backgroundColor: 'rgba(0,0,0,0.25)' },
+  addStatusBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, alignSelf: 'flex-start', borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e9, paddingVertical: 3.5, marginTop: espaciado.e6, backgroundColor: 'rgba(0,0,0,0.25)' },
   addStatusTxt: { color: 'rgba(255,255,255,0.95)', fontSize: 10.5, fontWeight: peso.maximo },
 
   statsRow: { flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e10 },
@@ -940,14 +940,14 @@ const styles = StyleSheet.create({
   bioTxt: { color: 'rgba(255,255,255,0.92)', fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e6, lineHeight: 16 },
 
   linksArea: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5, marginTop: espaciado.e8 },
-  linkChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: radios.full, borderWidth: 1, borderColor: 'rgba(255,255,255,0.35)', paddingHorizontal: espaciado.e8, paddingVertical: 3.5, maxWidth: '92%' },
+  linkChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: radios.full, borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.35)', paddingHorizontal: espaciado.e8, paddingVertical: 3.5, maxWidth: '92%' },
   linkChipTxt: { color: brand.white, fontSize: 10.5, fontWeight: peso.fuerte, maxWidth: 130 },
   // Chip de OCUPACIÓN: va el primero en la fila de correos/enlaces (delante).
   occupChip: { backgroundColor: 'rgba(255,209,102,0.22)' },
 
   lbTitleWrap: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e18 },
   lbTitleCover: { fontSize: 26, fontWeight: peso.titulo, color: brand.white, letterSpacing: 0.3, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 5 },
-  publishCoverBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, backgroundColor: 'rgba(255,255,255,0.24)', borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderWidth: 1, borderColor: 'rgba(255,255,255,0.55)' },
+  publishCoverBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, backgroundColor: 'rgba(255,255,255,0.24)', borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.55)' },
   publishCoverTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo },
 
   body: { paddingHorizontal: espaciado.e18 },
@@ -976,7 +976,7 @@ const styles = StyleSheet.create({
   pickRowCode: { fontSize: tipografia.micro, fontWeight: peso.maximo },
   pickLabel: { fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e4 },
   cityChips: { gap: espaciado.e6 },
-  cityChip: { borderRadius: radios.full, borderWidth: 1.2, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6 },
+  cityChip: { borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6 },
 
   lbGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10, marginTop: espaciado.e12 },
   qrCard: { width: '86%', maxWidth: 340, borderRadius: 22, padding: espaciado.e18, alignItems: 'center' },
@@ -993,7 +993,7 @@ const styles = StyleSheet.create({
   photoLg: { width: 110, height: 110, borderRadius: 55, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   photoLgImg: { width: '100%', height: '100%' },
   photoLgTxt: { fontSize: 40, fontWeight: peso.titulo },
-  pickBtn: { flex: 1, borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e12, minHeight: 44 },
+  pickBtn: { flex: 1, borderRadius: 14, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e12, minHeight: 44 },
   pickBusy: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
 });
 

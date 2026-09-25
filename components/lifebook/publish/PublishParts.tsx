@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import type { LbCategory, LbServiceType } from '../../../api/commerce';
 
 /**
@@ -77,6 +77,6 @@ export function SummaryRow({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
-  notice: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e14 },
+  notice: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e14 },
   row: { flexDirection: 'row', justifyContent: 'space-between', gap: espaciado.e12, paddingVertical: espaciado.e6 },
 });

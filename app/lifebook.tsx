@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, elevation, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, elevation, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import {
   ChevronDown,
   Clapperboard,
@@ -809,7 +809,7 @@ function LifeBookContent() {
                   accessibilityState={{ selected: activo }}
                   accessibilityLabel={`${item.label} · ${item.hint}`}
                   style={{
-                    paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e7, borderRadius: radios.full, borderWidth: 1,
+                    paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e7, borderRadius: radios.full, borderWidth: trazo.fino,
                     borderColor: activo ? colors.primary : alpha(colors.border, 0.7),
                     backgroundColor: activo ? alpha(colors.primary, 0.14) : 'transparent',
                   }}

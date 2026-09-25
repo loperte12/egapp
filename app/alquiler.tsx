@@ -18,7 +18,7 @@ import { ActivityIndicator, FlatList, Modal, Pressable, ScrollView, StyleSheet, 
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Plus, SlidersHorizontal, Check, X, ShieldAlert, MapPin, RefreshCw, WifiOff } from 'lucide-react-native';
-import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, ScreenHeader, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, ScreenHeader, Tactil, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { PropertyCard } from '../components/rental/PropertyCard';
 import { usePropertySearch } from '../hooks/rental/usePropertySearch';
 import type { SortOrder } from '../hooks/rental/usePropertyFilters';
@@ -87,7 +87,7 @@ export default function AlquilerScreen() {
       {/* Buscador + botón filtros */}
       <View style={{ paddingHorizontal: espaciado.e16, gap: espaciado.e8, marginBottom: espaciado.e6 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: 10, paddingHorizontal: espaciado.e12, borderWidth: 1, borderColor: colors.border }}>
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: 10, paddingHorizontal: espaciado.e12, borderWidth: trazo.fino, borderColor: colors.border }}>
             <TextInput
               value={query}
               onChangeText={setQuery}
@@ -102,7 +102,7 @@ export default function AlquilerScreen() {
             accessibilityRole="button"
             accessibilityLabel={activeCount ? `Filtros aplicados (${activeCount})` : 'Abrir filtros'}
             accessibilityState={{ selected: activeCount > 0 }}
-            style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, backgroundColor: activeCount ? colors.primary : colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10, borderWidth: 1, borderColor: activeCount ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
+            style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, backgroundColor: activeCount ? colors.primary : colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10, borderWidth: trazo.fino, borderColor: activeCount ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
           >
             <SlidersHorizontal size={15} color={activeCount ? brand.white : colors.textPrimary} />
             {activeCount > 0 && <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: brand.white }}>{activeCount}</Text>}
@@ -302,7 +302,7 @@ function FilterChip({ label, selected, onPress }: { label: string; selected: boo
       accessibilityRole="button"
       accessibilityState={{ selected }}
       accessibilityLabel={label}
-      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: 20, marginRight: espaciado.e8, marginBottom: espaciado.e8, backgroundColor: selected ? colors.primary : colors.surface, borderWidth: 1, borderColor: selected ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
+      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: 20, marginRight: espaciado.e8, marginBottom: espaciado.e8, backgroundColor: selected ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: selected ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
     >
       <Text style={{ fontSize: tipografia.caption, color: selected ? brand.white : colors.textPrimary, fontWeight: selected ? peso.fuerte : peso.medio }}>{label}</Text>
       {selected && <Check size={12} color={brand.white} style={{ marginLeft: espaciado.e4 }} />}
@@ -317,7 +317,7 @@ function ActiveChip({ label, onRemove }: { label: string; onRemove: () => void }
       onPress={onRemove}
       accessibilityRole="button"
       accessibilityLabel={`Quitar filtro: ${label}`}
-      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14, borderWidth: 1, borderColor: colors.primary, marginRight: espaciado.e6, opacity: pressed ? 0.7 : 1 }]}
+      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14, borderWidth: trazo.fino, borderColor: colors.primary, marginRight: espaciado.e6, opacity: pressed ? 0.7 : 1 }]}
     >
       <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.medio }}>{label}</Text>
       <X size={12} color={colors.primary} style={{ marginLeft: espaciado.e4 }} />

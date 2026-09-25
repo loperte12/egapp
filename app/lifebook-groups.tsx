@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, Compass, Lock, QrCode, Search, ShieldQuestion, Users, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -373,7 +373,7 @@ function GroupsContent() {
 const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
   searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 42, marginHorizontal: espaciado.e14, marginTop: espaciado.e10 },
-  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderWidth: 1, flexShrink: 0 },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderWidth: trazo.fino, flexShrink: 0 },
   // Fijar la fila: sin alto propio, el FlatList horizontal se comprime y el texto sale recortado
   // contra la fila contigua (medido en el móvil: 17 px de alto en ciudades vs 23 en categorías).
   chipRow: { flexGrow: 0, flexShrink: 0, marginVertical: espaciado.e5 },

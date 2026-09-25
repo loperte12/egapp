@@ -28,7 +28,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import MapBackground from '../components/MapBackground';
 import { PhotoGallery } from '../components/PhotoGallery';
@@ -456,7 +456,7 @@ const styles = StyleSheet.create({
   sub: { fontSize: tipografia.caption, marginTop: espaciado.e4 },
   errorTxt: { fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' },
   enlace: { fontSize: tipografia.body, fontWeight: peso.fuerte, marginTop: espaciado.e6 },
-  bloque: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e3 },
+  bloque: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e3 },
   etiqueta: { fontSize: 10.5, fontWeight: peso.maximo, letterSpacing: 0.6 },
   codigo: { fontSize: 18, fontWeight: peso.maximo, letterSpacing: 0.6 },
   estado: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e2 },
@@ -470,18 +470,18 @@ const styles = StyleSheet.create({
   lineaVal: { fontSize: tipografia.body },
   avisoTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8 },
   botones: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e8 },
-  botonSec: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
+  botonSec: { borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
   botonSecTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   boton: { height: altura.control, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   botonTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo },
-  botonFantasma: { borderWidth: 1, borderRadius: radios.md, height: altura.control, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e8 },
+  botonFantasma: { borderWidth: trazo.fino, borderRadius: radios.md, height: altura.control, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e8 },
   botonFantasmaTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
-  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.control, fontSize: tipografia.body },
+  input: { borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.control, fontSize: tipografia.body },
   volverFlotante: {
     position: 'absolute', left: 12, width: 36, height: 36, borderRadius: 18,
     backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center',
   },
   volverFlotanteTxt: { color: brand.white, fontSize: 24, fontWeight: peso.fuerte, lineHeight: 26 },
-  cerrarMapa: { position: 'absolute', left: 14, borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, backgroundColor: brand.white },
+  cerrarMapa: { position: 'absolute', left: 14, borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, backgroundColor: brand.white },
   cerrarMapaTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
 });

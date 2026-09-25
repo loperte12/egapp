@@ -20,7 +20,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Clock, Flag, MapPin, Share2, X, ZoomIn } from 'lucide-react-native';
-import { espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import type { MeProfile } from '../../api/auth';
 import type { UserStatus, StatusMediaItem } from '../../api/status';
 import { absUrl } from '../../api/config';
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
   heroName: { color: brand.white, fontSize: 15, fontWeight: peso.titulo, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
   timeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 },
   timeTxt: { color: 'rgba(255,255,255,0.95)', fontSize: tipografia.micro, fontWeight: peso.fuerte, textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
-  iconBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.35)' },
+  iconBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center', borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.35)' },
   overlayText: { position: 'absolute', left: 18, right: 18 },
   overlayEmoji: { fontSize: 46, textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 6 },
   overlayLine: {
@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
   actionTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
   reportBox: { borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e14 },
   reportTitle: { fontSize: tipografia.body, fontWeight: peso.titulo, marginBottom: espaciado.e4 },
-  reportRow: { paddingVertical: espaciado.e11, borderBottomWidth: 1 },
+  reportRow: { paddingVertical: espaciado.e11, borderBottomWidth: trazo.fino },
   reportRowTxt: { fontSize: tipografia.body, fontWeight: peso.medio },
   reportCancel: { fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center', marginTop: espaciado.e4 },
   lightbox: { flex: 1, backgroundColor: '#000000' },

@@ -15,7 +15,7 @@
 import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Plus } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { LB_COVERAGE, LB_TRANSPORT } from '../../../constants/commerce';
 import { usePublishStore } from '../../../state/commercePublish';
 import type { LbCategory, LbOptionSuggestion, LbSizeKind } from '../../../api/commerce';
@@ -182,9 +182,9 @@ export default function StepExtras({ categories }: { categories: LbCategory[] })
 }
 
 const styles = StyleSheet.create({
-  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e9, fontSize: tipografia.body },
+  input: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e9, fontSize: tipografia.body },
   addBtn: {
-    width: 40, height: 40, borderRadius: 10, borderWidth: 1.5,
+    width: 40, height: 40, borderRadius: 10, borderWidth: trazo.base,
     alignItems: 'center', justifyContent: 'center',
   },
 });

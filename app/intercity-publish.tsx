@@ -19,7 +19,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { ArrowLeft, Truck, Plus, RefreshCw, ImageIcon, Siren, Crown, X } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import EmergencyModal from '../components/EmergencyModal';
 import { useSession } from '../state/session';
 import { driverApi } from '../api/driver';
@@ -622,10 +622,10 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: peso.medio },
     label: { fontSize: tipografia.caption, fontWeight: peso.maximo, color: c.textSecondary, marginTop: espaciado.e4 },
     chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
-    chip: { borderRadius: radios.md, borderWidth: 1.5, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
-    card: { borderWidth: 1.5, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
+    chip: { borderRadius: radios.md, borderWidth: trazo.base, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
+    card: { borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
     bookingRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: 10, padding: espaciado.e8 },
     miniBtn: { borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
-    photoAdd: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderWidth: 1.5, borderStyle: 'dashed', borderRadius: radios.md, paddingVertical: espaciado.e12 },
+    photoAdd: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderWidth: trazo.base, borderStyle: 'dashed', borderRadius: radios.md, paddingVertical: espaciado.e12 },
     err: { color: c.danger, fontSize: tipografia.body, fontWeight: peso.fuerte },
   });

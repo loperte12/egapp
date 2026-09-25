@@ -24,7 +24,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowLeft, BadgeCheck, Banknote, PackageCheck, PackageOpen, QrCode, RefreshCw,
 } from 'lucide-react-native';
-import { EmptyState, espaciado, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PinSheet } from '@egrouteplan/ui-kit';
 import { agentApi, type CargaDeTrabajo, type OperacionDeEfectivo, type RecadoEscrow } from '../api/agent';
@@ -273,12 +273,12 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12 },
   retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
-  card: { borderRadius: 18, borderWidth: 1, padding: espaciado.e16 },
-  aviso: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, marginTop: espaciado.e12 },
+  card: { borderRadius: 18, borderWidth: trazo.fino, padding: espaciado.e16 },
+  aviso: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, marginTop: espaciado.e12 },
   sectionTitle: { fontSize: 15, fontWeight: peso.titulo, marginTop: espaciado.e20, marginBottom: espaciado.e4 },
   tile: { width: 38, height: 38, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   scanBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    borderRadius: 14, borderWidth: 1, paddingVertical: espaciado.e11, marginTop: espaciado.e12,
+    borderRadius: 14, borderWidth: trazo.fino, paddingVertical: espaciado.e11, marginTop: espaciado.e12,
   },
 });

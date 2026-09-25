@@ -30,7 +30,7 @@ import { useStatusStore } from '../state/statusStore';
 import StatusRingAvatar from './status/StatusRingAvatar';
 import StatusChip from './status/StatusChip';
 import StatusDetailModal from './status/StatusDetailModal';
-import { brand, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
 
 /** Altura del banner (25 % de la pantalla, acotada). */
 const BANNER_H_RATIO = 0.25;
@@ -268,12 +268,12 @@ const styles = StyleSheet.create({
   avatar: {
     width: 40, height: 40, borderRadius: 20, overflow: 'hidden',
     alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.30)',
-    borderWidth: 2, borderColor: 'rgba(255,255,255,0.9)',
+    borderWidth: trazo.fuerte, borderColor: 'rgba(255,255,255,0.9)',
   },
   avatarImg: { width: '100%', height: '100%' },
   driverName: { fontSize: tipografia.body, fontWeight: peso.titulo, maxWidth: 180 },
   onlineRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 },
-  onlineDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: brand.success, borderWidth: 1, borderColor: 'rgba(255,255,255,0.7)' },
+  onlineDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: brand.success, borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.7)' },
   onlineTxt: { fontSize: 10.5, fontWeight: peso.titulo },
   adCopy: { position: 'absolute', left: 14, right: 60, bottom: 10 },
   adTitle: {
@@ -294,14 +294,14 @@ const styles = StyleSheet.create({
     position: 'absolute', top: 8, right: 10,
     width: 22, height: 22, borderRadius: 11,
     backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center',
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.35)', zIndex: 50,
+    borderWidth: trazo.fino, borderColor: 'rgba(255,255,255,0.35)', zIndex: 50,
   },
   cityBtn: {
     position: 'absolute', left: 14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5,
     borderRadius: radios.full,
     // Degradado OSCURO + letra AZUL (estilo previo del pill de ciudad).
     backgroundColor: 'rgba(10,16,24,0.78)',
-    borderWidth: 1, borderColor: 'rgba(79,168,255,0.5)',
+    borderWidth: trazo.fino, borderColor: 'rgba(79,168,255,0.5)',
     paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6,
     zIndex: 30,
     elevation: 3,

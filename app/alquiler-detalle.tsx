@@ -14,7 +14,7 @@ import { ActivityIndicator, Alert, LayoutChangeEvent, Linking, Pressable, Scroll
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Flag, Heart, MapPin, MessageSquare, Phone, Share2, ShieldAlert } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { rentalApi, RentalProperty } from '../api/rental';
 import { ApiError } from '../api/httpClient';
 import { LazyImage } from '../components/rental/LazyImage';
@@ -491,7 +491,7 @@ export default function AlquilerDetalleScreen() {
               <Text style={[s.sectionTitle, { color: colors.textPrimary }]}>{TEXTS.services}</Text>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 }}>
                 {availableServices.map(([k]) => (
-                  <View key={k} style={{ backgroundColor: colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: 20, borderWidth: 1, borderColor: colors.border }}>
+                  <View key={k} style={{ backgroundColor: colors.surface, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: 20, borderWidth: trazo.fino, borderColor: colors.border }}>
                     <Text style={{ fontSize: tipografia.body, color: colors.textPrimary }}>{SERVICE_LABELS[k] ?? k}</Text>
                   </View>
                 ))}
@@ -598,17 +598,17 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   price: { flexShrink: 1, fontSize: 24, fontWeight: peso.maximo },
   title: { fontSize: tipografia.title, fontWeight: peso.fuerte, marginBottom: espaciado.e6 },
   typeLabel: { fontSize: tipografia.body, marginBottom: espaciado.e16 },
-  featuresGrid: { flexDirection: 'row', borderRadius: radios.md, padding: espaciado.e14, marginBottom: espaciado.e20, gap: espaciado.e8, borderWidth: 1 },
+  featuresGrid: { flexDirection: 'row', borderRadius: radios.md, padding: espaciado.e14, marginBottom: espaciado.e20, gap: espaciado.e8, borderWidth: trazo.fino },
   featureItem: { flex: 1, alignItems: 'center' },
   section: { marginBottom: espaciado.e22 },
   sectionTitle: { fontSize: tipografia.subtitle, fontWeight: peso.fuerte, marginBottom: espaciado.e10 },
-  costRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: 1, gap: espaciado.e12 },
+  costRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: trazo.fino, gap: espaciado.e12 },
   costLabel: { fontSize: tipografia.body, flex: 1 },
-  poiRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: 1, gap: espaciado.e12 },
+  poiRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: trazo.fino, gap: espaciado.e12 },
   poiName: { fontSize: tipografia.body, flex: 1 },
   dotsContainer: { position: 'absolute', bottom: 12, alignSelf: 'center', flexDirection: 'row', gap: espaciado.e6 },
   dot: { width: 7, height: 7, borderRadius: 4 },
   iconButton: { width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(16,24,40,0.45)', justifyContent: 'center', alignItems: 'center' },
   errIcon: { width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
-  bottomBar: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, borderTopWidth: 1, gap: espaciado.e10 },
+  bottomBar: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, borderTopWidth: trazo.fino, gap: espaciado.e10 },
 });

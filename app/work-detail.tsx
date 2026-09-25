@@ -17,7 +17,7 @@ import {
   Bookmark, Briefcase, Calendar, Check, Flag, Lock, MapPin,
   MessageSquare, Phone, Send, Share2, ShieldCheck, type LucideIcon,
 } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, radios, ScreenHeader, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, ScreenHeader, Tactil, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { EgCamera, EgMarkers } from '../packages/map';
 import { workApi, WorkJob } from '../api/work';
@@ -298,7 +298,7 @@ export default function WorkDetailScreen() {
               ))}
             </View>
           )}
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e10 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingTop: espaciado.e10 }}>
             <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Publicado {daysAgo === 0 ? 'hoy' : `hace ${daysAgo} d`}</Text>
             {job.expiresAt && <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.medio }}>Cierra: {new Date(job.expiresAt).toLocaleDateString('es')}</Text>}
           </View>
@@ -485,17 +485,17 @@ export default function WorkDetailScreen() {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  card: { borderRadius: 14, padding: espaciado.e16, borderWidth: 1, marginBottom: espaciado.e16 },
+  card: { borderRadius: 14, padding: espaciado.e16, borderWidth: trazo.fino, marginBottom: espaciado.e16 },
   badge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 4 },
   badgeText: { color: brand.white, fontSize: 10, fontWeight: peso.maximo, letterSpacing: 0.3 },
   sectionTitle: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary, marginBottom: espaciado.e10 },
   errIcon: { width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e14 },
   retryBtn: { paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: 10 },
   logoBig: { width: 50, height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center', position: 'relative' },
-  vBadge: { position: 'absolute', bottom: -2, right: -2, width: 16, height: 16, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: brand.white },
+  vBadge: { position: 'absolute', bottom: -2, right: -2, width: 16, height: 16, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center', borderWidth: trazo.fuerte, borderColor: brand.white },
   recAvatar: { width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
   roundBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
-  bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, borderTopWidth: 1 },
+  bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, borderTopWidth: trazo.fino },
   iconBtn: { width: 40, height: 40, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center' },
   chatBtn: { flex: 0.28, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e11, borderRadius: radios.sm, gap: espaciado.e5 },
   applyBtn: { flex: 0.45, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e11, borderRadius: radios.sm, gap: espaciado.e5 },

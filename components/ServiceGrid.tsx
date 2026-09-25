@@ -13,7 +13,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import { espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SERVICES, type ServiceItem } from '../constants/data';
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   sheet: { borderTopLeftRadius: 22, borderTopRightRadius: 22, padding: espaciado.e20, paddingBottom: espaciado.e28 },
   sheetTitle: { fontSize: 17, fontWeight: peso.titulo, textAlign: 'center', marginBottom: espaciado.e4 },
   sheetHint: { fontSize: tipografia.caption, textAlign: 'center', marginBottom: espaciado.e14, lineHeight: 17 },
-  roleRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: 1, borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e10 },
+  roleRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e10 },
   roleEmoji: { fontSize: tipografia.display },
   roleLabel: { fontSize: 14.5, fontWeight: peso.maximo },
   roleHint: { fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 15 },

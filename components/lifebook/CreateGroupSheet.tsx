@@ -18,7 +18,7 @@ import {
   ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { Check, Search, Users, X } from 'lucide-react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { Sheet, SheetHeader } from './ui/Sheet';
 import { PersonRow } from './PersonRow';
 import { lifebookInboxApi, type LbFollowerItem, type LbSuggestedUser } from '../../api/lifebook';
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
   optChip: { borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6 },
   sectionTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, textTransform: 'uppercase', marginTop: espaciado.e10, marginBottom: espaciado.e4, letterSpacing: 0.5 },
   check: {
-    width: 20, height: 20, borderRadius: 10, borderWidth: 1.5,
+    width: 20, height: 20, borderRadius: 10, borderWidth: trazo.base,
     alignItems: 'center', justifyContent: 'center',
   },
   primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e12 },

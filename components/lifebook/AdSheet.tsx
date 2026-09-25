@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ImagePlus, Megaphone, X } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { messagesApi } from '../../api/messages';
@@ -231,6 +231,6 @@ const styles = StyleSheet.create({
     borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 42, minWidth: 78,
   },
   thumb: { width: 34, height: 34, borderRadius: radios.sm },
-  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderWidth: 1 },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderWidth: trazo.fino },
   cta: { marginTop: espaciado.e16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

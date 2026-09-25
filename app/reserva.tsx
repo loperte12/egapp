@@ -31,7 +31,7 @@ import {
   ArrowLeft, Bus, CalendarDays, Car, CarFront, CheckCircle2, Clock, MessageSquare,
   Navigation, ShieldCheck, ChevronLeft, ChevronRight,
 } from 'lucide-react-native';
-import { brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { reservaApi } from '../api/reserva';
 import { useSession } from '../state/session';
 
@@ -377,7 +377,7 @@ export default function ReservaAnticipadaScreen() {
                 <Text style={s.sectionTitle}>Notas para el conductor (opcional)</Text>
               </View>
               <TextInput
-                style={[s.input, { borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e10 }]}
+                style={[s.input, { borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingTop: espaciado.e10 }]}
                 placeholder="llevar maletas, punto exacto de parada…"
                 placeholderTextColor={colors.textSecondary}
                 value={notes}
@@ -461,7 +461,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     securityText: { fontSize: 10, color: c.success, fontWeight: peso.fuerte },
 
     stepTitle: { fontSize: tipografia.title, fontWeight: peso.maximo, color: c.textPrimary, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, marginBottom: espaciado.e12 },
-    card: { backgroundColor: c.card, borderRadius: radios.lg, padding: espaciado.e14, marginHorizontal: espaciado.e16, marginBottom: espaciado.e12, borderWidth: 1, borderColor: c.border, shadowColor: c.shadow, shadowOpacity: 0.05, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 1 },
+    card: { backgroundColor: c.card, borderRadius: radios.lg, padding: espaciado.e14, marginHorizontal: espaciado.e16, marginBottom: espaciado.e12, borderWidth: trazo.fino, borderColor: c.border, shadowColor: c.shadow, shadowOpacity: 0.05, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 1 },
     routeRow: { flexDirection: 'row', gap: espaciado.e12 },
     routeRail: { alignItems: 'center', width: 10 },
     routeDot: { width: 10, height: 10, borderRadius: 5 },
@@ -472,24 +472,24 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     sumLine: { fontSize: 15, fontWeight: peso.fuerte, color: c.textPrimary },
 
     chipRow: { flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e16 },
-    dayChip: { flex: 1, alignItems: 'center', borderWidth: 1.5, borderRadius: radios.md, paddingVertical: espaciado.e12 },
+    dayChip: { flex: 1, alignItems: 'center', borderWidth: trazo.base, borderRadius: radios.md, paddingVertical: espaciado.e12 },
     dayChipText: { fontSize: tipografia.body, fontWeight: peso.maximo },
 
     sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginBottom: espaciado.e8 },
     sectionTitle: { fontSize: tipografia.body, fontWeight: peso.fuerte, color: c.textPrimary },
     label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, marginBottom: espaciado.e6 },
 
-    chip: { paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e8, borderRadius: radios.full, borderWidth: 1, borderColor: c.border, marginRight: espaciado.e6, backgroundColor: c.background },
+    chip: { paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e8, borderRadius: radios.full, borderWidth: trazo.fino, borderColor: c.border, marginRight: espaciado.e6, backgroundColor: c.background },
     chipText: { fontSize: tipografia.body, color: c.textPrimary, fontWeight: peso.fuerte },
     miniLabel: { fontSize: tipografia.micro, color: c.textSecondary, marginBottom: espaciado.e4 },
     pickSummary: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.primary, marginTop: espaciado.e12 },
 
-    vehicleCard: { width: 124, padding: espaciado.e14, borderRadius: radios.lg, borderWidth: 1.5, borderColor: c.border, backgroundColor: c.card, alignItems: 'center', gap: espaciado.e6 },
+    vehicleCard: { width: 124, padding: espaciado.e14, borderRadius: radios.lg, borderWidth: trazo.base, borderColor: c.border, backgroundColor: c.card, alignItems: 'center', gap: espaciado.e6 },
     vehicleName: { fontSize: tipografia.body, fontWeight: peso.maximo, textAlign: 'center' },
     vehicleDesc: { fontSize: tipografia.micro, color: c.textSecondary, textAlign: 'center' },
 
     priceBig: { fontSize: tipografia.display, fontWeight: peso.maximo, color: c.textPrimary },
-    budgetRow: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: c.border, borderRadius: radios.md, paddingHorizontal: espaciado.e12, marginTop: espaciado.e6 },
+    budgetRow: { flexDirection: 'row', alignItems: 'center', borderWidth: trazo.fino, borderColor: c.border, borderRadius: radios.md, paddingHorizontal: espaciado.e12, marginTop: espaciado.e6 },
     budgetInput: { flex: 1, fontSize: 15, color: c.textPrimary, paddingVertical: espaciado.e10 },
     currencyTag: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.textSecondary },
 

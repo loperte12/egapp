@@ -27,7 +27,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, MapPin, Search, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { geocode, type GeoPlace } from '../api/geocode';
@@ -573,7 +573,7 @@ function GroupCreateContent() {
 function Card({ children, colors, row }: { children: React.ReactNode; colors: any; row?: boolean }) {
   return (
     <View style={{
-      borderRadius: 18, borderWidth: 1, borderColor: alpha(colors.border, 0.7), backgroundColor: colors.card,
+      borderRadius: 18, borderWidth: trazo.fino, borderColor: alpha(colors.border, 0.7), backgroundColor: colors.card,
       padding: espaciado.e14, gap: row ? 12 : 10, flexDirection: row ? 'row' : 'column', alignItems: row ? 'center' : 'stretch',
     }}>
       {children}
@@ -627,7 +627,7 @@ function OptionRow({ icon, title, subtitle, selected, onPress, colors }: {
       accessibilityLabel={title}
       accessibilityState={{ selected }}
       style={{
-        flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, padding: espaciado.e14, borderRadius: 18, borderWidth: 1.5,
+        flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, padding: espaciado.e14, borderRadius: 18, borderWidth: trazo.base,
         borderColor: selected ? colors.primary : alpha(colors.border, 0.7),
         backgroundColor: selected ? alpha(colors.primary, 0.08) : colors.card,
       }}
@@ -638,7 +638,7 @@ function OptionRow({ icon, title, subtitle, selected, onPress, colors }: {
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{subtitle}</Text>
       </View>
       <View style={{
-        width: 20, height: 20, borderRadius: 10, borderWidth: 1.5,
+        width: 20, height: 20, borderRadius: 10, borderWidth: trazo.base,
         borderColor: selected ? colors.primary : alpha(colors.border, 1),
         backgroundColor: selected ? colors.primary : 'transparent',
         alignItems: 'center', justifyContent: 'center',
@@ -680,7 +680,7 @@ function SelectablePerson({ p, on, onPress, colors }: { p: Person; on: boolean; 
         {p.note ? <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{p.note}</Text> : null}
       </View>
       <View style={{
-        width: 22, height: 22, borderRadius: 11, borderWidth: 1.5,
+        width: 22, height: 22, borderRadius: 11, borderWidth: trazo.base,
         borderColor: on ? colors.primary : alpha(colors.border, 1),
         backgroundColor: on ? colors.primary : 'transparent',
         alignItems: 'center', justifyContent: 'center',
@@ -699,14 +699,14 @@ const styles = StyleSheet.create({
   input: { borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: 14.5 },
   textarea: { minHeight: 110, textAlignVertical: 'top' },
   searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e14, height: 40 },
-  option: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, padding: espaciado.e14, borderRadius: radios.lg, borderWidth: 1 },
+  option: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, padding: espaciado.e14, borderRadius: radios.lg, borderWidth: trazo.fino },
   chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
   chipAvatar: { width: 18, height: 18, borderRadius: 9 },
   avatar: { width: 40, height: 40, borderRadius: 20 },
   center: { alignItems: 'center', justifyContent: 'center' },
   primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e14, alignItems: 'center' },
   primaryText: { color: brand.white, fontWeight: peso.titulo, fontSize: 14.5 },
-  secondaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', borderWidth: 1, alignSelf: 'stretch' },
+  secondaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', borderWidth: trazo.fino, alignSelf: 'stretch' },
   footer: { paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   successCircle: { width: 84, height: 84, borderRadius: 42, alignItems: 'center', justifyContent: 'center' },
 });

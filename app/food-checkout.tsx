@@ -35,7 +35,7 @@ import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleShee
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Banknote, Bike, CreditCard, MapPin, Minus, Plus, Store, Trash2, Wallet } from 'lucide-react-native';
-import { alpha, espaciado, FormField, MasOpciones, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, MasOpciones, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { foodApi, FoodRestaurantDetail } from '../api/food';
 import { walletApi } from '../api/wallet';
 import { fijarPin } from '../api/settlement';
@@ -442,7 +442,7 @@ export default function FoodCheckoutScreen() {
                     disabled={ubicando}
                     accessibilityRole="button"
                     accessibilityLabel="Añadir mi ubicación exacta para el reparto"
-                    style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10, borderWidth: 1, borderColor: pin ? alpha(colors.success, 0.5) : colors.border, backgroundColor: pin ? alpha(colors.success, 0.08) : 'transparent' }}
+                    style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10, borderWidth: trazo.fino, borderColor: pin ? alpha(colors.success, 0.5) : colors.border, backgroundColor: pin ? alpha(colors.success, 0.08) : 'transparent' }}
                   >
                     <MapPin size={15} color={pin ? colors.success : colors.textPrimary} />
                     <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte, color: pin ? colors.success : colors.textPrimary }}>
@@ -605,7 +605,7 @@ function CartLineRow({ name, price, qty, lineTotal, onDec, onInc, onRemove }: {
 }
 
 const s_line = StyleSheet.create({
-  card: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e6 },
+  card: { borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e6 },
   controls: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8 },
   iconBtn: { width: 28, height: 28, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center' },
   stepBtn: { width: 28, height: 28, borderRadius: radios.sm, alignItems: 'center', justifyContent: 'center' },
@@ -622,11 +622,11 @@ const s_center = StyleSheet.create({
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   label: { fontSize: tipografia.body, fontWeight: peso.fuerte, color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
-  restCard: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e4 },
-  breakdown: { backgroundColor: c.surface, borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e10 },
+  restCard: { borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e12, marginBottom: espaciado.e4 },
+  breakdown: { backgroundColor: c.surface, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e10 },
   brRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e2 },
   modeCard: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e14, backgroundColor: c.surface },
-  warnBox: { borderRadius: 10, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e10 },
-  area: { minHeight: 64, borderRadius: 14, borderWidth: 1, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
+  warnBox: { borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e10 },
+  area: { minHeight: 64, borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
   errorBox: { borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e14 },
 });

@@ -13,7 +13,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { Crosshair, MapPin, Radio, Search, X } from 'lucide-react-native';
 import * as Location from 'expo-location';
 import { geocode, pickReverseLabel, reverseGeocode, type GeoPlace } from '../../api/geocode';
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 },
   myLoc: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
-    borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e12,
+    borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e12,
   },
   searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 42 },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e11, borderBottomWidth: StyleSheet.hairlineWidth },

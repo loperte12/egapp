@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Alert, Image, Linking, Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { VerificationBadge } from './Badges';
 import { getInitials } from '../../utils/formatHelpers';
 import type { RentalProperty } from '../../api/rental';
@@ -248,7 +248,7 @@ export function LandlordCard({
 }
 
 const styles = StyleSheet.create({
-  container: { borderRadius: 14, padding: espaciado.e16, borderWidth: 1 },
+  container: { borderRadius: 14, padding: espaciado.e16, borderWidth: trazo.fino },
   header: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 },
   avatar: { width: 52, height: 52, borderRadius: 26 },
   avatarInitials: { width: 52, height: 52, borderRadius: 26, justifyContent: 'center', alignItems: 'center' },
@@ -260,14 +260,14 @@ const styles = StyleSheet.create({
   metaRow: { marginTop: espaciado.e12, flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10 },
   ratingText: { fontSize: tipografia.body, fontWeight: peso.medio },
   responseText: { fontSize: tipografia.body },
-  statsRow: { flexDirection: 'row', borderRadius: radios.md, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e10, marginTop: espaciado.e14, gap: espaciado.e8, borderWidth: 1 },
+  statsRow: { flexDirection: 'row', borderRadius: radios.md, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e10, marginTop: espaciado.e14, gap: espaciado.e8, borderWidth: trazo.fino },
   statItem: { flex: 1, alignItems: 'center' },
   statValue: { fontSize: 15, fontWeight: peso.fuerte },
   statLabel: { fontSize: tipografia.micro, marginTop: espaciado.e3 },
   description: { marginTop: espaciado.e14, fontSize: tipografia.body, lineHeight: 20 },
   actionsContainer: { marginTop: espaciado.e16 },
   fullButton: { borderRadius: radios.md, paddingVertical: espaciado.e13, alignItems: 'center', marginBottom: espaciado.e8 },
-  secondaryButton: { borderWidth: 1 },
+  secondaryButton: { borderWidth: trazo.fino },
   secondaryButtonText: { fontSize: tipografia.body, fontWeight: peso.fuerte },
   contactRow: { flexDirection: 'row', gap: espaciado.e8 },
   contactButton: { flex: 1, borderRadius: radios.md, paddingVertical: espaciado.e13, alignItems: 'center' },
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   whatsappButtonText: { fontSize: tipografia.body, fontWeight: peso.fuerte, color: brand.white },
   disabledButton: { opacity: 0.5 },
   trustNote: { marginTop: espaciado.e14, fontSize: tipografia.micro, lineHeight: 16 },
-  compactContainer: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e12, gap: espaciado.e10, borderWidth: 1 },
+  compactContainer: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e12, gap: espaciado.e10, borderWidth: trazo.fino },
   compactAvatar: { width: 40, height: 40, borderRadius: 20 },
   compactAvatarInitials: { width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' },
   compactAvatarText: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.fuerte },

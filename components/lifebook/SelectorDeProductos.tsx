@@ -15,7 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { Package, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { productosEnNotaApi, MAX_PRODUCTOS_POR_NOTA } from '../../api/lifebookProductos';
@@ -93,7 +93,7 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
                   accessibilityState={{ checked: on }}
                   accessibilityLabel={`Producto ${p.title}`}
                   style={{
-                    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, padding: espaciado.e8, borderRadius: radios.md, borderWidth: 1,
+                    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, padding: espaciado.e8, borderRadius: radios.md, borderWidth: trazo.fino,
                     borderColor: on ? colors.primary : alpha(colors.border, 0.6),
                     backgroundColor: on ? alpha(colors.primary, 0.08) : colors.surface,
                   }}

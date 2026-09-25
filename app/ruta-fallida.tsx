@@ -16,7 +16,7 @@ import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { Compass, Home, MapPinOff } from 'lucide-react-native';
 import { ir } from '../constants/rutas';
 
@@ -63,7 +63,7 @@ export default function RutaFallidaScreen() {
           <Pressable
             onPress={() => ir.atras()}
             accessibilityLabel="Volver atrás"
-            style={[styles.boton, { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }]}
+            style={[styles.boton, { backgroundColor: colors.surface, borderWidth: trazo.fino, borderColor: colors.border }]}
           >
             <Compass size={17} color={colors.textPrimary} />
             <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: 15 }}>Volver atrás</Text>

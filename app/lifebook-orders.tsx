@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, EmptyState, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, MessageCircle, PackageOpen, ShoppingBag, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -204,10 +204,10 @@ function OrdersContent() {
                         : <Text style={{ color: brand.white, fontSize: tipografia.caption, fontWeight: peso.titulo }}>{LB_ORDER_ACTION_LABEL[a] ?? a}</Text>}
                     </Pressable>
                   ))}
-                  <Pressable onPress={() => irSeguro.libre('/lifebook-post/[id]', { id: item.postId })} style={[styles.actBtn, { backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1 }]}>
+                  <Pressable onPress={() => irSeguro.libre('/lifebook-post/[id]', { id: item.postId })} style={[styles.actBtn, { backgroundColor: colors.surface, borderColor: colors.border, borderWidth: trazo.fino }]}>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Ver anuncio</Text>
                   </Pressable>
-                  <Pressable onPress={() => talk(item)} style={[styles.actBtn, { backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1 }]}>
+                  <Pressable onPress={() => talk(item)} style={[styles.actBtn, { backgroundColor: colors.surface, borderColor: colors.border, borderWidth: trazo.fino }]}>
                     <MessageCircle size={13} color={colors.textPrimary} />
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Hablar</Text>
                   </Pressable>

@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import {
   hotelApi, PAGO_ETIQUETA, RESERVA_ETIQUETA, METODO_ETIQUETA, type Reservation,
@@ -458,32 +458,32 @@ function Tarjeta({
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
+  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: trazo.fino },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: peso.fuerte, lineHeight: 28 },
   titulo: { fontSize: 16.5, fontWeight: peso.maximo, flex: 1 },
-  tabs: { flexDirection: 'row', borderBottomWidth: 1 },
-  tab: { flex: 1, alignItems: 'center', paddingVertical: espaciado.e12, borderBottomWidth: 2 },
+  tabs: { flexDirection: 'row', borderBottomWidth: trazo.fino },
+  tab: { flex: 1, alignItems: 'center', paddingVertical: espaciado.e12, borderBottomWidth: trazo.fuerte },
   tabTxt: { fontSize: tipografia.body, fontWeight: peso.fuerte },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  bloque: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e4 },
+  bloque: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e4 },
   etiqueta: { fontSize: 10.5, fontWeight: peso.maximo, letterSpacing: 0.6 },
   seccion: { fontSize: 14.5, fontWeight: peso.maximo },
-  card: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e4 },
+  card: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e4 },
   codigo: { fontSize: 15.5, fontWeight: peso.maximo, letterSpacing: 0.5 },
   sub: { fontSize: tipografia.caption },
   dato: { fontSize: tipografia.body, marginTop: espaciado.e2 },
   linea: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e10 },
   lineaEtq: { fontSize: tipografia.caption, flex: 1 },
   lineaVal: { fontSize: tipografia.body },
-  badge: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
+  badge: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
   badgeTxt: { fontSize: 10.5, fontWeight: peso.maximo },
-  dinero: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e9, marginTop: espaciado.e6, gap: espaciado.e2 },
+  dinero: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e9, marginTop: espaciado.e6, gap: espaciado.e2 },
   aviso: { fontSize: tipografia.caption, marginTop: espaciado.e6, fontWeight: peso.medio },
-  input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.punto, fontSize: tipografia.body },
+  input: { borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.punto, fontSize: tipografia.body },
   boton: { height: altura.punto, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   botonTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo },
-  botonFantasma: { borderWidth: 1, borderRadius: radios.md, height: altura.punto, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e8 },
+  botonFantasma: { borderWidth: trazo.fino, borderRadius: radios.md, height: altura.punto, alignItems: 'center', justifyContent: 'center', marginTop: espaciado.e8 },
   botonFantasmaTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
   enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 },
 });

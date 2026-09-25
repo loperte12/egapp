@@ -14,7 +14,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { CalendarCheck, Clock, X } from 'lucide-react-native';
 import type { LbPickedLocation } from './LocationPickerSheet';
 import { formaHoja } from './ui/Sheet';
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFillObject },
   sheet: { ...formaHoja },
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 },
-  placeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1, borderRadius: 14, padding: espaciado.e12 },
+  placeRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12 },
   opt: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12, marginTop: espaciado.e8 },
   input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   smallCta: { borderRadius: radios.md, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e11 },

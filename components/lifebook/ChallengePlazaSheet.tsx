@@ -13,7 +13,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, ScrollText, Trophy, X } from 'lucide-react-native';
 import { lifebookChallengesApi, type LbChallenge } from '../../api/lifebook';
 import { LB_CITIES } from '../../constants/lifebook';
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
   sheet: { ...formaHoja },
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e10 },
   input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
-  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderWidth: 1 },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderWidth: trazo.fino },
   card: { borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e10 },
   smallBtn: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
   cta: { marginTop: espaciado.e14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e13 },

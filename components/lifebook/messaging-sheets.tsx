@@ -12,7 +12,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { Check, FileScan, QrCode, Search, UserPlus } from 'lucide-react-native';
 import { lifebookApi, lifebookInboxApi, type LbFollowerItem, type LbSuggestedUser } from '../../api/lifebook';
 import { messagesApi, type LbConversation, type LbConversationCard, toConversationCard } from '../../api/messages';
@@ -158,7 +158,7 @@ export function AddFriendSheet({ visible, onClose, onOpenChat }: {
                   )}
                   <Pressable
                     onPress={() => { onClose(); onOpenChat(p.id, p.name); }}
-                    style={[styles.smallBtn, { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }]}
+                    style={[styles.smallBtn, { backgroundColor: colors.surface, borderWidth: trazo.fino, borderColor: colors.border }]}
                   >
                     <Text style={[styles.smallBtnText, { color: colors.textPrimary }]}>Mensaje</Text>
                   </Pressable>
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   badgeText: { color: brand.white, fontSize: 10, fontWeight: peso.maximo },
   smallBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, minWidth: 78, justifyContent: 'center' },
   smallBtnText: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo },
-  check: { width: 24, height: 24, borderRadius: radios.md, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
+  check: { width: 24, height: 24, borderRadius: radios.md, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
   notice: { borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e10 },
   titleInput: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 44, fontSize: 14.5, marginBottom: espaciado.e8 },
   primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e12 },

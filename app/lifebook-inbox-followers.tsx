@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, UserPlus, Users } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -171,5 +171,5 @@ const styles = StyleSheet.create({
   topTitle: { fontSize: 16.5, fontWeight: peso.titulo, flex: 1 },
   sectionTitle: { fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.6, marginTop: espaciado.e6, marginBottom: espaciado.e8 },
   card: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e12, marginBottom: espaciado.e8 },
-  followBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderWidth: 1 },
+  followBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderWidth: trazo.fino },
 });

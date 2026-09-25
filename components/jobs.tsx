@@ -7,7 +7,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { BadgeCheck, Briefcase, Search, ShieldCheck, X } from 'lucide-react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import type { WorkJob } from '../api/work';
 import { brand } from '@egrouteplan/ui-kit';
 
@@ -166,7 +166,7 @@ export function WorkSafetyNotice() {
 }
 
 const s = StyleSheet.create({
-  card: { marginHorizontal: espaciado.e16, marginBottom: espaciado.e10, borderRadius: 14, padding: espaciado.e13, borderWidth: 1 },
+  card: { marginHorizontal: espaciado.e16, marginBottom: espaciado.e10, borderRadius: 14, padding: espaciado.e13, borderWidth: trazo.fino },
   title: { fontSize: tipografia.subtitle, fontWeight: peso.maximo, flex: 1, lineHeight: 20 },
   salary: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: brand.secondary },
   company: { fontSize: tipografia.body, fontWeight: peso.medio, flexShrink: 1 },
@@ -177,7 +177,7 @@ const s = StyleSheet.create({
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e10, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   avatar: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   avatarText: { fontSize: tipografia.body, fontWeight: peso.titulo },
-  search: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 44, marginHorizontal: espaciado.e16, marginVertical: espaciado.e8, borderWidth: 1 },
+  search: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: 44, marginHorizontal: espaciado.e16, marginVertical: espaciado.e8, borderWidth: trazo.fino },
   searchInput: { flex: 1, fontSize: tipografia.body, padding: 0 },
   sortBtn: { paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14 },
   emptyIcon: { width: 80, height: 80, borderRadius: 40, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e16 },

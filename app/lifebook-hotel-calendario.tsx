@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -465,18 +465,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 40, height: 34, alignItems: 'center', justifyContent: 'center' },
-  aviso: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e14 },
+  aviso: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e14 },
   rango: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
-    borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e12,
+    borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e12,
   },
-  mes: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e10 },
+  mes: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e10 },
   mesCabecera: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e4, marginBottom: espaciado.e6 },
   fila: { flexDirection: 'row' },
   dow: { flex: 1, textAlign: 'center', fontSize: tipografia.micro, fontWeight: peso.maximo, marginBottom: espaciado.e2 },
   celda: { flex: 1, aspectRatio: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10, margin: 1 },
   punto: { width: 4, height: 4, borderRadius: 2 },
-  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
+  chip: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
   linea: {
     flexDirection: 'row', alignItems: 'center',
     borderTopWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e9,

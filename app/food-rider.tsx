@@ -24,7 +24,7 @@ import {
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, MapPin, Navigation, Phone, XCircle } from 'lucide-react-native';
-import { alpha, espaciado, FormField, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { foodApi, FoodDelivery, FoodRiderMe, ContabilidadRepartidor } from '../api/food';
 import { getGqPositionIfAllowed } from '../api/locate';
 import { formatXAF } from '../utils/formatHelpers';
@@ -292,7 +292,7 @@ export default function FoodRiderScreen() {
             {rider?.status === 'active' && contab ? (
               <View style={{ marginTop: espaciado.e16 }}>
                 <Text style={s.sectionTitle}>Tu semana</Text>
-                <View style={[s.reqBox, { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }]}>
+                <View style={[s.reqBox, { backgroundColor: colors.surface, borderWidth: trazo.fino, borderColor: colors.border }]}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Entregas</Text>
                     <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textPrimary }}>{contab.entregas}</Text>
@@ -438,7 +438,7 @@ export default function FoodRiderScreen() {
                             onPress={() => abrirMapa(d.deliveryLat ?? null, d.deliveryLng ?? null, d.deliveryAddress ?? null)}
                             accessibilityRole="button"
                             accessibilityLabel={`Cómo llegar a la entrega${d.deliveryLat != null ? ' (con ubicación exacta)' : ' (por la dirección escrita)'}`}
-                            style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: 1, borderColor: alpha(ACCENT, 0.5), backgroundColor: alpha(ACCENT, 0.10) }}
+                            style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: trazo.fino, borderColor: alpha(ACCENT, 0.5), backgroundColor: alpha(ACCENT, 0.10) }}
                           >
                             <Navigation size={14} color={ACCENT} />
                             <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
@@ -452,7 +452,7 @@ export default function FoodRiderScreen() {
                             número. El repartidor dice dónde está y el cliente lo ve al momento. */}
                         {d.status !== 'delivered' ? (
                           d.meetingNote ? (
-                            <View style={{ marginTop: espaciado.e8, borderRadius: 10, borderWidth: 1, padding: espaciado.e10, borderColor: alpha(colors.success, 0.4), backgroundColor: alpha(colors.success, 0.08) }}>
+                            <View style={{ marginTop: espaciado.e8, borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e10, borderColor: alpha(colors.success, 0.4), backgroundColor: alpha(colors.success, 0.08) }}>
                               <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.success }}>🤝 Punto de encuentro avisado</Text>
                               <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2, lineHeight: 15 }}>{d.meetingNote}</Text>
                               <Pressable
@@ -476,7 +476,7 @@ export default function FoodRiderScreen() {
                                 placeholderTextColor={colors.textSecondary}
                                 maxLength={200}
                                 accessibilityLabel="Punto de encuentro"
-                                style={{ minHeight: 44, borderRadius: 10, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderColor: colors.border, color: colors.textPrimary, backgroundColor: colors.background }}
+                                style={{ minHeight: 44, borderRadius: 10, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderColor: colors.border, color: colors.textPrimary, backgroundColor: colors.background }}
                               />
                               <View style={{ flexDirection: 'row', gap: espaciado.e8, alignItems: 'center', marginTop: espaciado.e8, flexWrap: 'wrap' }}>
                                 <Pressable
@@ -484,7 +484,7 @@ export default function FoodRiderScreen() {
                                   disabled={puntoUbicando}
                                   accessibilityRole="button"
                                   accessibilityLabel="Usar mi ubicación para el punto de encuentro"
-                                  style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: 1, borderColor: colors.border }}
+                                  style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: trazo.fino, borderColor: colors.border }}
                                 >
                                   <MapPin size={13} color={colors.textPrimary} />
                                   <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>
@@ -520,7 +520,7 @@ export default function FoodRiderScreen() {
                               onPress={() => { setPuntoDe(d.orderId); setPuntoTexto(''); setPuntoCoords(null); }}
                               accessibilityRole="button"
                               accessibilityLabel="Indicar el punto de encuentro al cliente"
-                              style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: 1, borderColor: colors.border }}
+                              style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10, borderWidth: trazo.fino, borderColor: colors.border }}
                             >
                               <MapPin size={14} color={colors.textPrimary} />
                               <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>Punto de encuentro</Text>
@@ -557,7 +557,7 @@ export default function FoodRiderScreen() {
                                   placeholder="0"
                                   placeholderTextColor={colors.textSecondary}
                                   accessibilityLabel="Efectivo cobrado en esta entrega"
-                                  style={{ flex: 1, height: 44, borderRadius: 10, borderWidth: 1, paddingHorizontal: espaciado.e12, borderColor: colors.border, color: colors.textPrimary, backgroundColor: colors.background }}
+                                  style={{ flex: 1, height: 44, borderRadius: 10, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, borderColor: colors.border, color: colors.textPrimary, backgroundColor: colors.background }}
                                 />
                                 <Pressable onPress={() => guardarCobro(d.orderId)} disabled={busy}
                                   accessibilityRole="button" accessibilityLabel="Guardar el efectivo cobrado"
@@ -638,7 +638,7 @@ function CallBtn({ phone, label }: { phone: string | null; label: string }) {
       onPress={() => Linking.openURL(`tel:${digits}`).catch(() => undefined)}
       accessibilityRole="button"
       accessibilityLabel={label}
-      style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e5, borderWidth: 1, borderColor: colors.primary, borderRadius: 9, paddingVertical: espaciado.e8 }}
+      style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e5, borderWidth: trazo.fino, borderColor: colors.primary, borderRadius: 9, paddingVertical: espaciado.e8 }}
     >
       <Phone size={13} color={colors.primary} />
       <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{label}</Text>
@@ -678,8 +678,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   reqBox: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14 },
   sectionTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, marginBottom: espaciado.e10 },
   rejectedBox: { borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e12 },
-  delCard: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e10, borderWidth: 1 },
+  delCard: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e10, borderWidth: trazo.fino },
   advBtn: { marginTop: espaciado.e10, borderRadius: 10, paddingVertical: espaciado.e11, alignItems: 'center' },
   // Distintivo de «cobrar en la puerta» (C5): se ve antes de llegar, no al anotar.
-  payBadge: { borderRadius: 9, borderWidth: 1, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
+  payBadge: { borderRadius: 9, borderWidth: trazo.fino, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
 });

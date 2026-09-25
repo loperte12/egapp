@@ -16,7 +16,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import { hotelApi, type HotelSearchResult } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
@@ -283,25 +283,25 @@ export default function HotelFechasScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
+  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: trazo.fino },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: peso.fuerte, lineHeight: 28 },
   titulo: { fontSize: 16.5, fontWeight: peso.maximo },
   sub: { fontSize: tipografia.caption },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e8 },
-  aviso: { margin: espaciado.e14, borderWidth: 1, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
+  aviso: { margin: espaciado.e14, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
   enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   modos: { flexDirection: 'row', gap: espaciado.e8 },
-  modoBtn: { flex: 1, borderWidth: 1, borderRadius: radios.md, paddingVertical: espaciado.e9, alignItems: 'center' },
+  modoBtn: { flex: 1, borderWidth: trazo.fino, borderRadius: radios.md, paddingVertical: espaciado.e9, alignItems: 'center' },
   modoTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
-  diasFila: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1, borderRadius: 14, padding: espaciado.e12 },
+  diasFila: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12 },
   diasEtq: { fontSize: 14.5, fontWeight: peso.maximo },
   diasBtns: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
-  diasBtn: { width: 38, height: 38, borderWidth: 1, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  diasBtn: { width: 38, height: 38, borderWidth: trazo.fino, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
   diasBtnTxt: { fontSize: tipografia.title, fontWeight: peso.maximo, lineHeight: 22 },
   diasVal: { fontSize: 17, fontWeight: peso.maximo, minWidth: 26, textAlign: 'center' },
   pie: {
-    position: 'absolute', left: 0, right: 0, bottom: 0, borderTopWidth: 1,
+    position: 'absolute', left: 0, right: 0, bottom: 0, borderTopWidth: trazo.fino,
     paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
   },
   pieEtq: { fontSize: tipografia.caption },

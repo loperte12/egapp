@@ -104,7 +104,7 @@ import { useVideoPlayer, VideoView } from 'expo-video';
 import {
   ArrowLeft, Bookmark, Heart, MessageCircle, Share2, ShoppingBag, Volume2, VolumeX,
 } from 'lucide-react-native';
-import { alpha, EmptyState, espaciado, InlineError, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, InlineError, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { absUrl } from '../api/config';
 import { ir as irSeguro } from '../constants/rutas';
 import { authApi } from '../api/auth';
@@ -1400,7 +1400,7 @@ const s = StyleSheet.create({
   largoBox: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 3, gap: espaciado.e12 },
   largoPlay: {
     width: 70, height: 70, borderRadius: 35, alignItems: 'center', justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.55)', borderWidth: 2, borderColor: 'rgba(255,255,255,0.85)',
+    backgroundColor: 'rgba(0,0,0,0.55)', borderWidth: trazo.fuerte, borderColor: 'rgba(255,255,255,0.85)',
   },
   largoTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo, textAlign: 'center', lineHeight: 19 },
   largoSub: { color: 'rgba(255,255,255,0.8)', fontSize: tipografia.caption, fontWeight: peso.fuerte },

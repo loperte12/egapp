@@ -18,7 +18,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { ImageIcon, X } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { rentalApi, type LandlordMe, type RentalProperty, type RentalCatalog } from '../api/rental';
 import { formatXAF } from '../utils/formatHelpers';
@@ -347,7 +347,7 @@ export default function AlquilerPublicarScreen() {
                       <Pressable
                         onPress={() => void pickDocPhoto()}
                         accessibilityRole="button" accessibilityLabel="Subir foto del documento"
-                        style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10, borderWidth: 1, borderColor: colors.border, opacity: pressed ? 0.85 : 1 }]}
+                        style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10, borderWidth: trazo.fino, borderColor: colors.border, opacity: pressed ? 0.85 : 1 }]}
                       >
                         <ImageIcon size={18} color={colors.primary} /><Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: peso.medio }}>Subir foto del documento</Text>
                       </Pressable>
@@ -491,7 +491,7 @@ export default function AlquilerPublicarScreen() {
                   ))}
                   {photos.length < plan.photos && (
                     <Pressable onPress={() => void pickPhoto()} accessibilityRole="button" accessibilityLabel="Añadir foto"
-                      style={({ pressed }) => [{ width: 74, height: 74, borderRadius: radios.sm, borderWidth: 2, borderColor: colors.border, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.7 : 1 }]}>
+                      style={({ pressed }) => [{ width: 74, height: 74, borderRadius: radios.sm, borderWidth: trazo.fuerte, borderColor: colors.border, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.7 : 1 }]}>
                       <Text style={{ fontSize: 26, color: colors.textSecondary }}>+</Text>
                     </Pressable>
                   )}
@@ -551,7 +551,7 @@ export default function AlquilerPublicarScreen() {
                       </View>
                       <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: p.status === 'closed' ? colors.danger : colors.success }}>{p.status === 'closed' ? 'Cerrado' : 'Activo'}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e10, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e10, alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e10, borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingTop: espaciado.e10, alignItems: 'center' }}>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>👁 {p.viewsCount} vistas</Text>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>⭐ {p.favoritesCount} favs</Text>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>📞 {p.contactClicks} contactos</Text>
@@ -586,7 +586,7 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
   const { colors } = useTheme();
   return (
     <Pressable onPress={onPress} accessibilityRole="button" accessibilityState={{ selected: active }} accessibilityLabel={label}
-      style={({ pressed }) => [{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}>
+      style={({ pressed }) => [{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: active ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: active ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}>
       <Text style={{ fontSize: tipografia.caption, fontWeight: active ? peso.fuerte : peso.medio, color: active ? brand.white : colors.textPrimary }}>{label}</Text>
     </Pressable>
   );
@@ -596,5 +596,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   planBanner: { borderRadius: radios.md, padding: espaciado.e14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e16 },
   label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
   counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: espaciado.e4 },
-  area: { minHeight: 90, borderRadius: 10, borderWidth: 1, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
+  area: { minHeight: 90, borderRadius: 10, borderWidth: trazo.fino, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
 });

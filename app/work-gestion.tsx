@@ -26,7 +26,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, radios, tipografia, useScreenGuard, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useScreenGuard, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, Briefcase, ChevronRight, Clock, CreditCard, Plus, TriangleAlert, Users,
 } from 'lucide-react-native';
@@ -275,11 +275,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
-  resumen: { borderWidth: 1, borderRadius: 14, padding: espaciado.e13 },
-  pendiente: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56 },
+  resumen: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e13 },
+  pendiente: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56 },
   fila: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
-    borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
+    borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
   },
   filaIcono: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
 });

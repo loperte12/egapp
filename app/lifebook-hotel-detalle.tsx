@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { Car, Navigation } from 'lucide-react-native';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import { PhotoGallery } from '../components/PhotoGallery';
@@ -507,7 +507,7 @@ function addDays(iso: string, days: number): string {
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: 1 },
+  barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: trazo.fino },
   volver: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   volverTxt: { fontSize: 26, fontWeight: peso.fuerte, lineHeight: 28 },
   // Botón de volver flotante sobre la galería (la barra superior se ve, pero en la
@@ -519,25 +519,25 @@ const styles = StyleSheet.create({
   volverFlotanteTxt: { color: brand.white, fontSize: 24, fontWeight: peso.fuerte, lineHeight: 26 },
   titulo: { fontSize: 16.5, fontWeight: peso.maximo, flex: 1 },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  error: { margin: espaciado.e14, borderWidth: 1, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
+  error: { margin: espaciado.e14, borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
   enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
-  bloque: { borderWidth: 1, borderRadius: 18, padding: espaciado.e12, gap: espaciado.e4 },
+  bloque: { borderWidth: trazo.fino, borderRadius: 18, padding: espaciado.e12, gap: espaciado.e4 },
   nombre: { fontSize: 18, fontWeight: peso.maximo },
   sub: { fontSize: tipografia.caption },
   dato: { fontSize: tipografia.body, marginTop: espaciado.e4 },
   servicios: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e8 },
-  servicio: { borderWidth: 1, borderRadius: 20, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4 },
+  servicio: { borderWidth: trazo.fino, borderRadius: 20, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4 },
   servicioTxt: { fontSize: tipografia.caption },
   seccion: { fontSize: 15, fontWeight: peso.maximo },
   /** Botón de línea (Cómo llegar, taxi, elegir moneda): el mismo aspecto en los tres sitios. */
-  botonLinea: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, marginTop: espaciado.e6 },
+  botonLinea: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, marginTop: espaciado.e6 },
   botonLineaTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   /** Aviso con borde (Al llegar / taxi): información que el huésped necesita, sin gritar. */
-  aviso: { borderWidth: 1, borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e8 },
+  aviso: { borderWidth: trazo.fino, borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e8 },
   filaHab: { flexDirection: 'row', gap: espaciado.e10, alignItems: 'flex-start' },
   habNombre: { fontSize: 14.5, fontWeight: peso.maximo },
   precio: { fontSize: 15, fontWeight: peso.maximo },
-  cuenta: { borderWidth: 1, borderRadius: 14, padding: espaciado.e10, gap: espaciado.e3 },
+  cuenta: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e10, gap: espaciado.e3 },
   filaCuenta: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e10 },
   cuentaEtq: { fontSize: tipografia.caption, flex: 1 },
   cuentaVal: { fontSize: tipografia.body },

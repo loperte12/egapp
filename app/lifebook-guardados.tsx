@@ -16,7 +16,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, EmptyState, espaciado, GhostButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, GhostButton, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AlertCircle, ArrowLeft, Heart } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceApi, type LbProductCard } from '../api/commerce';
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e10,
   },
   quitar: {
-    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderWidth: 1, borderRadius: 10,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderWidth: trazo.fino, borderRadius: 10,
     paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8,
   },
 });

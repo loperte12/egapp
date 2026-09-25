@@ -27,7 +27,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, Camera, Eye, EyeOff, Plus, Trash2, X, XCircle } from 'lucide-react-native';
-import { alpha, altura, espaciado, FormField, PrimaryButton, radios, ScreenHeader, Sheet, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, altura, espaciado, FormField, PrimaryButton, radios, ScreenHeader, Sheet, Tactil, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodOwnerMe, SPICE_LABEL, SPICE_ICON, SIDES_MAX, type SpiceLevel } from '../api/food';
 import { formatXAF } from '../utils/formatHelpers';
 import { foodHoursError } from '../utils/foodHours';
@@ -826,7 +826,7 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
   const statusColor = item.status === 'active' ? brand.success : item.status === 'rejected' ? colors.danger : colors.secondary;
   const statusText = item.status === 'active' ? (item.available ? '✓ Activo' : 'Oculto') : item.status === 'rejected' ? '✗ Rechazado' : 'En revisión';
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: 10, padding: espaciado.e10, marginBottom: espaciado.e6, borderWidth: 1, borderColor: colors.border }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: 10, padding: espaciado.e10, marginBottom: espaciado.e6, borderWidth: trazo.fino, borderColor: colors.border }}>
       {photo ? (
         <RNImage source={{ uri: photo }} style={{ width: 40, height: 40, borderRadius: radios.sm }} />
       ) : (
@@ -914,20 +914,20 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   sectionTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, marginBottom: espaciado.e10 },
   photo: { width: 84, height: 84, borderRadius: 14 },
   photoFallback: { backgroundColor: alpha(ACCENT, 0.08), alignItems: 'center', justifyContent: 'center' },
-  photoBtn: { borderWidth: 1.5, borderRadius: radios.md, paddingVertical: espaciado.e10, alignItems: 'center' },
-  cityBox: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: 14, borderWidth: 1.5, paddingHorizontal: espaciado.e14, height: altura.campo },
-  area: { minHeight: 70, borderRadius: 14, borderWidth: 1, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
+  photoBtn: { borderWidth: trazo.base, borderRadius: radios.md, paddingVertical: espaciado.e10, alignItems: 'center' },
+  cityBox: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: 14, borderWidth: trazo.base, paddingHorizontal: espaciado.e14, height: altura.campo },
+  area: { minHeight: 70, borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
   rejectedBox: { borderRadius: 10, padding: espaciado.e10, marginTop: espaciado.e12 },
-  cityItem: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e13, borderBottomWidth: 1 },
+  cityItem: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e20, paddingVertical: espaciado.e13, borderBottomWidth: trazo.fino },
   // ── Detalles del plato (041) ──
-  detailsHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },
-  detailsBody: { borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e8, backgroundColor: c.background },
+  detailsHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },
+  detailsBody: { borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e8, backgroundColor: c.background },
   fieldLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, marginBottom: espaciado.e6, marginLeft: espaciado.e2 },
   fieldHint: { fontSize: 10.5, color: c.textSecondary, marginTop: espaciado.e5, marginLeft: espaciado.e2, lineHeight: 15 },
   fieldErr: { fontSize: tipografia.micro, fontWeight: peso.fuerte, color: c.danger, marginTop: espaciado.e5, marginLeft: espaciado.e2 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
-  chip: { borderWidth: 1, borderRadius: radios.lg, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
-  switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },
+  chip: { borderWidth: trazo.fino, borderRadius: radios.lg, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
+  switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },
   switchTrack: { width: 42, height: 24, borderRadius: radios.md, padding: espaciado.e3, justifyContent: 'center' },
   switchKnob: { width: 18, height: 18, borderRadius: 9, backgroundColor: brand.white },
 });

@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { CarTaxiFront, BadgeInfo } from 'lucide-react-native';
 import { mobilityApi, fmtXaf, type FareQuote } from '../api/mobility';
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginTop: espaciado.e16,
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: trazo.fino,
     borderRadius: radios.lg,
     padding: espaciado.e12,
     gap: espaciado.e10,

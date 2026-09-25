@@ -12,7 +12,7 @@ import Svg, { Defs, LinearGradient as SvgLinearGradient, Rect, Stop } from 'reac
 import { absUrl } from '../../api/config';
 import { statusBgColors } from '../../constants/status';
 import type { UserStatus } from '../../api/status';
-import { brand, peso} from '@egrouteplan/ui-kit';
+import { brand, peso, trazo} from '@egrouteplan/ui-kit';
 
 export default function StatusRingAvatar({
   avatarUrl,
@@ -65,7 +65,7 @@ export default function StatusRingAvatar({
       </View>
     </View>
   ) : (
-    <View style={{ width: size, height: size, borderRadius: radius, overflow: 'hidden', borderWidth: 2, borderColor: defaultRingColor ?? 'rgba(255,255,255,0.95)' }}>
+    <View style={{ width: size, height: size, borderRadius: radius, overflow: 'hidden', borderWidth: trazo.fuerte, borderColor: defaultRingColor ?? 'rgba(255,255,255,0.95)' }}>
       {inner}
     </View>
   );

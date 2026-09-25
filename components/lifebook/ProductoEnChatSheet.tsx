@@ -22,7 +22,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ChevronDown, Minus, Plus, ShoppingCart, Store, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { commerceApi, type LbProduct, type LbProductVariant } from '../../api/commerce';
@@ -320,12 +320,12 @@ const styles = StyleSheet.create({
   handleWrap: { alignItems: 'center', paddingTop: espaciado.e8, paddingBottom: espaciado.e2 },
   handle: { width: 38, height: 4, borderRadius: 2 },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
-  paso: { width: 30, height: 30, borderRadius: radios.sm, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  chip: { borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
+  paso: { width: 30, height: 30, borderRadius: radios.sm, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center' },
   linea: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e10 },
   pagar: { borderRadius: 14, paddingVertical: espaciado.e14, alignItems: 'center', marginTop: espaciado.e6 },
   acciones: { flexDirection: 'row', gap: espaciado.e10, padding: espaciado.e12, borderTopWidth: StyleSheet.hairlineWidth },
-  accionSec: { flex: 1, borderWidth: 1.5, borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center' },
+  accionSec: { flex: 1, borderWidth: trazo.base, borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center' },
   accionPri: { flex: 1, borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center' },
   encoger: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, paddingVertical: espaciado.e12, borderTopWidth: StyleSheet.hairlineWidth },
 });

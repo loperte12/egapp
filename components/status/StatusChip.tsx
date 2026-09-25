@@ -13,7 +13,7 @@ import { useTheme } from '../../theme/ThemeContext';
 import { statusBgColors, remainingShort } from '../../constants/status';
 import { useServerClock, formatRemainingMs } from '../../hooks/useServerClock';
 import type { UserStatus } from '../../api/status';
-import { brand, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
 
 export default function StatusChip({
   status,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e5,
     alignSelf: 'flex-start',
     borderRadius: radios.full,
-    borderWidth: 1,
+    borderWidth: trazo.fino,
     paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5,
     marginTop: espaciado.e4,
   },

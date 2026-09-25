@@ -8,7 +8,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft } from 'lucide-react-native';
-import { espaciado, radios, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { espaciado, radios, Tactil, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { walletApi, type WalletTx } from '../api/wallet';
 import { fmtXaf, txLabel, TxStatusChip } from './monedero';
@@ -174,8 +174,8 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12 },
   retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
-  filtro: { borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7 },
-  card: { borderRadius: 18, borderWidth: 1, padding: espaciado.e16 },
+  filtro: { borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7 },
+  card: { borderRadius: 18, borderWidth: trazo.fino, padding: espaciado.e16 },
   txRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },
-  masBtn: { borderRadius: 14, borderWidth: 1, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e14 },
+  masBtn: { borderRadius: 14, borderWidth: trazo.fino, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e14 },
 });

@@ -15,7 +15,7 @@ import { ChevronRight } from 'lucide-react-native';
 import { adsApi, type HomeAd } from '../api/ads';
 import { alpha } from '../constants/colors';
 import { useTheme } from '../theme/ThemeContext';
-import { brand, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const H_PADDING = 20;
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 18,
-    borderWidth: 1,
+    borderWidth: trazo.fino,
     padding: espaciado.e14,
     minHeight: 92,
   },

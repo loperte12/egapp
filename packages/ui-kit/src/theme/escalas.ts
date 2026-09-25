@@ -223,6 +223,23 @@ export const trazo = {
   fuerte: 2,
   /** Trazo de un elemento activo sobre fondo con contraste (iconos de estado). */
   marcado: 2.5,
+  /**
+   * ANILLO — el peldaño del avatar con borde (decisión del 25/09/2026, tanda `B1`).
+   *
+   * POR QUÉ EXISTE: al tokenizar `borderWidth` aparecieron **6 sitios con `3`** que la escala no
+   * contenía, y los seis eran la MISMA cosa: el anillo que separa un avatar, un logo o un marco del
+   * fondo — `profile.tsx` (avatar 76), `lifebook-user.tsx` (86), `lifebook-shop/[id].tsx` (logo 74),
+   * `lifebook-merchant-settings.tsx`, `edit-profile.tsx` (84) y `agente-escaner.tsx` (marco 230).
+   *
+   * No es un borde: un borde delimita un control y va dentro de su caja; un anillo se dibuja SOBRE el
+   * contenido y su grosor crece con el tamaño del avatar para que la proporción se mantenga. Por eso
+   * no cabía en `fuerte` (2) ni en `marcado` (2.5): es más grueso a propósito.
+   *
+   * Se declara el valor que el producto ya escribe, así que los 6 sitios entran **sin mover un píxel**.
+   * Mismo criterio que los peldaños `e18`/`e22`/`e26`/`e28`/`e30` del espaciado: nombrar lo que existe,
+   * no corregirlo.
+   */
+  anillo: 3,
 } as const;
 
 /**

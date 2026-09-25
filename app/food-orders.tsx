@@ -24,7 +24,7 @@ import { ActivityIndicator, Alert, FlatList, Modal, Pressable, StyleSheet, Text,
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Star } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, radios, ScreenHeader, Sheet, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, ScreenHeader, Sheet, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { foodApi, FoodOrder, FoodOrdersPage, FoodRider } from '../api/food';
 import { formatDateTime, formatXAF } from '../utils/formatHelpers';
 import { abrirMapa } from '../utils/maps';
@@ -563,7 +563,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           El neto del restaurante («Te queda») sigue siendo SOLO del dueño: es su margen comercial,
           no hay razón para que un cliente lo vea, y la decisión fue sobre la comisión. */}
       {o.platformFeeXaf !== null && o.riderFeeXaf !== null ? (
-        <View style={{ marginTop: espaciado.e8, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e6 }}>
+        <View style={{ marginTop: espaciado.e8, borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingTop: espaciado.e6 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Comisión de la plataforma</Text>
             <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>
@@ -604,7 +604,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           viviendas sociales o el portal sin número, donde la dirección no basta para encontrarse.
           Se muestra en cuanto existe, sin tocar nada: el repartidor ya avisó por SMS también. */}
       {o.meetingNote ? (
-        <View style={{ marginTop: espaciado.e6, borderRadius: 10, borderWidth: 1, padding: espaciado.e10, borderColor: alpha(colors.success, 0.45), backgroundColor: alpha(colors.success, 0.10) }}>
+        <View style={{ marginTop: espaciado.e6, borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e10, borderColor: alpha(colors.success, 0.45), backgroundColor: alpha(colors.success, 0.10) }}>
           <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.success }}>🤝 El repartidor te espera aquí</Text>
           <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, marginTop: espaciado.e3, lineHeight: 16 }}>{o.meetingNote}</Text>
           {typeof o.meetingLat === 'number' && typeof o.meetingLng === 'number' ? (
@@ -793,22 +793,22 @@ function OrdersSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['color
 }
 
 const s_chip = StyleSheet.create({
-  base: { paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e7, borderRadius: radios.lg, borderWidth: 1 },
+  base: { paddingHorizontal: espaciado.e13, paddingVertical: espaciado.e7, borderRadius: radios.lg, borderWidth: trazo.fino },
 });
 
 const s_card = StyleSheet.create({
-  card: { borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e12, borderWidth: 1 },
+  card: { borderRadius: 14, padding: espaciado.e14, marginBottom: espaciado.e12, borderWidth: trazo.fino },
   cancelledBox: { borderRadius: 10, padding: espaciado.e8, marginTop: espaciado.e10, alignItems: 'center' },
-  etaBox: { borderRadius: 10, borderWidth: 1, padding: espaciado.e9, marginTop: espaciado.e10 },
+  etaBox: { borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e9, marginTop: espaciado.e10 },
 });
 
 const s_rm = StyleSheet.create({
-  btnGhost: { flex: 1, borderRadius: radios.md, borderWidth: 1, paddingVertical: espaciado.e12, alignItems: 'center' },
+  btnGhost: { flex: 1, borderRadius: radios.md, borderWidth: trazo.fino, paddingVertical: espaciado.e12, alignItems: 'center' },
   btnPrimary: { flex: 1, borderRadius: radios.md, backgroundColor: ACCENT, paddingVertical: espaciado.e12, alignItems: 'center' },
 });
 
 const s_sk = StyleSheet.create({
-  card: { borderRadius: 14, borderWidth: 1, padding: espaciado.e14, marginBottom: espaciado.e12 },
+  card: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e14, marginBottom: espaciado.e12 },
 });
 
 const s_center = StyleSheet.create({
@@ -816,7 +816,7 @@ const s_center = StyleSheet.create({
   title: { fontSize: 15, fontWeight: peso.maximo, textAlign: 'center' },
   sub: { fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 18 },
   btnPrimary: { marginTop: espaciado.e18, backgroundColor: ACCENT, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22 },
-  btnGhost: { marginTop: espaciado.e18, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22, borderWidth: 1, borderColor: ACCENT },
+  btnGhost: { marginTop: espaciado.e18, paddingHorizontal: espaciado.e24, paddingVertical: espaciado.e11, borderRadius: 22, borderWidth: trazo.fino, borderColor: ACCENT },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
@@ -826,5 +826,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   modalWrap: { flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' },
   modalCard: { borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: espaciado.e18, maxHeight: '75%' },
   modalTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, marginBottom: espaciado.e4 },
-  riderRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e8 },
+  riderRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e12, marginBottom: espaciado.e8 },
 });

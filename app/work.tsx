@@ -21,7 +21,7 @@ import { FlatList, Modal, Pressable, ScrollView, StyleSheet, Switch, Text, View,
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Plus, Crown, SlidersHorizontal, Check, X } from 'lucide-react-native';
-import { espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useWorkSearch } from '../hooks/useWorkSearch';
 import { sortJobs } from '../utils/workSort';
 import { getTimeAgo } from '../utils/formatHelpers';
@@ -108,7 +108,7 @@ export default function WorkScreen() {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {chips.map((c, i) => (
               <Pressable key={`${c.label}-${i}`} onPress={c.remove} accessibilityRole="button" accessibilityLabel={`Quitar filtro ${c.label}`}
-                style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14, borderWidth: 1, borderColor: colors.primary, marginRight: espaciado.e6 }}>
+                style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14, borderWidth: trazo.fino, borderColor: colors.primary, marginRight: espaciado.e6 }}>
                 <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.medio }}>{c.label}</Text>
                 <X size={12} color={colors.primary} style={{ marginLeft: espaciado.e4 }} />
               </Pressable>
@@ -176,7 +176,7 @@ export default function WorkScreen() {
         <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <View style={{ backgroundColor: colors.background, borderTopLeftRadius: 24, borderTopRightRadius: 24, maxHeight: '92%', paddingBottom: insets.bottom + 12 }}>
             <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: colors.border, alignSelf: 'center', marginTop: espaciado.e8, marginBottom: espaciado.e12 }} />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e12, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e12, borderBottomWidth: trazo.fino, borderBottomColor: colors.border }}>
               <Pressable onPress={() => setFilterVisible(false)} hitSlop={10} accessibilityRole="button" accessibilityLabel="Cerrar filtros"><X size={22} color={colors.textPrimary} /></Pressable>
               <Text style={{ fontSize: 17, fontWeight: peso.fuerte, color: colors.textPrimary }}>Filtros avanzados</Text>
               <View style={{ minWidth: 22 }}>{activeCount > 0 && <View style={styles.filterBadge}><Text style={{ color: brand.white, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>{activeCount}</Text></View>}</View>
@@ -226,7 +226,7 @@ export default function WorkScreen() {
 function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   const { colors } = useTheme();
   return (
-    <View style={{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e14, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+    <View style={{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e14, borderBottomWidth: trazo.fino, borderBottomColor: colors.border }}>
       <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>{title}</Text>
       {subtitle && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{subtitle}</Text>}
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: espaciado.e10 }}>{children}</View>
@@ -237,7 +237,7 @@ function Section({ title, subtitle, children }: { title: string; subtitle?: stri
 function ToggleRow({ label, sub, value, onChange }: { label: string; sub: string; value: boolean; onChange: (v: boolean) => void }) {
   const { colors } = useTheme();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e10, borderBottomWidth: 1, borderBottomColor: colors.surface }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e10, borderBottomWidth: trazo.fino, borderBottomColor: colors.surface }}>
       <View style={{ flex: 1 }}>
         <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary }}>{label}</Text>
         <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{sub}</Text>
@@ -248,7 +248,7 @@ function ToggleRow({ label, sub, value, onChange }: { label: string; sub: string
 }
 
 const s_chip = StyleSheet.create({
-  base: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: 20, marginRight: espaciado.e8, marginBottom: espaciado.e8, borderWidth: 1 },
+  base: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: 20, marginRight: espaciado.e8, marginBottom: espaciado.e8, borderWidth: trazo.fino },
 });
 
 const styles = StyleSheet.create({

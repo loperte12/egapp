@@ -14,7 +14,7 @@ import React, { useCallback, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, EmptyState, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, AtSign, ChevronRight, Heart, UserPlus } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { messagesApi, type LbInboxItem, type LbInboxType } from '../api/messages';
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     position: 'absolute', bottom: -2, right: -2,
     width: 20, height: 20, borderRadius: 10,
     alignItems: 'center', justifyContent: 'center',
-    borderWidth: 2, borderColor: brand.white,
+    borderWidth: trazo.fuerte, borderColor: brand.white,
   },
   actionBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 96, alignItems: 'center' },
   targetThumb: { width: 44, height: 44, borderRadius: radios.sm },

@@ -12,7 +12,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, LinearGradient as SvgLinearGradient, Rect, Stop } from 'react-native-svg';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, BadgeCheck, Bookmark, Building2, CarTaxiFront, ChevronRight, Heart, Home, MoreHorizontal,
   MapPin, Package, PenSquare, Search, Star, Store, Utensils, Users,
@@ -717,7 +717,7 @@ function UserContent() {
                         backgroundColor: colors.surface, borderRadius: 14, padding: espaciado.e10,
                         opacity: pressed ? 0.8 : 1,
                         /* Fijado: se distingue igual que los chips fijados. */
-                        ...(g.pinned ? { borderWidth: 1, borderColor: colors.primary } : {}),
+                        ...(g.pinned ? { borderWidth: trazo.fino, borderColor: colors.primary } : {}),
                       }]}
                     >
                       {card?.photoUrl ? (
@@ -779,7 +779,7 @@ function UserContent() {
                     <View style={{
                       backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5,
                       /* Los fijados se distinguen del resto: borde del color de marca. */
-                      ...(esFijado(o) ? { borderWidth: 1, borderColor: colors.primary } : {}),
+                      ...(esFijado(o) ? { borderWidth: trazo.fino, borderColor: colors.primary } : {}),
                     }}>
                       <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte }} numberOfLines={1}>
                         {esFijado(o) ? '📌 ' : ''}{label}{abrible ? ' ↗' : ''}
@@ -978,7 +978,7 @@ function TarjetaProducto({ producto, colors, ancho, onPress }: {
     <Pressable
       onPress={onPress}
       accessibilityLabel={producto.title}
-      style={{ width: ancho, backgroundColor: colors.card, borderRadius: 14, borderWidth: 1, borderColor: alpha(colors.border, 0.5), padding: espaciado.e8 }}
+      style={{ width: ancho, backgroundColor: colors.card, borderRadius: 14, borderWidth: trazo.fino, borderColor: alpha(colors.border, 0.5), padding: espaciado.e8 }}
     >
       {producto.coverUrl ? (
         <Image source={{ uri: absUrl(producto.coverUrl) }} style={styles.prodImg} resizeMode="cover" />
@@ -1012,7 +1012,7 @@ const styles = StyleSheet.create({
   prodImg: { width: '100%', aspectRatio: 1, borderRadius: radios.md, backgroundColor: 'rgba(0,0,0,0.04)' },
 
   /* ── Tanda A: la tarjeta de la tienda ─────────────────────────────────────────── */
-  tiendaCard: { borderWidth: 1, borderRadius: 14, padding: espaciado.e10 },
+  tiendaCard: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e10 },
   tiendaLogo: { width: 30, height: 30, borderRadius: radios.sm },
   /* Miniatura CASI cuadrada (la especificación pide «cuadradas o casi»). 96×96 para que
      quepan tres y se vea que hay más desplazando. */
@@ -1033,15 +1033,15 @@ const styles = StyleSheet.create({
   topBarFloat: { position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5, flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e12 },
   roundIcon: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   identity: { flexDirection: 'row', gap: espaciado.e12 },
-  avatar: { width: 86, height: 86, borderRadius: 43, borderWidth: 3 },
+  avatar: { width: 86, height: 86, borderRadius: 43, borderWidth: trazo.anillo },
   avatarFallback: { alignItems: 'center', justifyContent: 'center' },
   fullName: { fontSize: tipografia.title, fontWeight: peso.titulo, flexShrink: 1 },
   statsRow: { flexDirection: 'row', marginHorizontal: espaciado.e16, marginTop: espaciado.e12, borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e10 },
   stat: { flex: 1, alignItems: 'center' },
-  mainBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e7, borderRadius: radios.full, paddingVertical: espaciado.e11, borderWidth: 1, borderColor: 'transparent' },
+  mainBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e7, borderRadius: radios.full, paddingVertical: espaciado.e11, borderWidth: trazo.fino, borderColor: 'transparent' },
   tabs: { flexDirection: 'row', marginTop: espaciado.e14, borderBottomWidth: StyleSheet.hairlineWidth },
   tab: { flex: 1, alignItems: 'center', paddingVertical: espaciado.e10 },
-  tabPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderWidth: 1, borderColor: 'transparent' },
+  tabPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderWidth: trazo.fino, borderColor: 'transparent' },
   userMenuSheet: { ...formaHoja },
   userMenuRow: { borderRadius: radios.md, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e12 },
 });

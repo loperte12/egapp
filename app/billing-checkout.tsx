@@ -29,7 +29,7 @@ import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera, Check, Info, RefreshCw, X, XCircle } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { billingApi, BillingOrder, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -455,8 +455,8 @@ export default function BillingCheckoutScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
-    card: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: 1 },
-    proofBox: { flexDirection: 'row', alignItems: 'center', padding: espaciado.e14, borderRadius: 10, borderWidth: 1 },
+    card: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: trazo.fino },
+    proofBox: { flexDirection: 'row', alignItems: 'center', padding: espaciado.e14, borderRadius: 10, borderWidth: trazo.fino },
     refreshRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, marginTop: espaciado.e16, paddingVertical: espaciado.e8 },
     center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   });

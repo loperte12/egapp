@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowLeft, Bell, Clock, Eye, Globe, Heart, Lock, Plus, Search, Store, Users,
 } from 'lucide-react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { useStatusStore } from '../state/statusStore';
 import StatusRingAvatar from '../components/status/StatusRingAvatar';
@@ -187,12 +187,12 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   topBar: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: 1,
+    paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: trazo.fino,
   },
   topTitle: { fontSize: 17, fontWeight: peso.titulo },
   center: { alignItems: 'center', paddingVertical: 60, gap: espaciado.e14 },
   retry: { borderRadius: radios.md, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
-  card: { marginHorizontal: espaciado.e16, borderRadius: 18, borderWidth: 1, padding: espaciado.e14 },
+  card: { marginHorizontal: espaciado.e16, borderRadius: 18, borderWidth: trazo.fino, padding: espaciado.e14 },
   groupTitle: {
     fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 1, color: '#8E8E93',
     textTransform: 'uppercase', marginTop: espaciado.e18, marginBottom: espaciado.e6, marginHorizontal: espaciado.e18,
@@ -200,14 +200,14 @@ const styles = StyleSheet.create({
   actionBtn: { flex: 1, alignItems: 'center', borderRadius: radios.md, paddingVertical: espaciado.e11 },
   addStatus: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
-    borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14,
+    borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14,
   },
   addIcon: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   subLabel: { fontSize: 10, fontWeight: peso.titulo, letterSpacing: 0.8, marginBottom: espaciado.e8 },
   visRowWrap: { flexDirection: 'row', gap: espaciado.e8, marginBottom: espaciado.e14 },
   visChip: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,
-    borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8,
+    borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8,
   },
   prefRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e10,

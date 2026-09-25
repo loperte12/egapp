@@ -23,7 +23,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AlertCircle, ArrowLeft, Info, Wallet } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceOrdersApi, type LbSaldoTienda } from '../api/commerce';
@@ -194,5 +194,5 @@ const styles = StyleSheet.create({
     paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth, gap: espaciado.e10,
   },
   seccion: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e20, marginBottom: espaciado.e8 },
-  chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
+  chip: { borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
 });

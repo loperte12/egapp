@@ -22,7 +22,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, MasOpciones, PinSheet, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, MasOpciones, PinSheet, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, Store } from 'lucide-react-native';
 import * as Crypto from 'expo-crypto';
 import { AuthGate } from '../core/AuthGate';
@@ -643,12 +643,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  bloque: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e12 },
+  bloque: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, marginBottom: espaciado.e12 },
   etiqueta: { fontSize: 10.5, fontWeight: peso.titulo, letterSpacing: 0.7, marginTop: espaciado.e12, marginBottom: espaciado.e6 },
-  chip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
-  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
+  chip: { borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
+  input: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
   pie: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   cta: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e12, alignItems: 'center', justifyContent: 'center' },
   okIcono: { width: 62, height: 62, borderRadius: 31, alignItems: 'center', justifyContent: 'center' },
-  aviso: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e12 },
+  aviso: { borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e12 },
 });

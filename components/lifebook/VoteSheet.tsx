@@ -10,7 +10,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { Plus, Trash2, Vote, X } from 'lucide-react-native';
 import { formaHoja } from './ui/Sheet';
 
@@ -148,6 +148,6 @@ const styles = StyleSheet.create({
   sheet: { ...formaHoja },
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e12 },
   input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
-  addRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderStyle: 'dashed', borderRadius: radios.md, paddingVertical: espaciado.e10, marginTop: espaciado.e12 },
+  addRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: trazo.fino, borderStyle: 'dashed', borderRadius: radios.md, paddingVertical: espaciado.e10, marginTop: espaciado.e12 },
   cta: { marginTop: espaciado.e16, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

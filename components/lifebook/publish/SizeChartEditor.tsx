@@ -19,7 +19,7 @@
  */
 import React, { useMemo, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { alpha, espaciado, GhostButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import type { LbSizeGender, LbSizeKind } from '../../../api/commerce';
 import { TALLAS_CALZADO } from '../../../constants/tallas';
 import { usePublishStore, type PublishSizeChartDraft, type PublishSizeRow } from '../../../state/commercePublish';
@@ -282,9 +282,9 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
 }
 
 const styles = StyleSheet.create({
-  input: { borderWidth: 1, borderRadius: 9, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e7, fontSize: tipografia.caption },
+  input: { borderWidth: trazo.fino, borderRadius: 9, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e7, fontSize: tipografia.caption },
   mini: { width: 58 },
-  card: { borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e10 },
+  card: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e10 },
   fila: { borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e8 },
   medida: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e5 },
 });

@@ -32,7 +32,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { ArrowLeft, CalendarDays, Plus } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -403,7 +403,7 @@ function Sello({ ok, texto, colors }: {
   const color = ok ? colors.textSecondary : colors.secondary;
   return (
     <View style={{
-      borderWidth: 1, borderColor: color, borderRadius: radios.full,
+      borderWidth: trazo.fino, borderColor: color, borderRadius: radios.full,
       paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3,
     }}>
       <Text style={{ color, fontSize: tipografia.micro, fontWeight: peso.maximo }}>
@@ -425,7 +425,7 @@ function ChipFiltro({ activo, texto, onPress }: { activo: boolean; texto: string
       accessibilityLabel={texto}
       style={{
         minHeight: 44, justifyContent: 'center',
-        borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e14,
+        borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e14,
         borderColor: activo ? colors.primary : colors.border,
         backgroundColor: activo ? alpha(colors.primary, 0.12) : colors.surface,
       }}
@@ -464,8 +464,8 @@ const styles = StyleSheet.create({
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   anadir: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
-  aviso: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e12 },
-  tarjeta: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e14, marginBottom: espaciado.e12 },
+  aviso: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e12 },
+  tarjeta: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e14, marginBottom: espaciado.e12 },
   portada: { width: 76, height: 76, borderRadius: radios.md, borderWidth: StyleSheet.hairlineWidth, overflow: 'hidden' },
   portadaImg: { width: '100%', height: '100%' },
   etiqueta: { borderRadius: radios.full, paddingHorizontal: espaciado.e9, paddingVertical: espaciado.e4, marginLeft: 'auto' },
@@ -477,7 +477,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center',
   },
   pieBtn: {
-    minHeight: 44, borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12,
+    minHeight: 44, borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12,
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e7,
   },
 });

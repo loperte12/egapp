@@ -15,7 +15,7 @@ import {
   StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ShoppingCart, X } from 'lucide-react-native';
 import { lbXaf } from '../../constants/lifebook';
 import { lifebookOrdersApi } from '../../api/lifebook';
@@ -123,6 +123,6 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
 }
 
 const styles = StyleSheet.create({
-  input: { borderRadius: 14, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, fontSize: 14.5, marginTop: espaciado.e6 },
+  input: { borderRadius: 14, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, fontSize: 14.5, marginTop: espaciado.e6 },
   area: { minHeight: 70, textAlignVertical: 'top' },
 });

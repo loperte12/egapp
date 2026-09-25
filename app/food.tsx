@@ -15,7 +15,7 @@ import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Bike, Search, Utensils } from 'lucide-react-native';
-import { alpha, EmptyState, espaciado, radios, ScreenHeader, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, radios, ScreenHeader, Tactil, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { foodApi, FoodCuisine, FoodRestaurant, FoodRestaurantsPage } from '../api/food';
 import { brand } from '@egrouteplan/ui-kit';
 
@@ -363,11 +363,11 @@ function RestaurantSkeleton({ colors }: { colors: ReturnType<typeof useTheme>['c
 
 
 const s_chip = StyleSheet.create({
-  base: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 18, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderWidth: 1 },
+  base: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 18, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderWidth: trazo.fino },
 });
 
 const s_card = StyleSheet.create({
-  card: { flexDirection: 'row', borderRadius: radios.lg, overflow: 'hidden', borderWidth: 1, marginBottom: espaciado.e10 },
+  card: { flexDirection: 'row', borderRadius: radios.lg, overflow: 'hidden', borderWidth: trazo.fino, marginBottom: espaciado.e10 },
   img: { width: 104, height: 104 },
   imgFallback: { backgroundColor: 'rgba(255,107,53,0.08)', alignItems: 'center', justifyContent: 'center' },
   body: { flex: 1, padding: espaciado.e12 },
@@ -384,14 +384,14 @@ const s_card = StyleSheet.create({
 });
 
 const s_sk = StyleSheet.create({
-  card: { flexDirection: 'row', borderRadius: 14, overflow: 'hidden', borderWidth: 1, marginBottom: espaciado.e10 },
+  card: { flexDirection: 'row', borderRadius: 14, overflow: 'hidden', borderWidth: trazo.fino, marginBottom: espaciado.e10 },
 });
 
 
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
-  searchBox: { flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e12, backgroundColor: c.surface, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderWidth: 1, borderColor: c.border },
+  searchBox: { flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e12, backgroundColor: c.surface, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderWidth: trazo.fino, borderColor: c.border },
   searchInput: { flex: 1, color: c.textPrimary, fontSize: tipografia.body, marginLeft: espaciado.e8 },
   resultsLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, marginTop: espaciado.e14, marginBottom: espaciado.e10 },
   listContent: { paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e32 },

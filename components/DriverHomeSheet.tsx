@@ -15,7 +15,7 @@ import {
   BarChart3, ChevronRight, FileText, Globe, History, LogOut, Moon, ShieldCheck, ShoppingBag, Star,
   UserRound, Utensils, Wallet,
 } from 'lucide-react-native';
-import { alpha, elevation, espaciado, GhostButton, InlineError, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, elevation, espaciado, GhostButton, InlineError, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { driverApi } from '../api/driver';
 import { intercityApi } from '../api/intercity';
@@ -89,7 +89,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
               const Icon = t.icon;
               const on = activeTab === t.key;
               return (
-                <Pressable key={t.key} onPress={() => setActiveTab(t.key)} accessibilityRole="button" accessibilityState={{ selected: on }} style={[s.tab, on && { backgroundColor: colors.card, borderColor: colors.primary, borderWidth: 1 }]}>
+                <Pressable key={t.key} onPress={() => setActiveTab(t.key)} accessibilityRole="button" accessibilityState={{ selected: on }} style={[s.tab, on && { backgroundColor: colors.card, borderColor: colors.primary, borderWidth: trazo.fino }]}>
                   <Icon size={16} color={on ? colors.primary : colors.textSecondary} />
                   <Text style={{ color: on ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }} numberOfLines={1}>{t.label}</Text>
                 </Pressable>
@@ -283,19 +283,19 @@ const dh = StyleSheet.create({
 const dhStyles = (c: ReturnType<typeof useTheme>['colors']) =>
   StyleSheet.create({
     sheet: {
-      borderTopLeftRadius: 26, borderTopRightRadius: 26, borderWidth: 1,
+      borderTopLeftRadius: 26, borderTopRightRadius: 26, borderWidth: trazo.fino,
       maxHeight: '86%', minHeight: 240,
       ...elevation.lg,
     },
     tabs: { flexDirection: 'row', gap: espaciado.e8, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, borderRadius: 14, padding: espaciado.e5 },
     tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: 10, paddingVertical: espaciado.e9 },
-    card: { borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14 },
-    chip: { borderRadius: 10, borderWidth: 1.5, paddingVertical: espaciado.e7, alignItems: 'center' },
+    card: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14 },
+    chip: { borderRadius: 10, borderWidth: trazo.base, paddingVertical: espaciado.e7, alignItems: 'center' },
     statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
-    linkRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12 },
+    linkRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12 },
     vidaCard: {
       borderRadius: 20, padding: espaciado.e18, flexDirection: 'row', alignItems: 'center', gap: espaciado.e14,
       ...elevation.md,
     },
-    vidaRow: { borderRadius: 14, borderWidth: 1.5, padding: espaciado.e13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+    vidaRow: { borderRadius: 14, borderWidth: trazo.base, padding: espaciado.e13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   });

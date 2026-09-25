@@ -28,7 +28,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -449,18 +449,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth,
   },
   volver: { width: 40, height: 34, alignItems: 'center', justifyContent: 'center' },
-  aviso: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e4 },
-  caja: { borderWidth: 1, borderRadius: radios.lg, padding: espaciado.e14 },
+  aviso: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e4 },
+  caja: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e14 },
   // Objetivos táctiles de 44 px como mínimo (un chip de 33 px se falla con el dedo).
-  chip: { borderWidth: 1.5, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
+  chip: { borderWidth: trazo.base, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 44, justifyContent: 'center' },
   estrella: {
-    borderWidth: 1.5, borderRadius: radios.md, minHeight: 44, minWidth: 54,
+    borderWidth: trazo.base, borderRadius: radios.md, minHeight: 44, minWidth: 54,
     alignItems: 'center', justifyContent: 'center',
   },
   linea: {
     flexDirection: 'row', alignItems: 'center',
     paddingVertical: espaciado.e11,
   },
-  grupo: { borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e12, marginTop: espaciado.e12 },
-  pago: { borderWidth: 1.5, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center' },
+  grupo: { borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e12, marginTop: espaciado.e12 },
+  pago: { borderWidth: trazo.base, borderRadius: radios.md, padding: espaciado.e11, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center' },
 });

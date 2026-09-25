@@ -28,7 +28,7 @@ import * as Location from 'expo-location';
 import {
   ArrowLeft, ArrowUpDown, Bus, CarFront, MapPin, Navigation, Pencil, RefreshCw, Star, Tag, Users, User, X,
 } from 'lucide-react-native';
-import { elevation, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { elevation, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { EgMarkers, EgRoutePolyline, type Coord, type EgMapViewHandle } from '../packages/map';
 import { taxiApi, type TaxiMode } from '../api/taxi';
@@ -175,7 +175,7 @@ function SearchRadar({ color }: { color: string }) {
         <Animated.View
           key={i}
           pointerEvents="none"
-          style={[{ position: 'absolute', width: 120, height: 120, borderRadius: 60, borderWidth: 2, borderColor: color }, ring(a)]}
+          style={[{ position: 'absolute', width: 120, height: 120, borderRadius: 60, borderWidth: trazo.fuerte, borderColor: color }, ring(a)]}
         />
       ))}
       <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: color, alignItems: 'center', justifyContent: 'center', elevation: 6 }}>
@@ -1441,7 +1441,7 @@ export default function TaxiScreen() {
                 </View>
               )}
               {sv?.money.locked && !sv.money.released && (
-                <View style={{ padding: espaciado.e10, borderRadius: radios.md, borderWidth: 1, borderColor: '#27AE6055', backgroundColor: '#27AE6010' }}>
+                <View style={{ padding: espaciado.e10, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: '#27AE6055', backgroundColor: '#27AE6010' }}>
                   <Text style={{ color: brand.success, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                     💳 {Number(sv.fare).toLocaleString('es')} XAF bloqueados con tu PIN
                   </Text>
@@ -1741,7 +1741,7 @@ export default function TaxiScreen() {
               {tripId && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e4 }}>Ref: {tripId.slice(0, 8)}</Text>}
               {/* P1-c: resumen de la liquidación + puerta de disputa (7 días). */}
               {sv && (sv.state === 'settled' || sv.state === 'disputed') && sv.kind === 'WALLET' && (
-                <View style={{ alignSelf: 'stretch', gap: espaciado.e4, padding: espaciado.e10, borderRadius: 10, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, marginTop: espaciado.e6 }}>
+                <View style={{ alignSelf: 'stretch', gap: espaciado.e4, padding: espaciado.e10, borderRadius: 10, backgroundColor: colors.surface, borderWidth: trazo.fino, borderColor: colors.border, marginTop: espaciado.e6 }}>
                   <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>
                     {sv.state === 'disputed' ? '⚖️ Viaje en disputa (en revisión)' : 'Liquidación del viaje'}
                   </Text>
@@ -2003,7 +2003,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     // Tarjeta flotante origen → destino (DiDi): compacta, sobre el mapa.
     topCard: {
       position: 'absolute', top: 4, left: 10, right: 10,
-      borderRadius: 18, borderWidth: 1, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4,
+      borderRadius: 18, borderWidth: trazo.fino, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4,
       ...elevation.md,
     },
     topCardHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 },
@@ -2015,14 +2015,14 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     connectorGap: { height: 26, marginVertical: 0 },
     connectorCol: { width: 16, height: '100%', alignItems: 'center', justifyContent: 'center', position: 'relative' },
     connectorVLine: { position: 'absolute', left: 7, top: 0, bottom: 0, width: 2, borderRadius: 1 },
-    swapBtn: { width: 24, height: 24, borderRadius: radios.md, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 3 },
+    swapBtn: { width: 24, height: 24, borderRadius: radios.md, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 3 },
     stopLabel: { fontSize: 9, fontWeight: peso.fuerte, textTransform: 'uppercase', letterSpacing: 0.4 },
     stopValue: { fontSize: tipografia.body, fontWeight: peso.fuerte, marginLeft: espaciado.e2 },
     stopValueDest: { fontSize: tipografia.body, fontWeight: peso.maximo, marginLeft: espaciado.e2 },
-    mapPickBtn: { width: 28, height: 28, borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center', marginLeft: espaciado.e4 },
+    mapPickBtn: { width: 28, height: 28, borderRadius: 14, borderWidth: trazo.fino, alignItems: 'center', justifyContent: 'center', marginLeft: espaciado.e4 },
     // FAB centrar (abajo-derecha sobre el mapa, visible al colapsar panel)
     mapFabRow: { position: 'absolute', right: 14, bottom: 84 },
-    mapFab: { borderRadius: 30, borderWidth: 1, padding: espaciado.e11, ...elevation.md },
+    mapFab: { borderRadius: 30, borderWidth: trazo.fino, padding: espaciado.e11, ...elevation.md },
     // Panel inferior superpuesto: NO empuja el mapa (DiDi).
     panel: {
       position: 'absolute', left: 0, right: 0, bottom: 0,
@@ -2036,7 +2036,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     summaryDest: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e2 },
     summaryKm: { fontSize: 15, fontWeight: peso.maximo },
     content: { padding: espaciado.e16, paddingBottom: espaciado.e14, gap: espaciado.e12 },
-    card: { borderRadius: radios.lg, padding: espaciado.e14, borderWidth: 1 },
+    card: { borderRadius: radios.lg, padding: espaciado.e14, borderWidth: trazo.fino },
     label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary },
     input: { fontSize: 15, padding: 0, marginTop: espaciado.e4 },
     sectionTitle: { fontSize: 15, fontWeight: peso.maximo, color: c.textPrimary, marginTop: espaciado.e2 },
@@ -2046,24 +2046,24 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     modePrice: { fontSize: 17, fontWeight: peso.maximo },
     avatar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
     carThumb: { width: 34, height: 26, borderRadius: 6, overflow: 'hidden', backgroundColor: '#EAEAEA' },
-    colorSwatch: { width: 12, height: 12, borderRadius: 6, borderWidth: 0.6, borderColor: 'rgba(0,0,0,0.2)' },
+    colorSwatch: { width: 12, height: 12, borderRadius: 6, borderWidth: trazo.fino, borderColor: 'rgba(0,0,0,0.2)' },
     waBtn: { borderRadius: 14, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e2 },
-    cancelLink: { borderRadius: radios.full, borderWidth: 1, paddingVertical: espaciado.e7, paddingHorizontal: espaciado.e18, alignSelf: 'center', marginTop: espaciado.e2 },
+    cancelLink: { borderRadius: radios.full, borderWidth: trazo.fino, paddingVertical: espaciado.e7, paddingHorizontal: espaciado.e18, alignSelf: 'center', marginTop: espaciado.e2 },
     modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', paddingHorizontal: espaciado.e24 },
-    modalCard: { width: '100%', maxWidth: 420, borderRadius: 20, borderWidth: 1, padding: espaciado.e20 },
-    ratingInput: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body, marginTop: espaciado.e12, minHeight: 46 },
-    reasonRow: { borderRadius: radios.md, borderWidth: 1, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e14 },
+    modalCard: { width: '100%', maxWidth: 420, borderRadius: 20, borderWidth: trazo.fino, padding: espaciado.e20 },
+    ratingInput: { borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body, marginTop: espaciado.e12, minHeight: 46 },
+    reasonRow: { borderRadius: radios.md, borderWidth: trazo.fino, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e14 },
     paxRow: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e10 },
-    paxChip: { flex: 1, alignItems: 'center', borderRadius: radios.md, borderWidth: 1.5, paddingVertical: espaciado.e8, gap: 1 },
+    paxChip: { flex: 1, alignItems: 'center', borderRadius: radios.md, borderWidth: trazo.base, paddingVertical: espaciado.e8, gap: 1 },
     paxNum: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
     budgetWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e8 },
-    budgetChip: { borderRadius: radios.full, borderWidth: 1.2, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
+    budgetChip: { borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
     budgetTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
-    priceRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, marginTop: espaciado.e6 },
+    priceRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, marginTop: espaciado.e6 },
     priceBox: { flex: 1, borderRadius: radios.md, padding: espaciado.e10, alignItems: 'center' },
     // Matrícula DESTACADA del coche (estilo placa, P1).
-    plateBox: { alignSelf: 'center', borderWidth: 1.5, borderColor: '#2B2F36', borderRadius: 6, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e5, backgroundColor: '#F5F7FA', marginTop: espaciado.e2 },
+    plateBox: { alignSelf: 'center', borderWidth: trazo.base, borderColor: '#2B2F36', borderRadius: 6, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e5, backgroundColor: '#F5F7FA', marginTop: espaciado.e2 },
     plateTxt: { fontSize: 19, fontWeight: peso.titulo, letterSpacing: 2, color: '#14171C' },
-    footer: { padding: espaciado.e14, paddingBottom: espaciado.e18, borderTopWidth: 1 },
+    footer: { padding: espaciado.e14, paddingBottom: espaciado.e18, borderTopWidth: trazo.fino },
     loading: { position: 'absolute', top: '50%', alignSelf: 'center' },
   });

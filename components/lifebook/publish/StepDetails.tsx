@@ -10,7 +10,7 @@
  */
 import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
-import { alpha, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, tipografia, useTheme, trazo} from '@egrouteplan/ui-kit';
 import { LB_CITIES } from '../../../constants/lifebook';
 import { LB_CONDITIONS, LB_PRICE_MODES, LB_STOCK_MODES } from '../../../constants/commerce';
 import { usePublishStore } from '../../../state/commercePublish';
@@ -154,7 +154,7 @@ export default function StepDetails() {
 }
 
 const styles = StyleSheet.create({
-  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
+  input: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   area: { minHeight: 96, textAlignVertical: 'top' },
   priceHint: { borderRadius: 10, padding: espaciado.e10 },
 });

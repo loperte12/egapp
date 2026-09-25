@@ -25,7 +25,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import {
   Check, ChevronRight, Crown, LogOut, MoreHorizontal, Pencil, QrCode, Search, Shield, Trash2, UserPlus, X,
 } from 'lucide-react-native';
@@ -879,7 +879,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                           accessibilityLabel={`Tope de ${o.t}`}
                           style={{
                             paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.full,
-                            borderWidth: 1,
+                            borderWidth: trazo.fino,
                             borderColor: activo ? colors.primary : colors.border,
                             backgroundColor: activo ? alpha(colors.primary, 0.12) : colors.surface,
                           }}
@@ -896,7 +896,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                       onPress={aplicarTope}
                       disabled={aplicandoTope}
                       accessibilityLabel="Crear un enlace nuevo con este tope"
-                      style={[styles.primaryBtn, { backgroundColor: colors.surface, marginTop: espaciado.e10, alignSelf: 'stretch', borderWidth: 1, borderColor: colors.primary }]}
+                      style={[styles.primaryBtn, { backgroundColor: colors.surface, marginTop: espaciado.e10, alignSelf: 'stretch', borderWidth: trazo.fino, borderColor: colors.primary }]}
                     >
                       {aplicandoTope ? <ActivityIndicator size="small" color={colors.primary} /> : (
                         <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
@@ -1097,7 +1097,7 @@ const styles = StyleSheet.create({
   sheet: { ...formaHoja },
   sheetHeader: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginBottom: espaciado.e10 },
   row: {
-    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.fino,
     borderColor: 'transparent', borderRadius: 14, paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e10, marginTop: espaciado.e6,
   },
   sectionTitle: { fontSize: tipografia.caption, fontWeight: peso.maximo, letterSpacing: 0.6, marginTop: espaciado.e16, marginBottom: espaciado.e2 },
@@ -1112,7 +1112,7 @@ const styles = StyleSheet.create({
   iconBtn: { width: 32, height: 32, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,128,255,0.10)' },
   iconBtnDanger: { width: 32, height: 32, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },
   memberRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e9, borderBottomWidth: StyleSheet.hairlineWidth },
-  check: { width: 24, height: 24, borderRadius: radios.md, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
+  check: { width: 24, height: 24, borderRadius: radios.md, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
   searchBox: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e12, height: 38, marginBottom: espaciado.e8 },
   input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: 14.5 },
   area: { minHeight: 84, textAlignVertical: 'top' },

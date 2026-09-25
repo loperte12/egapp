@@ -10,7 +10,7 @@ import { ActivityIndicator, FlatList, Pressable, ScrollView, StyleSheet, Text, T
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Heart, Package, Search, ShoppingCart, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceApi, type LbProductCard } from '../api/commerce';
@@ -306,14 +306,14 @@ const styles = StyleSheet.create({
   /* La fila de chips NO se estira ni se encoge: alto propio (ver el comentario del JSX). */
   chipRow: { flexGrow: 0, flexShrink: 0, minHeight: 46, paddingVertical: espaciado.e8 },
   chip: {
-    borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 32,
+    borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e13, minHeight: 32,
     /* ANCHO MÍNIMO: medido en pantalla, el primer chip («✨ Todo») salía de 26 dp con el texto
        cortado mientras los demás salían de 114/103/93 dp. Con un mínimo, todos miden lo mismo
        de ancho como mínimo y la etiqueta se lee entera. */
     minWidth: 78,
     alignItems: 'center', justifyContent: 'center',
   },
-  miniChip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 },
+  miniChip: { borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 },
   /** El globito del carrito en la cabecera. */
   globito: {
     position: 'absolute', top: -5, right: -7, minWidth: 16, height: 16, borderRadius: radios.sm,

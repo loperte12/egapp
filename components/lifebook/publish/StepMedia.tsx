@@ -14,7 +14,7 @@ import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Camera, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, radios, tipografia, useTheme, trazo} from '@egrouteplan/ui-kit';
 import { lifebookMediaApi } from '../../../api/lifebook';
 import { pickImagesFromLibrary } from '../../../core/pickImage';
 import { usePublishStore } from '../../../state/commercePublish';
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.6)', alignItems: 'center', justifyContent: 'center',
   },
   add: {
-    width: 92, height: 92, borderRadius: radios.md, borderWidth: 1.5, borderStyle: 'dashed',
+    width: 92, height: 92, borderRadius: radios.md, borderWidth: trazo.base, borderStyle: 'dashed',
     alignItems: 'center', justifyContent: 'center',
   },
 });

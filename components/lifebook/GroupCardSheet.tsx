@@ -12,7 +12,7 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { Check, Clock, LogIn, ShieldQuestion, Users, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { lifebookGroupsApi, type LbGroupCard } from '../../api/lifebook';
@@ -297,6 +297,6 @@ const styles = StyleSheet.create({
   input: { borderRadius: radios.md, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   memberChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
   memberAvatar: { width: 18, height: 18, borderRadius: 9 },
-  stateBox: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: 1, borderRadius: radios.md, padding: espaciado.e10, marginTop: espaciado.e12 },
+  stateBox: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e10, marginTop: espaciado.e12 },
   cta: { marginTop: espaciado.e14, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e14 },
 });

@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { alpha, brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { LazyImage } from './LazyImage';
 import { FeaturedBadge, PremiumBadge, VerificationBadge } from './Badges';
 import { LandlordCard, type LandlordCardData } from './LandlordCard';
@@ -94,7 +94,7 @@ export function PropertyCard({ property, onPress, onViewLandlord }: {
 }
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  card: { borderRadius: 14, borderWidth: 1, marginBottom: espaciado.e12, overflow: 'hidden', backgroundColor: c.card },
+  card: { borderRadius: 14, borderWidth: trazo.fino, marginBottom: espaciado.e12, overflow: 'hidden', backgroundColor: c.card },
   imageContainer: { position: 'relative', height: 180 },
   image: { width: '100%', height: '100%' },
   badgesTop: { position: 'absolute', top: 8, left: 8, flexDirection: 'row', gap: espaciado.e4 },
@@ -111,6 +111,6 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   location: { fontSize: tipografia.caption, color: c.textSecondary, marginBottom: espaciado.e8 },
   featuresRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10, marginBottom: espaciado.e8 },
   feature: { fontSize: tipografia.caption, color: c.textPrimary },
-  footer: { paddingTop: espaciado.e10, borderTopWidth: 1, gap: espaciado.e6 },
+  footer: { paddingTop: espaciado.e10, borderTopWidth: trazo.fino, gap: espaciado.e6 },
   freshness: { fontSize: tipografia.micro, color: c.textSecondary, alignSelf: 'flex-end' },
 });

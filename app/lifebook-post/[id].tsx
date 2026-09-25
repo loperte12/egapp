@@ -28,7 +28,7 @@ import {
 import { Image as ExpoImage } from 'expo-image';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, Bookmark, Briefcase, Car, ChevronRight, Heart, Home, MapPin,
   MoreHorizontal, Package, Play, Plus, Send, Share2, ShoppingBag, ShoppingCart, Store, Utensils, X,
@@ -587,7 +587,7 @@ function PostContent() {
                   accessibilityLabel={`Ver el producto ${p.title}`}
                   style={{
                     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, padding: espaciado.e8,
-                    borderRadius: radios.md, borderWidth: 1,
+                    borderRadius: radios.md, borderWidth: trazo.fino,
                     borderColor: alpha(colors.primary, 0.35),
                     backgroundColor: alpha(colors.primary, 0.06),
                   }}
@@ -823,7 +823,7 @@ function PostContent() {
                 onPress={() => setCommentsOpen(true)}
                 accessibilityLabel="Sé el primero en comentar"
                 style={{
-                  marginTop: espaciado.e10, borderRadius: radios.lg, borderWidth: 1, borderColor: colors.border,
+                  marginTop: espaciado.e10, borderRadius: radios.lg, borderWidth: trazo.fino, borderColor: colors.border,
                   backgroundColor: colors.surface, paddingVertical: espaciado.e16, alignItems: 'center',
                 }}
               >
@@ -1185,7 +1185,7 @@ const styles = StyleSheet.create({
     paddingVertical: espaciado.e12,
     marginTop: espaciado.e14,
   },
-  panel: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, marginTop: espaciado.e14 },
+  panel: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, marginTop: espaciado.e14 },
   panelTitle: { fontSize: 15, fontWeight: peso.titulo },
   panelLine: { color: '#5B6470', fontSize: tipografia.body, marginTop: espaciado.e4, lineHeight: 18 },
   statsRow: { marginTop: espaciado.e14, paddingBottom: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },

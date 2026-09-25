@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { espaciado, tipografia, peso} from '@egrouteplan/ui-kit';
+import { espaciado, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
   back: { width: 40, height: 40, justifyContent: 'center' },
   title: { fontSize: 24, fontWeight: peso.maximo, marginTop: espaciado.e8 },
   query: { fontSize: tipografia.body, marginTop: espaciado.e4 },
-  card: { marginTop: espaciado.e20, borderRadius: 18, borderWidth: 1, padding: espaciado.e18 },
+  card: { marginTop: espaciado.e20, borderRadius: 18, borderWidth: trazo.fino, padding: espaciado.e18 },
   cardText: { fontSize: tipografia.body, lineHeight: 19 },
 });

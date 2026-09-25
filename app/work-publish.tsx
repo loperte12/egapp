@@ -17,7 +17,7 @@ import { useNavigation, useRouter } from 'expo-router';
 import {
   Check, Crown, MapPin, MessageSquare, Phone, RefreshCw, Users, X,
 } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { workApi, type WorkCatalog, type WorkJob, type WorkPlan } from '../api/work';
 import { billingApi } from '../api/billing';
@@ -402,7 +402,7 @@ export default function WorkPublishScreen() {
                   </View>
                 </Pressable>
                 {expanded === j.id && (
-                  <View style={{ marginTop: espaciado.e12, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e10 }}>
+                  <View style={{ marginTop: espaciado.e12, borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingTop: espaciado.e10 }}>
                     {(j.applicants ?? []).length === 0 && <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Sin candidatos todavía.</Text>}
                     {(j.applicants ?? []).map((a) => {
                       const phone = a.phone ?? null;
@@ -490,7 +490,7 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
       accessibilityRole="button"
       accessibilityState={{ selected: active }}
       accessibilityLabel={label}
-      style={({ pressed }) => [{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
+      style={({ pressed }) => [{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: active ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: active ? colors.primary : colors.border, opacity: pressed ? 0.85 : 1 }]}
     >
       <Text style={{ fontSize: tipografia.caption, fontWeight: active ? peso.fuerte : peso.medio, color: active ? brand.white : colors.textPrimary }}>{label}</Text>
     </Pressable>
@@ -516,5 +516,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   hint: { fontSize: tipografia.caption, color: c.textSecondary, marginBottom: espaciado.e16, lineHeight: 18 },
   label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textPrimary, marginTop: espaciado.e14, marginBottom: espaciado.e6 },
   counter: { fontSize: 10, color: c.textSecondary, textAlign: 'right', marginBottom: espaciado.e4 },
-  area: { minHeight: 80, borderRadius: 10, borderWidth: 1, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
+  area: { minHeight: 80, borderRadius: 10, borderWidth: trazo.fino, borderColor: c.border, backgroundColor: c.surface, color: c.textPrimary, padding: espaciado.e10, fontSize: tipografia.body, textAlignVertical: 'top' },
 });

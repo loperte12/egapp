@@ -11,7 +11,7 @@ import { Image, ScrollView, StyleSheet, Text, View, Pressable } from 'react-nati
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Camera, CheckCircle2, ShieldCheck, ChevronRight, FileText, User, Truck, Receipt } from 'lucide-react-native';
-import { brand, CameraCapture, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { brand, CameraCapture, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { absUrl } from '../api/config';
 import { driverApi, DocCategoryApi, DocRequirementApi } from '../api/driver';
@@ -456,14 +456,14 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     label: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary },
     stepsRow: { flexDirection: 'row', justifyContent: 'center', gap: espaciado.e10 },
     stepDot: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
-    vehicleBox: { gap: espaciado.e10, borderWidth: 1.5, borderRadius: radios.lg, padding: espaciado.e14 },
-    chip: { flex: 1, borderRadius: radios.md, borderWidth: 1.5, paddingVertical: espaciado.e10, alignItems: 'center' },
+    vehicleBox: { gap: espaciado.e10, borderWidth: trazo.base, borderRadius: radios.lg, padding: espaciado.e14 },
+    chip: { flex: 1, borderRadius: radios.md, borderWidth: trazo.base, paddingVertical: espaciado.e10, alignItems: 'center' },
     colorRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
-    colorChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, borderWidth: 1.2, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 },
-    colorDot: { width: 16, height: 16, borderRadius: radios.sm, borderWidth: 1 },
+    colorChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 },
+    colorDot: { width: 16, height: 16, borderRadius: radios.sm, borderWidth: trazo.fino },
     colorTxt: { fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 74 },
-    vehiclePreview: { height: 150, borderRadius: 14, borderWidth: 1 },
-    docRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1.5, borderRadius: 14, padding: espaciado.e12 },
+    vehiclePreview: { height: 150, borderRadius: 14, borderWidth: trazo.fino },
+    docRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e12 },
     docLabel: { fontSize: tipografia.body, fontWeight: peso.maximo, flexShrink: 1 },
     docNote: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 },
     badge: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: 6 },

@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ArrowLeft, CarTaxiFront, Star, XCircle } from 'lucide-react-native';
-import { EmptyState, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { taxiApi, TripHistoryItem } from '../api/taxi';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -153,7 +153,7 @@ export default function TripsHistoryScreen() {
                   const disputed = !!t.disputed_at;
                   const resolvedDisp = !!set.dispute?.resolved_at;
                   return (
-                    <View style={{ marginTop: espaciado.e6, padding: espaciado.e8, borderRadius: 10, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, gap: espaciado.e2 }}>
+                    <View style={{ marginTop: espaciado.e6, padding: espaciado.e8, borderRadius: 10, backgroundColor: colors.surface, borderWidth: trazo.fino, borderColor: colors.border, gap: espaciado.e2 }}>
                       <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: peso.maximo }}>
                         Liquidación ({t.city ?? '—'}) · monedero
                       </Text>
@@ -182,7 +182,7 @@ export default function TripsHistoryScreen() {
                 })()}
 
                 {done && (
-                  <View style={{ marginTop: espaciado.e8, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e6, flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
+                  <View style={{ marginTop: espaciado.e8, borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingTop: espaciado.e6, flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
                     {t.my_rating != null ? (
                       <>
                         {[1, 2, 3, 4, 5].map((n) => (
@@ -214,7 +214,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
     title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
     center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
-    retry: { borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
+    retry: { borderRadius: radios.full, borderWidth: trazo.fino, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
     content: { padding: espaciado.e16, gap: espaciado.e10, paddingBottom: 40 },
-    card: { borderRadius: radios.lg, borderWidth: 1, padding: espaciado.e12 },
+    card: { borderRadius: radios.lg, borderWidth: trazo.fino, padding: espaciado.e12 },
   });

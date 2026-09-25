@@ -19,7 +19,7 @@
 import React, { useEffect } from 'react';
 import { Image, Linking, Pressable, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { alpha, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
 import { adsApi, type HomeAd } from '../../api/ads';
 import { absUrl } from '../../api/config';
 import { ir as irSeguro } from '../../constants/rutas';
@@ -83,7 +83,7 @@ export function TarjetaAnuncio({ ad, tint, colors }: { ad: HomeAd; tint: string;
           flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
           padding: espaciado.e9, borderRadius: radios.md,
           backgroundColor: alpha(ad.color?.startsWith('#') ? ad.color : tint, 0.10),
-          borderWidth: 1, borderColor: alpha(colors.textPrimary, 0.08),
+          borderWidth: trazo.fino, borderColor: alpha(colors.textPrimary, 0.08),
         }}
       >
         {imagen ? (

@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import {
   Eraser, ImageOff, Lock, LogOut, MoreHorizontal, Palette, Pencil, Search, ShieldAlert, UserX, Users, X,
 } from 'lucide-react-native';
@@ -429,8 +429,8 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: 14, paddingVertical: espaciado.e9, paddingHorizontal: espaciado.e8 },
   rowIcon: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
   chip: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
-  bgRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: 1.5, borderRadius: 14, padding: espaciado.e10, marginBottom: espaciado.e8 },
-  bgSwatch: { width: 40, height: 40, borderRadius: 10, borderWidth: 1, overflow: 'hidden' },
+  bgRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderWidth: trazo.base, borderRadius: 14, padding: espaciado.e10, marginBottom: espaciado.e8 },
+  bgSwatch: { width: 40, height: 40, borderRadius: 10, borderWidth: trazo.fino, overflow: 'hidden' },
   bgAccent: { position: 'absolute', right: -10, bottom: -10, width: 34, height: 34, borderRadius: 17, opacity: 0.8 },
   noteInput: { borderRadius: 14, minHeight: 96, padding: espaciado.e12, fontSize: tipografia.body, textAlignVertical: 'top' },
   primaryBtn: { borderRadius: radios.full, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e14 },

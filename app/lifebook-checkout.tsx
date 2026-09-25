@@ -16,7 +16,7 @@ import { Image } from 'expo-image';
 import * as Crypto from 'expo-crypto';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, PrimaryButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Banknote, Building2, MapPin, Package, Store, Truck, Wallet } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
   /** Las secciones van juntas: el cuerpo no se desplaza, así que el hueco cuenta. */
   section: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e13, marginBottom: espaciado.e8 },
   label: { fontSize: tipografia.body, fontWeight: peso.fuerte },
-  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
+  input: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, fontSize: tipografia.body },
   area: { minHeight: 70, textAlignVertical: 'top' },
   footer: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,

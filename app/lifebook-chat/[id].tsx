@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, ShoppingBag, ShoppingCart, X } from 'lucide-react-native';
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
@@ -1015,7 +1015,7 @@ function ChatThreadContent() {
             style={{
               flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e8,
               marginHorizontal: espaciado.e12, marginTop: espaciado.e8, padding: espaciado.e10, borderRadius: 14,
-              backgroundColor: alpha(colors.secondary, 0.10), borderWidth: 1, borderColor: alpha(colors.secondary, 0.25),
+              backgroundColor: alpha(colors.secondary, 0.10), borderWidth: trazo.fino, borderColor: alpha(colors.secondary, 0.25),
             }}
           >
             <Text style={{ fontSize: 15 }}>📣</Text>
@@ -1230,7 +1230,7 @@ function ChatThreadContent() {
                   accessibilityLabel={`Mandar el producto ${p.title}`}
                   style={{
                     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, padding: espaciado.e8, borderRadius: radios.md,
-                    borderWidth: 1, borderColor: alpha(colors.border, 0.6), backgroundColor: colors.surface,
+                    borderWidth: trazo.fino, borderColor: alpha(colors.border, 0.6), backgroundColor: colors.surface,
                   }}
                 >
                   {p.coverUrl ? (
@@ -2014,7 +2014,7 @@ const styles = StyleSheet.create({
   imgBubble: { width: 200, height: 200, borderRadius: 14, backgroundColor: 'rgba(128,128,128,0.15)' },
   cardBubble: { borderRadius: 14, padding: espaciado.e10, flexDirection: 'row', alignItems: 'center', flexShrink: 1 },
   postCover: { width: '100%', height: 120, borderRadius: radios.sm },
-  voteOpt: { borderRadius: radios.sm, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7, marginTop: espaciado.e6, borderWidth: 1, overflow: 'hidden' },
+  voteOpt: { borderRadius: radios.sm, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7, marginTop: espaciado.e6, borderWidth: trazo.fino, overflow: 'hidden' },
   voteBar: { position: 'absolute', left: 0, top: 0, bottom: 0 },
   locPreview: { height: 84, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   /** Parte 25: botón de apuntarse / pedir taxi dentro de las burbujas. */
@@ -2023,7 +2023,7 @@ const styles = StyleSheet.create({
   /** Parte 28 (G4): barra de ubicación en vivo. */
   liveBar: {
     marginHorizontal: espaciado.e12, marginTop: espaciado.e8, padding: espaciado.e10, borderRadius: 14,
-    borderWidth: 1, gap: espaciado.e6,
+    borderWidth: trazo.fino, gap: espaciado.e6,
   },
   liveChip: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e6,

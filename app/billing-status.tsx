@@ -22,7 +22,7 @@ import { SOPORTE, whatsappSoporte } from '../constants/soporte';
 import { mensajeDeError } from '../constants/errores';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, Clock, Package, Receipt, XCircle } from 'lucide-react-native';
-import { alpha, Aviso, EmptyState, espaciado, GhostButton, PrimaryButton, radios, ScreenHeader, Sheet, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, Aviso, EmptyState, espaciado, GhostButton, PrimaryButton, radios, ScreenHeader, Sheet, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { billingApi, BillingEntitlement } from '../api/billing';
 import { formatDate, formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -458,8 +458,8 @@ function SkeletonHeader({ colors }: { colors: ReturnType<typeof useTheme>['color
 }
 
 const s_card = StyleSheet.create({
-  entitleCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: 1 },
-  planChip: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 18, borderWidth: 1 },
+  entitleCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: trazo.fino },
+  planChip: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: 18, borderWidth: trazo.fino },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
@@ -467,6 +467,6 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     root: { flex: 1, backgroundColor: c.background },
     sectionTitle: { fontSize: 15, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e10 },
     empty: { fontSize: tipografia.caption, color: c.textSecondary, textAlign: 'center', marginVertical: espaciado.e16 },
-    entitleCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: 1, marginBottom: espaciado.e8 },
-    orderCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: 1, marginBottom: espaciado.e10 },
+    entitleCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: trazo.fino, marginBottom: espaciado.e8 },
+    orderCard: { borderRadius: radios.md, padding: espaciado.e14, borderWidth: trazo.fino, marginBottom: espaciado.e10 },
   });

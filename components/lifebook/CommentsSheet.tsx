@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { Heart, MessageCircle, Pencil, Plus, Send, Trash2, X } from 'lucide-react-native';
 import { absUrl } from '../../api/config';
 import { lifebookApi, lifebookActionsApi, type LbCommentItem, type LbPostBase } from '../../api/lifebook';
@@ -483,7 +483,7 @@ export function CommentsSheet({
         {replyTo?.id === item.id ? (
           <View style={{
             marginLeft: 44, marginBottom: espaciado.e10, paddingLeft: espaciado.e10,
-            borderLeftWidth: 2, borderLeftColor: alpha(colors.primary, 0.35),
+            borderLeftWidth: trazo.fuerte, borderLeftColor: alpha(colors.primary, 0.35),
           }}>
             {/* A quién se responde: AQUÍ, en su propia línea.
                 Antes el `@nombre` iba DENTRO de la fila del campo, y con un nombre largo
@@ -559,7 +559,7 @@ export function CommentsSheet({
         {openReplies[item.id] ? (
           <View style={{
             marginLeft: 17, paddingLeft: espaciado.e14,
-            borderLeftWidth: 2, borderLeftColor: alpha(colors.textPrimary, 0.10),
+            borderLeftWidth: trazo.fuerte, borderLeftColor: alpha(colors.textPrimary, 0.10),
           }}>
             {(replies[item.id] ?? []).length === 0 ? (
               <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e8 }} />
@@ -680,7 +680,7 @@ export function CommentsSheet({
             este compositor: **un solo sitio donde escribir a la vez**.
           */}
           {allowComments && !editing && !replyTo ? (
-            <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, paddingBottom: espaciado.e6 }}>
+            <View style={{ borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingHorizontal: espaciado.e12, paddingTop: espaciado.e10, paddingBottom: espaciado.e6 }}>
               {chipAdjunto()}
               <View style={{
                 flexDirection: 'row', alignItems: 'flex-end', gap: espaciado.e8,
@@ -731,7 +731,7 @@ export function CommentsSheet({
               </View>
             </View>
           ) : !allowComments ? (
-            <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, alignItems: 'center' }}>
+            <View style={{ borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, alignItems: 'center' }}>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Los comentarios están desactivados</Text>
             </View>
           ) : null}

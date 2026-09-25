@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowDownToLine, ArrowLeft, ArrowUpFromLine, ChevronRight, KeyRound, ShieldCheck, Wallet,
 } from 'lucide-react-native';
-import { EmptyState, espaciado, radios, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, radios, Tactil, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { walletApi, type WalletBalance, type WalletTx } from '../api/wallet';
 import { brand } from '@egrouteplan/ui-kit';
@@ -156,7 +156,7 @@ function MonederoContent() {
               <Text style={styles.actionHint}>con agente</Text>
             </Tactil>
             <Tactil
-              style={[styles.action, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: 1 }]}
+              style={[styles.action, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: trazo.fino }]}
               onPress={() => router.push('/monedero-retirar')}
               accessibilityRole="button"
             >
@@ -229,12 +229,12 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12 },
   retryBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e10 },
-  card: { borderRadius: 18, borderWidth: 1, padding: espaciado.e16 },
+  card: { borderRadius: 18, borderWidth: trazo.fino, padding: espaciado.e16 },
   action: { flex: 1, borderRadius: 18, paddingVertical: espaciado.e16, alignItems: 'center', gap: espaciado.e4 },
   actionTxt: { color: brand.white, fontSize: 14.5, fontWeight: peso.titulo },
   actionHint: { color: 'rgba(255,255,255,0.75)', fontSize: 10.5, fontWeight: peso.medio },
   rowItem: {
-    flexDirection: 'row', alignItems: 'center', borderRadius: 14, borderWidth: 1,
+    flexDirection: 'row', alignItems: 'center', borderRadius: 14, borderWidth: trazo.fino,
     paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e13, marginTop: espaciado.e14,
   },
   txRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },

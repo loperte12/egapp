@@ -20,7 +20,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Minus, Plus, Star } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodRestaurantDetail, SPICE_LABEL, SPICE_ICON } from '../api/food';
 import { foodCartCount, foodCartTotal, FoodCartLine, useFoodStore } from '../state/food';
 import { itemDetailSummary } from '../utils/foodItemDetails';
@@ -352,7 +352,7 @@ const s_h = StyleSheet.create({
 });
 
 const s_row = StyleSheet.create({
-  card: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e8, borderWidth: 1 },
+  card: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e8, borderWidth: trazo.fino },
   // 64 en vez de 52: la foto de un plato es lo primero que mira el cliente («¿esto tiene buena
   // pinta?»). A 52 px no se distinguía el plato; a 64 se ve, y sigue cabiendo en la fila.
   img: { width: 64, height: 64, borderRadius: 10 },
@@ -377,7 +377,7 @@ const s_row = StyleSheet.create({
 });
 
 const s_sk = StyleSheet.create({
-  row: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e8, borderWidth: 1 },
+  row: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e8, borderWidth: trazo.fino },
 });
 
 const s_center = StyleSheet.create({
@@ -391,8 +391,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   content: { padding: espaciado.e16 },
   catTitle: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.textPrimary, marginBottom: espaciado.e8 },
-  closedNote: { borderRadius: 10, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e12 },
-  bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10, borderTopWidth: 1 },
+  closedNote: { borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e12 },
+  bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e10, borderTopWidth: trazo.fino },
   cta: { backgroundColor: ACCENT, borderRadius: radios.md, paddingVertical: espaciado.e14, alignItems: 'center' },
   ctaText: { color: brand.white, fontSize: 15, fontWeight: peso.titulo },
 });

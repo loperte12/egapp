@@ -26,7 +26,7 @@ import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Clapperboard, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { extraerFrames, type VideoFrame } from '../../core/videoFrames';
 import { fmtDur } from '../../constants/lifebook';
 
@@ -200,7 +200,7 @@ const s = StyleSheet.create({
   title: { flex: 1, fontSize: tipografia.subtitle, fontWeight: peso.maximo },
   center: { alignItems: 'center', paddingVertical: 34 },
   hint: { fontSize: tipografia.caption, lineHeight: 16 },
-  errorBox: { borderRadius: 10, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e8 },
+  errorBox: { borderRadius: 10, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e8 },
   thumbWrap: { borderRadius: 10, overflow: 'hidden' },
   thumb: { width: 96, height: 128, backgroundColor: 'rgba(0,0,0,0.08)' },
   thumbTime: {
@@ -208,7 +208,7 @@ const s = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.62)', paddingHorizontal: espaciado.e5, paddingVertical: 1,
   },
   thumbTimeText: { color: brand.white, fontSize: 10, fontWeight: peso.maximo },
-  preview: { width: 170, height: 226, borderRadius: radios.md, borderWidth: 1, backgroundColor: '#000000' },
+  preview: { width: 170, height: 226, borderRadius: radios.md, borderWidth: trazo.fino, backgroundColor: '#000000' },
   confirm: { borderRadius: radios.md, paddingVertical: espaciado.e13, alignItems: 'center', marginTop: espaciado.e16 },
   confirmText: { color: brand.white, fontSize: 14.5, fontWeight: peso.titulo },
 });

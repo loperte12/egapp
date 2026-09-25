@@ -596,7 +596,7 @@ export default function EcomerseCheckoutScreen() {
                   <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
                     {zones.map((z) => (
                       <Pressable key={z.id} onPress={() => setZoneId(z.id)} accessibilityRole="button" accessibilityLabel={z.label}
-                        style={{ paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderRadius: radios.md, backgroundColor: zoneId === z.id ? colors.primary : colors.surface, borderWidth: 1, borderColor: zoneId === z.id ? colors.primary : colors.border }}>
+                        style={{ paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, borderRadius: radios.md, backgroundColor: zoneId === z.id ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: zoneId === z.id ? colors.primary : colors.border }}>
                         <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: zoneId === z.id ? brand.white : colors.textPrimary }}>{z.label}</Text>
                       </Pressable>
                     ))}
@@ -684,8 +684,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   addrCard: { borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8 },
   sello: { borderRadius: radios.sm, borderWidth: trazo.fino, paddingHorizontal: espaciado.e6, paddingVertical: 1 },
   addrLink: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingVertical: espaciado.e8 },
-  kmInput: { marginTop: espaciado.e8, borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
-  summary: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e12, marginTop: espaciado.e18 },
+  kmInput: { marginTop: espaciado.e8, borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
+  summary: { borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e12, marginTop: espaciado.e18 },
   divider: { height: 1, marginVertical: espaciado.e6 },
 });
 

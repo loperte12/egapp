@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Globe, ImagePlus, Lock, MapPin, Package, Send, Users, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { authApi } from '../api/auth';
@@ -406,21 +406,21 @@ const styles = StyleSheet.create({
   topTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 },
   publishBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 74, alignItems: 'center' },
   label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: '#86909C', letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
-  textArea: { borderRadius: 14, borderWidth: 1, padding: espaciado.e12, fontSize: 15, minHeight: 110, textAlignVertical: 'top' },
-  input: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
+  textArea: { borderRadius: 14, borderWidth: trazo.fino, padding: espaciado.e12, fontSize: 15, minHeight: 110, textAlignVertical: 'top' },
+  input: { borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
   counter: { fontSize: 10.5, textAlign: 'right', marginTop: espaciado.e3 },
   photoRow: { flexDirection: 'row', gap: espaciado.e8, flexWrap: 'wrap' },
   photo: { width: 74, height: 74, borderRadius: radios.md, backgroundColor: '#EEE' },
   photoX: { position: 'absolute', top: -6, right: -6, borderRadius: 10, width: 20, height: 20, alignItems: 'center', justifyContent: 'center' },
   coverBadge: { position: 'absolute', bottom: 4, left: 4, backgroundColor: 'rgba(0,0,0,0.6)', color: brand.white, fontSize: 9, fontWeight: peso.titulo, borderRadius: 6, overflow: 'hidden', paddingHorizontal: espaciado.e5, paddingVertical: 1 },
-  addPhoto: { width: 74, height: 74, borderRadius: radios.md, borderWidth: 1, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', gap: espaciado.e2 },
+  addPhoto: { width: 74, height: 74, borderRadius: radios.md, borderWidth: trazo.fino, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', gap: espaciado.e2 },
   chipsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
-  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6, borderWidth: 1, borderColor: 'transparent' },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6, borderWidth: trazo.fino, borderColor: 'transparent' },
   tagRow: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 },
-  addTag: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e13, justifyContent: 'center' },
-  visBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: radios.md, paddingVertical: espaciado.e10, borderWidth: 1 },
+  addTag: { borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e13, justifyContent: 'center' },
+  visBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: radios.md, paddingVertical: espaciado.e10, borderWidth: trazo.fino },
   bigPublish: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: radios.full, paddingVertical: espaciado.e14, marginTop: espaciado.e22 },
-  errorBox: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e4 },
+  errorBox: { borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e4 },
 });
 
 

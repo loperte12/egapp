@@ -33,7 +33,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { EmptyState, espaciado, ilustracion, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, ilustracion, radios, ScreenHeader, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseCategory, EcomerseProduct } from '../api/ecomerse';
 import { useEcomerseStore } from '../state/ecomerse';
 import { useSession } from '../state/session';
@@ -273,7 +273,7 @@ function SubChip({ label, active, onPress }: { label: string; active: boolean; o
   const { colors } = useTheme();
   return (
     <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label}
-      style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full, backgroundColor: active ? colors.primary : colors.surface, borderWidth: 1, borderColor: active ? colors.primary : colors.border }}>
+      style={{ paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: radios.full, backgroundColor: active ? colors.primary : colors.surface, borderWidth: trazo.fino, borderColor: active ? colors.primary : colors.border }}>
       <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: active ? brand.white : colors.textPrimary }}>{label}</Text>
     </Pressable>
   );
@@ -282,7 +282,7 @@ function SubChip({ label, active, onPress }: { label: string; active: boolean; o
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   tabs: { gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12 },
-  tab: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: c.surface, borderWidth: 1, borderColor: c.border },
+  tab: { paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, borderRadius: radios.lg, backgroundColor: c.surface, borderWidth: trazo.fino, borderColor: c.border },
   tabText: { fontSize: tipografia.caption, fontWeight: peso.maximo },
   catRow: { gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e10 },
 });

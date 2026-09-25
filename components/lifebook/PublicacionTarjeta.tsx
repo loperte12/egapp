@@ -17,7 +17,7 @@
 import React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { alpha, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, peso, trazo} from '@egrouteplan/ui-kit';
 import { absUrl } from '../../api/config';
 import type { LbAdjuntoRef } from '../../api/lifebookComentarios';
 
@@ -81,7 +81,7 @@ export function PublicacionTarjeta({ data, tint, colors, compacta = false }: {
         flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
         marginTop: espaciado.e6, padding: espaciado.e7, borderRadius: radios.md,
         backgroundColor: alpha(colors.textPrimary, 0.05),
-        borderWidth: 1, borderColor: alpha(colors.textPrimary, 0.08),
+        borderWidth: trazo.fino, borderColor: alpha(colors.textPrimary, 0.08),
       }}
     >
       {miniatura ? (

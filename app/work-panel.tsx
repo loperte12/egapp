@@ -26,7 +26,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useScreenGuard, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useScreenGuard, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Briefcase, ChevronRight, Phone, Settings, Users } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -357,14 +357,14 @@ const styles = StyleSheet.create({
   volver: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   puente: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e11,
-    borderWidth: 1, borderRadius: 14, padding: espaciado.e12, minHeight: 56,
+    borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, minHeight: 56,
   },
   puenteIcono: { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  aviso: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e11, marginTop: espaciado.e12 },
-  resumen: { borderWidth: 1, borderRadius: 14, padding: espaciado.e13 },
-  tarjeta: { borderWidth: 1, borderRadius: 14, padding: espaciado.e13, marginBottom: espaciado.e10 },
+  aviso: { borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e11, marginTop: espaciado.e12 },
+  resumen: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e13 },
+  tarjeta: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e13, marginBottom: espaciado.e10 },
   pendiente: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
-    borderWidth: 1, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
+    borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e8, minHeight: 56,
   },
 });

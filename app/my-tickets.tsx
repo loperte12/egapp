@@ -9,7 +9,7 @@ import { FlatList, Linking, StyleSheet, Text, View, Pressable } from 'react-nati
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { ArrowLeft, Ticket, ChevronDown, ChevronUp } from 'lucide-react-native';
-import { alpha, EmptyState, espaciado, GhostButton, InlineError, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, GhostButton, InlineError, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { intercityApi, IcTicket } from '../api/intercity';
 import { brand } from '@egrouteplan/ui-kit';
@@ -143,7 +143,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
     title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
     content: { padding: espaciado.e20, gap: espaciado.e12 },
-    card: { borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14, gap: espaciado.e5 },
-    qrBox: { alignItems: 'center', gap: espaciado.e6, borderWidth: 2, borderStyle: 'dashed', borderRadius: 14, padding: espaciado.e16, marginTop: espaciado.e8 },
+    card: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14, gap: espaciado.e5 },
+    qrBox: { alignItems: 'center', gap: espaciado.e6, borderWidth: trazo.fuerte, borderStyle: 'dashed', borderRadius: 14, padding: espaciado.e16, marginTop: espaciado.e8 },
     waBtn: { borderRadius: 10, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, marginTop: espaciado.e4 },
   });

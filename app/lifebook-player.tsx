@@ -36,7 +36,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-nati
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Pause, Play, Rewind, FastForward } from 'lucide-react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
   centerPlay: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 3 },
   centerPlayBg: {
     width: 74, height: 74, borderRadius: 37, alignItems: 'center', justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.55)', borderWidth: 2, borderColor: 'rgba(255,255,255,0.85)',
+    backgroundColor: 'rgba(0,0,0,0.55)', borderWidth: trazo.fuerte, borderColor: 'rgba(255,255,255,0.85)',
   },
   ctlRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e26, paddingVertical: espaciado.e8 },
   playBtn: { width: 46, height: 46, borderRadius: 23, alignItems: 'center', justifyContent: 'center' },
@@ -390,11 +390,11 @@ const styles = StyleSheet.create({
   },
   closeBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center' },
   closeTitle: { flex: 1, textAlign: 'center', fontSize: tipografia.body, fontWeight: peso.maximo, marginHorizontal: espaciado.e10 },
-  coverFrame: { width: 220, height: 220, borderRadius: 18, borderWidth: 1, overflow: 'hidden' },
+  coverFrame: { width: 220, height: 220, borderRadius: 18, borderWidth: trazo.fino, overflow: 'hidden' },
   cover: { width: '100%', height: '100%' },
   audioTitle: { fontSize: 17, fontWeight: peso.maximo, textAlign: 'center', marginTop: espaciado.e16, marginBottom: espaciado.e18 },
   progressTrack: { width: '100%', height: 5, borderRadius: 3, backgroundColor: 'rgba(0,0,0,0.12)', overflow: 'hidden' },
   progressFill: { height: 5, borderRadius: 3 },
   playBig: { width: 62, height: 62, borderRadius: 31, alignItems: 'center', justifyContent: 'center' },
-  speedBtn: { marginTop: espaciado.e20, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8, borderRadius: radios.lg, borderWidth: 1 },
+  speedBtn: { marginTop: espaciado.e20, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e8, borderRadius: radios.lg, borderWidth: trazo.fino },
 });

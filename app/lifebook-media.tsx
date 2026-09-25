@@ -27,7 +27,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Clapperboard, ImagePlus, Mic, ShoppingBag, Upload, Video } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { authApi } from '../api/auth';
@@ -563,7 +563,7 @@ function MediaComposeContent() {
                 accessibilityLabel="Elegir productos para este vídeo"
                 style={{
                   flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.md,
-                  borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e11,
+                  borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e11,
                   backgroundColor: productos.length ? alpha(colors.primary, 0.14) : colors.surface,
                   borderColor: productos.length ? alpha(colors.primary, 0.55) : colors.border,
                 }}
@@ -646,17 +646,17 @@ const styles = StyleSheet.create({
   topTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 },
   publishBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 76, alignItems: 'center' },
   label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: '#86909C', letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
-  dropZone: { borderRadius: radios.lg, borderWidth: 1.5, borderStyle: 'dashed', paddingVertical: espaciado.e26, paddingHorizontal: espaciado.e16, alignItems: 'center' },
+  dropZone: { borderRadius: radios.lg, borderWidth: trazo.base, borderStyle: 'dashed', paddingVertical: espaciado.e26, paddingHorizontal: espaciado.e16, alignItems: 'center' },
   coverPreview: { width: 84, height: 84, borderRadius: 14, backgroundColor: '#EEE' },
   photoX: { position: 'absolute', top: -6, right: -6, width: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  coverAdd: { borderRadius: 14, borderWidth: 1, borderStyle: 'dashed', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, alignItems: 'center', gap: espaciado.e4 },
-  input: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
-  textArea: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e12, fontSize: tipografia.body, minHeight: 84, textAlignVertical: 'top' },
-  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6, borderWidth: 1, borderColor: 'transparent' },
+  coverAdd: { borderRadius: 14, borderWidth: trazo.fino, borderStyle: 'dashed', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, alignItems: 'center', gap: espaciado.e4 },
+  input: { borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
+  textArea: { borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e12, fontSize: tipografia.body, minHeight: 84, textAlignVertical: 'top' },
+  chip: { borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e6, borderWidth: trazo.fino, borderColor: 'transparent' },
   switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e6 },
   bigPublish: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderRadius: radios.full, paddingVertical: espaciado.e14, marginTop: espaciado.e22 },
-  errorBox: { borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, marginBottom: espaciado.e4 },
-  perfilCard: { flex: 1, borderRadius: 14, borderWidth: 1.5, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10 },
+  errorBox: { borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e10, marginBottom: espaciado.e4 },
+  perfilCard: { flex: 1, borderRadius: 14, borderWidth: trazo.base, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10 },
   progTrack: { height: 6, borderRadius: radios.full, overflow: 'hidden' },
   progFill: { height: 6, borderRadius: radios.full },
 });

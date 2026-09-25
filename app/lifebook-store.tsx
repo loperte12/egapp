@@ -8,7 +8,7 @@ import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View }
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWindowDimensions } from 'react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ArrowLeft, BadgeCheck, MapPin, MessageCircle, Star, Store } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -140,7 +140,7 @@ function StoreContent() {
 
             <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e12 }}>
               {!s.relation.isSelf && (
-                <Pressable onPress={toggleFollow} style={[styles.btn, { flex: 1, backgroundColor: s.relation.isFollowing ? colors.surface : colors.primary, borderColor: s.relation.isFollowing ? colors.border : colors.primary, borderWidth: 1 }]}>
+                <Pressable onPress={toggleFollow} style={[styles.btn, { flex: 1, backgroundColor: s.relation.isFollowing ? colors.surface : colors.primary, borderColor: s.relation.isFollowing ? colors.border : colors.primary, borderWidth: trazo.fino }]}>
                   {busyFollow ? <ActivityIndicator size="small" color={s.relation.isFollowing ? colors.textPrimary : brand.white} /> : (
                     <Text style={{ color: s.relation.isFollowing ? colors.textPrimary : brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                       {s.relation.isFollowing ? 'Siguiendo ✓' : '+ Seguir'}
@@ -148,7 +148,7 @@ function StoreContent() {
                   )}
                 </Pressable>
               )}
-              <Pressable onPress={contact} style={[styles.btn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1 }]}>
+              <Pressable onPress={contact} style={[styles.btn, { flex: 1, backgroundColor: colors.surface, borderColor: colors.border, borderWidth: trazo.fino }]}>
                 <MessageCircle size={15} color={colors.textPrimary} />
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Contactar</Text>
               </Pressable>

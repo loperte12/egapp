@@ -16,7 +16,7 @@
  */
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { alpha, brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { cuponAplicable, descuentoDeCupon, type LbCupon } from '../../api/commerce';
 import { lbXaf } from '../../constants/lifebook';
 import { Chip, ChipRow } from './Chip';
@@ -112,7 +112,7 @@ export function SelectorDeCupon({
 
 const styles = StyleSheet.create({
   input: {
-    flex: 1, borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9,
+    flex: 1, borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9,
     fontSize: tipografia.body, letterSpacing: 1,
   },
   boton: { borderRadius: 10, paddingHorizontal: espaciado.e16, alignItems: 'center', justifyContent: 'center' },

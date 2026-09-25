@@ -20,7 +20,7 @@ import {
 import { Image } from 'expo-image';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { ArrowLeft, Eye, Package, Pencil, Plus, Star, Trash2, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -384,7 +384,7 @@ function ProductsContent() {
                       accessibilityLabel={`Destacar ${p.title}`}
                       style={{
                         flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, padding: espaciado.e8,
-                        borderRadius: radios.md, borderWidth: 1,
+                        borderRadius: radios.md, borderWidth: trazo.fino,
                         borderColor: activo ? colors.primary : alpha(colors.border, 0.6),
                         backgroundColor: activo ? alpha(colors.primary, 0.08) : colors.surface,
                       }}

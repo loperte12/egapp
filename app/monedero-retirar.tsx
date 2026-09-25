@@ -13,7 +13,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Bike, Check } from 'lucide-react-native';
-import { EmptyState, espaciado, PrimaryButton, radios, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, PrimaryButton, radios, Tactil, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { whatsappSoporte } from '../constants/soporte';
 import { AuthGate } from '../core/AuthGate';
 import { PinSheet } from '@egrouteplan/ui-kit';
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   label: { fontSize: tipografia.body, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.4 },
   amountBox: {
-    flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.lg, borderWidth: 1,
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.lg, borderWidth: trazo.fino,
     paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, marginTop: espaciado.e8,
   },
   agentRow: {
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, marginTop: espaciado.e8,
   },
   agentIcon: { width: 38, height: 38, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
-  input: { borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.body, marginTop: espaciado.e8 },
+  input: { borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, fontSize: tipografia.body, marginTop: espaciado.e8 },
   doneWrap: { flex: 1, padding: espaciado.e20, justifyContent: 'center', gap: espaciado.e18 },
-  otpCard: { borderRadius: 20, borderWidth: 1, padding: espaciado.e22 },
+  otpCard: { borderRadius: 20, borderWidth: trazo.fino, padding: espaciado.e22 },
 });

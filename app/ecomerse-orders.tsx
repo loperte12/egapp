@@ -14,7 +14,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PackageSearch, ShieldCheck, Star, Truck } from 'lucide-react-native';
-import { alpha, EmptyState, espaciado, EstadoDinero, GhostButton, ilustracion, Precio, radios, ScreenHeader, Sheet, tipografia, type EtapaDinero, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, EstadoDinero, GhostButton, ilustracion, Precio, radios, ScreenHeader, Sheet, tipografia, type EtapaDinero, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseOrder } from '../api/ecomerse';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -544,7 +544,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
           const closed = o.status === 'cancelled' || o.status === 'disputed';
           const timelineIdx = TIMELINE.indexOf(o.status);
           return (
-            <View key={o.id} style={{ backgroundColor: colors.surface, borderRadius: radios.lg, padding: espaciado.e14, marginBottom: espaciado.e12, borderWidth: 1, borderColor: colors.border }}>
+            <View key={o.id} style={{ backgroundColor: colors.surface, borderRadius: radios.lg, padding: espaciado.e14, marginBottom: espaciado.e12, borderWidth: trazo.fino, borderColor: colors.border }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flex: 1 }}>
                   <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>
@@ -660,7 +660,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
 
               {/* Actividad (acotada) */}
               {events.length > 0 && (
-                <View style={{ marginTop: espaciado.e10, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: espaciado.e8 }}>
+                <View style={{ marginTop: espaciado.e10, borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingTop: espaciado.e8 }}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginBottom: espaciado.e4 }}>
                     <PackageSearch size={12} color={colors.textSecondary} />
                     <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: peso.fuerte }}>ACTIVIDAD</Text>
@@ -735,7 +735,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
         )}
 
         <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
-          <Pressable onPress={() => { if (!modalBusyRef.current) setModal(null); }} style={[s.modalBtn, { borderWidth: 1, borderColor: colors.border }]}>
+          <Pressable onPress={() => { if (!modalBusyRef.current) setModal(null); }} style={[s.modalBtn, { borderWidth: trazo.fino, borderColor: colors.border }]}>
             <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Cancelar</Text>
           </Pressable>
           <Pressable onPress={sendModal} disabled={modalBusy} accessibilityRole="button" accessibilityLabel="Enviar"
@@ -752,7 +752,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
 const stylesRoot = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({ root: { flex: 1, backgroundColor: c.background } });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  seg: { flexDirection: 'row', marginHorizontal: espaciado.e16, marginTop: espaciado.e12, backgroundColor: c.surface, borderRadius: radios.md, borderWidth: 1, borderColor: c.border, padding: espaciado.e3 },
+  seg: { flexDirection: 'row', marginHorizontal: espaciado.e16, marginTop: espaciado.e12, backgroundColor: c.surface, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border, padding: espaciado.e3 },
   segBtn: { flex: 1, alignItems: 'center', paddingVertical: espaciado.e8, borderRadius: radios.sm },
   segText: { fontSize: tipografia.body, fontWeight: peso.maximo },
   /**
@@ -773,10 +773,10 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
    */
   filtros: { height: 56, flexGrow: 0 },
   filtrosContenido: { gap: espaciado.e8, paddingHorizontal: espaciado.e16, alignItems: 'center' },
-  filtroChip: { height: 36, justifyContent: 'center', paddingHorizontal: espaciado.e12, borderRadius: radios.full, borderWidth: 1 },
+  filtroChip: { height: 36, justifyContent: 'center', paddingHorizontal: espaciado.e12, borderRadius: radios.full, borderWidth: trazo.fino },
   filtroText: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   /** Botón de «ver más»: solo aparece si quedan pedidos. */
-  masBtn: { marginTop: espaciado.e14, marginHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderRadius: radios.md, borderWidth: 1, alignItems: 'center' },
-  modalInput: { borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, minHeight: 88, textAlignVertical: 'top', fontSize: tipografia.body },
+  masBtn: { marginTop: espaciado.e14, marginHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderRadius: radios.md, borderWidth: trazo.fino, alignItems: 'center' },
+  modalInput: { borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, minHeight: 88, textAlignVertical: 'top', fontSize: tipografia.body },
   modalBtn: { paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e16, borderRadius: radios.md, alignItems: 'center' },
 });

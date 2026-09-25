@@ -12,7 +12,7 @@ import {
   ActivityIndicator, Alert, Image, KeyboardAvoidingView, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';import { Check, Clock, ImagePlus, Link2, Lock, Globe, Users, Trash2, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import type { UserStatus } from '../../api/status';
 import { STATUS_TEXT_MAX, VISIBILITY_OPTIONS } from '../../constants/status';
 import { statusBgColors } from '../../constants/status';
@@ -398,14 +398,14 @@ const styles = StyleSheet.create({
   card: {
     borderTopLeftRadius: 26, borderTopRightRadius: 26,
     paddingHorizontal: espaciado.e18, paddingTop: espaciado.e14, paddingBottom: espaciado.e10,
-    maxHeight: '94%', borderTopWidth: 1,
+    maxHeight: '94%', borderTopWidth: trazo.fino,
   },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   title: { fontSize: 19, fontWeight: peso.titulo },
   close: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
   noteRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e2, marginBottom: espaciado.e10 },
   note: { fontSize: tipografia.caption, fontWeight: peso.medio },
-  previewWrap: { borderRadius: 18, borderWidth: 1, overflow: 'hidden', marginBottom: espaciado.e10 },
+  previewWrap: { borderRadius: 18, borderWidth: trazo.fino, overflow: 'hidden', marginBottom: espaciado.e10 },
   preview: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
     padding: espaciado.e12, minHeight: 54,
@@ -418,18 +418,18 @@ const styles = StyleSheet.create({
   section: { fontSize: 10.5, fontWeight: peso.titulo, letterSpacing: 1, marginTop: espaciado.e14, marginBottom: espaciado.e8 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
   presetCell: {
-    width: '31%', borderRadius: 14, borderWidth: 1.5, padding: espaciado.e8, alignItems: 'center',
+    width: '31%', borderRadius: 14, borderWidth: trazo.base, padding: espaciado.e8, alignItems: 'center',
   },
   presetEmojiWrap: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   presetEmoji: { fontSize: 24 },
   presetLabel: { fontSize: 10.5, fontWeight: peso.maximo, textAlign: 'center', marginTop: espaciado.e4 },
   presetCheck: { position: 'absolute', top: 6, right: 6 },
   emptyHint: { fontSize: tipografia.caption, fontStyle: 'italic' },
-  input: { borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, fontSize: 15, fontWeight: peso.medio },
+  input: { borderWidth: trazo.fino, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, fontSize: 15, fontWeight: peso.medio },
   counter: { alignSelf: 'flex-end', fontSize: 10.5, marginTop: espaciado.e3 },
   addImg: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, justifyContent: 'center',
-    borderWidth: 1, borderRadius: 14, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e12,
+    borderWidth: trazo.fino, borderRadius: 14, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e12,
   },
   addImgTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   photoGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10 },
@@ -448,14 +448,14 @@ const styles = StyleSheet.create({
   visWrap: { gap: espaciado.e8 },
   visRow: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e10,
-    borderWidth: 1, borderRadius: 14, padding: espaciado.e11,
+    borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e11,
   },
   visLabel: { fontSize: tipografia.body, fontWeight: peso.maximo },
   visHint: { fontSize: tipografia.micro, marginTop: 1 },
   linkRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
   linkChip: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e5,
-    borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7,
+    borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7,
   },
   linkTxt: { fontSize: tipografia.caption, fontWeight: peso.maximo },
   linkHint: { fontSize: tipografia.micro, marginTop: espaciado.e6, fontStyle: 'italic' },
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
   saveTxt: { color: brand.white, fontSize: 15.5, fontWeight: peso.titulo },
   endBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6,
-    borderRadius: radios.lg, borderWidth: 1, paddingVertical: espaciado.e11, marginTop: espaciado.e10,
+    borderRadius: radios.lg, borderWidth: trazo.fino, paddingVertical: espaciado.e11, marginTop: espaciado.e10,
   },
   endTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
 });

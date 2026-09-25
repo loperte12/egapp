@@ -27,7 +27,7 @@ import { ActivityIndicator, Alert, FlatList, Linking, Pressable, RefreshControl,
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, ExternalLink, ShieldCheck, XCircle } from 'lucide-react-native';
-import { alpha, EmptyState, espaciado, GhostButton, InlineError, PrimaryButton, radios, Sheet, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, GhostButton, InlineError, PrimaryButton, radios, Sheet, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { ecomerseApi, type EcomerseDocPendiente } from '../api/ecomerse';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -174,7 +174,7 @@ export default function EcomerseDocsScreen() {
                     disabled={busy === item.id}
                     accessibilityRole="button"
                     accessibilityLabel={`Rechazar ${DOC_LABEL[item.docType] ?? item.docType}`}
-                    style={[s.btn, { borderWidth: 1, borderColor: colors.danger }]}
+                    style={[s.btn, { borderWidth: trazo.fino, borderColor: colors.danger }]}
                   >
                     <XCircle size={15} color={colors.danger} />
                     <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Rechazar</Text>
@@ -219,11 +219,11 @@ export default function EcomerseDocsScreen() {
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1 },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: 1 },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: trazo.fino },
   back: { padding: espaciado.e2 },
   title: { fontSize: tipografia.body, fontWeight: peso.maximo },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  card: { borderRadius: radios.lg, borderWidth: 1, padding: espaciado.e12, marginBottom: espaciado.e12 },
+  card: { borderRadius: radios.lg, borderWidth: trazo.fino, padding: espaciado.e12, marginBottom: espaciado.e12 },
   btn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, minHeight: 40, borderRadius: radios.md },
-  motivo: { minHeight: 80, borderRadius: radios.md, borderWidth: 1, padding: espaciado.e10, textAlignVertical: 'top' },
+  motivo: { minHeight: 80, borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e10, textAlignVertical: 'top' },
 });

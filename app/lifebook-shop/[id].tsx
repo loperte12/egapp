@@ -10,7 +10,7 @@ import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from '
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, MapPin, MessageCircle, Package, ShieldCheck, Store, Truck, Wrench,
 } from 'lucide-react-native';
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
     position: 'absolute', left: 14, width: 34, height: 34, borderRadius: 17,
     backgroundColor: 'rgba(0,0,0,0.35)', alignItems: 'center', justifyContent: 'center',
   },
-  logoWrap: { width: 74, height: 74, borderRadius: 37, borderWidth: 3, overflow: 'hidden' },
+  logoWrap: { width: 74, height: 74, borderRadius: 37, borderWidth: trazo.anillo, overflow: 'hidden' },
   logo: { width: '100%', height: '100%', borderRadius: 37 },
   tabs: { flexDirection: 'row', gap: espaciado.e18, borderBottomWidth: StyleSheet.hairlineWidth, marginTop: espaciado.e16 },
   tab: { paddingBottom: espaciado.e8, alignItems: 'center' },

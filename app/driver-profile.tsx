@@ -10,7 +10,7 @@ import { Alert, Image, ScrollView, StyleSheet, Text, View, Pressable } from 'rea
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Wallet, FileWarning, Truck, Siren, ChevronRight, ShieldCheck, Percent } from 'lucide-react-native';
-import { alpha, brand, espaciado, GhostButton, InlineError, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, InlineError, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { driverApi, DocExpiry } from '../api/driver';
 import { intercityApi, DriverEarnings } from '../api/intercity';
 import { absUrl } from '../api/config';
@@ -113,7 +113,7 @@ export default function DriverProfileScreen() {
                 </Text>
               )}
               {vehicle.vehicle_photo_url && !vehicle.vehicle_photo_url.startsWith('captured://') && (
-                <View style={{ width: 120, height: 84, borderRadius: 10, overflow: 'hidden', marginTop: espaciado.e2, borderWidth: 1, borderColor: colors.border }}>
+                <View style={{ width: 120, height: 84, borderRadius: 10, overflow: 'hidden', marginTop: espaciado.e2, borderWidth: trazo.fino, borderColor: colors.border }}>
                   <Image source={{ uri: absUrl(vehicle.vehicle_photo_url) }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                 </View>
               )}
@@ -233,8 +233,8 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 },
     title: { fontSize: 18, fontWeight: peso.maximo, color: c.textPrimary },
     content: { padding: espaciado.e20, gap: espaciado.e14 },
-    card: { borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e16 },
+    card: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e16 },
     avatar: { width: 56, height: 56, borderRadius: 28, alignItems: 'center', justifyContent: 'center' },
-    chip: { borderRadius: radios.md, borderWidth: 1.5, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8 },
+    chip: { borderRadius: radios.md, borderWidth: trazo.base, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8 },
     statRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10 },
   });

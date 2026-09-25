@@ -20,7 +20,7 @@ import React, { useMemo, useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Plus, X } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { absUrl } from '../../../api/config';
 import type { LbOptionSuggestion, LbSizeKind } from '../../../api/commerce';
 import {
@@ -358,18 +358,18 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
 }
 
 const styles = StyleSheet.create({
-  input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8, fontSize: tipografia.caption },
-  card: { borderWidth: 1, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e10 },
+  input: { borderWidth: trazo.fino, borderRadius: 10, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8, fontSize: tipografia.caption },
+  card: { borderWidth: trazo.fino, borderRadius: 14, padding: espaciado.e12, marginBottom: espaciado.e10 },
   colores: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10 },
   colorItem: { alignItems: 'center', gap: espaciado.e3 },
-  colorFoto: { width: 62, height: 62, borderRadius: radios.md, borderWidth: 2, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
+  colorFoto: { width: 62, height: 62, borderRadius: radios.md, borderWidth: trazo.fuerte, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   colorImg: { width: '100%', height: '100%' },
-  addBtn: { width: 40, height: 40, borderRadius: 10, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
+  addBtn: { width: 40, height: 40, borderRadius: 10, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
   delBtn: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   combo: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: espaciado.e7 },
   comboInput: { width: 78 },
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', justifyContent: 'flex-end' },
   sheet: { borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: espaciado.e16, paddingBottom: espaciado.e26 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
-  gridItem: { width: 96, height: 96, borderRadius: radios.md, borderWidth: 1, overflow: 'hidden' },
+  gridItem: { width: 96, height: 96, borderRadius: radios.md, borderWidth: trazo.fino, overflow: 'hidden' },
 });

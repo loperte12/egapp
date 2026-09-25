@@ -7,7 +7,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View, type StyleProp, type ViewStyle } from 'react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import type { RentalProperty } from '../../api/rental';
 import { formatXAF, isLandType } from '../../utils/formatHelpers';
 
@@ -170,22 +170,22 @@ const s2 = StyleSheet.create({
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
-  container: { borderRadius: 14, padding: espaciado.e16, marginBottom: espaciado.e20, borderWidth: 1, backgroundColor: c.surface },
+  container: { borderRadius: 14, padding: espaciado.e16, marginBottom: espaciado.e20, borderWidth: trazo.fino, backgroundColor: c.surface },
   title: { fontSize: tipografia.subtitle, fontWeight: peso.fuerte, marginBottom: espaciado.e4 },
   subtitle: { fontSize: tipografia.caption, marginBottom: espaciado.e14 },
   controls: { marginBottom: espaciado.e16 },
   controlRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e12 },
   controlLabel: { fontSize: tipografia.body, flex: 1, marginRight: espaciado.e12 },
-  input: { borderWidth: 1, borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, width: 60, textAlign: 'center', fontSize: 15, fontWeight: peso.medio },
+  input: { borderWidth: trazo.fino, borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, width: 60, textAlign: 'center', fontSize: 15, fontWeight: peso.medio },
   breakdown: { borderRadius: 10, padding: espaciado.e14 },
-  totalRow: { flexDirection: 'row', justifyContent: 'space-between', paddingTop: espaciado.e12, marginTop: espaciado.e4, gap: espaciado.e12, borderTopWidth: 1 },
+  totalRow: { flexDirection: 'row', justifyContent: 'space-between', paddingTop: espaciado.e12, marginTop: espaciado.e4, gap: espaciado.e12, borderTopWidth: trazo.fino },
   totalLabel: { fontSize: 15, fontWeight: peso.fuerte, flex: 1 },
   totalValue: { fontSize: tipografia.subtitle, fontWeight: peso.maximo },
   disclaimer: { fontSize: tipografia.micro, marginTop: espaciado.e12, lineHeight: 16 },
 });
 
 const rowStyles = StyleSheet.create({
-  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: 1, gap: espaciado.e12 },
+  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: trazo.fino, gap: espaciado.e12 },
   label: { fontSize: tipografia.body, flex: 1 },
   value: { fontSize: tipografia.body, fontWeight: peso.medio },
 });

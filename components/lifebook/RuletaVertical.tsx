@@ -19,7 +19,7 @@
  */
 import React, { useEffect, useRef } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 
 const ALTO_FILA = 40;
 const FILAS_VISIBLES = 5;
@@ -119,9 +119,9 @@ export function rango(min: number, max: number, paso = 1): number[] {
 }
 
 const styles = StyleSheet.create({
-  caja: { width: '100%', height: ALTO, borderWidth: 1, borderRadius: radios.md, overflow: 'hidden' },
+  caja: { width: '100%', height: ALTO, borderWidth: trazo.fino, borderRadius: radios.md, overflow: 'hidden' },
   banda: {
     position: 'absolute', left: 0, right: 0, height: ALTO_FILA,
-    borderTopWidth: 1, borderBottomWidth: 1, zIndex: 1,
+    borderTopWidth: trazo.fino, borderBottomWidth: trazo.fino, zIndex: 1,
   },
 });
