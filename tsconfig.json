@@ -17,12 +17,17 @@
    * parches. No forman parte de la app: si se incluyen, el chequeo de tipos de la app se llena
    * de errores de `@nestjs/*` y decoradores.
    *
-   * `_respaldo-espaciado` es el respaldo que escribe el codemod de la Fase 3 antes de tocar un
-   * fichero. Son COPIAS con la misma extension que el original, asi que el `include` de arriba las
-   * recogia y el chequeo se llenaba de errores de modulos que no existen desde esa carpeta
-   * (`../api/billing`). Medido: 31 errores que no eran de la app. Se excluye, y el respaldo
-   * sigue entero en el disco. (Sin comodines en este comentario a proposito: el cierre de bloque
-   * que llevan dentro cerraria el comentario y rompe el JSON.)
+   * Los `_respaldo-*` son los respaldos que escribe cada codemod antes de tocar un fichero. Son
+   * COPIAS con la misma extension que el original, asi que el `include` de arriba las recogia y el
+   * chequeo se llenaba de errores de modulos que no existen desde esa carpeta (`../api/billing`).
+   * Medido con el primero (31 errores que no eran de la app) y vuelto a medir el 25/09 con
+   * `_respaldo-peso-p1`: los mismos 21+ errores, todos del respaldo y ninguno del codigo.
+   *
+   * SE EXCLUYE POR PATRON, NO POR NOMBRE. La primera version excluia solo `_respaldo-espaciado`,
+   * escrito a mano: el respaldo siguiente —de otra tanda— volvio a colarse y hubo que volver a
+   * diagnosticarlo. Un `exclude` que hay que ampliar en cada tanda no es una defensa, es una lista
+   * que se olvida. (Sin comodines en este texto a proposito: el cierre de bloque que llevan
+   * dentro cerraria el comentario y rompe el JSON.)
    */
-  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js", "backend/server-src", "backend/server-patch", "_respaldo-espaciado"]
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js", "backend/server-src", "backend/server-patch", "_respaldo-*"]
 }

@@ -35,7 +35,7 @@ import {
   Globe, ImagePlus, Link2, Mail, MapPin, Phone, Plus, QrCode, School,
   Sparkles, Store, Trash2, Users, X,
 } from 'lucide-react-native';
-import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { pickImageFromCamera, pickImageFromLibrary } from '../core/pickImage';
 import { authApi, type MeProfile, type ProfileLink, type UpdateProfilePayload, DEFAULT_WIDGETS } from '../api/auth';
@@ -565,7 +565,7 @@ function EditProfileContent() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }}>Información original</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', marginTop: 1 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 }}>
                 Estado de creador original en Life Book
               </Text>
             </View>
@@ -627,7 +627,7 @@ function EditProfileContent() {
           </Pressable>
 
           {links.length === 0 ? (
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e12, lineHeight: 17 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e12, lineHeight: 17 }}>
               Los enlaces, correos o redes que añadas se mostrarán en tu perfil público (máx. 8). Puedes FIJAR hasta {MAX_FIJADOS} con 📌 para que salgan arriba.
             </Text>
           ) : (
@@ -641,7 +641,7 @@ function EditProfileContent() {
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }} numberOfLines={1}>{l.label}</Text>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', marginTop: 1 }} numberOfLines={1}>{l.value}</Text>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 }} numberOfLines={1}>{l.value}</Text>
                   </View>
                   {/* ── FIJAR ──
                       Un enlace fijado sale ARRIBA y con 📌 en el perfil público (es lo
@@ -727,18 +727,18 @@ function EditProfileContent() {
                   <Text style={{ color: nameColor || colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: '900' }} numberOfLines={1}>
                     {fullName.trim() || profile.fullName || 'Usuario'}
                   </Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e2 }} numberOfLines={1}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 }} numberOfLines={1}>
                     {profession ?? locationTxt}
                   </Text>
                 </View>
               </View>
               {bio.trim() ? (
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', lineHeight: 18, marginTop: espaciado.e10 }} numberOfLines={3}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, lineHeight: 18, marginTop: espaciado.e10 }} numberOfLines={3}>
                   {bio}
                 </Text>
               ) : null}
             </View>
-            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e10 }}>
+            <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e10 }}>
               Los cambios se aplican cuando pulsas «Guardar cambios».
             </Text>
             <View style={{ marginTop: espaciado.e14 }}>
@@ -1043,7 +1043,7 @@ function HojaInferior({ visible, title, subtitle, onClose, children }: {
           <View style={styles.modalHeaderRow}>
             <View style={{ flex: 1 }}>
               <Text style={[styles.modalTitle, { color: colors.textPrimary }]}>{title}</Text>
-              {subtitle ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e2 }}>{subtitle}</Text> : null}
+              {subtitle ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 }}>{subtitle}</Text> : null}
             </View>
             <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar"><X size={20} color={colors.textSecondary} /></Pressable>
           </View>
@@ -1100,7 +1100,7 @@ function ModalSelectorPais({ visible, country, countryCode, city, onApply, onClo
       />
       <ScrollView style={{ maxHeight: 236, marginTop: espaciado.e6 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         {filtered.length === 0 ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', paddingVertical: espaciado.e14, textAlign: 'center' }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, paddingVertical: espaciado.e14, textAlign: 'center' }}>
             Sin resultados para «{q}»
           </Text>
         ) : (
@@ -1366,7 +1366,7 @@ function ModalGrupo({ visible, onAdd, onClose }: {
           <ActivityIndicator color={colors.primary} />
         </View>
       ) : grupos.length === 0 ? (
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', lineHeight: 18, marginTop: espaciado.e4 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, lineHeight: 18, marginTop: espaciado.e4 }}>
           {error ?? 'No eres dueño ni administrador de ningún grupo. Solo ellos pueden crear el enlace de invitación.'}
         </Text>
       ) : (
@@ -1394,7 +1394,7 @@ function ModalGrupo({ visible, onAdd, onClose }: {
               )}
               <View style={{ flex: 1 }}>
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '700' }} numberOfLines={1}>{g.title}</Text>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', marginTop: 1 }} numberOfLines={1}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 }} numberOfLines={1}>
                   {g.members} {g.members === 1 ? 'miembro' : 'miembros'} · {g.myRole === 'owner' ? 'eres el dueño' : 'eres administrador'}
                 </Text>
               </View>
@@ -1445,7 +1445,7 @@ const styles = StyleSheet.create({
   },
   sep: { height: StyleSheet.hairlineWidth, marginVertical: espaciado.e16 },
   fieldLabel: { fontSize: tipografia.caption, fontWeight: '700', marginBottom: espaciado.e6, marginLeft: espaciado.e4 },
-  fieldHint: { fontSize: tipografia.micro, fontWeight: '600', marginTop: espaciado.e5, marginLeft: espaciado.e4, lineHeight: 15 },
+  fieldHint: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e5, marginLeft: espaciado.e4, lineHeight: 15 },
   nameColorDot: {
     width: 30, height: 30, borderRadius: 15, borderWidth: 1,
   },
@@ -1491,7 +1491,7 @@ const styles = StyleSheet.create({
   // Fila genérica
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e12 },
   rowIcon: { width: 32, height: 32, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
-  rowHint: { fontSize: tipografia.caption, fontWeight: '600', maxWidth: '46%', textAlign: 'right' },
+  rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, maxWidth: '46%', textAlign: 'right' },
 
   // ID de EG Route Plan
   idBox: {
@@ -1508,7 +1508,7 @@ const styles = StyleSheet.create({
   // Biografía
   bioInput: {
     borderRadius: 14, borderWidth: 1.5, minHeight: 112,
-    paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: 14.5, fontWeight: '600', lineHeight: 20,
+    paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12, fontSize: 14.5, fontWeight: peso.medio, lineHeight: 20,
   },
 
   // Enlaces
@@ -1522,7 +1522,7 @@ const styles = StyleSheet.create({
   },
 
   // Pie
-  footNote: { textAlign: 'center', fontSize: 10.5, fontWeight: '600', marginTop: espaciado.e10 },
+  footNote: { textAlign: 'center', fontSize: 10.5, fontWeight: peso.medio, marginTop: espaciado.e10 },
 
   // Modales
   backdrop: { flex: 1 },
@@ -1556,7 +1556,7 @@ const styles = StyleSheet.create({
   // Listas dentro de las hojas
   groupHeader: { fontSize: tipografia.micro, fontWeight: '800', letterSpacing: 0.5, textTransform: 'uppercase', marginTop: espaciado.e10, marginBottom: espaciado.e2, marginLeft: espaciado.e4 },
   pickRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e4 },
-  pickRowTxt: { flex: 1, fontSize: tipografia.body, fontWeight: '600' },
+  pickRowTxt: { flex: 1, fontSize: tipografia.body, fontWeight: peso.medio },
   cityChip: { borderWidth: 1, borderRadius: radios.full, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
   statusPill: { borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 },
 });

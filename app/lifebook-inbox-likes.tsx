@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, EmptyState, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Heart, Send, ThumbsUp } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { absUrl } from '../api/config';
@@ -123,7 +123,7 @@ function LikesContent() {
                     <Text style={{ fontSize: 15 }}>📝</Text>
                   </View>
                 )}
-                <Text style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '600' }} numberOfLines={2}>
+                <Text style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.medio }} numberOfLines={2}>
                   {item.post.preview || 'Ver publicación'}
                 </Text>
               </Pressable>

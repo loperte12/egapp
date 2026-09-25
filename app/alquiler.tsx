@@ -18,7 +18,7 @@ import { ActivityIndicator, FlatList, Modal, Pressable, ScrollView, StyleSheet, 
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Plus, SlidersHorizontal, Check, X, ShieldAlert, MapPin, RefreshCw, WifiOff } from 'lucide-react-native';
-import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, ScreenHeader, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, PrimaryButton, radios, ScreenHeader, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { PropertyCard } from '../components/rental/PropertyCard';
 import { usePropertySearch } from '../hooks/rental/usePropertySearch';
 import type { SortOrder } from '../hooks/rental/usePropertyFilters';
@@ -128,7 +128,7 @@ export default function AlquilerScreen() {
       {/* Aviso anti-estafa (tokens del tema) */}
       <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: 10 }}>
         <ShieldAlert size={16} color={colors.danger} />
-        <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: '600', lineHeight: 16 }}>
+        <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.medio, lineHeight: 16 }}>
           No pagues por adelantado ni envíes DNI antes de ver el inmueble. Denuncia anuncios sospechosos.
         </Text>
       </View>
@@ -137,7 +137,7 @@ export default function AlquilerScreen() {
       {!loading && error && anyResult && (
         <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.07), paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: 10 }}>
           <WifiOff size={14} color={colors.danger} />
-          <Text style={{ flex: 1, fontSize: tipografia.micro, color: colors.danger, fontWeight: '600' }}>No se pudo actualizar: mostrando datos anteriores.</Text>
+          <Text style={{ flex: 1, fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.medio }}>No se pudo actualizar: mostrando datos anteriores.</Text>
           <Pressable onPress={() => void reload()} accessibilityRole="button" accessibilityLabel="Reintentar actualizar" hitSlop={8}>
             <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: '800' }}>Reintentar</Text>
           </Pressable>
@@ -319,7 +319,7 @@ function ActiveChip({ label, onRemove }: { label: string; onRemove: () => void }
       accessibilityLabel={`Quitar filtro: ${label}`}
       style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14, borderWidth: 1, borderColor: colors.primary, marginRight: espaciado.e6, opacity: pressed ? 0.7 : 1 }]}
     >
-      <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: '600' }}>{label}</Text>
+      <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.medio }}>{label}</Text>
       <X size={12} color={colors.primary} style={{ marginLeft: espaciado.e4 }} />
     </Pressable>
   );
@@ -329,7 +329,7 @@ function SwitchRow({ label, value, onChange }: { label: string; value: boolean; 
   const { colors } = useTheme();
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600' }}>{label}</Text>
+      <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio }}>{label}</Text>
       <Switch
         value={value}
         onValueChange={onChange}

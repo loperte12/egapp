@@ -16,7 +16,7 @@ import {
   Camera, Image as ImageIcon, Share2, Paperclip, ShoppingBag, Tag, Hash,
   Map, CalendarCheck, ListOrdered, Vote, Megaphone, ScrollText,
 } from 'lucide-react-native';
-import { alpha, espaciado, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, useTheme, peso} from '@egrouteplan/ui-kit';
 import type { LbChatAction } from '../../api/messages';
 import { brand } from '@egrouteplan/ui-kit';
 
@@ -87,6 +87,6 @@ const styles = StyleSheet.create({
   },
   cell: { width: '25%', alignItems: 'center', marginBottom: espaciado.e14, paddingHorizontal: espaciado.e4 },
   iconBox: { width: 52, height: 52, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  label: { fontSize: 10.5, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e6, lineHeight: 13 },
+  label: { fontSize: 10.5, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 13 },
   pronto: { fontSize: 9, fontWeight: '800', marginTop: 1 },
 });

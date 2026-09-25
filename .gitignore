@@ -63,3 +63,12 @@ pruebas/*.mp4
 egrouteplan-app/
 *.apk
 *.aab
+
+# ---------------------------------------------------------------------------
+# TERCERA PASADA, 25/09/2026: los respaldos de los codemods.
+# Cada tanda escribe su respaldo en `_respaldo-<familia>-<n>/` antes de tocar un fichero. Son copia
+# byte a byte, no fuente, y ya asoman en el `git status` como ruido. Se ignoran por PATRON (mismo
+# criterio que el `exclude` del tsconfig) para no tener que ampliar la lista en cada tanda nueva.
+# OJO: igual que `.auditoria-servicios/`, ignorarlos NO los borra — siguen en el disco.
+# ---------------------------------------------------------------------------
+_respaldo-*/

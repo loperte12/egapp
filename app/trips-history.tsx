@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ArrowLeft, CarTaxiFront, Star, XCircle } from 'lucide-react-native';
-import { EmptyState, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { taxiApi, TripHistoryItem } from '../api/taxi';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -83,7 +83,7 @@ export default function TripsHistoryScreen() {
           windowSize={7}
           removeClippedSubviews
           ListHeaderComponent={
-            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '600', marginBottom: espaciado.e6 }}>
+            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: peso.medio, marginBottom: espaciado.e6 }}>
               {asDriver ? 'Como CONDUCTOR' : 'Como PASAJERO'} · {trips.length} viaje{trips.length === 1 ? '' : 's'}
             </Text>
           }
@@ -104,11 +104,11 @@ export default function TripsHistoryScreen() {
                   <Text style={{ color: done ? brand.success : brand.danger, fontWeight: '900', fontSize: tipografia.body, flex: 1 }}>
                     {done ? 'Completado' : 'Cancelado'}
                   </Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>{fmtDate(done ? t.completed_at : t.cancelled_at) || fmtDate(t.created_at)}</Text>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>{fmtDate(done ? t.completed_at : t.cancelled_at) || fmtDate(t.created_at)}</Text>
                 </View>
 
                 <View style={{ marginTop: espaciado.e6, gap: espaciado.e2 }}>
-                  <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600' }} numberOfLines={1}>
+                  <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio }} numberOfLines={1}>
                     🟢 {t.pickup_address || 'Origen'}
                   </Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '700' }} numberOfLines={1}>
@@ -122,7 +122,7 @@ export default function TripsHistoryScreen() {
                       {asDriver ? 'Pasajero' : 'Conductor'}: {t.counterpart_name || '—'}
                     </Text>
                     {t.vehicle_plate && (
-                      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '600' }}>
+                      <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: peso.medio }}>
                         {t.vehicle_model || ''} {t.vehicle_plate ? `· ${t.vehicle_plate}` : ''}
                       </Text>
                     )}
@@ -158,11 +158,11 @@ export default function TripsHistoryScreen() {
                         Liquidación ({t.city ?? '—'}) · monedero
                       </Text>
                       {done ? (
-                        <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '600' }}>
+                        <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: peso.medio }}>
                           Tarifa {xaf(fare)} · comisión {xaf(fee)} · {asDriver ? 'cobraste' : 'al conductor'} {xaf(net)}
                         </Text>
                       ) : (
-                        <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '600' }}>
+                        <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: peso.medio }}>
                           {Number(set.fee_to_driver ?? 0) > 0
                             ? `Cuota de absentismo ${xaf(set.fee_to_driver)} · devuelto ${xaf(set.refunded)}`
                             : (t.cancelled_by === 'DRIVER'
@@ -188,12 +188,12 @@ export default function TripsHistoryScreen() {
                         {[1, 2, 3, 4, 5].map((n) => (
                           <Star key={n} size={14} color={n <= Number(t.my_rating) ? brand.warning : colors.border} fill={n <= Number(t.my_rating) ? brand.warning : 'transparent'} />
                         ))}
-                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginLeft: espaciado.e4, fontWeight: '600' }}>
+                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginLeft: espaciado.e4, fontWeight: peso.medio }}>
                           {asDriver ? 'Te puntuaron' : 'Tu valoración'}
                         </Text>
                       </>
                     ) : (
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>
                         {asDriver ? 'Sin valoración del pasajero' : 'No puntuaste este viaje'}
                       </Text>
                     )}

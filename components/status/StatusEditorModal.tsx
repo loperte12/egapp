@@ -12,7 +12,7 @@ import {
   ActivityIndicator, Alert, Image, KeyboardAvoidingView, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';import { Check, Clock, ImagePlus, Link2, Lock, Globe, Users, Trash2, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import type { UserStatus } from '../../api/status';
 import { STATUS_TEXT_MAX, VISIBILITY_OPTIONS } from '../../constants/status';
 import { statusBgColors } from '../../constants/status';
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 19, fontWeight: '900' },
   close: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
   noteRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e2, marginBottom: espaciado.e10 },
-  note: { fontSize: tipografia.caption, fontWeight: '600' },
+  note: { fontSize: tipografia.caption, fontWeight: peso.medio },
   previewWrap: { borderRadius: 18, borderWidth: 1, overflow: 'hidden', marginBottom: espaciado.e10 },
   preview: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e12,
@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
   presetLabel: { fontSize: 10.5, fontWeight: '800', textAlign: 'center', marginTop: espaciado.e4 },
   presetCheck: { position: 'absolute', top: 6, right: 6 },
   emptyHint: { fontSize: tipografia.caption, fontStyle: 'italic' },
-  input: { borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, fontSize: 15, fontWeight: '600' },
+  input: { borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e10, fontSize: 15, fontWeight: peso.medio },
   counter: { alignSelf: 'flex-end', fontSize: 10.5, marginTop: espaciado.e3 },
   addImg: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, justifyContent: 'center',

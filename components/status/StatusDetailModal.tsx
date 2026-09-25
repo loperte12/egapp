@@ -20,7 +20,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Clock, Flag, MapPin, Share2, X, ZoomIn } from 'lucide-react-native';
-import { espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import type { MeProfile } from '../../api/auth';
 import type { UserStatus, StatusMediaItem } from '../../api/status';
 import { absUrl } from '../../api/config';
@@ -400,9 +400,9 @@ const styles = StyleSheet.create({
   dot: { width: 7, height: 7, borderRadius: 4 },
   footer: { flex: 1, paddingHorizontal: espaciado.e18, paddingTop: espaciado.e14 },
   locRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, marginBottom: espaciado.e8 },
-  locTxt: { fontSize: tipografia.caption, fontWeight: '600' },
+  locTxt: { fontSize: tipografia.caption, fontWeight: peso.medio },
   zoomHintRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginBottom: espaciado.e12 },
-  zoomHint: { fontSize: tipografia.caption, fontWeight: '600', fontStyle: 'italic' },
+  zoomHint: { fontSize: tipografia.caption, fontWeight: peso.medio, fontStyle: 'italic' },
   serviceBtn: { borderRadius: 14, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e14, marginBottom: espaciado.e12, alignItems: 'center' },
   actions: { flexDirection: 'row', gap: espaciado.e10 },
   action: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6, borderRadius: 14, paddingVertical: espaciado.e12 },
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
   reportBox: { borderRadius: 14, padding: espaciado.e12, marginTop: espaciado.e14 },
   reportTitle: { fontSize: tipografia.body, fontWeight: '900', marginBottom: espaciado.e4 },
   reportRow: { paddingVertical: espaciado.e11, borderBottomWidth: 1 },
-  reportRowTxt: { fontSize: tipografia.body, fontWeight: '600' },
+  reportRowTxt: { fontSize: tipografia.body, fontWeight: peso.medio },
   reportCancel: { fontSize: tipografia.body, fontWeight: '700', textAlign: 'center', marginTop: espaciado.e4 },
   lightbox: { flex: 1, backgroundColor: '#000000' },
   lightboxClose: { position: 'absolute', right: 16, zIndex: 10, width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' },

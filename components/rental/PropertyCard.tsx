@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { alpha, brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { LazyImage } from './LazyImage';
 import { FeaturedBadge, PremiumBadge, VerificationBadge } from './Badges';
 import { LandlordCard, type LandlordCardData } from './LandlordCard';
@@ -101,13 +101,13 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   socialBadge: { backgroundColor: brand.success, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 },
   socialText: { color: brand.white, fontSize: 10, fontWeight: '700' },
   typeBadge: { position: 'absolute', top: 8, right: 8, backgroundColor: 'rgba(15,23,42,0.85)', paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 },
-  typeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: '600' },
+  typeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.medio },
   shortTermBadge: { position: 'absolute', bottom: 8, left: 8, backgroundColor: 'rgba(0,0,0,0.75)', paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: 6 },
-  shortTermText: { color: brand.white, fontSize: tipografia.micro, fontWeight: '600' },
+  shortTermText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.medio },
   content: { padding: espaciado.e12 },
   priceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e6 },
   price: { fontSize: 17, fontWeight: '700', color: c.textPrimary },
-  title: { fontSize: tipografia.body, fontWeight: '600', color: c.textSecondary, marginBottom: espaciado.e4 },
+  title: { fontSize: tipografia.body, fontWeight: peso.medio, color: c.textSecondary, marginBottom: espaciado.e4 },
   location: { fontSize: tipografia.caption, color: c.textSecondary, marginBottom: espaciado.e8 },
   featuresRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10, marginBottom: espaciado.e8 },
   feature: { fontSize: tipografia.caption, color: c.textPrimary },

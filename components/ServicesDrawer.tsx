@@ -20,7 +20,7 @@ import {
   ScanLine, Settings, ShoppingBag, ShoppingCart, Siren, Sparkles, StickyNote, Store,
   Ticket, UserCog, UserPlus, UserRound, Utensils, UtensilsCrossed, Wallet, Wrench,
 } from 'lucide-react-native';
-import { alpha, elevation, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, elevation, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { absUrl } from '../api/config';
 import { useMisNegocios, type VerticalNegocio } from '../core/useMisNegocios';
 import { useSoyAgente } from '../core/useSoyAgente';
@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
   headerAvatarImg: { width: '100%', height: '100%' },
   headerAvatarTxt: { fontSize: 17, fontWeight: '900' },
   headerName: { fontSize: 14.5, fontWeight: '800' },
-  headerRole: { fontSize: tipografia.micro, fontWeight: '600', marginTop: 1 },
+  headerRole: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: 1 },
   closeBtn: { padding: espaciado.e4 },
   groupTitle: { fontSize: tipografia.micro, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e14, marginBottom: espaciado.e6, paddingHorizontal: espaciado.e16 },
   groupCard: { borderRadius: 14, overflow: 'hidden', marginHorizontal: espaciado.e10 },

@@ -21,7 +21,7 @@ import { FlatList, Modal, Pressable, ScrollView, StyleSheet, Switch, Text, View,
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Plus, Crown, SlidersHorizontal, Check, X } from 'lucide-react-native';
-import { espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useWorkSearch } from '../hooks/useWorkSearch';
 import { sortJobs } from '../utils/workSort';
 import { getTimeAgo } from '../utils/formatHelpers';
@@ -109,7 +109,7 @@ export default function WorkScreen() {
             {chips.map((c, i) => (
               <Pressable key={`${c.label}-${i}`} onPress={c.remove} accessibilityRole="button" accessibilityLabel={`Quitar filtro ${c.label}`}
                 style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: 14, borderWidth: 1, borderColor: colors.primary, marginRight: espaciado.e6 }}>
-                <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: '600' }}>{c.label}</Text>
+                <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.medio }}>{c.label}</Text>
                 <X size={12} color={colors.primary} style={{ marginLeft: espaciado.e4 }} />
               </Pressable>
             ))}
@@ -193,13 +193,13 @@ export default function WorkScreen() {
                       <Pressable key={`${lo}-${hi}`} onPress={() => setSalaryBand(active ? null : [lo, hi])} accessibilityRole="button"
                         accessibilityState={{ selected: active }}
                         style={[s_chip.base, { backgroundColor: active ? colors.primary : colors.surface, borderColor: active ? colors.primary : colors.border }]}>
-                        <Text style={{ fontSize: tipografia.caption, color: active ? brand.white : colors.textPrimary, fontWeight: '600' }}>{lo.toLocaleString('es')} – {hi.toLocaleString('es')}</Text>
+                        <Text style={{ fontSize: tipografia.caption, color: active ? brand.white : colors.textPrimary, fontWeight: peso.medio }}>{lo.toLocaleString('es')} – {hi.toLocaleString('es')}</Text>
                       </Pressable>
                     );
                   })}
                   <Pressable onPress={() => setSalaryBand(null)} accessibilityRole="button" accessibilityState={{ selected: !filters.salaryBand }}
                     style={[s_chip.base, { backgroundColor: !filters.salaryBand ? colors.primary : colors.surface, borderColor: colors.border }]}>
-                    <Text style={{ fontSize: tipografia.caption, color: !filters.salaryBand ? brand.white : colors.textPrimary, fontWeight: '600' }}>Todos</Text>
+                    <Text style={{ fontSize: tipografia.caption, color: !filters.salaryBand ? brand.white : colors.textPrimary, fontWeight: peso.medio }}>Todos</Text>
                   </Pressable>
                 </View>
               </Section>
@@ -239,7 +239,7 @@ function ToggleRow({ label, sub, value, onChange }: { label: string; sub: string
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e10, borderBottomWidth: 1, borderBottomColor: colors.surface }}>
       <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: tipografia.body, fontWeight: '600', color: colors.textPrimary }}>{label}</Text>
+        <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary }}>{label}</Text>
         <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{sub}</Text>
       </View>
       <Switch value={value} onValueChange={onChange} trackColor={{ false: colors.border, true: colors.primary }} thumbColor={brand.white} accessibilityLabel={label} />

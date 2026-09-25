@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { CarTaxiFront, BadgeInfo } from 'lucide-react-native';
 import { mobilityApi, fmtXaf, type FareQuote } from '../api/mobility';
@@ -81,6 +81,6 @@ const styles = StyleSheet.create({
   priceBlock: { alignItems: 'flex-end' },
   price: { fontSize: 15, fontWeight: '800' },
   bandRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e2 },
-  band: { fontSize: 9.5, fontWeight: '600' },
-  loadingText: { fontSize: tipografia.caption, fontWeight: '600', marginLeft: espaciado.e8 },
+  band: { fontSize: 9.5, fontWeight: peso.medio },
+  loadingText: { fontSize: tipografia.caption, fontWeight: peso.medio, marginLeft: espaciado.e8 },
 });

@@ -24,7 +24,7 @@ import {
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, MapPin, Navigation, Phone, XCircle } from 'lucide-react-native';
-import { alpha, espaciado, FormField, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { foodApi, FoodDelivery, FoodRiderMe, ContabilidadRepartidor } from '../api/food';
 import { getGqPositionIfAllowed } from '../api/locate';
 import { formatXAF } from '../utils/formatHelpers';
@@ -652,7 +652,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e5 }}>
       {ok ? <BadgeCheck size={16} color={brand.success} /> : <XCircle size={16} color="#CBD5E1" />}
       <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
-        <Text style={{ fontSize: tipografia.caption, fontWeight: '600', color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
+        <Text style={{ fontSize: tipografia.caption, fontWeight: peso.medio, color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
         {hint ? <Text style={{ fontSize: 10.5, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
       </View>
       {onPress ? <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>→</Text> : null}

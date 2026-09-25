@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowDownToLine, ArrowLeft, ArrowUpFromLine, ChevronRight, KeyRound, ShieldCheck, Wallet,
 } from 'lucide-react-native';
-import { EmptyState, espaciado, radios, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { EmptyState, espaciado, radios, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { walletApi, type WalletBalance, type WalletTx } from '../api/wallet';
 import { brand } from '@egrouteplan/ui-kit';
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   card: { borderRadius: 18, borderWidth: 1, padding: espaciado.e16 },
   action: { flex: 1, borderRadius: 18, paddingVertical: espaciado.e16, alignItems: 'center', gap: espaciado.e4 },
   actionTxt: { color: brand.white, fontSize: 14.5, fontWeight: '900' },
-  actionHint: { color: 'rgba(255,255,255,0.75)', fontSize: 10.5, fontWeight: '600' },
+  actionHint: { color: 'rgba(255,255,255,0.75)', fontSize: 10.5, fontWeight: peso.medio },
   rowItem: {
     flexDirection: 'row', alignItems: 'center', borderRadius: 14, borderWidth: 1,
     paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e13, marginTop: espaciado.e14,

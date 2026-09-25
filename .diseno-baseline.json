@@ -3,7 +3,7 @@
     "hex": 189,
     "fontSize": 649,
     "borderRadius": 688,
-    "fontWeight": 1948,
+    "fontWeight": 1734,
     "borderWidth": 528,
     "espaciado": 183,
     "precioFigura": 12
@@ -31,7 +31,7 @@
       "hex": 0,
       "fontSize": 5,
       "borderRadius": 9,
-      "fontWeight": 13,
+      "fontWeight": 10,
       "borderWidth": 5,
       "espaciado": 1,
       "precioFigura": 0
@@ -40,7 +40,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 4,
-      "fontWeight": 9,
+      "fontWeight": 7,
       "borderWidth": 3,
       "espaciado": 0,
       "precioFigura": 0
@@ -49,7 +49,7 @@
       "hex": 1,
       "fontSize": 10,
       "borderRadius": 8,
-      "fontWeight": 20,
+      "fontWeight": 16,
       "borderWidth": 5,
       "espaciado": 1,
       "precioFigura": 0
@@ -58,7 +58,7 @@
       "hex": 0,
       "fontSize": 3,
       "borderRadius": 11,
-      "fontWeight": 14,
+      "fontWeight": 10,
       "borderWidth": 4,
       "espaciado": 4,
       "precioFigura": 0
@@ -67,7 +67,7 @@
       "hex": 0,
       "fontSize": 1,
       "borderRadius": 1,
-      "fontWeight": 4,
+      "fontWeight": 3,
       "borderWidth": 0,
       "espaciado": 1,
       "precioFigura": 0
@@ -76,7 +76,7 @@
       "hex": 0,
       "fontSize": 2,
       "borderRadius": 1,
-      "fontWeight": 13,
+      "fontWeight": 10,
       "borderWidth": 2,
       "espaciado": 0,
       "precioFigura": 1
@@ -85,7 +85,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 4,
-      "fontWeight": 11,
+      "fontWeight": 9,
       "borderWidth": 4,
       "espaciado": 1,
       "precioFigura": 0
@@ -94,7 +94,7 @@
       "hex": 0,
       "fontSize": 2,
       "borderRadius": 3,
-      "fontWeight": 4,
+      "fontWeight": 3,
       "borderWidth": 2,
       "espaciado": 3,
       "precioFigura": 0
@@ -103,7 +103,7 @@
       "hex": 0,
       "fontSize": 7,
       "borderRadius": 4,
-      "fontWeight": 17,
+      "fontWeight": 13,
       "borderWidth": 5,
       "espaciado": 1,
       "precioFigura": 0
@@ -112,7 +112,7 @@
       "hex": 16,
       "fontSize": 37,
       "borderRadius": 34,
-      "fontWeight": 74,
+      "fontWeight": 58,
       "borderWidth": 26,
       "espaciado": 9,
       "precioFigura": 0
@@ -121,7 +121,7 @@
       "hex": 6,
       "fontSize": 2,
       "borderRadius": 1,
-      "fontWeight": 6,
+      "fontWeight": 4,
       "borderWidth": 0,
       "espaciado": 0,
       "precioFigura": 0
@@ -130,7 +130,7 @@
       "hex": 7,
       "fontSize": 2,
       "borderRadius": 5,
-      "fontWeight": 17,
+      "fontWeight": 13,
       "borderWidth": 6,
       "espaciado": 0,
       "precioFigura": 0
@@ -139,7 +139,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 3,
-      "fontWeight": 24,
+      "fontWeight": 19,
       "borderWidth": 3,
       "espaciado": 0,
       "precioFigura": 0
@@ -238,7 +238,7 @@
       "hex": 6,
       "fontSize": 9,
       "borderRadius": 13,
-      "fontWeight": 51,
+      "fontWeight": 36,
       "borderWidth": 12,
       "espaciado": 6,
       "precioFigura": 0
@@ -283,7 +283,7 @@
       "hex": 1,
       "fontSize": 10,
       "borderRadius": 8,
-      "fontWeight": 26,
+      "fontWeight": 24,
       "borderWidth": 9,
       "espaciado": 1,
       "precioFigura": 1
@@ -292,7 +292,7 @@
       "hex": 1,
       "fontSize": 8,
       "borderRadius": 13,
-      "fontWeight": 33,
+      "fontWeight": 32,
       "borderWidth": 10,
       "espaciado": 3,
       "precioFigura": 4
@@ -301,7 +301,7 @@
       "hex": 0,
       "fontSize": 6,
       "borderRadius": 6,
-      "fontWeight": 9,
+      "fontWeight": 7,
       "borderWidth": 4,
       "espaciado": 0,
       "precioFigura": 0
@@ -319,7 +319,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 8,
-      "fontWeight": 11,
+      "fontWeight": 9,
       "borderWidth": 3,
       "espaciado": 0,
       "precioFigura": 0
@@ -328,7 +328,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 4,
-      "fontWeight": 25,
+      "fontWeight": 20,
       "borderWidth": 3,
       "espaciado": 1,
       "precioFigura": 0
@@ -337,7 +337,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 3,
-      "fontWeight": 27,
+      "fontWeight": 16,
       "borderWidth": 4,
       "espaciado": 0,
       "precioFigura": 0
@@ -346,7 +346,7 @@
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 1,
-      "fontWeight": 1,
+      "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 0,
       "precioFigura": 0
@@ -355,7 +355,7 @@
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 0,
-      "fontWeight": 1,
+      "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
       "precioFigura": 0
@@ -364,15 +364,6 @@
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 1,
-      "fontWeight": 2,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0
-    },
-    "app/kyc/status.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
       "fontWeight": 1,
       "borderWidth": 0,
       "espaciado": 0,
@@ -436,7 +427,7 @@
       "hex": 1,
       "fontSize": 13,
       "borderRadius": 22,
-      "fontWeight": 46,
+      "fontWeight": 44,
       "borderWidth": 4,
       "espaciado": 2,
       "precioFigura": 0
@@ -472,7 +463,7 @@
       "hex": 0,
       "fontSize": 1,
       "borderRadius": 0,
-      "fontWeight": 6,
+      "fontWeight": 3,
       "borderWidth": 0,
       "espaciado": 2,
       "precioFigura": 0
@@ -481,7 +472,7 @@
       "hex": 2,
       "fontSize": 8,
       "borderRadius": 8,
-      "fontWeight": 15,
+      "fontWeight": 14,
       "borderWidth": 6,
       "espaciado": 2,
       "precioFigura": 0
@@ -499,7 +490,7 @@
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 2,
-      "fontWeight": 7,
+      "fontWeight": 6,
       "borderWidth": 1,
       "espaciado": 0,
       "precioFigura": 0
@@ -517,7 +508,7 @@
       "hex": 0,
       "fontSize": 8,
       "borderRadius": 8,
-      "fontWeight": 13,
+      "fontWeight": 12,
       "borderWidth": 7,
       "espaciado": 0,
       "precioFigura": 0
@@ -526,7 +517,7 @@
       "hex": 0,
       "fontSize": 6,
       "borderRadius": 4,
-      "fontWeight": 10,
+      "fontWeight": 9,
       "borderWidth": 6,
       "espaciado": 0,
       "precioFigura": 0
@@ -553,7 +544,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 6,
-      "fontWeight": 16,
+      "fontWeight": 15,
       "borderWidth": 5,
       "espaciado": 1,
       "precioFigura": 0
@@ -562,7 +553,7 @@
       "hex": 0,
       "fontSize": 7,
       "borderRadius": 5,
-      "fontWeight": 18,
+      "fontWeight": 16,
       "borderWidth": 10,
       "espaciado": 0,
       "precioFigura": 0
@@ -580,7 +571,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 2,
-      "fontWeight": 13,
+      "fontWeight": 12,
       "borderWidth": 5,
       "espaciado": 0,
       "precioFigura": 0
@@ -589,7 +580,7 @@
       "hex": 0,
       "fontSize": 9,
       "borderRadius": 7,
-      "fontWeight": 15,
+      "fontWeight": 12,
       "borderWidth": 7,
       "espaciado": 0,
       "precioFigura": 0
@@ -598,7 +589,7 @@
       "hex": 0,
       "fontSize": 6,
       "borderRadius": 1,
-      "fontWeight": 16,
+      "fontWeight": 14,
       "borderWidth": 9,
       "espaciado": 0,
       "precioFigura": 0
@@ -607,7 +598,7 @@
       "hex": 0,
       "fontSize": 3,
       "borderRadius": 1,
-      "fontWeight": 9,
+      "fontWeight": 8,
       "borderWidth": 5,
       "espaciado": 0,
       "precioFigura": 0
@@ -616,7 +607,7 @@
       "hex": 0,
       "fontSize": 11,
       "borderRadius": 7,
-      "fontWeight": 24,
+      "fontWeight": 20,
       "borderWidth": 14,
       "espaciado": 0,
       "precioFigura": 0
@@ -643,7 +634,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 3,
-      "fontWeight": 5,
+      "fontWeight": 4,
       "borderWidth": 1,
       "espaciado": 1,
       "precioFigura": 0
@@ -715,7 +706,7 @@
       "hex": 1,
       "fontSize": 6,
       "borderRadius": 5,
-      "fontWeight": 11,
+      "fontWeight": 10,
       "borderWidth": 1,
       "espaciado": 4,
       "precioFigura": 0
@@ -751,7 +742,7 @@
       "hex": 15,
       "fontSize": 12,
       "borderRadius": 7,
-      "fontWeight": 34,
+      "fontWeight": 33,
       "borderWidth": 3,
       "espaciado": 5,
       "precioFigura": 0
@@ -760,7 +751,7 @@
       "hex": 2,
       "fontSize": 6,
       "borderRadius": 6,
-      "fontWeight": 19,
+      "fontWeight": 18,
       "borderWidth": 4,
       "espaciado": 0,
       "precioFigura": 0
@@ -778,7 +769,7 @@
       "hex": 0,
       "fontSize": 1,
       "borderRadius": 1,
-      "fontWeight": 6,
+      "fontWeight": 4,
       "borderWidth": 0,
       "espaciado": 2,
       "precioFigura": 0
@@ -841,7 +832,7 @@
       "hex": 2,
       "fontSize": 4,
       "borderRadius": 11,
-      "fontWeight": 12,
+      "fontWeight": 11,
       "borderWidth": 1,
       "espaciado": 3,
       "precioFigura": 0
@@ -886,7 +877,7 @@
       "hex": 6,
       "fontSize": 5,
       "borderRadius": 3,
-      "fontWeight": 12,
+      "fontWeight": 11,
       "borderWidth": 3,
       "espaciado": 1,
       "precioFigura": 0
@@ -895,7 +886,7 @@
       "hex": 0,
       "fontSize": 3,
       "borderRadius": 2,
-      "fontWeight": 9,
+      "fontWeight": 5,
       "borderWidth": 2,
       "espaciado": 0,
       "precioFigura": 0
@@ -904,7 +895,7 @@
       "hex": 1,
       "fontSize": 13,
       "borderRadius": 17,
-      "fontWeight": 43,
+      "fontWeight": 33,
       "borderWidth": 9,
       "espaciado": 6,
       "precioFigura": 0
@@ -922,7 +913,7 @@
       "hex": 0,
       "fontSize": 8,
       "borderRadius": 2,
-      "fontWeight": 17,
+      "fontWeight": 15,
       "borderWidth": 6,
       "espaciado": 3,
       "precioFigura": 0
@@ -958,7 +949,7 @@
       "hex": 2,
       "fontSize": 4,
       "borderRadius": 3,
-      "fontWeight": 14,
+      "fontWeight": 11,
       "borderWidth": 0,
       "espaciado": 0,
       "precioFigura": 0
@@ -976,7 +967,7 @@
       "hex": 12,
       "fontSize": 30,
       "borderRadius": 20,
-      "fontWeight": 71,
+      "fontWeight": 63,
       "borderWidth": 18,
       "espaciado": 5,
       "precioFigura": 0
@@ -1003,7 +994,7 @@
       "hex": 0,
       "fontSize": 2,
       "borderRadius": 1,
-      "fontWeight": 19,
+      "fontWeight": 11,
       "borderWidth": 4,
       "espaciado": 1,
       "precioFigura": 0
@@ -1012,7 +1003,7 @@
       "hex": 0,
       "fontSize": 9,
       "borderRadius": 14,
-      "fontWeight": 21,
+      "fontWeight": 15,
       "borderWidth": 4,
       "espaciado": 0,
       "precioFigura": 0
@@ -1039,7 +1030,7 @@
       "hex": 1,
       "fontSize": 4,
       "borderRadius": 3,
-      "fontWeight": 11,
+      "fontWeight": 9,
       "borderWidth": 2,
       "espaciado": 0,
       "precioFigura": 0
@@ -1048,7 +1039,7 @@
       "hex": 0,
       "fontSize": 5,
       "borderRadius": 7,
-      "fontWeight": 16,
+      "fontWeight": 14,
       "borderWidth": 3,
       "espaciado": 3,
       "precioFigura": 0
@@ -1057,7 +1048,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 9,
-      "fontWeight": 13,
+      "fontWeight": 9,
       "borderWidth": 5,
       "espaciado": 2,
       "precioFigura": 0
@@ -1075,7 +1066,7 @@
       "hex": 0,
       "fontSize": 5,
       "borderRadius": 2,
-      "fontWeight": 7,
+      "fontWeight": 6,
       "borderWidth": 5,
       "espaciado": 2,
       "precioFigura": 0
@@ -1084,7 +1075,7 @@
       "hex": 1,
       "fontSize": 6,
       "borderRadius": 11,
-      "fontWeight": 29,
+      "fontWeight": 20,
       "borderWidth": 6,
       "espaciado": 3,
       "precioFigura": 0
@@ -1111,7 +1102,7 @@
       "hex": 0,
       "fontSize": 2,
       "borderRadius": 4,
-      "fontWeight": 8,
+      "fontWeight": 7,
       "borderWidth": 1,
       "espaciado": 0,
       "precioFigura": 0
@@ -1129,7 +1120,7 @@
       "hex": 0,
       "fontSize": 2,
       "borderRadius": 1,
-      "fontWeight": 4,
+      "fontWeight": 2,
       "borderWidth": 1,
       "espaciado": 0,
       "precioFigura": 0
@@ -1156,7 +1147,7 @@
       "hex": 0,
       "fontSize": 5,
       "borderRadius": 8,
-      "fontWeight": 13,
+      "fontWeight": 9,
       "borderWidth": 2,
       "espaciado": 2,
       "precioFigura": 0
@@ -1228,7 +1219,7 @@
       "hex": 4,
       "fontSize": 2,
       "borderRadius": 1,
-      "fontWeight": 2,
+      "fontWeight": 1,
       "borderWidth": 0,
       "espaciado": 1,
       "precioFigura": 0
@@ -1264,7 +1255,7 @@
       "hex": 1,
       "fontSize": 1,
       "borderRadius": 4,
-      "fontWeight": 6,
+      "fontWeight": 3,
       "borderWidth": 1,
       "espaciado": 1,
       "precioFigura": 0
@@ -1336,7 +1327,7 @@
       "hex": 1,
       "fontSize": 2,
       "borderRadius": 3,
-      "fontWeight": 7,
+      "fontWeight": 5,
       "borderWidth": 0,
       "espaciado": 0,
       "precioFigura": 0
@@ -1453,7 +1444,7 @@
       "hex": 0,
       "fontSize": 2,
       "borderRadius": 0,
-      "fontWeight": 3,
+      "fontWeight": 2,
       "borderWidth": 0,
       "espaciado": 0,
       "precioFigura": 0
@@ -1498,7 +1489,7 @@
       "hex": 0,
       "fontSize": 4,
       "borderRadius": 7,
-      "fontWeight": 13,
+      "fontWeight": 12,
       "borderWidth": 5,
       "espaciado": 0,
       "precioFigura": 0
@@ -1624,7 +1615,7 @@
       "hex": 0,
       "fontSize": 1,
       "borderRadius": 6,
-      "fontWeight": 11,
+      "fontWeight": 9,
       "borderWidth": 4,
       "espaciado": 0,
       "precioFigura": 0
@@ -1633,7 +1624,7 @@
       "hex": 0,
       "fontSize": 1,
       "borderRadius": 0,
-      "fontWeight": 2,
+      "fontWeight": 1,
       "borderWidth": 0,
       "espaciado": 0,
       "precioFigura": 0
@@ -1642,7 +1633,7 @@
       "hex": 0,
       "fontSize": 2,
       "borderRadius": 3,
-      "fontWeight": 6,
+      "fontWeight": 3,
       "borderWidth": 4,
       "espaciado": 0,
       "precioFigura": 1
@@ -1651,7 +1642,7 @@
       "hex": 0,
       "fontSize": 2,
       "borderRadius": 4,
-      "fontWeight": 5,
+      "fontWeight": 2,
       "borderWidth": 2,
       "espaciado": 0,
       "precioFigura": 0
@@ -1660,7 +1651,7 @@
       "hex": 0,
       "fontSize": 1,
       "borderRadius": 3,
-      "fontWeight": 3,
+      "fontWeight": 2,
       "borderWidth": 0,
       "espaciado": 1,
       "precioFigura": 0
@@ -1678,7 +1669,7 @@
       "hex": 0,
       "fontSize": 3,
       "borderRadius": 4,
-      "fontWeight": 9,
+      "fontWeight": 8,
       "borderWidth": 1,
       "espaciado": 2,
       "precioFigura": 0
@@ -1705,7 +1696,7 @@
       "hex": 4,
       "fontSize": 3,
       "borderRadius": 6,
-      "fontWeight": 11,
+      "fontWeight": 8,
       "borderWidth": 2,
       "espaciado": 1,
       "precioFigura": 0
@@ -1714,7 +1705,7 @@
       "hex": 1,
       "fontSize": 11,
       "borderRadius": 12,
-      "fontWeight": 14,
+      "fontWeight": 12,
       "borderWidth": 8,
       "espaciado": 2,
       "precioFigura": 0

@@ -18,7 +18,7 @@ import {
   ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { Check, Search, Users, X } from 'lucide-react-native';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Sheet, SheetHeader } from './ui/Sheet';
 import { PersonRow } from './PersonRow';
 import { lifebookInboxApi, type LbFollowerItem, type LbSuggestedUser } from '../../api/lifebook';
@@ -178,7 +178,7 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
               ) : (
                 <View style={[styles.chipAvatar, { backgroundColor: alpha(colors.primary, 0.15) }]} />
               )}
-              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '600' }} numberOfLines={1}>
+              <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.medio }} numberOfLines={1}>
                 {p.name.split(' ')[0]}
               </Text>
               <Pressable onPress={() => toggle(p.id)} hitSlop={6}>
@@ -207,7 +207,7 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
             return (
               <Pressable key={c} onPress={() => setCity(on ? null : c)}
                 style={[styles.optChip, { backgroundColor: on ? colors.primary : colors.surface }]}>
-                <Text style={{ color: on ? brand.white : colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>{c}</Text>
+                <Text style={{ color: on ? brand.white : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>{c}</Text>
               </Pressable>
             );
           })}
@@ -220,7 +220,7 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
             return (
               <Pressable key={c.id} onPress={() => setCategory(on ? null : c.id)}
                 style={[styles.optChip, { backgroundColor: on ? '#8B5CF6' : colors.surface }]}>
-                <Text style={{ color: on ? brand.white : colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>{c.label}</Text>
+                <Text style={{ color: on ? brand.white : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>{c.label}</Text>
               </Pressable>
             );
           })}

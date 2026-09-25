@@ -21,7 +21,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import {
@@ -553,7 +553,7 @@ function Contenido() {
 
           {error ? (
             <View style={[styles.error, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '600' }}>{error}</Text>
+              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
             </View>
           ) : null}
           </View>
@@ -666,7 +666,7 @@ const styles = StyleSheet.create({
   volverTxt: { fontSize: 26, fontWeight: '700', lineHeight: 28 },
   titulo: { fontSize: 16.5, fontWeight: '800' },
   sub: { fontSize: tipografia.caption },
-  dato: { fontSize: tipografia.body, fontWeight: '600' },
+  dato: { fontSize: tipografia.body, fontWeight: peso.medio },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   bloque: { borderWidth: 1, borderRadius: 18, padding: espaciado.e12, gap: espaciado.e3 },
   etiqueta: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6 },
@@ -681,7 +681,7 @@ const styles = StyleSheet.create({
   pasoBtn: { width: 34, height: 34, borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   pasoBtnTxt: { fontSize: 18, fontWeight: '800', lineHeight: 20 },
   pasoVal: { fontSize: 15, fontWeight: '800', minWidth: 22, textAlign: 'center' },
-  aviso: { fontSize: tipografia.caption, marginTop: espaciado.e8, fontWeight: '600' },
+  aviso: { fontSize: tipografia.caption, marginTop: espaciado.e8, fontWeight: peso.medio },
   error: { borderWidth: 1, borderRadius: 14, padding: espaciado.e12 },
   pie: {
     position: 'absolute', left: 0, right: 0, bottom: 0, borderTopWidth: 1,

@@ -21,7 +21,7 @@ import {
 } from 'lucide-react-native';
 import { CITIES, SERVICES, type City } from '../constants/data';
 import { alpha } from '../constants/colors';
-import { espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { geocode, type GeoPlace } from '../api/geocode';
 import { setGeoPick } from '../state/geoPick';
 import { brand } from '@egrouteplan/ui-kit';
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     flex: 1, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
     borderWidth: 1, borderRadius: 14, paddingHorizontal: espaciado.e12, height: 48,
   },
-  input: { flex: 1, fontSize: tipografia.subtitle, fontWeight: '600', paddingVertical: 0 },
+  input: { flex: 1, fontSize: tipografia.subtitle, fontWeight: peso.medio, paddingVertical: 0 },
   shortcuts: { flexDirection: 'row', gap: espaciado.e10, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderBottomWidth: StyleSheet.hairlineWidth },
   shortcut: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e9 },
   shortcutIcon: { width: 30, height: 30, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },

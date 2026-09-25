@@ -29,7 +29,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { alpha, EmptyState, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import {
   Clock,
   Flame,
@@ -501,7 +501,7 @@ function LifeBookSearchContent() {
                   >
                     {i + 1}
                   </Text>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '600', flex: 1 }} numberOfLines={1}>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.medio, flex: 1 }} numberOfLines={1}>
                     {t.tag}
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>
@@ -529,7 +529,7 @@ function LifeBookSearchContent() {
                   onPress={() => onPickTerm(tag)}
                   style={[styles.discoverTag, { backgroundColor: alpha(colors.primary, 0.06) }]}
                 >
-                  <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '600' }}>{tag}</Text>
+                  <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{tag}</Text>
                 </Pressable>
               ))}
             </View>

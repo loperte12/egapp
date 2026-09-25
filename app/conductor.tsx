@@ -15,7 +15,7 @@ import {
   ArrowLeft, BadgeCheck, Banknote, Box, Bus, Camera, CarFront, CheckCircle2, ChevronDown, ChevronUp, Compass, Flag, MessageCircle, Navigation, Phone, ShieldCheck, Star, Tag,
   Users, User, UserRound, MapPin, Siren, Volume2, VolumeX, X,
 } from 'lucide-react-native';
-import { alpha, altura, CameraCapture, elevation, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, altura, CameraCapture, elevation, espaciado, GhostButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import EmergencyModal from '../components/EmergencyModal';
 import DriverHomeSheet, { type HomeTab } from '../components/DriverHomeSheet';
 import { EgMapView, EgCamera, EgMarkers, EgRoutePolyline, type EgMapViewHandle, type Coord } from '../packages/map';
@@ -1100,7 +1100,7 @@ export default function ConductorScreen() {
       {driverStatus === 'checking' && (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e10 }}>
           <ActivityIndicator color={colors.primary} />
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '600' }}>Comprobando tu cuenta de conductor…</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.medio }}>Comprobando tu cuenta de conductor…</Text>
         </View>
       )}
       {/* GATE: sin alta de conductor → onboarding (cuenta + documentos) */}
@@ -1306,7 +1306,7 @@ export default function ConductorScreen() {
                   ) : (
                     <Pressable onPress={() => setSelfieOpen(true)} style={s.goOnlineBtn}>
                       <Text style={s.goOnlineText}>Conectarse (selfie rápida)</Text>
-                      <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: '600' }}>
+                      <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio }}>
                         {driverStatus === 'approved' ? 'Confirmas tu identidad y entras en línea' : ''}
                       </Text>
                     </Pressable>
@@ -1346,7 +1346,7 @@ export default function ConductorScreen() {
                         {resting ? 'En descanso · sigues recibiendo solicitudes' : 'Buscando solicitudes…'}
                       </Text>
                     </View>
-                    <Text style={{ color: 'rgba(255,255,255,0.55)', fontSize: 10.5, fontWeight: '600', marginTop: espaciado.e2 }}>
+                    <Text style={{ color: 'rgba(255,255,255,0.55)', fontSize: 10.5, fontWeight: peso.medio, marginTop: espaciado.e2 }}>
                       Toca el mapa para fijar tu zona
                     </Text>
                   </View>
@@ -1582,13 +1582,13 @@ export default function ConductorScreen() {
                         <View style={[s.dvTripMore, { backgroundColor: 'rgba(15,20,28,0.62)', borderColor: 'rgba(255,255,255,0.14)' }]}>
                           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                             <MapPin size={12} color={brand.success} />
-                            <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: '600', flex: 1 }} numberOfLines={1}>{pickup}</Text>
+                            <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio, flex: 1 }} numberOfLines={1}>{pickup}</Text>
                           </View>
                           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
                             <Flag size={12} color={brand.secondary} />
-                            <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: '600', flex: 1 }} numberOfLines={1}>{dropoff}</Text>
+                            <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio, flex: 1 }} numberOfLines={1}>{dropoff}</Text>
                           </View>
-                          <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,0.6)', fontSize: 10.5, fontWeight: '600' }}>
+                          <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,0.6)', fontSize: 10.5, fontWeight: peso.medio }}>
                             👤 {current.passenger_name || 'Pasajero'} · {paxCount} {paxCount === 1 ? 'pasajero' : 'pasajeros'}
                           </Text>
                         </View>
@@ -1602,7 +1602,7 @@ export default function ConductorScreen() {
                         <Text style={{ color: brand.success, fontSize: 10, fontWeight: '900', letterSpacing: 0.4 }}>🟢 CAMINO PARA RECOGER AL PASAJERO</Text>
                         <Text numberOfLines={1} style={{ color: brand.white, fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e2 }}>{pickup}</Text>
                         {current?.passenger_name ? (
-                          <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,0.62)', fontSize: tipografia.micro, fontWeight: '600', marginTop: 1 }}>👤 {current.passenger_name}</Text>
+                          <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,0.62)', fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: 1 }}>👤 {current.passenger_name}</Text>
                         ) : null}
                       </View>
                       <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
@@ -1861,7 +1861,7 @@ const pps = StyleSheet.create({
   card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: 24, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e6 },
   iconCircle: { width: 54, height: 54, borderRadius: 27, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e2 },
   title: { color: '#111827', fontSize: 19, fontWeight: '900', textAlign: 'center' },
-  sub: { color: '#6B7280', fontSize: tipografia.caption, fontWeight: '600', textAlign: 'center' },
+  sub: { color: '#6B7280', fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' },
   boxRow: { flexDirection: 'row', gap: espaciado.e12, marginVertical: espaciado.e12 },
   box: { width: 56, height: 64, borderRadius: radios.md, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
   errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: '700', marginTop: espaciado.e2 },
@@ -1915,13 +1915,13 @@ const cfm = StyleSheet.create({
   card: { width: '100%', maxWidth: 360, backgroundColor: brand.white, borderRadius: 24, padding: espaciado.e22, alignItems: 'center', gap: espaciado.e8 },
   iconCircle: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#27AE6018', alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e4 },
   title: { color: '#111827', fontSize: tipografia.title, fontWeight: '900', textAlign: 'center' },
-  sub: { color: '#6B7280', fontSize: tipografia.body, fontWeight: '600', textAlign: 'center' },
+  sub: { color: '#6B7280', fontSize: tipografia.body, fontWeight: peso.medio, textAlign: 'center' },
   amount: { color: '#111827', fontSize: 34, fontWeight: '900', marginVertical: espaciado.e6 },
   btnYes: { width: '100%', backgroundColor: brand.success, borderRadius: radios.lg, paddingVertical: 15, alignItems: 'center', marginTop: espaciado.e6, elevation: 3 },
   btnYesTxt: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: '900' },
   btnNo: { width: '100%', borderWidth: 1.5, borderColor: '#F53F3F55', borderRadius: radios.lg, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e8, backgroundColor: '#F53F3F0C' },
   btnNoTxt: { color: brand.danger, fontSize: 14.5, fontWeight: '800' },
-  note: { color: '#9CA3AF', fontSize: tipografia.micro, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e6 },
+  note: { color: '#9CA3AF', fontSize: tipografia.micro, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6 },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) =>
@@ -1951,7 +1951,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     navRow: { flexDirection: 'row', alignItems: 'baseline', gap: espaciado.e6, marginTop: espaciado.e2 },
     badge: { position: 'absolute', top: 64, alignSelf: 'center', borderRadius: radios.full, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e6, elevation: 4 },
     panel: { flex: 1, margin: espaciado.e12, borderRadius: 20, borderWidth: 1, padding: espaciado.e16, gap: espaciado.e10, alignItems: 'center', justifyContent: 'center' },
-    waitText: { fontSize: tipografia.body, fontWeight: '600', marginTop: espaciado.e8 },
+    waitText: { fontSize: tipografia.body, fontWeight: peso.medio, marginTop: espaciado.e8 },
     countRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, width: '100%' },
     countTrack: { flex: 1, height: 6, borderRadius: 3, backgroundColor: c.border, overflow: 'hidden' },
     countFill: { height: 6, backgroundColor: brand.secondary, borderRadius: 3 },
@@ -1959,14 +1959,14 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     netAmount: { fontSize: tipografia.display, fontWeight: '900' },
     routeInfo: { width: '100%', gap: espaciado.e4, marginTop: espaciado.e4 },
     routeText: { fontSize: tipografia.body, fontWeight: '700', flex: 1 },
-    meta: { fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e4 },
+    meta: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e4 },
     priceRow: { flexDirection: 'row', gap: espaciado.e10, width: '100%' },
     priceChip: { flex: 1, borderRadius: 14, borderWidth: 1.5, padding: espaciado.e10, alignItems: 'center', gap: espaciado.e2 },
     acceptBtn: { width: '100%', backgroundColor: brand.success, borderRadius: 18, paddingVertical: 15, alignItems: 'center', gap: espaciado.e2, elevation: 4 },
     acceptText: { color: brand.white, fontSize: 17, fontWeight: '900' },
     bigAccept: { width: '100%', borderRadius: radios.lg, paddingVertical: espaciado.e13, paddingHorizontal: espaciado.e14, alignItems: 'center', gap: espaciado.e2, elevation: 3 },
     bigAcceptTop: { color: brand.white, fontSize: 17, fontWeight: '900' },
-    bigAcceptSub: { color: 'rgba(255,255,255,0.9)', fontSize: tipografia.caption, fontWeight: '600' },
+    bigAcceptSub: { color: 'rgba(255,255,255,0.9)', fontSize: tipografia.caption, fontWeight: peso.medio },
     headerState: { fontSize: tipografia.subtitle, fontWeight: '800' },
     passenger: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, width: '100%' },
     avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: brand.primary, alignItems: 'center', justifyContent: 'center' },
@@ -1993,7 +1993,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     dvMvDist: { fontSize: 21, fontWeight: '900', color: brand.white },
     dvMvName: { fontSize: tipografia.caption, fontWeight: '700', color: 'rgba(255,255,255,0.85)', marginTop: 1 },
     dvMvNext: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderLeftWidth: 1, borderLeftColor: 'rgba(255,255,255,0.3)', paddingLeft: espaciado.e8, maxWidth: 90 },
-    dvMvNextText: { fontSize: 10.5, fontWeight: '600', color: 'rgba(255,255,255,0.8)' },
+    dvMvNextText: { fontSize: 10.5, fontWeight: peso.medio, color: 'rgba(255,255,255,0.8)' },
     dvCtrls: { position: 'absolute', top: 8, right: 10, gap: espaciado.e8 },
     dvDbg: { position: 'absolute', top: 210, right: 10, borderRadius: radios.sm, borderWidth: 1, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 },
     dvBtn: { width: 42, height: 42, borderRadius: 21, borderWidth: 1, alignItems: 'center', justifyContent: 'center', elevation: 4 },
@@ -2002,7 +2002,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     dvSpeedUnit: { fontSize: 9, fontWeight: '700' },
     dvEta: { position: 'absolute', bottom: 96, right: 14, borderRadius: 14, borderWidth: 1, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, elevation: 5 },
     dvEtaClock: { fontSize: tipografia.body, fontWeight: '900' },
-    dvEtaSub: { fontSize: tipografia.micro, fontWeight: '600' },
+    dvEtaSub: { fontSize: tipografia.micro, fontWeight: peso.medio },
     dvActions: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 },
     dvPin: { position: 'absolute', bottom: 172, alignSelf: 'center', alignItems: 'center', borderRadius: radios.md, borderWidth: 1, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e5, elevation: 5 },
     // P4: tarjeta del viaje EN MARCHA (TOTAL efectivo + hora + "Más" expandible)
@@ -2065,6 +2065,6 @@ const PK = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.10)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2,
   },
   badgeGrayTxt: { color: 'rgba(255,255,255,0.6)', fontSize: 10.5, fontWeight: '700' },
-  metaTxt: { color: 'rgba(255,255,255,0.66)', fontSize: tipografia.caption, fontWeight: '600' },
+  metaTxt: { color: 'rgba(255,255,255,0.66)', fontSize: tipografia.caption, fontWeight: peso.medio },
   vLine: { width: 2, height: 16, backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: 1, marginVertical: 1 },
 });

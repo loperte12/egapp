@@ -10,7 +10,7 @@ import { Alert, Image, ScrollView, StyleSheet, Text, View, Pressable } from 'rea
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Wallet, FileWarning, Truck, Siren, ChevronRight, ShieldCheck, Percent } from 'lucide-react-native';
-import { alpha, brand, espaciado, GhostButton, InlineError, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, GhostButton, InlineError, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { driverApi, DocExpiry } from '../api/driver';
 import { intercityApi, DriverEarnings } from '../api/intercity';
 import { absUrl } from '../api/config';
@@ -104,11 +104,11 @@ export default function DriverProfileScreen() {
           <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.caption }}>Estado: {status}</Text>
           {vehicle && (
             <>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                 {vehicle.vehicle_type ?? '—'} {vehicle.vehicle_model ?? ''} {vehicle.vehicle_plate ? `· ${vehicle.vehicle_plate}` : ''}
               </Text>
               {vehicle.vehicle_color && (
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                   Color: {vehicle.vehicle_color}
                 </Text>
               )}
@@ -182,7 +182,7 @@ export default function DriverProfileScreen() {
         {/* Modo del día */}
         <View style={[s.card, { borderColor: colors.border, gap: espaciado.e10 }]}>
           <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>Modo del día</Text>
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+          <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
             ¿Qué servicio harás hoy? Se recuerda hasta que lo cambies. Si eliges Ciudad a Ciudad, no recibirás solicitudes de taxi de ciudad.
           </Text>
           <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
@@ -200,7 +200,7 @@ export default function DriverProfileScreen() {
             <FileWarning size={18} color={expCount > 0 ? colors.danger : colors.primary} />
             <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: tipografia.subtitle }}>Documentos</Text>
           </View>
-          {expiries.length === 0 && <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>Sin caducidades próximas.</Text>}
+          {expiries.length === 0 && <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>Sin caducidades próximas.</Text>}
           {expiries.map((e) => (
             <Text key={e.docType} style={{ color: e.status === 'expired' ? colors.danger : colors.secondary, fontSize: tipografia.body, fontWeight: '700' }}>
               {e.status === 'expired' ? `⚠ ${e.label}: VENCIDO (${e.expiresAt.slice(0, 10)})` : `⏳ ${e.label}: caduca en ${e.daysLeft} días`}
@@ -218,7 +218,7 @@ export default function DriverProfileScreen() {
 
         {/* Cerrar sesión: SOLO en Perfil (bottom-sheet Home del conductor) —
             decisión del dueño 2026-09-08. Aquí se muestra un aviso. */}
-        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e2 }}>
+        <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e2 }}>
           🔒 Cerrar sesión: disponible en Perfil del conductor (menú Home, pestaña Perfil).
         </Text>
       </ScrollView>

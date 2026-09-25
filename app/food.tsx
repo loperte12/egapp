@@ -15,7 +15,7 @@ import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Bike, Search, Utensils } from 'lucide-react-native';
-import { alpha, EmptyState, espaciado, radios, ScreenHeader, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, radios, ScreenHeader, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { foodApi, FoodCuisine, FoodRestaurant, FoodRestaurantsPage } from '../api/food';
 import { brand } from '@egrouteplan/ui-kit';
 
@@ -338,7 +338,7 @@ function RestaurantCard({ item, onPress }: { item: FoodRestaurant; onPress: () =
             {km > 0 ? `🛵 Reparto hasta ${km} km` : (item.hours ? `🕐 ${item.hours}` : 'Pide y recoge')}
           </Text>
           {showRating && (
-            <Text style={{ fontSize: 10.5, color: colors.textSecondary, fontWeight: '600' }}>
+            <Text style={{ fontSize: 10.5, color: colors.textSecondary, fontWeight: peso.medio }}>
               {item.ratingCount} valoraciones
             </Text>
           )}
@@ -378,7 +378,7 @@ const s_card = StyleSheet.create({
   chip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3, maxWidth: '60%' },
   dot: { width: 6, height: 6, borderRadius: 3 },
   chipText: { fontSize: 10.5, fontWeight: '800', flexShrink: 1 },
-  sub: { fontSize: tipografia.micro, fontWeight: '600' },
+  sub: { fontSize: tipografia.micro, fontWeight: peso.medio },
   metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8, marginTop: espaciado.e6 },
   meta: { fontSize: tipografia.caption, fontWeight: '800', flexShrink: 1 },
 });

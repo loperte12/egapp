@@ -9,7 +9,7 @@ import { FlatList, Linking, StyleSheet, Text, View, Pressable } from 'react-nati
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { ArrowLeft, Ticket, ChevronDown, ChevronUp } from 'lucide-react-native';
-import { alpha, EmptyState, espaciado, GhostButton, InlineError, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, GhostButton, InlineError, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { intercityApi, IcTicket } from '../api/intercity';
 import { brand } from '@egrouteplan/ui-kit';
@@ -104,15 +104,15 @@ export default function MyTicketsScreen() {
                 </Text>
                 {open ? <ChevronUp size={18} color={colors.primary} /> : <ChevronDown size={18} color={colors.primary} />}
               </View>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                 {t.trip ? new Date(t.trip.departureTime).toLocaleString('es') : ''} · {t.seatCount} asiento(s) · {Number(t.totalPrice).toLocaleString('es')} XAF
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                 {stateLabel(t.status)}
                 {t.payOn === 'destination' ? ' · 💵 paga al llegar al destino' : t.paymentStatus === 'paid' ? ' · ✅ pagado' : ' · 💵 al abordar'}
                 {t.fareStatus === 'proposed' ? ' · 💬 tarifa propuesta' : ''}
               </Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                 🎫 Viajero: {t.passenger?.firstName} {t.passenger?.lastName} · {isBuyer ? 'comprado por ti' : `comprado por ${t.buyerName || 'otra persona'}`}
               </Text>
 
@@ -120,7 +120,7 @@ export default function MyTicketsScreen() {
                 <View style={[s.qrBox, { borderColor: colors.primary }]}>
                   <Ticket size={22} color={colors.primary} />
                   <Text style={{ color: colors.textPrimary, fontSize: 24, fontWeight: '900', letterSpacing: 2 }}>{t.shortCode ?? t.ticketQrCode}</Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', textAlign: 'center' }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' }}>
                     {t.ticketQrCode} · muestra este código al conductor{t.payOn === 'destination' ? '; el viajero paga al llegar al destino' : ''}
                   </Text>
                   {t.passenger?.phone && (

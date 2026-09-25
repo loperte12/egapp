@@ -22,7 +22,7 @@ import { SOPORTE, whatsappSoporte } from '../constants/soporte';
 import { mensajeDeError } from '../constants/errores';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, Clock, Package, Receipt, XCircle } from 'lucide-react-native';
-import { alpha, Aviso, EmptyState, espaciado, GhostButton, PrimaryButton, radios, ScreenHeader, Sheet, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, Aviso, EmptyState, espaciado, GhostButton, PrimaryButton, radios, ScreenHeader, Sheet, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { billingApi, BillingEntitlement } from '../api/billing';
 import { formatDate, formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -326,10 +326,10 @@ export default function BillingStatusScreen() {
                     </View>
                   </View>
                   {o.status === 'rejected' && o.rejectionReason ? (
-                    <Text style={{ fontSize: tipografia.micro, color: brand.danger, fontWeight: '600', marginTop: espaciado.e8 }}>Motivo: {o.rejectionReason}</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: brand.danger, fontWeight: peso.medio, marginTop: espaciado.e8 }}>Motivo: {o.rejectionReason}</Text>
                   ) : null}
                   {reason ? (
-                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '600', marginTop: espaciado.e8 }}>{reason}</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: peso.medio, marginTop: espaciado.e8 }}>{reason}</Text>
                   ) : null}
                   {(o.status === 'pending_payment' || o.status === 'rejected') && (
                     <View style={{ marginTop: espaciado.e10, gap: espaciado.e8 }}>

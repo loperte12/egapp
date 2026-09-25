@@ -29,7 +29,7 @@ import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera, Check, Info, RefreshCw, X, XCircle } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { billingApi, BillingOrder, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
@@ -293,7 +293,7 @@ export default function BillingCheckoutScreen() {
           <View style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), marginBottom: espaciado.e12 }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
               <XCircle size={16} color={colors.danger} />
-              <Text style={{ flex: 1, color: colors.danger, fontWeight: '600', fontSize: tipografia.body }}>{error}</Text>
+              <Text style={{ flex: 1, color: colors.danger, fontWeight: peso.medio, fontSize: tipografia.body }}>{error}</Text>
             </View>
             <Pressable onPress={() => load('initial')} style={{ marginTop: espaciado.e8, alignSelf: 'flex-start' }} accessibilityRole="button">
               <Text style={{ color: colors.primary, fontWeight: '700', fontSize: tipografia.caption }}>Reintentar</Text>
@@ -333,7 +333,7 @@ export default function BillingCheckoutScreen() {
               {order.rejectionReason ? (
                 <View style={{ marginTop: espaciado.e8, flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e6 }}>
                   <XCircle size={14} color={brand.danger} />
-                  <Text style={{ flex: 1, fontSize: tipografia.caption, color: brand.danger, fontWeight: '600' }}>Motivo: {order.rejectionReason}</Text>
+                  <Text style={{ flex: 1, fontSize: tipografia.caption, color: brand.danger, fontWeight: peso.medio }}>Motivo: {order.rejectionReason}</Text>
                 </View>
               ) : null}
             </View>
@@ -442,7 +442,7 @@ export default function BillingCheckoutScreen() {
               {loadingState === 'refreshing'
                 ? <ActivityIndicator size="small" color={colors.textSecondary} />
                 : <RefreshCw size={14} color={colors.textSecondary} />}
-              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '600' }}>
+              <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: peso.medio }}>
                 {loadingState === 'refreshing' ? 'Actualizando…' : 'Actualizar estado'}
               </Text>
             </Pressable>

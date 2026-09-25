@@ -19,7 +19,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { ArrowLeft, Truck, Plus, RefreshCw, ImageIcon, Siren, Crown, X } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import EmergencyModal from '../components/EmergencyModal';
 import { useSession } from '../state/session';
 import { driverApi } from '../api/driver';
@@ -401,7 +401,7 @@ export default function IntercityPublishScreen() {
                 </View>
                 <Text style={{ color: priceColor, fontWeight: '900', fontSize: tipografia.subtitle }}>{Number(t.price).toLocaleString('es')} XAF</Text>
               </View>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                 {IC_VEHICLE_LABELS[t.vehicleType ?? 'car']} {t.vehicleModel ?? ''}{t.vehiclePlate ? ` · ${t.vehiclePlate}` : ''}{t.rentalPrice != null ? ` · alquiler ${Number(t.rentalPrice).toLocaleString('es')} XAF` : ''}
               </Text>
               {(t.bookings ?? []).map((b) => (
@@ -410,11 +410,11 @@ export default function IntercityPublishScreen() {
                     <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>
                       {b.passenger?.firstName} {b.passenger?.lastName} · {b.seatCount} asiento(s)
                     </Text>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                       {b.payOn === 'destination' ? '🎫 Por encargo · el viajero paga al final del viaje' : b.fareStatus === 'proposed' ? '💬 tarifa propuesta' : b.paymentStatus === 'paid' ? '✅ pagado' : '💵 pendiente de pago'}
                     </Text>
                     {b.payOn === 'destination' && b.buyerName && (
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>
                         Comprado por {b.buyerName} · viajero: {b.passenger?.firstName} {b.passenger?.lastName}
                       </Text>
                     )}
@@ -530,7 +530,7 @@ export default function IntercityPublishScreen() {
                   {f.days.length === 0 && <FormField label="Fecha de salida (AAAA-MM-DD)" placeholder="2026-09-01" value={f.date} onChangeText={(v) => set('date', v)} />}
                   {f.days.length > 0 && (
                     <>
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                         Se publicará en: {nextDayDates(f.days).join(' · ') || '—'} a las {f.time || '—'}.
                       </Text>
                       {droppedDayLabels(f.days, nextDayDates(f.days).length).length > 0 && (
@@ -619,7 +619,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     content: { padding: espaciado.e20, gap: espaciado.e16 },
     block: { gap: espaciado.e12 },
     big: { fontSize: tipografia.title, fontWeight: '900', color: c.textPrimary, textAlign: 'center' },
-    body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: '600' },
+    body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: peso.medio },
     label: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary, marginTop: espaciado.e4 },
     chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
     chip: { borderRadius: radios.md, borderWidth: 1.5, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },

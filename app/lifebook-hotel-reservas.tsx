@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import {
   hotelApi, PAGO_ETIQUETA, RESERVA_ETIQUETA, METODO_ETIQUETA, type Reservation,
@@ -235,7 +235,7 @@ function Contenido() {
           ) : null}
           {error ? (
             <View style={[styles.bloque, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '600' }}>{error}</Text>
+              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
               <Pressable onPress={() => void cargar()} accessibilityRole="button" accessibilityLabel="Reintentar">
                 <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
               </Pressable>
@@ -479,7 +479,7 @@ const styles = StyleSheet.create({
   badge: { borderWidth: 1, borderRadius: 10, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 },
   badgeTxt: { fontSize: 10.5, fontWeight: '800' },
   dinero: { borderWidth: 1, borderRadius: radios.md, padding: espaciado.e9, marginTop: espaciado.e6, gap: espaciado.e2 },
-  aviso: { fontSize: tipografia.caption, marginTop: espaciado.e6, fontWeight: '600' },
+  aviso: { fontSize: tipografia.caption, marginTop: espaciado.e6, fontWeight: peso.medio },
   input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.punto, fontSize: tipografia.body },
   boton: { height: altura.punto, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   botonTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: '800' },

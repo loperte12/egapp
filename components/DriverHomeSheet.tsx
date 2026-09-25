@@ -15,7 +15,7 @@ import {
   BarChart3, ChevronRight, FileText, Globe, History, LogOut, Moon, ShieldCheck, ShoppingBag, Star,
   UserRound, Utensils, Wallet,
 } from 'lucide-react-native';
-import { alpha, elevation, espaciado, GhostButton, InlineError, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, elevation, espaciado, GhostButton, InlineError, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { driverApi } from '../api/driver';
 import { intercityApi } from '../api/intercity';
@@ -152,7 +152,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>Puntuación</Text>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', marginTop: 1 }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 }}>
                       {drRating > 0
                         ? `${drRating.toFixed(1)} ★ · ${driver.ratingCount} valoración(es)`
                         : 'Aún no tienes valoraciones suficientes.'}
@@ -206,7 +206,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     <Globe size={18} color={colors.primary} />
                     <View style={{ flex: 1 }}>
                       <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Idioma</Text>
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>Español (Guinea Ecuatorial) · ES/FR/EN pendiente por fases</Text>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>Español (Guinea Ecuatorial) · ES/FR/EN pendiente por fases</Text>
                     </View>
                     <ChevronRight size={16} color={colors.textSecondary} />
                   </View>
@@ -214,7 +214,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     <FileText size={18} color={colors.primary} />
                     <View style={{ flex: 1 }}>
                       <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Normas y términos</Text>
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>{rulesOpen ? 'Toca para ocultar' : 'Toca para leer las normas de la comunidad'}</Text>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>{rulesOpen ? 'Toca para ocultar' : 'Toca para leer las normas de la comunidad'}</Text>
                     </View>
                     <ChevronRight size={16} color={colors.textSecondary} />
                   </Pressable>
@@ -228,9 +228,9 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                         'En emergencias usa el botón de alerta: marca directamente al 24/7.',
                         'Mantén tus documentos de conductor al día (aviso automático de caducidad).',
                       ].map((r) => (
-                        <Text key={r} style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', lineHeight: 18 }}>• {r}</Text>
+                        <Text key={r} style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, lineHeight: 18 }}>• {r}</Text>
                       ))}
-                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600', marginTop: espaciado.e4 }}>
+                      <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e4 }}>
                         Al usar EG Route Plan como conductor aceptas estos términos (versión v1.0).
                       </Text>
                     </View>
@@ -242,7 +242,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     <ShieldCheck size={18} color={colors.primary} />
                     <Text style={{ color: colors.textPrimary, fontWeight: '800', fontSize: tipografia.body }}>Conductor verificado</Text>
                   </View>
-                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                     Tu cuenta de conductor está activa{drRating > 0 ? ` con ${drRating.toFixed(1)} ★` : ''}.
                   </Text>
                 </View>
@@ -251,14 +251,14 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                   <LogOut size={18} color={colors.danger} />
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.danger, fontWeight: '900', fontSize: 15 }}>Cerrar sesión</Text>
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>Solo desde aquí (por seguridad)</Text>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>Solo desde aquí (por seguridad)</Text>
                   </View>
                   <ChevronRight size={16} color={colors.danger} />
                 </Pressable>
               </View>
             )}
 
-            {activeTab === 'perfil' && <Text style={{ color: colors.textSecondary, fontSize: 10.5, textAlign: 'center', fontWeight: '600' }}>EG Route Plan · Conductor · v1.0.0</Text>}
+            {activeTab === 'perfil' && <Text style={{ color: colors.textSecondary, fontSize: 10.5, textAlign: 'center', fontWeight: peso.medio }}>EG Route Plan · Conductor · v1.0.0</Text>}
           </ScrollView>
         </View>
       </View>
@@ -275,7 +275,7 @@ const dh = StyleSheet.create({
   ratingBox: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   vidaTextWrap: { flex: 1, gap: espaciado.e2 },
   vidaTitle: { color: brand.white, fontSize: 21, fontWeight: '900' },
-  vidaSub: { color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: '600' },
+  vidaSub: { color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio },
   vidaCta: { color: brand.white, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e6, textDecorationLine: 'underline' },
   vidaArt: { width: 72, height: 72, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
 });

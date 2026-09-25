@@ -20,7 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ArrowLeft, Route as RouteIcon, Ticket, CheckCircle2, ChevronRight, Crown, BadgeCheck,
 } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { intercityApi, type IcBooking, type IcLocation, type IcTrip, IC_VEHICLE_TYPES, IC_VEHICLE_LABELS } from '../api/intercity';
 import { LazyImage } from '../components/rental/LazyImage';
@@ -263,7 +263,7 @@ export default function IntercityScreen() {
             <FormField label="Nombre" placeholder="Juan" value={firstName} onChangeText={setFirstName} />
             <FormField label="Apellidos" placeholder="Ondó" value={lastName} onChangeText={setLastName} />
             <FormField label={forOther ? 'Teléfono del viajero' : 'Tu teléfono'} placeholder="+240…" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
-            {forOther && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '600' }}>El comprador pagará el billete; el viajero viaja con los datos indicados.</Text>}
+            {forOther && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: peso.medio }}>El comprador pagará el billete; el viajero viaja con los datos indicados.</Text>}
 
             <Text style={s.label}>Nacionalidad</Text>
             <View style={s.chipRow}>{NATIONALITIES.map((n) => <Chip key={n} label={n} active={n === nationality} onPress={() => setNationality(n)} />)}</View>
@@ -313,7 +313,7 @@ export default function IntercityScreen() {
               <>
                 <Text style={s.label}>¿Quieres proponer una tarifa? (opcional)</Text>
                 <FormField label="Tarifa por asiento (XAF)" placeholder={String(trip.price)} value={passengerFare} onChangeText={setPassengerFare} keyboardType="numeric" />
-                {passengerFare.trim() && <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>El conductor revisará tu propuesta antes de confirmar.</Text>}
+                {passengerFare.trim() && <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>El conductor revisará tu propuesta antes de confirmar.</Text>}
               </>
             )}
 
@@ -336,7 +336,7 @@ export default function IntercityScreen() {
               {!rental && passengerFare.trim() && <Row label="Tarifa propuesta" value="Pendiente de aceptación" />}
             </View>
             {!rental && passengerFare.trim() && (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', textAlign: 'center' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' }}>
                 Si el conductor acepta tu tarifa, el total será {total.toLocaleString('es')} XAF. Si la rechaza, se liberan tus asientos.
               </Text>
             )}
@@ -354,7 +354,7 @@ export default function IntercityScreen() {
             <View style={[s.ticketBox, { borderColor: colors.primary }]}>
               <Ticket size={26} color={colors.primary} />
               <Text style={{ color: colors.textPrimary, fontSize: 26, fontWeight: '900', letterSpacing: 2 }}>{booking.booking?.shortCode ?? booking.ticketQrCode}</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>{booking.ticketQrCode} · muestra este código al conductor</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{booking.ticketQrCode} · muestra este código al conductor</Text>
             </View>
             {phone.trim() && (
               <Pressable
@@ -372,12 +372,12 @@ export default function IntercityScreen() {
               <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.body }}>💵 Pago: al llegar al destino</Text>
             )}
             {booking.booking?.buyerPhone && phone.trim() && booking.booking.buyerPhone !== gqPhone(phone) && (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', textAlign: 'center' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' }}>
                 🎫 Comprado por {booking.booking.buyerName || booking.booking.buyerPhone} para {firstName.trim()} {lastName.trim()}
               </Text>
             )}
             {booking.fareStatus === 'proposed' && (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', textAlign: 'center' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' }}>
                 Tus asientos quedan reservados hasta que el conductor acepte o rechace tu tarifa.
               </Text>
             )}
@@ -429,11 +429,11 @@ export default function IntercityScreen() {
               <View style={{ flex: 1, gap: espaciado.e3 }}>
                 <Text style={{ color: colors.textPrimary, fontWeight: '900', fontSize: 15 }}>
                   {new Date(t.departureTime).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })}
-                  <Text style={{ color: colors.textSecondary, fontWeight: '600', fontSize: tipografia.caption }}>
+                  <Text style={{ color: colors.textSecondary, fontWeight: peso.medio, fontSize: tipografia.caption }}>
                     {'  '}{new Date(t.departureTime).toLocaleDateString('es', { day: 'numeric', month: 'short' })}
                   </Text>
                 </Text>
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                   {IC_VEHICLE_LABELS[t.vehicleType ?? 'car'] ?? t.vehicleType}{t.vehicleModel ? ` · ${t.vehicleModel}` : ''}{t.vehiclePlate ? ` · ${t.vehiclePlate}` : ''} · {t.publisherName ?? 'Conductor'}
                 </Text>
                 {t.publisherBadge ? (
@@ -442,7 +442,7 @@ export default function IntercityScreen() {
                     <Text style={{ color: colors.primary, fontSize: 10, fontWeight: '800', marginLeft: espaciado.e4 }}>{t.publisherBadge}</Text>
                   </View>
                 ) : null}
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                   {t.availableSeats} asientos libres · {Number(t.price).toLocaleString('es')} XAF
                 </Text>
                 {t.rentalPrice != null && (
@@ -462,7 +462,7 @@ function Row({ label, value, bold }: { label: string; value: string; bold?: bool
   const { colors } = useTheme();
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e4, gap: espaciado.e12 }}>
-      <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: '600' }}>{label}</Text>
+      <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.medio }}>{label}</Text>
       <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: bold ? '900' : '700', flexShrink: 1, textAlign: 'right' }}>{value}</Text>
     </View>
   );
@@ -489,7 +489,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   content: { padding: espaciado.e20, gap: espaciado.e16 },
   block: { gap: espaciado.e12 },
   big: { fontSize: tipografia.title, fontWeight: '900', color: c.textPrimary, textAlign: 'center' },
-  body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: '600' },
+  body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: peso.medio },
   label: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary, marginTop: espaciado.e4 },
   labelInline: { fontSize: tipografia.caption, fontWeight: '800', color: c.textSecondary, marginTop: espaciado.e4, alignSelf: 'center' },
   zone: { fontSize: tipografia.caption, fontWeight: '700', color: c.primary },

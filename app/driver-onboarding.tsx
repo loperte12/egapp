@@ -11,7 +11,7 @@ import { Image, ScrollView, StyleSheet, Text, View, Pressable } from 'react-nati
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Camera, CheckCircle2, ShieldCheck, ChevronRight, FileText, User, Truck, Receipt } from 'lucide-react-native';
-import { brand, CameraCapture, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { brand, CameraCapture, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { absUrl } from '../api/config';
 import { driverApi, DocCategoryApi, DocRequirementApi } from '../api/driver';
@@ -279,7 +279,7 @@ export default function DriverOnboardingScreen() {
                 ))}
               </View>
               {nationality === 'foreign' && (
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                   Como extranjero, el permiso de residencia y trabajo es obligatorio.
                 </Text>
               )}
@@ -390,7 +390,7 @@ export default function DriverOnboardingScreen() {
               loading={busy}
             />
             {!allDone && (
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', fontWeight: '600' }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', fontWeight: peso.medio }}>
                 {cat.code === 'vehiculo'
                   ? 'Completa los datos del vehículo: placa, modelo, color y foto real del coche + documentos OBLIGATORIOS.'
                   : 'Completa los documentos OBLIGATORIOS para continuar'}
@@ -452,7 +452,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     content: { padding: espaciado.e20, gap: espaciado.e16 },
     block: { gap: espaciado.e12 },
     big: { fontSize: tipografia.title, fontWeight: '900', color: c.textPrimary, textAlign: 'center' },
-    body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: '600' },
+    body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: peso.medio },
     label: { fontSize: tipografia.caption, fontWeight: '700', color: c.textSecondary },
     stepsRow: { flexDirection: 'row', justifyContent: 'center', gap: espaciado.e10 },
     stepDot: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
@@ -465,7 +465,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     vehiclePreview: { height: 150, borderRadius: 14, borderWidth: 1 },
     docRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: 1.5, borderRadius: 14, padding: espaciado.e12 },
     docLabel: { fontSize: tipografia.body, fontWeight: '800', flexShrink: 1 },
-    docNote: { fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e2 },
+    docNote: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 },
     badge: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: 6 },
     cameraBox: { borderRadius: 20, overflow: 'hidden', height: 380 },
   });

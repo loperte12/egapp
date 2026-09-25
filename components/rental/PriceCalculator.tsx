@@ -7,7 +7,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View, type StyleProp, type ViewStyle } from 'react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import type { RentalProperty } from '../../api/rental';
 import { formatXAF, isLandType } from '../../utils/formatHelpers';
 
@@ -166,7 +166,7 @@ const s2 = StyleSheet.create({
   toggleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e10 },
   controlLabel: { fontSize: tipografia.body, flex: 1, marginRight: espaciado.e12 },
   toggle: { paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6, borderRadius: 20, minWidth: 64, alignItems: 'center' },
-  toggleText: { fontSize: tipografia.body, fontWeight: '600', color: brand.white },
+  toggleText: { fontSize: tipografia.body, fontWeight: peso.medio, color: brand.white },
 });
 
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
@@ -176,7 +176,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   controls: { marginBottom: espaciado.e16 },
   controlRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaciado.e12 },
   controlLabel: { fontSize: tipografia.body, flex: 1, marginRight: espaciado.e12 },
-  input: { borderWidth: 1, borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, width: 60, textAlign: 'center', fontSize: 15, fontWeight: '600' },
+  input: { borderWidth: 1, borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, width: 60, textAlign: 'center', fontSize: 15, fontWeight: peso.medio },
   breakdown: { borderRadius: 10, padding: espaciado.e14 },
   totalRow: { flexDirection: 'row', justifyContent: 'space-between', paddingTop: espaciado.e12, marginTop: espaciado.e4, gap: espaciado.e12, borderTopWidth: 1 },
   totalLabel: { fontSize: 15, fontWeight: '700', flex: 1 },
@@ -187,5 +187,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
 const rowStyles = StyleSheet.create({
   row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: espaciado.e8, borderBottomWidth: 1, gap: espaciado.e12 },
   label: { fontSize: tipografia.body, flex: 1 },
-  value: { fontSize: tipografia.body, fontWeight: '600' },
+  value: { fontSize: tipografia.body, fontWeight: peso.medio },
 });

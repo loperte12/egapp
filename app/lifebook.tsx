@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, elevation, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, elevation, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import {
   ChevronDown,
   Clapperboard,
@@ -1276,7 +1276,7 @@ function LifeBookContent() {
                     color: colors.primary,
                     fontSize: tipografia.caption,
                     textAlign: 'center',
-                    fontWeight: '600',
+                    fontWeight: peso.medio,
                   }}
                 >
                   Usar mi ciudad: {meCity}

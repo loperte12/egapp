@@ -18,7 +18,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { ImageIcon, X } from 'lucide-react-native';
-import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, EmptyState, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { rentalApi, type LandlordMe, type RentalProperty, type RentalCatalog } from '../api/rental';
 import { formatXAF } from '../utils/formatHelpers';
@@ -305,7 +305,7 @@ export default function AlquilerPublicarScreen() {
 
           {approved && atPlanLimit && (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), padding: espaciado.e12, borderRadius: 10, marginBottom: espaciado.e14 }}>
-              <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: '600', lineHeight: 17 }}>
+              <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.medio, lineHeight: 17 }}>
                 Has alcanzado el límite de tu plan ({plan.properties} anuncio(s) activos). Cierra alguno o mejora tu plan para seguir publicando.
               </Text>
             </View>
@@ -349,7 +349,7 @@ export default function AlquilerPublicarScreen() {
                         accessibilityRole="button" accessibilityLabel="Subir foto del documento"
                         style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10, borderWidth: 1, borderColor: colors.border, opacity: pressed ? 0.85 : 1 }]}
                       >
-                        <ImageIcon size={18} color={colors.primary} /><Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: '600' }}>Subir foto del documento</Text>
+                        <ImageIcon size={18} color={colors.primary} /><Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: peso.medio }}>Subir foto del documento</Text>
                       </Pressable>
                     )}
                     <Text style={{ fontSize: 10.5, color: colors.textSecondary }}>Máx. ~{MAX_PHOTO_B64_KB} KB (se comprime al elegirla).</Text>
@@ -500,7 +500,7 @@ export default function AlquilerPublicarScreen() {
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: espaciado.e16, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10 }}>
                   <View style={{ flex: 1, paddingRight: espaciado.e8 }}>
-                    <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600' }}>Marcar como destacado</Text>
+                    <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio }}>Marcar como destacado</Text>
                     {!canFeaturePlan && <Text style={{ fontSize: 10.5, color: colors.textSecondary, marginTop: espaciado.e2 }}>Requiere plan Agencia Pro o Premium.</Text>}
                   </View>
                   <Switch
@@ -510,7 +510,7 @@ export default function AlquilerPublicarScreen() {
                   />
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: 10 }}>
-                  <Text style={{ flex: 1, fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600' }}>Vivienda social / asequible</Text>
+                  <Text style={{ flex: 1, fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio }}>Vivienda social / asequible</Text>
                   <Switch value={isSocialHousing} onValueChange={setIsSocialHousing} trackColor={{ true: colors.primary, false: colors.border }}
                     accessibilityRole="switch" accessibilityLabel="Vivienda social o asequible" accessibilityState={{ checked: isSocialHousing }} />
                 </View>

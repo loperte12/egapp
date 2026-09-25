@@ -17,7 +17,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { HotelResultCard } from '../components/HotelResultCard';
 import { hotelApi, type HotelRoom, type HotelSearchResult } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
@@ -250,7 +250,7 @@ export default function HotelResultadosScreen() {
         </View>
       ) : error ? (
         <View style={[styles.aviso, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '600' }}>{error}</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
           <Pressable onPress={() => void cargar()} accessibilityRole="button" accessibilityLabel="Reintentar">
             <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
           </Pressable>

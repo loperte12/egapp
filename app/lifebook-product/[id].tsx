@@ -19,7 +19,7 @@ import {
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import {
   Banknote, Building2, CheckCircle2, Clock, Eye, Heart, MapPin, MessageCircle, Package, ShoppingCart,
   Plane, ShieldCheck, Ship, Store, Truck, Wallet, X,
@@ -525,7 +525,7 @@ function ProductContent() {
               {p.attributes.map((a) => (
                 <View key={a.key} style={[styles.attrRow, { borderBottomColor: alpha(colors.border, 0.6) }]}>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{a.key}</Text>
-                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '600' }}>{a.value}</Text>
+                  <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{a.value}</Text>
                 </View>
               ))}
             </Section>

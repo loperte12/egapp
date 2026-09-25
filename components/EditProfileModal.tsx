@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { X } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { authApi, type MeProfile } from '../api/auth';
 import { absUrl } from '../api/config';
 import { pickImageFromCamera, pickImageFromLibrary } from '../core/pickImage';
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   avatarLg: { width: 82, height: 82, borderRadius: 41, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   avatarLgImg: { width: '100%', height: '100%' },
   avatarLgText: { fontSize: 32, fontWeight: '900' },
-  avatarHint: { fontSize: tipografia.caption, fontWeight: '600' },
+  avatarHint: { fontSize: tipografia.caption, fontWeight: peso.medio },
   pickBtn: { borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: espaciado.e12, minHeight: 44 },
   pickBusy: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
 });

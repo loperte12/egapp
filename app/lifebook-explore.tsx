@@ -16,7 +16,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWindowDimensions } from 'react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { RefreshCw, Search, SlidersHorizontal, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { Alert } from 'react-native';
@@ -191,7 +191,7 @@ function ExploreContent() {
               style={[styles.chipChannel, { backgroundColor: active ? c.color : colors.surface }]}
             >
               <Icon size={13} color={active ? brand.white : colors.textSecondary} />
-              <Text style={{ color: active ? brand.white : colors.textPrimary, fontSize: tipografia.caption, fontWeight: '600', marginLeft: espaciado.e4 }}>
+              <Text style={{ color: active ? brand.white : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.medio, marginLeft: espaciado.e4 }}>
                 {c.label}
               </Text>
             </Pressable>
@@ -210,7 +210,7 @@ function ExploreContent() {
           onPress={() => setCity(null)}
           style={[styles.chipCity, { backgroundColor: city === null ? colors.primary : colors.surface }]}
         >
-          <Text style={{ color: city === null ? brand.white : colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>Todas</Text>
+          <Text style={{ color: city === null ? brand.white : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>Todas</Text>
         </Pressable>
         {LB_CITIES.map((c) => {
           const active = city === c;
@@ -220,7 +220,7 @@ function ExploreContent() {
               onPress={() => setCity(active ? null : c)}
               style={[styles.chipCity, { backgroundColor: active ? colors.primary : colors.surface }]}
             >
-              <Text style={{ color: active ? brand.white : colors.textSecondary, fontSize: tipografia.micro, fontWeight: '600' }}>{c}</Text>
+              <Text style={{ color: active ? brand.white : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>{c}</Text>
             </Pressable>
           );
         })}

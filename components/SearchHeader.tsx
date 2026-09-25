@@ -14,7 +14,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MapPin, ChevronDown, Search, Mic } from 'lucide-react-native';
 import { useTheme } from '../theme/ThemeContext';
-import { brand, elevation, espaciado, radios, tipografia } from '@egrouteplan/ui-kit';
+import { brand, elevation, espaciado, radios, tipografia, peso} from '@egrouteplan/ui-kit';
 
 export default function SearchHeader({
   city,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   locationRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e2 },
   originDot: { width: 11, height: 11, borderRadius: 6 },
   locationText: { fontSize: 15, fontWeight: '800', letterSpacing: 0.1 },
-  cityName: { fontSize: tipografia.caption, fontWeight: '600', marginTop: 1 },
+  cityName: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: 1 },
   destBox: {
     marginTop: espaciado.e12,
     flexDirection: 'row',

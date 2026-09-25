@@ -28,7 +28,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import MapBackground from '../components/MapBackground';
 import { PhotoGallery } from '../components/PhotoGallery';
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
   pasos: { flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e12 },
   paso: { flexDirection: 'row', alignItems: 'center', flex: 1 },
   punto: { width: 12, height: 12, borderRadius: 6 },
-  pasoEtq: { fontSize: 9.5, marginLeft: espaciado.e4, fontWeight: '600' },
+  pasoEtq: { fontSize: 9.5, marginLeft: espaciado.e4, fontWeight: peso.medio },
   linea: { flex: 1, height: 3, marginHorizontal: espaciado.e4 },
   lineaEtq: { fontSize: tipografia.caption, flex: 1 },
   lineaVal: { fontSize: tipografia.body },

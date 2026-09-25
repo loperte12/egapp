@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import { HotelResultCard } from '../components/HotelResultCard';
 import { hotelApi, type HotelRoom, type HotelSearchResult } from '../api/hotel';
@@ -486,12 +486,12 @@ const styles = StyleSheet.create({
   input: { borderWidth: 1, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.punto, fontSize: 14.5, marginTop: espaciado.e6 },
   fechas: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 },
   fechaCaja: { flex: 1, borderWidth: 1, borderRadius: radios.md, padding: espaciado.e9 },
-  fechaEtq: { fontSize: 10.5, fontWeight: '600' },
+  fechaEtq: { fontSize: 10.5, fontWeight: peso.medio },
   fechaVal: { fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e2 },
   chip: { borderWidth: 1, borderRadius: 20, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6 },
-  chipTxt: { fontSize: tipografia.caption, fontWeight: '600' },
+  chipTxt: { fontSize: tipografia.caption, fontWeight: peso.medio },
   contFila: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e8 },
-  contEtq: { fontSize: tipografia.body, fontWeight: '600' },
+  contEtq: { fontSize: tipografia.body, fontWeight: peso.medio },
   contAcciones: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
   contBtn: { width: 34, height: 34, borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   contBtnTxt: { fontSize: 18, fontWeight: '800', lineHeight: 20 },
@@ -499,7 +499,7 @@ const styles = StyleSheet.create({
   centro: { alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e18 },
   aviso: { fontSize: tipografia.caption },
   error: { borderWidth: 1, borderRadius: 14, padding: espaciado.e12, gap: espaciado.e6 },
-  errorTxt: { fontSize: tipografia.body, fontWeight: '600' },
+  errorTxt: { fontSize: tipografia.body, fontWeight: peso.medio },
   tarjeta: { borderWidth: 1, borderRadius: 18, padding: espaciado.e12 },
   tarjetaCab: { flexDirection: 'row', gap: espaciado.e10 },
   tarjetaTitulo: { fontSize: 15.5, fontWeight: '800' },

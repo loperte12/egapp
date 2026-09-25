@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, ShoppingBag, ShoppingCart, X } from 'lucide-react-native';
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
@@ -1360,7 +1360,7 @@ function ChatThreadContent() {
                       </View>
                     )}
                     <View style={{ flex: 1 }}>
-                      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '600' }}>
+                      <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.medio }}>
                         {post.title?.trim() || post.body?.trim() || 'Publicación'}
                       </Text>
                       {price ? <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e2 }}>{lbXaf(price)}</Text> : null}
@@ -1637,7 +1637,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
       <View style={[styles.cardBubble, { backgroundColor: colors.card }]}>
         <FileText size={20} color={colors.primary} />
         <View style={{ marginLeft: espaciado.e8, flex: 1 }}>
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '600' }} numberOfLines={1}>{msg.fileRef.name}</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.medio }} numberOfLines={1}>{msg.fileRef.name}</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>{msg.fileRef.sizeLabel || 'archivo'}</Text>
         </View>
       </View>,

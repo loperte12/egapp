@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, altura, brand, espaciado, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Car, Navigation } from 'lucide-react-native';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import { PhotoGallery } from '../components/PhotoGallery';
@@ -171,7 +171,7 @@ export default function HotelDetalleScreen() {
         <View style={styles.centro}><ActivityIndicator color={colors.primary} /></View>
       ) : error ? (
         <View style={[styles.error, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '600' }}>{error}</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
           <Pressable onPress={() => void cargar()} accessibilityRole="button" accessibilityLabel="Reintentar">
             <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
           </Pressable>

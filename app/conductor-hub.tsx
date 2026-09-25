@@ -16,7 +16,7 @@ import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Bus, CarTaxiFront, ChevronRight, Circle, ShieldCheck, Truck } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useSession } from '../state/session';
 import { driverApi } from '../api/driver';
 import { brand } from '@egrouteplan/ui-kit';
@@ -162,7 +162,7 @@ export default function ConductorHubScreen() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.success, fontWeight: '900', fontSize: tipografia.body }}>Conductor aprobado</Text>
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e2 }}>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 }}>
                 {vehicle || 'Vehículo no registrado'} · Modo actual: {mode === 'intercity' ? 'Ciudad a Ciudad' : mode === 'city' ? 'Taxi urbano' : 'Ambos'}
               </Text>
             </View>
@@ -242,19 +242,19 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     title: { fontSize: 18, fontWeight: '800', color: c.textPrimary },
     center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e28, gap: espaciado.e12 },
     big: { fontSize: tipografia.title, fontWeight: '900', textAlign: 'center' },
-    body: { fontSize: tipografia.body, lineHeight: 20, textAlign: 'center', fontWeight: '600' },
+    body: { fontSize: tipografia.body, lineHeight: 20, textAlign: 'center', fontWeight: peso.medio },
     content: { padding: espaciado.e20, gap: espaciado.e12 },
     statusCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, borderRadius: radios.lg, borderWidth: 1.5, padding: espaciado.e14 },
     statusIcon: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
     question: { fontSize: 17, fontWeight: '900', marginTop: espaciado.e8 },
-    sub: { fontSize: tipografia.caption, lineHeight: 18, fontWeight: '600', marginTop: -6 },
+    sub: { fontSize: tipografia.caption, lineHeight: 18, fontWeight: peso.medio, marginTop: -6 },
     opt: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e14, borderRadius: 18, borderWidth: 1.5, padding: espaciado.e16 },
     optIcon: { width: 52, height: 52, borderRadius: radios.lg, alignItems: 'center', justifyContent: 'center' },
     // Checklist onboarding (estilo Uber Driver)
     onboard: { padding: espaciado.e16, gap: espaciado.e12, flexGrow: 1 },
     welcomeCard: { alignItems: 'center', borderRadius: 18, borderWidth: 1, padding: espaciado.e20, gap: espaciado.e6 },
     welcomeTitle: { fontSize: 19, fontWeight: '900', textAlign: 'center', marginTop: espaciado.e6 },
-    welcomeSub: { fontSize: tipografia.body, color: c.textSecondary, textAlign: 'center', lineHeight: 18, fontWeight: '600' },
+    welcomeSub: { fontSize: tipografia.body, color: c.textSecondary, textAlign: 'center', lineHeight: 18, fontWeight: peso.medio },
     checklistCard: { borderRadius: 18, borderWidth: 1, paddingHorizontal: espaciado.e16, overflow: 'hidden' },
     checklistHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: espaciado.e12, borderBottomWidth: 1 },
     checkRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingVertical: espaciado.e12, borderBottomWidth: StyleSheet.hairlineWidth },

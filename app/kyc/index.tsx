@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { espaciado, FormField, KycStatusBanner, PrimaryButton, StepHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { espaciado, FormField, KycStatusBanner, PrimaryButton, StepHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useSession } from '../../state/session';
 import { kycApi, type SubmissionState } from '../../api/kyc';
 import { ApiError } from '../../api/auth';
@@ -177,6 +177,6 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 },
   scroll: { flexGrow: 1, paddingHorizontal: espaciado.e24, paddingTop: espaciado.e16, paddingBottom: 40 },
   field: { marginTop: espaciado.e14 },
-  hint: { fontSize: tipografia.micro, marginTop: espaciado.e6, fontWeight: '600' },
+  hint: { fontSize: tipografia.micro, marginTop: espaciado.e6, fontWeight: peso.medio },
   button: { marginTop: espaciado.e32 },
 });

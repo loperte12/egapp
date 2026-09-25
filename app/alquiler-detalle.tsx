@@ -14,7 +14,7 @@ import { ActivityIndicator, Alert, LayoutChangeEvent, Linking, Pressable, Scroll
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Flag, Heart, MapPin, MessageSquare, Phone, Share2, ShieldAlert } from 'lucide-react-native';
-import { alpha, espaciado, GhostButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { rentalApi, RentalProperty } from '../api/rental';
 import { ApiError } from '../api/httpClient';
 import { LazyImage } from '../components/rental/LazyImage';
@@ -147,7 +147,7 @@ function CostRow({ label, value }: { label: string; value: string }) {
   return (
     <View style={[st.costRow, { borderBottomColor: colors.border }]}>
       <Text style={[st.costLabel, { color: colors.textSecondary }]}>{label}</Text>
-      <Text style={{ fontSize: tipografia.body, fontWeight: '600', color: colors.textPrimary }}>{value}</Text>
+      <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary }}>{value}</Text>
     </View>
   );
 }
@@ -545,7 +545,7 @@ export default function AlquilerDetalleScreen() {
           {/* Aviso anti-estafa */}
           <View style={{ marginBottom: espaciado.e14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.07), padding: espaciado.e12, borderRadius: 10 }}>
             <ShieldAlert size={16} color={colors.danger} />
-            <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: '600', lineHeight: 16 }}>
+            <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.medio, lineHeight: 16 }}>
               No pagues por adelantado ni envíes documentación antes de visitar el inmueble. Si algo parece sospechoso, repórtalo.
             </Text>
           </View>
@@ -563,7 +563,7 @@ export default function AlquilerDetalleScreen() {
             style={({ pressed }) => [{ alignSelf: 'center', marginTop: espaciado.e12, paddingVertical: espaciado.e8, paddingHorizontal: espaciado.e12, borderRadius: 10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, opacity: pressed ? 0.7 : 1 }]}
           >
             <Flag size={13} color={colors.textSecondary} />
-            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: '600' }}>{TEXTS.reportTitle}</Text>
+            <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, fontWeight: peso.medio }}>{TEXTS.reportTitle}</Text>
           </Pressable>
         </View>
       </ScrollView>

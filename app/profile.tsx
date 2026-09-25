@@ -31,7 +31,7 @@ import {
   MapPin, Menu, Pencil, Phone, Plus, QrCode, Settings, ShieldCheck, Sparkles, Star, Store, UserPlus, Users,
   UtensilsCrossed, X,
 } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { authApi, type MeProfile } from '../api/auth';
 import { hotelApi } from '../api/hotel';
@@ -899,7 +899,7 @@ const tripCard = StyleSheet.create({
   card: { borderRadius: 18, borderWidth: 1.5, padding: espaciado.e14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, marginTop: espaciado.e14 },
   iconBox: { width: 40, height: 40, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   title: { fontSize: 14.5, fontWeight: '900', marginTop: 1 },
-  sub: { fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e2 },
+  sub: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 },
 });
 
 const styles = StyleSheet.create({
@@ -927,7 +927,7 @@ const styles = StyleSheet.create({
   egId: { color: 'rgba(255,255,255,0.95)', fontSize: 10.5, fontWeight: '800', letterSpacing: 0.3 },
   qrMini: { width: 20, height: 20, borderRadius: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.18)' },
   locRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 },
-  locTxt: { color: 'rgba(255,255,255,0.92)', fontSize: tipografia.micro, fontWeight: '600' },
+  locTxt: { color: 'rgba(255,255,255,0.92)', fontSize: tipografia.micro, fontWeight: peso.medio },
   addStatusBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, alignSelf: 'flex-start', borderRadius: radios.full, borderWidth: 1, paddingHorizontal: espaciado.e9, paddingVertical: 3.5, marginTop: espaciado.e6, backgroundColor: 'rgba(0,0,0,0.25)' },
   addStatusTxt: { color: 'rgba(255,255,255,0.95)', fontSize: 10.5, fontWeight: '800' },
 
@@ -937,7 +937,7 @@ const styles = StyleSheet.create({
   statLabel: { color: 'rgba(255,255,255,0.85)', fontSize: 9.5, fontWeight: '700', marginTop: 1 },
   ratingValueRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 },
 
-  bioTxt: { color: 'rgba(255,255,255,0.92)', fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e6, lineHeight: 16 },
+  bioTxt: { color: 'rgba(255,255,255,0.92)', fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e6, lineHeight: 16 },
 
   linksArea: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5, marginTop: espaciado.e8 },
   linkChip: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: radios.full, borderWidth: 1, borderColor: 'rgba(255,255,255,0.35)', paddingHorizontal: espaciado.e8, paddingVertical: 3.5, maxWidth: '92%' },
@@ -959,9 +959,9 @@ const styles = StyleSheet.create({
   lbEmpty: { borderRadius: radios.lg, borderWidth: StyleSheet.hairlineWidth, padding: espaciado.e16, marginTop: espaciado.e12, alignItems: 'center' },
   lbEmptyIcon: { width: 52, height: 52, borderRadius: 26, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e8 },
   lbEmptyTitle: { fontSize: tipografia.body, fontWeight: '900', textAlign: 'center' },
-  lbEmptyBody: { fontSize: tipografia.caption, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e4, lineHeight: 16 },
+  lbEmptyBody: { fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e4, lineHeight: 16 },
   lbActions: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 },
-  version: { textAlign: 'center', fontSize: tipografia.micro, marginTop: espaciado.e16, fontWeight: '600' },
+  version: { textAlign: 'center', fontSize: tipografia.micro, marginTop: espaciado.e16, fontWeight: peso.medio },
 
   // Modales bottom-sheet
   backdrop: { ...StyleSheet.absoluteFillObject },
@@ -970,9 +970,9 @@ const styles = StyleSheet.create({
   sheetCardTall: { borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: espaciado.e18, paddingBottom: 34, maxHeight: '88%' },
   sheetHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   sheetTitle: { fontSize: 17, fontWeight: '900' },
-  sheetSub: { fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e2 },
+  sheetSub: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 },
   pickRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingVertical: espaciado.e11, paddingHorizontal: espaciado.e4, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(0,0,0,0.06)' },
-  pickRowTxt: { flex: 1, fontSize: tipografia.body, fontWeight: '600' },
+  pickRowTxt: { flex: 1, fontSize: tipografia.body, fontWeight: peso.medio },
   pickRowCode: { fontSize: tipografia.micro, fontWeight: '800' },
   pickLabel: { fontSize: tipografia.caption, fontWeight: '800', marginTop: espaciado.e4 },
   cityChips: { gap: espaciado.e6 },
@@ -980,14 +980,14 @@ const styles = StyleSheet.create({
 
   lbGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10, marginTop: espaciado.e12 },
   qrCard: { width: '86%', maxWidth: 340, borderRadius: 22, padding: espaciado.e18, alignItems: 'center' },
-  qrSub: { fontSize: tipografia.caption, fontWeight: '600', marginTop: espaciado.e2, alignSelf: 'flex-start' },
+  qrSub: { fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2, alignSelf: 'flex-start' },
   qrBox: { backgroundColor: brand.white, padding: espaciado.e12, borderRadius: 14, marginTop: espaciado.e14 },
   qrId: { fontSize: 15, fontWeight: '900', marginTop: espaciado.e12, letterSpacing: 0.5 },
-  qrHint: { fontSize: tipografia.micro, fontWeight: '600', marginTop: espaciado.e6, textAlign: 'center' },
+  qrHint: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e6, textAlign: 'center' },
   emptyCard: { width: '84%', maxWidth: 330, borderRadius: 22, padding: espaciado.e22, alignItems: 'center' },
   emptyIcon: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: espaciado.e10 },
   emptyTitle: { fontSize: tipografia.subtitle, fontWeight: '900', textAlign: 'center' },
-  emptyBody: { fontSize: tipografia.body, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e6, lineHeight: 19 },
+  emptyBody: { fontSize: tipografia.body, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6, lineHeight: 19 },
   emptyOk: { marginTop: espaciado.e16, borderRadius: radios.full, paddingHorizontal: espaciado.e26, paddingVertical: espaciado.e10 },
   emptyOkTxt: { color: brand.white, fontWeight: '900', fontSize: tipografia.body },
   photoLg: { width: 110, height: 110, borderRadius: 55, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },

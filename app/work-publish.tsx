@@ -17,7 +17,7 @@ import { useNavigation, useRouter } from 'expo-router';
 import {
   Check, Crown, MapPin, MessageSquare, Phone, RefreshCw, Users, X,
 } from 'lucide-react-native';
-import { alpha, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, FormField, GhostButton, InlineError, PrimaryButton, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { workApi, type WorkCatalog, type WorkJob, type WorkPlan } from '../api/work';
 import { billingApi } from '../api/billing';
@@ -346,7 +346,7 @@ export default function WorkPublishScreen() {
                 <View style={{ flex: 1 }}><FormField value={recruiterPhone} onChangeText={(t) => setRecruiterPhone(t.slice(0, 20))} placeholder="Teléfono / WhatsApp" keyboardType="phone-pad" /></View>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: espaciado.e10 }}>
-                <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600' }}>Marcar como urgente</Text>
+                <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio }}>Marcar como urgente</Text>
                 <Switch
                   value={urgent}
                   onValueChange={setUrgent}
@@ -410,7 +410,7 @@ export default function WorkPublishScreen() {
                         <View key={a.id} style={{ backgroundColor: colors.background, borderRadius: 10, padding: espaciado.e10, marginBottom: espaciado.e8 }}>
                           <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: espaciado.e8 }}>
                             <View style={{ flex: 1 }}>
-                              <Text style={{ fontSize: tipografia.body, fontWeight: '600', color: colors.textPrimary }}>{a.fullName || 'Sin nombre'}</Text>
+                              <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary }}>{a.fullName || 'Sin nombre'}</Text>
                               {a.documentType && <Text style={{ fontSize: 10, color: colors.textSecondary, marginTop: espaciado.e2 }}>DIP: {a.documentType} · {a.documentNumber}</Text>}
                               {a.note && <Text style={{ fontSize: tipografia.micro, color: colors.textPrimary, marginTop: espaciado.e4, fontStyle: 'italic' }}>«{a.note}»</Text>}
                               <Text style={{ fontSize: 10, color: colors.textSecondary, marginTop: espaciado.e4 }}>{new Date(a.createdAt).toLocaleDateString('es')} · {STATUS_LABEL[a.status] ?? a.status}</Text>

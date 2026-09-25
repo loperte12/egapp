@@ -17,7 +17,7 @@ import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleS
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Check, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, radios, ScreenHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, ScreenHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { rentalApi, type RentalPlan, type LandlordMe } from '../api/rental';
 import { billingApi } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
@@ -330,12 +330,12 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   planCard: { backgroundColor: c.card, borderRadius: radios.lg, padding: espaciado.e18, marginBottom: espaciado.e16, borderWidth: 1 },
   planName: { fontSize: 18, fontWeight: '700' },
   currentBadge: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, marginTop: espaciado.e6, alignSelf: 'flex-start' },
-  currentBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: '600' },
+  currentBadgeText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.medio },
   price: { fontSize: tipografia.title, fontWeight: '800', color: c.textPrimary },
   period: { fontSize: tipografia.body, color: c.textSecondary },
   featureRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: espaciado.e6, borderBottomWidth: 1, borderBottomColor: c.border },
   featureLabel: { fontSize: tipografia.body, color: c.textSecondary, flex: 1 },
-  featureValue: { fontSize: tipografia.body, fontWeight: '600', color: c.textPrimary },
+  featureValue: { fontSize: tipografia.body, fontWeight: peso.medio, color: c.textPrimary },
   selectButton: { borderRadius: 10, paddingVertical: espaciado.e14, alignItems: 'center' },
   selectButtonText: { color: brand.white, fontSize: 15, fontWeight: '700' },
   paymentNote: { backgroundColor: c.card, borderRadius: radios.md, padding: espaciado.e16, marginTop: espaciado.e8, borderWidth: 1 },

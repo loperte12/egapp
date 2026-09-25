@@ -32,7 +32,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import { ArrowLeft, CalendarDays, Plus } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
@@ -245,7 +245,7 @@ function Contenido() {
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e6 }}>
                       <Text style={{ color: colors.textPrimary, fontSize: 15.5, fontWeight: '900' }}>
                         {xaf(r.basePriceXaf)}
-                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}> por noche</Text>
+                        <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}> por noche</Text>
                       </Text>
                       <View style={[styles.etiqueta, { backgroundColor: alpha(est.color, 0.12) }]}>
                         <Text style={{ color: est.color, fontSize: tipografia.micro, fontWeight: '900' }}>{est.txt}</Text>

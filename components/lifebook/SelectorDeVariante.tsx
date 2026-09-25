@@ -30,7 +30,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Minus, Plus, X } from 'lucide-react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { absUrl } from '../../api/config';
 import { avisoStockApi, commerceApi, type LbOptionGroup, type LbProduct, type LbProductVariant, type LbSizeChart } from '../../api/commerce';
 import { lbXaf } from '../../constants/lifebook';
@@ -244,7 +244,7 @@ export default function SelectorDeVariante({
   const Eje = ({ g }: { g: LbOptionGroup }) => (
     <View style={{ marginTop: espaciado.e14 }}>
       <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginBottom: espaciado.e7 }}>
-        {g.label}{sel[g.code] ? <Text style={{ color: colors.textSecondary, fontWeight: '600' }}>{`  ${sel[g.code]}`}</Text> : null}
+        {g.label}{sel[g.code] ? <Text style={{ color: colors.textSecondary, fontWeight: peso.medio }}>{`  ${sel[g.code]}`}</Text> : null}
       </Text>
       <View style={styles.valores}>
         {(g.values ?? []).map((v) => {

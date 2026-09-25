@@ -28,7 +28,7 @@ import * as Location from 'expo-location';
 import {
   ArrowLeft, ArrowUpDown, Bus, CarFront, MapPin, Navigation, Pencil, RefreshCw, Star, Tag, Users, User, X,
 } from 'lucide-react-native';
-import { elevation, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { elevation, espaciado, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import MapBackground from '../components/MapBackground';
 import { EgMarkers, EgRoutePolyline, type Coord, type EgMapViewHandle } from '../packages/map';
 import { taxiApi, type TaxiMode } from '../api/taxi';
@@ -1147,7 +1147,7 @@ export default function TaxiScreen() {
           {locBanner && (
             <View style={[s.banner, { backgroundColor: colors.surface }]}>
               <MapPin size={14} color={colors.textSecondary} />
-              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginLeft: espaciado.e6, fontWeight: '600' }}>{locBanner}</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginLeft: espaciado.e6, fontWeight: peso.medio }}>{locBanner}</Text>
             </View>
           )}
           {/* FASE 2 DiDi: "Buscando taxi" con radar animado (nativo). */}
@@ -1185,7 +1185,7 @@ export default function TaxiScreen() {
                       <Text style={{ color: colors.textSecondary, fontWeight: '700', fontSize: tipografia.caption }}>Listo ✕</Text>
                     </Pressable>
                   </View>
-                  <Text style={{ fontSize: 10.5, color: colors.textSecondary, fontWeight: '600' }}>
+                  <Text style={{ fontSize: 10.5, color: colors.textSecondary, fontWeight: peso.medio }}>
                     Se cancela esta búsqueda y se lanza una nueva con tus cambios.
                   </Text>
                   {relaunching ? (
@@ -1339,24 +1339,24 @@ export default function TaxiScreen() {
                           <>
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 }}>
                               <Image source={{ uri: carPhoto }} style={s.carThumb} resizeMode="cover" />
-                              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600', flex: 1 }} numberOfLines={1}>
+                              <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, flex: 1 }} numberOfLines={1}>
                                 {carTxt || 'Coche asignado'}
                               </Text>
                             </View>
                             {color && (
                               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 }}>
                                 <View style={[s.colorSwatch, { backgroundColor: dotColor[color.toLowerCase()] ?? '#ccc' }]} />
-                                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>{color}</Text>
+                                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{color}</Text>
                               </View>
                             )}
                           </>
                         ) : (
                           <>
-                            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }} numberOfLines={1}>{carTxt || 'Coche asignado'}</Text>
+                            <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }} numberOfLines={1}>{carTxt || 'Coche asignado'}</Text>
                             {color && (
                               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e2 }}>
                                 <View style={[s.colorSwatch, { backgroundColor: dotColor[color.toLowerCase()] ?? '#ccc' }]} />
-                                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>{color}</Text>
+                                <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{color}</Text>
                               </View>
                             )}
                           </>
@@ -1375,7 +1375,7 @@ export default function TaxiScreen() {
                         <Text style={s.plateTxt}>{plate.toUpperCase()}</Text>
                       </View>
                     ) : null}
-                    <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600', textAlign: 'center' }}>
+                    <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio, textAlign: 'center' }}>
                       El conductor te pedirá este PIN para empezar el viaje:
                     </Text>
                     <Text style={{ fontSize: 30, fontWeight: '900', letterSpacing: 6, color: brand.success, textAlign: 'center' }}>
@@ -1524,7 +1524,7 @@ export default function TaxiScreen() {
                         )}
                         <View style={{ flex: 1 }}>
                           <Text style={{ color: brand.white, fontWeight: '800', fontSize: 15 }} numberOfLines={1}>{name}</Text>
-                          <Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: tipografia.caption, fontWeight: '600' }}>
+                          <Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: tipografia.caption, fontWeight: peso.medio }}>
                             {[model, plate].filter(Boolean).join(' · ') || 'Conductor'}
                           </Text>
                         </View>

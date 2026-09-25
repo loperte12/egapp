@@ -7,7 +7,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { BadgeCheck, Briefcase, Search, ShieldCheck, X } from 'lucide-react-native';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import type { WorkJob } from '../api/work';
 import { brand } from '@egrouteplan/ui-kit';
 
@@ -80,7 +80,7 @@ export function WorkJobCard({ job, onPress }: { job: WorkJob; onPress: () => voi
             </Text>
           </View>
         </View>
-        <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: '600' }}>
+        <Text style={{ color: colors.textSecondary, fontSize: 10.5, fontWeight: peso.medio }}>
           {daysAgo === 0 ? 'Hoy' : `Hace ${daysAgo}d`}
         </Text>
       </View>
@@ -128,7 +128,7 @@ export function WorkSortBar({ value, onChange }: { value: SortKey; onChange: (k:
 export function WorkResultCount({ count, query }: { count: number; query: string }) {
   const { colors } = useTheme();
   return (
-    <Text style={{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e4, fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: '600' }}>
+    <Text style={{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e4, fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: peso.medio }}>
       {query ? `${count} resultados para "${query}"` : `${count} ofertas disponibles`}
     </Text>
   );
@@ -169,11 +169,11 @@ const s = StyleSheet.create({
   card: { marginHorizontal: espaciado.e16, marginBottom: espaciado.e10, borderRadius: 14, padding: espaciado.e13, borderWidth: 1 },
   title: { fontSize: tipografia.subtitle, fontWeight: '800', flex: 1, lineHeight: 20 },
   salary: { fontSize: tipografia.subtitle, fontWeight: '900', color: brand.secondary },
-  company: { fontSize: tipografia.body, fontWeight: '600', flexShrink: 1 },
+  company: { fontSize: tipografia.body, fontWeight: peso.medio, flexShrink: 1 },
   urgentBadge: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: 4, backgroundColor: brand.danger },
   urgentText: { color: brand.white, fontSize: 8.5, fontWeight: '800', letterSpacing: 0.4 },
   chip: { paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: 6, borderWidth: StyleSheet.hairlineWidth },
-  chipText: { fontSize: 10.5, fontWeight: '600' },
+  chipText: { fontSize: 10.5, fontWeight: peso.medio },
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e10, paddingTop: espaciado.e10, borderTopWidth: StyleSheet.hairlineWidth },
   avatar: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   avatarText: { fontSize: tipografia.body, fontWeight: '900' },

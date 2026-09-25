@@ -28,7 +28,7 @@ import {
 import { Image as ExpoImage } from 'expo-image';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import {
   ArrowLeft, Bookmark, Briefcase, Car, ChevronRight, Heart, Home, MapPin,
   MoreHorizontal, Package, Play, Plus, Send, Share2, ShoppingBag, ShoppingCart, Store, Utensils, X,
@@ -623,7 +623,7 @@ function PostContent() {
                   onPress={() => irSeguro.libre('/lifebook-search', { q: t })}
                   accessibilityRole="link"
                 >
-                  <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: '600' }}>#{t}</Text>
+                  <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.medio }}>#{t}</Text>
                 </Pressable>
               ))}
             </View>

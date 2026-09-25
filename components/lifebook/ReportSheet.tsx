@@ -10,7 +10,7 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { Flag, ShieldAlert, UserX, X } from 'lucide-react-native';
 import { LB_REPORT_REASONS } from '../../constants/lifebook';
 import { lifebookBlocksApi, type LbPostCard } from '../../api/lifebook';
@@ -79,7 +79,7 @@ export function ReportSheet({ post, onClose, onReport, onBlocked }: Props) {
             style={({ pressed }) => [styles.row, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
           >
             <ShieldAlert size={16} color={colors.textSecondary} />
-            <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: '600' }}>{r.label}</Text>
+            <Text style={{ color: colors.textPrimary, fontSize: 14.5, fontWeight: peso.medio }}>{r.label}</Text>
           </Pressable>
         ))}
 

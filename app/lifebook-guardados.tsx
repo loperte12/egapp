@@ -16,7 +16,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, EmptyState, espaciado, GhostButton, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, EmptyState, espaciado, GhostButton, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AlertCircle, ArrowLeft, Heart } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { commerceApi, type LbProductCard } from '../api/commerce';
@@ -136,7 +136,7 @@ function GuardadosContent() {
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: '800', marginTop: espaciado.e6 }}>
                   {p.priceXaf === null ? 'Precio a consultar' : lbXaf(p.priceXaf)}
                   {p.oldPriceXaf && p.priceXaf && p.oldPriceXaf > p.priceXaf ? (
-                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: '600' }}>
+                    <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                       {'  '}antes {lbXaf(p.oldPriceXaf)}
                     </Text>
                   ) : null}

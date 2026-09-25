@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Alert, Image, Linking, Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { VerificationBadge } from './Badges';
 import { getInitials } from '../../utils/formatHelpers';
 import type { RentalProperty } from '../../api/rental';
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   subtitle: { fontSize: tipografia.body, marginTop: espaciado.e2 },
   badgeRow: { flexDirection: 'row', marginTop: espaciado.e6, gap: espaciado.e6 },
   metaRow: { marginTop: espaciado.e12, flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e10 },
-  ratingText: { fontSize: tipografia.body, fontWeight: '600' },
+  ratingText: { fontSize: tipografia.body, fontWeight: peso.medio },
   responseText: { fontSize: tipografia.body },
   statsRow: { flexDirection: 'row', borderRadius: radios.md, paddingVertical: espaciado.e12, paddingHorizontal: espaciado.e10, marginTop: espaciado.e14, gap: espaciado.e8, borderWidth: 1 },
   statItem: { flex: 1, alignItems: 'center' },
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   compactInfo: { flex: 1 },
   compactName: { fontSize: tipografia.body, fontWeight: '700' },
   compactMeta: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e4 },
-  compactRating: { fontSize: tipografia.caption, fontWeight: '600' },
+  compactRating: { fontSize: tipografia.caption, fontWeight: peso.medio },
   compactButton: { borderRadius: 10, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
   compactButtonText: { fontSize: tipografia.caption, fontWeight: '700' },
 });

@@ -15,7 +15,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AtSign, Compass, Heart, MessageCircle, MessagesSquare, ScanLine, ScrollText, Search, UserPlus } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { messagesApi, toConversationCard, type LbConversation, type LbConversationCard } from '../api/messages';
@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
     borderRadius: 9, minWidth: 18, height: 18, paddingHorizontal: espaciado.e3,
     alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderColor: brand.white,
   },
-  inboxLabel: { fontSize: tipografia.micro, fontWeight: '600', color: '#8A8F99' },
+  inboxLabel: { fontSize: tipografia.micro, fontWeight: peso.medio, color: '#8A8F99' },
   filterRow: { flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e10 },
   filterChip: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e6 },
   convoRow: {

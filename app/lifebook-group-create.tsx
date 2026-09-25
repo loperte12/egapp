@@ -27,7 +27,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { ArrowLeft, Check, MapPin, Search, X } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { geocode, type GeoPlace } from '../api/geocode';
@@ -417,7 +417,7 @@ function GroupCreateContent() {
                     ) : (
                       <View style={[styles.chipAvatar, { backgroundColor: alpha(colors.primary, 0.15) }]} />
                     )}
-                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: '600' }} numberOfLines={1}>
+                    <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.medio }} numberOfLines={1}>
                       {p.name.split(' ')[0]}
                     </Text>
                     <Pressable onPress={() => togglePerson(p.id)} hitSlop={6} accessibilityLabel={`Quitar a ${p.name}`}>

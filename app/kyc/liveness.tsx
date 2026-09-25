@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { CameraCapture, espaciado, KycStatusBanner, LivenessChallengeView, StepHeader, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { CameraCapture, espaciado, KycStatusBanner, LivenessChallengeView, StepHeader, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { kycApi, base64ToBytes, hashBytes } from '../../api/kyc';
 import { ApiError } from '../../api/auth';
 import { KYC_STATUS_TO_STEP } from '@egrouteplan/contracts';
@@ -123,5 +123,5 @@ const styles = StyleSheet.create({
   processing: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   processingText: { fontSize: tipografia.subtitle, fontWeight: '800' },
   footer: { marginTop: espaciado.e16 },
-  hint: { fontSize: tipografia.caption, textAlign: 'center', fontWeight: '600' },
+  hint: { fontSize: tipografia.caption, textAlign: 'center', fontWeight: peso.medio },
 });

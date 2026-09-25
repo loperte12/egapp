@@ -20,7 +20,7 @@
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { alpha, brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import {
   DOW_SHORT, addDaysIso, dowMondayFirst, isWeekendNight, longDate, monthGrid,
   monthIndex, monthLabel, nightsBetween, nightsList, parseIso, shiftMonth, todayIso, xaf,
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'flex-start', borderWidth: 0,
   },
   dia: { fontSize: tipografia.body, fontWeight: '700' },
-  precio: { fontSize: 9.5, fontWeight: '600', marginTop: 1 },
+  precio: { fontSize: 9.5, fontWeight: peso.medio, marginTop: 1 },
   min: { fontSize: 8.5, marginTop: 0 },
   leyenda: { gap: espaciado.e12, paddingVertical: espaciado.e8, paddingHorizontal: espaciado.e2, alignItems: 'center' },
   leyendaItem: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 },

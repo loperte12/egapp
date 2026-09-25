@@ -27,7 +27,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BadgeCheck, Camera, Eye, EyeOff, Plus, Trash2, X, XCircle } from 'lucide-react-native';
-import { alpha, altura, espaciado, FormField, PrimaryButton, radios, ScreenHeader, Sheet, Tactil, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, altura, espaciado, FormField, PrimaryButton, radios, ScreenHeader, Sheet, Tactil, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { foodApi, FoodMenuItem, FoodOwnerMe, SPICE_LABEL, SPICE_ICON, SIDES_MAX, type SpiceLevel } from '../api/food';
 import { formatXAF } from '../utils/formatHelpers';
 import { foodHoursError } from '../utils/foodHours';
@@ -503,7 +503,7 @@ export default function FoodOwnerScreen() {
             <Pressable onPress={() => setCityModal(true)} accessibilityRole="button"
               accessibilityLabel={city ? `Ciudad: ${city}` : 'Elegir ciudad (obligatoria)'}
               style={[s.cityBox, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-              <Text style={{ fontSize: tipografia.body, fontWeight: '600', color: city ? colors.textPrimary : colors.textSecondary }}>
+              <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: city ? colors.textPrimary : colors.textSecondary }}>
                 {city ? `📍 ${city}` : 'Ciudad * (elige una)'}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>▾</Text>
@@ -874,7 +874,7 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e5 }}>
       {ok ? <BadgeCheck size={16} color={brand.success} /> : <XCircle size={16} color="#CBD5E1" />}
       <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
-        <Text style={{ fontSize: tipografia.caption, fontWeight: '600', color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
+        <Text style={{ fontSize: tipografia.caption, fontWeight: peso.medio, color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
         {hint ? <Text style={{ fontSize: 10.5, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
       </View>
       {onPress ? <Text style={{ color: colors.primary, fontWeight: '800', fontSize: tipografia.caption }}>→</Text> : null}

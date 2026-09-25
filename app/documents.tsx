@@ -17,7 +17,7 @@ import {
   ArrowLeft, BadgeCheck, CircleAlert, CircleX, CreditCard, FileText, IdCard,
   OctagonAlert, Phone, ShieldCheck, Truck,
 } from 'lucide-react-native';
-import { alpha, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { authApi, type MeProfile } from '../api/auth';
 import { driverApi } from '../api/driver';
@@ -201,6 +201,6 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e13 },
   rowIcon: { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   rowLabel: { fontSize: tipografia.body, fontWeight: '800' },
-  rowHint: { fontSize: tipografia.micro, fontWeight: '600', marginTop: espaciado.e2 },
-  note: { fontSize: tipografia.caption, fontWeight: '600', textAlign: 'center', marginTop: espaciado.e8, lineHeight: 17 },
+  rowHint: { fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: espaciado.e2 },
+  note: { fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e8, lineHeight: 17 },
 });

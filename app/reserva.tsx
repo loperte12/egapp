@@ -31,7 +31,7 @@ import {
   ArrowLeft, Bus, CalendarDays, Car, CarFront, CheckCircle2, Clock, MessageSquare,
   Navigation, ShieldCheck, ChevronLeft, ChevronRight,
 } from 'lucide-react-native';
-import { brand, espaciado, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { brand, espaciado, radios, tipografia, useTheme, peso} from '@egrouteplan/ui-kit';
 import { reservaApi } from '../api/reserva';
 import { useSession } from '../state/session';
 
@@ -189,7 +189,7 @@ export default function ReservaAnticipadaScreen() {
 
       {error && (
         <View style={[s.card, { marginHorizontal: espaciado.e16, borderColor: colors.danger }]}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: '600' }}>⚠️ {error}</Text>
+          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>⚠️ {error}</Text>
         </View>
       )}
 
@@ -436,7 +436,7 @@ function Row({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e6 }}>
       {icon}
-      <Text style={{ flex: 1, fontSize: tipografia.body, color: colors.textPrimary, fontWeight: '600' }}>{text}</Text>
+      <Text style={{ flex: 1, fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio }}>{text}</Text>
     </View>
   );
 }
