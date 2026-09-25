@@ -1307,10 +1307,13 @@ export default function TaxiScreen() {
                 const ratingOk = Number.isFinite(rating) && rating > 0;
                 const trips = Number(t.driver_trips);
                 const tripsOk = Number.isFinite(trips) && trips > 0;
+                /* dato-color — paleta de color de coche: el VALOR es el dato, no hay token de marca
+                   detrás (no existe «blanco de marca»). Las entradas que sí tienen equivalente ya
+                   usan `brand.*`; estas cinco no lo tienen y no se inventa. */
                 const dotColor: Record<string, string> = {
-                  blanco: '#F2F2F2', negro: '#26282C', gris: '#9AA0A6', plata: '#C9CFD6',
+                  blanco: '#F2F2F2', negro: '#26282C', gris: '#9AA0A6', plata: '#C9CFD6', // dato-color
                   rojo: brand.danger, azul: brand.primary, verde: brand.success, amarillo: brand.warning,
-                  naranja: brand.warning, marrón: '#8B5A2B',
+                  naranja: brand.warning, marrón: '#8B5A2B', // dato-color
                 };
                 return (
                   <>

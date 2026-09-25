@@ -1,6 +1,6 @@
 {
   "total": {
-    "hex": 126,
+    "hex": 89,
     "fontSize": 360,
     "borderRadius": 390,
     "fontWeight": 0,
@@ -109,7 +109,7 @@
       "precioFigura": 0
     },
     "app/conductor.tsx": {
-      "hex": 8,
+      "hex": 18,
       "fontSize": 19,
       "borderRadius": 11,
       "fontWeight": 0,
@@ -127,7 +127,7 @@
       "precioFigura": 0
     },
     "app/driver-onboarding.tsx": {
-      "hex": 7,
+      "hex": 0,
       "fontSize": 0,
       "borderRadius": 4,
       "fontWeight": 0,
@@ -235,7 +235,7 @@
       "precioFigura": 0
     },
     "app/edit-profile.tsx": {
-      "hex": 3,
+      "hex": 0,
       "fontSize": 5,
       "borderRadius": 5,
       "fontWeight": 0,
@@ -892,7 +892,7 @@
       "precioFigura": 0
     },
     "app/taxi.tsx": {
-      "hex": 12,
+      "hex": 16,
       "fontSize": 19,
       "borderRadius": 10,
       "fontWeight": 0,
@@ -1468,7 +1468,7 @@
       "precioFigura": 0
     },
     "components/SocialHomeHeader.tsx": {
-      "hex": 3,
+      "hex": 2,
       "fontSize": 3,
       "borderRadius": 2,
       "fontWeight": 0,
@@ -1528,33 +1528,6 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 2,
-      "precioFigura": 0
-    },
-    "constants/lifebook-chat.ts": {
-      "hex": 14,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0
-    },
-    "constants/lifebook.ts": {
-      "hex": 10,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
-      "precioFigura": 0
-    },
-    "constants/status.ts": {
-      "hex": 16,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 0,
       "precioFigura": 0
     }
   }

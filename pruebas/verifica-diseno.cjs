@@ -72,6 +72,33 @@ const ZONAS = ['app', 'components', 'core', 'api', 'state', 'utils', 'constants'
 /** El propio kit y los respaldos quedan fuera del escaneo. */
 const EXCLUIDAS = [/node_modules/, /respaldo/, /^\.expo/, /packages[\\/]ui-kit/];
 
+/**
+ * FICHEROS DE CONTENIDO — su hex no es deuda: **el valor ES el dato**.
+ * Decisión de Bernardo (25/09/2026), al abrir la familia `hex`.
+ * Un tema de gradiente (`ocean: ['#1E6FD9', '#3AA0FF']`) o una paleta de color de coche no se
+ * tokenizan: no hay un «color de marca» detrás, hay siete temas que el usuario elige. Meterlos en
+ * el kit sería inventar semántica. Se quedan donde están y salen del alcance.
+ * OJO: esto NO es un permiso para escribir colores nuevos en estos ficheros. Es «este dato no es
+ * deuda», no «aquí vale todo». Si aparece un color que NO es dato, se saca del fichero a su tabla.
+ */
+const CONTENIDO = [
+  /constants[\\/]status\.ts$/, //          16 — los 8 temas de gradiente (ocean, sky, sunset…)
+  /constants[\\/]lifebook-chat\.ts$/, //   14 — las 7 paletas de chat (base + accent)
+  /constants[\\/]lifebook\.ts$/, //        10 — color de categoría de post
+  /app[\\/]driver-onboarding\.tsx$/, //     7 — paleta de color de coche (Blanco, Negro…)
+  /app[\\/]edit-profile\.tsx$/, //          3 — paleta de color de avatar
+];
+
+/**
+ * MARCADOR DE LÍNEA — para una PALETA dentro de un fichero de PRODUCTO.
+ * `app/taxi.tsx` tiene 16 colores de interfaz (deuda, se tokenizan) y 5 de paleta de coche
+ * (dato, se quedan). No se puede excluir el fichero entero. Una línea cuyo COMENTARIO lleve
+ * `dato-color` queda exenta, y la exención viaja con el código:
+ *     blanco: '#F2F2F2', negro: '#26282C',   // dato-color — paleta de coche
+ * Auditoría: `grep -rn 'dato-color' app components core constants` lista TODAS las exenciones.
+ */
+const MARCA_DATO = /dato-color/;
+
 const args = new Set(process.argv.slice(2));
 
 function archivosFuente(dir, acc = []) {
@@ -84,10 +111,41 @@ function archivosFuente(dir, acc = []) {
   return acc;
 }
 
-/** Cuenta ocurrencias (no valores distintos): importa cuántas veces se escribe a mano. */
+/**
+ * Cuenta ocurrencias (no valores distintos): importa cuántas veces se escribe a mano.
+ */
 function contar(txt, re) {
   const m = txt.match(re);
   return m ? m.length : 0;
+}
+
+/**
+ * Cuenta literales de color hex, con las dos correcciones del 25/09/2026.
+ *
+ * 1. PUNTO CIEGO — LONGITUDES. El patrón anterior era `#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b`. En un
+ *    hex de OCHO dígitos (`#F53F3F55`, un rojo al 33 % de alfa) los 6 primeros dígitos van seguidos
+ *    de otro dígito, así que `\b` NO casa y el literal era **invisible al trinquete**. Medido: 19
+ *    literales invisibles, y eran exactamente los colores de estado translúcidos — la mitad del
+ *    problema de color de la app. Un trinquete que no ve no aprieta.
+ *    Ahora acepta las cuatro longitudes VÁLIDAS de CSS: 3 (#f00), 4 (#f00a), 6 (#ff0000), 8 (#ff0000aa).
+ *    Las longitudes inválidas (5, 7) se siguen rechazando: la alternancia va de mayor a menor y `\b`
+ *    no casa en medio de un número.
+ *
+ * 2. FALSO POSITIVO — `url(#…)`. En SVG, `fill="url(#adFade)"` referencia un degradado por su id, y
+ *    `adFade` son seis caracteres que casualmente son todos hexadecimales. No es un color. Se excluye
+ *    con una retrospección: si delante del `#` está `url(`, no cuenta. (Huso `url(#FFF)` también.)
+ *
+ * Además aplica las exenciones de CONTENIDO y MARCA_DATO (ver arriba).
+ */
+function cuentaHex(txt, rel) {
+  if (CONTENIDO.some((r) => r.test(rel))) return 0;
+  let n = 0;
+  for (const ln of txt.split('\n')) {
+    if (MARCA_DATO.test(ln)) continue;
+    const m = ln.match(HEX);
+    if (m) n += m.length;
+  }
+  return n;
 }
 
 /** `formatXAF(` — el formateador del kit usado a mano. `formateaXAF` es el mismo, en el kit. */
@@ -145,7 +203,9 @@ function cuentaPrecioFigura(txt) {
   return n;
 }
 
-const HEX = /#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b/g;
+/* HEX — AMPLIADO el 25/09/2026, y era un punto CIEGO de la guardia. Ver `cuentaHex` para el porqué.
+   Cuatro longitudes válidas de CSS (3, 4, 6, 8), de mayor a menor, y sin contar `url(#id)` de SVG. */
+const HEX = /(?<!url\()#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})\b/g;
 const FUENTE = /fontSize:\s*\d+(\.\d+)?/g;
 /* `borderRadius` a secas dejaba fuera los radios por esquina (`borderTopLeftRadius: 18`), que son
    la misma deuda escrita de otra forma. Los nombres reales del proyecto son `borderRadius` y
@@ -193,7 +253,7 @@ for (const zona of ZONAS) {
     const txt = fs.readFileSync(f, 'utf8');
     const rel = path.relative(RAIZ, f).replace(/\\/g, '/');
     const c = {
-      hex: contar(txt, HEX),
+      hex: cuentaHex(txt, rel),
       fontSize: contar(txt, FUENTE),
       borderRadius: contar(txt, RADIO),
       fontWeight: contar(txt, PESO),
