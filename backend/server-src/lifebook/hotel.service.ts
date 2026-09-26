@@ -818,8 +818,7 @@ export class LifebookHotelService {
     const OCUPAN = ['hold', 'pending', 'confirmed', 'checked_in'];
     const viva = OCUPAN.includes(String(r.status))
       && !(r.status === 'hold' && r.hold_expires_at && new Date(r.hold_expires_at).getTime() <= Date.now());
-    const horas = Number(r.cancellation_hours ?? 0);
-    const entrada = r.check_in ? new Date(`${this.fecha(r.check_in)}T14:00:00Z`) : null;
+    const cancelaHasta = this.freeCancellationUntil(r);
     return {
       id: r.id,
       code: r.code,
@@ -849,9 +848,7 @@ export class LifebookHotelService {
       paymentMethod: r.payment_method,
       paymentStatus: r.payment_status,
       holdExpiresAt: r.hold_expires_at ?? null,
-      freeCancellationUntil: horas && entrada
-        ? new Date(entrada.getTime() - horas * 3_600_000).toISOString()
-        : null,
+      freeCancellationUntil: cancelaHasta,
       depositPaidAt: r.deposit_paid_at ?? null,
       paidAt: r.paid_at ?? null,
       depositConfirmedBy: r.deposit_confirmed_by ?? null,
@@ -865,6 +862,37 @@ export class LifebookHotelService {
       updatedAt: r.updated_at,
       ...extra,
     };
+  }
+
+  /**
+   * Hasta cuándo se puede cancelar sin coste: `entrada + checkin_from − cancellation_hours`.
+   *
+   * 🔒 LA HORA ES LA DEL HOTEL, y antes no lo era (LH-13). El cálculo era
+   * `new Date(`${fecha}T14:00:00Z`)`, con dos errores que se sumaban:
+   *
+   *   · `14:00` **fijo**, aunque el hotel declare otra hora de entrada en su ficha
+   *     (`hotel_profiles.checkin_from`), que es justo la que el huésped ve;
+   *   · en `Z` (UTC), cuando **Malabo es UTC+1**: el corte caía a las **15:00** locales,
+   *     una hora tarde. Esa hora decide si una cancelación entra gratis o se come la señal.
+   *
+   * `checkin_from` llega como `HH:MM` (el DTO lo limita a 5 caracteres); si viniera
+   * `HH:MM:SS`, un `9:00` sin cero o basura, se normaliza y, si no hay nada legible, se
+   * cae al **mismo** `14:00` que usan el formulario del hotel y el DTO.
+   *
+   * Una sola definición: la usan la ficha del huésped, su detalle y el panel del hotelero.
+   */
+  freeCancellationUntil(r: any): string | null {
+    const horas = Number(r.cancellation_hours ?? 0);
+    if (!horas || !r.check_in) return null;
+    const dia = this.fecha(r.check_in);
+    if (!dia) return null;
+    const m = /^(\d{1,2}):(\d{2})/.exec(String(r.checkin_from ?? '').trim());
+    const hora = m ? `${m[1].padStart(2, '0')}:${m[2]}` : '14:00';
+    // Malabo es UTC+1 todo el año (no hay horario de verano): el corte se fija con ese
+    // desfase explícito, nunca con `Z`.
+    const entrada = new Date(`${dia}T${hora}:00+01:00`);
+    if (Number.isNaN(entrada.getTime())) return null;
+    return new Date(entrada.getTime() - horas * 3_600_000).toISOString();
   }
 
   private roomShape(r: any, extra: Record<string, unknown> = {}) {

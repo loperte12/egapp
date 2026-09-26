@@ -29,7 +29,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { DomainError } from '../services/payment-auth.service';
 import { MobilityPrismaService } from '../mobility/mobility-prisma.service';
 import { LifebookHotelService } from './hotel.service';
-import { LifebookReservationsService } from './reservations.service';
+import { CANCELABLES, LifebookReservationsService } from './reservations.service';
 
 /** Acciones admitidas y su estado de destino. */
 export const ACCIONES: Record<string, string> = {
@@ -45,7 +45,11 @@ export const DESDE: Record<string, string[]> = {
   confirm: ['pending'],
   checkin: ['confirmed'],
   checkout: ['checked_in'],
-  cancel: ['hold', 'pending', 'confirmed', 'checked_in'],
+  // 🔒 La MISMA lista que la app y que `permitido.cancel`: **importada, no copiada**. Con
+  // el huésped dentro (`checked_in`) la única salida es `checkout` (LH-06). Cuando esta
+  // regla vivía escrita a mano en cuatro sitios, bastaba tocar uno para que la pantalla
+  // ofreciera lo que el servidor rechazaba.
+  cancel: CANCELABLES,
   noshow: ['pending', 'confirmed'],
 };
 
@@ -213,10 +217,14 @@ export class LifebookHotelMerchantService {
              r.deposit_paid_at, r.deposit_confirmed_by, r.deposit_proof,
              r.checked_in_at, r.checked_out_at, r.cancelled_at, r.cancel_reason,
              rt.name AS room_type_name,
+             -- Faltaba: sin la hora de entrada del hotel, el rótulo de cancelación gratuita
+             -- usaba siempre el 14:00 por defecto (la ventana del tipo sí estaba).
+             hp.checkin_from AS checkin_from,
              COALESCE(r.guest_name, u.full_name, 'Huésped') AS guest_name,
              u.avatar_url AS guest_avatar
         FROM lifebook.reservations r
         LEFT JOIN lifebook.room_types rt ON rt.id = r.room_type_id
+        LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = r.shop_id
         LEFT JOIN mobility.users u ON u.id = r.guest_id
        WHERE r.shop_id = ${shop.id}::uuid
          AND (${opts.status ?? null}::text IS NULL OR r.status = ${opts.status ?? null})
@@ -255,6 +263,9 @@ export class LifebookHotelMerchantService {
     const filas: any[] = await this.db.$queryRaw`
       SELECT r.*, r.check_in::text AS check_in, r.check_out::text AS check_out,
              rt.name AS room_type_name, rt.capacity, rt.amenities AS room_amenities,
+             -- Faltaba: sin esto el detalle del panel devolvía freeCancellationUntil: null
+             -- aunque la hora de entrada del hotel sí viniera.
+             rt.cancellation_hours,
              hp.checkin_from, hp.checkin_until, hp.checkout_until,
              COALESCE(r.guest_name, u.full_name, 'Huésped') AS guest_name,
              u.avatar_url AS guest_avatar
@@ -402,6 +413,19 @@ export class LifebookHotelMerchantService {
         await tx.$executeRaw`DELETE FROM lifebook.reservation_nights WHERE reservation_id = ${r.id}::uuid`;
       }
     });
+
+    // 🔒 LH-01: el monedero se mueve por la MISMA puerta que la app.
+    //
+    // Este método cambiaba el estado y no tocaba el dinero, así que el resultado dependía
+    // de POR DÓNDE pasara el cambio: el hotel marcaba la entrada desde su panel y la señal
+    // se quedaba en garantía para siempre (no cobraba nunca), y al cancelar el
+    // `payment_status` quedaba en «refunded» **sin devolver un franco**.
+    //
+    // Va FUERA de la transacción, igual que en `reservations.service`: si el monedero falla,
+    // la reserva queda en firme con el dinero retenido —dirección segura— en vez de deshacer
+    // un cambio de estado que ya ocurrió. Las dos operaciones son idempotentes por
+    // `idempotencyKey`, así que pasar por las dos puertas no cobra dos veces.
+    await this.reservas.liquidarMonedero(r.id, accion);
 
     const avisos: Record<string, string> = {
       confirm: 'El hotel confirmó tu reserva ✅',

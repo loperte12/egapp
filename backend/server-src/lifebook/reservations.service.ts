@@ -38,6 +38,20 @@ import { WalletService } from '../services/wallet.service';
 const METHODS = ['transfer', 'deposit', 'in_store', 'billing', 'likebook_wallet'] as const;
 /** Estados de reserva que OCUPAN inventario. */
 const OCUPAN = ['hold', 'pending', 'confirmed', 'checked_in'] as const;
+
+/**
+ * Estados desde los que se puede CANCELAR. **Esta es la lista.**
+ *
+ * 🔒 La lee la app desde el contrato (`packages/contracts/src/reservation-flow.ts`) y el
+ * panel del hotelero desde aquí, así que no puede haber dos versiones: si divergen, la
+ * pantalla ofrece lo que el servidor rechaza (o al revés), que es exactamente el estado
+ * en el que estaba `LH-06` — la regla escrita a mano en CUATRO sitios.
+ *
+ * Y `checked_in` **no está**: con el huésped dentro la reserva se está consumiendo y la
+ * única salida es `checkout`. Ofrecer «cancelar» ahí prometía una devolución que el hotel
+ * no debía.
+ */
+export const CANCELABLES: string[] = ['hold', 'pending', 'confirmed'];
 /** Horas que se retiene una reserva por transferencia mientras llega la señal. */
 const TRANSFER_HOLD_HOURS = (() => {
   const n = Number(process.env.HOTEL_TRANSFER_HOLD_HOURS ?? 24);
@@ -478,8 +492,10 @@ export class LifebookReservationsService {
     // verdad que aplica el servidor al cancelar.
     const cancelaHasta = this.freeCancellationUntil(r);
     const vivaAhora = this.h.hotelReservationShape(r).viva as boolean;
+    // 🔒 `CANCELABLES`, no una lista copiada aquí: la misma que aplica `permitido` y la
+    // misma que ve la app en su contrato. Con el huésped dentro no hay «cancelar».
     const canCancel = vivaAhora
-      && ['hold', 'pending', 'confirmed', 'checked_in'].includes(String(r.status))
+      && CANCELABLES.includes(String(r.status))
       && (!cancelaHasta || Date.now() <= new Date(cancelaHasta).getTime());
     return this.h.hotelReservationShape(r, {
       role: roles.esHuesped ? 'guest' : roles.esHotel ? 'hotel' : 'admin',
@@ -507,12 +523,15 @@ export class LifebookReservationsService {
     });
   }
 
-  /** Hasta cuándo se puede cancelar sin coste (según las horas del tipo). */
+  /**
+   * Hasta cuándo se puede cancelar sin coste. **No calcula: delega.**
+   *
+   * Aquí vivía una SEGUNDA copia de la fórmula con la hora de entrada incrustada a `14:00`
+   * y en `Z` (LH-13): dos sitios que respondían distinto sobre el MISMO hotel según por
+   * dónde entraras. La definición es una, y vive donde vive `checkin_from`.
+   */
   private freeCancellationUntil(r: any): string | null {
-    const horas = Number(r.cancellation_hours ?? 0);
-    if (!horas) return null;
-    const entrada = new Date(`${this.fecha(r.check_in)}T14:00:00Z`); // hora de entrada por defecto
-    return new Date(entrada.getTime() - horas * 3_600_000).toISOString();
+    return this.h.freeCancellationUntil(r);
   }
 
   /** Mis reservas: `side=guest` (viajero) o `side=hotel` (hotelero). */
@@ -522,20 +541,31 @@ export class LifebookReservationsService {
       ? await this.db.$queryRaw`
           SELECT r.*, r.check_in::text AS check_in, r.check_out::text AS check_out,
                  s.name AS shop_name, s.logo_url AS shop_logo, rt.name AS room_name,
-                 u.full_name AS guest_full_name
+                 u.full_name AS guest_full_name,
+                 -- Sin estas dos columnas la ventana de cancelación sale null y la tarjeta
+                 -- de la LISTA no puede decir hasta cuándo se cancela gratis: el rótulo
+                 -- existía en la app y nunca aparecía (el detalle sí las traía y lo pintaba).
+                 rt.cancellation_hours AS cancellation_hours,
+                 hp.checkin_from AS checkin_from
             FROM lifebook.reservations r
             LEFT JOIN lifebook.shops s ON s.id = r.shop_id
             LEFT JOIN lifebook.room_types rt ON rt.id = r.room_type_id
+            LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = r.shop_id
             LEFT JOIN mobility.users u ON u.id = r.guest_id
            WHERE r.shop_id IN (SELECT id FROM lifebook.shops WHERE owner_id = ${userId}::uuid)
            ORDER BY r.check_in DESC, r.created_at DESC LIMIT 100`
       : await this.db.$queryRaw`
           SELECT r.*, r.check_in::text AS check_in, r.check_out::text AS check_out,
                  s.name AS shop_name, s.logo_url AS shop_logo, s.city AS shop_city, s.barrio AS shop_barrio,
-                 rt.name AS room_name, rt.images AS room_images
+                 rt.name AS room_name, rt.images AS room_images,
+                 -- La LISTA del huésped pinta «Cancelación gratuita hasta…» (reservas.tsx):
+                 -- sin estas dos columnas el rótulo sale vacío siempre.
+                 rt.cancellation_hours AS cancellation_hours,
+                 hp.checkin_from AS checkin_from
             FROM lifebook.reservations r
             LEFT JOIN lifebook.shops s ON s.id = r.shop_id
             LEFT JOIN lifebook.room_types rt ON rt.id = r.room_type_id
+            LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = r.shop_id
            WHERE r.guest_id = ${userId}::uuid
            ORDER BY r.check_in DESC, r.created_at DESC LIMIT 100`;
     return {
@@ -553,9 +583,14 @@ export class LifebookReservationsService {
     const fecha = dateRaw ? this.h.date(dateRaw, 'Fecha') : this.h.todayMalabo();
     const rows: any[] = await this.db.$queryRaw`
       SELECT r.*, r.check_in::text AS check_in, r.check_out::text AS check_out,
-             rt.name AS room_name, u.full_name AS guest_full_name
+             rt.name AS room_name, u.full_name AS guest_full_name,
+             -- El panel del hotelero pinta la tarjeta con el rótulo de cancelación gratuita:
+             -- estas dos columnas son las que lo hacen posible (ver myReservations).
+             rt.cancellation_hours AS cancellation_hours,
+             hp.checkin_from AS checkin_from
         FROM lifebook.reservations r
         LEFT JOIN lifebook.room_types rt ON rt.id = r.room_type_id
+        LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = r.shop_id
         LEFT JOIN mobility.users u ON u.id = r.guest_id
        WHERE r.shop_id = ${shopId}::uuid
          AND r.check_in <= ${fecha}::date AND r.check_out > ${fecha}::date
@@ -563,14 +598,20 @@ export class LifebookReservationsService {
        ORDER BY r.check_in`;
     const llegan: any[] = await this.db.$queryRaw`
       SELECT r.*, r.check_in::text AS check_in, r.check_out::text AS check_out,
-             rt.name AS room_name FROM lifebook.reservations r
+             rt.name AS room_name,
+             rt.cancellation_hours AS cancellation_hours, hp.checkin_from AS checkin_from
+        FROM lifebook.reservations r
         LEFT JOIN lifebook.room_types rt ON rt.id = r.room_type_id
+        LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = r.shop_id
        WHERE r.shop_id = ${shopId}::uuid AND r.check_in = ${fecha}::date
          AND r.status IN ('pending','confirmed') ORDER BY r.created_at`;
     const salen: any[] = await this.db.$queryRaw`
       SELECT r.*, r.check_in::text AS check_in, r.check_out::text AS check_out,
-             rt.name AS room_name FROM lifebook.reservations r
+             rt.name AS room_name,
+             rt.cancellation_hours AS cancellation_hours, hp.checkin_from AS checkin_from
+        FROM lifebook.reservations r
         LEFT JOIN lifebook.room_types rt ON rt.id = r.room_type_id
+        LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = r.shop_id
        WHERE r.shop_id = ${shopId}::uuid AND r.check_out = ${fecha}::date
          AND r.status IN ('confirmed','checked_in') ORDER BY r.created_at`;
     const ocupacion: any[] = await this.db.$queryRaw`
@@ -677,7 +718,7 @@ export class LifebookReservationsService {
       checkin: ['confirmed'],
       checkout: ['checked_in'],
       noshow: ['confirmed', 'pending'],
-      cancel: ['hold', 'pending', 'confirmed', 'checked_in'],
+      cancel: CANCELABLES,
     };
     if (!permitido[accion].includes(estado)) {
       throw new DomainError('INVALID_STATE_TRANSITION', `No se puede hacer eso con una reserva «${estado}»`);
@@ -732,8 +773,8 @@ export class LifebookReservationsService {
     //  · ENTRAR (checkin) → el hotel cobra la señal en su monedero.
     //  · NO PRESENTADO (noshow) → también: la señal es su compensación, para eso existe.
     //  · CANCELAR → vuelve íntegra al huésped.
-    if (accion === 'checkin' || accion === 'noshow') await this.liberarSiMonederoHotel(r.id);
-    if (accion === 'cancel') await this.devolverSiMonederoHotel(r.id);
+    // Y por la MISMA puerta que el panel del hotelero (LH-01), no por una propia.
+    await this.liquidarMonedero(r.id, accion);
     await this.notify(r, userId, `${avisos[accion]}${reason ? ` · ${reason}` : ''}`);
     return this.detail(r.id, userId);
   }
@@ -837,6 +878,33 @@ export class LifebookReservationsService {
     } catch (e) {
       this.log.warn(`reserva ${reservationId} cancelada y sin devolver el monedero: ${(e as Error).message}`);
     }
+  }
+
+  /**
+   * Mueve el monedero por una transición, DESPUÉS de que el estado quede en firme.
+   *
+   * 🔒 ES PÚBLICO A PROPÓSITO. Hay **dos puertas** que cambian el estado de una reserva
+   * —la app (`setStatus`) y el panel del hotelero (`updateReservationStatus`)— y las dos
+   * tienen que liquidar igual. El panel no lo hacía (LH-01), y el resultado era dinero
+   * varado en las dos direcciones:
+   *
+   *   · el hotel marcaba la entrada desde su panel → **la señal se quedaba en garantía
+   *     para siempre: el hotel no cobraba nunca**;
+   *   · el hotel cancelaba → el `payment_status` decía «refunded» **sin devolver un
+   *     franco: el huésped no recuperaba nunca**.
+   *
+   * Se llama FUERA de la transacción del estado, como en el mercado, la comida y
+   * ciudad-a-ciudad: si el monedero falla, la reserva queda en firme con el dinero retenido
+   * —dirección segura— en vez de deshacer un cambio de estado que ya ocurrió. Las dos
+   * operaciones son **idempotentes por `idempotencyKey`** (`lb-release:` / `lb-refund:`),
+   * así que llamarlas dos veces (o desde las dos puertas) no cobra dos veces.
+   *
+   * Lo que NO cubre: si la liquidación falla, solo queda un `warn` en el log — no hay
+   * reintento ni cola (LH-10, sigue abierto).
+   */
+  async liquidarMonedero(reservationId: string, accion: string) {
+    if (accion === 'checkin' || accion === 'noshow') await this.liberarSiMonederoHotel(reservationId);
+    if (accion === 'cancel') await this.devolverSiMonederoHotel(reservationId);
   }
 
   // ═══════════════════════════ AVISO EN EL CHAT ═════════════════════════════
