@@ -229,7 +229,7 @@ export function CreateGroupSheet({ visible, onClose, onCreate }: Props) {
 
       {/* ── Lista de personas ── */}
       {loading ? (
-        <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />
+        <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e24 }} />
       ) : followers.length === 0 && suggested.length === 0 ? (
         <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e24, fontSize: tipografia.body }}>
           No hay personas para invitar por ahora.

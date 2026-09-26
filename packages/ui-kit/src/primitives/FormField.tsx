@@ -66,7 +66,7 @@ export function FormField({
         />
       </View>
       {error ? (
-        <Text style={[styles.error, { color: colors.danger }]} accessibilityLiveRegion="polite" numberOfLines={1}>
+        <Text style={[styles.error, { color: colors.text.danger }]} accessibilityLiveRegion="polite" numberOfLines={1}>
           {error}
         </Text>
       ) : null}

@@ -64,7 +64,7 @@ export function VoteSheet({ visible, onClose, onSubmit }: Props) {
       <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={onClose} />
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
-          <Vote size={18} color={colors.primary} />
+          <Vote size={18} color={colors.text.primary} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             Crear votación
           </Text>
@@ -114,8 +114,8 @@ export function VoteSheet({ visible, onClose, onSubmit }: Props) {
             accessibilityLabel="Añadir opción"
             style={({ pressed }) => [styles.addRow, { borderColor: alpha(colors.border, 0.9), opacity: pressed ? 0.7 : 1 }]}
           >
-            <Plus size={16} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body, marginLeft: espaciado.e6 }}>
+            <Plus size={16} color={colors.text.primary} />
+            <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.body, marginLeft: espaciado.e6 }}>
               Añadir opción ({options.length}/{OPTIONS_MAX})
             </Text>
           </Pressable>
@@ -125,7 +125,7 @@ export function VoteSheet({ visible, onClose, onSubmit }: Props) {
           </Text>
         )}
 
-        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
+        {error ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
 
         <Pressable
           onPress={submit}

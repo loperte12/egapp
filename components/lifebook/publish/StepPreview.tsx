@@ -44,7 +44,7 @@ export default function StepPreview({ categories, shop }: { categories: LbCatego
           </View>
         )}
         <View style={{ padding: espaciado.e12 }}>
-          <Text style={{ color: colors.primary, fontSize: tipografia.cifra, fontWeight: peso.titulo }}>
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.cifra, fontWeight: peso.titulo }}>
             {lbPriceLabel(form.priceMode === 'on_request' ? null : Number(form.price.replace(/\D/g, '')), form.priceMode, lbXaf)}
           </Text>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.ancho, fontWeight: peso.maximo, marginTop: espaciado.e4 }} numberOfLines={3}>

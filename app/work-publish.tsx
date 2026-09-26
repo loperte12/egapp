@@ -219,7 +219,7 @@ export default function WorkPublishScreen() {
         {tab === 'publish' ? (
           catError ? (
             <View style={{ alignItems: 'center', paddingVertical: 60, paddingHorizontal: espaciado.e24 }}>
-              <Text style={{ color: colors.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>No se pudo cargar el catálogo de categorías y ciudades.</Text>
+              <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>No se pudo cargar el catálogo de categorías y ciudades.</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e14 }}>Comprueba tu conexión e inténtalo de nuevo.</Text>
               <Pressable onPress={() => void loadCatalog()} accessibilityRole="button" accessibilityLabel="Reintentar cargar el catálogo"
                 style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: radios.chip, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
@@ -228,7 +228,7 @@ export default function WorkPublishScreen() {
             </View>
           ) : !cat ? (
             <View style={{ alignItems: 'center', paddingVertical: 60 }}>
-              <ActivityIndicator color={colors.primary} />
+              <ActivityIndicator color={colors.text.primary} />
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>Cargando catálogo…</Text>
             </View>
           ) : (
@@ -239,7 +239,7 @@ export default function WorkPublishScreen() {
                 accessibilityRole="button" accessibilityLabel="Ver planes y mejorar tu cuota"
                 style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14, opacity: pressed ? 0.85 : 1 }]}
               >
-                <Crown size={18} color={colors.primary} />
+                <Crown size={18} color={colors.text.primary} />
                 <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                   <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>
                     {plan ? `${plan.planName} · ${plan.activeJobs}/${plan.offerLimit} ofertas activas` : 'Cargando tu plan…'}
@@ -250,7 +250,7 @@ export default function WorkPublishScreen() {
                       : 'Toca para ver planes y mejorar tu cuota.'}
                   </Text>
                 </View>
-                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.primary }}>Mejorar plan ›</Text>
+                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.text.primary }}>Mejorar plan ›</Text>
               </Pressable>
 
               <Text style={s.hint}>Cualquier usuario autenticado puede publicar. Las ofertas caducan automáticamente y las empresas verificadas muestran el sello de confianza.</Text>
@@ -284,13 +284,13 @@ export default function WorkPublishScreen() {
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: espaciado.e4 }}>
                 {latlng ? (
-                  <Text style={{ fontSize: tipografia.micro, color: colors.success, fontWeight: peso.fuerte }}>Punto fijado ✓</Text>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.text.success, fontWeight: peso.fuerte }}>Punto fijado ✓</Text>
                 ) : (
                   <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Sin punto (opcional)</Text>
                 )}
                 {latlng && (
                   <Pressable onPress={() => setLatlng(null)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Quitar el punto del mapa">
-                    <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.fuerte }}>Quitar punto</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.text.danger, fontWeight: peso.fuerte }}>Quitar punto</Text>
                   </Pressable>
                 )}
               </View>
@@ -365,12 +365,12 @@ export default function WorkPublishScreen() {
             <Text style={s.hint}>Tus ofertas y candidatos. Al seleccionar a un candidato se le notifica por SMS y WhatsApp.</Text>
             {loadingMine && (
               <View style={{ alignItems: 'center', paddingVertical: espaciado.e24 }}>
-                <ActivityIndicator color={colors.primary} /><Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>Cargando…</Text>
+                <ActivityIndicator color={colors.text.primary} /><Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>Cargando…</Text>
               </View>
             )}
             {!loadingMine && mineError && (
               <View style={{ alignItems: 'center', paddingVertical: espaciado.e30, paddingHorizontal: espaciado.e24 }}>
-                <Text style={{ color: colors.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>{mineError}</Text>
+                <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>{mineError}</Text>
                 <Pressable onPress={() => void loadMine()} accessibilityRole="button" accessibilityLabel="Reintentar cargar tus ofertas"
                   style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e12, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e9, borderRadius: radios.chip, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
                   <RefreshCw size={14} color={brand.white} /><Text style={{ color: brand.white, fontWeight: peso.maximo, fontSize: tipografia.caption, marginLeft: espaciado.e6 }}>Reintentar</Text>
@@ -395,9 +395,9 @@ export default function WorkPublishScreen() {
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                       <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.1), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.chip }}>
-                        <Users size={11} color={colors.primary} /><Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.fuerte, marginLeft: espaciado.e3 }}>{j.applicantsCount}</Text>
+                        <Users size={11} color={colors.text.primary} /><Text style={{ fontSize: tipografia.micro, color: colors.text.primary, fontWeight: peso.fuerte, marginLeft: espaciado.e3 }}>{j.applicantsCount}</Text>
                       </View>
-                      <Text style={{ fontSize: tipografia.micro, color: j.status === 'closed' ? colors.danger : colors.success, fontWeight: peso.fuerte }}>{j.status === 'closed' ? 'Cerrada' : 'Activa'}</Text>
+                      <Text style={{ fontSize: tipografia.micro, color: j.status === 'closed' ? colors.text.danger : colors.text.success, fontWeight: peso.fuerte }}>{j.status === 'closed' ? 'Cerrada' : 'Activa'}</Text>
                     </View>
                   </View>
                 </Pressable>
@@ -419,7 +419,7 @@ export default function WorkPublishScreen() {
                               {phone && (
                                 <>
                                   <MiniBtn label={`Llamar a ${a.fullName || 'candidato'}`} bg={alpha(colors.primary, 0.12)} onPress={() => openTel(phone)} disabled={appBusy === a.id}>
-                                    <Phone size={14} color={colors.primary} />
+                                    <Phone size={14} color={colors.text.primary} />
                                   </MiniBtn>
                                   <MiniBtn label={`WhatsApp a ${a.fullName || 'candidato'}`} bg={brand.whatsapp} onPress={() => openWa(phone)} disabled={appBusy === a.id}>
                                     <MessageSquare size={14} color={brand.white} />

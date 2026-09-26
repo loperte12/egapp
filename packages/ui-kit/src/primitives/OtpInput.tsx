@@ -87,7 +87,7 @@ export function OtpInput({
       />
 
       {error ? (
-        <Text style={[styles.error, { color: colors.danger }]} accessibilityLiveRegion="polite">
+        <Text style={[styles.error, { color: colors.text.danger }]} accessibilityLiveRegion="polite">
           {error}
         </Text>
       ) : null}

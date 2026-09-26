@@ -150,7 +150,7 @@ export default function EcomerseDireccionScreen() {
       </View>
 
       {cargando ? (
-        <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e32 }} />
+        <ActivityIndicator color={colors.text.primary} style={{ marginTop: espaciado.e32 }} />
       ) : (
         <ScrollView
           contentContainerStyle={[styles.form, { paddingBottom: insets.bottom + espaciado.e32 }]}

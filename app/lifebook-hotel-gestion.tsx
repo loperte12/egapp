@@ -156,7 +156,7 @@ function Contenido() {
   if (cargando) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -201,7 +201,7 @@ function Contenido() {
           {pendientes.length ? (
             <View style={{ marginTop: espaciado.e18 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e8 }}>
-                <TriangleAlert size={16} color={colors.secondary} />
+                <TriangleAlert size={16} color={colors.text.secondary} />
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginLeft: espaciado.e7 }}>
                   Te falta por completar ({pendientes.length})
                 </Text>
@@ -220,7 +220,7 @@ function Contenido() {
                       {p.porque}
                     </Text>
                   </View>
-                  <ChevronRight size={18} color={colors.secondary} />
+                  <ChevronRight size={18} color={colors.text.secondary} />
                 </Pressable>
               ))}
             </View>
@@ -241,7 +241,7 @@ function Contenido() {
           </Text>
 
           <Fila
-            icono={<BedDouble size={18} color={colors.primary} />}
+            icono={<BedDouble size={18} color={colors.text.primary} />}
             titulo="Habitaciones"
             detalle={rooms.length
               ? `${rooms.length} tipo(s) · ${publicadas} a la venta · fotos, camas, precios y señal`
@@ -249,25 +249,25 @@ function Contenido() {
             onPress={() => router.push('/lifebook-hotel-habitaciones' as never)}
           />
           <Fila
-            icono={<CalendarDays size={18} color={colors.primary} />}
+            icono={<CalendarDays size={18} color={colors.text.primary} />}
             titulo="Precios y fechas"
             detalle="Precio de temporada, estancia mínima y cerrar fechas, por habitación"
             onPress={() => router.push('/lifebook-hotel-habitaciones' as never)}
           />
           <Fila
-            icono={<ClipboardList size={18} color={colors.primary} />}
+            icono={<ClipboardList size={18} color={colors.text.primary} />}
             titulo="Ficha del hotel"
             detalle="Categoría, horario de entrada y salida, servicios, normas y formas de pago"
             onPress={() => router.push('/lifebook-hotel-perfil' as never)}
           />
           <Fila
-            icono={<Store size={18} color={colors.primary} />}
+            icono={<Store size={18} color={colors.text.primary} />}
             titulo="Ajustes de la tienda"
             detalle="Nombre, dirección, logo y portada (son de la tienda, no del alojamiento)"
             onPress={() => router.push('/lifebook-merchant-settings' as never)}
           />
           <Fila
-            icono={<Settings size={18} color={colors.primary} />}
+            icono={<Settings size={18} color={colors.text.primary} />}
             titulo="Mis publicaciones"
             detalle="Todo lo que tienes en el catálogo de Life Book, con su estado"
             onPress={() => router.push('/lifebook-merchant-products' as never)}

@@ -23,7 +23,7 @@ export default function ScannerStub() {
         <ArrowLeft size={22} color={colors.textPrimary} />
       </Pressable>
       <View style={[styles.frame, { borderColor: colors.primary, backgroundColor: alpha(colors.primary, 0.06) }]}>
-        <ScanLine size={44} color={colors.primary} />
+        <ScanLine size={44} color={colors.text.primary} />
         <Text style={[styles.title, { color: colors.textPrimary }]}>Escáner de documentos</Text>
         <Text style={[styles.note, { color: colors.textSecondary }]}>
           Apunta la cámara al documento para traducirlo a español.

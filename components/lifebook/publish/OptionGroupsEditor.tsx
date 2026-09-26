@@ -137,7 +137,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
               hitSlop={10}
               style={styles.delBtn}
             >
-              <X size={15} color={colors.danger} />
+              <X size={15} color={colors.text.danger} />
             </Pressable>
           </View>
 
@@ -175,12 +175,12 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
                       {v.imageUrl ? (
                         <Image source={absUrl(v.imageUrl)} style={styles.colorImg} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                       ) : (
-                        <Text style={{ color: colors.danger, fontSize: tipografia.minimo, fontWeight: peso.maximo, textAlign: 'center' }}>FALTA{'\n'}FOTO</Text>
+                        <Text style={{ color: colors.text.danger, fontSize: tipografia.minimo, fontWeight: peso.maximo, textAlign: 'center' }}>FALTA{'\n'}FOTO</Text>
                       )}
                     </Pressable>
                     <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.micro, fontWeight: peso.fuerte, maxWidth: 62, textAlign: 'center' }}>{v.value}</Text>
                     <Pressable onPress={() => removeOptionValue(g.code, v.value)} accessibilityLabel={`Quitar ${v.value}`} hitSlop={8}>
-                      <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: peso.maximo }}>quitar</Text>
+                      <Text style={{ color: colors.text.danger, fontSize: tipografia.micro, fontWeight: peso.maximo }}>quitar</Text>
                     </Pressable>
                   </View>
                 ))}
@@ -210,11 +210,11 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
                 accessibilityLabel={`Añadir valor a ${g.label}`}
                 style={[styles.addBtn, { borderColor: colors.primary }]}
               >
-                <Plus size={17} color={colors.primary} />
+                <Plus size={17} color={colors.text.primary} />
               </Pressable>
             </View>
             {g.kind === 'color' && g.values.some((v) => !v.imageUrl) ? (
-              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
                 Falta la foto real de ese color.
               </Text>
             ) : null}
@@ -254,7 +254,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
               accessibilityLabel="Añadir eje"
               style={[styles.addBtn, { borderColor: colors.primary }]}
             >
-              <Plus size={17} color={colors.primary} />
+              <Plus size={17} color={colors.text.primary} />
             </Pressable>
           </View>
           <View style={{ marginTop: espaciado.e6 }}>
@@ -307,7 +307,7 @@ export default function OptionGroupsEditor({ sugeridos }: { sugeridos: LbOptionS
                 style={[input, styles.comboInput]}
               />
               <Pressable onPress={() => removeVariant(i)} accessibilityLabel={`Quitar ${v.name}`} hitSlop={8} style={styles.delBtn}>
-                <X size={14} color={colors.danger} />
+                <X size={14} color={colors.text.danger} />
               </Pressable>
             </View>
           ))}

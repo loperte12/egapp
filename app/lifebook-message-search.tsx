@@ -88,15 +88,15 @@ function MessageSearchContent() {
   /** Icono y texto de cada tipo de mensaje. */
   const resumen = (m: Hit) => {
     switch (m.kind) {
-      case 'image': return { icon: <ImageIcon size={13} color={colors.primary} />, text: 'Foto' };
-      case 'file': return { icon: <Paperclip size={13} color={colors.primary} />, text: m.fileRef?.name ?? 'Archivo' };
+      case 'image': return { icon: <ImageIcon size={13} color={colors.text.primary} />, text: 'Foto' };
+      case 'file': return { icon: <Paperclip size={13} color={colors.text.primary} />, text: m.fileRef?.name ?? 'Archivo' };
       case 'post': return { icon: <Text style={{ fontSize: tipografia.caption }}>📄</Text>, text: m.postRef?.title ?? 'Nota compartida' };
       case 'sale': return { icon: <Text style={{ fontSize: tipografia.caption }}>🏷️</Text>, text: m.postRef?.title ?? 'Venta' };
-      case 'location': return { icon: <MapPin size={13} color={colors.primary} />, text: m.locationRef?.label ?? 'Ubicación' };
-      case 'vote': return { icon: <Vote size={13} color={colors.primary} />, text: m.voteRef?.question ?? 'Votación' };
+      case 'location': return { icon: <MapPin size={13} color={colors.text.primary} />, text: m.locationRef?.label ?? 'Ubicación' };
+      case 'vote': return { icon: <Vote size={13} color={colors.text.primary} />, text: m.voteRef?.question ?? 'Votación' };
       case 'checkin': return { icon: <Text style={{ fontSize: tipografia.caption }}>📅</Text>, text: m.checkinRef?.when ?? 'Quedada' };
       case 'chain': return { icon: <Text style={{ fontSize: tipografia.caption }}>🔗</Text>, text: m.chainRef?.title ?? 'Cadena' };
-      case 'ad': return { icon: <Megaphone size={13} color={colors.primary} />, text: m.adRef?.title ?? m.adRef?.text ?? 'Anuncio' };
+      case 'ad': return { icon: <Megaphone size={13} color={colors.text.primary} />, text: m.adRef?.title ?? m.adRef?.text ?? 'Anuncio' };
       default: return { icon: <Text style={{ fontSize: tipografia.caption }}>💬</Text>, text: m.body || 'Mensaje' };
     }
   };
@@ -152,14 +152,14 @@ function MessageSearchContent() {
                 borderColor: activo ? colors.primary : 'transparent',
               }]}
             >
-              <Text style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{item.label}</Text>
+              <Text style={{ color: activo ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{item.label}</Text>
             </Pressable>
           );
         }}
       />
 
       {loading ? (
-        <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e30 }} />
+        <ActivityIndicator color={colors.text.primary} style={{ marginTop: espaciado.e30 }} />
       ) : (
         <FlatList
           data={hits}
@@ -181,7 +181,7 @@ function MessageSearchContent() {
               </View>
             ) : null
           }
-          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e12 }} /> : null}
+          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e12 }} /> : null}
           renderItem={({ item }) => {
             const r = resumen(item);
             return (
@@ -194,7 +194,7 @@ function MessageSearchContent() {
                   <Image source={{ uri: absUrl(item.conversation.photoUrl) }} style={styles.hitAvatar} />
                 ) : (
                   <View style={[styles.hitAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                    <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
+                    <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                       {(item.conversation.title || '?').trim().charAt(0).toUpperCase()}
                     </Text>
                   </View>

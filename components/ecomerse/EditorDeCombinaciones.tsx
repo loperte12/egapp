@@ -530,7 +530,7 @@ export default function EditorDeCombinaciones({
       {/* Sin fotos no hay eje de color posible: el servidor exige una foto REAL del anuncio por color. */}
       {fotos.length === 0 && (
         <View style={[est.aviso, { borderColor: colors.warning, backgroundColor: alpha(colors.warning, 0.08) }]}>
-          <Text style={[est.avisoTexto, { color: colors.warning }]}>
+          <Text style={[est.avisoTexto, { color: colors.text.warning }]}>
             Este anuncio no tiene fotos, así que no puede tener un eje de <Text style={{ fontWeight: peso.fuerte }}>Color</Text>:
             cada color necesita la foto real del producto en ese color. Las fotos se cambian en «Corregir anuncio»,
             que sí vuelve a revisión.
@@ -555,7 +555,7 @@ export default function EditorDeCombinaciones({
               hitSlop={espaciado.e8}
               style={est.botonIcono}
             >
-              <X size={icono.sm} color={colors.danger} />
+              <X size={icono.sm} color={colors.text.danger} />
             </Pressable>
           </View>
 
@@ -574,12 +574,12 @@ export default function EditorDeCombinaciones({
                     {v.imageUrl ? (
                       <Image source={{ uri: v.imageUrl }} style={est.fotoColor} contentFit="cover" transition={0} />
                     ) : (
-                      <Text style={[est.faltaFoto, { color: colors.danger }]}>FALTA{'\n'}FOTO</Text>
+                      <Text style={[est.faltaFoto, { color: colors.text.danger }]}>FALTA{'\n'}FOTO</Text>
                     )}
                   </Pressable>
                   <Text numberOfLines={1} style={[est.valorColor, { color: colors.textPrimary }]}>{v.value}</Text>
                   <Pressable onPress={() => quitarValor(g.code, v.value)} accessibilityRole="button" accessibilityLabel={`Quitar ${v.value}`} hitSlop={espaciado.e8}>
-                    <Text style={[est.quitar, { color: colors.danger }]}>quitar</Text>
+                    <Text style={[est.quitar, { color: colors.text.danger }]}>quitar</Text>
                   </Pressable>
                 </View>
               ))}
@@ -622,16 +622,16 @@ export default function EditorDeCombinaciones({
               accessibilityLabel={`Añadir un valor a ${g.label}`}
               style={[est.botonMas, { borderColor: colors.primary }]}
             >
-              <Plus size={icono.md} color={colors.primary} />
+              <Plus size={icono.md} color={colors.text.primary} />
             </Pressable>
           </View>
           {!g.values.length && (
-            <Text style={[est.nota, { color: colors.warning, marginTop: espaciado.e4 }]}>
+            <Text style={[est.nota, { color: colors.text.warning, marginTop: espaciado.e4 }]}>
               Añade al menos un valor: sin valores, este eje no vale para nada.
             </Text>
           )}
           {g.kind === 'color' && g.values.some((v) => !v.imageUrl) && (
-            <Text style={[est.nota, { color: colors.danger, marginTop: espaciado.e4 }]}>
+            <Text style={[est.nota, { color: colors.text.danger, marginTop: espaciado.e4 }]}>
               Toca el cuadro para elegir la foto real de ese color.
             </Text>
           )}
@@ -651,8 +651,8 @@ export default function EditorDeCombinaciones({
                 accessibilityLabel={`Añadir el eje ${e.label}`}
                 style={[est.chip, { borderColor: colors.primary, backgroundColor: colors.card }]}
               >
-                <Plus size={icono.micro} color={colors.primary} />
-                <Text style={[est.chipTexto, { color: colors.primary }]}>{e.label}</Text>
+                <Plus size={icono.micro} color={colors.text.primary} />
+                <Text style={[est.chipTexto, { color: colors.text.primary }]}>{e.label}</Text>
               </Pressable>
             ))}
           </View>
@@ -676,7 +676,7 @@ export default function EditorDeCombinaciones({
               accessibilityLabel="Añadir el eje escrito"
               style={[est.botonMas, { borderColor: colors.primary }]}
             >
-              <Plus size={icono.md} color={colors.primary} />
+              <Plus size={icono.md} color={colors.text.primary} />
             </Pressable>
           </View>
           <View style={[est.chips, { marginTop: espaciado.e8 }]}>
@@ -694,8 +694,8 @@ export default function EditorDeCombinaciones({
                     backgroundColor: on ? alpha(colors.primary, 0.12) : colors.card,
                   }]}
                 >
-                  {on ? <Check size={icono.micro} color={colors.primary} /> : null}
-                  <Text style={[est.chipTexto, { color: on ? colors.primary : colors.textSecondary }]}>{t.label}</Text>
+                  {on ? <Check size={icono.micro} color={colors.text.primary} /> : null}
+                  <Text style={[est.chipTexto, { color: on ? colors.text.primary : colors.textSecondary }]}>{t.label}</Text>
                 </Pressable>
               );
             })}
@@ -724,7 +724,7 @@ export default function EditorDeCombinaciones({
 
           {combos.length > COMBOS_MAX && (
             <View style={[est.aviso, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.08), marginTop: espaciado.e8 }]}>
-              <Text style={[est.avisoTexto, { color: colors.danger }]}>
+              <Text style={[est.avisoTexto, { color: colors.text.danger }]}>
                 Con esos valores salen {combos.length} combinaciones y el máximo es {COMBOS_MAX}: quita algún valor.
               </Text>
             </View>
@@ -733,7 +733,7 @@ export default function EditorDeCombinaciones({
           {/* Filas que faltan: no se venden. Se dice, no se bloquea — no ofrecer todas es una decisión
               legítima («no fabrico la XL en azul»), y quitar la fila es como se dice. */}
           {sinFila > 0 && combos.length <= COMBOS_MAX && (
-            <Text style={[est.nota, { marginTop: espaciado.e8, color: colors.warning }]}>
+            <Text style={[est.nota, { marginTop: espaciado.e8, color: colors.text.warning }]}>
               {sinFila === 1 ? '1 combinación posible no tiene fila' : `${sinFila} combinaciones posibles no tienen fila`}:
               no se venden. Pulsa «Volver a generar» para añadirlas conservando lo escrito.
             </Text>
@@ -794,7 +794,7 @@ export default function EditorDeCombinaciones({
                   accessibilityLabel="Que todas hereden el precio del anuncio"
                   hitSlop={espaciado.e8}
                 >
-                  <Text style={[est.enlace, { color: colors.primary }]}>Que todas hereden el precio del anuncio</Text>
+                  <Text style={[est.enlace, { color: colors.text.primary }]}>Que todas hereden el precio del anuncio</Text>
                 </Pressable>
               )}
             </View>
@@ -839,7 +839,7 @@ export default function EditorDeCombinaciones({
                   hitSlop={espaciado.e8}
                   style={est.botonIcono}
                 >
-                  <X size={icono.sm} color={colors.danger} />
+                  <X size={icono.sm} color={colors.text.danger} />
                 </Pressable>
               </View>
             ))}
@@ -879,14 +879,14 @@ export default function EditorDeCombinaciones({
 
                 {resumen.rangoAmplio && (
                   <View style={[est.aviso, { borderColor: colors.warning, backgroundColor: alpha(colors.warning, 0.08), marginTop: espaciado.e8 }]}>
-                    <Text style={[est.avisoTexto, { color: colors.warning }]}>
+                    <Text style={[est.avisoTexto, { color: colors.text.warning }]}>
                       El precio más alto es más de {FACTOR_RANGO_AMPLIO} veces el más bajo. El comprador ve el barato en la lista
                       y al entrar se encuentra el caro: si la diferencia es tan grande, suelen ser dos anuncios.
                     </Text>
                   </View>
                 )}
                 {resumen.agotadas > 0 && (
-                  <Text style={[est.nota, { marginTop: espaciado.e8, color: colors.warning }]}>
+                  <Text style={[est.nota, { marginTop: espaciado.e8, color: colors.text.warning }]}>
                     {resumen.agotadas === 1 ? '1 combinación se queda sin unidades' : `${resumen.agotadas} combinaciones se quedan sin unidades`}:
                     el comprador las verá como «agotado». Si no vas a reponerlas, quítales la fila y no aparecerán.
                   </Text>
@@ -948,7 +948,7 @@ export default function EditorDeCombinaciones({
             </View>
           </ScrollView>
         ) : (
-          <Text style={[est.nota, { marginTop: espaciado.e12, color: colors.danger }]}>
+          <Text style={[est.nota, { marginTop: espaciado.e12, color: colors.text.danger }]}>
             Este anuncio todavía no tiene fotos. Añádelas en «Corregir anuncio» y vuelve aquí.
           </Text>
         )}

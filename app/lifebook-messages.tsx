@@ -129,7 +129,7 @@ function MessagesContent() {
         </Pressable>
         {/* Parte 27 (G3): descubrir grupos públicos y unirse */}
         <Pressable hitSlop={8} accessibilityLabel="Descubrir grupos" onPress={() => irSeguro.libre('/lifebook-groups')}>
-          <Compass size={20} color={colors.primary} />
+          <Compass size={20} color={colors.text.primary} />
         </Pressable>
         <Pressable hitSlop={8} accessibilityLabel="Añadir amigo" onPress={() => setSheet('friend')}>
           <UserPlus size={20} color={colors.textPrimary} />
@@ -180,7 +180,7 @@ function MessagesContent() {
               backgroundColor: colors.surface,
               alignItems: 'center', justifyContent: 'center',
             }}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.cifra, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.cifra, fontWeight: peso.titulo }}>
                 {(yo?.fullName?.trim()?.charAt(0) ?? '?').toUpperCase()}
               </Text>
             </View>
@@ -231,13 +231,13 @@ function MessagesContent() {
       {/* Lista */}
       {convs === null && !error ? (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <ActivityIndicator color={colors.primary} />
+          <ActivityIndicator color={colors.text.primary} />
         </View>
       ) : error && !convs ? (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12, padding: espaciado.e24 }}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
           <Pressable onPress={load} style={{ backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e9 }}>
-            <Text style={{ color: colors.primary, fontWeight: peso.maximo }}>Reintentar</Text>
+            <Text style={{ color: colors.text.primary, fontWeight: peso.maximo }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -262,7 +262,7 @@ function MessagesContent() {
           }}
           ListEmptyComponent={
             <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 70, gap: espaciado.e8 }}>
-              <MessageCircle size={40} color={alpha(colors.primary, 0.45)} />
+              <MessageCircle size={40} color={alpha(colors.text.primary, 0.45)} />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>
                 {filter === 'unread' ? 'No tienes mensajes sin leer.'
               : filter === 'chats' ? 'No tienes conversaciones de uno a uno.'
@@ -345,7 +345,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
     <Image source={{ uri: card.avatarUrl }} style={styles.convoAvatar} />
   ) : (
     <View style={[styles.convoAvatar, styles.avatarFallback, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-      <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>
+      <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>
         {card.name.trim().charAt(0).toUpperCase()}
       </Text>
     </View>
@@ -374,7 +374,7 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
           </Text>
           {card.isGroup ? (
             <View style={[styles.groupChip, { backgroundColor: alpha(colors.primary, 0.12) }]}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.nota, fontWeight: peso.fuerte }}>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.nota, fontWeight: peso.fuerte }}>
                 👥 {card.memberCount ?? 0}
               </Text>
             </View>

@@ -252,7 +252,7 @@ export default function AlquilerPublicarScreen() {
   if (loadingLandlord) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', paddingTop: insets.top }}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={colors.text.primary} />
         <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: peso.fuerte }}>Cargando tus datos…</Text>
       </View>
     );
@@ -273,7 +273,7 @@ export default function AlquilerPublicarScreen() {
 
       {landlordError && !landlord ? (
         <View style={{ alignItems: 'center', paddingVertical: 50, paddingHorizontal: espaciado.e24 }}>
-          <Text style={{ color: colors.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>No se pudieron cargar tus datos.</Text>
+          <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>No se pudieron cargar tus datos.</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e14 }}>{landlordError}</Text>
           <Pressable onPress={() => void loadLandlord()} accessibilityRole="button" accessibilityLabel="Reintentar"
             style={({ pressed }) => [{ paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e10, borderRadius: radios.chip, backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
@@ -286,7 +286,7 @@ export default function AlquilerPublicarScreen() {
           <View style={[s.planBanner, { backgroundColor: colors.textPrimary }]}>
             <View style={{ flex: 1 }}>
               <Text style={{ color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte }}>Plan actual: {planLabel}</Text>
-              <Text style={{ color: neutro.n600, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
+              <Text style={{ color: colors.text.neutral, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                 {activeProps}/{plan.properties} propiedades · {photos.length}/{plan.photos} fotos
                 {landlord?.verificationLevel ? ` · Nivel ${landlord.verificationLevel}` : ''}
               </Text>
@@ -305,7 +305,7 @@ export default function AlquilerPublicarScreen() {
 
           {approved && atPlanLimit && (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), padding: espaciado.e12, borderRadius: radios.chip, marginBottom: espaciado.e14 }}>
-              <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.medio, lineHeight: 17 }}>
+              <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.text.danger, fontWeight: peso.medio, lineHeight: 17 }}>
                 Has alcanzado el límite de tu plan ({plan.properties} anuncio(s) activos). Cierra alguno o mejora tu plan para seguir publicando.
               </Text>
             </View>
@@ -337,11 +337,11 @@ export default function AlquilerPublicarScreen() {
                           <Image source={{ uri: llDocPhoto }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                         </View>
                         <View style={{ flex: 1 }}>
-                          <Text style={{ fontSize: tipografia.caption, color: colors.success, fontWeight: peso.fuerte }}>Documento adjunto</Text>
+                          <Text style={{ fontSize: tipografia.caption, color: colors.text.success, fontWeight: peso.fuerte }}>Documento adjunto</Text>
                           <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>~{b64SizeKB(llDocPhoto)} KB</Text>
                         </View>
                         <GhostButton title="Cambiar" onPress={() => void pickDocPhoto()} />
-                        <Pressable onPress={() => setLlDocPhoto(null)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Quitar documento"><X size={18} color={colors.danger} /></Pressable>
+                        <Pressable onPress={() => setLlDocPhoto(null)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Quitar documento"><X size={18} color={colors.text.danger} /></Pressable>
                       </View>
                     ) : (
                       <Pressable
@@ -349,7 +349,7 @@ export default function AlquilerPublicarScreen() {
                         accessibilityRole="button" accessibilityLabel="Subir foto del documento"
                         style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: colors.surface, padding: espaciado.e14, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: colors.border, opacity: pressed ? 0.85 : 1 }]}
                       >
-                        <ImageIcon size={18} color={colors.primary} /><Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: peso.medio }}>Subir foto del documento</Text>
+                        <ImageIcon size={18} color={colors.text.primary} /><Text style={{ fontSize: tipografia.body, color: colors.text.primary, fontWeight: peso.medio }}>Subir foto del documento</Text>
                       </Pressable>
                     )}
                     <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Máx. ~{MAX_PHOTO_B64_KB} KB (se comprime al elegirla).</Text>
@@ -443,13 +443,13 @@ export default function AlquilerPublicarScreen() {
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   {coords ? (
-                    <Text style={{ fontSize: tipografia.micro, color: colors.success, fontWeight: peso.fuerte }}>Punto fijado ✓</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.text.success, fontWeight: peso.fuerte }}>Punto fijado ✓</Text>
                   ) : (
                     <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Sin punto (usará el barrio)</Text>
                   )}
                   {coords && (
                     <Pressable onPress={() => setCoords(null)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Quitar el punto del mapa">
-                      <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.fuerte }}>Quitar punto</Text>
+                      <Text style={{ fontSize: tipografia.micro, color: colors.text.danger, fontWeight: peso.fuerte }}>Quitar punto</Text>
                     </Pressable>
                   )}
                 </View>
@@ -549,7 +549,7 @@ export default function AlquilerPublicarScreen() {
                           {p.location.neighborhood}, {p.location.cityName} · {p.price.monthlyRent ? formatXAF(p.price.monthlyRent) + '/mes' : formatXAF(p.price.pricePerNight) + '/noche'}
                         </Text>
                       </View>
-                      <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: p.status === 'closed' ? colors.danger : colors.success }}>{p.status === 'closed' ? 'Cerrado' : 'Activo'}</Text>
+                      <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: p.status === 'closed' ? colors.text.danger : colors.text.success }}>{p.status === 'closed' ? 'Cerrado' : 'Activo'}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e10, borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingTop: espaciado.e10, alignItems: 'center' }}>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>👁 {p.viewsCount} vistas</Text>
@@ -557,7 +557,7 @@ export default function AlquilerPublicarScreen() {
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>📞 {p.contactClicks} contactos</Text>
                       {p.status !== 'closed' && (
                         <Pressable onPress={() => closeProp(p.id)} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Cerrar anuncio ${p.title}`} style={{ marginLeft: 'auto' }}>
-                          {closingId === p.id ? <ActivityIndicator size="small" color={colors.danger} /> : <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.fuerte }}>Cerrar</Text>}
+                          {closingId === p.id ? <ActivityIndicator size="small" color={colors.text.danger} /> : <Text style={{ fontSize: tipografia.micro, color: colors.text.danger, fontWeight: peso.fuerte }}>Cerrar</Text>}
                         </Pressable>
                       )}
                     </View>

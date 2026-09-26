@@ -388,7 +388,7 @@ export default function EcomerseScreen() {
           />
           <Pressable onPress={searchByPhoto} hitSlop={10} disabled={imageBusy} accessibilityRole="button"
             accessibilityLabel="Buscar por foto">
-            {imageBusy ? <ActivityIndicator size="small" color={colors.primary} /> : <Camera size={18} color={colors.primary} />}
+            {imageBusy ? <ActivityIndicator size="small" color={colors.text.primary} /> : <Camera size={18} color={colors.text.primary} />}
           </Pressable>
         </View>
         <View style={s.headerActions}>
@@ -410,7 +410,7 @@ export default function EcomerseScreen() {
               tener que adivinar si «tienda» es la tuya o las de todos: ahora son las dos, cada una
               en su fila. */}
           <Pressable onPress={() => router.push('/ecomerse-tiendas' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Tiendas">
-            <Store size={20} color={colors.primary} />
+            <Store size={20} color={colors.text.primary} />
           </Pressable>
         </View>
       </View>
@@ -542,7 +542,7 @@ export default function EcomerseScreen() {
                enseña el vacío. El vacío, además, ahora es el del kit. */
             imageBusy ? (
               <View style={{ alignItems: 'center', paddingTop: 48 }}>
-                <ActivityIndicator color={colors.primary} />
+                <ActivityIndicator color={colors.text.primary} />
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e10 }}>Buscando productos parecidos…</Text>
               </View>
             ) : imageError ? (
@@ -691,7 +691,7 @@ function Pestana({ label, emoji, activa, onPress, colors }: {
   return (
     <Pressable onPress={onPress} hitSlop={6} accessibilityRole="tab"
       accessibilityState={{ selected: activa }} accessibilityLabel={label} style={s_home.pestana}>
-      <Text numberOfLines={1} style={[s_home.pestanaTexto, { color: activa ? colors.primary : colors.textSecondary }]}>
+      <Text numberOfLines={1} style={[s_home.pestanaTexto, { color: activa ? colors.text.primary : colors.textSecondary }]}>
         {emoji ? `${emoji} ` : ''}{label}
       </Text>
       {/* El subrayado se pinta SIEMPRE (transparente cuando no toca) y no condicionalmente: así la
@@ -765,7 +765,7 @@ function RejillaFamilias({ familias, activeId, onPick }: {
               />
             ) : null}
             <Text numberOfLines={LINEAS_ROTULO} ellipsizeMode="tail"
-              style={[s_home.celdaRotulo, { color: on ? colors.primary : colors.textPrimary }]}>{f.label}</Text>
+              style={[s_home.celdaRotulo, { color: on ? colors.text.primary : colors.textPrimary }]}>{f.label}</Text>
           </Pressable>
         );
       })}

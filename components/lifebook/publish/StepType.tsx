@@ -93,7 +93,7 @@ export default function StepType({ categories }: { categories: LbCategory[] }) {
                 ))}
               </ChipRow>
               {sub ? (
-                <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
+                <Text style={{ color: colors.text.success, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
                   Elegida: {sub.name}
                 </Text>
               ) : null}

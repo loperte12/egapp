@@ -103,7 +103,7 @@ export function VideoCoverSheet({
           onPress={() => undefined}
         >
           <View style={s.head}>
-            <Clapperboard size={18} color={colors.primary} />
+            <Clapperboard size={18} color={colors.text.primary} />
             <Text style={[s.title, { color: colors.textPrimary }]}>Portada del vídeo</Text>
             <Pressable onPress={onClose} hitSlop={12} accessibilityRole="button" accessibilityLabel="Cerrar">
               <X size={20} color={colors.textPrimary} />
@@ -112,14 +112,14 @@ export function VideoCoverSheet({
 
           {loading ? (
             <View style={s.center}>
-              <ActivityIndicator color={colors.primary} />
+              <ActivityIndicator color={colors.text.primary} />
               <Text style={[s.hint, { color: colors.textSecondary, marginTop: espaciado.e10 }]}>
                 Extrayendo fotogramas del vídeo…
               </Text>
             </View>
           ) : error ? (
             <View style={[s.errorBox, { backgroundColor: alpha(colors.danger, 0.08), borderColor: alpha(colors.danger, 0.25) }]}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, lineHeight: 18 }}>{error}</Text>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, lineHeight: 18 }}>{error}</Text>
             </View>
           ) : frames.length === 0 ? (
             <View style={s.center}>

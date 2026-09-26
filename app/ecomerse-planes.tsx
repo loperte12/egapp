@@ -203,7 +203,7 @@ export default function EcomersePlanesScreen() {
             {isPro && (plan?.freeFeaturedLeft ?? 0) > 0 ? ` · ⭐ ${plan.freeFeaturedLeft} destacado gratis este mes` : ''}
           </Text>
           {nearLimit && (
-            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: brand.secondary, marginTop: espaciado.e4 }}>
+            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.text.secondary, marginTop: espaciado.e4 }}>
               Estás al {Math.round((quotaUsed / quotaLimit) * 100)}% del límite: sube de plan para seguir publicando.
             </Text>
           )}
@@ -245,7 +245,7 @@ export default function EcomersePlanesScreen() {
                     ✓ Incluida · {quota} publicaciones
                   </Text>
                 ) : current ? (
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.primary, marginTop: espaciado.e10 }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary, marginTop: espaciado.e10 }}>
                     ✓ Plan actual{expiresTxt ? ` · renueva ${expiresTxt}` : ''}
                   </Text>
                 ) : (
@@ -308,7 +308,7 @@ export default function EcomersePlanesScreen() {
             <Pressable onPress={useFree} disabled={busyFree} accessibilityRole="button"
               accessibilityLabel={`Usar ${plan?.freeFeaturedLeft} destacado gratis en ${selected.title}`}
               style={[s.freeBtn, { backgroundColor: alpha(brand.secondary, 0.12), borderColor: brand.secondary }]}>
-              <Text style={{ color: brand.secondary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>
                 ⭐ Usar {plan?.freeFeaturedLeft} destacado incluido (7 días, sin coste){busyFree ? '…' : ''}
               </Text>
             </Pressable>
@@ -353,7 +353,7 @@ function FeatureRow({ ok, label }: { ok: boolean; label: string }) {
   const { colors } = useTheme();
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e3 }}>
-      {ok ? <Check size={14} color={brand.success} /> : <X size={14} color={neutro.n400} />}
+      {ok ? <Check size={14} color={colors.text.success} /> : <X size={14} color={neutro.n400} />}
       <Text style={{ fontSize: tipografia.caption, color: ok ? colors.textPrimary : colors.textSecondary, marginLeft: espaciado.e7, flex: 1 }}>{label}</Text>
     </View>
   );

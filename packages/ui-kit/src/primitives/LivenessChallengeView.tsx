@@ -67,9 +67,9 @@ export function LivenessChallengeView({
         ]}
       >
         {done ? (
-          <CheckCircle2 size={44} color={colors.success} strokeWidth={trazoIcono.fino} />
+          <CheckCircle2 size={44} color={colors.text.success} strokeWidth={trazoIcono.fino} />
         ) : (
-          <ui.Icon size={44} color={capturing ? colors.secondary : colors.primary} strokeWidth={trazoIcono.fino} />
+          <ui.Icon size={44} color={capturing ? colors.text.secondary : colors.text.primary} strokeWidth={trazoIcono.fino} />
         )}
       </View>
 

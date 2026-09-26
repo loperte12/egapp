@@ -118,7 +118,7 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
       <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={onClose} />
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
-          <Megaphone size={18} color={colors.primary} />
+          <Megaphone size={18} color={colors.text.primary} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             Anuncio del grupo
           </Text>
@@ -175,10 +175,10 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
               }]}
             >
               {uploading
-                ? <ActivityIndicator size="small" color={colors.primary} />
+                ? <ActivityIndicator size="small" color={colors.text.primary} />
                 : photo
                   ? <Image source={{ uri: photo }} style={styles.thumb} />
-                  : <><ImagePlus size={16} color={colors.primary} /><Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginLeft: espaciado.e6 }}>Foto</Text></>}
+                  : <><ImagePlus size={16} color={colors.text.primary} /><Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginLeft: espaciado.e6 }}>Foto</Text></>}
             </Pressable>
           </View>
 
@@ -196,14 +196,14 @@ export function AdSheet({ visible, onClose, onSubmit }: Props) {
                     borderColor: active ? colors.primary : 'transparent',
                   }]}
                 >
-                  <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{l.label}</Text>
+                  <Text style={{ color: active ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{l.label}</Text>
                 </Pressable>
               );
             })}
           </View>
         </ScrollView>
 
-        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
+        {error ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
 
         <Pressable
           onPress={submit}

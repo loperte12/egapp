@@ -56,11 +56,11 @@ export function InlineError({
           : { backgroundColor: alpha(colors.danger, 0.08), borderColor: alpha(colors.danger, 0.3) },
       ]}
     >
-      <AlertTriangle size={16} color={sobreOscuro ? brand.warning : colors.danger} />
+      <AlertTriangle size={16} color={sobreOscuro ? colors.text.warning : colors.text.danger} />
       <Text style={{ flex: 1, color: sobreOscuro ? brand.white : colors.textPrimary, fontSize: 13.5, lineHeight: 19 }}>{mensaje}</Text>
       {onReintentar ? (
         <Pressable onPress={onReintentar} hitSlop={8} accessibilityRole="button">
-          <Text style={{ color: sobreOscuro ? brand.white : colors.primary, fontSize: 13.5, fontWeight: '800' }}>{etiquetaReintento}</Text>
+          <Text style={{ color: sobreOscuro ? brand.white : colors.text.primary, fontSize: 13.5, fontWeight: '800' }}>{etiquetaReintento}</Text>
         </Pressable>
       ) : null}
     </View>

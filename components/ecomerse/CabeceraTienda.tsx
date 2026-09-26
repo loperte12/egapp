@@ -59,14 +59,14 @@ export function CabeceraTienda({ seller, anuncios, onPress, onLlamar }: Cabecera
   const contenido = (
     <>
       <View style={[s.avatar, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-        <Text style={[s.inicial, { color: colors.primary }]}>{nombre.charAt(0).toUpperCase()}</Text>
+        <Text style={[s.inicial, { color: colors.text.primary }]}>{nombre.charAt(0).toUpperCase()}</Text>
       </View>
 
       <View style={s.textos}>
         <View style={s.filaNombre}>
           <Text style={s.nombre} numberOfLines={1}>{nombre}</Text>
           {pro && <View style={s.tagPro}><Text style={s.tagProText}>PRO</Text></View>}
-          {verificado && <ShieldCheck size={13} color={brand.success} />}
+          {verificado && <ShieldCheck size={13} color={colors.text.success} />}
         </View>
         <Text style={s.meta}>
           {ratingCount > 0 && Number.isFinite(ratingAvg)
@@ -89,7 +89,7 @@ export function CabeceraTienda({ seller, anuncios, onPress, onLlamar }: Cabecera
           accessibilityLabel="Llamar al vendedor"
           style={[s.redondo, { backgroundColor: alpha(colors.primary, 0.1) }]}
         >
-          <Phone size={16} color={colors.primary} />
+          <Phone size={16} color={colors.text.primary} />
         </Pressable>
       )}
 

@@ -129,7 +129,7 @@ export function BotonPreguntarTienda({ sellerId, productId, nombre, telefono, st
       style={({ pressed }) => [s.caja, style, { backgroundColor: colors.surface, opacity: pressed ? 0.75 : 1 }]}
     >
       <View style={[s.icono, { backgroundColor: alpha(colors.primary, 0.12) }]}>
-        <MessageCircle size={icono.sm} color={colors.primary} />
+        <MessageCircle size={icono.sm} color={colors.text.primary} />
       </View>
       <View style={s.textos}>
         <Text style={[s.titulo, { color: colors.textPrimary }]}>
@@ -140,7 +140,7 @@ export function BotonPreguntarTienda({ sellerId, productId, nombre, telefono, st
         </Text>
       </View>
       {abriendo ? (
-        <ActivityIndicator size="small" color={colors.primary} />
+        <ActivityIndicator size="small" color={colors.text.primary} />
       ) : (
         <ChevronRight size={icono.sm} color={colors.textSecondary} />
       )}

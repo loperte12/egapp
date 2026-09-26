@@ -178,17 +178,17 @@ function Contenido() {
           accessibilityLabel="Ver todas las reservas"
           style={[styles.cambiar, { borderColor: colors.border }]}
         >
-          <Text style={[styles.cambiarTxt, { color: colors.primary }]}>Todas</Text>
+          <Text style={[styles.cambiarTxt, { color: colors.text.primary }]}>Todas</Text>
         </Pressable>
       </View>
 
       {cargando ? (
-        <View style={styles.centro}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.centro}><ActivityIndicator color={colors.text.primary} /></View>
       ) : error && !dash ? (
         <View style={[styles.aviso, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
           <Pressable onPress={() => void cargar()} accessibilityRole="button" accessibilityLabel="Reintentar">
-            <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
+            <Text style={[styles.enlace, { color: colors.text.primary }]}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -254,7 +254,7 @@ function Contenido() {
             style={[styles.puente, { borderColor: colors.border, backgroundColor: colors.card }]}
           >
             <View style={[styles.puenteIcono, { backgroundColor: alpha(colors.primary, 0.12) }]}>
-              <Settings size={17} color={colors.primary} />
+              <Settings size={17} color={colors.text.primary} />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Gestión</Text>
@@ -288,13 +288,13 @@ function Contenido() {
                     El número de ocupadas se queda alineado a la derecha en la misma fila.
                   */}
                   <Text style={[styles.lineaEtq, { color: colors.textPrimary }]} numberOfLines={2}>{o.name}</Text>
-                  <Text style={[styles.lineaVal, { color: o.free === 0 ? colors.danger : colors.success }]}>
+                  <Text style={[styles.lineaVal, { color: o.free === 0 ? colors.text.danger : colors.text.success }]}>
                     {o.occupied}/{o.totalUnits} ocupadas · {o.free} libres
                   </Text>
                 </View>
               ))}
               {dash.depositDue > 0 ? (
-                <Text style={[styles.avisoTxt, { color: colors.secondary }]}>
+                <Text style={[styles.avisoTxt, { color: colors.text.secondary }]}>
                   {dash.depositDue} reserva(s) con señal pendiente de cobro
                 </Text>
               ) : null}
@@ -372,17 +372,17 @@ function Tarjeta({
           <>
             <View style={styles.linea}>
               <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Señal ({r.depositPercent} %)</Text>
-              <Precio valor={r.depositXaf} tamano="md" color={colors.primary} />
+              <Precio valor={r.depositXaf} tamano="md" color={colors.text.primary} />
             </View>
             <View style={styles.linea}>
               <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Al llegar</Text>
-              <Precio valor={r.remainingXaf} tamano="md" color={colors.secondary} />
+              <Precio valor={r.remainingXaf} tamano="md" color={colors.text.secondary} />
             </View>
           </>
         ) : (
           <View style={styles.linea}>
             <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Se paga al llegar</Text>
-            <Precio valor={r.totalXaf} tamano="md" color={colors.secondary} />
+            <Precio valor={r.totalXaf} tamano="md" color={colors.text.secondary} />
           </View>
         )}
         <View style={styles.linea}>
@@ -395,7 +395,7 @@ function Tarjeta({
       </View>
 
       {r.status === 'hold' && r.holdExpiresAt ? (
-        <Text style={[styles.avisoTxt, { color: colors.danger }]}>
+        <Text style={[styles.avisoTxt, { color: colors.text.danger }]}>
           ⏳ Retenida {countdown(r.holdExpiresAt)} sin pagar la señal. Si no se paga, se libera sola.
         </Text>
       ) : null}
@@ -444,7 +444,7 @@ function Tarjeta({
                   ocupado ? { opacity: 0.5 } : null,
                 ]}
               >
-                <Text style={[styles.accionTxt, { color: destructivo ? colors.danger : colors.primary }]}>
+                <Text style={[styles.accionTxt, { color: destructivo ? colors.text.danger : colors.text.primary }]}>
                   {spec.label}
                 </Text>
               </Pressable>

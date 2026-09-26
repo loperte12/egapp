@@ -62,7 +62,7 @@ export function AvatarsSeguidos({ gente, colors, onOpen }: {
                   backgroundColor: alpha(colors.primary, 0.16),
                   alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.cifra }}>{inicial}</Text>
+                  <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.cifra }}>{inicial}</Text>
                 </View>
               )}
               <Text

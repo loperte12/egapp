@@ -64,7 +64,7 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
           <View style={{ height: 4, width: 44, borderRadius: radios.full, backgroundColor: alpha(colors.textPrimary, 0.14), alignSelf: 'center', marginTop: espaciado.e10 }} />
 
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e12, paddingBottom: espaciado.e6 }}>
-            <ShoppingCart size={18} color={colors.primary} />
+            <ShoppingCart size={18} color={colors.text.primary} />
             <Text style={{ fontSize: tipografia.ancho, fontWeight: peso.titulo, color: colors.textPrimary, flex: 1 }}>Confirmar pedido</Text>
             <Pressable onPress={onClose} hitSlop={10} accessibilityLabel="Cerrar pedido"
               style={{ width: 32, height: 32, borderRadius: radios.lg, backgroundColor: alpha(colors.textPrimary, 0.07), alignItems: 'center', justifyContent: 'center' }}>
@@ -74,7 +74,7 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
 
           <View style={{ paddingHorizontal: espaciado.e16, paddingTop: espaciado.e6 }}>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
-              Vas a pedir este artículo por <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>{lbXaf(priceXaf)}</Text>
+              Vas a pedir este artículo por <Text style={{ color: colors.text.primary, fontWeight: peso.titulo }}>{lbXaf(priceXaf)}</Text>
               {negotiable ? ' · el precio es negociable' : ''}
             </Text>
 
@@ -103,7 +103,7 @@ export function OrderSheet({ visible, onClose, postId, priceXaf, negotiable, onC
               style={[styles.input, styles.area, { backgroundColor: colors.surface, color: colors.textPrimary, borderColor: colors.border }]}
             />
 
-            {err ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>{err}</Text> : null}
+            {err ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>{err}</Text> : null}
 
             <Pressable
               onPress={confirm}

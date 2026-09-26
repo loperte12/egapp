@@ -99,21 +99,21 @@ export default function LocationModal({
                       accessibilityLabel={city.name}
                       accessibilityHint={`Provincia ${sec.region}. Toca para seleccionar`}
                       accessibilityState={{ selected: active }}
-                      android_ripple={{ color: alpha(colors.primary, 0.1), borderless: false, foreground: true }}
+                      android_ripple={{ color: alpha(colors.text.primary, 0.1), borderless: false, foreground: true }}
                       style={({ pressed }) => [
                         styles.row,
                         { backgroundColor: pressed ? alpha(colors.primary, 0.06) : active ? alpha(colors.primary, 0.04) : 'transparent' },
                       ]}
                     >
                       <View style={[styles.pinWrap, { backgroundColor: active ? alpha(colors.primary, 0.15) : alpha(colors.primary, 0.08) }]}>
-                        <MapPin size={16} color={active ? colors.primary : colors.textSecondary} />
+                        <MapPin size={16} color={active ? colors.text.primary : colors.textSecondary} />
                       </View>
                       <View style={styles.rowText}>
-                        <Text style={[styles.cityName, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? peso.maximo : peso.fuerte }]}>
+                        <Text style={[styles.cityName, { color: active ? colors.text.primary : colors.textPrimary, fontWeight: active ? peso.maximo : peso.fuerte }]}>
                           {city.name}
                         </Text>
                       </View>
-                      {active && <Check size={18} color={colors.primary} />}
+                      {active && <Check size={18} color={colors.text.primary} />}
                     </Pressable>
                   );
                 })}

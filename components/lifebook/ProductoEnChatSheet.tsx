@@ -130,7 +130,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
         </View>
 
         {cargando ? (
-          <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
+          <View style={styles.center}><ActivityIndicator color={colors.text.primary} /></View>
         ) : error ? (
           <View style={styles.center}>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingHorizontal: espaciado.e30 }}>{error}</Text>
@@ -147,7 +147,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
               />
             ) : (
               <View style={{ height: expandido ? 90 : 150, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.08) }}>
-                <ShoppingCart size={26} color={alpha(colors.primary, 0.5)} />
+                <ShoppingCart size={26} color={alpha(colors.text.primary, 0.5)} />
               </View>
             )}
 
@@ -160,7 +160,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                   {producto.shortDescription}
                 </Text>
               ) : null}
-              <Text style={{ color: colors.primary, fontSize: tipografia.cifra, fontWeight: peso.titulo, marginTop: espaciado.e6 }}>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.cifra, fontWeight: peso.titulo, marginTop: espaciado.e6 }}>
                 {lbPriceLabel(precioUnitario, producto.priceMode, lbXaf)}
                 {cantidad > 1 && precioUnitario !== null ? (
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
@@ -197,7 +197,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                           backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface,
                         }]}
                       >
-                        <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+                        <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                           {v.name}{v.priceXaf !== null && v.priceXaf !== undefined ? ` · ${lbXaf(v.priceXaf)}` : ''}
                         </Text>
                       </Pressable>
@@ -242,7 +242,7 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
                 </View>
                 <View style={[styles.linea, { marginTop: espaciado.e4 }]}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Total a pagar</Text>
-                  <Text style={{ color: colors.primary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo }}>{total === null ? 'A consultar' : lbXaf(total)}</Text>
+                  <Text style={{ color: colors.text.primary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo }}>{total === null ? 'A consultar' : lbXaf(total)}</Text>
                 </View>
                 <Pressable
                   onPress={() => {
@@ -282,8 +282,8 @@ export function ProductoEnChatSheet({ productId, visible, onClose, onAnadido, co
               accessibilityLabel="Añadir al carrito"
               style={[styles.accionSec, { borderColor: colors.primary }]}
             >
-              {ocupado ? <ActivityIndicator size="small" color={colors.primary} /> : (
-                <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Añadir al carrito</Text>
+              {ocupado ? <ActivityIndicator size="small" color={colors.text.primary} /> : (
+                <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Añadir al carrito</Text>
               )}
             </Pressable>
             <Pressable

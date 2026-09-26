@@ -103,7 +103,7 @@ export default function EcomerseDocsScreen() {
       </Text>
 
       {loading ? (
-        <View style={s.centro}><ActivityIndicator color={colors.primary} /></View>
+        <View style={s.centro}><ActivityIndicator color={colors.text.primary} /></View>
       ) : error ? (
         <View style={{ padding: espaciado.e16 }}>
           <InlineError mensaje={error} onReintentar={load} />
@@ -149,8 +149,8 @@ export default function EcomerseDocsScreen() {
                 accessibilityLabel="Ver el documento"
                 style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e10 }}
               >
-                <ExternalLink size={14} color={colors.primary} />
-                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.primary }}>Ver el documento</Text>
+                <ExternalLink size={14} color={colors.text.primary} />
+                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary }}>Ver el documento</Text>
               </Pressable>
 
               <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e12 }}>
@@ -176,8 +176,8 @@ export default function EcomerseDocsScreen() {
                     accessibilityLabel={`Rechazar ${DOC_LABEL[item.docType] ?? item.docType}`}
                     style={[s.btn, { borderWidth: trazo.fino, borderColor: colors.danger }]}
                   >
-                    <XCircle size={15} color={colors.danger} />
-                    <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Rechazar</Text>
+                    <XCircle size={15} color={colors.text.danger} />
+                    <Text style={{ color: colors.text.danger, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Rechazar</Text>
                   </Pressable>
                 </View>
               </View>

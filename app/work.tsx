@@ -89,10 +89,10 @@ export default function WorkScreen() {
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }}>
           <Pressable onPress={() => router.push('/work-planes' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Mejorar plan">
-            <Crown size={20} color={colors.primary} />
+            <Crown size={20} color={colors.text.primary} />
           </Pressable>
           <Pressable onPress={() => router.push('/work-publish' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Publicar oferta">
-            <Plus size={22} color={colors.primary} />
+            <Plus size={22} color={colors.text.primary} />
           </Pressable>
         </View>
       </View>
@@ -104,13 +104,13 @@ export default function WorkScreen() {
       {/* Filtros activos */}
       {chips.length > 0 && (
         <View style={{ paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e6 }}>
-          <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: colors.primary, marginBottom: espaciado.e6 }}>Filtros activos ({chips.length})</Text>
+          <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: colors.text.primary, marginBottom: espaciado.e6 }}>Filtros activos ({chips.length})</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {chips.map((c, i) => (
               <Pressable key={`${c.label}-${i}`} onPress={c.remove} accessibilityRole="button" accessibilityLabel={`Quitar filtro ${c.label}`}
                 style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: radios.campo, borderWidth: trazo.fino, borderColor: colors.primary, marginRight: espaciado.e6 }}>
-                <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.medio }}>{c.label}</Text>
-                <X size={12} color={colors.primary} style={{ marginLeft: espaciado.e4 }} />
+                <Text style={{ fontSize: tipografia.micro, color: colors.text.primary, fontWeight: peso.medio }}>{c.label}</Text>
+                <X size={12} color={colors.text.primary} style={{ marginLeft: espaciado.e4 }} />
               </Pressable>
             ))}
           </ScrollView>
@@ -151,7 +151,7 @@ export default function WorkScreen() {
           !loading && !error && shown.length > 0 && visibleCount < sorted.length ? (
             <Pressable onPress={loadMore} accessibilityRole="button" accessibilityLabel="Cargar más ofertas"
               style={{ paddingVertical: espaciado.e14, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, borderRadius: radios.chip, backgroundColor: colors.surface, alignItems: 'center' }}>
-              <Text style={{ fontSize: tipografia.caption, color: colors.primary, fontWeight: peso.fuerte }}>Cargar más ofertas</Text>
+              <Text style={{ fontSize: tipografia.caption, color: colors.text.primary, fontWeight: peso.fuerte }}>Cargar más ofertas</Text>
             </Pressable>
           ) : !loading && !error && sorted.length > PAGE_SIZE && visibleCount >= sorted.length ? (
             <Text style={{ textAlign: 'center', fontSize: tipografia.micro, color: colors.textSecondary, paddingVertical: espaciado.e18 }}>Has visto todas las ofertas 🎉</Text>

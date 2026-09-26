@@ -14,7 +14,6 @@ import { EmptyState, espaciado, peso, Precio, radios, tipografia, trazo, useThem
 import { useSession } from '../state/session';
 import { taxiApi, TripHistoryItem } from '../api/taxi';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { brand } from '@egrouteplan/ui-kit';
 
 const xaf = (n?: string | number | null) => {
   const v = Number(n ?? 0);
@@ -63,12 +62,12 @@ export default function TripsHistoryScreen() {
       </View>
 
       {loading ? (
-        <View style={s.center}><ActivityIndicator color={colors.primary} /></View>
+        <View style={s.center}><ActivityIndicator color={colors.text.primary} /></View>
       ) : error ? (
         <View style={[s.center, { gap: espaciado.e10 }]}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
           <Pressable onPress={load} style={[s.retry, { borderColor: colors.border }]}>
-            <Text style={{ color: colors.primary, fontWeight: peso.maximo }}>Reintentar</Text>
+            <Text style={{ color: colors.text.primary, fontWeight: peso.maximo }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -100,8 +99,8 @@ export default function TripsHistoryScreen() {
             return (
               <View style={[s.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
-                  {done ? <CarTaxiFront size={16} color={brand.success} /> : <XCircle size={16} color={brand.danger} />}
-                  <Text style={{ color: done ? brand.success : brand.danger, fontWeight: peso.titulo, fontSize: tipografia.body, flex: 1 }}>
+                  {done ? <CarTaxiFront size={16} color={colors.text.success} /> : <XCircle size={16} color={colors.text.danger} />}
+                  <Text style={{ color: done ? colors.text.success : colors.text.danger, fontWeight: peso.titulo, fontSize: tipografia.body, flex: 1 }}>
                     {done ? 'Completado' : 'Cancelado'}
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>{fmtDate(done ? t.completed_at : t.cancelled_at) || fmtDate(t.created_at)}</Text>
@@ -127,12 +126,12 @@ export default function TripsHistoryScreen() {
                       </Text>
                     )}
                     {!done && t.cancelled_reason && (
-                      <Text style={{ fontSize: tipografia.micro, color: brand.danger, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
+                      <Text style={{ fontSize: tipografia.micro, color: colors.text.danger, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
                         Motivo: {t.cancelled_reason}
                       </Text>
                     )}
                   </View>
-                  <Precio valor={done ? t.final_price : t.requested_price} tamano="md" color={brand.secondary} />
+                  <Precio valor={done ? t.final_price : t.requested_price} tamano="md" color={colors.text.secondary} />
                 </View>
 
                 {/* ── P1-c: detalle de LIQUIDACIÓN (qué se pagó, comisión y neto) ── */}
@@ -171,7 +170,7 @@ export default function TripsHistoryScreen() {
                         </Text>
                       )}
                       {disputed && (
-                        <Text style={{ fontSize: tipografia.caption, color: resolvedDisp ? brand.success : brand.primary, fontWeight: peso.maximo }}>
+                        <Text style={{ fontSize: tipografia.caption, color: resolvedDisp ? colors.text.success : colors.text.primary, fontWeight: peso.maximo }}>
                           {resolvedDisp
                             ? `⚖️ Disputa resuelta: ${String(set.dispute?.outcome ?? '').replace(/_/g, ' ').toLowerCase()}`
                             : '⚖️ Disputa abierta — en revisión'}
@@ -186,7 +185,7 @@ export default function TripsHistoryScreen() {
                     {t.my_rating != null ? (
                       <>
                         {[1, 2, 3, 4, 5].map((n) => (
-                          <Star key={n} size={14} color={n <= Number(t.my_rating) ? brand.warning : colors.border} fill={n <= Number(t.my_rating) ? brand.warning : 'transparent'} />
+                          <Star key={n} size={14} color={n <= Number(t.my_rating) ? colors.text.warning : colors.border} fill={n <= Number(t.my_rating) ? colors.text.warning : 'transparent'} />
                         ))}
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginLeft: espaciado.e4, fontWeight: peso.medio }}>
                           {asDriver ? 'Te puntuaron' : 'Tu valoración'}

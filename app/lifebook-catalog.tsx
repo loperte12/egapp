@@ -209,7 +209,7 @@ function CatalogContent() {
             onPress={() => setCity('')}
             style={[styles.miniChip, { borderColor: city === '' ? colors.primary : alpha(colors.border, 0.7), backgroundColor: city === '' ? alpha(colors.primary, 0.12) : 'transparent' }]}
           >
-            <Text style={{ color: city === '' ? colors.primary : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>Todas</Text>
+            <Text style={{ color: city === '' ? colors.text.primary : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>Todas</Text>
           </Pressable>
           {LB_CITIES.map((c) => (
             <Pressable
@@ -217,7 +217,7 @@ function CatalogContent() {
               onPress={() => setCity(c === city ? '' : c)}
               style={[styles.miniChip, { borderColor: city === c ? colors.primary : alpha(colors.border, 0.7), backgroundColor: city === c ? alpha(colors.primary, 0.12) : 'transparent' }]}
             >
-              <Text style={{ color: city === c ? colors.primary : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>{c}</Text>
+              <Text style={{ color: city === c ? colors.text.primary : colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>{c}</Text>
             </Pressable>
           ))}
         </ScrollView>
@@ -225,7 +225,7 @@ function CatalogContent() {
       <View style={{ flexDirection: 'row', gap: espaciado.e6, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 }}>
         {SORTS.map((s) => (
           <Pressable key={s.id} onPress={() => setSort(s.id)} accessibilityRole="tab" accessibilityState={{ selected: sort === s.id }}>
-            <Text style={{ color: sort === s.id ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo, textDecorationLine: sort === s.id ? 'underline' : 'none' }}>
+            <Text style={{ color: sort === s.id ? colors.text.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo, textDecorationLine: sort === s.id ? 'underline' : 'none' }}>
               {s.label}
             </Text>
           </Pressable>
@@ -241,12 +241,12 @@ function CatalogContent() {
             ? (loading ? `Buscando «${debouncedQ}»…` : `${items.length} resultado${items.length === 1 ? '' : 's'} para «${debouncedQ}»`)
             : `${items.length}${cursor ? '+' : ''} producto${items.length === 1 ? '' : 's'} y servicios`}
         </Text>
-        {q !== debouncedQ ? <ActivityIndicator size="small" color={colors.primary} /> : null}
+        {q !== debouncedQ ? <ActivityIndicator size="small" color={colors.text.primary} /> : null}
       </View>
 
       {/* Resultados */}
       {loading ? (
-        <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.center}><ActivityIndicator color={colors.text.primary} /></View>
       ) : (
         <FlatList
           data={items}
@@ -257,10 +257,10 @@ function CatalogContent() {
           showsVerticalScrollIndicator={false}
           onEndReached={() => cursor && load('more')}
           onEndReachedThreshold={0.6}
-          ListFooterComponent={more ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e14 }} /> : null}
+          ListFooterComponent={more ? <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e14 }} /> : null}
           ListEmptyComponent={
             <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e10 }}>
-              <Package size={40} color={alpha(colors.primary, 0.35)} />
+              <Package size={40} color={alpha(colors.text.primary, 0.35)} />
               <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo }}>Todavía no hay nada publicado aquí</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: 40 }}>
                 Abre tu tienda y publica tu primer producto o servicio: es gratis y se hace desde el móvil.

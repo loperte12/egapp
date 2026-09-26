@@ -254,14 +254,14 @@ export default function SelectorDeVariante({
                   </View>
                 )}
                 <Text numberOfLines={1} style={{
-                  color: activo ? colors.primary : colors.textPrimary,
+                  color: activo ? colors.text.primary : colors.textPrimary,
                   fontSize: tipografia.micro, fontWeight: peso.fuerte,
                   marginTop: espaciado.e4, maxWidth: 68, textAlign: 'center',
                 }}>
                   {v.value}
                 </Text>
                 {agotadoAqui ? (
-                  <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>agotado</Text>
+                  <Text style={{ color: colors.text.danger, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>agotado</Text>
                 ) : null}
               </Pressable>
             );
@@ -279,7 +279,7 @@ export default function SelectorDeVariante({
               }]}
             >
               <Text style={{
-                color: activo ? colors.primary : colors.textPrimary,
+                color: activo ? colors.text.primary : colors.textPrimary,
                 fontSize: tipografia.caption, fontWeight: peso.fuerte,
                 textDecorationLine: libre ? 'none' : 'line-through',
               }}>
@@ -302,7 +302,7 @@ export default function SelectorDeVariante({
               : `«${nota.value}» no está disponible en este anuncio.`}
           </Text>
           <Pressable onPress={() => setNota(null)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Entendido">
-            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Entendido</Text>
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Entendido</Text>
           </Pressable>
         </View>
       ) : null}
@@ -340,7 +340,7 @@ export default function SelectorDeVariante({
           ) : (
             /* Un rango no es una cifra: son dos, y el componente de precio pinta una. Va como frase
                (con `numberOfLines={1}`, que es lo que impide que se parta por la mitad). */
-            <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.title, fontWeight: peso.titulo }}>
+            <Text numberOfLines={1} style={{ color: colors.text.primary, fontSize: tipografia.title, fontWeight: peso.titulo }}>
               {`${formatXAF(precios[0])} – ${formatXAF(precios[precios.length - 1])}`}
             </Text>
           )}
@@ -351,7 +351,7 @@ export default function SelectorDeVariante({
           <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: espaciado.e4 }}>
             {resumen}
           </Text>
-          <Text style={{ color: agotada ? colors.danger : colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4 }}>
+          <Text style={{ color: agotada ? colors.text.danger : colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e4 }}>
             {stockTexto}
           </Text>
         </View>
@@ -397,7 +397,7 @@ export default function SelectorDeVariante({
           </Text>
         ) : null}
         {agotada ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>
             Esa combinación está agotada. Prueba otra.
           </Text>
         ) : null}
@@ -413,7 +413,7 @@ export default function SelectorDeVariante({
           accessibilityState={{ disabled: !puedeConfirmar }}
           style={[estilos.secBtn, { borderColor: colors.primary, opacity: puedeConfirmar ? 1 : 0.45 }]}
         >
-          <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
+          <Text numberOfLines={1} style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
             {secundario === 'carrito' ? 'Al carrito' : 'Comprar ahora'}
           </Text>
         </Pressable>

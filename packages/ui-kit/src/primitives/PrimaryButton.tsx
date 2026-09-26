@@ -94,7 +94,7 @@ export function GhostButton({
       accessibilityHint={accessibilityHint}
       style={({ pressed }) => [styles.ghost, { opacity: disabled ? 0.4 : pressed ? 0.6 : 1 }]}
     >
-      <Text style={[styles.ghostText, { color: colors.primary }]}>{title}</Text>
+      <Text style={[styles.ghostText, { color: colors.text.primary }]}>{title}</Text>
     </Pressable>
   );
 }

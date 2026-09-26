@@ -137,7 +137,7 @@ export default function EcomerseDireccionesScreen() {
           accessibilityRole="button"
           accessibilityLabel="Añadir una dirección"
         >
-          <Plus size={icono.lg} color={colors.primary} />
+          <Plus size={icono.lg} color={colors.text.primary} />
         </Pressable>
       </View>
 
@@ -149,7 +149,7 @@ export default function EcomerseDireccionesScreen() {
             texto="Las direcciones de entrega van con tu cuenta: entra y podrás guardar las que quieras."
           />
         ) : cargando && !intentado ? (
-          <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e32 }} />
+          <ActivityIndicator color={colors.text.primary} style={{ marginTop: espaciado.e32 }} />
         ) : fallo ? (
           <EmptyState
             emoji="📡"
@@ -182,7 +182,7 @@ export default function EcomerseDireccionesScreen() {
                 >
                   <View style={styles.filaSuperior}>
                     <View style={[styles.filaIcono, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-                      <Icono size={icono.sm} color={colors.primary} />
+                      <Icono size={icono.sm} color={colors.text.primary} />
                     </View>
                     <View style={styles.textoCabecera}>
                       <View style={styles.nombreFila}>
@@ -232,8 +232,8 @@ export default function EcomerseDireccionesScreen() {
                         accessibilityLabel={`Usar la dirección de ${d.recipient} como predeterminada`}
                         style={({ pressed }) => [styles.accion, { opacity: pressed || trabajando ? 0.5 : 1 }]}
                       >
-                        <Check size={icono.sm} color={colors.primary} />
-                        <Text style={[styles.accionTexto, { color: colors.primary }]}>Usar por defecto</Text>
+                        <Check size={icono.sm} color={colors.text.primary} />
+                        <Text style={[styles.accionTexto, { color: colors.text.primary }]}>Usar por defecto</Text>
                       </Pressable>
                     )}
 
@@ -255,8 +255,8 @@ export default function EcomerseDireccionesScreen() {
                       accessibilityLabel={`Borrar la dirección de ${d.recipient}`}
                       style={({ pressed }) => [styles.accion, { opacity: pressed || trabajando ? 0.5 : 1 }]}
                     >
-                      <Trash2 size={icono.sm} color={colors.danger} />
-                      <Text style={[styles.accionTexto, { color: colors.danger }]}>Borrar</Text>
+                      <Trash2 size={icono.sm} color={colors.text.danger} />
+                      <Text style={[styles.accionTexto, { color: colors.text.danger }]}>Borrar</Text>
                     </Pressable>
                   </View>
                 </View>

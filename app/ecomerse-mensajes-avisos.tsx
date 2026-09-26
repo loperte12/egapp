@@ -165,8 +165,8 @@ export default function EcomerseAvisosScreen() {
             accessibilityLabel={`Marcar como leído${canal ? ` todo el canal ${canal.label}` : ' todos los avisos'}`}
             style={({ pressed }) => [styles.accion, { opacity: pressed ? 0.6 : 1 }]}
           >
-            <CheckCheck size={icono.md} color={colors.primary} />
-            <Text style={[styles.accionTexto, { color: colors.primary }]}>Todo leído</Text>
+            <CheckCheck size={icono.md} color={colors.text.primary} />
+            <Text style={[styles.accionTexto, { color: colors.text.primary }]}>Todo leído</Text>
           </Pressable>
         ) : (
           <View style={styles.hueco} />
@@ -196,7 +196,7 @@ export default function EcomerseAvisosScreen() {
         </View>
       ) : cargando && avisos === null ? (
         <View style={styles.centro}>
-          <ActivityIndicator color={colors.primary} />
+          <ActivityIndicator color={colors.text.primary} />
         </View>
       ) : (
         <FlatList

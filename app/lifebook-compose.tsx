@@ -166,7 +166,7 @@ function ComposeContent() {
         <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }}>
           {error ? (
             <View style={[styles.errorBox, { backgroundColor: alpha(colors.danger, 0.09), borderColor: alpha(colors.danger, 0.4) }]}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text>
             </View>
           ) : null}
 
@@ -215,8 +215,8 @@ function ComposeContent() {
             ))}
             {photos.length < LB_NOTE_MEDIA_MAX ? (
               <Pressable onPress={addPhotos} style={[styles.addPhoto, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-                {picking ? <ActivityIndicator color={colors.primary} /> : <ImagePlus size={22} color={colors.primary} />}
-                <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Añadir</Text>
+                {picking ? <ActivityIndicator color={colors.text.primary} /> : <ImagePlus size={22} color={colors.text.primary} />}
+                <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Añadir</Text>
               </Pressable>
             ) : null}
           </View>
@@ -232,8 +232,8 @@ function ComposeContent() {
               borderColor: productos.length ? alpha(colors.primary, 0.55) : colors.border,
             }]}
           >
-            <Package size={14} color={productos.length ? colors.primary : colors.textSecondary} />
-            <Text style={{ color: productos.length ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+            <Package size={14} color={productos.length ? colors.text.primary : colors.textSecondary} />
+            <Text style={{ color: productos.length ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
               {productos.length
                 ? `${productos.length} producto${productos.length === 1 ? '' : 's'} en esta nota`
                 : 'Productos en esta nota (opcional)'}
@@ -253,13 +253,13 @@ function ComposeContent() {
               borderColor: sitio ? alpha(colors.primary, 0.55) : colors.border,
             }]}
           >
-            <MapPin size={14} color={sitio ? colors.primary : colors.textSecondary} />
-            <Text numberOfLines={1} style={{ color: sitio ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 240 }}>
+            <MapPin size={14} color={sitio ? colors.text.primary : colors.textSecondary} />
+            <Text numberOfLines={1} style={{ color: sitio ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 240 }}>
               {sitio ? `📍 ${sitio.name}` : '¿Dónde es? (opcional)'}
             </Text>
             {sitio ? (
               <Pressable onPress={() => setSitio(null)} hitSlop={8} accessibilityLabel="Quitar el sitio">
-                <X size={13} color={colors.primary} />
+                <X size={13} color={colors.text.primary} />
               </Pressable>
             ) : null}
           </Pressable>
@@ -278,7 +278,7 @@ function ComposeContent() {
                   onPress={() => toggleTopic(t)}
                   style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.14) : colors.surface, borderColor: on ? alpha(colors.primary, 0.55) : colors.border }]}
                 >
-                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{t}</Text>
+                  <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{t}</Text>
                 </Pressable>
               );
             })}
@@ -294,14 +294,14 @@ function ComposeContent() {
               style={[styles.input, { flex: 1, backgroundColor: colors.surface, color: colors.textPrimary, borderColor: colors.border }]}
             />
             <Pressable onPress={addFreeTag} style={[styles.addTag, { backgroundColor: colors.surface, borderColor: colors.border }]} disabled={!freeTag.trim()}>
-              <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.title }}>＋</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.title }}>＋</Text>
             </Pressable>
           </View>
           {topics.length > 0 && (
             <View style={styles.chipsWrap}>
               {topics.map((t) => (
                 <Pressable key={t} onPress={() => toggleTopic(t)} style={[styles.chip, { backgroundColor: alpha(colors.secondary, 0.12), borderColor: alpha(colors.secondary, 0.5) }]}>
-                  <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>#{t} ✕</Text>
+                  <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>#{t} ✕</Text>
                 </Pressable>
               ))}
             </View>
@@ -318,7 +318,7 @@ function ComposeContent() {
                   onPress={() => setTone(on ? null : o.value)}
                   style={[styles.chip, { backgroundColor: on ? alpha(colors.secondary, 0.14) : colors.surface, borderColor: on ? alpha(colors.secondary, 0.6) : colors.border }]}
                 >
-                  <Text style={{ color: on ? colors.secondary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{o.label}</Text>
+                  <Text style={{ color: on ? colors.text.secondary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{o.label}</Text>
                 </Pressable>
               );
             })}
@@ -335,7 +335,7 @@ function ComposeContent() {
                   onPress={() => setCity(c)}
                   style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.14) : colors.surface, borderColor: on ? alpha(colors.primary, 0.55) : colors.border }]}
                 >
-                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{c}</Text>
+                  <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{c}</Text>
                 </Pressable>
               );
             })}
@@ -362,8 +362,8 @@ function ComposeContent() {
                   onPress={() => { visTouched.current = true; setVisibility(o.value); }}
                   style={[styles.visBtn, { backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface, borderColor: on ? alpha(colors.primary, 0.55) : colors.border }]}
                 >
-                  <Icon size={15} color={on ? colors.primary : colors.textSecondary} />
-                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{o.label}</Text>
+                  <Icon size={15} color={on ? colors.text.primary : colors.textSecondary} />
+                  <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{o.label}</Text>
                 </Pressable>
               );
             })}

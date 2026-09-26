@@ -256,7 +256,7 @@ function CarritoContent() {
       </Text>
       {items.length > 0 ? (
         <Pressable onPress={() => setEditando((v) => !v)} hitSlop={10} accessibilityLabel={editando ? 'Listo' : 'Editar'}>
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{editando ? 'Listo' : 'Editar'}</Text>
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{editando ? 'Listo' : 'Editar'}</Text>
         </Pressable>
       ) : (
         <View style={{ width: 44 }} />
@@ -268,7 +268,7 @@ function CarritoContent() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         {cabecera}
-        <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.center}><ActivityIndicator color={colors.text.primary} /></View>
       </View>
     );
   }
@@ -278,7 +278,7 @@ function CarritoContent() {
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         {cabecera}
         <View style={styles.center}>
-          <ShoppingCart size={46} color={alpha(colors.primary, 0.35)} />
+          <ShoppingCart size={46} color={alpha(colors.text.primary, 0.35)} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo, marginTop: espaciado.e12 }}>
             Tu carrito está vacío
           </Text>
@@ -321,7 +321,7 @@ function CarritoContent() {
                   <Image source={absUrl(g.shop.logoUrl)} style={styles.logoTienda} contentFit="cover" transition={0} />
                 ) : (
                   <View style={[styles.logoTienda, { alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.1) }]}>
-                    <Store size={14} color={alpha(colors.primary, 0.7)} />
+                    <Store size={14} color={alpha(colors.text.primary, 0.7)} />
                   </View>
                 )}
                 <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, flex: 1 }}>
@@ -345,7 +345,7 @@ function CarritoContent() {
                   envío que no existe. */}
               {g.shippingWarning ? (
                 <View style={[styles.avisoZona, { backgroundColor: alpha(brand.secondary, 0.12) }]}>
-                  <Text style={{ color: brand.warning, fontSize: tipografia.micro, fontWeight: peso.maximo }}>
+                  <Text style={{ color: colors.text.warning, fontSize: tipografia.micro, fontWeight: peso.maximo }}>
                     🚚 {g.shippingWarning}
                   </Text>
                 </View>
@@ -373,7 +373,7 @@ function CarritoContent() {
                         <Image source={absUrl(l.coverUrl)} style={styles.foto} contentFit="cover" transition={0} />
                       ) : (
                         <View style={[styles.foto, { alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.08) }]}>
-                          <ShoppingCart size={18} color={alpha(colors.primary, 0.5)} />
+                          <ShoppingCart size={18} color={alpha(colors.text.primary, 0.5)} />
                         </View>
                       )}
                     </Pressable>
@@ -398,18 +398,18 @@ function CarritoContent() {
                       {/* Etiquetas de estado (solo las que de verdad aplican) */}
                       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5 }}>
                         {l.statusLabel ? (
-                          <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{l.statusLabel}</Text>
+                          <Text style={{ color: colors.text.danger, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{l.statusLabel}</Text>
                         ) : null}
                         {l.priceChanged && l.available ? (
-                          <Text style={{ color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo }}>Precio cambió</Text>
+                          <Text style={{ color: colors.text.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo }}>Precio cambió</Text>
                         ) : null}
                         {l.sourceKind === 'grupo' ? (
-                          <Text style={{ color: colors.primary, fontSize: tipografia.micro, fontWeight: peso.titulo }}>
+                          <Text style={{ color: colors.text.primary, fontSize: tipografia.micro, fontWeight: peso.titulo }}>
                             Precio del grupo{l.sourceLabel ? ` · ${l.sourceLabel}` : ''}
                           </Text>
                         ) : null}
                         {l.sourceKind === 'live' ? (
-                          <Text style={{ color: brand.social, fontSize: tipografia.micro, fontWeight: peso.titulo }}>Precio de live</Text>
+                          <Text style={{ color: colors.text.social, fontSize: tipografia.micro, fontWeight: peso.titulo }}>Precio de live</Text>
                         ) : null}
                         {l.maxQuantity <= l.quantity && l.available && l.maxQuantity < 99 ? (
                           <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>
@@ -420,7 +420,7 @@ function CarritoContent() {
 
                       {/* Precio (rojo) con el anterior tachado si cambió */}
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
-                        <Text style={{ color: l.available ? colors.danger : colors.textSecondary, fontSize: tipografia.fino, fontWeight: peso.titulo }}>
+                        <Text style={{ color: l.available ? colors.text.danger : colors.textSecondary, fontSize: tipografia.fino, fontWeight: peso.titulo }}>
                           {l.priceXaf === null ? 'A consultar' : lbXaf(l.priceXaf)}
                         </Text>
                         {referencia !== null && referencia !== undefined && l.priceXaf !== null && referencia !== l.priceXaf ? (
@@ -506,7 +506,7 @@ function CarritoContent() {
         })}
 
         {carrito?.hasOnRequest ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
             Hay productos «a consultar»: el total no es el definitivo. La tienda los presupuesta por el chat.
           </Text>
         ) : null}
@@ -539,7 +539,7 @@ function CarritoContent() {
               accessibilityLabel="Mover a favoritos"
               style={[styles.accionEditar, { borderColor: colors.primary, opacity: sel.length ? 1 : 0.4 }]}
             >
-              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Mover a favoritos</Text>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Mover a favoritos</Text>
             </Pressable>
             <Pressable
               onPress={borrarSeleccion}
@@ -547,7 +547,7 @@ function CarritoContent() {
               accessibilityLabel="Eliminar"
               style={[styles.accionEditar, { borderColor: colors.danger, opacity: sel.length ? 1 : 0.4 }]}
             >
-              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                 Eliminar{sel.length ? ` (${sel.length})` : ''}
               </Text>
             </Pressable>
@@ -559,7 +559,7 @@ function CarritoContent() {
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Todo</Text>
             </Pressable>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>
                 Total: {lbXaf(total)}
               </Text>
               {ahorro > 0 ? (
@@ -597,7 +597,7 @@ function CarritoContent() {
             Cambiarla aquí no te saca del carrito. El precio se actualiza al de la opción que elijas.
           </Text>
           {variantes === null ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
+            <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e20 }} />
           ) : (
             <View style={{ gap: espaciado.e8 }}>
               {variantes.map((v) => {
@@ -620,7 +620,7 @@ function CarritoContent() {
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                       {v.priceXaf === null ? 'A consultar' : lbXaf(v.priceXaf)}
                     </Text>
-                    {sinStock ? <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: peso.maximo }}>Agotada</Text> : null}
+                    {sinStock ? <Text style={{ color: colors.text.danger, fontSize: tipografia.micro, fontWeight: peso.maximo }}>Agotada</Text> : null}
                   </Pressable>
                 );
               })}

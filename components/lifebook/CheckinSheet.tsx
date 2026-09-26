@@ -86,7 +86,7 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
       <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={onClose} />
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
-          <CalendarCheck size={18} color={colors.primary} />
+          <CalendarCheck size={18} color={colors.text.primary} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             ¿Cuándo es la quedada?
           </Text>
@@ -144,12 +144,12 @@ export function CheckinSheet({ visible, place, onClose, onSubmit }: Props) {
               accessibilityLabel="Crear la quedada con esa hora"
               style={({ pressed }) => [styles.smallCta, { backgroundColor: alpha(colors.primary, 0.14), opacity: pressed ? 0.8 : 1 }]}
             >
-              <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Usar</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Usar</Text>
             </Pressable>
           </View>
         </ScrollView>
 
-        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
+        {error ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e10 }}>
           En el mensaje, quien quiera ir pulsa «Voy» (tú también cuentas).
         </Text>

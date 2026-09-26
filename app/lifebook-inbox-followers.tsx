@@ -63,7 +63,7 @@ function FollowersContent() {
       <Image source={{ uri: absUrl(url) }} style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: colors.surface }} />
     ) : (
       <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: alpha(colors.primary, 0.15), alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ color: colors.primary, fontSize: size * 0.42, fontWeight: peso.titulo }}>{(name ?? '?').charAt(0).toUpperCase()}</Text>
+        <Text style={{ color: colors.text.primary, fontSize: size * 0.42, fontWeight: peso.titulo }}>{(name ?? '?').charAt(0).toUpperCase()}</Text>
       </View>
     )
   );
@@ -81,7 +81,7 @@ function FollowersContent() {
       </View>
 
       {loading ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={colors.primary} /></View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={colors.text.primary} /></View>
       ) : (
         <FlatList
           data={[
@@ -156,7 +156,7 @@ function FollowersContent() {
           }}
           ListEmptyComponent={
             <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e8 }}>
-              <Users size={36} color={alpha(colors.primary, 0.45)} />
+              <Users size={36} color={alpha(colors.text.primary, 0.45)} />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>Sin novedades de seguidores</Text>
             </View>
           }

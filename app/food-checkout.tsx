@@ -297,7 +297,7 @@ export default function FoodCheckoutScreen() {
                     <Text numberOfLines={2} style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e2 }}>📍 {detail.address}</Text>
                   ) : null}
                   {detail.isOpen === false && (
-                    <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.danger, marginTop: espaciado.e4 }}>
+                    <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.text.danger, marginTop: espaciado.e4 }}>
                       Cerrado ahora · tu pedido quedará en cola y lo confirmarán cuando abra.
                     </Text>
                   )}
@@ -310,7 +310,7 @@ export default function FoodCheckoutScreen() {
 
               {missing.length > 0 && (
                 <View style={[s.warnBox, { backgroundColor: alpha(colors.danger, 0.08), borderColor: alpha(colors.danger, 0.3) }]}>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.danger }}>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.text.danger }}>
                     {missing.length === 1 ? 'Un plato ya no está disponible' : `${missing.length} platos ya no están disponibles`}
                   </Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e3, lineHeight: 15 }}>
@@ -340,7 +340,7 @@ export default function FoodCheckoutScreen() {
                   decidido. Solo aparece con reparto y con cifra del servidor. */}
               {bloqueadoPorMinimo && minimoReparto !== null && (
                 <View style={[s.warnBox, { backgroundColor: alpha(colors.danger, 0.08), borderColor: alpha(colors.danger, 0.3) }]}>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.danger }}>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.text.danger }}>
                     Para reparto el pedido mínimo es {formatXAF(minimoReparto)}
                   </Text>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e3, lineHeight: 15 }}>
@@ -370,7 +370,7 @@ export default function FoodCheckoutScreen() {
                 </View>
                 <View style={s.brRow}>
                   <Text style={{ fontSize: tipografia.body, color: colors.textSecondary }}>Envío</Text>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.primary }}>Gratis</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.text.primary }}>Gratis</Text>
                 </View>
                 <View style={[s.brRow, { marginTop: espaciado.e4 }]}>
                   <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.maximo, color: colors.textPrimary }}>Total</Text>
@@ -444,8 +444,8 @@ export default function FoodCheckoutScreen() {
                     accessibilityLabel="Añadir mi ubicación exacta para el reparto"
                     style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e8, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: pin ? alpha(colors.success, 0.5) : colors.border, backgroundColor: pin ? alpha(colors.success, 0.08) : 'transparent' }}
                   >
-                    <MapPin size={15} color={pin ? colors.success : colors.textPrimary} />
-                    <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte, color: pin ? colors.success : colors.textPrimary }}>
+                    <MapPin size={15} color={pin ? colors.text.success : colors.textPrimary} />
+                    <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte, color: pin ? colors.text.success : colors.textPrimary }}>
                       {ubicando ? 'Buscando tu ubicación…' : pin ? '✓ Ubicación exacta añadida al pedido' : 'Añadir mi ubicación exacta (ayuda al repartidor a llegar)'}
                     </Text>
                     {pin ? (
@@ -513,7 +513,7 @@ export default function FoodCheckoutScreen() {
                     Confirmas con tu PIN y el importe queda en garantía hasta que recibas el pedido.
                   </Text>
                   {method === 'likebook_wallet' && saldoMonedero !== null ? (
-                    <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e3, color: saldoMonedero >= total ? brand.success : brand.dangerPressed }}>
+                    <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e3, color: saldoMonedero >= total ? colors.text.success : brand.dangerPressed }}>
                       Tienes {formatXAF(saldoMonedero)}{saldoMonedero >= total ? '' : ' · no llega'}
                     </Text>
                   ) : null}
@@ -587,7 +587,7 @@ function CartLineRow({ name, price, qty, lineTotal, onDec, onInc, onRemove }: {
         <View style={s_line.controls}>
           <Pressable onPress={onRemove} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Quitar ${name} del pedido`}
             style={[s_line.iconBtn, { backgroundColor: alpha(colors.danger, 0.1) }]}>
-            <Trash2 size={14} color={colors.danger} />
+            <Trash2 size={14} color={colors.text.danger} />
           </Pressable>
           <Pressable onPress={onDec} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Reducir cantidad de ${name}`}
             style={[s_line.stepBtn, { backgroundColor: colors.border }]}>

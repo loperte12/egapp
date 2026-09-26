@@ -242,12 +242,12 @@ export default function StatusDetailModal({
               </Pressable>
               {mine ? (
                 <Pressable onPress={doEnd} disabled={busy} accessibilityRole="button" style={[styles.action, { backgroundColor: 'rgba(245,63,63,0.10)' }]}>
-                  {busy ? <ActivityIndicator color={brand.danger} size="small" /> : <Text style={[styles.actionTxt, { color: brand.danger }]}>Finalizar</Text>}
+                  {busy ? <ActivityIndicator color={colors.text.danger} size="small" /> : <Text style={[styles.actionTxt, { color: colors.text.danger }]}>Finalizar</Text>}
                 </Pressable>
               ) : (
                 <Pressable onPress={() => setReportOpen(true)} accessibilityRole="button" style={[styles.action, { backgroundColor: 'rgba(245,63,63,0.10)' }]}>
-                  <Flag size={17} color={brand.danger} />
-                  <Text style={[styles.actionTxt, { color: brand.danger }]}>Reportar</Text>
+                  <Flag size={17} color={colors.text.danger} />
+                  <Text style={[styles.actionTxt, { color: colors.text.danger }]}>Reportar</Text>
                 </Pressable>
               )}
             </View>

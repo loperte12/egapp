@@ -236,7 +236,7 @@ export default function BillingStatusScreen() {
           {graceEnt[0] && (
             <RenewCard
               tone="danger"
-              icon={<XCircle size={16} color={brand.danger} />}
+              icon={<XCircle size={16} color={colors.text.danger} />}
               title="Tu plan venció — periodo de gracia"
               body={graceEnt[0].graceUntil
                 ? `Reactiva antes del ${formatDate(graceEnt[0].graceUntil)} (${daysCopy(graceEnt[0])}) para conservar tus beneficios.`
@@ -281,7 +281,7 @@ export default function BillingStatusScreen() {
               return (
                 <View key={e.id} style={[s.entitleCard, { borderColor: brand.success, backgroundColor: alpha(brand.success, 0.06) }]}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-                    <BadgeCheck size={16} color={brand.success} />
+                    <BadgeCheck size={16} color={colors.text.success} />
                     <Text style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>
                       {entitlementLabel(e.code, e.module)}
                     </Text>
@@ -326,7 +326,7 @@ export default function BillingStatusScreen() {
                     </View>
                   </View>
                   {o.status === 'rejected' && o.rejectionReason ? (
-                    <Text style={{ fontSize: tipografia.micro, color: brand.danger, fontWeight: peso.medio, marginTop: espaciado.e8 }}>Motivo: {o.rejectionReason}</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.text.danger, fontWeight: peso.medio, marginTop: espaciado.e8 }}>Motivo: {o.rejectionReason}</Text>
                   ) : null}
                   {reason ? (
                     <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, fontWeight: peso.medio, marginTop: espaciado.e8 }}>{reason}</Text>
@@ -347,9 +347,9 @@ export default function BillingStatusScreen() {
                           style={{ paddingVertical: espaciado.e10, alignItems: 'center', opacity: cancellingOrderId ? 0.6 : 1 }}
                         >
                           {cancellingOrderId === o.id ? (
-                            <ActivityIndicator size="small" color={colors.danger} />
+                            <ActivityIndicator size="small" color={colors.text.danger} />
                           ) : (
-                            <Text style={{ fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.fuerte }}>Cancelar orden</Text>
+                            <Text style={{ fontSize: tipografia.caption, color: colors.text.danger, fontWeight: peso.fuerte }}>Cancelar orden</Text>
                           )}
                         </Pressable>
                       )}
@@ -421,7 +421,7 @@ function ModulePlans() {
             { backgroundColor: colors.surface, borderColor: colors.border, opacity: pressed ? 0.7 : 1 },
           ]}
         >
-          <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>{MODULE_LABEL[mod] ?? mod}</Text>
+          <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>{MODULE_LABEL[mod] ?? mod}</Text>
         </Pressable>
       ))}
     </View>

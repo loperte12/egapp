@@ -130,7 +130,7 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
             </Pressable>
             {mine ? (
               <View style={{ backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e6, paddingVertical: 1 }}>
-                <Text style={{ color: colors.primary, fontSize: tipografia.minimo, fontWeight: peso.titulo }}>TÚ</Text>
+                <Text style={{ color: colors.text.primary, fontSize: tipografia.minimo, fontWeight: peso.titulo }}>TÚ</Text>
               </View>
             ) : null}
           </View>
@@ -141,7 +141,7 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
 
         {/* A quién responde: sin esto no se sabía de qué comentario era la respuesta */}
         {isReply && c.replyToName ? (
-          <Text style={{ fontSize: tipografia.caption, color: colors.primary, marginTop: espaciado.e2, fontWeight: peso.fuerte }}>
+          <Text style={{ fontSize: tipografia.caption, color: colors.text.primary, marginTop: espaciado.e2, fontWeight: peso.fuerte }}>
             → {c.replyToName}
           </Text>
         ) : null}
@@ -173,8 +173,8 @@ export function CommentRow({ c, tint, colors, meId, onLike, onReply, onEdit, onD
           ) : null}
           {mine && onDelete ? (
             <Pressable onPress={onDelete} hitSlop={8} accessibilityLabel="Eliminar mi comentario" style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
-              <Trash2 size={11} color={colors.danger} />
-              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.danger }}>Eliminar</Text>
+              <Trash2 size={11} color={colors.text.danger} />
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.danger }}>Eliminar</Text>
             </Pressable>
           ) : null}
         </View>
@@ -263,11 +263,11 @@ export function CommentsSheet({
       flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginBottom: espaciado.e7,
       backgroundColor: alpha(colors.primary, 0.10), borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6,
     }}>
-      <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.primary }}>
+      <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary }}>
         Adjuntando: {adjunto.title?.trim() || 'publicación'}
       </Text>
       <Pressable onPress={() => setAdjunto(null)} hitSlop={8} accessibilityLabel="Quitar la publicación adjunta">
-        <X size={13} color={colors.primary} />
+        <X size={13} color={colors.text.primary} />
       </Pressable>
     </View>
   ) : null);
@@ -492,7 +492,7 @@ export function CommentsSheet({
                 enviar quedaba apretujado contra el borde. El dueño lo describió tal cual.
                 `numberOfLines={1}` para que un nombre larguísimo recorte en vez de empujar
                 el campo fuera de la pantalla. */}
-            <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginBottom: espaciado.e6 }}>
+            <Text numberOfLines={1} style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginBottom: espaciado.e6 }}>
               Respondiendo a @{replyTo.name}
             </Text>
             {chipAdjunto()}
@@ -513,7 +513,7 @@ export function CommentsSheet({
                     alignItems: 'center', justifyContent: 'center',
                   }}
                 >
-                  <Plus size={16} color={adjunto ? colors.primary : colors.textSecondary} />
+                  <Plus size={16} color={adjunto ? colors.text.primary : colors.textSecondary} />
                 </Pressable>
               ) : null}
               <TextInput
@@ -550,7 +550,7 @@ export function CommentsSheet({
 
         {(item.repliesCount ?? 0) > 0 ? (
           <Pressable onPress={() => toggleReplies(item.id)} style={{ paddingLeft: 44, paddingBottom: espaciado.e8 }} accessibilityLabel="Ver respuestas">
-            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
               {openReplies[item.id] ? 'Ocultar respuestas' : `Ver ${item.repliesCount} respuesta${item.repliesCount === 1 ? '' : 's'}`}
             </Text>
           </Pressable>
@@ -562,7 +562,7 @@ export function CommentsSheet({
             borderLeftWidth: trazo.fuerte, borderLeftColor: alpha(colors.textPrimary, 0.10),
           }}>
             {(replies[item.id] ?? []).length === 0 ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e8 }} />
+              <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e8 }} />
             ) : (
               (replies[item.id] ?? []).map((r) => (
                 <View key={r.id}>
@@ -578,7 +578,7 @@ export function CommentsSheet({
                     onDelete={() => confirmDelete(r)}
                   />
                   {replyTo?.id === item.id && replyTo.name === (r.author?.fullName ?? 'Usuario') ? (
-                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, paddingLeft: 38, paddingBottom: espaciado.e6 }}>
+                    <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, paddingLeft: 38, paddingBottom: espaciado.e6 }}>
                       Escribiendo la respuesta arriba ↑
                     </Text>
                   ) : null}
@@ -620,7 +620,7 @@ export function CommentsSheet({
           </View>
 
           {loading ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: 34 }} />
+            <ActivityIndicator color={colors.text.primary} style={{ marginVertical: 34 }} />
           ) : (
             <FlatList
               ref={listRef}
@@ -644,7 +644,7 @@ export function CommentsSheet({
                   </Text>
                 </View>
               }
-              ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e12 }} /> : null}
+              ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e12 }} /> : null}
               renderItem={({ item, index }) => (
                 <>
                   {renderComment(item)}
@@ -662,7 +662,7 @@ export function CommentsSheet({
           )}
 
           {notice ? (
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e6 }}>{notice}</Text>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e6 }}>{notice}</Text>
           ) : null}
 
           {/*
@@ -702,7 +702,7 @@ export function CommentsSheet({
                       alignItems: 'center', justifyContent: 'center',
                     }}
                   >
-                    <Plus size={17} color={adjunto ? colors.primary : colors.textSecondary} />
+                    <Plus size={17} color={adjunto ? colors.text.primary : colors.textSecondary} />
                   </Pressable>
                 ) : null}
                 <TextInput
@@ -772,7 +772,7 @@ export function CommentsSheet({
             </Text>
 
             {misPosts === null ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e26 }} />
+              <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e26 }} />
             ) : misPosts.length === 0 ? (
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e22 }}>
                 Todavía no has publicado nada.

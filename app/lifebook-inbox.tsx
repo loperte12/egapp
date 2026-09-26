@@ -138,13 +138,13 @@ function InboxContent() {
       {/* Lista */}
       {items === null && !error ? (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <ActivityIndicator color={colors.primary} />
+          <ActivityIndicator color={colors.text.primary} />
         </View>
       ) : error ? (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e12, padding: espaciado.e24 }}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
           <Pressable onPress={() => load(active)} style={{ backgroundColor: colors.surface, borderRadius: radios.full, paddingHorizontal: espaciado.e18, paddingVertical: espaciado.e9 }}>
-            <Text style={{ color: colors.primary, fontWeight: peso.maximo }}>Reintentar</Text>
+            <Text style={{ color: colors.text.primary, fontWeight: peso.maximo }}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -223,7 +223,7 @@ function InboxCard({ item, colors, busy, onOpen, onFollow, onThank }: {
           <Image source={{ uri: item.actor.avatarUrl }} style={styles.avatar} />
         ) : (
           <View style={[styles.avatar, styles.avatarFallback, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-            <Text style={{ color: colors.primary, fontWeight: peso.maximo }}>
+            <Text style={{ color: colors.text.primary, fontWeight: peso.maximo }}>
               {(item.actor.name ?? '?').trim().charAt(0).toUpperCase()}
             </Text>
           </View>
@@ -263,7 +263,7 @@ function InboxCard({ item, colors, busy, onOpen, onFollow, onThank }: {
           ) : null}
           {item.kind === 'likes' ? (
             <Pressable onPress={onThank} style={[styles.actionBtn, { backgroundColor: alpha(colors.primary, 0.1) }]}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Agradecer por mensaje</Text>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Agradecer por mensaje</Text>
             </Pressable>
           ) : null}
         </View>

@@ -68,7 +68,7 @@ export function ReportSheet({ post, onClose, onReport, onBlocked }: Props) {
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginBottom: espaciado.e8, paddingHorizontal: espaciado.e2 }}>
           ¿Por qué quieres reportar esto? Lo revisará el equipo de moderación.
         </Text>
-        {busy && <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e6 }} />}
+        {busy && <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e6 }} />}
 
         {LB_REPORT_REASONS.map((r) => (
           <Pressable

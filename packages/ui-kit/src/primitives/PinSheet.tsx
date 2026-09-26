@@ -23,7 +23,6 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Modal, StyleSheet, Text, TextInput, View } from 'react-native';
 import { PrimaryButton, GhostButton } from './PrimaryButton';
 import { useTheme } from '../theme/ThemeContext';
-import { brand } from '../theme/colors';
 import { haptico } from '../feedback/hapticos';
 import { anunciar } from '../feedback/anuncios';
 
@@ -111,11 +110,11 @@ export function PinSheet({
             <Text
               accessibilityLiveRegion="assertive"
               accessibilityRole="alert"
-              style={{ color: brand.danger, fontSize: 13, textAlign: 'center', marginTop: 8 }}
+              style={{ color: colors.text.danger, fontSize: 13, textAlign: 'center', marginTop: 8 }}
             >{error}</Text>
           ) : null}
           {busy ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: 18 }} accessibilityLabel="Comprobando el PIN" />
+            <ActivityIndicator color={colors.text.primary} style={{ marginVertical: 18 }} accessibilityLabel="Comprobando el PIN" />
           ) : (
             <View style={{ gap: 10, marginTop: 14 }}>
               <PrimaryButton

@@ -67,7 +67,7 @@ function DineroContent() {
   if (error && !saldo) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
-        <AlertCircle size={34} color={colors.danger} />
+        <AlertCircle size={34} color={colors.text.danger} />
         <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, textAlign: 'center' }}>{error}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
@@ -76,7 +76,7 @@ function DineroContent() {
   if (!saldo) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -84,7 +84,7 @@ function DineroContent() {
   const fila = (etiqueta: string, valor: string, destacado = false) => (
     <View key={etiqueta} style={[styles.fila, { borderBottomColor: alpha(colors.border, 0.4) }]}>
       <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, flex: 1 }}>{etiqueta}</Text>
-      <Text style={{ color: destacado ? colors.primary : colors.textPrimary, fontSize: destacado ? 16 : 14, fontWeight: peso.maximo }}>
+      <Text style={{ color: destacado ? colors.text.primary : colors.textPrimary, fontSize: destacado ? 16 : 14, fontWeight: peso.maximo }}>
         {valor}
       </Text>
     </View>
@@ -99,7 +99,7 @@ function DineroContent() {
         <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
           El dinero de mi tienda
         </Text>
-        <Wallet size={18} color={colors.primary} />
+        <Wallet size={18} color={colors.text.primary} />
       </View>
 
       <ScrollView
@@ -168,7 +168,7 @@ function DineroContent() {
                     {l.nota ? ` · ${l.nota}` : ''}
                   </Text>
                 </View>
-                <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Pagada</Text>
+                <Text style={{ color: colors.text.success, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Pagada</Text>
               </View>
             ))}
           </View>

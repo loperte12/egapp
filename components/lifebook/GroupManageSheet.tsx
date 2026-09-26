@@ -400,7 +400,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
         <View style={styles.sheetHeader}>
           {step !== 'manage' ? (
             <Pressable onPress={() => { setStep(detailMember ? 'members' : 'manage'); setDetailMember(null); }} hitSlop={10} accessibilityLabel="Volver">
-              <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>‹ Atrás</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>‹ Atrás</Text>
             </Pressable>
           ) : null}
           <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>
@@ -410,7 +410,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
         </View>
 
         {group === null ? (
-          <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />
+          <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e24 }} />
         ) : step === 'manage' ? (
           <ScrollView style={{ maxHeight: 520 }} keyboardShouldPersistTaps="handled">
             {/* 1 · Cabecera */}
@@ -419,7 +419,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 <Image source={{ uri: group.photoUrl }} style={styles.groupAvatar} />
               ) : (
                 <View style={[styles.groupAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.cabecera }}>
+                  <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.cabecera }}>
                     {(group.title || 'G').trim().charAt(0).toUpperCase()}
                   </Text>
                 </View>
@@ -434,7 +434,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               </View>
               {canManage ? (
                 <Pressable onPress={() => setStep('edit')} hitSlop={8} accessibilityLabel="Editar nombre y componentes" style={styles.iconBtn}>
-                  <Pencil size={16} color={colors.primary} />
+                  <Pencil size={16} color={colors.text.primary} />
                 </Pressable>
               ) : null}
             </View>
@@ -490,7 +490,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 accessibilityLabel="Código de ruta y QR del grupo"
                 style={styles.row}
               >
-                <QrCode size={18} color={colors.primary} />
+                <QrCode size={18} color={colors.text.primary} />
                 <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                   <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Código de ruta y QR</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
@@ -604,7 +604,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                           borderColor: activo ? colors.primary : 'transparent',
                         }]}
                       >
-                        <Text style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
+                        <Text style={{ color: activo ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                           {d} días
                         </Text>
                       </Pressable>
@@ -618,8 +618,8 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                     accessibilityLabel="Revisar ahora los miembros inactivos"
                     style={[styles.primaryBtn, { backgroundColor: alpha(colors.secondary, 0.14), marginTop: espaciado.e10 }]}
                   >
-                    {busy === 'sweep' ? <ActivityIndicator size="small" color={colors.secondary} /> : (
-                      <Text style={{ color: colors.secondary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Revisar ahora</Text>
+                    {busy === 'sweep' ? <ActivityIndicator size="small" color={colors.text.secondary} /> : (
+                      <Text style={{ color: colors.text.secondary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Revisar ahora</Text>
                     )}
                   </Pressable>
                 ) : null}
@@ -627,26 +627,26 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
             ) : null}
 
             {/* 5 · Zona de riesgo */}
-            <Text style={[styles.sectionTitle, { color: colors.danger }]}>ZONA DE RIESGO</Text>
+            <Text style={[styles.sectionTitle, { color: colors.text.danger }]}>ZONA DE RIESGO</Text>
             {isOwner ? (
               <Pressable onPress={dissolve} accessibilityLabel="Disolver el grupo" style={[styles.row, { borderColor: alpha(colors.danger, 0.35) }]}>
-                <Trash2 size={17} color={colors.danger} />
+                <Trash2 size={17} color={colors.text.danger} />
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.body }}>Disolver el grupo</Text>
+                  <Text style={{ color: colors.text.danger, fontWeight: peso.maximo, fontSize: tipografia.body }}>Disolver el grupo</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
                     Borra el grupo, sus miembros y todos los mensajes
                   </Text>
                 </View>
-                {busy === 'dissolve' ? <ActivityIndicator size="small" color={colors.danger} /> : null}
+                {busy === 'dissolve' ? <ActivityIndicator size="small" color={colors.text.danger} /> : null}
               </Pressable>
             ) : (
               <Pressable onPress={leave} accessibilityLabel="Salir del grupo" style={[styles.row, { borderColor: alpha(colors.danger, 0.35) }]}>
-                <LogOut size={17} color={colors.danger} />
+                <LogOut size={17} color={colors.text.danger} />
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.body }}>Salir del grupo</Text>
+                  <Text style={{ color: colors.text.danger, fontWeight: peso.maximo, fontSize: tipografia.body }}>Salir del grupo</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>Dejarás de recibir sus mensajes</Text>
                 </View>
-                {busy === 'leave' ? <ActivityIndicator size="small" color={colors.danger} /> : null}
+                {busy === 'leave' ? <ActivityIndicator size="small" color={colors.text.danger} /> : null}
               </Pressable>
             )}
           </ScrollView>
@@ -673,7 +673,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                       <Image source={{ uri: m.avatarUrl }} style={styles.avatar} />
                     ) : (
                       <View style={[styles.avatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                        <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>
+                        <Text style={{ color: colors.text.primary, fontWeight: peso.titulo }}>
                           {(m.fullName ?? '?').trim().charAt(0).toUpperCase()}
                         </Text>
                       </View>
@@ -684,7 +684,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                       </Text>
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: 1 }}>
                         {m.role === 'owner' ? <Crown size={11} color={brand.warningPressed} /> : null}
-                        {m.role === 'admin' ? <Shield size={11} color={colors.primary} /> : null}
+                        {m.role === 'admin' ? <Shield size={11} color={colors.text.primary} /> : null}
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>
                           {m.role === 'owner' ? 'Dueño' : m.role === 'admin' ? 'Administrador' : 'Miembro'}
                         </Text>
@@ -701,7 +701,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                       style={styles.iconBtnDanger}
                     >
                       {busy === m.id
-                        ? <ActivityIndicator size="small" color={colors.primary} />
+                        ? <ActivityIndicator size="small" color={colors.text.primary} />
                         : <MoreHorizontal size={16} color={colors.textSecondary} />}
                     </Pressable>
                   ) : null}
@@ -718,7 +718,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
             {detailMember ? (
               <View style={{ gap: espaciado.e8, paddingTop: espaciado.e10 }}>
                 {isOwner && detailMember.role === 'member' ? (
-                  <SheetAction icon={<Shield size={16} color={colors.primary} />} text="Hacer administrador" colors={colors}
+                  <SheetAction icon={<Shield size={16} color={colors.text.primary} />} text="Hacer administrador" colors={colors}
                     onPress={() => makeAdmin(detailMember)} busy={busy === detailMember.id} />
                 ) : null}
                 {isOwner && detailMember.role === 'admin' ? (
@@ -730,7 +730,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                     onPress={() => transfer(detailMember)} busy={busy === detailMember.id} />
                 ) : null}
                 {canManage ? (
-                  <SheetAction icon={<Trash2 size={16} color={colors.danger} />} text="Expulsar del grupo" colors={colors} danger
+                  <SheetAction icon={<Trash2 size={16} color={colors.text.danger} />} text="Expulsar del grupo" colors={colors} danger
                     onPress={() => expel(detailMember)} busy={busy === detailMember.id} />
                 ) : null}
                 <Pressable onPress={() => setDetailMember(null)} style={{ paddingVertical: espaciado.e8, alignItems: 'center' }}>
@@ -751,7 +751,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
         ) : step === 'add' ? (
           <>
             {people === null ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />
+              <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e24 }} />
             ) : people.length === 0 ? (
               <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e24, fontSize: tipografia.body }}>
                 No hay más personas que puedas añadir por ahora.
@@ -769,7 +769,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                         <Image source={{ uri: p.avatarUrl }} style={styles.avatar} />
                       ) : (
                         <View style={[styles.avatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                          <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>{p.name.charAt(0).toUpperCase()}</Text>
+                          <Text style={{ color: colors.text.primary, fontWeight: peso.titulo }}>{p.name.charAt(0).toUpperCase()}</Text>
                         </View>
                       )}
                       <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte, flex: 1 }}>{p.name}</Text>
@@ -810,7 +810,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                   <Pressable key={k.id} accessibilityLabel={`Permitir ${k.label}`}
                     onPress={() => setKinds((prev) => (on ? prev.filter((x) => x !== k.id) : [...prev, k.id]))}
                     style={[styles.chip, { backgroundColor: on ? colors.primary : alpha(colors.primary, 0.1) }]}>
-                    <Text style={{ color: on ? brand.white : colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{k.icon} {k.label}</Text>
+                    <Text style={{ color: on ? brand.white : colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{k.icon} {k.label}</Text>
                   </Pressable>
                 );
               })}
@@ -884,7 +884,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                             backgroundColor: activo ? alpha(colors.primary, 0.12) : colors.surface,
                           }}
                         >
-                          <Text style={{ color: activo ? colors.primary : colors.textSecondary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>
+                          <Text style={{ color: activo ? colors.text.primary : colors.textSecondary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>
                             {o.t}
                           </Text>
                         </Pressable>
@@ -898,8 +898,8 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                       accessibilityLabel="Crear un enlace nuevo con este tope"
                       style={[styles.primaryBtn, { backgroundColor: colors.surface, marginTop: espaciado.e10, alignSelf: 'stretch', borderWidth: trazo.fino, borderColor: colors.primary }]}
                     >
-                      {aplicandoTope ? <ActivityIndicator size="small" color={colors.primary} /> : (
-                        <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
+                      {aplicandoTope ? <ActivityIndicator size="small" color={colors.text.primary} /> : (
+                        <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                           Crear enlace nuevo con este tope
                         </Text>
                       )}
@@ -914,7 +914,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                 </View>
               </View>
             ) : (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />
+              <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e24 }} />
             )}
           </>
         ) : step === 'requests' ? (
@@ -924,7 +924,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
               grupo y recibe el mensaje de bienvenida.
             </Text>
             {requests === null ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
+              <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e20 }} />
             ) : requests.length === 0 ? (
               <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e22, fontSize: tipografia.body }}>
                 No hay solicitudes.
@@ -938,7 +938,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                         <Image source={{ uri: absUrl(r.avatarUrl) }} style={styles.reqAvatar} />
                       ) : (
                         <View style={[styles.reqAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                          <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
+                          <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                             {(r.fullName ?? '?').trim().charAt(0).toUpperCase()}
                           </Text>
                         </View>
@@ -970,7 +970,7 @@ export function GroupManageSheet({ visible, onClose, groupId, onLeft, initialSte
                             accessibilityLabel={`Rechazar a ${r.fullName ?? 'esta persona'}`}
                             style={[styles.reqBtn, { backgroundColor: alpha(colors.danger, 0.12) }]}
                           >
-                            <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: tipografia.caption }}>Rechazar</Text>
+                            <Text style={{ color: colors.text.danger, fontWeight: peso.titulo, fontSize: tipografia.caption }}>Rechazar</Text>
                           </Pressable>
                         </View>
                       ) : null}
@@ -1068,7 +1068,7 @@ function SettingRow({ title, subtitle, colors, right, onPress, disabled, chip }:
       </View>
       {chip ? (
         <View style={{ backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e4 }}>
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{chip}</Text>
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{chip}</Text>
         </View>
       ) : null}
       {right ?? null}
@@ -1086,8 +1086,8 @@ function SheetAction({ icon, text, colors, onPress, busy, danger }: {
       style={[styles.row, { borderColor: alpha(danger ? colors.danger : colors.border, 0.5) }]}
     >
       {icon}
-      <Text style={{ color: danger ? colors.danger : colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body, flex: 1 }}>{text}</Text>
-      {busy ? <ActivityIndicator size="small" color={danger ? colors.danger : colors.primary} /> : <ChevronRight size={15} color={colors.textSecondary} />}
+      <Text style={{ color: danger ? colors.text.danger : colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body, flex: 1 }}>{text}</Text>
+      {busy ? <ActivityIndicator size="small" color={danger ? colors.text.danger : colors.text.primary} /> : <ChevronRight size={15} color={colors.textSecondary} />}
     </Pressable>
   );
 }

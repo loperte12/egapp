@@ -133,7 +133,7 @@ export default function FoodMenuScreen() {
 
             {isOpen === false && (
               <View style={[s.closedNote, { backgroundColor: alpha(colors.danger, 0.07), borderColor: alpha(colors.danger, 0.25) }]}>
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, lineHeight: 16 }}>
+                <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, lineHeight: 16 }}>
                   Cerrado ahora · puedes dejar tu pedido y el restaurante lo confirmará cuando abra.
                 </Text>
               </View>
@@ -205,7 +205,7 @@ function RestaurantHeader({ detail }: { detail: FoodRestaurantDetail }) {
         {open !== null ? (
           <View style={[s_h.badge, { backgroundColor: open ? alpha(colors.success, 0.14) : alpha(colors.danger, 0.12) }]}>
             <View style={[s_h.dot, { backgroundColor: open ? colors.success : colors.danger }]} />
-            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: open ? colors.success : colors.danger }}>
+            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: open ? colors.text.success : colors.text.danger }}>
               {open ? 'Abierto' : 'Cerrado'}
             </Text>
           </View>
@@ -216,7 +216,7 @@ function RestaurantHeader({ detail }: { detail: FoodRestaurantDetail }) {
       </View>
       {showRating && (
         <View style={s_h.metaRow}>
-          <Star size={12} color={colors.secondary} fill={colors.secondary} />
+          <Star size={12} color={colors.text.secondary} fill={colors.text.secondary} />
           <Text style={[s_h.sub, { color: colors.textSecondary }]}>
             {detail.ratingAvg.toFixed(1)} · {detail.ratingCount} valoración{detail.ratingCount === 1 ? '' : 'es'}
           </Text>
@@ -284,7 +284,7 @@ function MenuItemRow({ item, qty, onAdd, onDec, onInc }: {
             ) : null}
             {item.portionSize ? (
               <View style={[s_row.miniChip, { backgroundColor: alpha(colors.primary, 0.08) }]}>
-                <Text style={[s_row.miniChipText, { color: colors.primary }]}>📏 {item.portionSize}</Text>
+                <Text style={[s_row.miniChipText, { color: colors.text.primary }]}>📏 {item.portionSize}</Text>
               </View>
             ) : null}
             {detailSummary ? (

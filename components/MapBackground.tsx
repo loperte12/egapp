@@ -109,14 +109,14 @@ const MapBackground = forwardRef<EgMapViewHandle, MapBackgroundProps>(function M
 
       {!ready && !timedOut && (
         <View style={[styles.overlay, { backgroundColor: isDark ? colors.shadow : neutro.n200 }]} pointerEvents="none">
-          <ActivityIndicator size="large" color={colors.primary} />
+          <ActivityIndicator size="large" color={colors.text.primary} />
           <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontSize: tipografia.body }}>Cargando mapa…</Text>
         </View>
       )}
 
       {timedOut && (
         <View style={[styles.overlay, { backgroundColor: isDark ? colors.shadow : neutro.n200 }]}>
-          <MapPin size={26} color={colors.danger} />
+          <MapPin size={26} color={colors.text.danger} />
           <Text style={[styles.errTitle, { color: colors.textPrimary }]}>No se pudo cargar el mapa</Text>
           <Text style={[styles.errHint, { color: colors.textSecondary }]}>
             Comprueba tu conexión o que el servidor de mapas esté disponible.

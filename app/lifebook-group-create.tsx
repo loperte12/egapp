@@ -359,7 +359,7 @@ function GroupCreateContent() {
                 placeholderTextColor={colors.textSecondary}
                 style={{ flex: 1, marginLeft: espaciado.e8, color: colors.textPrimary, fontSize: tipografia.body }}
               />
-              {searching ? <ActivityIndicator size="small" color={colors.primary} /> : null}
+              {searching ? <ActivityIndicator size="small" color={colors.text.primary} /> : null}
             </View>
 
             <Pressable
@@ -393,7 +393,7 @@ function GroupCreateContent() {
                 style={[styles.option, { borderColor: alpha(colors.border, 0.8), backgroundColor: colors.card }]}
                 accessibilityLabel={`Elegir ${r.name}`}
               >
-                <MapPin size={18} color={colors.primary} />
+                <MapPin size={18} color={colors.text.primary} />
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.body }} numberOfLines={1}>{r.name}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
@@ -444,7 +444,7 @@ function GroupCreateContent() {
             </Text>
 
             {peopleLoading ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
+              <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e20 }} />
             ) : followers.length === 0 && suggested.length === 0 ? (
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', paddingVertical: espaciado.e20 }}>
                 No hay personas a las que invitar por ahora.
@@ -534,7 +534,7 @@ function GroupCreateContent() {
       {/* Pie con el botón del paso */}
       {step === 'type' || step === 'join' || step === 'people' ? (
         <View style={[styles.footer, { paddingBottom: insets.bottom + 12, backgroundColor: colors.card, borderTopColor: alpha(colors.border, 0.6) }]}>
-          {errText ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginBottom: espaciado.e8 }}>{errText}</Text> : null}
+          {errText ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginBottom: espaciado.e8 }}>{errText}</Text> : null}
           {step === 'people' ? (
             <Pressable
               onPress={submit}
@@ -588,7 +588,7 @@ function Field({ label, required, hint, children, colors }: {
     <View style={{ gap: espaciado.e6 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
-          {label}{required ? <Text style={{ color: colors.danger }}> *</Text> : null}
+          {label}{required ? <Text style={{ color: colors.text.danger }}> *</Text> : null}
         </Text>
         {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{hint}</Text> : null}
       </View>
@@ -672,7 +672,7 @@ function SelectablePerson({ p, on, onPress, colors }: { p: Person; on: boolean; 
         <Image source={{ uri: p.avatarUrl }} style={styles.avatar} />
       ) : (
         <View style={[styles.avatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-          <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>{p.name.charAt(0).toUpperCase()}</Text>
+          <Text style={{ color: colors.text.primary, fontWeight: peso.titulo }}>{p.name.charAt(0).toUpperCase()}</Text>
         </View>
       )}
       <View style={{ flex: 1 }}>

@@ -75,7 +75,7 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
         </Text>
 
         {misProds === null ? (
-          <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e26 }} />
+          <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e26 }} />
         ) : misProds.length === 0 ? (
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: espaciado.e22 }}>
             No tienes productos activos. Publica uno en tu tienda y podrás enseñarlo dentro de tus publicaciones.
@@ -102,7 +102,7 @@ export function SelectorDeProductos({ visible, onClose, seleccion, onCambiar, ti
                     <Image source={{ uri: absUrl(p.coverUrl) }} style={styles.mini} />
                   ) : (
                     <View style={[styles.mini, { alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.08) }]}>
-                      <Package size={18} color={alpha(colors.primary, 0.6)} />
+                      <Package size={18} color={alpha(colors.text.primary, 0.6)} />
                     </View>
                   )}
                   <View style={{ flex: 1 }}>

@@ -214,7 +214,7 @@ function ProductContent() {
   if (loading) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -406,7 +406,7 @@ function ProductContent() {
                 {estado.label} · {estado.hint}
               </Text>
               {p.status === 'rejected' && p.rejectionReason ? (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>{p.rejectionReason}</Text>
+                <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginTop: espaciado.e3 }}>{p.rejectionReason}</Text>
               ) : null}
             </View>
           ) : null}
@@ -416,7 +416,7 @@ function ProductContent() {
               les avisa por el chat automáticamente). */}
           {p.isMine && Number(p.waitingCount ?? 0) > 0 ? (
             <View style={[styles.notice, { backgroundColor: alpha(brand.secondary, 0.12) }]}>
-              <Text style={{ color: brand.warning, fontWeight: peso.titulo, fontSize: tipografia.caption }}>
+              <Text style={{ color: colors.text.warning, fontWeight: peso.titulo, fontSize: tipografia.caption }}>
                 🔔 {p.waitingCount} {p.waitingCount === 1 ? 'persona espera' : 'personas esperan'} este producto
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3, lineHeight: 16 }}>
@@ -427,7 +427,7 @@ function ProductContent() {
 
           {/* ── Precio y título ── */}
           <View style={styles.priceRow}>
-            <Text style={[styles.price, { color: agotado ? colors.textSecondary : colors.primary }]}>
+            <Text style={[styles.price, { color: agotado ? colors.textSecondary : colors.text.primary }]}>
               {agotado ? 'Agotado' : lbPriceLabel(precioMostrado, p.priceMode, lbXaf)}
             </Text>
             {p.oldPriceXaf ? (
@@ -443,11 +443,11 @@ function ProductContent() {
           {/* ── Insignias de confianza ── */}
           <View style={styles.badges}>
             {p.shop.isVerified ? (
-              <Badge colors={colors} icon={<ShieldCheck size={13} color={colors.success} />} text="Tienda verificada" />
+              <Badge colors={colors} icon={<ShieldCheck size={13} color={colors.text.success} />} text="Tienda verificada" />
             ) : (
               <Badge colors={colors} icon={<Store size={13} color={colors.textSecondary} />} text="Tienda nueva" />
             )}
-            {p.shipsInternational ? <Badge colors={colors} icon={<Plane size={13} color={colors.primary} />} text="Envío internacional" /> : null}
+            {p.shipsInternational ? <Badge colors={colors} icon={<Plane size={13} color={colors.text.primary} />} text="Envío internacional" /> : null}
             {p.stockMode === 'exact' && p.stockQuantity > 0 && !variant ? (
               <Badge colors={colors} icon={<Package size={13} color={colors.textSecondary} />} text={`Quedan ${p.stockQuantity}`} />
             ) : null}
@@ -481,7 +481,7 @@ function ProductContent() {
                     <Image source={fotoElegida} style={styles.elegirFoto} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                   ) : (
                     <View style={[styles.elegirFoto, { backgroundColor: alpha(colors.primary, 0.12), alignItems: 'center', justifyContent: 'center' }]}>
-                      <Package size={16} color={colors.primary} />
+                      <Package size={16} color={colors.text.primary} />
                     </View>
                   )}
                   <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
@@ -489,7 +489,7 @@ function ProductContent() {
                       {resumenEleccion || 'Elegir talla y color'}
                     </Text>
                   </View>
-                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>
+                  <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>
                     {resumenEleccion ? 'Cambiar' : 'Elegir'}
                   </Text>
                 </Pressable>
@@ -501,11 +501,11 @@ function ProductContent() {
                 style={[styles.anadirBtn, { borderColor: colors.primary }]}
               >
                 {busyCarrito ? (
-                  <ActivityIndicator size="small" color={colors.primary} />
+                  <ActivityIndicator size="small" color={colors.text.primary} />
                 ) : (
                   <>
-                    <ShoppingCart size={15} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Añadir al carrito</Text>
+                    <ShoppingCart size={15} color={colors.text.primary} />
+                    <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Añadir al carrito</Text>
                   </>
                 )}
               </Pressable>
@@ -534,14 +534,14 @@ function ProductContent() {
           {/* ── Entrega ── */}
           {p.shippingPolicy ? (
             <Section colors={colors} title="Entrega">
-              <InfoLine colors={colors} icon={<Truck size={16} color={colors.primary} />}
+              <InfoLine colors={colors} icon={<Truck size={16} color={colors.text.primary} />}
                 text={`Desde ${p.shippingPolicy.originCity ?? p.originCity ?? '—'}${p.shippingPolicy.originBarrio ? ` · ${p.shippingPolicy.originBarrio}` : ''}`} />
               {p.shippingPolicy.coverage.length > 0 ? (
-                <InfoLine colors={colors} icon={<MapPin size={16} color={colors.primary} />}
+                <InfoLine colors={colors} icon={<MapPin size={16} color={colors.text.primary} />}
                   text={p.shippingPolicy.coverage.map(lbCoverageLabel).join(' · ')} />
               ) : null}
               {p.shippingPolicy.transportModes.length > 0 ? (
-                <InfoLine colors={colors} icon={<Ship size={16} color={colors.primary} />}
+                <InfoLine colors={colors} icon={<Ship size={16} color={colors.text.primary} />}
                   text={p.shippingPolicy.transportModes.map(lbTransportLabel).join(' · ')} />
               ) : null}
               <View style={styles.chips}>
@@ -566,10 +566,10 @@ function ProductContent() {
                   key={pm.method}
                   colors={colors}
                   icon={pm.method === 'cash_on_delivery'
-                    ? <Banknote size={16} color={colors.success} />
+                    ? <Banknote size={16} color={colors.text.success} />
                     : pm.method === 'likebook_wallet'
                       ? <Wallet size={16} color={colors.textSecondary} />
-                      : <Building2 size={16} color={colors.primary} />}
+                      : <Building2 size={16} color={colors.text.primary} />}
                   text={`${lbPayLabel(pm.method)}${pm.status !== 'active' ? ` · ${LB_PAY_STATUS_LABEL[pm.status] ?? ''}` : ''}`}
                 />
               ))}
@@ -582,7 +582,7 @@ function ProductContent() {
               <Image source={absUrl(p.shop.logoUrl)} style={styles.shopLogo} contentFit="cover" cachePolicy="memory-disk" transition={0} />
             ) : (
               <View style={[styles.shopLogo, { backgroundColor: alpha(colors.primary, 0.12), alignItems: 'center', justifyContent: 'center' }]}>
-                <Store size={20} color={colors.primary} />
+                <Store size={20} color={colors.text.primary} />
               </View>
             )}
             <View style={{ flex: 1, marginHorizontal: espaciado.e10 }}>
@@ -597,7 +597,7 @@ function ProductContent() {
               accessibilityLabel={following ? 'Dejar de seguir la tienda' : 'Seguir la tienda'}
               style={[styles.followBtn, { borderColor: colors.primary, backgroundColor: following ? colors.primary : 'transparent' }]}
             >
-              <Text style={{ color: following ? brand.white : colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>
+              <Text style={{ color: following ? brand.white : colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>
                 {following ? 'Siguiendo' : 'Seguir'}
               </Text>
             </Pressable>
@@ -607,7 +607,7 @@ function ProductContent() {
             accessibilityLabel="Ver la tienda"
             style={{ marginTop: espaciado.e10, alignItems: 'center' }}
           >
-            <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Ver todos los productos de la tienda →</Text>
+            <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Ver todos los productos de la tienda →</Text>
           </Pressable>
 
           {/* ── Mis acciones (dueño) ── */}

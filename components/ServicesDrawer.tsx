@@ -122,7 +122,7 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
     if (!negocios?.length) return null;
     return (
       <View key="negocios">
-        <Text style={[styles.groupTitle, { color: colors.secondary }]}>
+        <Text style={[styles.groupTitle, { color: colors.text.secondary }]}>
           {negocios.length > 2 ? `TUS NEGOCIOS (${negocios.length})` : 'TU NEGOCIO'}
         </Text>
         <View style={[styles.groupCard, { backgroundColor: colors.card, borderColor: alpha(colors.secondary, 0.35), borderWidth: trazo.fino }]}>
@@ -141,7 +141,7 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
                 accessibilityLabel={`${n.titulo}. ${n.detalle}${n.nota ? ` ${n.nota}` : ''}`}
               >
                 <View style={[styles.rowIcon, { backgroundColor: alpha(colors.secondary, 0.12) }]}>
-                  <Icon size={18} color={colors.secondary} />
+                  <Icon size={18} color={colors.text.secondary} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }} numberOfLines={2}>
@@ -151,7 +151,7 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
                     {n.detalle}
                   </Text>
                   {n.nota ? (
-                    <Text style={{ color: colors.secondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e2 }} numberOfLines={2}>
+                    <Text style={{ color: colors.text.secondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e2 }} numberOfLines={2}>
                       {n.nota}
                     </Text>
                   ) : null}
@@ -297,13 +297,13 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
               ]}
             >
               <View style={[styles.rowIcon, { backgroundColor: last ? alpha(colors.danger, 0.1) : alpha(colors.primary, 0.08) }]}>
-                <Icon size={18} color={last ? colors.danger : colors.primary} />
+                <Icon size={18} color={last ? colors.text.danger : colors.text.primary} />
               </View>
-              <Text style={[styles.rowLabel, { color: last ? colors.danger : colors.textPrimary }]} numberOfLines={1}>
+              <Text style={[styles.rowLabel, { color: last ? colors.text.danger : colors.textPrimary }]} numberOfLines={1}>
                 {it.label}
               </Text>
               {it.soon ? (
-                <Text style={[styles.soonBadge, { color: colors.secondary, backgroundColor: alpha(colors.secondary, 0.12) }]}>Próximamente</Text>
+                <Text style={[styles.soonBadge, { color: colors.text.secondary, backgroundColor: alpha(colors.secondary, 0.12) }]}>Próximamente</Text>
               ) : (
                 <ChevronRight size={16} color={colors.textSecondary} />
               )}
@@ -330,7 +330,7 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
               {avatarSrc ? (
                 <Image source={{ uri: avatarSrc }} style={styles.headerAvatarImg} />
               ) : (
-                <Text style={[styles.headerAvatarTxt, { color: colors.primary }]}>
+                <Text style={[styles.headerAvatarTxt, { color: colors.text.primary }]}>
                   {(userName || 'U').charAt(0).toUpperCase()}
                 </Text>
               )}
@@ -360,7 +360,7 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
                 hitSlop={6}
                 style={({ pressed }) => [styles.verTodos, { opacity: pressed ? 0.6 : 1 }]}
               >
-                <Text style={[styles.rowLabel, { color: colors.primary, textAlign: 'center' }]}>
+                <Text style={[styles.rowLabel, { color: colors.text.primary, textAlign: 'center' }]}>
                   {verTodos ? 'Ver menos' : `Ver todos los servicios · ${ocultos.length}`}
                 </Text>
               </Pressable>
@@ -374,10 +374,10 @@ export default function ServicesDrawer({ visible, onClose, userName, userAvatar,
               style={({ pressed }) => [styles.emergencyRow, { backgroundColor: pressed ? alpha(colors.danger, 0.12) : alpha(colors.danger, 0.07) }]}
             >
               <View style={[styles.rowIcon, { backgroundColor: alpha(colors.danger, 0.14) }]}>
-                {(() => { const Icon = requireIcon('Siren'); return <Icon size={18} color={colors.danger} />; })()}
+                {(() => { const Icon = requireIcon('Siren'); return <Icon size={18} color={colors.text.danger} />; })()}
               </View>
-              <Text style={[styles.rowLabel, { color: colors.danger }]}>Emergencia</Text>
-              <ChevronRight size={16} color={colors.danger} />
+              <Text style={[styles.rowLabel, { color: colors.text.danger }]}>Emergencia</Text>
+              <ChevronRight size={16} color={colors.text.danger} />
             </Pressable>
           </ScrollView>
 

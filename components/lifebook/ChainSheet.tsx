@@ -58,7 +58,7 @@ export function ChainSheet({ visible, onClose, onSubmit }: Props) {
       <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={onClose} />
       <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.header}>
-          <Link2 size={18} color={colors.primary} />
+          <Link2 size={18} color={colors.text.primary} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
             Crear cadena
           </Text>
@@ -112,7 +112,7 @@ export function ChainSheet({ visible, onClose, onSubmit }: Props) {
           />
         ) : null}
 
-        {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
+        {error ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
 
         <Pressable
           onPress={submit}

@@ -181,7 +181,7 @@ function ShopContent() {
   if (loading) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -189,7 +189,7 @@ function ShopContent() {
   if (!shop) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
-        <Store size={40} color={alpha(colors.primary, 0.4)} />
+        <Store size={40} color={alpha(colors.text.primary, 0.4)} />
         <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo }}>Esta tienda no está disponible</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
@@ -239,7 +239,7 @@ function ShopContent() {
                   <Image source={absUrl(shop.logoUrl)} style={styles.logo} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                 ) : (
                   <View style={[styles.logo, { alignItems: 'center', justifyContent: 'center' }]}>
-                    <Store size={26} color={colors.primary} />
+                    <Store size={26} color={colors.text.primary} />
                   </View>
                 )}
               </View>
@@ -248,7 +248,7 @@ function ShopContent() {
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo, flex: 1 }} numberOfLines={1}>
                   {shop.name}
                 </Text>
-                {shop.isVerified ? <ShieldCheck size={16} color={colors.success} /> : null}
+                {shop.isVerified ? <ShieldCheck size={16} color={colors.text.success} /> : null}
               </View>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>
                 {nivel.icon} {nivel.label}
@@ -312,13 +312,13 @@ function ShopContent() {
             {tab === 'info' ? (
               <View style={{ paddingHorizontal: espaciado.e16, paddingTop: espaciado.e14 }}>
                 {shop.addressReference ? (
-                  <InfoRow colors={colors} icon={<MapPin size={16} color={colors.primary} />} text={shop.addressReference} />
+                  <InfoRow colors={colors} icon={<MapPin size={16} color={colors.text.primary} />} text={shop.addressReference} />
                 ) : null}
                 {shop.shippingPolicies.map((sp) => (
                   <InfoRow
                     key={sp.id}
                     colors={colors}
-                    icon={<Truck size={16} color={colors.primary} />}
+                    icon={<Truck size={16} color={colors.text.primary} />}
                     text={`${sp.name} · ${sp.coverage.map(lbCoverageLabel).join(' / ') || 'sin cobertura indicada'}${
                       sp.transportModes.length ? ` · ${sp.transportModes.map(lbTransportLabel).join(', ')}` : ''
                     }${sp.costMode === 'on_request' ? ' · coste a consultar' : ` · desde ${lbXaf(sp.baseCostXaf)}`}`}
@@ -337,7 +337,7 @@ function ShopContent() {
                   accessibilityLabel="Ver el perfil del vendedor"
                   style={{ marginTop: espaciado.e16 }}
                 >
-                  <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Ver el perfil de {shop.owner?.name ?? 'el vendedor'} →</Text>
+                  <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Ver el perfil de {shop.owner?.name ?? 'el vendedor'} →</Text>
                 </Pressable>
               </View>
             ) : null}
@@ -346,7 +346,7 @@ function ShopContent() {
         ListEmptyComponent={
           tab === 'info' ? null : (
             <View style={{ alignItems: 'center', paddingTop: 40, gap: espaciado.e8 }}>
-              {tab === 'services' ? <Wrench size={34} color={alpha(colors.primary, 0.4)} /> : <Package size={34} color={alpha(colors.primary, 0.4)} />}
+              {tab === 'services' ? <Wrench size={34} color={alpha(colors.text.primary, 0.4)} /> : <Package size={34} color={alpha(colors.text.primary, 0.4)} />}
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
                 {tab === 'services' ? 'Esta tienda aún no ofrece servicios.' : 'Esta tienda aún no tiene productos publicados.'}
               </Text>
@@ -376,7 +376,7 @@ function ShopContent() {
               />
             ) : (
               <View style={[styles.cardImg, { backgroundColor: alpha(colors.primary, 0.08), alignItems: 'center', justifyContent: 'center' }]}>
-                <Package size={22} color={alpha(colors.primary, 0.5)} />
+                <Package size={22} color={alpha(colors.text.primary, 0.5)} />
               </View>
             )}
             <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
@@ -387,11 +387,11 @@ function ShopContent() {
                 un borde de color, que no se puede ni leer con un lector de pantalla (y que yo
                 tampoco podía comprobar en el teléfono). */}
             {resaltado === item.id ? (
-              <Text style={{ color: colors.primary, fontSize: tipografia.micro, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.micro, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
                 📍 Es el que tocaste
               </Text>
             ) : null}
-            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
               {lbPriceLabel(item.priceXaf, item.priceMode, lbXaf)}
             </Text>
             <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }}>

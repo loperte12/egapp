@@ -116,7 +116,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
               <Image source={{ uri: absUrl(group.photoUrl) }} style={styles.photo} />
             ) : (
               <View style={[styles.photo, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.title }}>
+                <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.title }}>
                   {(group.title || '?').trim().charAt(0).toUpperCase()}
                 </Text>
               </View>
@@ -135,7 +135,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
 
           {group.topic ? (
             <View style={[styles.chipRow, { backgroundColor: alpha(colors.primary, 0.08), marginTop: espaciado.e12 }]}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>📌 {group.topic}</Text>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>📌 {group.topic}</Text>
             </View>
           ) : null}
 
@@ -154,7 +154,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
               enlace tiene tope se dice cuántas quedan; si no tiene, no se dice nada (no
               hay nada que contar). */}
           {invitacion && invitacion.usesLeft !== null ? (
-            <Text style={{ color: invitacion.usesLeft === 0 ? colors.danger : colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>
+            <Text style={{ color: invitacion.usesLeft === 0 ? colors.text.danger : colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e6 }}>
               {invitacion.usesLeft === 0
                 ? 'Este enlace ya no admite a más gente'
                 : `Quedan ${invitacion.usesLeft} entrada${invitacion.usesLeft === 1 ? '' : 's'} por este enlace`}
@@ -206,7 +206,7 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
 
           {!soyMiembro && pendiente ? (
             <View style={[styles.stateBox, { backgroundColor: alpha(colors.secondary, 0.10), borderColor: alpha(colors.secondary, 0.3) }]}>
-              <Clock size={16} color={colors.secondary} />
+              <Clock size={16} color={colors.text.secondary} />
               <View style={{ flex: 1 }}>
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Solicitud enviada</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
@@ -218,14 +218,14 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
 
           {!soyMiembro && rechazado && !pendiente ? (
             <View style={[styles.stateBox, { backgroundColor: alpha(colors.danger, 0.08), borderColor: alpha(colors.danger, 0.3) }]}>
-              <X size={16} color={colors.danger} />
+              <X size={16} color={colors.text.danger} />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, flex: 1 }}>
                 El organizador no aceptó tu solicitud. Puedes volver a intentarlo.
               </Text>
             </View>
           ) : null}
 
-          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
+          {error ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text> : null}
         </ScrollView>
 
         {/* Botón según el estado */}
@@ -281,8 +281,8 @@ export function GroupCardSheet({ visible, group, onClose, onJoined, onChanged, c
 export function JoinedBadge({ colors, label }: { colors: any; label: string }) {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
-      <Check size={13} color={colors.primary} />
-      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{label}</Text>
+      <Check size={13} color={colors.text.primary} />
+      <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{label}</Text>
     </View>
   );
 }

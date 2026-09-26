@@ -427,10 +427,10 @@ export default function FoodOwnerScreen() {
         accion={
           <>
             <Tactil onPress={() => router.push('/food-rider' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Pantalla de repartidor">
-              <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Repartir</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Repartir</Text>
             </Tactil>
             <Tactil onPress={() => router.push('/food-orders?as=owner' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Pedidos recibidos">
-              <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Pedidos</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Pedidos</Text>
             </Tactil>
           </>
         }
@@ -488,7 +488,7 @@ export default function FoodOwnerScreen() {
                 {photoUrl ? (
                   <Pressable onPress={() => setPhotoUrl(null)} accessibilityRole="button" accessibilityLabel="Quitar foto"
                     style={{ marginTop: espaciado.e6, alignSelf: 'flex-start' }}>
-                    <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Quitar foto</Text>
+                    <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Quitar foto</Text>
                   </Pressable>
                 ) : (
                   <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e6 }}>Máx 8 MB · se ve en la lista de restaurantes</Text>
@@ -554,7 +554,7 @@ export default function FoodOwnerScreen() {
 
             {rest?.status === 'rejected' && rest.rejectionReason ? (
               <View style={[s.rejectedBox, { backgroundColor: alpha(colors.danger, 0.08) }]}>
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Motivo: {rest.rejectionReason}</Text>
+                <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Motivo: {rest.rejectionReason}</Text>
               </View>
             ) : null}
 
@@ -604,7 +604,7 @@ export default function FoodOwnerScreen() {
                         </Pressable>
                         <Pressable onPress={() => setIPhoto(null)} hitSlop={8}
                           accessibilityRole="button" accessibilityLabel="Quitar la foto del plato">
-                          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.danger }}>Quitar</Text>
+                          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.danger }}>Quitar</Text>
                         </Pressable>
                       </View>
                     </View>
@@ -844,23 +844,23 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
           <Precio valor={item.priceXaf} tamano="sm" color={ACCENT} />
           <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: statusColor }}>{statusText}</Text>
-          {!photo ? <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: brand.warning }}>· falta foto</Text> : null}
+          {!photo ? <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: colors.text.warning }}>· falta foto</Text> : null}
         </View>
       </View>
       {busy ? (
-        <ActivityIndicator size="small" color={colors.primary} />
+        <ActivityIndicator size="small" color={colors.text.primary} />
       ) : (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
           {onToggle ? (
             <Pressable onPress={onToggle} hitSlop={6} accessibilityRole="button"
               accessibilityLabel={item.available ? `Ocultar ${item.name} del menú` : `Mostrar ${item.name} en el menú`}
               style={[s_row.iconBtn, { backgroundColor: alpha(colors.primary, 0.1) }]}>
-              {item.available ? <EyeOff size={15} color={colors.primary} /> : <Eye size={15} color={colors.primary} />}
+              {item.available ? <EyeOff size={15} color={colors.text.primary} /> : <Eye size={15} color={colors.text.primary} />}
             </Pressable>
           ) : null}
           <Pressable onPress={onRemove} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Eliminar ${item.name}`}
             style={[s_row.iconBtn, { backgroundColor: alpha(colors.danger, 0.1) }]}>
-            <Trash2 size={15} color={colors.danger} />
+            <Trash2 size={15} color={colors.text.danger} />
           </Pressable>
         </View>
       )}
@@ -872,12 +872,12 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
   const { colors } = useTheme();
   const row = (
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e5 }}>
-      {ok ? <BadgeCheck size={16} color={brand.success} /> : <XCircle size={16} color={neutro.n400} />}
+      {ok ? <BadgeCheck size={16} color={colors.text.success} /> : <XCircle size={16} color={neutro.n400} />}
       <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
         <Text style={{ fontSize: tipografia.caption, fontWeight: peso.medio, color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
-        {hint ? <Text style={{ fontSize: tipografia.micro, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
+        {hint ? <Text style={{ fontSize: tipografia.micro, color: onPress ? colors.text.primary : colors.textSecondary }}>{hint}</Text> : null}
       </View>
-      {onPress ? <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>→</Text> : null}
+      {onPress ? <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>→</Text> : null}
     </View>
   );
   return onPress ? (
@@ -924,7 +924,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   detailsBody: { borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border, padding: espaciado.e12, marginTop: espaciado.e8, backgroundColor: c.background },
   fieldLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, marginBottom: espaciado.e6, marginLeft: espaciado.e2 },
   fieldHint: { fontSize: tipografia.micro, color: c.textSecondary, marginTop: espaciado.e5, marginLeft: espaciado.e2, lineHeight: 15 },
-  fieldErr: { fontSize: tipografia.micro, fontWeight: peso.fuerte, color: c.danger, marginTop: espaciado.e5, marginLeft: espaciado.e2 },
+  fieldErr: { fontSize: tipografia.micro, fontWeight: peso.fuerte, color: c.text.danger, marginTop: espaciado.e5, marginLeft: espaciado.e2 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 },
   chip: { borderWidth: trazo.fino, borderRadius: radios.lg, paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e7 },
   switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e11, marginTop: espaciado.e12 },

@@ -213,7 +213,7 @@ function ProductsContent() {
           Mis publicaciones
         </Text>
         <Pressable onPress={() => irSeguro.libre('/lifebook-sell')} hitSlop={10} accessibilityLabel="Publicar algo nuevo">
-          <Plus size={21} color={colors.primary} />
+          <Plus size={21} color={colors.text.primary} />
         </Pressable>
       </View>
 
@@ -226,7 +226,7 @@ function ProductsContent() {
           accessibilityLabel="Elegir los productos destacados de mi perfil"
           style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e8 }}
         >
-          <Star size={16} color={brand.warning} fill={brand.warning} />
+          <Star size={16} color={colors.text.warning} fill={colors.text.warning} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
             Destacados en mi perfil
           </Text>
@@ -244,7 +244,7 @@ function ProductsContent() {
       </View>
 
       {items === null ? (
-        <View style={[styles.center, { flex: 1 }]}><ActivityIndicator color={colors.primary} /></View>
+        <View style={[styles.center, { flex: 1 }]}><ActivityIndicator color={colors.text.primary} /></View>
       ) : (
         <ScrollView
           contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 24, flexGrow: 1 }}
@@ -254,7 +254,7 @@ function ProductsContent() {
 
           {visibles.length === 0 ? (
             <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e8 }}>
-              <Package size={42} color={alpha(colors.primary, 0.45)} />
+              <Package size={42} color={alpha(colors.text.primary, 0.45)} />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                 {filtro === 'todos' ? 'Todavía no vendes nada' : 'Nada en este estado'}
               </Text>
@@ -278,7 +278,7 @@ function ProductsContent() {
                       <Image source={absUrl(p.coverUrl)} style={styles.thumb} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                     ) : (
                       <View style={[styles.thumb, { backgroundColor: alpha(colors.primary, 0.1), alignItems: 'center', justifyContent: 'center' }]}>
-                        <Package size={18} color={alpha(colors.primary, 0.6)} />
+                        <Package size={18} color={alpha(colors.text.primary, 0.6)} />
                       </View>
                     )}
                     <View style={{ flex: 1 }}>
@@ -301,7 +301,7 @@ function ProductsContent() {
                       {/* TANDA H: cuánta gente está esperando que vuelva a haber stock. Es el dato
                           que dice si merece la pena reponer. Solo sale si hay alguien esperando. */}
                       {Number(p.waitingCount ?? 0) > 0 ? (
-                        <Text style={{ color: brand.warning, fontSize: tipografia.micro, fontWeight: peso.titulo }}>
+                        <Text style={{ color: colors.text.warning, fontSize: tipografia.micro, fontWeight: peso.titulo }}>
                           🔔 {p.waitingCount} esperan stock
                         </Text>
                       ) : null}
@@ -328,12 +328,12 @@ function ProductsContent() {
                       />
                     ))}
                     {rapida ? (
-                      <Chip label="Precio y stock" icon={<Pencil size={12} color={colors.primary} />} disabled={busyId === p.id} onPress={() => setEditando(p)} />
+                      <Chip label="Precio y stock" icon={<Pencil size={12} color={colors.text.primary} />} disabled={busyId === p.id} onPress={() => setEditando(p)} />
                     ) : null}
                     <Chip label="Editar todo" disabled={busyId === p.id} onPress={() => irSeguro.libre('/lifebook-sell', { editId: p.id })} />
                     <Chip label="Ver ficha" icon={<Eye size={12} color={colors.textSecondary} />} onPress={() => irSeguro.libre('/lifebook-product/[id]', { id: p.id })} />
-                    <Chip label="Eliminar" icon={<Trash2 size={12} color={colors.danger} />} disabled={busyId === p.id} onPress={() => borrar(p)} />
-                    {busyId === p.id ? <ActivityIndicator size="small" color={colors.primary} /> : null}
+                    <Chip label="Eliminar" icon={<Trash2 size={12} color={colors.text.danger} />} disabled={busyId === p.id} onPress={() => borrar(p)} />
+                    {busyId === p.id ? <ActivityIndicator size="small" color={colors.text.primary} /> : null}
                   </View>
                 </View>
               );
@@ -394,7 +394,7 @@ function ProductsContent() {
                           <Image source={absUrl(p.coverUrl)} style={{ width: '100%', height: '100%' }} contentFit="cover" transition={0} />
                         ) : (
                           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                            <Package size={18} color={alpha(colors.primary, 0.5)} />
+                            <Package size={18} color={alpha(colors.text.primary, 0.5)} />
                           </View>
                         )}
                       </View>

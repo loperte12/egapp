@@ -201,7 +201,7 @@ export function ChatOptionsSheet({
         <View style={styles.sheetHeader}>
           {step !== 'menu' ? (
             <Pressable onPress={() => setStep('menu')} hitSlop={10} accessibilityLabel="Volver al menú">
-              <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>‹ Atrás</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>‹ Atrás</Text>
             </Pressable>
           ) : null}
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1 }}>{title}</Text>
@@ -211,42 +211,42 @@ export function ChatOptionsSheet({
         {/* ── Menú principal ── */}
         {step === 'menu' ? (
           <ScrollView style={{ flexGrow: 0, flexShrink: 1 }} keyboardShouldPersistTaps="handled">
-            <Row icon={<Search size={18} color={colors.primary} />} label="Buscar en el historial"
+            <Row icon={<Search size={18} color={colors.text.primary} />} label="Buscar en el historial"
               hint="Fotos, documentos, enlaces, notas…" onPress={() => search(tab)} />
             {/* Parte 30 (Fase 05): buscar en TODOS mis chats a la vez */}
-            <Row icon={<Search size={18} color={colors.secondary} />} label="Buscar en todos mis chats"
+            <Row icon={<Search size={18} color={colors.text.secondary} />} label="Buscar en todos mis chats"
               hint="Encuentra un mensaje aunque no recuerdes dónde"
               onPress={() => { onClose(); router.push('/lifebook-message-search' as never); }} />
-            <Row icon={<Lock size={18} color={colors.primary} />} label="No molestar"
+            <Row icon={<Lock size={18} color={colors.text.primary} />} label="No molestar"
               hint={state.muted ? 'Silenciado' : 'Avisar de cada mensaje'}
               right={<Switch value={state.muted} disabled={busy === 'muted'} onValueChange={(v) => toggle('muted', v)} />} />
-            <Row icon={<MoreHorizontal size={18} color={colors.primary} />} label="Fijar chat arriba"
+            <Row icon={<MoreHorizontal size={18} color={colors.text.primary} />} label="Fijar chat arriba"
               hint={state.pinned ? 'Está arriba en Mensajes' : 'Ordenar por fecha'}
               right={<Switch value={state.pinned} disabled={busy === 'pinned'} onValueChange={(v) => toggle('pinned', v)} />} />
-            <Row icon={<Palette size={18} color={colors.primary} />} label="Establecer el fondo del chat"
+            <Row icon={<Palette size={18} color={colors.text.primary} />} label="Establecer el fondo del chat"
               hint={CHAT_BACKGROUNDS.find((b) => b.id === (state.background ?? 'default'))?.label ?? 'Predeterminado'}
               onPress={() => setStep('background')} />
-            <Row icon={<Eraser size={18} color={colors.primary} />} label="Borrar el historial de chat"
+            <Row icon={<Eraser size={18} color={colors.text.primary} />} label="Borrar el historial de chat"
               hint="Solo para ti" onPress={clearHistory} />
             <Row icon={<ShieldAlert size={18} color={brand.warningPressed} />} label="Reclamaciones en caso de estafa"
               hint="Avisa a moderación de esta conversación" onPress={() => setStep('claim')} />
 
             {isGroup ? (
               <>
-                <Row icon={<Users size={18} color={colors.primary} />} label="Miembros del grupo"
+                <Row icon={<Users size={18} color={colors.text.primary} />} label="Miembros del grupo"
                   hint="Añadir, expulsar y ver roles" onPress={() => { onClose(); onOpenMembers?.(); }} />
                 {myRole === 'owner' || myRole === 'admin' ? (
-                  <Row icon={<Pencil size={18} color={colors.primary} />} label="Editar grupo"
+                  <Row icon={<Pencil size={18} color={colors.text.primary} />} label="Editar grupo"
                     hint="Nombre, foto y componentes permitidos" onPress={() => { onClose(); onEditGroup?.(); }} />
                 ) : null}
-                <Row icon={<LogOut size={18} color={colors.danger} />} label="Salir del grupo"
+                <Row icon={<LogOut size={18} color={colors.text.danger} />} label="Salir del grupo"
                   hint={myRole === 'owner' ? 'Solo elige otro dueño para salir' : 'Dejarás de recibir mensajes'}
                   onPress={myRole === 'owner' ? undefined : leaveGroup}
-                  right={busy === 'leave' ? <ActivityIndicator size="small" color={colors.danger} /> : undefined}
+                  right={busy === 'leave' ? <ActivityIndicator size="small" color={colors.text.danger} /> : undefined}
                   danger />
               </>
             ) : peerId ? (
-              <Row icon={<UserX size={18} color={colors.danger} />} label={`Bloquear a ${peerName}`}
+              <Row icon={<UserX size={18} color={colors.text.danger} />} label={`Bloquear a ${peerName}`}
                 hint="No podrá escribirte ni verás su contenido" danger onPress={blockPeer} />
             ) : null}
           </ScrollView>
@@ -266,7 +266,7 @@ export function ChatOptionsSheet({
                     accessibilityLabel={t.label}
                     style={[styles.chip, { backgroundColor: on ? colors.primary : alpha(colors.primary, 0.1) }]}
                   >
-                    <Text style={{ color: on ? brand.white : colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+                    <Text style={{ color: on ? brand.white : colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                       {t.icon} {t.label}
                     </Text>
                   </Pressable>
@@ -298,7 +298,7 @@ export function ChatOptionsSheet({
                       {b.accent ? <View style={[styles.bgAccent, { backgroundColor: b.accent }]} /> : null}
                     </View>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: on ? peso.titulo : peso.medio, flex: 1 }}>{b.label}</Text>
-                    {on ? <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>✓</Text> : null}
+                    {on ? <Text style={{ color: colors.text.primary, fontWeight: peso.titulo }}>✓</Text> : null}
                   </Pressable>
                 );
               })}
@@ -362,7 +362,7 @@ function Row({ icon, label, hint, right, onPress, danger }: {
     >
       <View style={[styles.rowIcon, { backgroundColor: alpha(danger ? colors.danger : colors.primary, 0.12) }]}>{icon}</View>
       <View style={{ flex: 1 }}>
-        <Text style={{ color: danger ? colors.danger : colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.fuerte }}>{label}</Text>
+        <Text style={{ color: danger ? colors.text.danger : colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.fuerte }}>{label}</Text>
         {hint ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>{hint}</Text> : null}
       </View>
       {right ?? null}
@@ -374,7 +374,7 @@ function Row({ icon, label, hint, right, onPress, danger }: {
 function HistoryList({ tab, rows, colors, onOpenImage }: {
   tab: ChatSearchTab; rows: LbMessage[] | null; colors: any; onOpenImage: (url: string) => void;
 }) {
-  if (rows === null) return <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />;
+  if (rows === null) return <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e24 }} />;
   if (rows.length === 0) {
     return (
       <View style={{ alignItems: 'center', paddingVertical: espaciado.e26, gap: espaciado.e6 }}>

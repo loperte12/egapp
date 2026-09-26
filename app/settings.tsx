@@ -115,8 +115,8 @@ function SettingsContent() {
               disabled={!allowAll && !active}
               style={({ pressed }) => [styles.sheetRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
             >
-              <Text style={[styles.sheetRowTxt, { color: active ? colors.primary : colors.textPrimary }]}>{o}</Text>
-              {active ? <Check size={18} color={colors.primary} /> : (!allowAll ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.nota, fontWeight: peso.fuerte }}>Próximamente</Text> : null)}
+              <Text style={[styles.sheetRowTxt, { color: active ? colors.text.primary : colors.textPrimary }]}>{o}</Text>
+              {active ? <Check size={18} color={colors.text.primary} /> : (!allowAll ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.nota, fontWeight: peso.fuerte }}>Próximamente</Text> : null)}
             </Pressable>
           );
         })}
@@ -264,8 +264,8 @@ function SettingsContent() {
           onPress={() => setEmergencyOpen(true)}
           style={({ pressed }) => [styles.emergency, { backgroundColor: pressed ? alpha(colors.danger, 0.14) : alpha(colors.danger, 0.08) }]}
         >
-          <Siren size={19} color={colors.danger} />
-          <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.body }}>Emergencia</Text>
+          <Siren size={19} color={colors.text.danger} />
+          <Text style={{ color: colors.text.danger, fontWeight: peso.maximo, fontSize: tipografia.body }}>Emergencia</Text>
         </Pressable>
 
         {/* SESIÓN */}
@@ -329,8 +329,8 @@ function SettingsContent() {
                   }}
                   style={({ pressed }) => [styles.sheetRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
                 >
-                  <Text style={[styles.sheetRowTxt, { color: active ? colors.primary : colors.textPrimary }]}>{o.label}</Text>
-                  {active ? <Check size={18} color={colors.primary} /> : null}
+                  <Text style={[styles.sheetRowTxt, { color: active ? colors.text.primary : colors.textPrimary }]}>{o.label}</Text>
+                  {active ? <Check size={18} color={colors.text.primary} /> : null}
                 </Pressable>
               );
             })}
@@ -360,13 +360,13 @@ function SettingsContent() {
                 }}
                 style={({ pressed }) => [styles.sheetRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}
               >
-                <Text style={[styles.sheetRowTxt, { color: active ? colors.primary : colors.textPrimary }]}>{c}</Text>
-                {active ? <Check size={18} color={colors.primary} /> : null}
+                <Text style={[styles.sheetRowTxt, { color: active ? colors.text.primary : colors.textPrimary }]}>{c}</Text>
+                {active ? <Check size={18} color={colors.text.primary} /> : null}
               </Pressable>
             );
           })}
           <Pressable onPress={() => setCityOpen(false)} style={{ marginTop: espaciado.e8, alignSelf: 'center' }}>
-            <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Listo</Text>
+            <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Listo</Text>
           </Pressable>
         </View>
       </Modal>
@@ -395,10 +395,10 @@ function Row({ icon: Icon, label, hint, danger, centered, onPress, right, last }
     >
       {!centered && (
         <View style={[styles.rowIcon, { backgroundColor: danger ? alpha(colors.danger, 0.1) : alpha(colors.primary, 0.08) }]}>
-          <Icon size={18} color={danger ? colors.danger : colors.primary} />
+          <Icon size={18} color={danger ? colors.text.danger : colors.text.primary} />
         </View>
       )}
-      <Text style={[styles.rowLabel, { color: danger ? colors.danger : colors.textPrimary }]}>{label}</Text>
+      <Text style={[styles.rowLabel, { color: danger ? colors.text.danger : colors.textPrimary }]}>{label}</Text>
       {!centered && hint ? <Text style={styles.rowHint} numberOfLines={1}>{hint}</Text> : null}
       {!centered && (right ?? <ChevronRight size={16} color={colors.textSecondary} />)}
     </Pressable>

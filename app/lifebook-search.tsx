@@ -302,7 +302,7 @@ function LifeBookSearchContent() {
         </View>
 
         <Pressable onPress={() => doSearch(query)} hitSlop={8} accessibilityRole="button">
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
             Buscar
           </Text>
         </Pressable>
@@ -325,7 +325,7 @@ function LifeBookSearchContent() {
               })}
             >
               {s.type === 'tag' ? (
-                <Hash size={15} color={colors.primary} />
+                <Hash size={15} color={colors.text.primary} />
               ) : s.type === 'user' ? (
                 <UserIcon size={15} color={colors.textSecondary} />
               ) : (
@@ -379,7 +379,7 @@ function LifeBookSearchContent() {
 
           {loading ? (
             <View style={styles.center}>
-              <ActivityIndicator color={colors.primary} />
+              <ActivityIndicator color={colors.text.primary} />
             </View>
           ) : results.length === 0 ? (
             /* Vacío del kit. Es una búsqueda sin resultados: se dice qué se buscó y qué hacer. */
@@ -424,7 +424,7 @@ function LifeBookSearchContent() {
               onEndReached={() => { if (nextCursor && !loadingMore) doSearch(query, false); }}
               onEndReachedThreshold={0.5}
               ListFooterComponent={
-                loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e16 }} /> : null
+                loadingMore ? <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e16 }} /> : null
               }
             />
           )}
@@ -507,7 +507,7 @@ function LifeBookSearchContent() {
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>
                     {formatCount(t.count)}
                   </Text>
-                  {t.hot ? <Flame size={13} color={brand.secondary} /> : null}
+                  {t.hot ? <Flame size={13} color={colors.text.secondary} /> : null}
                 </Pressable>
               ))
             )}
@@ -516,10 +516,10 @@ function LifeBookSearchContent() {
           {/* Categorías sugeridas + entrada a Explorar */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <TrendingUp size={16} color={colors.primary} />
+              <TrendingUp size={16} color={colors.text.primary} />
               <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>Descubre</Text>
               <Pressable onPress={() => irSeguro.libre('/lifebook-explore')} hitSlop={8} accessibilityRole="link">
-                <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Explorar todo →</Text>
+                <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Explorar todo →</Text>
               </Pressable>
             </View>
             <View style={styles.tagsWrap}>
@@ -529,7 +529,7 @@ function LifeBookSearchContent() {
                   onPress={() => onPickTerm(tag)}
                   style={[styles.discoverTag, { backgroundColor: alpha(colors.primary, 0.06) }]}
                 >
-                  <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{tag}</Text>
+                  <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{tag}</Text>
                 </Pressable>
               ))}
             </View>

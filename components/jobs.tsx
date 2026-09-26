@@ -47,7 +47,7 @@ export function WorkJobCard({ job, onPress }: { job: WorkJob; onPress: () => voi
       {/* Fila 2: empresa + verificada */}
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e4 }}>
         <Text style={[s.company, { color: colors.textSecondary }]} numberOfLines={1}>{job.company}</Text>
-        {job.companyVerified && <BadgeCheck size={13} color={brand.success} />}
+        {job.companyVerified && <BadgeCheck size={13} color={colors.text.success} />}
         {job.isUrgent && (
           <View style={s.urgentBadge}><Text style={s.urgentText}>URGENTE</Text></View>
         )}
@@ -66,7 +66,7 @@ export function WorkJobCard({ job, onPress }: { job: WorkJob; onPress: () => voi
       <View style={[s.footer, { borderTopColor: colors.border }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
           <View style={[s.avatar, { backgroundColor: job.recruiter?.avatarColor ?? alpha(colors.primary, 0.15) }]}>
-            <Text style={[s.avatarText, { color: colors.primary }]}>
+            <Text style={[s.avatarText, { color: colors.text.primary }]}>
               {(recruiterName || job.company || '?').charAt(0).toUpperCase()}
             </Text>
           </View>
@@ -75,7 +75,7 @@ export function WorkJobCard({ job, onPress }: { job: WorkJob; onPress: () => voi
               {recruiterName || 'Empresa'}
               {job.recruiter?.role ? ` · ${job.recruiter.role}` : ''}
             </Text>
-            <Text style={{ color: colors.success, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>
+            <Text style={{ color: colors.text.success, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>
               {job.applicantsCount > 0 ? `✓ ${job.applicantsCount} candidato${job.applicantsCount === 1 ? '' : 's'}` : 'Reclutando'}
             </Text>
           </View>
@@ -118,7 +118,7 @@ export function WorkSortBar({ value, onChange }: { value: SortKey; onChange: (k:
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e8, gap: espaciado.e6 }}>
       {OPTIONS.map((o) => (
         <Pressable key={o.key} onPress={() => onChange(o.key)} style={[s.sortBtn, { backgroundColor: value === o.key ? alpha(colors.primary, 0.15) : 'transparent' }]}>
-          <Text style={{ fontSize: tipografia.micro, color: value === o.key ? colors.primary : colors.textSecondary, fontWeight: value === o.key ? peso.maximo : peso.medio }}>{o.label}</Text>
+          <Text style={{ fontSize: tipografia.micro, color: value === o.key ? colors.text.primary : colors.textSecondary, fontWeight: value === o.key ? peso.maximo : peso.medio }}>{o.label}</Text>
         </Pressable>
       ))}
     </View>
@@ -157,8 +157,8 @@ export function WorkSafetyNotice() {
   const { colors } = useTheme();
   return (
     <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), borderRadius: radios.chip, padding: espaciado.e10, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-      <ShieldCheck size={16} color={colors.danger} />
-      <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, flex: 1 }}>
+      <ShieldCheck size={16} color={colors.text.danger} />
+      <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, flex: 1 }}>
         Empleo seguro: NUNCA pagues por un trabajo. Reporta cualquier oferta sospechosa.
       </Text>
     </View>

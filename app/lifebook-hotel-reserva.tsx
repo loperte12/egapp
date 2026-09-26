@@ -186,7 +186,7 @@ function Contenido() {
   if (cargando && !r) {
     return (
       <View style={[styles.centro, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
         <Text style={[styles.sub, { color: colors.textSecondary }]}>Cargando la reserva…</Text>
       </View>
     );
@@ -194,9 +194,9 @@ function Contenido() {
   if (!r) {
     return (
       <View style={[styles.centro, { backgroundColor: colors.background, padding: espaciado.e20 }]}>
-        <Text style={[styles.errorTxt, { color: colors.danger }]}>{error ?? 'Reserva no encontrada'}</Text>
+        <Text style={[styles.errorTxt, { color: colors.text.danger }]}>{error ?? 'Reserva no encontrada'}</Text>
         <Pressable onPress={() => void cargar()} accessibilityRole="button" accessibilityLabel="Reintentar">
-          <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
+          <Text style={[styles.enlace, { color: colors.text.primary }]}>Reintentar</Text>
         </Pressable>
         <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Volver">
           <Text style={[styles.enlace, { color: colors.textSecondary }]}>Volver</Text>
@@ -238,7 +238,7 @@ function Contenido() {
           {/* ── Estado y línea de tiempo (con la retención incluida) ── */}
           <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
             <Text style={[styles.codigo, { color: colors.textPrimary }]}>{r.code}</Text>
-            <Text style={[styles.estado, { color: cancelada ? colors.danger : colors.primary }]}>
+            <Text style={[styles.estado, { color: cancelada ? colors.text.danger : colors.text.primary }]}>
               {RESERVATION_STATUS_LABELS[estado] ?? r.status}
             </Text>
 
@@ -262,7 +262,7 @@ function Contenido() {
             ) : null}
 
             {estado === 'hold' && r.holdExpiresAt ? (
-              <Text style={[styles.avisoTxt, { color: colors.danger }]}>
+              <Text style={[styles.avisoTxt, { color: colors.text.danger }]}>
                 ⏳ Retenida {countdown(r.holdExpiresAt)} para pagar la señal ({xaf(r.depositXaf)}).
                 Si no se paga, la habitación se libera sola.
               </Text>
@@ -286,7 +286,7 @@ function Contenido() {
                   accessibilityLabel="Ver el hotel en el mapa"
                   style={[styles.botonSec, { borderColor: colors.border, backgroundColor: colors.surface }]}
                 >
-                  <Text style={[styles.botonSecTxt, { color: colors.primary }]}>Ver en el mapa</Text>
+                  <Text style={[styles.botonSecTxt, { color: colors.text.primary }]}>Ver en el mapa</Text>
                 </Pressable>
               ) : null}
               {r.guestId ? (
@@ -296,7 +296,7 @@ function Contenido() {
                   accessibilityLabel="Chatear con el hotel"
                   style={[styles.botonSec, { borderColor: colors.border, backgroundColor: colors.surface }]}
                 >
-                  <Text style={[styles.botonSecTxt, { color: colors.primary }]}>Chatear con el hotel</Text>
+                  <Text style={[styles.botonSecTxt, { color: colors.text.primary }]}>Chatear con el hotel</Text>
                 </Pressable>
               ) : null}
             </View>
@@ -326,11 +326,11 @@ function Contenido() {
             <Linea etiqueta="Total" valor={xaf(r.totalXaf)} fuerte />
             {r.depositXaf > 0 ? (
               <>
-                <Linea etiqueta={`Señal (${r.depositPercent} %)`} valor={xaf(r.depositXaf)} color={colors.primary} fuerte />
-                <Linea etiqueta="Al llegar al hotel" valor={xaf(r.remainingXaf)} color={colors.secondary} fuerte />
+                <Linea etiqueta={`Señal (${r.depositPercent} %)`} valor={xaf(r.depositXaf)} color={colors.text.primary} fuerte />
+                <Linea etiqueta="Al llegar al hotel" valor={xaf(r.remainingXaf)} color={colors.text.secondary} fuerte />
               </>
             ) : (
-              <Linea etiqueta="Se paga al llegar" valor={xaf(r.totalXaf)} color={colors.secondary} fuerte />
+              <Linea etiqueta="Se paga al llegar" valor={xaf(r.totalXaf)} color={colors.text.secondary} fuerte />
             )}
             <Linea etiqueta="Forma de pago" valor={METODO_ETIQUETA[r.paymentMethod] ?? r.paymentMethod} tenue />
             <Linea etiqueta="Estado del pago" valor={PAGO_ETIQUETA[r.paymentStatus] ?? r.paymentStatus} tenue />
@@ -387,7 +387,7 @@ function Contenido() {
                   accessibilityState={{ disabled: actuando }}
                   style={[styles.botonFantasma, { borderColor: colors.danger, opacity: actuando ? 0.5 : 1 }]}
                 >
-                  <Text style={[styles.botonFantasmaTxt, { color: colors.danger }]}>
+                  <Text style={[styles.botonFantasmaTxt, { color: colors.text.danger }]}>
                     {actuando ? 'Cancelando…' : 'Cancelar la reserva'}
                   </Text>
                 </Pressable>
@@ -405,7 +405,7 @@ function Contenido() {
             </View>
           ) : null}
           {error ? (
-            <Text style={[styles.errorTxt, { color: colors.danger }]}>{error}</Text>
+            <Text style={[styles.errorTxt, { color: colors.text.danger }]}>{error}</Text>
           ) : null}
         </View>
       </ScrollView>

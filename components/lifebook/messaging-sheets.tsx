@@ -125,7 +125,7 @@ export function AddFriendSheet({ visible, onClose, onOpenChat }: {
         Personas que te siguen o que publican cerca de ti. Puedes seguirlas o escribirles.
       </Text>
       {people === null ? (
-        <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
+        <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e20 }} />
       ) : people.length === 0 ? (
         <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e20, fontSize: tipografia.body }}>
           No hay recomendaciones por ahora.
@@ -152,8 +152,8 @@ export function AddFriendSheet({ visible, onClose, onOpenChat }: {
                     </Pressable>
                   ) : (
                     <View style={[styles.smallBtn, { backgroundColor: alpha(colors.primary, 0.12) }]}>
-                      <Check size={13} color={colors.primary} />
-                      <Text style={[styles.smallBtnText, { color: colors.primary }]}>Siguiendo</Text>
+                      <Check size={13} color={colors.text.primary} />
+                      <Text style={[styles.smallBtnText, { color: colors.text.primary }]}>Siguiendo</Text>
                     </View>
                   )}
                   <Pressable
@@ -183,7 +183,7 @@ export function ScanSheet({ visible, onClose, onDocument, onQr }: {
     <Sheet visible={visible} onClose={onClose}>
       <SheetHeader title="Escanear" onClose={onClose} />
       <Pressable onPress={() => { onClose(); onDocument(); }} style={[styles.optionRow, { backgroundColor: colors.surface }]}>
-        <FileScan size={18} color={colors.primary} />
+        <FileScan size={18} color={colors.text.primary} />
         <View style={{ flex: 1 }}>
           <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Escanear documento</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Traducir un documento al español</Text>

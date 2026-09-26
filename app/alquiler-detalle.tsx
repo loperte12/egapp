@@ -339,7 +339,7 @@ export default function AlquilerDetalleScreen() {
   if (!prop && loading) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={colors.text.primary} />
         <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: peso.fuerte }}>{TEXTS.loading}</Text>
       </View>
     );
@@ -348,7 +348,7 @@ export default function AlquilerDetalleScreen() {
   if (!prop) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }}>
-        <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><Flag size={26} color={colors.danger} /></View>
+        <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><Flag size={26} color={colors.text.danger} /></View>
         <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.subtitle, textAlign: 'center' }}>{TEXTS.loadErrorTitle}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e16 }}>{error}</Text>
         <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
@@ -428,7 +428,7 @@ export default function AlquilerDetalleScreen() {
               accessibilityState={{ selected: isFavorite }}
               style={({ pressed }) => [s.iconButton, { opacity: pressed ? 0.8 : 1 }]}
             >
-              <Heart size={18} color={isFavorite ? brand.danger : brand.white} fill={isFavorite ? brand.danger : 'transparent'} />
+              <Heart size={18} color={isFavorite ? colors.text.danger : brand.white} fill={isFavorite ? colors.text.danger : 'transparent'} />
             </Pressable>
             <Pressable
               onPress={() => void handleShare()}
@@ -544,8 +544,8 @@ export default function AlquilerDetalleScreen() {
 
           {/* Aviso anti-estafa */}
           <View style={{ marginBottom: espaciado.e14, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.07), padding: espaciado.e12, borderRadius: radios.chip }}>
-            <ShieldAlert size={16} color={colors.danger} />
-            <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.medio, lineHeight: 16 }}>
+            <ShieldAlert size={16} color={colors.text.danger} />
+            <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.text.danger, fontWeight: peso.medio, lineHeight: 16 }}>
               No pagues por adelantado ni envíes documentación antes de visitar el inmueble. Si algo parece sospechoso, repórtalo.
             </Text>
           </View>

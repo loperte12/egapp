@@ -175,7 +175,7 @@ export default function LifebookHotelScreen() {
           accessibilityLabel="Mis reservas"
           style={[styles.misReservas, { borderColor: colors.border }]}
         >
-          <Text style={[styles.misReservasTxt, { color: colors.primary }]}>Mis reservas</Text>
+          <Text style={[styles.misReservasTxt, { color: colors.text.primary }]}>Mis reservas</Text>
         </Pressable>
         {/*
           AQUÍ ESTABA EL BOTÓN «MI HOTEL» (el panel del hotelero) Y SE HA QUITADO.
@@ -308,7 +308,7 @@ export default function LifebookHotelScreen() {
                   : 'Elegir las fechas de la estancia'}
                 style={[styles.elegirFechas, { borderColor: colors.primary, backgroundColor: alpha(colors.primary, 0.06) }]}
               >
-                <Text style={[styles.elegirFechasTxt, { color: colors.primary }]}>
+                <Text style={[styles.elegirFechasTxt, { color: colors.text.primary }]}>
                   {checkIn && checkOut
                     ? `Cambiar fechas · ${shortDate(checkIn, true)} → ${shortDate(checkOut, true)}`
                     : 'Elegir las fechas y los días'}
@@ -332,14 +332,14 @@ export default function LifebookHotelScreen() {
             {/* ── Estado de la búsqueda ── */}
             {cargando ? (
               <View style={styles.centro}>
-                <ActivityIndicator color={colors.primary} />
+                <ActivityIndicator color={colors.text.primary} />
                 <Text style={[styles.aviso, { color: colors.textSecondary }]}>Buscando disponibilidad…</Text>
               </View>
             ) : error ? (
               <View style={[styles.error, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-                <Text style={[styles.errorTxt, { color: colors.danger }]}>{error}</Text>
+                <Text style={[styles.errorTxt, { color: colors.text.danger }]}>{error}</Text>
                 <Pressable onPress={() => void buscar()} accessibilityRole="button" accessibilityLabel="Reintentar">
-                  <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
+                  <Text style={[styles.enlace, { color: colors.text.primary }]}>Reintentar</Text>
                 </Pressable>
               </View>
             ) : listo && (datos?.hotels.length ?? 0) === 0 ? (
@@ -377,7 +377,7 @@ export default function LifebookHotelScreen() {
                     accessibilityLabel="Ver todos los resultados"
                     style={[styles.verTodos, { borderColor: colors.primary }]}
                   >
-                    <Text style={[styles.verTodosTxt, { color: colors.primary }]}>
+                    <Text style={[styles.verTodosTxt, { color: colors.text.primary }]}>
                       Ver la lista de resultados
                     </Text>
                   </Pressable>
@@ -416,7 +416,7 @@ function Chip({ activo, texto, onPress }: { activo: boolean; texto: string; onPr
         backgroundColor: activo ? alpha(colors.primary, 0.1) : colors.surface,
       }]}
     >
-      <Text style={[styles.chipTxt, { color: activo ? colors.primary : colors.textSecondary }]}>{texto}</Text>
+      <Text style={[styles.chipTxt, { color: activo ? colors.text.primary : colors.textSecondary }]}>{texto}</Text>
     </Pressable>
   );
 }

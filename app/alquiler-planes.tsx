@@ -195,7 +195,7 @@ export default function AlquilerPlanesScreen() {
         <View style={s.featureRow} key={key}>
           <Text style={s.featureLabel}>{label}</Text>
           <View accessible={false}>
-            {v ? <Check size={16} color={colors.success} strokeWidth={trazoIcono.marcado} /> : <X size={16} color={colors.textSecondary} strokeWidth={trazoIcono.marcado} />}
+            {v ? <Check size={16} color={colors.text.success} strokeWidth={trazoIcono.marcado} /> : <X size={16} color={colors.textSecondary} strokeWidth={trazoIcono.marcado} />}
           </View>
         </View>
       );
@@ -234,24 +234,24 @@ export default function AlquilerPlanesScreen() {
 
         {plansError && (
           <View style={{ marginBottom: espaciado.e12, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: radios.chip }}>
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption }}>{plansError}</Text>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.caption }}>{plansError}</Text>
             <Pressable onPress={() => void loadPlans()} accessibilityRole="button" accessibilityLabel="Reintentar cargar planes" hitSlop={6}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar planes</Text>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar planes</Text>
             </Pressable>
           </View>
         )}
         {landlordError && (
           <View style={{ marginBottom: espaciado.e12, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: radios.chip }}>
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption }}>{landlordError}</Text>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.caption }}>{landlordError}</Text>
             <Pressable onPress={() => void loadLandlord()} accessibilityRole="button" accessibilityLabel="Reintentar cargar estado de arrendador" hitSlop={6}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar mi estado</Text>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar mi estado</Text>
             </Pressable>
           </View>
         )}
 
         {plansLoading && ordered.length === 0 && (
           <View style={{ alignItems: 'center', marginVertical: espaciado.e30 }}>
-            <ActivityIndicator color={colors.primary} />
+            <ActivityIndicator color={colors.text.primary} />
             <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e8 }}>Cargando planes…</Text>
           </View>
         )}

@@ -117,7 +117,7 @@ function VistosContent() {
       </View>
 
       {loading ? (
-        <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.center}><ActivityIndicator color={colors.text.primary} /></View>
       ) : (
         <FlatList
           data={items}
@@ -147,7 +147,7 @@ function VistosContent() {
               </View>
             ) : (
               <EmptyState
-                icono={<Clock size={38} color={alpha(colors.primary, 0.35)} />}
+                icono={<Clock size={38} color={alpha(colors.text.primary, 0.35)} />}
                 titulo="Todavía no has mirado nada"
                 texto="Cuando abras la ficha de un producto aparecerá aquí, para volver a él sin buscarlo otra vez."
                 accionLabel="Ver el catálogo"
@@ -172,7 +172,7 @@ function VistosContent() {
                     {item.times > 1 ? ` · ${item.times} veces` : ''}
                   </Text>
                   {!item.available ? (
-                    <Text style={{ color: colors.danger, fontSize: tipografia.nota, fontWeight: peso.maximo }}>Ya no está a la venta</Text>
+                    <Text style={{ color: colors.text.danger, fontSize: tipografia.nota, fontWeight: peso.maximo }}>Ya no está a la venta</Text>
                   ) : null}
                 </View>
               }

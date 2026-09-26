@@ -80,7 +80,7 @@ function StoreContent() {
     );
   }
   if (!page) {
-    return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background }}><ActivityIndicator color={colors.primary} /></View>;
+    return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background }}><ActivityIndicator color={colors.text.primary} /></View>;
   }
 
   const s = page.store;
@@ -106,13 +106,13 @@ function StoreContent() {
                 <Image source={{ uri: absUrl(s.avatarUrl) }} style={[styles.logo, { backgroundColor: colors.surface }]} />
               ) : (
                 <View style={[styles.logo, { backgroundColor: alpha(colors.secondary, 0.15), alignItems: 'center', justifyContent: 'center' }]}>
-                  <Text style={{ color: colors.secondary, fontSize: tipografia.display, fontWeight: peso.titulo }}>{(s.fullName ?? '?').charAt(0).toUpperCase()}</Text>
+                  <Text style={{ color: colors.text.secondary, fontSize: tipografia.display, fontWeight: peso.titulo }}>{(s.fullName ?? '?').charAt(0).toUpperCase()}</Text>
                 </View>
               )}
               <View style={{ flex: 1 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5 }}>
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo, flexShrink: 1 }}>{s.fullName ?? 'Tienda'}</Text>
-                  <BadgeCheck size={17} color={brand.primary} fill={brand.primary} stroke={brand.white} strokeWidth={trazoIcono.acento} />
+                  <BadgeCheck size={17} color={colors.text.primary} fill={colors.text.primary} stroke={brand.white} strokeWidth={trazoIcono.acento} />
                 </View>
                 {s.city ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e2 }}>
@@ -122,7 +122,7 @@ function StoreContent() {
                 ) : null}
                 {s.ratingAvg != null && s.ratingAvg > 0 && (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e2 }}>
-                    <Star size={12} color={brand.warning} fill={brand.warning} />
+                    <Star size={12} color={colors.text.warning} fill={colors.text.warning} />
                     <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>{s.ratingAvg.toFixed(1)}</Text>
                   </View>
                 )}
@@ -133,8 +133,8 @@ function StoreContent() {
 
             {s.ecomerse && (
               <View style={[styles.ecomerseChip, { backgroundColor: alpha(colors.secondary, 0.12) }]}>
-                <Store size={13} color={colors.secondary} />
-                <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Tienda Ecomerse verificada · productos en el Mercado</Text>
+                <Store size={13} color={colors.text.secondary} />
+                <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Tienda Ecomerse verificada · productos en el Mercado</Text>
               </View>
             )}
 

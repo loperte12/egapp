@@ -34,11 +34,11 @@ export function Chip({ label, active, onPress, icon, disabled, compact }: {
         { borderColor: border, backgroundColor: bg, opacity: disabled ? 0.5 : pressed ? 0.85 : 1 },
       ]}
     >
-      {active ? <Check size={12} color={colors.primary} /> : icon}
+      {active ? <Check size={12} color={colors.text.primary} /> : icon}
       <Text
         numberOfLines={1}
         style={{
-          color: active ? colors.primary : colors.textPrimary,
+          color: active ? colors.text.primary : colors.textPrimary,
           fontSize: compact ? 11.5 : 12.5,
           fontWeight: peso.fuerte,
           marginLeft: active || icon ? 5 : 0,

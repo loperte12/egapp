@@ -127,7 +127,7 @@ export default function EcomerseReembolsoScreen() {
         </View>
       ) : cargando && !reclamo ? (
         <View style={styles.centro}>
-          <ActivityIndicator color={colors.primary} />
+          <ActivityIndicator color={colors.text.primary} />
         </View>
       ) : reclamo && def ? (
         <ScrollView contentContainerStyle={{ paddingBottom: PIE_MERCADO_H + insets.bottom + espaciado.e24 }}>
@@ -233,7 +233,7 @@ export default function EcomerseReembolsoScreen() {
             accessibilityLabel={`Ver mis pedidos, para encontrar el pedido ${reclamo.orderRef}`}
             style={({ pressed }) => [styles.boton, { borderColor: colors.border, opacity: pressed ? 0.6 : 1 }]}
           >
-            <Text style={[styles.botonTexto, { color: colors.primary }]}>Ver mis pedidos</Text>
+            <Text style={[styles.botonTexto, { color: colors.text.primary }]}>Ver mis pedidos</Text>
           </Pressable>
         </ScrollView>
       ) : null}

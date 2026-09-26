@@ -50,14 +50,14 @@ function EmergenciaContent() {
         <Pressable onPress={() => ir.atras()} hitSlop={10} accessibilityLabel="Volver">
           <ArrowLeft size={20} color={colors.textPrimary} />
         </Pressable>
-        <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: tipografia.subCabecera, flex: 1, marginLeft: espaciado.e10 }}>
+        <Text style={{ color: colors.text.danger, fontWeight: peso.titulo, fontSize: tipografia.subCabecera, flex: 1, marginLeft: espaciado.e10 }}>
           Emergencia
         </Text>
       </View>
 
       <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 24, gap: espaciado.e12 }}>
         <View style={[styles.aviso, { backgroundColor: alpha(colors.danger, 0.08), borderColor: alpha(colors.danger, 0.35) }]}>
-          <Siren size={22} color={colors.danger} />
+          <Siren size={22} color={colors.text.danger} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, lineHeight: 18, flex: 1 }}>
             Toca un número para llamar. Estas llamadas funcionan aunque no tengas datos: solo
             necesitas cobertura de teléfono.
@@ -75,14 +75,14 @@ function EmergenciaContent() {
             }]}
           >
             <View style={[styles.icono, { backgroundColor: alpha(colors.danger, 0.12) }]}>
-              {c.id === 'policia' ? <Siren size={22} color={colors.danger} /> : <Phone size={22} color={colors.danger} />}
+              {c.id === 'policia' ? <Siren size={22} color={colors.text.danger} /> : <Phone size={22} color={colors.text.danger} />}
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>{c.label}</Text>
               {c.note ? (
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>{c.note}</Text>
               ) : null}
-              <Text style={{ color: colors.danger, fontSize: tipografia.subtitulo, fontWeight: peso.titulo, marginTop: espaciado.e4 }}>{c.number}</Text>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.subtitulo, fontWeight: peso.titulo, marginTop: espaciado.e4 }}>{c.number}</Text>
             </View>
             <View style={{ paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e9, borderRadius: radios.full, backgroundColor: colors.danger }}>
               <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo }}>Llamar</Text>
@@ -109,8 +109,8 @@ function EmergenciaContent() {
             accessibilityLabel="Ir al inicio"
             style={[styles.salida, { borderColor: colors.primary, backgroundColor: alpha(colors.primary, 0.1) }]}
           >
-            <Home size={16} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Ir al inicio</Text>
+            <Home size={16} color={colors.text.primary} />
+            <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Ir al inicio</Text>
           </Pressable>
         </View>
       </ScrollView>

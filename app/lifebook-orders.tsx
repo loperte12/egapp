@@ -88,8 +88,8 @@ function OrdersContent() {
             accessibilityLabel="Panel de mi tienda"
             style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 }}
           >
-            <Store size={13} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Mi tienda</Text>
+            <Store size={13} color={colors.text.primary} />
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Mi tienda</Text>
           </Pressable>
         ) : null}
         <View style={{ flexDirection: 'row', backgroundColor: colors.surface, borderRadius: radios.full, padding: espaciado.e3 }}>
@@ -102,7 +102,7 @@ function OrdersContent() {
       </View>
 
       {orders === null ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={colors.primary} /></View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={colors.text.primary} /></View>
       ) : (
         <FlatList
           data={orders}
@@ -152,7 +152,7 @@ function OrdersContent() {
           onRefresh={load}
           ListEmptyComponent={
             <EmptyState
-              icono={<PackageOpen size={42} color={alpha(colors.primary, 0.45)} />}
+              icono={<PackageOpen size={42} color={alpha(colors.text.primary, 0.45)} />}
               titulo={side === 'buyer' ? 'Aún no has comprado nada' : 'Aún no tienes ventas'}
               texto={side === 'buyer'
                 ? 'Cuando pidas un producto del feed aparecerá aquí, con su estado y lo que puedes hacer.'

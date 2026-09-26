@@ -574,7 +574,7 @@ export default function PublicarAnuncioScreen() {
               )}
               {atQuota && (
                 <View style={{ backgroundColor: alpha(brand.secondary, 0.12), borderRadius: radios.md, padding: espaciado.e10, marginBottom: espaciado.e10 }}>
-                  <Text style={{ fontSize: tipografia.caption, color: brand.secondary, fontWeight: peso.titulo }}>
+                  <Text style={{ fontSize: tipografia.caption, color: colors.text.secondary, fontWeight: peso.titulo }}>
                     Llegaste al límite de tu plan ({shopPlan?.used}/{shopPlan?.limit}).{' '}
                     <Text onPress={() => router.push('/ecomerse-planes' as any)} style={{ textDecorationLine: 'underline' }}>Mejorar plan ›</Text>
                   </Text>
@@ -594,7 +594,7 @@ export default function PublicarAnuncioScreen() {
                 <View style={{ flex: 1 }}><FormField value={pStock} onChangeText={setPStock} placeholder="Stock" keyboardType="numeric" /></View>
               </View>
               {pricePreview != null && (
-                <Text style={{ fontSize: tipografia.micro, color: brand.secondary, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>≈ {formatXAF(pricePreview)}</Text>
+                <Text style={{ fontSize: tipografia.micro, color: colors.text.secondary, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>≈ {formatXAF(pricePreview)}</Text>
               )}
               <Pressable onPress={() => setCityModal('prod')} accessibilityRole="button" accessibilityLabel="Elegir ciudad del producto"
                 style={[s.cityPicker, { backgroundColor: colors.surface, borderColor: colors.border, marginTop: espaciado.e10 }]}>
@@ -711,7 +711,7 @@ export default function PublicarAnuncioScreen() {
                 {pPhotos.length < 6 && (
                   <Pressable onPress={pickSource} disabled={pUploading} accessibilityRole="button" accessibilityLabel="Añadir fotos"
                     style={{ width: 68, height: 68, borderRadius: radios.md, borderWidth: trazo.base, borderStyle: 'dashed', borderColor: colors.border, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }}>
-                    {pUploading ? <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Subiendo…</Text> : <><Camera size={20} color={colors.primary} /><Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>Añadir</Text></>}
+                    {pUploading ? <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Subiendo…</Text> : <><Camera size={20} color={colors.text.primary} /><Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>Añadir</Text></>}
                   </Pressable>
                 )}
               </View>
@@ -742,7 +742,7 @@ export default function PublicarAnuncioScreen() {
                   accessibilityLabel="Editar las combinaciones del anuncio"
                   style={[s.methodCard, { borderColor: colors.border, backgroundColor: colors.surface, marginTop: espaciado.e12 }]}
                 >
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.primary }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.text.primary }}>
                     Combinaciones (tallas, colores…)
                   </Text>
                   <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2, lineHeight: 16 }}>
@@ -787,7 +787,7 @@ export default function PublicarAnuncioScreen() {
                 accessibilityLabel={preview ? 'Ocultar la vista previa' : 'Ver cómo quedará el anuncio'}
                 style={{ marginTop: espaciado.e14, paddingVertical: espaciado.e8 }}
               >
-                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.primary }}>
+                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.text.primary }}>
                   {preview ? '▾ Ocultar la vista previa' : '▸ Ver cómo quedará el anuncio'}
                 </Text>
               </Pressable>
@@ -844,7 +844,7 @@ export default function PublicarAnuncioScreen() {
                       </Text>
                       <Pressable onPress={() => setPDocs((prev) => prev.filter((x) => x.docType !== d.docType))}
                         hitSlop={10} accessibilityRole="button" accessibilityLabel={`Quitar ${DOCS.find((x) => x.id === d.docType)?.label ?? d.docType}`}>
-                        <Text style={{ fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.titulo }}>Quitar</Text>
+                        <Text style={{ fontSize: tipografia.caption, color: colors.text.danger, fontWeight: peso.titulo }}>Quitar</Text>
                       </Pressable>
                     </View>
                   ))}
@@ -882,16 +882,16 @@ export default function PublicarAnuncioScreen() {
                   {pDocFoto ? (
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                       <Image source={{ uri: pDocFoto }} style={{ width: 56, height: 56, borderRadius: radios.sm, backgroundColor: colors.surface }} contentFit="cover" />
-                      <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.success, fontWeight: peso.fuerte }}>Documento listo para enviar</Text>
+                      <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.text.success, fontWeight: peso.fuerte }}>Documento listo para enviar</Text>
                       <Pressable onPress={() => setPDocFoto(null)} hitSlop={10} accessibilityRole="button" accessibilityLabel="Quitar el documento adjunto">
-                        <Text style={{ fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.titulo }}>Quitar</Text>
+                        <Text style={{ fontSize: tipografia.caption, color: colors.text.danger, fontWeight: peso.titulo }}>Quitar</Text>
                       </Pressable>
                     </View>
                   ) : (
                     <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
                       <Pressable onPress={() => adjuntarDoc('camera')} disabled={pUploading} accessibilityRole="button" accessibilityLabel="Hacer foto del documento"
                         style={[s.methodCard, { flex: 1, borderColor: colors.border, alignItems: 'center', paddingVertical: espaciado.e12 }]}>
-                        <Camera size={18} color={colors.primary} />
+                        <Camera size={18} color={colors.text.primary} />
                         <Text style={{ fontSize: tipografia.micro, color: colors.textPrimary, fontWeight: peso.fuerte, marginTop: espaciado.e2 }}>Hacer foto</Text>
                       </Pressable>
                       <Pressable onPress={() => adjuntarDoc('library')} disabled={pUploading} accessibilityRole="button" accessibilityLabel="Elegir documento de la galería"
@@ -923,7 +923,7 @@ export default function PublicarAnuncioScreen() {
                       accessibilityLabel={`Entrega: ${e.label}. ${e.hint}`}
                       style={[s.methodCard, { borderColor: on ? colors.primary : colors.border, backgroundColor: on ? alpha(colors.primary, 0.06) : colors.surface }]}
                     >
-                      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: on ? colors.primary : colors.textPrimary }}>{e.label}</Text>
+                      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: on ? colors.text.primary : colors.textPrimary }}>{e.label}</Text>
                       <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{e.hint}</Text>
                     </Pressable>
                   );

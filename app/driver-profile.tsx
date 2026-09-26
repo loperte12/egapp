@@ -98,7 +98,7 @@ export default function DriverProfileScreen() {
         {/* Identidad */}
         <View style={[s.card, { borderColor: colors.border, alignItems: 'center', gap: espaciado.e6 }]}>
           <View style={[s.avatar, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-            <ShieldCheck size={26} color={colors.primary} />
+            <ShieldCheck size={26} color={colors.text.primary} />
           </View>
           <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subCabecera }}>Conductor</Text>
           <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>Estado: {status}</Text>
@@ -124,13 +124,13 @@ export default function DriverProfileScreen() {
         {/* Ganancias */}
         <View style={[s.card, { borderColor: colors.border, gap: espaciado.e12 }]}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-            <Wallet size={18} color={colors.primary} />
+            <Wallet size={18} color={colors.text.primary} />
             <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>Mis ganancias</Text>
           </View>
           <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
             {PERIODS.map((p) => (
               <Pressable key={p.key} onPress={() => setPeriod(p.key)} style={[s.chip, { borderColor: period === p.key ? colors.primary : colors.border, backgroundColor: period === p.key ? alpha(colors.primary, 0.08) : colors.card }]}>
-                <Text style={{ color: period === p.key ? colors.primary : colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>{p.label}</Text>
+                <Text style={{ color: period === p.key ? colors.text.primary : colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>{p.label}</Text>
               </Pressable>
             ))}
           </View>
@@ -139,7 +139,7 @@ export default function DriverProfileScreen() {
             <>
               <View style={{ alignItems: 'center', gap: espaciado.e2 }}>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>NETO ({period === 'all' ? 'total' : period})</Text>
-                <Precio valor={earnings.totalNet} tamano="xl" color={colors.success} />
+                <Precio valor={earnings.totalNet} tamano="xl" color={colors.text.success} />
               </View>
               <View style={[s.statRow, { backgroundColor: alpha(colors.border, 0.2) }]}>
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>🚕 Taxi ciudad</Text>
@@ -150,14 +150,14 @@ export default function DriverProfileScreen() {
                 <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>{earnings.intercity.bookings} reservas pagadas · {xaf(earnings.intercity.gross)}</Text>
               </View>
               {earnings.intercity.pendingCollection > 0 && (
-                <Text style={{ color: colors.secondary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>
+                <Text style={{ color: colors.text.secondary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>
                   💵 Pendiente de cobro: {earnings.intercity.pendingCollection} reserva(s)
                 </Text>
               )}
               {earnings.commissionDebt && earnings.commissionDebt.pendingXaf > 0 && (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e4 }}>
-                  <Percent size={14} color={colors.danger} />
-                  <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.caption, flex: 1 }}>
+                  <Percent size={14} color={colors.text.danger} />
+                  <Text style={{ color: colors.text.danger, fontWeight: peso.maximo, fontSize: tipografia.caption, flex: 1 }}>
                     Comisión por liquidar (5% intercity): {xaf(earnings.commissionDebt.pendingXaf)}
                   </Text>
                   <Pressable
@@ -188,7 +188,7 @@ export default function DriverProfileScreen() {
           <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
             {([['city', '🚕 Taxi ciudad'], ['intercity', '🚌 Ciudad a Ciudad'], ['both', '🔄 Ambos']] as const).map(([v, l]) => (
               <Pressable key={v} onPress={() => changeMode(v)} style={[s.chip, { flex: 1, borderColor: workMode === v ? colors.primary : colors.border, backgroundColor: workMode === v ? alpha(colors.primary, 0.08) : colors.card }]}>
-                <Text style={{ color: workMode === v ? colors.primary : colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.caption, textAlign: 'center' }}>{l}</Text>
+                <Text style={{ color: workMode === v ? colors.text.primary : colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.caption, textAlign: 'center' }}>{l}</Text>
               </Pressable>
             ))}
           </View>
@@ -197,12 +197,12 @@ export default function DriverProfileScreen() {
         {/* Documentos */}
         <View style={[s.card, { borderColor: colors.border, gap: espaciado.e8 }]}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-            <FileWarning size={18} color={expCount > 0 ? colors.danger : colors.primary} />
+            <FileWarning size={18} color={expCount > 0 ? colors.text.danger : colors.text.primary} />
             <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>Documentos</Text>
           </View>
           {expiries.length === 0 && <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>Sin caducidades próximas.</Text>}
           {expiries.map((e) => (
-            <Text key={e.docType} style={{ color: e.status === 'expired' ? colors.danger : colors.secondary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
+            <Text key={e.docType} style={{ color: e.status === 'expired' ? colors.text.danger : colors.text.secondary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
               {e.status === 'expired' ? `⚠ ${e.label}: VENCIDO (${e.expiresAt.slice(0, 10)})` : `⏳ ${e.label}: caduca en ${e.daysLeft} días`}
             </Text>
           ))}
@@ -211,9 +211,9 @@ export default function DriverProfileScreen() {
 
         {/* Emergencia */}
         <Pressable onPress={() => setEmergencyOpen(true)} style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.05), flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }]}>
-          <Siren size={20} color={colors.danger} />
-          <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: tipografia.cuerpo, flex: 1 }}>Emergencia · marcación directa 24/7</Text>
-          <ChevronRight size={18} color={colors.danger} />
+          <Siren size={20} color={colors.text.danger} />
+          <Text style={{ color: colors.text.danger, fontWeight: peso.titulo, fontSize: tipografia.cuerpo, flex: 1 }}>Emergencia · marcación directa 24/7</Text>
+          <ChevronRight size={18} color={colors.text.danger} />
         </Pressable>
 
         {/* Cerrar sesión: SOLO en Perfil (bottom-sheet Home del conductor) —

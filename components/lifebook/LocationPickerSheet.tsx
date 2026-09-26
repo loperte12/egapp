@@ -132,8 +132,8 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
           }]}
         >
           {locating
-            ? <ActivityIndicator size="small" color={colors.primary} />
-            : <Crosshair size={20} color={colors.primary} />}
+            ? <ActivityIndicator size="small" color={colors.text.primary} />
+            : <Crosshair size={20} color={colors.text.primary} />}
           <View style={{ flex: 1 }}>
             <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>
               {locating ? 'Buscando tu posición…' : (myLocationLabel ?? 'Mi ubicación actual')}
@@ -155,7 +155,7 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
               opacity: pressed ? 0.75 : 1,
             }]}
           >
-            <Radio size={20} color={colors.secondary} />
+            <Radio size={20} color={colors.text.secondary} />
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Ubicación en vivo</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
@@ -175,11 +175,11 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
             style={{ flex: 1, marginLeft: espaciado.e8, color: colors.textPrimary, fontSize: tipografia.body }}
             accessibilityLabel="Buscar un sitio"
           />
-          {searching ? <ActivityIndicator size="small" color={colors.primary} /> : null}
+          {searching ? <ActivityIndicator size="small" color={colors.text.primary} /> : null}
         </View>
 
         {error ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginTop: espaciado.e10 }}>{error}</Text>
         ) : null}
 
         {results === null && query.trim().length < 2 ? (
@@ -206,7 +206,7 @@ export function LocationPickerSheet({ visible, onClose, onSubmit, title, myLocat
                   opacity: pressed ? 0.7 : 1,
                 }]}
               >
-                <MapPin size={18} color={colors.primary} />
+                <MapPin size={18} color={colors.text.primary} />
                 <View style={{ flex: 1 }}>
                   <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.body }}>{r.name}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>

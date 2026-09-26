@@ -177,7 +177,7 @@ function ProfileContent() {
   if (loading) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -312,7 +312,7 @@ function ProfileContent() {
               <View style={styles.statItem}><Text style={styles.statValue}>{lbProfile?.stats.following ?? 0}</Text><Text style={styles.statLabel}>Seguidos</Text></View>
               <View style={styles.statItem}><Text style={styles.statValue}>{lbProfile?.stats.likes ?? 0}</Text><Text style={styles.statLabel}>Me gusta</Text></View>
               <View style={styles.statItem}>
-                <View style={styles.ratingValueRow}><Star size={14} color={brand.warning} fill={brand.warning} /><Text style={styles.statValue}>{(profile?.ratingAvg ?? 5).toFixed(1)}</Text></View>
+                <View style={styles.ratingValueRow}><Star size={14} color={colors.text.warning} fill={colors.text.warning} /><Text style={styles.statValue}>{(profile?.ratingAvg ?? 5).toFixed(1)}</Text></View>
                 <Text style={styles.statLabel}>Valoración</Text>
               </View>
             </View>
@@ -332,7 +332,7 @@ function ProfileContent() {
                 accessibilityLabel="Cambiar profesión"
                 style={({ pressed }) => [styles.linkChip, styles.occupChip, { opacity: pressed ? 0.75 : 1 }]}
               >
-                <Briefcase size={12} color={brand.warning} />
+                <Briefcase size={12} color={colors.text.warning} />
                 <Text style={styles.linkChipTxt} numberOfLines={1}>{professionLabel}</Text>
               </Pressable>
               {(profile?.links?.length ?? 0) > 0 ? (
@@ -369,10 +369,10 @@ function ProfileContent() {
               style={({ pressed }) => [tripCard.card, { backgroundColor: colors.card, borderColor: brand.secondary, opacity: pressed ? 0.7 : 1 }]}
             >
               <View style={[tripCard.iconBox, { backgroundColor: alpha(brand.secondary, 0.12) }]}>
-                <CarTaxiFront size={20} color={brand.secondary} />
+                <CarTaxiFront size={20} color={colors.text.secondary} />
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={{ color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.3 }}>{activeTripLabel(String(activeTrip.status))}</Text>
+                <Text style={{ color: colors.text.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 0.3 }}>{activeTripLabel(String(activeTrip.status))}</Text>
                 <Text style={[tripCard.title, { color: colors.textPrimary }]}>Mi viaje en curso</Text>
                 <Text style={[tripCard.sub, { color: colors.textSecondary }]} numberOfLines={1}>
                   {String(activeTrip.pickup_address ?? 'Punto de recogida')} → {String(activeTrip.dropoff_address ?? 'Destino')}
@@ -406,7 +406,7 @@ function ProfileContent() {
               ))}
 
               <FilaNegocio
-                icono={<Plus size={18} color={colors.primary} />}
+                icono={<Plus size={18} color={colors.text.primary} />}
                 titulo="Abrir otro negocio"
                 detalle="Publica un producto, comida, servicio o alquiler en Life Book"
                 onPress={() => irSeguro.libre('/lifebook-sell')}
@@ -426,7 +426,7 @@ function ProfileContent() {
                 MODERACIÓN
               </Text>
               <FilaNegocio
-                icono={<ShieldCheck size={18} color={colors.primary} />}
+                icono={<ShieldCheck size={18} color={colors.text.primary} />}
                 titulo="Documentación de vendedores"
                 detalle="Revisa las facturas y certificados que suben los vendedores del Mercado"
                 onPress={() => irSeguro.libre('/ecomerse-docs')}
@@ -449,7 +449,7 @@ function ProfileContent() {
 
           {/* Rejilla REAL de publicaciones (perfil unificado) */}
           {lbLoadingPosts ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e24 }} />
+            <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e24 }} />
           ) : lbPosts.length > 0 ? (
             <View style={styles.lbGrid}>
               {lbPosts.map((p) => (
@@ -463,7 +463,7 @@ function ProfileContent() {
             </View>
           ) : (
             <View style={[styles.lbEmpty, { backgroundColor: colors.card, borderColor: colors.border }]}>
-              <View style={[styles.lbEmptyIcon, { backgroundColor: alpha(colors.primary, 0.08) }]}><ImageIcon size={26} color={colors.primary} /></View>
+              <View style={[styles.lbEmptyIcon, { backgroundColor: alpha(colors.primary, 0.08) }]}><ImageIcon size={26} color={colors.text.primary} /></View>
               <Text style={[styles.lbEmptyTitle, { color: colors.textPrimary }]}>
                 {lbTab === 'gustos' ? 'Aquí verás lo que guardes' : lbTab === 'ventas' ? 'Aún no tienes ventas' : 'Aún no has publicado nada'}
               </Text>
@@ -604,7 +604,7 @@ function FilaNegocio({ icono, titulo, detalle, nota, onPress }: {
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{titulo}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2, lineHeight: 17 }}>{detalle}</Text>
         {nota ? (
-          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e3, lineHeight: 16 }}>
+          <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e3, lineHeight: 16 }}>
             {nota}
           </Text>
         ) : null}
@@ -674,7 +674,7 @@ function PhotoModal({ visible, profile, onClose, onSaved }: { visible: boolean; 
           </View>
           <View style={{ alignItems: 'center', marginVertical: espaciado.e12 }}>
             <View style={[styles.photoLg, { backgroundColor: alpha(colors.primary, 0.12) }]}>
-              {preview ? <Image source={{ uri: preview }} style={styles.photoLgImg} /> : <Text style={[styles.photoLgTxt, { color: colors.primary }]}>{initial}</Text>}
+              {preview ? <Image source={{ uri: preview }} style={styles.photoLgImg} /> : <Text style={[styles.photoLgTxt, { color: colors.text.primary }]}>{initial}</Text>}
             </View>
           </View>
           <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
@@ -686,8 +686,8 @@ function PhotoModal({ visible, profile, onClose, onSaved }: { visible: boolean; 
               style={[styles.pickBtn, { backgroundColor: colors.surface, borderColor: colors.border, opacity: busy || (picking !== null && picking !== 'camera') ? 0.45 : 1 }]}
             >
               {picking === 'camera'
-                ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
-                : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>📷 Cámara</Text>}
+                ? <View style={styles.pickBusy}><ActivityIndicator color={colors.text.primary} size="small" /><Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
+                : <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>📷 Cámara</Text>}
             </Pressable>
             <Pressable
               onPress={() => pick(false)}
@@ -697,11 +697,11 @@ function PhotoModal({ visible, profile, onClose, onSaved }: { visible: boolean; 
               style={[styles.pickBtn, { backgroundColor: colors.surface, borderColor: colors.border, opacity: busy || (picking !== null && picking !== 'library') ? 0.45 : 1 }]}
             >
               {picking === 'library'
-                ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
-                : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>🖼️ Galería</Text>}
+                ? <View style={styles.pickBusy}><ActivityIndicator color={colors.text.primary} size="small" /><Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
+                : <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>🖼️ Galería</Text>}
             </Pressable>
           </View>
-          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text> : null}
+          {error ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text> : null}
           <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e6 }}>
             <View style={{ flex: 1 }}><GhostButton title="Cancelar" onPress={onClose} disabled={busy} /></View>
             <View style={{ flex: 1.4 }}><PrimaryButton title={busy ? 'Guardando…' : 'Guardar foto'} onPress={save} loading={busy} disabled={!newPhoto} /></View>
@@ -740,7 +740,7 @@ function EmptyStateModal({ visible, text, onClose }: { visible: boolean; text: s
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose} statusBarTranslucent>
       <View style={[styles.backdrop, { backgroundColor: colors.overlay, alignItems: 'center', justifyContent: 'center' }]}>
         <View style={[styles.emptyCard, { backgroundColor: colors.card }]}>
-          <View style={[styles.emptyIcon, { backgroundColor: alpha(colors.primary, 0.08) }]}><Store size={30} color={colors.primary} /></View>
+          <View style={[styles.emptyIcon, { backgroundColor: alpha(colors.primary, 0.08) }]}><Store size={30} color={colors.text.primary} /></View>
           <Text style={[styles.emptyTitle, { color: colors.textPrimary }]}>{text.split(' · ')[0]}</Text>
           <Text style={[styles.emptyBody, { color: colors.textSecondary }]}>{text.split(' · ').slice(1).join(' · ')}</Text>
           <Pressable onPress={onClose} style={({ pressed }) => [styles.emptyOk, { backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1 }]}>
@@ -798,7 +798,7 @@ function LocationModal({ visible, profile, onClose, onSaved }: { visible: boolea
               const active = c.code === country;
               return (
                 <Pressable key={c.code} onPress={() => { setCountry(c.code); if (c.code !== 'GQ') setCity(''); }} style={({ pressed }) => [styles.pickRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}>
-                  <Text style={[styles.pickRowTxt, { color: active ? colors.primary : colors.textPrimary, fontWeight: active ? peso.titulo : peso.medio }]}>{c.name}</Text>
+                  <Text style={[styles.pickRowTxt, { color: active ? colors.text.primary : colors.textPrimary, fontWeight: active ? peso.titulo : peso.medio }]}>{c.name}</Text>
                   <Text style={[styles.pickRowCode, { color: colors.textSecondary }]}>{c.code}</Text>
                 </Pressable>
               );
@@ -812,7 +812,7 @@ function LocationModal({ visible, profile, onClose, onSaved }: { visible: boolea
                   const active = city === c;
                   return (
                     <Pressable key={c} onPress={() => setCity(active ? '' : c)} style={[styles.cityChip, { backgroundColor: active ? alpha(colors.primary, 0.14) : colors.surface, borderColor: active ? colors.primary : colors.border }]}>
-                      <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{c}</Text>
+                      <Text style={{ color: active ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{c}</Text>
                     </Pressable>
                   );
                 })}
@@ -821,7 +821,7 @@ function LocationModal({ visible, profile, onClose, onSaved }: { visible: boolea
           ) : (
             <FormField label="Ciudad" placeholder="Escribe tu ciudad…" value={city} onChangeText={setCity} />
           )}
-          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text> : null}
+          {error ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text> : null}
           <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e8 }}>
             <View style={{ flex: 1 }}><GhostButton title="Cancelar" onPress={onClose} disabled={busy} /></View>
             <View style={{ flex: 1.4 }}><PrimaryButton title={busy ? 'Guardando…' : 'Guardar ubicación'} onPress={save} loading={busy} /></View>
@@ -868,14 +868,14 @@ function ProfessionModal({ visible, profile, onClose, onSaved }: { visible: bool
               const isActive = active(p.label);
               return (
                 <Pressable key={p.id} onPress={() => setSel(isActive ? '' : p.label)} style={({ pressed }) => [styles.pickRow, { backgroundColor: pressed ? alpha(colors.primary, 0.06) : 'transparent' }]}>
-                  <Briefcase size={17} color={isActive ? colors.primary : colors.textSecondary} />
-                  <Text style={[styles.pickRowTxt, { color: isActive ? colors.primary : colors.textPrimary, fontWeight: isActive ? peso.titulo : peso.medio }]}>{p.label}</Text>
+                  <Briefcase size={17} color={isActive ? colors.text.primary : colors.textSecondary} />
+                  <Text style={[styles.pickRowTxt, { color: isActive ? colors.text.primary : colors.textPrimary, fontWeight: isActive ? peso.titulo : peso.medio }]}>{p.label}</Text>
                 </Pressable>
               );
             })}
           </ScrollView>
           <FormField label="Otra profesión…" placeholder="Escribe tu profesión" value={custom} onChangeText={setCustom} />
-          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text> : null}
+          {error ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text> : null}
           <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e6 }}>
             <View style={{ flex: 1 }}><GhostButton title="Cancelar" onPress={onClose} disabled={busy} /></View>
             <View style={{ flex: 1.4 }}>

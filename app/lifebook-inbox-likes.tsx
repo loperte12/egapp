@@ -78,7 +78,7 @@ function LikesContent() {
       </View>
 
       {loading ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={colors.primary} /></View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={colors.text.primary} /></View>
       ) : (
         <FlatList
           data={rows as Array<LbLikeReceived | LbSaveReceived>}
@@ -86,7 +86,7 @@ function LikesContent() {
           contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 20, flexGrow: 1 }}
           ListEmptyComponent={
             <EmptyState
-              icono={<Heart size={38} color={alpha(colors.primary, 0.45)} />}
+              icono={<Heart size={38} color={alpha(colors.text.primary, 0.45)} />}
               titulo={tab === 'likes' ? 'Todavía no tienes me gusta' : 'Todavía no has guardado publicaciones'}
               texto={tab === 'likes'
                 ? 'Cuando alguien reaccione a tus publicaciones lo verás aquí, y podrás agradecerle por mensaje.'
@@ -101,7 +101,7 @@ function LikesContent() {
                   <Image source={{ uri: absUrl(item.user.avatarUrl) }} style={[styles.avatar, { backgroundColor: colors.surface }]} />
                 ) : (
                   <View style={[styles.avatar, { backgroundColor: alpha(colors.primary, 0.15), alignItems: 'center', justifyContent: 'center' }]}>
-                    <Text style={{ color: colors.primary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>{(item.user.fullName ?? '?').charAt(0).toUpperCase()}</Text>
+                    <Text style={{ color: colors.text.primary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>{(item.user.fullName ?? '?').charAt(0).toUpperCase()}</Text>
                   </View>
                 )}
                 <View style={{ flex: 1 }}>
@@ -131,11 +131,11 @@ function LikesContent() {
               {tab === 'likes' && (
                 <Pressable onPress={() => thank(item.user.id)} disabled={busy === item.user.id}
                   style={[styles.actBtn, { backgroundColor: alpha(colors.primary, 0.1) }]}>
-                  {busy === item.user.id ? <ActivityIndicator size="small" color={colors.primary} /> : (
+                  {busy === item.user.id ? <ActivityIndicator size="small" color={colors.text.primary} /> : (
                     <>
-                      <ThumbsUp size={13} color={colors.primary} />
-                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Agradecer por mensaje</Text>
-                      <Send size={12} color={colors.primary} />
+                      <ThumbsUp size={13} color={colors.text.primary} />
+                      <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Agradecer por mensaje</Text>
+                      <Send size={12} color={colors.text.primary} />
                     </>
                   )}
                 </Pressable>

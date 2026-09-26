@@ -99,10 +99,10 @@ export function SelectorDeCupon({
       </View>
 
       {aviso ? (
-        <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>{aviso}</Text>
+        <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>{aviso}</Text>
       ) : null}
       {descuento > 0 ? (
-        <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e6 }}>
+        <Text style={{ color: colors.text.success, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e6 }}>
           Cupón aplicado: −{lbXaf(descuento)}
         </Text>
       ) : null}

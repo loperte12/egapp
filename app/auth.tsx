@@ -147,13 +147,13 @@ export default function OnboardingAuthScreen() {
         </View>
 
         {error ? (
-          <Text style={[styles.error, { color: colors.danger }]}>{error}</Text>
+          <Text style={[styles.error, { color: colors.text.danger }]}>{error}</Text>
         ) : null}
 
         {mode === 'terms' && (
           <View style={styles.block}>
             <View style={[styles.iconWrap, { backgroundColor: colors.primary + '1A' }]}>
-              <ShieldCheck size={40} color={colors.primary} />
+              <ShieldCheck size={40} color={colors.text.primary} />
             </View>
             <Text style={[styles.title, { color: colors.textPrimary }]}>Términos de uso</Text>
             <Text style={[styles.body, { color: colors.textSecondary }]}>

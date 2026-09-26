@@ -51,10 +51,10 @@ export default function HabitacionesScreen() {
 }
 
 /** Estado de la publicación, en lenguaje del hotelero y CORTO (compite por el ancho). */
-function estadoDe(r: HotelRoom, colors: { success: string; secondary: string; textSecondary: string }) {
+function estadoDe(r: HotelRoom, colors: ReturnType<typeof useTheme>['colors']) {
   if (!r.isActive) return { txt: 'Apagada', color: colors.textSecondary };
-  if (r.productStatus === 'active') return { txt: 'Publicada', color: colors.success };
-  if (r.productStatus === 'pending') return { txt: 'En revisión', color: colors.secondary };
+  if (r.productStatus === 'active') return { txt: 'Publicada', color: colors.text.success };
+  if (r.productStatus === 'pending') return { txt: 'En revisión', color: colors.text.secondary };
   if (r.productStatus === 'rejected') return { txt: 'Rechazada', color: colors.textSecondary };
   return { txt: 'Oculta', color: colors.textSecondary };
 }
@@ -165,7 +165,7 @@ function Contenido() {
           hitSlop={12}
           style={[styles.anadir, { backgroundColor: alpha(colors.primary, 0.12) }]}
         >
-          <Plus size={20} color={colors.primary} />
+          <Plus size={20} color={colors.text.primary} />
         </Pressable>
       </View>
 
@@ -272,7 +272,7 @@ function Contenido() {
                         accessibilityLabel={abierta ? 'Ver menos' : 'Ver la descripción completa'}
                         style={styles.verMas}
                       >
-                        <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+                        <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                           {abierta ? 'Ver menos' : 'Ver más'}
                         </Text>
                       </Pressable>
@@ -280,14 +280,14 @@ function Contenido() {
                   </View>
                 ) : (
                   <View style={[styles.descripcion, { borderTopColor: colors.border }]}>
-                    <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
+                    <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                       Sin descripción: el huésped decide con lo que le cuentes (toca para escribirla)
                     </Text>
                   </View>
                 )}
 
                 {r.productStatus === 'pending' && r.isActive ? (
-                  <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8, lineHeight: 18 }}>
+                  <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8, lineHeight: 18 }}>
                     ⏳ En revisión: la administración tiene que aprobarla antes de que se pueda reservar. Mientras
                     tanto puedes ponerle precios y cerrar fechas.
                   </Text>
@@ -318,7 +318,7 @@ function Contenido() {
                           FICHA
                         </Text>
                         <Text style={{
-                          color: faltan.length ? colors.secondary : colors.success,
+                          color: faltan.length ? colors.text.secondary : colors.text.success,
                           fontSize: tipografia.caption, fontWeight: peso.titulo, marginLeft: 'auto',
                         }}>
                           {faltan.length ? `Falta: ${faltan.join(' · ')}` : 'Completa'}
@@ -344,8 +344,8 @@ function Contenido() {
                     hitSlop={8}
                     style={[styles.pieBtn, { borderColor: colors.border }]}
                   >
-                    <CalendarDays size={16} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Precios y fechas</Text>
+                    <CalendarDays size={16} color={colors.text.primary} />
+                    <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Precios y fechas</Text>
                   </Pressable>
 
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginLeft: 'auto' }}>
@@ -430,7 +430,7 @@ function ChipFiltro({ activo, texto, onPress }: { activo: boolean; texto: string
         backgroundColor: activo ? alpha(colors.primary, 0.12) : colors.surface,
       }}
     >
-      <Text style={{ color: activo ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+      <Text style={{ color: activo ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
         {texto}
       </Text>
     </Pressable>

@@ -136,7 +136,7 @@ export default function ServiceGrid({ onEmergencyPress, glass = false }: {
           <Icon size={compact ? 20 : 26} color={tint} strokeWidth={trazoIcono.base} />
         </View>
         <Text
-          style={[styles.label, { color: isEmergency ? colors.danger : disabled ? colors.textSecondary : colors.textPrimary }]}
+          style={[styles.label, { color: isEmergency ? colors.text.danger : disabled ? colors.textSecondary : colors.textPrimary }]}
           numberOfLines={2}
         >
           {item.label}
@@ -192,7 +192,7 @@ export default function ServiceGrid({ onEmergencyPress, glass = false }: {
                 ]}
               >
                 <Icon size={16} color={tint} strokeWidth={trazoIcono.fuerte} />
-                <Text style={[styles.chipLabel, { color: isEmergency ? colors.danger : disabled ? colors.textSecondary : colors.textPrimary }]}>
+                <Text style={[styles.chipLabel, { color: isEmergency ? colors.text.danger : disabled ? colors.textSecondary : colors.textPrimary }]}>
                   {item.label}
                 </Text>
               </Pressable>

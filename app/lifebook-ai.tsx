@@ -422,7 +422,7 @@ function Contenido() {
                   <Image source={absUrl(t.fotoUrl)} style={t.tipo === 'foto' ? styles.fotoGrande : styles.foto} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                 ) : (
                   <View style={[styles.foto, { backgroundColor: alpha(colors.primary, 0.1), alignItems: 'center', justifyContent: 'center' }]}>
-                    <Store size={18} color={colors.primary} />
+                    <Store size={18} color={colors.text.primary} />
                   </View>
                 )}
                 <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
@@ -431,7 +431,7 @@ function Contenido() {
                     {[t.subtitulo, t.ciudad].filter(Boolean).join(' · ')}
                   </Text>
                   {t.precioXaf !== null && t.precioXaf !== undefined ? (
-                    <Precio valor={t.precioXaf} tamano="md" color={colors.primary} style={{ marginTop: espaciado.e3 }} />
+                    <Precio valor={t.precioXaf} tamano="md" color={colors.text.primary} style={{ marginTop: espaciado.e3 }} />
                   ) : null}
                 </View>
               </Pressable>
@@ -445,7 +445,7 @@ function Contenido() {
             <Pressable onPress={() => { void copiar(m); }} accessibilityLabel="Copiar la respuesta" hitSlop={8}
               style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
               {copiado === m.id
-                ? <><Check size={14} color={colors.success} /><Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Copiado</Text></>
+                ? <><Check size={14} color={colors.text.success} /><Text style={{ color: colors.text.success, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Copiado</Text></>
                 : <><Copy size={14} color={colors.textSecondary} /><Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Copiar</Text></>}
             </Pressable>
             <Pressable onPress={() => { void gustar(m); }} accessibilityLabel={m.liked ? 'Quitar me gusta' : 'Me gusta'}
@@ -470,7 +470,7 @@ function Contenido() {
           <X size={20} color={colors.textPrimary} />
         </Pressable>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7, flex: 1, marginLeft: espaciado.e10 }}>
-          <Sparkles size={17} color={colors.primary} />
+          <Sparkles size={17} color={colors.text.primary} />
           <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Cucucul</Text>
         </View>
         {quedan !== null ? (
@@ -492,7 +492,7 @@ function Contenido() {
           accessibilityLabel="Más opciones"
           style={{ marginRight: espaciado.e12 }}
         >
-          <MoreHorizontal size={20} color={modo === 'consejo' ? colors.primary : colors.textPrimary} />
+          <MoreHorizontal size={20} color={modo === 'consejo' ? colors.text.primary : colors.textPrimary} />
         </Pressable>        <Pressable onPress={() => { void abrirHistorial(); }} hitSlop={10} accessibilityLabel="Historial de conversaciones" style={{ marginRight: espaciado.e14 }}>
           <Clock size={19} color={colors.textPrimary} />
         </Pressable>
@@ -505,13 +505,13 @@ function Contenido() {
           accessibilityLabel="Abrir otra conversación"
           style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, borderWidth: trazo.fino, borderColor: colors.primary, borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5 }}
         >
-          <Plus size={15} color={colors.primary} />
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Nueva</Text>
+          <Plus size={15} color={colors.text.primary} />
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Nueva</Text>
         </Pressable>
       </View>
 
       {cargando ? (
-        <View style={styles.centro}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.centro}><ActivityIndicator color={colors.text.primary} /></View>
       ) : modo === 'historial' ? (
         /* ── Tanda N: EL HISTORIAL (mis conversaciones, la última primero) ── */
         <FlatList
@@ -540,7 +540,7 @@ function Contenido() {
                 accessibilityLabel={`Borrar ${item.title}`}
                 style={{ padding: espaciado.e8 }}
               >
-                <X size={16} color={colors.danger} />
+                <X size={16} color={colors.text.danger} />
               </Pressable>
             </Pressable>
           )}
@@ -573,7 +573,7 @@ function Contenido() {
                         accessibilityLabel={s}
                         style={[styles.sugerencia, { borderColor: alpha(colors.primary, 0.5), backgroundColor: alpha(colors.primary, 0.06) }]}
                       >
-                        <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{s}</Text>
+                        <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{s}</Text>
                       </Pressable>
                     ))}
                   </View>
@@ -585,7 +585,7 @@ function Contenido() {
       )}
 
       {error ? (
-        <Text style={{ color: colors.danger, fontSize: tipografia.caption, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e6 }}>{error}</Text>
+        <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e6 }}>{error}</Text>
       ) : null}
 
       {/* Tanda N: barra de SELECCIÓN (solo cuando hay algo marcado). */}
@@ -605,7 +605,7 @@ function Contenido() {
       ) : null}
       {/* ── Escribir (o el consejo: la misma barra, otro destino) ── */}
       {aviso ? (
-        <Text style={{ color: colors.success, fontSize: tipografia.caption, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e4 }}>{aviso}</Text>
+        <Text style={{ color: colors.text.success, fontSize: tipografia.caption, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e4 }}>{aviso}</Text>
       ) : null}
       {modo === 'consejo' ? (
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e4 }}>
@@ -620,7 +620,7 @@ function Contenido() {
           accessibilityLabel="Adjuntar una foto o un producto"
           style={[styles.adjuntar, { borderColor: alpha(colors.primary, 0.5), backgroundColor: alpha(colors.primary, 0.06) }]}
         >
-          <Plus size={18} color={colors.primary} />
+          <Plus size={18} color={colors.text.primary} />
         </Pressable>
         <TextInput
           value={texto}
@@ -644,7 +644,7 @@ function Contenido() {
             ? { backgroundColor: colors.danger, borderColor: colors.danger }
             : { borderColor: alpha(colors.primary, 0.5), backgroundColor: alpha(colors.primary, 0.06) }]}
         >
-          <Mic size={18} color={escuchando ? brand.white : colors.primary} />
+          <Mic size={18} color={escuchando ? brand.white : colors.text.primary} />
         </Pressable>
         <Pressable
           onPress={() => {
@@ -685,13 +685,13 @@ function Contenido() {
                     <Image source={absUrl(item.coverUrl)} style={styles.foto} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                   ) : (
                     <View style={[styles.foto, { backgroundColor: alpha(colors.primary, 0.1), alignItems: 'center', justifyContent: 'center' }]}>
-                      <Store size={18} color={colors.primary} />
+                      <Store size={18} color={colors.text.primary} />
                     </View>
                   )}
                   <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                     <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{item.title}</Text>
                     {item.priceXaf !== null && item.priceXaf !== undefined ? (
-                      <Precio valor={item.priceXaf} tamano="md" color={colors.primary} style={{ marginTop: espaciado.e3 }} />
+                      <Precio valor={item.priceXaf} tamano="md" color={colors.text.primary} style={{ marginTop: espaciado.e3 }} />
                     ) : null}
                   </View>
                 </Pressable>

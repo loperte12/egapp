@@ -142,7 +142,7 @@ export default function WorkPlanesScreen() {
         <View style={s.featureRow} key={key}>
           <Text style={s.featureLabel}>{label}</Text>
           {v ? (
-            <View accessible={false}><Check size={16} color={brand.success} strokeWidth={trazoIcono.marcado} /></View>
+            <View accessible={false}><Check size={16} color={colors.text.success} strokeWidth={trazoIcono.marcado} /></View>
           ) : (
             <View accessible={false}><X size={16} color={neutro.n400} strokeWidth={trazoIcono.marcado} /></View>
           )}
@@ -171,7 +171,7 @@ export default function WorkPlanesScreen() {
   if (!ready) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={colors.text.primary} />
         <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: peso.fuerte }}>Cargando planes…</Text>
       </View>
     );
@@ -207,7 +207,7 @@ export default function WorkPlanesScreen() {
 
         {error && ordered.length === 0 && (
           <View style={{ alignItems: 'center', paddingVertical: espaciado.e30, paddingHorizontal: espaciado.e24 }}>
-            <Text style={{ color: colors.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
+            <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte, textAlign: 'center' }}>{error}</Text>
             <Pressable
               onPress={() => void load()}
               accessibilityRole="button" accessibilityLabel="Reintentar cargar los planes"
@@ -231,7 +231,7 @@ export default function WorkPlanesScreen() {
             >
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: espaciado.e14 }}>
                 <View style={{ flex: 1, paddingRight: espaciado.e10 }}>
-                  <Text style={[s.planName, { color: colors.primary }]}>{plan.name}</Text>
+                  <Text style={[s.planName, { color: colors.text.primary }]}>{plan.name}</Text>
                   {isCurrent && (
                     <View style={[s.currentBadge, { backgroundColor: colors.primary }]}>
                       <Text style={s.currentBadgeText}>Plan actual</Text>

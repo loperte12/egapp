@@ -206,7 +206,7 @@ export default function TiendaPerfil() {
               <Text style={s.nota}>Suele tardar 24–48 h. Tus anuncios se publican cuando esté aprobada.</Text>
             )}
             {seller.status === 'rejected' && seller.rejectionReason ? (
-              <Text style={[s.nota, { color: colors.danger }]}>Motivo: {seller.rejectionReason}</Text>
+              <Text style={[s.nota, { color: colors.text.danger }]}>Motivo: {seller.rejectionReason}</Text>
             ) : null}
           </View>
         )}
@@ -345,7 +345,7 @@ export default function TiendaPerfil() {
                 backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.7 : 1,
               }]}
             >
-              <TrendingUp size={icono.sm} color={colors.primary} />
+              <TrendingUp size={icono.sm} color={colors.text.primary} />
               <View style={{ flex: 1 }}>
                 <Text style={s.textoAcceso}>{plan.name}</Text>
                 <Text style={s.nota}>
@@ -378,8 +378,8 @@ export default function TiendaPerfil() {
 
         {seller?.status === 'rejected' && seller.rejectionReason ? (
           <View style={{ marginTop: espaciado.e16, flexDirection: 'row', gap: espaciado.e8, alignItems: 'flex-start' }}>
-            <AlertTriangle size={icono.sm} color={colors.danger} />
-            <Text style={[s.nota, { flex: 1, color: colors.danger }]}>
+            <AlertTriangle size={icono.sm} color={colors.text.danger} />
+            <Text style={[s.nota, { flex: 1, color: colors.text.danger }]}>
               Corrige los datos y vuelve a solicitar el alta: {seller.rejectionReason}
             </Text>
           </View>
@@ -406,7 +406,7 @@ export default function TiendaPerfil() {
                   <Text style={[s.textoSelector, { color: colors.textPrimary }]}>{c.name}</Text>
                   <Text style={s.nota}>{c.region}</Text>
                 </View>
-                {on && <Text style={[s.marca, { color: colors.primary }]}>✓</Text>}
+                {on && <Text style={[s.marca, { color: colors.text.primary }]}>✓</Text>}
               </Pressable>
             );
           })}
@@ -435,7 +435,7 @@ function Atajo({ Icono, label, detalle, onPress, colors }: {
         borderRadius: radios.md, padding: espaciado.e12, opacity: pressed ? 0.7 : 1,
       }]}
     >
-      <Icono size={icono.sm} color={colors.primary} />
+      <Icono size={icono.sm} color={colors.text.primary} />
       <View style={{ flex: 1 }}>
         <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }} numberOfLines={1}>{label}</Text>
         <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }} numberOfLines={1}>{detalle}</Text>

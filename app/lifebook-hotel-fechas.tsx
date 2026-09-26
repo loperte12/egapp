@@ -143,14 +143,14 @@ export default function HotelFechasScreen() {
 
       {cargando ? (
         <View style={styles.centro}>
-          <ActivityIndicator color={colors.primary} />
+          <ActivityIndicator color={colors.text.primary} />
           <Text style={[styles.sub, { color: colors.textSecondary }]}>Cargando precios…</Text>
         </View>
       ) : error ? (
         <View style={[styles.aviso, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
           <Pressable onPress={() => void cargar()} accessibilityRole="button" accessibilityLabel="Reintentar">
-            <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
+            <Text style={[styles.enlace, { color: colors.text.primary }]}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -171,7 +171,7 @@ export default function HotelFechasScreen() {
                     backgroundColor: activo ? alpha(colors.primary, 0.08) : colors.surface,
                   }]}
                 >
-                  <Text style={[styles.modoTxt, { color: activo ? colors.primary : colors.textSecondary }]}>
+                  <Text style={[styles.modoTxt, { color: activo ? colors.text.primary : colors.textSecondary }]}>
                     {m === 'noches' ? 'Llegada + días' : 'Entrada y salida'}
                   </Text>
                 </Pressable>

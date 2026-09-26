@@ -116,7 +116,7 @@ function Contenido() {
       </View>
 
       {loading ? (
-        <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.center}><ActivityIndicator color={colors.text.primary} /></View>
       ) : error ? (
         <View style={styles.center}>
           <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>{error}</Text>
@@ -132,7 +132,7 @@ function Contenido() {
           {/* Identidad del agente */}
           <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-              <BadgeCheck size={16} color={colors.primary} />
+              <BadgeCheck size={16} color={colors.text.primary} />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>
                 {perfil ? `${perfil.code} · ${perfil.zone}` : 'Agente'}
               </Text>
@@ -174,7 +174,7 @@ function Contenido() {
               <View key={op.id} style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border, marginTop: espaciado.e8 }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                   <View style={[styles.tile, { backgroundColor: colors.surface }]}>
-                    <Banknote size={17} color={recibir ? brand.successPressed : colors.primary} />
+                    <Banknote size={17} color={recibir ? brand.successPressed : colors.text.primary} />
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
@@ -219,7 +219,7 @@ function Contenido() {
               <View key={r.id} style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border, marginTop: espaciado.e8 }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                   <View style={[styles.tile, { backgroundColor: colors.surface }]}>
-                    {recoger ? <PackageOpen size={17} color={colors.primary} /> : <PackageCheck size={17} color={colors.primary} />}
+                    {recoger ? <PackageOpen size={17} color={colors.text.primary} /> : <PackageCheck size={17} color={colors.text.primary} />}
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
@@ -237,8 +237,8 @@ function Contenido() {
                   style={[styles.scanBtn, { borderColor: colors.primary }]}
                   accessibilityRole="button"
                 >
-                  <QrCode size={16} color={colors.primary} />
-                  <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo, marginLeft: espaciado.e8 }}>
+                  <QrCode size={16} color={colors.text.primary} />
+                  <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.titulo, marginLeft: espaciado.e8 }}>
                     {recoger ? 'Escanear recogida' : 'Escanear entrega'}
                   </Text>
                 </Pressable>

@@ -80,7 +80,7 @@ function Contenido() {
       {hecho ? (
         <View style={[styles.center, { backgroundColor: colors.background }]}>
           <View style={[styles.okIcon, { backgroundColor: colors.surface }]}>
-            <Check size={26} color={colors.primary} />
+            <Check size={26} color={colors.text.primary} />
           </View>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.maximo, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>
             {hecho}

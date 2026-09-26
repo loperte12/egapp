@@ -384,10 +384,10 @@ export default function FoodOrdersScreen() {
         }
         ListFooterComponent={
           loadingMore ? (
-            <View style={s.footerNote}><ActivityIndicator size="small" color={colors.primary} /></View>
+            <View style={s.footerNote}><ActivityIndicator size="small" color={colors.text.primary} /></View>
           ) : loadMoreError ? (
             <Pressable onPress={loadMore} style={s.footerNote} accessibilityRole="button">
-              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>No se pudieron cargar más pedidos · Reintentar</Text>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>No se pudieron cargar más pedidos · Reintentar</Text>
             </Pressable>
           ) : !hasMore && total > pageSize ? (
             <View style={s.footerNote}><Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Fin de los pedidos</Text></View>
@@ -446,7 +446,7 @@ export default function FoodOrdersScreen() {
           {/* La lista lleva su propio marginBottom: se envuelve para que el gap del Sheet no lo doble. */}
           <View>
         {ridersLoading ? (
-          <ActivityIndicator style={{ paddingVertical: espaciado.e24 }} color={colors.primary} />
+          <ActivityIndicator style={{ paddingVertical: espaciado.e24 }} color={colors.text.primary} />
         ) : riders.length === 0 ? (
           <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, paddingVertical: espaciado.e18, textAlign: 'center' }}>
             No hay repartidores activos todavía. Aprueba uno desde el panel de administración.
@@ -467,7 +467,7 @@ export default function FoodOrdersScreen() {
                   {r.zone ? ` · ${r.zone}` : ''} · {r.deliveriesCount} entregas
                 </Text>
               </View>
-              <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Asignar →</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>Asignar →</Text>
             </Pressable>
           ))
         )}
@@ -530,12 +530,12 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
 
       {/* Pago Billing */}
       {billingPending && (
-        <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: brand.warning, marginTop: espaciado.e4 }}>
+        <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: colors.text.warning, marginTop: espaciado.e4 }}>
           ⏳ Comprobante de pago pendiente (2–24 h){isOwner ? ' · se confirma al aprobarse' : ''}
         </Text>
       )}
       {o.paymentMethod === 'billing' && o.billingStatus === 'approved' && (
-        <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: brand.success, marginTop: espaciado.e4 }}>✓ Pago Billing aprobado</Text>
+        <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: colors.text.success, marginTop: espaciado.e4 }}>✓ Pago Billing aprobado</Text>
       )}
 
       {/* ── PEDIDO PROGRAMADO ────────────────────────────────────────────────────
@@ -579,7 +579,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           {isOwner ? (
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e3 }}>
               <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textPrimary }}>Te queda</Text>
-              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: brand.success }}>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.text.success }}>
                 {o.restaurantNetXaf !== null ? formatXAF(o.restaurantNetXaf) : '—'}
               </Text>
             </View>
@@ -605,7 +605,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           Se muestra en cuanto existe, sin tocar nada: el repartidor ya avisó por SMS también. */}
       {o.meetingNote ? (
         <View style={{ marginTop: espaciado.e6, borderRadius: radios.chip, borderWidth: trazo.fino, padding: espaciado.e10, borderColor: alpha(colors.success, 0.45), backgroundColor: alpha(colors.success, 0.10) }}>
-          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.success }}>🤝 El repartidor te espera aquí</Text>
+          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.success }}>🤝 El repartidor te espera aquí</Text>
           <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, marginTop: espaciado.e3, lineHeight: 16 }}>{o.meetingNote}</Text>
           {typeof o.meetingLat === 'number' && typeof o.meetingLng === 'number' ? (
             <Pressable
@@ -623,7 +623,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
       {/* Timeline (o estado cerrado) */}
       {cancelled ? (
         <View style={[s_card.cancelledBox, { backgroundColor: alpha(brand.neutral, 0.1) }]}>
-          <Text style={{ color: brand.neutral, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Pedido cerrado · cancelado</Text>
+          <Text style={{ color: colors.text.neutral, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Pedido cerrado · cancelado</Text>
         </View>
       ) : (
         <View
@@ -675,7 +675,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
       {/* Acciones */}
       {busy ? (
         <View style={{ alignItems: 'center', paddingVertical: espaciado.e12 }}>
-          <ActivityIndicator size="small" color={colors.primary} />
+          <ActivityIndicator size="small" color={colors.text.primary} />
         </View>
       ) : (
         <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e12, flexWrap: 'wrap' }}>
@@ -697,7 +697,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
             <GhostButton title="Valorar" accessibilityLabel="Valorar este pedido" onPress={onReview} />
           )}
           {!isOwner && o.status === 'delivered' && o.reviewed && (
-            <Text style={{ color: brand.success, fontSize: tipografia.caption, fontWeight: peso.fuerte, alignSelf: 'center' }}>✓ Valoración enviada</Text>
+            <Text style={{ color: colors.text.success, fontSize: tipografia.caption, fontWeight: peso.fuerte, alignSelf: 'center' }}>✓ Valoración enviada</Text>
           )}
           {/* ── RECHAZAR / CANCELAR ─────────────────────────────────────────────────
               Es la salida que faltaba en todo el flujo: hasta hoy `cancelled` era inalcanzable y un
@@ -757,7 +757,7 @@ function ReviewModal({ order, onClose, onDone }: {
           <Pressable key={n} onPress={() => setRating(n)} hitSlop={4}
             accessibilityRole="button" accessibilityLabel={`${n} de 5 estrellas`}
             accessibilityState={{ selected: rating >= n }}>
-            <Star size={32} color={n <= rating ? brand.warning : colors.border} fill={n <= rating ? brand.warning : 'transparent'} />
+            <Star size={32} color={n <= rating ? colors.text.warning : colors.border} fill={n <= rating ? colors.text.warning : 'transparent'} />
           </Pressable>
         ))}
       </View>

@@ -37,10 +37,10 @@ export default function EmergencyModal({
           {/* Cabecera crítica */}
           <View style={styles.header}>
             <View style={[styles.sirenWrap, { backgroundColor: alpha(colors.danger, 0.12) }]}>
-              <Siren size={22} color={colors.danger} strokeWidth={trazoIcono.fuerte} />
+              <Siren size={22} color={colors.text.danger} strokeWidth={trazoIcono.fuerte} />
             </View>
             <View style={styles.headerText}>
-              <Text style={[styles.title, { color: colors.danger }]}>Emergencia</Text>
+              <Text style={[styles.title, { color: colors.text.danger }]}>Emergencia</Text>
               <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
                 Marcación directa · disponible 24/7
               </Text>
@@ -68,13 +68,13 @@ export default function EmergencyModal({
                 ]}
               >
                 <View style={[styles.contactIcon, { backgroundColor: alpha(colors.danger, 0.12) }]}>
-                  <Icon size={18} color={colors.danger} />
+                  <Icon size={18} color={colors.text.danger} />
                 </View>
                 <View style={styles.contactText}>
                   <Text style={[styles.contactLabel, { color: colors.textPrimary }]}>{contact.label}</Text>
                   <Text style={[styles.contactNote, { color: colors.textSecondary }]}>{contact.note}</Text>
                 </View>
-                <Text style={[styles.contactNumber, { color: colors.danger }]}>{contact.number}</Text>
+                <Text style={[styles.contactNumber, { color: colors.text.danger }]}>{contact.number}</Text>
               </Pressable>
             );
           })}

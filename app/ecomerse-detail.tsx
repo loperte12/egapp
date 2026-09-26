@@ -399,7 +399,7 @@ export default function EcomerseDetailScreen() {
             <EstadoDinero activo="retenido" />
           ) : (
             <View style={[s.warranty, { backgroundColor: alpha(colors.primary, 0.06), borderColor: colors.border }]}>
-              <ShieldCheck size={16} color={colors.primary} />
+              <ShieldCheck size={16} color={colors.text.primary} />
               <Text style={{ flex: 1, marginLeft: espaciado.e8, fontSize: tipografia.caption, color: colors.textPrimary, fontWeight: peso.fuerte }}>
                 Este anuncio no admite compra in-app ahora mismo.
               </Text>
@@ -426,7 +426,7 @@ export default function EcomerseDetailScreen() {
                 style={{
                   flex: 1, marginLeft: espaciado.e8, textAlign: 'right',
                   fontSize: tipografia.body, fontWeight: peso.fuerte,
-                  color: elegido?.variant ? colors.textPrimary : colors.primary,
+                  color: elegido?.variant ? colors.textPrimary : colors.text.primary,
                 }}
               >
                 {elegido?.variant ? `${elegido.variant.name} × ${elegido.cantidad}` : 'Elegir'}
@@ -592,7 +592,7 @@ export default function EcomerseDetailScreen() {
           <Pressable onPress={addToCartFlow} disabled={!canBuy} accessibilityRole="button" accessibilityState={{ disabled: !canBuy }}
             accessibilityLabel="Añadir al carrito"
             style={[s.cartBtn, { borderColor: canBuy ? brand.secondary : colors.border }]}>
-            <Text style={{ color: canBuy ? brand.secondary : colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Añadir</Text>
+            <Text style={{ color: canBuy ? colors.text.secondary : colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Añadir</Text>
           </Pressable>
           <Pressable onPress={buyNow} disabled={!canBuy} accessibilityRole="button" accessibilityState={{ disabled: !canBuy }}
             accessibilityLabel={canBuy ? `Comprar por ${priceTxt}` : 'No disponible'}

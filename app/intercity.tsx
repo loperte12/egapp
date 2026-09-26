@@ -201,7 +201,7 @@ export default function IntercityScreen() {
         <Text style={s.title}>Ciudad a Ciudad</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e14 }}>
           <Pressable onPress={() => router.push('/intercity-planes' as never)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Planes">
-            <Crown size={20} color={colors.primary} />
+            <Crown size={20} color={colors.text.primary} />
           </Pressable>
         </View>
       </View>
@@ -211,7 +211,7 @@ export default function IntercityScreen() {
         {step === 'search' && (
           <View style={s.block}>
             <View style={{ alignItems: 'center', gap: espaciado.e4 }}>
-              <RouteIcon size={40} color={colors.primary} />
+              <RouteIcon size={40} color={colors.text.primary} />
               <Text style={s.big}>¿A dónde vas?</Text>
               <Text style={s.body}>Elige provincia y distrito de salida y de llegada.</Text>
             </View>
@@ -292,7 +292,7 @@ export default function IntercityScreen() {
               <FormField label="Dirección de recogida" placeholder="Barrio, calle, nº…" value={pickupAddress} onChangeText={setPickupAddress} />
             ) : (
               <View style={[s.warnBox, { backgroundColor: alpha(colors.danger, 0.08) }]}>
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, lineHeight: 17 }}>
+                <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, lineHeight: 17 }}>
                   ⚠️ La agencia cobra un importe por recibirte allí. La recogida a casa no tiene coste extra.
                 </Text>
               </View>
@@ -304,7 +304,7 @@ export default function IntercityScreen() {
               <Chip label="🏁 Al llegar al destino" active={payOn === 'destination'} onPress={() => setPayOn('destination')} />
             </View>
             {isCommission && payOn === 'boarding' && (
-              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
+              <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                 ⚠️ Compra por encargo: si el viajero no eres tú, lo normal es que pague al llegar al destino.
               </Text>
             )}
@@ -348,11 +348,11 @@ export default function IntercityScreen() {
 
         {step === 'ticket' && booking && (
           <View style={[s.block, { alignItems: 'center' }]}>
-            <CheckCircle2 size={52} color={colors.success} />
+            <CheckCircle2 size={52} color={colors.text.success} />
             <Text style={s.big}>{booking.fareStatus === 'proposed' ? 'Tarifa enviada al conductor' : '¡Reserva confirmada!'}</Text>
             <Text style={s.body}>{booking.message}</Text>
             <View style={[s.ticketBox, { borderColor: colors.primary }]}>
-              <Ticket size={26} color={colors.primary} />
+              <Ticket size={26} color={colors.text.primary} />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.display, fontWeight: peso.titulo, letterSpacing: 2 }}>{booking.booking?.shortCode ?? booking.ticketQrCode}</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>{booking.ticketQrCode} · muestra este código al conductor</Text>
             </View>
@@ -369,7 +369,7 @@ export default function IntercityScreen() {
               </Pressable>
             )}
             {booking.booking?.payOn === 'destination' && (
-              <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>💵 Pago: al llegar al destino</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>💵 Pago: al llegar al destino</Text>
             )}
             {booking.booking?.buyerPhone && phone.trim() && booking.booking.buyerPhone !== gqPhone(phone) && (
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' }}>
@@ -424,7 +424,7 @@ export default function IntercityScreen() {
               ) : t.publisherPhoto ? (
                 <LazyImage source={{ uri: absUrl(t.publisherPhoto) }} style={s.avatar} />
               ) : (
-                <View style={[s.avatar, { backgroundColor: alpha(colors.primary, 0.15) }]}><RouteIcon size={20} color={colors.primary} /></View>
+                <View style={[s.avatar, { backgroundColor: alpha(colors.primary, 0.15) }]}><RouteIcon size={20} color={colors.text.primary} /></View>
               )}
               <View style={{ flex: 1, gap: espaciado.e3 }}>
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>
@@ -438,18 +438,18 @@ export default function IntercityScreen() {
                 </Text>
                 {t.publisherBadge ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', backgroundColor: alpha(colors.primary, 0.12), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.sm, marginTop: espaciado.e4 }}>
-                    <BadgeCheck size={12} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontSize: tipografia.nota, fontWeight: peso.maximo, marginLeft: espaciado.e4 }}>{t.publisherBadge}</Text>
+                    <BadgeCheck size={12} color={colors.text.primary} />
+                    <Text style={{ color: colors.text.primary, fontSize: tipografia.nota, fontWeight: peso.maximo, marginLeft: espaciado.e4 }}>{t.publisherBadge}</Text>
                   </View>
                 ) : null}
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                   {t.availableSeats} asientos libres · {Number(t.price).toLocaleString('es')} XAF
                 </Text>
                 {t.rentalPrice != null && (
-                  <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>🚐 Alquiler completo: {Number(t.rentalPrice).toLocaleString('es')} XAF</Text>
+                  <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>🚐 Alquiler completo: {Number(t.rentalPrice).toLocaleString('es')} XAF</Text>
                 )}
               </View>
-              <ChevronRight size={20} color={colors.primary} />
+              <ChevronRight size={20} color={colors.text.primary} />
             </Pressable>
           )}
         />
@@ -478,7 +478,7 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
       accessibilityLabel={label}
       style={({ pressed }) => [styles(colors).chip, { borderColor: active ? colors.primary : colors.border, backgroundColor: active ? alpha(colors.primary, 0.08) : colors.card, opacity: pressed ? 0.85 : 1 }]}
     >
-      <Text style={{ color: active ? colors.primary : colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>{label}</Text>
+      <Text style={{ color: active ? colors.text.primary : colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>{label}</Text>
     </Pressable>
   );
 }
@@ -492,7 +492,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   body: { fontSize: tipografia.body, lineHeight: 20, color: c.textSecondary, textAlign: 'center', fontWeight: peso.medio },
   label: { fontSize: tipografia.caption, fontWeight: peso.maximo, color: c.textSecondary, marginTop: espaciado.e4 },
   labelInline: { fontSize: tipografia.caption, fontWeight: peso.maximo, color: c.textSecondary, marginTop: espaciado.e4, alignSelf: 'center' },
-  zone: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.primary },
+  zone: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.text.primary },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8 },
   chip: { borderRadius: radios.md, borderWidth: trazo.base, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 },
   tripCard: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, borderWidth: trazo.base, borderRadius: radios.campo, padding: espaciado.e14 },
@@ -500,5 +500,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   warnBox: { borderRadius: radios.md, padding: espaciado.e12 },
   summary: { borderRadius: radios.lg, borderWidth: trazo.base, padding: espaciado.e14 },
   ticketBox: { alignItems: 'center', gap: espaciado.e8, borderWidth: trazo.fuerte, borderRadius: radios.panel, padding: espaciado.e22, width: '100%', borderStyle: 'dashed' },
-  err: { color: c.danger, fontSize: tipografia.body, fontWeight: peso.fuerte },
+  err: { color: c.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte },
 });

@@ -47,7 +47,7 @@ export default function LocationBadge({ city, onPress, testID }: {
         },
       ]}
     >
-      <MapPin size={15} color={isPlaceholder ? colors.textSecondary : colors.primary} />
+      <MapPin size={15} color={isPlaceholder ? colors.textSecondary : colors.text.primary} />
       <Text
         style={[
           styles.label,

@@ -149,7 +149,7 @@ export default function ReservaAnticipadaScreen() {
     return (
       <View style={[s.root, { alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }]}>
         <View style={[s.card, { alignItems: 'center', borderColor: colors.success, paddingVertical: espaciado.e28, width: '100%' }]}>
-          <CheckCircle2 size={52} color={colors.success} />
+          <CheckCircle2 size={52} color={colors.text.success} />
           <Text style={{ fontSize: tipografia.title, fontWeight: peso.maximo, color: colors.textPrimary, marginTop: espaciado.e12 }}>Reserva confirmada</Text>
           <Text style={{ fontSize: tipografia.cuerpo, color: colors.textSecondary, marginTop: espaciado.e8, textAlign: 'center' }}>{origin} → {dest}</Text>
           <Text style={{ fontSize: tipografia.body, color: colors.textSecondary, marginTop: espaciado.e4 }}>{whenLabel}</Text>
@@ -182,14 +182,14 @@ export default function ReservaAnticipadaScreen() {
           </View>
         </View>
         <View style={[s.iconBtn, { alignItems: 'flex-end' }]}>
-          <ShieldCheck size={16} color={colors.success} />
+          <ShieldCheck size={16} color={colors.text.success} />
           <Text style={s.securityText}>Seguro</Text>
         </View>
       </View>
 
       {error && (
         <View style={[s.card, { marginHorizontal: espaciado.e16, borderColor: colors.danger }]}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>⚠️ {error}</Text>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>⚠️ {error}</Text>
         </View>
       )}
 
@@ -207,7 +207,7 @@ export default function ReservaAnticipadaScreen() {
                 </View>
                 <View style={{ flex: 1 }}>
                   <View style={s.fieldRow}>
-                    <Navigation size={16} color={colors.primary} />
+                    <Navigation size={16} color={colors.text.primary} />
                     <TextInput
                       style={s.input}
                       placeholder="Salida (ubicación actual…)"
@@ -250,7 +250,7 @@ export default function ReservaAnticipadaScreen() {
                     accessibilityState={{ selected: active }}
                     style={[s.dayChip, { borderColor: active ? colors.primary : colors.border, backgroundColor: active ? alpha(colors.primary, 0.08) : colors.card }]}
                   >
-                    <Text style={[s.dayChipText, { color: active ? colors.primary : colors.textPrimary }]}>{label}</Text>
+                    <Text style={[s.dayChipText, { color: active ? colors.text.primary : colors.textPrimary }]}>{label}</Text>
                   </Pressable>
                 );
               })}
@@ -259,7 +259,7 @@ export default function ReservaAnticipadaScreen() {
             {/* Hora (24 h) y minutos */}
             <View style={[s.card, { marginTop: espaciado.e14 }]}>
               <View style={s.sectionHeader}>
-                <Clock size={16} color={colors.primary} />
+                <Clock size={16} color={colors.text.primary} />
                 <Text style={s.sectionTitle}>Hora de recogida</Text>
               </View>
               <View style={{ flexDirection: 'row', gap: espaciado.e12 }}>
@@ -309,7 +309,7 @@ export default function ReservaAnticipadaScreen() {
                     accessibilityState={{ selected: active }}
                     style={[s.vehicleCard, active && { borderColor: colors.primary, backgroundColor: alpha(colors.primary, 0.06) }]}
                   >
-                    <Icon size={26} color={active ? colors.primary : colors.textSecondary} />
+                    <Icon size={26} color={active ? colors.text.primary : colors.textSecondary} />
                     <Text style={[s.vehicleName, { color: colors.textPrimary }]}>{v.name}</Text>
                     <Text style={s.vehicleDesc}>{v.desc}</Text>
                   </Pressable>
@@ -359,14 +359,14 @@ export default function ReservaAnticipadaScreen() {
               <Text style={s.label}>Mi presupuesto deseado (opcional)</Text>
               <View style={[s.budgetRow, budgetNum !== null && { borderColor: colors.secondary }]}>
                 <TextInput
-                  style={[s.budgetInput, budgetNum !== null && { color: colors.secondary }]}
+                  style={[s.budgetInput, budgetNum !== null && { color: colors.text.secondary }]}
                   placeholder="Escribe tu presupuesto"
                   placeholderTextColor={colors.textSecondary}
                   keyboardType="number-pad"
                   value={budget}
                   onChangeText={setBudget}
                 />
-                <Text style={[s.currencyTag, budgetNum !== null && { color: colors.secondary }]}>XAF</Text>
+                <Text style={[s.currencyTag, budgetNum !== null && { color: colors.text.secondary }]}>XAF</Text>
               </View>
             </View>
 
@@ -458,7 +458,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     title: { fontSize: tipografia.subCabecera, fontWeight: peso.maximo, color: c.textPrimary },
     stepsRow: { flexDirection: 'row', gap: espaciado.e5, marginTop: espaciado.e4 },
     stepDot: { width: 18, height: 4, borderRadius: radios.pista },
-    securityText: { fontSize: tipografia.nota, color: c.success, fontWeight: peso.fuerte },
+    securityText: { fontSize: tipografia.nota, color: c.text.success, fontWeight: peso.fuerte },
 
     stepTitle: { fontSize: tipografia.title, fontWeight: peso.maximo, color: c.textPrimary, marginHorizontal: espaciado.e16, marginTop: espaciado.e8, marginBottom: espaciado.e12 },
     card: { backgroundColor: c.card, borderRadius: radios.lg, padding: espaciado.e14, marginHorizontal: espaciado.e16, marginBottom: espaciado.e12, borderWidth: trazo.fino, borderColor: c.border, shadowColor: c.shadow, shadowOpacity: 0.05, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 1 },
@@ -482,7 +482,7 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     chip: { paddingHorizontal: espaciado.e11, paddingVertical: espaciado.e8, borderRadius: radios.full, borderWidth: trazo.fino, borderColor: c.border, marginRight: espaciado.e6, backgroundColor: c.background },
     chipText: { fontSize: tipografia.body, color: c.textPrimary, fontWeight: peso.fuerte },
     miniLabel: { fontSize: tipografia.micro, color: c.textSecondary, marginBottom: espaciado.e4 },
-    pickSummary: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.primary, marginTop: espaciado.e12 },
+    pickSummary: { fontSize: tipografia.body, fontWeight: peso.maximo, color: c.text.primary, marginTop: espaciado.e12 },
 
     vehicleCard: { width: 124, padding: espaciado.e14, borderRadius: radios.lg, borderWidth: trazo.base, borderColor: c.border, backgroundColor: c.card, alignItems: 'center', gap: espaciado.e6 },
     vehicleName: { fontSize: tipografia.body, fontWeight: peso.maximo, textAlign: 'center' },

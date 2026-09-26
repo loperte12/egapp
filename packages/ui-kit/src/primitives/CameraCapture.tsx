@@ -86,7 +86,7 @@ export function CameraCapture({
   if (!permission.granted) {
     return (
       <View style={styles.permissionBox}>
-        <Camera size={40} color={colors.primary} strokeWidth={trazoIcono.fino} />
+        <Camera size={40} color={colors.text.primary} strokeWidth={trazoIcono.fino} />
         <Text style={[styles.permissionTitle, { color: colors.textPrimary }]}>
           Necesitamos tu cámara
         </Text>
@@ -200,7 +200,7 @@ export function CameraCapture({
       <View style={styles.controls}>
         {onPickGallery ? (
           <Pressable onPress={onPickGallery} style={[styles.galleryBtn, { backgroundColor: colors.card }]} accessibilityLabel="Subir desde galería">
-            <ImageIcon size={20} color={colors.primary} />
+            <ImageIcon size={20} color={colors.text.primary} />
           </Pressable>
         ) : (
           <Pressable onPress={() => void systemCamera()} style={[styles.galleryBtn, { backgroundColor: 'rgba(255,255,255,0.18)' }]} accessibilityLabel="Usar cámara del sistema">

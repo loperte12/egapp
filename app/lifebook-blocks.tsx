@@ -51,7 +51,7 @@ function BlocksContent() {
         <View style={{ width: 22 }} />
       </View>
       {rows === null ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={colors.primary} /></View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={colors.text.primary} /></View>
       ) : (
         <FlatList
           data={rows}
@@ -59,7 +59,7 @@ function BlocksContent() {
           contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 20, flexGrow: 1 }}
           ListEmptyComponent={
             <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 90, gap: espaciado.e8 }}>
-              <Ban size={40} color={alpha(colors.primary, 0.4)} />
+              <Ban size={40} color={alpha(colors.text.primary, 0.4)} />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>No tienes usuarios bloqueados.</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: espaciado.e30, lineHeight: 18 }}>
                 Cuando bloquees a alguien desde su perfil, aparecerá aquí y no verás su contenido ni te podrá escribir.
@@ -74,7 +74,7 @@ function BlocksContent() {
                   <Image source={{ uri: absUrl(item.avatarUrl) }} style={[styles.avatar, { backgroundColor: colors.surface }]} />
                 ) : (
                   <View style={[styles.avatar, { backgroundColor: alpha(colors.primary, 0.15), alignItems: 'center', justifyContent: 'center' }]}>
-                    <Text style={{ color: colors.primary, fontSize: tipografia.title, fontWeight: peso.titulo }}>{(item.fullName ?? '?').charAt(0).toUpperCase()}</Text>
+                    <Text style={{ color: colors.text.primary, fontSize: tipografia.title, fontWeight: peso.titulo }}>{(item.fullName ?? '?').charAt(0).toUpperCase()}</Text>
                   </View>
                 )}
                 <View style={{ flex: 1 }}>
@@ -86,7 +86,7 @@ function BlocksContent() {
                   disabled={busyId === item.id}
                   style={[styles.unblockBtn, { backgroundColor: alpha(colors.danger, 0.1) }]}
                 >
-                  {busyId === item.id ? <ActivityIndicator size="small" color={colors.danger} /> : <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Desbloquear</Text>}
+                  {busyId === item.id ? <ActivityIndicator size="small" color={colors.text.danger} /> : <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.titulo }}>Desbloquear</Text>}
                 </Pressable>
               </View>
             </View>

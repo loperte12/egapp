@@ -70,7 +70,7 @@ export default function PromoCarousel() {
     <View style={styles.wrap}>
       {loading ? (
         <View style={{ height: 84, alignItems: 'center', justifyContent: 'center' }}>
-          <ActivityIndicator color={colors.primary} size="small" />
+          <ActivityIndicator color={colors.text.primary} size="small" />
         </View>
       ) : (
         <>
@@ -87,7 +87,7 @@ export default function PromoCarousel() {
             contentContainerStyle={{ paddingRight: H_PADDING }}
             ItemSeparatorComponent={() => <View style={{ width: GAP }} />}
             renderItem={({ item }) => {
-              const color = /^#[0-9A-Fa-f]{6}$/.test(item.color ?? '') ? item.color : colors.primary;
+              const color = /^#[0-9A-Fa-f]{6}$/.test(item.color ?? '') ? item.color : colors.text.primary;
               return (
                 <Pressable
                   onPress={() => open(item)}

@@ -200,7 +200,7 @@ export const PostCard = memo(function PostCard({ post, width, onPress, onMore, o
             />
           ) : (
             <View style={[styles.avatar, styles.avatarFallback, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-              <Text style={{ fontSize: tipografia.rotulo, fontWeight: peso.maximo, color: colors.primary }}>
+              <Text style={{ fontSize: tipografia.rotulo, fontWeight: peso.maximo, color: colors.text.primary }}>
                 {(post.author?.name ?? '?').trim().charAt(0).toUpperCase() || '?'}
               </Text>
             </View>

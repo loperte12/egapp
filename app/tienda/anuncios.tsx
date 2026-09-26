@@ -405,7 +405,7 @@ export default function TiendaAnuncios() {
                 )}
               </View>
               {enGestion.status === 'active' && enGestion.stock <= 0 && (
-                <Text style={[s.nota, { color: colors.warning }]}>
+                <Text style={[s.nota, { color: colors.text.warning }]}>
                   Está a la venta sin existencias: el catálogo lo enseña como agotado.
                 </Text>
               )}
@@ -631,7 +631,7 @@ function FilaAnuncio({ producto, activa, ocupado, onStock, onGestionar, onCorreg
               <Heart size={icono.micro} color={colors.textSecondary} />
               <Text style={s.meta}>{producto.favoriteCount ?? 0}</Text>
             </View>
-            {producto.isFeatured && <Text style={[s.sello, { color: colors.primary }]}>Destacado</Text>}
+            {producto.isFeatured && <Text style={[s.sello, { color: colors.text.primary }]}>Destacado</Text>}
           </View>
         </View>
       </Pressable>
@@ -647,7 +647,7 @@ function FilaAnuncio({ producto, activa, ocupado, onStock, onGestionar, onCorreg
               accessibilityLabel={`Corregir ${producto.title}: vuelve a revisión`}
               style={({ pressed }) => [s.enlace, { opacity: pressed ? 0.6 : 1 }]}
             >
-              <Text style={[s.sello, { color: colors.primary }]}>Corregir</Text>
+              <Text style={[s.sello, { color: colors.text.primary }]}>Corregir</Text>
             </Pressable>
           ) : combinaciones > 0 ? (
             /* CON COMBINACIONES NO HAY ± DE EXISTENCIAS, y no es una preferencia de diseño: el
@@ -661,8 +661,8 @@ function FilaAnuncio({ producto, activa, ocupado, onStock, onGestionar, onCorreg
               accessibilityLabel={`${producto.title}: ${combinaciones} ${combinaciones === 1 ? 'combinación' : 'combinaciones'}. Abre sus precios y sus unidades.`}
               style={({ pressed }) => [s.enlace, { opacity: pressed ? 0.6 : 1 }]}
             >
-              <Layers size={icono.micro} color={colors.primary} />
-              <Text style={[s.sello, { color: colors.primary }]}>Combinaciones</Text>
+              <Layers size={icono.micro} color={colors.text.primary} />
+              <Text style={[s.sello, { color: colors.text.primary }]}>Combinaciones</Text>
             </Pressable>
           ) : (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
@@ -691,14 +691,14 @@ function FilaAnuncio({ producto, activa, ocupado, onStock, onGestionar, onCorreg
           accessibilityLabel={`${producto.title} está retirado. Abre la gestión para volver a ponerlo a la venta.`}
           style={({ pressed }) => [s.enlace, { opacity: pressed ? 0.6 : 1 }]}
         >
-          <Text style={[s.sello, { color: colors.primary }]}>Reactivar</Text>
+          <Text style={[s.sello, { color: colors.text.primary }]}>Reactivar</Text>
         </Pressable>
       )}
 
       {!activa && producto.status === 'rejected' && producto.rejectionReason ? (
         <View style={{ maxWidth: 108, alignItems: 'flex-end' }}>
-          <AlertTriangle size={icono.micro} color={colors.danger} />
-          <Text style={[s.meta, { color: colors.danger }]} numberOfLines={3}>{producto.rejectionReason}</Text>
+          <AlertTriangle size={icono.micro} color={colors.text.danger} />
+          <Text style={[s.meta, { color: colors.text.danger }]} numberOfLines={3}>{producto.rejectionReason}</Text>
         </View>
       ) : null}
     </View>

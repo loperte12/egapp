@@ -96,7 +96,7 @@ export default function RuletaVertical({
                 style={{ height: ALTO_FILA, alignItems: 'center', justifyContent: 'center' }}
               >
                 <Text style={{
-                  color: activo ? colors.primary : colors.textSecondary,
+                  color: activo ? colors.text.primary : colors.textSecondary,
                   fontSize: activo ? 16 : 14,
                   fontWeight: activo ? peso.titulo : peso.medio,
                 }}>

@@ -354,10 +354,10 @@ function AudioPlayerView({ src, title, cover, insets, onClose }: {
         </Pressable>
 
         {error && (
-          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>No se pudo reproducir. Reintenta.</Text>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>No se pudo reproducir. Reintenta.</Text>
         )}
         {!status?.isLoaded && (
-          <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e14 }} />
+          <ActivityIndicator color={colors.text.primary} style={{ marginTop: espaciado.e14 }} />
         )}
       </View>
       <View style={{ height: insets.bottom + 10 }} />

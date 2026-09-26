@@ -247,7 +247,7 @@ export default function BillingCheckoutScreen() {
   if (loadingState === 'loading') {
     return (
       <View style={[s.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={colors.text.primary} />
         <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary }}>Cargando…</Text>
       </View>
     );
@@ -255,8 +255,8 @@ export default function BillingCheckoutScreen() {
   if (error && !plan) {
     return (
       <View style={[s.center, { backgroundColor: colors.background, padding: espaciado.e24 }]}>
-        <XCircle size={48} color={colors.danger} />
-        <Text style={{ color: colors.danger, fontWeight: peso.fuerte, marginTop: espaciado.e12, textAlign: 'center' }}>{error}</Text>
+        <XCircle size={48} color={colors.text.danger} />
+        <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte, marginTop: espaciado.e12, textAlign: 'center' }}>{error}</Text>
         <View style={{ marginTop: espaciado.e16 }}><GhostButton title="Reintentar" onPress={() => load('initial')} /></View>
         <View style={{ marginTop: espaciado.e8 }}><GhostButton title="Volver" onPress={() => router.back()} /></View>
       </View>
@@ -265,7 +265,7 @@ export default function BillingCheckoutScreen() {
   if (!plan) {
     return (
       <View style={[s.center, { backgroundColor: colors.background, padding: espaciado.e24 }]}>
-        <Text style={{ color: colors.danger, fontWeight: peso.fuerte }}>Plan no encontrado</Text>
+        <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte }}>Plan no encontrado</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
     );
@@ -292,11 +292,11 @@ export default function BillingCheckoutScreen() {
         {error && (
           <View style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), marginBottom: espaciado.e12 }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-              <XCircle size={16} color={colors.danger} />
-              <Text style={{ flex: 1, color: colors.danger, fontWeight: peso.medio, fontSize: tipografia.body }}>{error}</Text>
+              <XCircle size={16} color={colors.text.danger} />
+              <Text style={{ flex: 1, color: colors.text.danger, fontWeight: peso.medio, fontSize: tipografia.body }}>{error}</Text>
             </View>
             <Pressable onPress={() => load('initial')} style={{ marginTop: espaciado.e8, alignSelf: 'flex-start' }} accessibilityRole="button">
-              <Text style={{ color: colors.primary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>Reintentar</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>Reintentar</Text>
             </Pressable>
           </View>
         )}
@@ -305,7 +305,7 @@ export default function BillingCheckoutScreen() {
         <View style={[s.card, { borderColor: colors.border }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
             <Text style={{ fontSize: tipografia.subtitle, fontWeight: peso.fuerte, color: colors.textPrimary, flex: 1 }}>{plan.name}</Text>
-            <Precio valor={plan.priceXaf} tamano="lg" color={colors.primary} />
+            <Precio valor={plan.priceXaf} tamano="lg" color={colors.text.primary} />
           </View>
           {plan.description ? <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e4 }}>{plan.description}</Text> : null}
         </View>
@@ -332,8 +332,8 @@ export default function BillingCheckoutScreen() {
               </Text>
               {order.rejectionReason ? (
                 <View style={{ marginTop: espaciado.e8, flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e6 }}>
-                  <XCircle size={14} color={brand.danger} />
-                  <Text style={{ flex: 1, fontSize: tipografia.caption, color: brand.danger, fontWeight: peso.medio }}>Motivo: {order.rejectionReason}</Text>
+                  <XCircle size={14} color={colors.text.danger} />
+                  <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.text.danger, fontWeight: peso.medio }}>Motivo: {order.rejectionReason}</Text>
                 </View>
               ) : null}
             </View>
@@ -342,7 +342,7 @@ export default function BillingCheckoutScreen() {
             {(order.status === 'pending_payment' || order.status === 'rejected') && (
               <View style={[s.card, { borderColor: colors.border, marginTop: espaciado.e12 }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginBottom: espaciado.e6 }}>
-                  <Info size={14} color={colors.primary} />
+                  <Info size={14} color={colors.text.primary} />
                   <Text style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>Instrucciones de pago</Text>
                 </View>
                 <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, lineHeight: 18 }}>
@@ -378,8 +378,8 @@ export default function BillingCheckoutScreen() {
                     testID="billing-pick-proof"
                     style={({ pressed }) => [s.proofBox, { backgroundColor: colors.surface, borderColor: colors.border, opacity: pressed ? 0.8 : 1 }]}
                   >
-                    <Camera size={18} color={colors.primary} />
-                    <Text style={{ fontSize: tipografia.body, color: colors.primary, fontWeight: peso.fuerte, marginLeft: espaciado.e8 }}>Foto del comprobante (cámara o galería)</Text>
+                    <Camera size={18} color={colors.text.primary} />
+                    <Text style={{ fontSize: tipografia.body, color: colors.text.primary, fontWeight: peso.fuerte, marginLeft: espaciado.e8 }}>Foto del comprobante (cámara o galería)</Text>
                   </Pressable>
                 )}
 

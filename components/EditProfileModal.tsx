@@ -98,7 +98,7 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
               {preview ? (
                 <Image source={{ uri: preview }} style={styles.avatarLgImg} />
               ) : (
-                <Text style={[styles.avatarLgText, { color: colors.primary }]}>
+                <Text style={[styles.avatarLgText, { color: colors.text.primary }]}>
                   {(profile.fullName ?? 'U').trim().charAt(0).toUpperCase() || 'U'}
                 </Text>
               )}
@@ -112,8 +112,8 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
                 style={[styles.pickBtn, { backgroundColor: colors.surface, borderColor: colors.border, opacity: busy || (picking !== null && picking !== 'camera') ? 0.45 : 1 }]}
               >
                 {picking === 'camera'
-                  ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
-                  : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>📷 Tomar foto</Text>}
+                  ? <View style={styles.pickBusy}><ActivityIndicator color={colors.text.primary} size="small" /><Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
+                  : <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>📷 Tomar foto</Text>}
               </Pressable>
               <Pressable
                 onPress={pickFromLibrary}
@@ -123,8 +123,8 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
                 style={[styles.pickBtn, { backgroundColor: colors.surface, borderColor: colors.border, opacity: busy || (picking !== null && picking !== 'library') ? 0.45 : 1 }]}
               >
                 {picking === 'library'
-                  ? <View style={styles.pickBusy}><ActivityIndicator color={colors.primary} size="small" /><Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
-                  : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>🖼️ Desde galería</Text>}
+                  ? <View style={styles.pickBusy}><ActivityIndicator color={colors.text.primary} size="small" /><Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Procesando…</Text></View>
+                  : <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>🖼️ Desde galería</Text>}
               </Pressable>
             </View>
           </View>
@@ -141,7 +141,7 @@ export default function EditProfileModal({ visible, profile, onClose, onSaved }:
             editable={!busy}
           />
 
-          {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text> : null}
+          {error ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text> : null}
 
           <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e4 }}>
             <View style={{ flex: 1 }}>

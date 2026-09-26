@@ -474,7 +474,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
               accessibilityLabel={`Cargar más pedidos, quedan ${total - orders.length}`}
               style={[s.masBtn, { borderColor: colors.border }]}
             >
-              <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.primary }}>
+              <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.text.primary }}>
                 {cargandoMas ? 'Cargando…' : `Ver más (quedan ${total - orders.length})`}
               </Text>
             </Pressable>
@@ -631,8 +631,8 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
                   />
                 ) : o.status === 'delivered' ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(o.paymentMethod === 'billing' ? brand.success : brand.warning, 0.08), borderRadius: radios.sm, padding: espaciado.e8 }}>
-                    <ShieldCheck size={14} color={o.paymentMethod === 'billing' ? brand.success : brand.warning} />
-                    <Text style={{ fontSize: tipografia.micro, color: o.paymentMethod === 'billing' ? brand.success : brand.warning, fontWeight: peso.fuerte, marginLeft: espaciado.e6, flex: 1 }}>
+                    <ShieldCheck size={14} color={o.paymentMethod === 'billing' ? colors.text.success : colors.text.warning} />
+                    <Text style={{ fontSize: tipografia.micro, color: o.paymentMethod === 'billing' ? colors.text.success : colors.text.warning, fontWeight: peso.fuerte, marginLeft: espaciado.e6, flex: 1 }}>
                       {o.paymentMethod === 'billing'
                         ? (warrantyOk ? `Garantía de 7 días hasta ${new Date(o.warrantyExpiresAt!).toLocaleDateString('es')}` : 'Garantía vencida.')
                         : 'Pago en efectivo: EG Route Plan media si hay problema (sin reembolso por la app).'}
@@ -644,8 +644,8 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
               {/* Seguimiento de envío (agente) */}
               {ship && (
                 <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.sm, padding: espaciado.e8, marginTop: espaciado.e10, flexWrap: 'wrap', gap: espaciado.e6 }}>
-                  <Truck size={14} color={colors.primary} />
-                  <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.fuerte, flex: 1 }}>
+                  <Truck size={14} color={colors.text.primary} />
+                  <Text style={{ fontSize: tipografia.micro, color: colors.text.primary, fontWeight: peso.fuerte, flex: 1 }}>
                     Envío {ship.trackingCode} · {ship.agentName ?? 'agente'} · {labelOf(ship.status)}
                   </Text>
                   {role === 'seller' && (
@@ -692,7 +692,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
                 {canCancel && <GhostButton title="Cancelar" onPress={() => openModal('cancel', o)} />}
                 {canDispute && <GhostButton title="Disputa" onPress={() => openModal('dispute', o)} />}
                 {canReview && <GhostButton title="Valorar" onPress={() => openModal('review', o)} />}
-                {o.status === 'disputed' && <Text style={{ fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.fuerte }}>En revisión por el administrador</Text>}
+                {o.status === 'disputed' && <Text style={{ fontSize: tipografia.caption, color: colors.text.danger, fontWeight: peso.fuerte }}>En revisión por el administrador</Text>}
               </View>
             </View>
           );
@@ -718,7 +718,7 @@ export default function EcomerseOrdersScreen({ rolInicial, filtroInicial: filtro
           <View style={{ flexDirection: 'row', gap: espaciado.e8, justifyContent: 'center', paddingVertical: espaciado.e8 }}>
             {[1, 2, 3, 4, 5].map((n) => (
               <Pressable key={n} onPress={() => setRating(n)} accessibilityRole="button" accessibilityLabel={`${n} estrellas`} hitSlop={8}>
-                <Star size={34} color={n <= rating ? brand.warning : colors.border} fill={n <= rating ? brand.warning : 'transparent'} />
+                <Star size={34} color={n <= rating ? colors.text.warning : colors.border} fill={n <= rating ? colors.text.warning : 'transparent'} />
               </Pressable>
             ))}
           </View>

@@ -99,7 +99,7 @@ function Contenido() {
       </View>
 
       {loading ? (
-        <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.center}><ActivityIndicator color={colors.text.primary} /></View>
       ) : error ? (
         <View style={styles.center}>
           <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>{error}</Text>
@@ -154,8 +154,8 @@ function Contenido() {
             nextCursor ? (
               <Tactil onPress={() => void cargarMas()} style={[styles.masBtn, { borderColor: colors.border }]} accessibilityRole="button">
                 {cargandoMas
-                  ? <ActivityIndicator color={colors.primary} size="small" />
-                  : <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Cargar más</Text>}
+                  ? <ActivityIndicator color={colors.text.primary} size="small" />
+                  : <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Cargar más</Text>}
               </Tactil>
             ) : null
           }

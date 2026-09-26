@@ -79,7 +79,7 @@ export function HotelResultCard({
             </Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
-            <Precio valor={fromPricePerNightXaf} tamano="md" color={soldOut ? colors.textSecondary : colors.secondary} />
+            <Precio valor={fromPricePerNightXaf} tamano="md" color={soldOut ? colors.textSecondary : colors.text.secondary} />
             <Text style={[styles.precioSub, { color: colors.textSecondary }]}>
               {soldOut ? 'sin disponibilidad' : 'por noche · desde'}
             </Text>
@@ -126,7 +126,7 @@ export function HotelResultCard({
               </View>
               <View style={{ alignItems: 'flex-end', gap: espaciado.e4 }}>
                 {listo ? (
-                  <Text style={[styles.habLibre, { color: libre ? colors.success : colors.textSecondary }]}>
+                  <Text style={[styles.habLibre, { color: libre ? colors.text.success : colors.textSecondary }]}>
                     {libre
                       ? `${r.freeUnits} libre(s)`
                       : Number(r.freeUnits) === 0

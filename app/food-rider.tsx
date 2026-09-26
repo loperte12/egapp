@@ -299,7 +299,7 @@ export default function FoodRiderScreen() {
                   </View>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Tus comisiones</Text>
-                    <Precio valor={contab.comisionesXaf} tamano="sm" color={brand.success} />
+                    <Precio valor={contab.comisionesXaf} tamano="sm" color={colors.text.success} />
                   </View>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
                     <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary }}>Efectivo que llevas</Text>
@@ -308,10 +308,10 @@ export default function FoodRiderScreen() {
                   <View style={{ height: 1, backgroundColor: colors.border, marginVertical: espaciado.e8 }} />
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>Se te pagará</Text>
-                    <Precio valor={contab.aPagarXaf} tamano="md" color={brand.success} />
+                    <Precio valor={contab.aPagarXaf} tamano="md" color={colors.text.success} />
                   </View>
                   {contab.deudaArrastradaXaf > 0 ? (
-                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.danger, marginTop: espaciado.e6 }}>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.danger, marginTop: espaciado.e6 }}>
                       ⚠ Debes {formatXAF(contab.deudaArrastradaXaf)} de efectivo: se descontará la semana que viene.
                     </Text>
                   ) : null}
@@ -346,7 +346,7 @@ export default function FoodRiderScreen() {
 
             {rider?.status === 'rejected' && rider.rejectionReason ? (
               <View style={[s.rejectedBox, { backgroundColor: alpha(colors.danger, 0.08) }]}>
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Motivo: {rider.rejectionReason}</Text>
+                <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>Motivo: {rider.rejectionReason}</Text>
               </View>
             ) : null}
 
@@ -410,7 +410,7 @@ export default function FoodRiderScreen() {
                           </View>
                         ) : d.paymentMethod === 'billing' ? (
                           <View style={[s.payBadge, { backgroundColor: alpha(colors.success, 0.14), borderColor: alpha(colors.success, 0.4) }]}>
-                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.success }}>
+                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.text.success }}>
                               ✓ Ya pagado — NO cobrar nada
                             </Text>
                           </View>
@@ -453,7 +453,7 @@ export default function FoodRiderScreen() {
                         {d.status !== 'delivered' ? (
                           d.meetingNote ? (
                             <View style={{ marginTop: espaciado.e8, borderRadius: radios.chip, borderWidth: trazo.fino, padding: espaciado.e10, borderColor: alpha(colors.success, 0.4), backgroundColor: alpha(colors.success, 0.08) }}>
-                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.success }}>🤝 Punto de encuentro avisado</Text>
+                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.success }}>🤝 Punto de encuentro avisado</Text>
                               <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2, lineHeight: 15 }}>{d.meetingNote}</Text>
                               <Pressable
                                 onPress={() => { setPuntoDe(d.orderId); setPuntoTexto(d.meetingNote ?? ''); setPuntoCoords(null); }}
@@ -591,7 +591,7 @@ export default function FoodRiderScreen() {
                               accessibilityLabel="Anotar el efectivo que cobré en esta entrega"
                               style={{ marginTop: espaciado.e8, alignSelf: 'flex-start' }}
                             >
-                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.primary }}>
+                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary }}>
                                 💵 Anotar lo que cobré
                               </Text>
                             </Pressable>
@@ -600,7 +600,7 @@ export default function FoodRiderScreen() {
 
                         {meta?.next ? (
                           busy ? (
-                            <ActivityIndicator style={{ marginTop: espaciado.e10 }} size="small" color={colors.primary} />
+                            <ActivityIndicator style={{ marginTop: espaciado.e10 }} size="small" color={colors.text.primary} />
                           ) : (
                             <Pressable
                               onPress={() => requestAdvance(d)}
@@ -640,8 +640,8 @@ function CallBtn({ phone, label }: { phone: string | null; label: string }) {
       accessibilityLabel={label}
       style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e5, borderWidth: trazo.fino, borderColor: colors.primary, borderRadius: radios.hermano, paddingVertical: espaciado.e8 }}
     >
-      <Phone size={13} color={colors.primary} />
-      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{label}</Text>
+      <Phone size={13} color={colors.text.primary} />
+      <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{label}</Text>
     </Pressable>
   );
 }
@@ -650,12 +650,12 @@ function ReqRow({ ok, label, hint, onPress }: { ok: boolean; label: string; hint
   const { colors } = useTheme();
   const row = (
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: espaciado.e5 }}>
-      {ok ? <BadgeCheck size={16} color={brand.success} /> : <XCircle size={16} color={neutro.n400} />}
+      {ok ? <BadgeCheck size={16} color={colors.text.success} /> : <XCircle size={16} color={neutro.n400} />}
       <View style={{ flex: 1, marginLeft: espaciado.e8 }}>
         <Text style={{ fontSize: tipografia.caption, fontWeight: peso.medio, color: ok ? colors.textPrimary : colors.textSecondary }}>{label}</Text>
-        {hint ? <Text style={{ fontSize: tipografia.micro, color: onPress ? colors.primary : colors.textSecondary }}>{hint}</Text> : null}
+        {hint ? <Text style={{ fontSize: tipografia.micro, color: onPress ? colors.text.primary : colors.textSecondary }}>{hint}</Text> : null}
       </View>
-      {onPress ? <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>→</Text> : null}
+      {onPress ? <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>→</Text> : null}
     </View>
   );
   return onPress ? (

@@ -49,7 +49,7 @@ export function AvatarTienda({
   }
   return (
     <View style={[marco, styles.letra, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-      <Text style={[styles.inicial, { color: colors.primary, fontSize: tamano * 0.45 }]}>{letra}</Text>
+      <Text style={[styles.inicial, { color: colors.text.primary, fontSize: tamano * 0.45 }]}>{letra}</Text>
     </View>
   );
 }

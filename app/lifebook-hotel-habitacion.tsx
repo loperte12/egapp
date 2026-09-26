@@ -245,7 +245,7 @@ function Contenido() {
   if (cargando) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -392,14 +392,14 @@ function Contenido() {
               ya creadas con menos— pero se dice claramente cuántas faltan.
             */}
             {fotos.length < 3 ? (
-              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginBottom: espaciado.e10, lineHeight: 18 }}>
+              <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginBottom: espaciado.e10, lineHeight: 18 }}>
                 ⚠ {fotos.length === 0
                   ? 'Sin fotos: una habitación sin fotos casi no se reserva.'
                   : `Con ${fotos.length} foto(s) se nota la falta: lo recomendado son 3 o más.`}
                 {' '}Mejor la fachada o la habitación entera, con luz.
               </Text>
             ) : (
-              <Text style={{ color: colors.success, fontSize: tipografia.caption, fontWeight: peso.maximo, marginBottom: espaciado.e10 }}>
+              <Text style={{ color: colors.text.success, fontSize: tipografia.caption, fontWeight: peso.maximo, marginBottom: espaciado.e10 }}>
                 ✓ {fotos.length} fotos: la primera es la que se ve en la lista de resultados.
               </Text>
             )}
@@ -437,7 +437,7 @@ function Contenido() {
                     onPress={() => setAmenities((prev) => (on ? prev.filter((x) => x !== s.id) : [...prev, s.id]))}
                     style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                   >
-                    <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+                    <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                       {on ? '✓ ' : ''}{s.label}
                     </Text>
                   </Pressable>
@@ -466,7 +466,7 @@ function Contenido() {
           </View>
 
           {problema ? (
-            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>⚠️ {problema}</Text>
+            <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>⚠️ {problema}</Text>
           ) : null}
 
           <View style={{ marginTop: espaciado.e14 }}>
@@ -508,7 +508,7 @@ function Contador({ actual, max }: { actual: number; max: number }) {
   return (
     <Text
       style={{
-        color: quedan <= 40 ? colors.secondary : colors.textSecondary,
+        color: quedan <= 40 ? colors.text.secondary : colors.textSecondary,
         fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6, marginLeft: espaciado.e4,
       }}
       accessibilityLiveRegion="polite"

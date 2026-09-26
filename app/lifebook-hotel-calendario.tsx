@@ -202,7 +202,7 @@ function Contenido() {
   if (cargando) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -264,7 +264,7 @@ function Contenido() {
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{hasta ? longDate(hasta) : '—'}</Text>
             </View>
             <View style={{ alignItems: 'flex-end' }}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{noches} noche(s)</Text>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{noches} noche(s)</Text>
               {afectadas ? (
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>{afectadas} ya modificada(s)</Text>
               ) : null}
@@ -398,7 +398,7 @@ function Contenido() {
                   onPress={() => setSemana((prev) => (on ? prev.filter((x) => x !== d.dow) : [...prev, d.dow]))}
                   style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.14) : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                 >
-                  <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+                  <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                     {on ? '✓ ' : ''}{d.label}
                   </Text>
                 </Pressable>
@@ -441,7 +441,7 @@ function Contenido() {
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.fuerte, flex: 1 }}>
                     {longDate(d.date)}
                   </Text>
-                  <Text style={{ color: d.closed ? colors.danger : colors.secondary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
+                  <Text style={{ color: d.closed ? colors.text.danger : colors.text.secondary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                     {d.closed ? 'Cerrado' : xaf(d.priceXaf)}
                   </Text>
                 </View>

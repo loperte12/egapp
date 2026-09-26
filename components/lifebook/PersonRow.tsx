@@ -17,7 +17,7 @@ export function PersonRow({ name, avatarUrl, subtitle, actions }: {
         <Image source={{ uri: avatarUrl }} style={styles.personAvatar} />
       ) : (
         <View style={[styles.personAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-          <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>{name.trim().charAt(0).toUpperCase() || '?'}</Text>
+          <Text style={{ color: colors.text.primary, fontWeight: peso.titulo }}>{name.trim().charAt(0).toUpperCase() || '?'}</Text>
         </View>
       )}
       <View style={{ flex: 1 }}>

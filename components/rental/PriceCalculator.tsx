@@ -139,7 +139,7 @@ export function PriceCalculator({ property, style }: { property: RentalProperty;
         />
         <View style={[s.totalRow, { borderTopColor: colors.border }]}>
           <Text style={[s.totalLabel, { color: colors.textPrimary }]}>Total estimado / mes</Text>
-          <Precio valor={estimates.total} tamano="md" color={colors.primary} />
+          <Precio valor={estimates.total} tamano="md" color={colors.text.primary} />
         </View>
       </View>
 

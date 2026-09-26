@@ -174,7 +174,7 @@ export default function EcomerseTiendaScreen() {
         ListEmptyComponent={
           loading ? (
             <View style={{ alignItems: 'center', paddingTop: 40 }}>
-              <ActivityIndicator color={colors.primary} />
+              <ActivityIndicator color={colors.text.primary} />
             </View>
           ) : error ? (
             <View style={{ paddingTop: espaciado.e24 }}>

@@ -271,7 +271,7 @@ function Contenido() {
     return (
       <View style={[styles.screen, { backgroundColor: colors.background, paddingTop: insets.top + 8 }]}>
         <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30, gap: espaciado.e12 }}>
-          <Text style={[styles.ok, { color: colors.success }]}>Reserva hecha</Text>
+          <Text style={[styles.ok, { color: colors.text.success }]}>Reserva hecha</Text>
           <Text style={[styles.codigo, { color: colors.textPrimary }]}>{hecha.code}</Text>
           <Text style={[styles.sub, { color: colors.textSecondary }]}>
             {nombreHotel || hecha.hotel?.name} · {hecha.roomName}
@@ -284,16 +284,16 @@ function Contenido() {
           <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
             <Linea etiqueta="Total de la estancia" valor={xaf(hecha.totalXaf)} fuerte />
             {sinSenal ? (
-              <Linea etiqueta="Se paga al llegar al hotel" valor={xaf(hecha.totalXaf)} color={colors.secondary} fuerte />
+              <Linea etiqueta="Se paga al llegar al hotel" valor={xaf(hecha.totalXaf)} color={colors.text.secondary} fuerte />
             ) : (
               <>
                 <Linea
                   etiqueta={`Señal a pagar AHORA (${hecha.depositPercent}%)`}
                   valor={xaf(hecha.depositXaf)}
-                  color={colors.primary}
+                  color={colors.text.primary}
                   fuerte
                 />
-                <Linea etiqueta="Y al llegar al hotel" valor={xaf(hecha.remainingXaf)} color={colors.secondary} fuerte />
+                <Linea etiqueta="Y al llegar al hotel" valor={xaf(hecha.remainingXaf)} color={colors.text.secondary} fuerte />
               </>
             )}
             <Linea etiqueta="Forma de pago" valor={METODO_ETIQUETA[hecha.paymentMethod] ?? hecha.paymentMethod} />
@@ -302,7 +302,7 @@ function Contenido() {
               valor={hecha.paymentStatus === 'proof_submitted' ? 'Comprobante enviado' : hecha.status === 'hold' ? 'Retenida sin pagar' : hecha.status}
             />
             {hecha.holdExpiresAt && hecha.status === 'hold' ? (
-              <Text style={[styles.retencion, { color: colors.danger }]}>
+              <Text style={[styles.retencion, { color: colors.text.danger }]}>
                 ⏳ La habitación está retenida {countdown(hecha.holdExpiresAt)}. Si no se paga la señal,
                 se libera sola (no se te cobra nada).
               </Text>
@@ -378,7 +378,7 @@ function Contenido() {
       </View>
 
       {cargandoCal && !room ? (
-        <View style={styles.centro}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.centro}><ActivityIndicator color={colors.text.primary} /></View>
       ) : (
         <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 120, gap: espaciado.e12 }} keyboardShouldPersistTaps="handled">
           {/* ── La habitación, con sus fotos reales ── */}
@@ -430,9 +430,9 @@ function Contenido() {
             loading={cargandoCal}
             footer={
               disponibilidad.motivo ? (
-                <Text style={[styles.aviso, { color: colors.danger }]}>{disponibilidad.motivo}</Text>
+                <Text style={[styles.aviso, { color: colors.text.danger }]}>{disponibilidad.motivo}</Text>
               ) : cuenta ? (
-                <Text style={[styles.aviso, { color: colors.success }]}>
+                <Text style={[styles.aviso, { color: colors.text.success }]}>
                   ✓ Disponible: {cuenta.noches} noche(s) · {xaf(cuenta.media)} por noche
                 </Text>
               ) : null
@@ -480,7 +480,7 @@ function Contenido() {
                       backgroundColor: activo ? alpha(colors.primary, 0.1) : colors.surface,
                     }]}
                   >
-                    <Text style={[styles.chipTxt, { color: activo ? colors.primary : colors.textSecondary }]}>
+                    <Text style={[styles.chipTxt, { color: activo ? colors.text.primary : colors.textSecondary }]}>
                       {METODO_ETIQUETA[m] ?? m}
                     </Text>
                   </Pressable>
@@ -509,7 +509,7 @@ function Contenido() {
                           backgroundColor: activo ? alpha(colors.primary, 0.1) : colors.surface,
                         }]}
                       >
-                        <Text style={[styles.chipTxt, { color: activo ? colors.primary : colors.textSecondary }]}>
+                        <Text style={[styles.chipTxt, { color: activo ? colors.text.primary : colors.textSecondary }]}>
                           {opcion === 0 ? 'Sin señal (todo al llegar)' : `${opcion} % ahora`}
                         </Text>
                       </Pressable>
@@ -536,11 +536,11 @@ function Contenido() {
               <Linea etiqueta="Total de la estancia" valor={xaf(cuenta.total)} fuerte />
               {cuenta.senal > 0 ? (
                 <>
-                  <Linea etiqueta={`Pagas AHORA (señal ${cuenta.pct} %)`} valor={xaf(cuenta.senal)} color={colors.primary} fuerte />
-                  <Linea etiqueta="Pagas al llegar" valor={xaf(cuenta.resto)} color={colors.secondary} fuerte />
+                  <Linea etiqueta={`Pagas AHORA (señal ${cuenta.pct} %)`} valor={xaf(cuenta.senal)} color={colors.text.primary} fuerte />
+                  <Linea etiqueta="Pagas al llegar" valor={xaf(cuenta.resto)} color={colors.text.secondary} fuerte />
                 </>
               ) : (
-                <Linea etiqueta="Pagas todo al llegar" valor={xaf(cuenta.total)} color={colors.secondary} fuerte />
+                <Linea etiqueta="Pagas todo al llegar" valor={xaf(cuenta.total)} color={colors.text.secondary} fuerte />
               )}
               {cuenta.senal > 0 && room ? (
                 <Text style={[styles.sub, { color: colors.textSecondary }]}>
@@ -553,7 +553,7 @@ function Contenido() {
 
           {error ? (
             <View style={[styles.error, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
             </View>
           ) : null}
           </View>

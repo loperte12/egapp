@@ -88,14 +88,14 @@ export default function ConductorHubScreen() {
         <ScrollView contentContainerStyle={[s.onboard, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 20 }]} showsVerticalScrollIndicator={false}>
           {status === 'checking' && isAuthenticated ? (
             <View style={s.center}>
-              <ActivityIndicator size="large" color={colors.primary} />
+              <ActivityIndicator size="large" color={colors.text.primary} />
             </View>
           ) : (
             <>
               {/* Bienvenida estilo Uber Driver (ref-uber-driver.png) */}
               <View style={[s.welcomeCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
                 <View style={[s.statusIcon, { backgroundColor: alpha(colors.primary, 0.14) }]}>
-                  <CarTaxiFront size={26} color={colors.primary} />
+                  <CarTaxiFront size={26} color={colors.text.primary} />
                 </View>
                 <Text style={[s.welcomeTitle, { color: colors.textPrimary }]}>
                   {isAuthenticated ? 'Te damos la bienvenida, conductor' : 'Zona del conductor'}
@@ -137,7 +137,7 @@ export default function ConductorHubScreen() {
         </ScrollView>
       ) : status === 'pending' ? (
         <View style={s.center}>
-          <ShieldCheck size={42} color={colors.secondary} />
+          <ShieldCheck size={42} color={colors.text.secondary} />
           <Text style={[s.big, { color: colors.textPrimary }]}>Documentos en revisión</Text>
           <Text style={[s.body, { color: colors.textSecondary }]}>
             El administrador está revisando tu alta. Te avisaremos en cuanto estés aprobado para empezar a recibir funciones.
@@ -146,8 +146,8 @@ export default function ConductorHubScreen() {
         </View>
       ) : status === 'rejected' ? (
         <View style={s.center}>
-          <ShieldCheck size={42} color={colors.danger} />
-          <Text style={[s.big, { color: colors.danger }]}>Alta rechazada</Text>
+          <ShieldCheck size={42} color={colors.text.danger} />
+          <Text style={[s.big, { color: colors.text.danger }]}>Alta rechazada</Text>
           <Text style={[s.body, { color: colors.textSecondary }]}>
             Algunos documentos no fueron aceptados. Revisa tu alta y vuelve a enviarlos.
           </Text>
@@ -158,10 +158,10 @@ export default function ConductorHubScreen() {
           {/* Estado del conductor */}
           <View style={[s.statusCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={[s.statusIcon, { backgroundColor: alpha(colors.success, 0.15) }]}>
-              <ShieldCheck size={20} color={colors.success} />
+              <ShieldCheck size={20} color={colors.text.success} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: colors.success, fontWeight: peso.titulo, fontSize: tipografia.body }}>Conductor aprobado</Text>
+              <Text style={{ color: colors.text.success, fontWeight: peso.titulo, fontSize: tipografia.body }}>Conductor aprobado</Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, marginTop: espaciado.e2 }}>
                 {vehicle || 'Vehículo no registrado'} · Modo actual: {mode === 'intercity' ? 'Ciudad a Ciudad' : mode === 'city' ? 'Taxi urbano' : 'Ambos'}
               </Text>
@@ -182,7 +182,7 @@ export default function ConductorHubScreen() {
             style={({ pressed }) => [s.opt, { backgroundColor: colors.card, borderColor: colors.border, opacity: busy ? 0.6 : pressed ? 0.85 : 1 }]}
           >
             <View style={[s.optIcon, { backgroundColor: alpha(brand.success, 0.14) }]}>
-              <CarTaxiFront size={24} color={brand.success} />
+              <CarTaxiFront size={24} color={colors.text.success} />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Taxi urbano</Text>
@@ -202,7 +202,7 @@ export default function ConductorHubScreen() {
             style={({ pressed }) => [s.opt, { backgroundColor: colors.card, borderColor: colors.border, opacity: busy ? 0.6 : pressed ? 0.85 : 1 }]}
           >
             <View style={[s.optIcon, { backgroundColor: alpha(brand.primary, 0.14) }]}>
-              <Bus size={24} color={brand.primary} />
+              <Bus size={24} color={colors.text.primary} />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Ciudad a Ciudad</Text>

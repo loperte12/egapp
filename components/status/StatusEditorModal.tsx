@@ -221,8 +221,8 @@ export default function StatusEditorModal({
                     <View style={[styles.presetEmojiWrap, { backgroundColor: active ? alpha(a, 0.16) : 'transparent' }]}>
                       <Text style={styles.presetEmoji}>{p.emoji}</Text>
                     </View>
-                    <Text style={[styles.presetLabel, { color: active ? colors.primary : colors.textPrimary }]} numberOfLines={2}>{labelFor(p)}</Text>
-                    {active && <Check size={12} color={colors.primary} style={styles.presetCheck} />}
+                    <Text style={[styles.presetLabel, { color: active ? colors.text.primary : colors.textPrimary }]} numberOfLines={2}>{labelFor(p)}</Text>
+                    {active && <Check size={12} color={colors.text.primary} style={styles.presetCheck} />}
                   </Pressable>
                 );
               })}
@@ -277,12 +277,12 @@ export default function StatusEditorModal({
                     accessibilityState={{ checked: active }}
                     style={[styles.visRow, { borderColor: active ? colors.primary : colors.border, backgroundColor: active ? alpha(colors.primary, 0.07) : colors.surface }]}
                   >
-                    <Icon size={16} color={active ? colors.primary : colors.textSecondary} />
+                    <Icon size={16} color={active ? colors.text.primary : colors.textSecondary} />
                     <View style={{ flex: 1 }}>
-                      <Text style={[styles.visLabel, { color: active ? colors.primary : colors.textPrimary }]}>{o.label}</Text>
+                      <Text style={[styles.visLabel, { color: active ? colors.text.primary : colors.textPrimary }]}>{o.label}</Text>
                       <Text style={[styles.visHint, { color: colors.textSecondary }]}>{o.hint}</Text>
                     </View>
-                    {active && <Check size={14} color={colors.primary} />}
+                    {active && <Check size={14} color={colors.text.primary} />}
                   </Pressable>
                 );
               })}
@@ -294,32 +294,32 @@ export default function StatusEditorModal({
                 <Text style={[styles.section, { color: colors.textSecondary }]}>ENLAZAR SERVICIO (OPCIONAL)</Text>
                 <View style={styles.linkRow}>
                   <Pressable onPress={() => setLinkType(null)} accessibilityRole="radio" accessibilityState={{ checked: !linkType }} style={[styles.linkChip, { borderColor: !linkType ? colors.primary : colors.border, backgroundColor: !linkType ? alpha(colors.primary, 0.07) : colors.surface }]}>
-                    <Text style={[styles.linkTxt, { color: !linkType ? colors.primary : colors.textPrimary }]}>Sin enlace</Text>
+                    <Text style={[styles.linkTxt, { color: !linkType ? colors.text.primary : colors.textPrimary }]}>Sin enlace</Text>
                   </Pressable>
                   {capabilities.role === 'DRIVER' && (
                     <Pressable onPress={() => setLinkType('taxi')} accessibilityRole="radio" accessibilityState={{ checked: linkType === 'taxi' }} style={[styles.linkChip, { borderColor: linkType === 'taxi' ? colors.primary : colors.border, backgroundColor: linkType === 'taxi' ? alpha(colors.primary, 0.07) : colors.surface }]}>
-                      <Link2 size={13} color={linkType === 'taxi' ? colors.primary : colors.textSecondary} />
-                      <Text style={[styles.linkTxt, { color: linkType === 'taxi' ? colors.primary : colors.textPrimary }]}>🚕 Taxi</Text>
+                      <Link2 size={13} color={linkType === 'taxi' ? colors.text.primary : colors.textSecondary} />
+                      <Text style={[styles.linkTxt, { color: linkType === 'taxi' ? colors.text.primary : colors.textPrimary }]}>🚕 Taxi</Text>
                     </Pressable>
                   )}
                   {capabilities.verified.includes('SELLER') && (
                     <Pressable onPress={() => setLinkType('ecomerse')} accessibilityRole="radio" accessibilityState={{ checked: linkType === 'ecomerse' }} style={[styles.linkChip, { borderColor: linkType === 'ecomerse' ? colors.primary : colors.border, backgroundColor: linkType === 'ecomerse' ? alpha(colors.primary, 0.07) : colors.surface }]}>
-                      <Text style={[styles.linkTxt, { color: linkType === 'ecomerse' ? colors.primary : colors.textPrimary }]}>🛒 Mi tienda</Text>
+                      <Text style={[styles.linkTxt, { color: linkType === 'ecomerse' ? colors.text.primary : colors.textPrimary }]}>🛒 Mi tienda</Text>
                     </Pressable>
                   )}
                   {capabilities.verified.includes('FOOD_OWNER') && (
                     <Pressable onPress={() => setLinkType('food')} accessibilityRole="radio" accessibilityState={{ checked: linkType === 'food' }} style={[styles.linkChip, { borderColor: linkType === 'food' ? colors.primary : colors.border, backgroundColor: linkType === 'food' ? alpha(colors.primary, 0.07) : colors.surface }]}>
-                      <Text style={[styles.linkTxt, { color: linkType === 'food' ? colors.primary : colors.textPrimary }]}>🍽️ Restaurante</Text>
+                      <Text style={[styles.linkTxt, { color: linkType === 'food' ? colors.text.primary : colors.textPrimary }]}>🍽️ Restaurante</Text>
                     </Pressable>
                   )}
                   {capabilities.verified.includes('LANDLORD') && (
                     <Pressable onPress={() => setLinkType('rental')} accessibilityRole="radio" accessibilityState={{ checked: linkType === 'rental' }} style={[styles.linkChip, { borderColor: linkType === 'rental' ? colors.primary : colors.border, backgroundColor: linkType === 'rental' ? alpha(colors.primary, 0.07) : colors.surface }]}>
-                      <Text style={[styles.linkTxt, { color: linkType === 'rental' ? colors.primary : colors.textPrimary }]}>🏠 Alquiler</Text>
+                      <Text style={[styles.linkTxt, { color: linkType === 'rental' ? colors.text.primary : colors.textPrimary }]}>🏠 Alquiler</Text>
                     </Pressable>
                   )}
                   {capabilities.verified.includes('RECRUITER') && (
                     <Pressable onPress={() => setLinkType('work')} accessibilityRole="radio" accessibilityState={{ checked: linkType === 'work' }} style={[styles.linkChip, { borderColor: linkType === 'work' ? colors.primary : colors.border, backgroundColor: linkType === 'work' ? alpha(colors.primary, 0.07) : colors.surface }]}>
-                      <Text style={[styles.linkTxt, { color: linkType === 'work' ? colors.primary : colors.textPrimary }]}>💼 Oferta</Text>
+                      <Text style={[styles.linkTxt, { color: linkType === 'work' ? colors.text.primary : colors.textPrimary }]}>💼 Oferta</Text>
                     </Pressable>
                   )}
                 </View>
@@ -329,7 +329,7 @@ export default function StatusEditorModal({
               </>
             )}
 
-            {error && <Text style={[styles.error, { color: colors.danger }]}>{error}</Text>}
+            {error && <Text style={[styles.error, { color: colors.text.danger }]}>{error}</Text>}
 
             <Pressable
               onPress={doPublish}
@@ -347,8 +347,8 @@ export default function StatusEditorModal({
               accessibilityLabel="Quitar estado"
               style={({ pressed }) => [styles.endBtn, { borderColor: colors.border, opacity: busy || pressed ? 0.7 : 1 }]}
             >
-              <Trash2 size={14} color={colors.danger} />
-              <Text style={[styles.endTxt, { color: colors.danger }]}>Quitar mi estado actual</Text>
+              <Trash2 size={14} color={colors.text.danger} />
+              <Text style={[styles.endTxt, { color: colors.text.danger }]}>Quitar mi estado actual</Text>
             </Pressable>
             <View style={{ height: 24 }} />
           </ScrollView>

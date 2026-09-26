@@ -70,13 +70,13 @@ export function ProductoCard({ item, onPress, pie, apagado }: {
         />
       ) : (
         <View style={[styles.cardImg, { backgroundColor: alpha(colors.primary, 0.08), alignItems: 'center', justifyContent: 'center' }]}>
-          <Package size={22} color={alpha(colors.primary, 0.5)} />
+          <Package size={22} color={alpha(colors.text.primary, 0.5)} />
         </View>
       )}
       <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e5 }}>
         {item.title}
       </Text>
-      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
+      <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e2 }}>
         {lbPriceLabel(item.priceXaf, item.priceMode as never, lbXaf)}
         {item.oldPriceXaf ? (
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, textDecorationLine: 'line-through' }}>
@@ -92,7 +92,7 @@ export function ProductoCard({ item, onPress, pie, apagado }: {
         </Text>
       ) : null}
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginTop: espaciado.e3 }}>
-        {item.shop.isVerified ? <ShieldCheck size={11} color={colors.success} /> : <Store size={11} color={colors.textSecondary} />}
+        {item.shop.isVerified ? <ShieldCheck size={11} color={colors.text.success} /> : <Store size={11} color={colors.textSecondary} />}
         <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.micro, flex: 1 }}>{item.shop.name}</Text>
         {ventas > 0 ? (
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.nota, fontWeight: peso.fuerte }}>

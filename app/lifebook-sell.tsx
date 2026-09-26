@@ -221,7 +221,7 @@ function SellContent() {
   if (loading) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -246,8 +246,8 @@ function SellContent() {
             accessibilityLabel="Ir al panel de mi tienda"
             style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}
           >
-            <Store size={13} color={colors.primary} />
-            <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 120 }}>{shopName}</Text>
+            <Store size={13} color={colors.text.primary} />
+            <Text numberOfLines={1} style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, maxWidth: 120 }}>{shopName}</Text>
           </Pressable>
         ) : null}
       </View>

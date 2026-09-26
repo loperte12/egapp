@@ -75,7 +75,7 @@ function GuardadosContent() {
   if (error && !items) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
-        <AlertCircle size={34} color={colors.danger} />
+        <AlertCircle size={34} color={colors.text.danger} />
         <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, textAlign: 'center' }}>{error}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
@@ -84,7 +84,7 @@ function GuardadosContent() {
   if (!items) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -154,7 +154,7 @@ function GuardadosContent() {
                 accessibilityLabel={`Quitar ${p.title} de guardados`}
                 style={[styles.quitar, { borderColor: alpha(colors.border, 0.9) }]}
               >
-                <Heart size={16} color={colors.primary} />
+                <Heart size={16} color={colors.text.primary} />
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                   {quitando === p.id ? 'Quitando…' : 'Quitar'}
                 </Text>

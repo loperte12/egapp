@@ -102,7 +102,7 @@ export default function MyTicketsScreen() {
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>
                   {t.trip?.route?.originDistrict ?? ''} → {t.trip?.route?.destinationDistrict ?? ''}
                 </Text>
-                {open ? <ChevronUp size={18} color={colors.primary} /> : <ChevronDown size={18} color={colors.primary} />}
+                {open ? <ChevronUp size={18} color={colors.text.primary} /> : <ChevronDown size={18} color={colors.text.primary} />}
               </View>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
                 {t.trip ? new Date(t.trip.departureTime).toLocaleString('es') : ''} · {t.seatCount} asiento(s) · {Number(t.totalPrice).toLocaleString('es')} XAF
@@ -118,7 +118,7 @@ export default function MyTicketsScreen() {
 
               {open && (
                 <View style={[s.qrBox, { borderColor: colors.primary }]}>
-                  <Ticket size={22} color={colors.primary} />
+                  <Ticket size={22} color={colors.text.primary} />
                   <Text style={{ color: colors.textPrimary, fontSize: tipografia.tituloFicha, fontWeight: peso.titulo, letterSpacing: 2 }}>{t.shortCode ?? t.ticketQrCode}</Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' }}>
                     {t.ticketQrCode} · muestra este código al conductor{t.payOn === 'destination' ? '; el viajero paga al llegar al destino' : ''}

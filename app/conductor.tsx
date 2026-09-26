@@ -1099,14 +1099,14 @@ export default function ConductorScreen() {
       {/* Cargando estado del conductor */}
       {driverStatus === 'checking' && (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaciado.e10 }}>
-          <ActivityIndicator color={colors.primary} />
+          <ActivityIndicator color={colors.text.primary} />
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.medio }}>Comprobando tu cuenta de conductor…</Text>
         </View>
       )}
       {/* GATE: sin alta de conductor → onboarding (cuenta + documentos) */}
       {(driverStatus === 'none' || driverStatus === 'pending' || driverStatus === 'rejected') && (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24, gap: espaciado.e12 }}>
-          <ShieldCheck size={44} color={colors.primary} />
+          <ShieldCheck size={44} color={colors.text.primary} />
           <Text style={{ fontSize: tipografia.title, fontWeight: peso.titulo, color: colors.textPrimary, textAlign: 'center' }}>
             {driverStatus === 'pending' ? 'Documentos en revisión' : driverStatus === 'rejected' ? 'Alta rechazada' : 'Aún no eres conductor'}
           </Text>
@@ -1184,7 +1184,7 @@ export default function ConductorScreen() {
                 <UserRound size={20} color={colors.textPrimary} />
               </Pressable>
               <Pressable onPress={() => setEmergencyOpen(true)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Emergencia">
-                <Siren size={20} color={colors.danger} />
+                <Siren size={20} color={colors.text.danger} />
               </Pressable>
             </View>
           </View>
@@ -1192,17 +1192,17 @@ export default function ConductorScreen() {
           {/* Avisos compactos (1 línea, no roban mapa) */}
           {expiryWarnings.length > 0 && (
             <View style={s.warnStrip}>
-              <Siren size={13} color={colors.danger} />
-              <Text style={{ color: colors.danger, fontWeight: peso.fuerte, fontSize: tipografia.caption, flex: 1 }} numberOfLines={1}>
+              <Siren size={13} color={colors.text.danger} />
+              <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte, fontSize: tipografia.caption, flex: 1 }} numberOfLines={1}>
                 {expiryWarnings[0]}{expiryWarnings.length > 1 ? ` (+${expiryWarnings.length - 1} más)` : ''}
               </Text>
             </View>
           )}
-          {error && <Text style={[s.error, { color: colors.danger }]}>{error}</Text>}
+          {error && <Text style={[s.error, { color: colors.text.danger }]}>{error}</Text>}
           {/* Aviso de cancelación remota (pasajero): pill temporal en espera */}
           {rutaNotice && phase === 'waiting' && (
             <View style={[s.rutaNoticePill, { borderColor: colors.warningSoftFuerte }]}>
-              <Text style={{ color: brand.warning, fontWeight: peso.maximo, fontSize: tipografia.body }}>🚫 {rutaNotice}</Text>
+              <Text style={{ color: colors.text.warning, fontWeight: peso.maximo, fontSize: tipografia.body }}>🚫 {rutaNotice}</Text>
             </View>
           )}
 
@@ -1339,7 +1339,7 @@ export default function ConductorScreen() {
               {online && phase === 'waiting' && (
                 <View pointerEvents="box-none" style={s.waitRadarWrap}>
                   <View pointerEvents="none" style={[s.waitRadarCard, { borderColor: 'rgba(255,255,255,0.14)' }]}>
-                    <SearchSpin color={resting ? brand.warning : brand.secondary} />
+                    <SearchSpin color={resting ? colors.text.warning : colors.text.secondary} />
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8 }}>
                       {resting && <Text style={{ fontSize: tipografia.caption }}>☕</Text>}
                       <Text style={{ color: 'rgba(255,255,255,0.92)', fontSize: tipografia.caption, fontWeight: peso.maximo }}>
@@ -1387,7 +1387,7 @@ export default function ConductorScreen() {
                           <Text style={PK.name} numberOfLines={1}>{current.passenger_name || 'Pasajero'}</Text>
                           {paxVerified ? (
                             <View style={PK.badgeGreen}>
-                              <BadgeCheck size={12} color={brand.success} />
+                              <BadgeCheck size={12} color={colors.text.success} />
                               <Text style={PK.badgeGreenTxt}>Verificado</Text>
                             </View>
                           ) : (
@@ -1399,7 +1399,7 @@ export default function ConductorScreen() {
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, marginTop: espaciado.e3 }}>
                           {stars.map((on, i) => (
-                            <Star key={i} size={11} color={on ? brand.warning : 'rgba(255,255,255,0.22)'} fill={on ? brand.warning : 'transparent'} />
+                            <Star key={i} size={11} color={on ? colors.text.warning : 'rgba(255,255,255,0.22)'} fill={on ? colors.text.warning : 'transparent'} />
                           ))}
                           <Text style={[PK.metaTxt, { marginLeft: espaciado.e3 }]}>
                             {Number(current.passenger_rating) > 0 ? Number(current.passenger_rating).toFixed(1) : '—'}
@@ -1412,14 +1412,14 @@ export default function ConductorScreen() {
                     {/* Trayecto origen → destino + distancia/tiempo */}
                     <View style={s.routeInfo}>
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 }}>
-                        <MapPin size={14} color={brand.success} />
+                        <MapPin size={14} color={colors.text.success} />
                         <Text style={[s.routeText, { color: brand.white }]} numberOfLines={1}>{pickup}</Text>
                       </View>
                       <View style={{ paddingLeft: espaciado.e13 }}>
                         <View style={PK.vLine} />
                       </View>
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 }}>
-                        <Flag size={14} color={brand.secondary} />
+                        <Flag size={14} color={colors.text.secondary} />
                         <Text style={[s.routeText, { color: brand.white }]} numberOfLines={1}>{dropoff}</Text>
                       </View>
                       <Text style={[s.meta, { color: 'rgba(255,255,255,0.62)' }]}>📏 {km} · ⏱ {eta} (OSRM)</Text>
@@ -1449,7 +1449,7 @@ export default function ConductorScreen() {
                         <Text style={s.bigAcceptSub}>Presupuesto del pasajero · ganas {netExact(userPrice) ? '' : '≈ '}{netOf(userPrice).toLocaleString('es')} XAF</Text>
                       </Pressable>
                     )}
-                    {busy && <ActivityIndicator color={brand.secondary} style={{ marginTop: espaciado.e8 }} />}
+                    {busy && <ActivityIndicator color={colors.text.secondary} style={{ marginTop: espaciado.e8 }} />}
                   </ScrollView>
                 </View>
               )}
@@ -1466,7 +1466,7 @@ export default function ConductorScreen() {
                   </View>
                   {navRoad ? (
                     <View pointerEvents="none" style={[s.dvState, { alignSelf: 'flex-start' }]}>
-                      <Text style={[s.dvStateText, { backgroundColor: 'rgba(0,132,255,0.14)', color: colors.primary, borderColor: 'rgba(0,132,255,0.45)' }]}>
+                      <Text style={[s.dvStateText, { backgroundColor: 'rgba(0,132,255,0.14)', color: colors.text.primary, borderColor: 'rgba(0,132,255,0.45)' }]}>
                         Estás en {navRoad}
                       </Text>
                     </View>
@@ -1535,7 +1535,7 @@ export default function ConductorScreen() {
                   {/* Estado real del mapa (verificación 3D: b=rumbo p=inclinación) */}
                   {navDbg && (
                     <View pointerEvents="none" style={[s.dvDbg, { backgroundColor: pitch3D ? 'rgba(0,132,255,0.18)' : colors.card, borderColor: pitch3D ? colors.primary : colors.border }]}>
-                      <Text style={{ color: pitch3D ? colors.primary : colors.textSecondary, fontSize: tipografia.nota, fontWeight: peso.titulo }}>
+                      <Text style={{ color: pitch3D ? colors.text.primary : colors.textSecondary, fontSize: tipografia.nota, fontWeight: peso.titulo }}>
                         {pitch3D ? '3D ' : ''}b {navDbg.bearing}° · p {navDbg.pitch}° · z{navDbg.zoom}
                         {typeof navDbg.cy === 'number' ? ` · c${navDbg.cy}` : ''}
                       </Text>
@@ -1581,11 +1581,11 @@ export default function ConductorScreen() {
                       {tripExpanded && current && (
                         <View style={[s.dvTripMore, { backgroundColor: 'rgba(15,20,28,0.62)', borderColor: 'rgba(255,255,255,0.14)' }]}>
                           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
-                            <MapPin size={12} color={brand.success} />
+                            <MapPin size={12} color={colors.text.success} />
                             <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio, flex: 1 }} numberOfLines={1}>{pickup}</Text>
                           </View>
                           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
-                            <Flag size={12} color={brand.secondary} />
+                            <Flag size={12} color={colors.text.secondary} />
                             <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tipografia.caption, fontWeight: peso.medio, flex: 1 }} numberOfLines={1}>{dropoff}</Text>
                           </View>
                           <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,0.6)', fontSize: tipografia.micro, fontWeight: peso.medio }}>
@@ -1599,7 +1599,7 @@ export default function ConductorScreen() {
                        WhatsApp y teléfono. Transparente y compacta. */
                     <View pointerEvents="box-none" style={[s.dvCardA, { backgroundColor: 'rgba(15,20,28,0.5)', borderColor: 'rgba(255,255,255,0.14)' }]}>
                       <View style={{ flex: 1 }}>
-                        <Text style={{ color: brand.success, fontSize: tipografia.nota, fontWeight: peso.titulo, letterSpacing: 0.4 }}>🟢 CAMINO PARA RECOGER AL PASAJERO</Text>
+                        <Text style={{ color: colors.text.success, fontSize: tipografia.nota, fontWeight: peso.titulo, letterSpacing: 0.4 }}>🟢 CAMINO PARA RECOGER AL PASAJERO</Text>
                         <Text numberOfLines={1} style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e2 }}>{pickup}</Text>
                         {current?.passenger_name ? (
                           <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,0.62)', fontSize: tipografia.micro, fontWeight: peso.medio, marginTop: 1 }}>👤 {current.passenger_name}</Text>
@@ -1632,14 +1632,14 @@ export default function ConductorScreen() {
                   {leg === 'approach' && (navKmLeft ?? 1) < 0.08 && current?.passenger_phone ? (
                     <View pointerEvents="none" style={[s.dvPin, { backgroundColor: 'rgba(15,20,28,0.6)', borderColor: 'rgba(43,194,106,0.5)' }]}>
                       <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: tipografia.nota, fontWeight: peso.maximo, letterSpacing: 0.4 }}>CÓDIGO DEL PASAJERO</Text>
-                      <Text style={{ color: brand.success, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, letterSpacing: 5 }}>{pinLast4(current.passenger_phone)}</Text>
+                      <Text style={{ color: colors.text.success, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, letterSpacing: 5 }}>{pinLast4(current.passenger_phone)}</Text>
                     </View>
                   ) : null}
 
                   {/* Botones: Cancelar / Recoger al llegar · Terminar y cobrar */}
                   <View style={s.dvActions} pointerEvents="box-none">
                     <Pressable onPress={alertCancel} accessibilityRole="button" accessibilityLabel="Cancelar y alertar" style={[s.dvCancel, { backgroundColor: 'rgba(15,20,28,0.5)', borderColor: 'rgba(255,255,255,0.2)' }]}>
-                      <X size={18} color={brand.danger} />
+                      <X size={18} color={colors.text.danger} />
                     </Pressable>
                     <Pressable
                       onPress={() => {
@@ -1736,7 +1736,7 @@ export default function ConductorScreen() {
                   accessibilityLabel="Abrir perfil y opciones del conductor"
                   style={[s.homeFab, { bottom: 96, backgroundColor: alpha(colors.card, 0.55), borderColor: alpha(colors.border, 0.8) }]}
                 >
-                  <UserRound size={21} color={colors.primary} />
+                  <UserRound size={21} color={colors.text.primary} />
                 </Pressable>
               </>
             )}
@@ -1820,7 +1820,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
     sub: { color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio, textAlign: 'center' },
     boxRow: { flexDirection: 'row', gap: espaciado.e12, marginVertical: espaciado.e12 },
     box: { width: 56, height: 64, borderRadius: radios.md, borderWidth: trazo.fuerte, alignItems: 'center', justifyContent: 'center' },
-    errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e2 },
+    errTxt: { color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e2 },
     pad: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: espaciado.e8, marginTop: espaciado.e8 },
     key: { width: 76, height: altura.boton, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center' },
   }), [colors]);
@@ -1831,7 +1831,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
       <View style={pps.overlay}>
         <View style={pps.card}>
           <View style={pps.iconCircle}>
-            <ShieldCheck size={26} color={brand.success} />
+            <ShieldCheck size={26} color={colors.text.success} />
           </View>
           <Text style={pps.title}>Código del pasajero</Text>
           <Text style={pps.sub} numberOfLines={1}>
@@ -1847,7 +1847,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
             ))}
           </View>
           {err ? <Text style={pps.errTxt}>Código incorrecto — vuelve a preguntarlo</Text> : null}
-          {checking ? <ActivityIndicator color={brand.success} style={{ marginVertical: espaciado.e6 }} /> : null}
+          {checking ? <ActivityIndicator color={colors.text.success} style={{ marginVertical: espaciado.e6 }} /> : null}
 
           {/* Teclado */}
           <View style={pps.pad}>
@@ -1858,7 +1858,7 @@ function PinPadModal({ visible, passengerName, busy, onCancel, onOk }: {
                     accessibilityRole="button" accessibilityLabel={k === 'DEL' ? 'Borrar dígito' : `Dígito ${k}`}
                     style={({ pressed }) => [pps.key, { backgroundColor: k === 'DEL' ? colors.dangerSoft : neutro.n100, opacity: pressed ? 0.6 : 1 }]}>
                     {k === 'DEL'
-                      ? <X size={20} color={brand.danger} />
+                      ? <X size={20} color={colors.text.danger} />
                       : <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitulo, fontWeight: peso.maximo }}>{k}</Text>}
                   </Pressable>
                 ),
@@ -1890,15 +1890,15 @@ function CashFlowModal({ visible, amount, busy, onYes, onNo, onClose }: {
     btnYes: { width: '100%', backgroundColor: brand.success, borderRadius: radios.lg, paddingVertical: 15, alignItems: 'center', marginTop: espaciado.e6, elevation: 3 },
     btnYesTxt: { color: brand.white, fontSize: tipografia.subtitle, fontWeight: peso.titulo },
     btnNo: { width: '100%', borderWidth: trazo.base, borderColor: colors.dangerSoftFuerte, borderRadius: radios.lg, paddingVertical: espaciado.e12, alignItems: 'center', marginTop: espaciado.e8, backgroundColor: colors.dangerSoft },
-    btnNoTxt: { color: brand.danger, fontSize: tipografia.fino, fontWeight: peso.maximo },
-    note: { color: neutro.n600, fontSize: tipografia.micro, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6 },
+    btnNoTxt: { color: colors.text.danger, fontSize: tipografia.fino, fontWeight: peso.maximo },
+    note: { color: colors.text.neutral, fontSize: tipografia.micro, fontWeight: peso.medio, textAlign: 'center', marginTop: espaciado.e6 },
   }), [colors]);
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <View style={cfm.overlay}>
         <View style={cfm.card}>
           <View style={cfm.iconCircle}>
-            <Banknote size={30} color={brand.success} />
+            <Banknote size={30} color={colors.text.success} />
           </View>
           <Text style={cfm.title}>¿Recibiste el dinero?</Text>
           <Text style={cfm.sub}>Viaje en efectivo · cobra al pasajero antes de continuar</Text>

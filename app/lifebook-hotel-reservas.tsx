@@ -172,7 +172,7 @@ function Contenido() {
               accessibilityLabel={s === 'guest' ? 'Mis estancias' : 'Reservas de mi hotel'}
               style={[styles.tab, { borderBottomColor: activo ? colors.primary : 'transparent' }]}
             >
-              <Text style={[styles.tabTxt, { color: activo ? colors.primary : colors.textSecondary }]}>
+              <Text style={[styles.tabTxt, { color: activo ? colors.text.primary : colors.textSecondary }]}>
                 {s === 'guest' ? 'Mis estancias' : 'Mi hotel'}
               </Text>
             </Pressable>
@@ -181,7 +181,7 @@ function Contenido() {
       </View>
 
       {cargando ? (
-        <View style={styles.centro}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.centro}><ActivityIndicator color={colors.text.primary} /></View>
       ) : (
         /*
           LISTA VIRTUALIZADA POR SECCIONES (auditoría de diseño, D-04/D-21): antes era un
@@ -235,9 +235,9 @@ function Contenido() {
           ) : null}
           {error ? (
             <View style={[styles.bloque, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
               <Pressable onPress={() => void cargar()} accessibilityRole="button" accessibilityLabel="Reintentar">
-                <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
+                <Text style={[styles.enlace, { color: colors.text.primary }]}>Reintentar</Text>
               </Pressable>
             </View>
           ) : null}
@@ -249,7 +249,7 @@ function Contenido() {
               {ocupacionHoy.map((o) => (
                 <View key={o.roomTypeId} style={styles.linea}>
                   <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>{o.name}</Text>
-                  <Text style={[styles.lineaVal, { color: o.occupied >= o.totalUnits ? colors.danger : colors.success }]}>
+                  <Text style={[styles.lineaVal, { color: o.occupied >= o.totalUnits ? colors.text.danger : colors.text.success }]}>
                     {o.occupied}/{o.totalUnits} ocupadas · {o.free} libres
                   </Text>
                 </View>
@@ -276,7 +276,7 @@ function Contenido() {
               </Text>
               {lado === 'guest' ? (
                 <Pressable onPress={() => router.replace('/lifebook-hotel' as never)} accessibilityRole="button" accessibilityLabel="Buscar alojamiento">
-                  <Text style={[styles.enlace, { color: colors.primary }]}>Buscar alojamiento</Text>
+                  <Text style={[styles.enlace, { color: colors.text.primary }]}>Buscar alojamiento</Text>
                 </Pressable>
               ) : null}
             </View>
@@ -370,17 +370,17 @@ function Tarjeta({
           <>
             <View style={styles.linea}>
               <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Señal ({r.depositPercent} %)</Text>
-              <Precio valor={r.depositXaf} tamano="md" color={colors.primary} />
+              <Precio valor={r.depositXaf} tamano="md" color={colors.text.primary} />
             </View>
             <View style={styles.linea}>
               <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Al llegar</Text>
-              <Precio valor={r.remainingXaf} tamano="md" color={colors.secondary} />
+              <Precio valor={r.remainingXaf} tamano="md" color={colors.text.secondary} />
             </View>
           </>
         ) : (
           <View style={styles.linea}>
             <Text style={[styles.lineaEtq, { color: colors.textPrimary }]}>Se paga al llegar</Text>
-            <Precio valor={r.totalXaf} tamano="md" color={colors.secondary} />
+            <Precio valor={r.totalXaf} tamano="md" color={colors.text.secondary} />
           </View>
         )}
         <View style={styles.linea}>
@@ -392,7 +392,7 @@ function Tarjeta({
       </View>
 
       {r.status === 'hold' && r.holdExpiresAt ? (
-        <Text style={[styles.aviso, { color: colors.danger }]}>
+        <Text style={[styles.aviso, { color: colors.text.danger }]}>
           ⏳ Retenida {countdown(r.holdExpiresAt)} para pagar la señal ({xaf(r.depositXaf)}).
           Si no se paga, la habitación se libera sola.
         </Text>
@@ -447,7 +447,7 @@ function Tarjeta({
           accessibilityLabel={`Cancelar ${r.code}`}
           style={[styles.botonFantasma, { borderColor: colors.border }]}
         >
-          <Text style={[styles.botonFantasmaTxt, { color: colors.danger }]}>Cancelar reserva</Text>
+          <Text style={[styles.botonFantasmaTxt, { color: colors.text.danger }]}>Cancelar reserva</Text>
         </Pressable>
       ) : null}
 

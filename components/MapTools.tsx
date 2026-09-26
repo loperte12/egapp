@@ -50,7 +50,7 @@ export default function MapTools({ onRecenter, recenterLabel = 'Centrar en mi ub
         hint="Te centra en tu posición GPS real dentro de Guinea Ecuatorial (o en la ciudad activa)"
         onPress={onRecenter}
         colors={colors}
-        icon={<LocateFixed size={20} color={colors.primary} />}
+        icon={<LocateFixed size={20} color={colors.text.primary} />}
         testID="map-tools-recenter"
       />
       <ToolButton
@@ -58,7 +58,7 @@ export default function MapTools({ onRecenter, recenterLabel = 'Centrar en mi ub
         hint="Abre el escáner para traducir documentos"
         onPress={() => router.push('/scanner' as any)}
         colors={colors}
-        icon={<ScanLine size={20} color={colors.primary} />}
+        icon={<ScanLine size={20} color={colors.text.primary} />}
         testID="map-tools-scanner"
       />
     </View>

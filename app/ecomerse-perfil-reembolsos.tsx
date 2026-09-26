@@ -178,7 +178,7 @@ export default function EcomerseReembolsosScreen() {
         </View>
       ) : cargando && reclamos === null ? (
         <View style={styles.centro}>
-          <ActivityIndicator color={colors.primary} />
+          <ActivityIndicator color={colors.text.primary} />
         </View>
       ) : (
         <>

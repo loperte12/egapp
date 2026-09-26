@@ -238,9 +238,9 @@ export default function SocialHomeHeader({
         accessibilityHint="Toca para cambiar de ciudad"
         style={({ pressed }) => [styles.cityBtn, { top: insets.top + bannerH + 10, opacity: pressed ? 0.85 : 1 }]}
       >
-        <MapPin size={13} color={brand.primary} />
+        <MapPin size={13} color={colors.text.primary} />
         <Text style={styles.cityTxt} numberOfLines={1}>{cityName || 'Seleccionar ciudad'}</Text>
-        <ChevronDown size={13} color={brand.primary} />
+        <ChevronDown size={13} color={colors.text.primary} />
       </Pressable>
 
       {/* Detalle del ESTADO 24h (v3): abierto desde el chip bajo el nombre. */}

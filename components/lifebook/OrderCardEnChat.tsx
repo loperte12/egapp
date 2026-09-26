@@ -95,7 +95,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
             <Image source={primero.mediaUrl} style={styles.foto} contentFit="cover" cachePolicy="memory-disk" transition={0} />
           ) : (
             <View style={[styles.foto, { alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.08) }]}>
-              <Package size={18} color={alpha(colors.primary, 0.55)} />
+              <Package size={18} color={alpha(colors.text.primary, 0.55)} />
             </View>
           )}
           <View style={{ flex: 1 }}>
@@ -177,7 +177,7 @@ export function OrderCardEnChat({ pedido, onOpen }: {
           accessibilityLabel={`Ver el pedido ${pedido.code}`}
           style={({ pressed }) => [styles.boton, { backgroundColor: alpha(colors.primary, 0.12), opacity: pressed ? 0.8 : 1 }]}
         >
-          <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>Ver pedido</Text>
+          <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>Ver pedido</Text>
         </Pressable>
       ) : null}
     </View>

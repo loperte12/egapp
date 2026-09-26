@@ -111,7 +111,7 @@ function Avatar({ url, name, size = 40 }: { url?: string | null; name?: string |
   if (src) return <Image source={{ uri: src }} style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: colors.surface }} />;
   return (
     <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: alpha(colors.primary, 0.15), alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ color: colors.primary, fontSize: size * 0.5, fontWeight: peso.titulo }}>{(name ?? '?').charAt(0).toUpperCase()}</Text>
+      <Text style={{ color: colors.text.primary, fontSize: size * 0.5, fontWeight: peso.titulo }}>{(name ?? '?').charAt(0).toUpperCase()}</Text>
     </View>
   );
 }
@@ -382,7 +382,7 @@ function PostContent() {
   if (loading && !post) {
     return (
       <View style={[styles.root, styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -596,12 +596,12 @@ function PostContent() {
                     <Image source={{ uri: absUrl(p.coverUrl) }} style={{ width: 46, height: 46, borderRadius: radios.chip }} />
                   ) : (
                     <View style={{ width: 46, height: 46, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.12) }}>
-                      <Package size={18} color={colors.primary} />
+                      <Package size={18} color={colors.text.primary} />
                     </View>
                   )}
                   <View style={{ flex: 1 }}>
                     <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{p.title}</Text>
-                    <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: 1 }}>
+                    <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: 1 }}>
                       {lbPriceLabel(p.priceXaf, p.priceMode, lbXaf)}
                     </Text>
                   </View>
@@ -623,7 +623,7 @@ function PostContent() {
                   onPress={() => irSeguro.libre('/lifebook-search', { q: t })}
                   accessibilityRole="link"
                 >
-                  <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.medio }}>#{t}</Text>
+                  <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.medio }}>#{t}</Text>
                 </Pressable>
               ))}
             </View>
@@ -711,7 +711,7 @@ function PostContent() {
               {post.debate.initialProposal ? <Text style={styles.panelLine}>Propuesta inicial: {post.debate.initialProposal}</Text> : null}
               {post.debate.resolvedSummary ? (
                 <>
-                  <Text style={[styles.panelTitle, { color: colors.success, marginTop: espaciado.e6 }]}>✓ Cómo se resolvió</Text>
+                  <Text style={[styles.panelTitle, { color: colors.text.success, marginTop: espaciado.e6 }]}>✓ Cómo se resolvió</Text>
                   <Text style={styles.panelLine}>{post.debate.resolvedSummary}</Text>
                 </>
               ) : null}
@@ -761,7 +761,7 @@ function PostContent() {
                 )}
               </View>
               {episodes === null ? (
-                <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e14 }} />
+                <ActivityIndicator color={colors.text.primary} style={{ marginTop: espaciado.e14 }} />
               ) : episodes.length === 0 ? (
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e8, lineHeight: 19 }}>
                   {isMine ? 'Tu serie aún no tiene episodios. Añade el primero.' : 'Esta serie aún no tiene episodios publicados.'}
@@ -790,7 +790,7 @@ function PostContent() {
                     {ep.durationSec != null && (
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>{fmtDur(ep.durationSec)}</Text>
                     )}
-                    <Play size={15} color={colors.primary} fill={colors.primary} style={{ marginLeft: espaciado.e6 }} />
+                    <Play size={15} color={colors.text.primary} fill={colors.text.primary} style={{ marginLeft: espaciado.e6 }} />
                   </Pressable>
                 ))
               )}
@@ -850,7 +850,7 @@ function PostContent() {
                 accessibilityLabel={`Ver los ${commentsTotal} comentarios`}
                 style={{ marginTop: espaciado.e8, paddingVertical: espaciado.e10, alignItems: 'center' }}
               >
-                <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
+                <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                   Ver los {formatCount(commentsTotal || (post.stats?.comments ?? 0))} comentarios
                 </Text>
               </Pressable>
@@ -1033,7 +1033,7 @@ function PostContent() {
                   { backgroundColor: pressed ? alpha(colors.danger, 0.05) : 'transparent', opacity: borrando ? 0.5 : 1 },
                 ]}
               >
-                <Text style={{ color: colors.danger, fontSize: tipografia.cuerpo, fontWeight: peso.maximo }}>
+                <Text style={{ color: colors.text.danger, fontSize: tipografia.cuerpo, fontWeight: peso.maximo }}>
                   {borrando ? 'Eliminando…' : 'Eliminar publicación'}
                 </Text>
               </Pressable>
@@ -1043,7 +1043,7 @@ function PostContent() {
               onPress={() => { setMenuOpen(false); setReportOpen(true); }}
               style={({ pressed }) => [styles.menuRow, { backgroundColor: pressed ? alpha(colors.danger, 0.05) : 'transparent' }]}
             >
-              <Text style={{ color: colors.danger, fontSize: tipografia.cuerpo, fontWeight: peso.maximo }}>Reportar publicación</Text>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.cuerpo, fontWeight: peso.maximo }}>Reportar publicación</Text>
             </Pressable>
           )}
           <Pressable onPress={() => setMenuOpen(false)} style={{ paddingVertical: espaciado.e10 }}>

@@ -20,7 +20,6 @@ import { PinSheet } from '@egrouteplan/ui-kit';
 import { walletApi, type WalletAgent, type WalletBalance } from '../api/wallet';
 import { fijarPin } from '../api/settlement';
 import { fmtXaf } from './monedero';
-import { brand } from '@egrouteplan/ui-kit';
 import { InlineError } from '@egrouteplan/ui-kit';
 import { mensajeDeError } from '../constants/errores';
 import { Volver } from '../components/Volver';
@@ -117,7 +116,7 @@ function Contenido() {
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center' }}>
               Da este código al agente SOLO cuando te entregue el efectivo:
             </Text>
-            <Text style={{ color: colors.primary, fontSize: tipografia.emoji, fontWeight: peso.titulo, letterSpacing: 10, textAlign: 'center', marginVertical: espaciado.e14 }}>
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.emoji, fontWeight: peso.titulo, letterSpacing: 10, textAlign: 'center', marginVertical: espaciado.e14 }}>
               {otp}
             </Text>
             {fee !== null && fee > 0 && (
@@ -148,7 +147,7 @@ function Contenido() {
 
           <Text style={[styles.label, { color: colors.textSecondary, marginTop: espaciado.e20 }]}>Agente de efectivo</Text>
           {agents === null ? (
-            <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e12 }} />
+            <ActivityIndicator color={colors.text.primary} style={{ marginTop: espaciado.e12 }} />
           ) : agents.length === 0 ? (
             /*
               Sin agente de efectivo no hay forma de RECOGER el dinero: un texto que solo informa
@@ -175,13 +174,13 @@ function Contenido() {
               accessibilityRole="button"
             >
               <View style={[styles.agentIcon, { backgroundColor: colors.surface }]}>
-                <Bike size={18} color={colors.primary} />
+                <Bike size={18} color={colors.text.primary} />
               </View>
               <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{a.name}</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>{a.code} · {a.zone}</Text>
               </View>
-              {agenteId === a.id && <Check size={18} color={colors.primary} />}
+              {agenteId === a.id && <Check size={18} color={colors.text.primary} />}
             </Tactil>
           ))}
 
@@ -208,7 +207,7 @@ function Contenido() {
               accessibilityLabel="Verificar mi identidad"
               style={{ marginTop: espaciado.e10, alignSelf: 'flex-start' }}
             >
-              <Text style={[styles.label, { color: colors.primary, textTransform: 'none', letterSpacing: 0 }]}>Verificar mi identidad →</Text>
+              <Text style={[styles.label, { color: colors.text.primary, textTransform: 'none', letterSpacing: 0 }]}>Verificar mi identidad →</Text>
             </Tactil>
           )}
 

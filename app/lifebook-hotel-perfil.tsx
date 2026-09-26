@@ -186,7 +186,7 @@ function Contenido() {
   if (cargando) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -254,7 +254,7 @@ function Contenido() {
                     accessibilityLabel={`${n} estrella(s)`}
                     style={[styles.estrella, { borderColor: on ? colors.secondary : colors.border, backgroundColor: on ? alpha(colors.secondary, 0.12) : colors.surface }]}
                   >
-                    <Text style={{ color: on ? colors.secondary : colors.textSecondary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>{n}★</Text>
+                    <Text style={{ color: on ? colors.text.secondary : colors.textSecondary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>{n}★</Text>
                   </Pressable>
                 );
               })}
@@ -324,7 +324,7 @@ function Contenido() {
                     onPress={() => setServicios((prev) => (on ? prev.filter((x) => x !== s.id) : [...prev, s.id]))}
                     style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                   >
-                    <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+                    <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                       {on ? '✓ ' : ''}{s.label}
                     </Text>
                   </Pressable>
@@ -380,7 +380,7 @@ function Contenido() {
             })}
 
             {otrosDeLaTienda.length ? (
-              <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8, lineHeight: 17 }}>
+              <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8, lineHeight: 17 }}>
                 ⚠️ Tu tienda tiene activa(s) {otrosDeLaTienda.join(', ')}, que un alojamiento no puede ofrecer.
                 No se enseñan al huésped.
               </Text>
@@ -396,7 +396,7 @@ function Contenido() {
             <PrimaryButton title="Guardar la ficha" onPress={() => void guardar()} loading={guardando} disabled={!!problema} />
           </View>
           {problema ? (
-            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>⚠️ {problema}</Text>
+            <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>⚠️ {problema}</Text>
           ) : null}
 
           <View style={{ marginTop: espaciado.e16 }}>
@@ -422,7 +422,7 @@ function Contador({ actual, max }: { actual: number; max: number }) {
   return (
     <Text
       style={{
-        color: quedan <= 40 ? colors.secondary : colors.textSecondary,
+        color: quedan <= 40 ? colors.text.secondary : colors.textSecondary,
         fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6, marginLeft: espaciado.e4,
       }}
       accessibilityLiveRegion="polite"

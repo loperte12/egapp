@@ -171,7 +171,7 @@ export default function BuscarScreen() {
           style={({ pressed }) => [styles.row, { opacity: pressed ? 0.6 : 1 }]}
         >
           <View style={[styles.iconWrap, { backgroundColor: alpha(c.primary, 0.12) }]}>
-            <MapPin size={18} color={isOriginMode ? brand.success : brand.danger} />
+            <MapPin size={18} color={isOriginMode ? colors.text.success : colors.text.danger} />
           </View>
           <View style={styles.rowBody}>
             <Text style={[styles.rowTitle, { color: c.textPrimary }]} numberOfLines={1}>
@@ -211,7 +211,7 @@ export default function BuscarScreen() {
           style={({ pressed }) => [styles.row, { opacity: pressed ? 0.6 : 1 }]}
         >
           <View style={[styles.iconWrap, { backgroundColor: alpha(c.primary, 0.12) }]}>
-            <MapPin size={18} color={brand.success} />
+            <MapPin size={18} color={colors.text.success} />
           </View>
           <View style={styles.rowBody}>
             <Text style={[styles.rowTitle, { color: c.textPrimary }]} numberOfLines={1}>{item.label} · Ubicación actual</Text>
@@ -229,7 +229,7 @@ export default function BuscarScreen() {
         style={({ pressed }) => [styles.row, { opacity: pressed ? 0.6 : 1 }]}
       >
         <View style={[styles.iconWrap, { backgroundColor: alpha(c.primary, 0.1) }]}>
-          <Navigation size={18} color={c.primary} />
+          <Navigation size={18} color={c.text.primary} />
         </View>
         <View style={styles.rowBody}>
           <Text style={[styles.rowTitle, { color: c.textPrimary }]} numberOfLines={1}>{city.name}</Text>

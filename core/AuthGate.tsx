@@ -26,7 +26,7 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
     // Mientras hidrata o redirige: pantalla neutra (sin candado).
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }

@@ -219,7 +219,7 @@ export default function SizeChartEditor({ kinds }: { kinds: LbSizeKind[] }) {
                             accessibilityLabel={`Quitar la talla ${r.sizeLabel}`}
                             hitSlop={8}
                           >
-                            <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.maximo }}>quitar</Text>
+                            <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.maximo }}>quitar</Text>
                           </Pressable>
                         </View>
                         {campos.map((c) => {

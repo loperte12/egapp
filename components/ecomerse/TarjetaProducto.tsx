@@ -203,7 +203,7 @@ export function TarjetaProducto({
           {onSpecial && (
             <Pressable onPress={onSpecial} hitSlop={8} accessibilityRole="button"
               accessibilityLabel={isSpecial ? 'Quitar de especiales' : 'Marcar como especial'} style={s.botonIcono}>
-              <Star size={15} color={isSpecial ? brand.warning : brand.white} fill={isSpecial ? brand.warning : 'rgba(0,0,0,0.35)'} />
+              <Star size={15} color={isSpecial ? colors.text.warning : brand.white} fill={isSpecial ? colors.text.warning : 'rgba(0,0,0,0.35)'} />
             </Pressable>
           )}
           {onAdd && (

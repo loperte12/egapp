@@ -119,7 +119,7 @@ function DocumentsContent() {
   if (loading) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -162,7 +162,7 @@ function DocumentsContent() {
                 ]}
               >
                 <View style={[styles.rowIcon, { backgroundColor: alpha(colors.primary, 0.08) }]}>
-                  <Icon size={19} color={colors.primary} />
+                  <Icon size={19} color={colors.text.primary} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={[styles.rowLabel, { color: colors.textPrimary }]}>{d.label}</Text>

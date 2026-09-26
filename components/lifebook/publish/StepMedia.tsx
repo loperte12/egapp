@@ -90,7 +90,7 @@ export default function StepMedia() {
               accessibilityLabel="Añadir fotos"
               style={[styles.add, { borderColor: alpha(colors.border, 0.9), backgroundColor: colors.surface }]}
             >
-              {uploading ? <ActivityIndicator color={colors.primary} /> : <Camera size={22} color={colors.primary} />}
+              {uploading ? <ActivityIndicator color={colors.text.primary} /> : <Camera size={22} color={colors.text.primary} />}
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e5, textAlign: 'center' }}>
                 {uploading ? 'Subiendo…' : 'Añadir'}
               </Text>

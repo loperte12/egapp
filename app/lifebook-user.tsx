@@ -367,7 +367,7 @@ function UserContent() {
   if (!profile) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -491,7 +491,7 @@ function UserContent() {
                   <Text numberOfLines={2} style={[styles.fullName, { color: profile.nameColor || colors.textPrimary }]}>
                     {profile.fullName ?? 'Usuario'}
                   </Text>
-                  {verifiedList.length > 0 && <BadgeCheck size={18} color={brand.primary} fill={brand.primary} stroke={brand.white} strokeWidth={trazoIcono.acento} />}
+                  {verifiedList.length > 0 && <BadgeCheck size={18} color={colors.text.primary} fill={colors.text.primary} stroke={brand.white} strokeWidth={trazoIcono.acento} />}
                 </View>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: 1 }}>
                   {[profile.profession, profile.school].filter(Boolean).join(' · ') || (rel.isSelf ? 'Tu perfil' : 'Miembro de Life Book')}
@@ -565,7 +565,7 @@ function UserContent() {
                       <Image source={{ uri: absUrl(tienda.shop.logoUrl) }} style={styles.tiendaLogo} />
                     ) : (
                       <View style={[styles.tiendaLogo, { backgroundColor: alpha(colors.primary, 0.12), alignItems: 'center', justifyContent: 'center' }]}>
-                        <Store size={16} color={colors.primary} />
+                        <Store size={16} color={colors.text.primary} />
                       </View>
                     )}
                     <Text numberOfLines={1} style={{ flex: 1, color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
@@ -576,7 +576,7 @@ function UserContent() {
                         (hoy hay 116 productos con `rating` y 0 reseñas). */}
                     {tienda.shop.ratingCount > 0 ? (
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
-                        <Star size={13} color={brand.warning} fill={brand.warning} />
+                        <Star size={13} color={colors.text.warning} fill={colors.text.warning} />
                         <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                           {tienda.shop.rating.toFixed(1)}
                         </Text>
@@ -599,7 +599,7 @@ function UserContent() {
                               <Image source={{ uri: absUrl(f.coverUrl) }} style={StyleSheet.absoluteFill} resizeMode="cover" />
                             ) : (
                               <View style={[StyleSheet.absoluteFill, { backgroundColor: alpha(colors.primary, 0.08), alignItems: 'center', justifyContent: 'center' }]}>
-                                <Package size={18} color={alpha(colors.primary, 0.5)} />
+                                <Package size={18} color={alpha(colors.text.primary, 0.5)} />
                               </View>
                             )}
                             {/* El precio ENCIMA de la foto sobre un badge oscuro
@@ -673,14 +673,14 @@ function UserContent() {
                   onPress={() => irSeguro.libre('/lifebook-store', { sellerId: profile.id })}
                   style={[styles.mainBtn, { marginTop: espaciado.e8, backgroundColor: alpha(colors.secondary, 0.1), borderColor: alpha(colors.secondary, 0.4) }]}
                 >
-                  <Text style={{ color: colors.secondary, fontSize: tipografia.body, fontWeight: peso.titulo }}>🛍 Ver tienda</Text>
+                  <Text style={{ color: colors.text.secondary, fontSize: tipografia.body, fontWeight: peso.titulo }}>🛍 Ver tienda</Text>
                 </Pressable>
               )}
             </View>
 
             {profile.ratingAvg != null && profile.ratingAvg > 0 ? (
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, paddingHorizontal: espaciado.e16, marginTop: espaciado.e8 }}>
-                <Star size={13} color={brand.warning} fill={brand.warning} />
+                <Star size={13} color={colors.text.warning} fill={colors.text.warning} />
                 <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.body }}>{profile.ratingAvg.toFixed(1)}</Text>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>valoración</Text>
               </View>
@@ -724,7 +724,7 @@ function UserContent() {
                         <Image source={{ uri: absUrl(card.photoUrl) }} style={{ width: 44, height: 44, borderRadius: radios.md }} />
                       ) : (
                         <View style={{ width: 44, height: 44, borderRadius: radios.md, alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.12) }}>
-                          <Users size={22} color={colors.primary} />
+                          <Users size={22} color={colors.text.primary} />
                         </View>
                       )}
                       <View style={{ flex: 1 }}>
@@ -781,7 +781,7 @@ function UserContent() {
                       /* Los fijados se distinguen del resto: borde del color de marca. */
                       ...(esFijado(o) ? { borderWidth: trazo.fino, borderColor: colors.primary } : {}),
                     }}>
-                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte }} numberOfLines={1}>
+                      <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte }} numberOfLines={1}>
                         {esFijado(o) ? '📌 ' : ''}{label}{abrible ? ' ↗' : ''}
                       </Text>
                     </View>
@@ -860,14 +860,14 @@ function UserContent() {
                       accessibilityLabel={`Categoría ${c.label}`}
                       style={[styles.tabPill, { backgroundColor: on ? alpha(colors.primary, 0.15) : colors.surface, borderColor: on ? colors.primary : colors.border }]}
                     >
-                      <Text style={{ color: on ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: on ? peso.titulo : peso.fuerte }}>{c.label}</Text>
+                      <Text style={{ color: on ? colors.text.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: on ? peso.titulo : peso.fuerte }}>{c.label}</Text>
                     </Pressable>
                   );
                 })}
               </ScrollView>
             ) : null}
             {loadingPosts && posts.length === 0 ? (
-              <ActivityIndicator color={colors.primary} style={{ marginTop: espaciado.e30 }} />
+              <ActivityIndicator color={colors.text.primary} style={{ marginTop: espaciado.e30 }} />
             ) : null}
           </View>
         }
@@ -906,10 +906,10 @@ function UserContent() {
               style={{ alignItems: 'center', paddingVertical: espaciado.e16 }}
             >
               {masProd
-                ? <ActivityIndicator color={colors.primary} />
-                : <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Ver más productos</Text>}
+                ? <ActivityIndicator color={colors.text.primary} />
+                : <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>Ver más productos</Text>}
             </Pressable>
-          ) : loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e16 }} /> : <View style={{ height: 8 }} />
+          ) : loadingMore ? <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e16 }} /> : <View style={{ height: 8 }} />
         }
       />
 
@@ -921,7 +921,7 @@ function UserContent() {
             onPress={askToggleBlock}
             style={({ pressed }) => [styles.userMenuRow, { backgroundColor: pressed ? alpha(colors.danger, 0.05) : 'transparent' }]}
           >
-            <Text style={{ color: blocked ? colors.primary : colors.danger, fontSize: tipografia.cuerpo, fontWeight: peso.maximo }}>
+            <Text style={{ color: blocked ? colors.text.primary : colors.text.danger, fontSize: tipografia.cuerpo, fontWeight: peso.maximo }}>
               {blocked ? 'Desbloquear usuario' : 'Bloquear usuario'}
             </Text>
           </Pressable>
@@ -970,7 +970,7 @@ function UserContent() {
  */
 function TarjetaProducto({ producto, colors, ancho, onPress }: {
   producto: LbProductCard;
-  colors: { primary: string; card: string; border: string; textPrimary: string; textSecondary: string };
+  colors: ReturnType<typeof useTheme>['colors'];
   ancho: number;
   onPress: () => void;
 }) {
@@ -984,13 +984,13 @@ function TarjetaProducto({ producto, colors, ancho, onPress }: {
         <Image source={{ uri: absUrl(producto.coverUrl) }} style={styles.prodImg} resizeMode="cover" />
       ) : (
         <View style={[styles.prodImg, { alignItems: 'center', justifyContent: 'center' }]}>
-          <Package size={20} color={alpha(colors.primary, 0.5)} />
+          <Package size={20} color={alpha(colors.text.primary, 0.5)} />
         </View>
       )}
       <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>
         {producto.title}
       </Text>
-      <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
+      <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>
         {lbPriceLabel(producto.priceXaf, producto.priceMode, lbXaf)}
       </Text>
       {producto.shortDescription ? (

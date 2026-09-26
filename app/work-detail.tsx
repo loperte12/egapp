@@ -38,7 +38,7 @@ function BulletList({ title, items, dot, check }: { title: string; items: string
           {dot ? (
             <View style={{ width: 6, height: 6, borderRadius: radios.punta, backgroundColor: colors.primary, marginTop: espaciado.e7, marginRight: espaciado.e10 }} />
           ) : check ? (
-            <Check size={14} color={colors.primary} style={{ marginTop: espaciado.e2, marginRight: espaciado.e8 }} />
+            <Check size={14} color={colors.text.primary} style={{ marginTop: espaciado.e2, marginRight: espaciado.e8 }} />
           ) : null}
           <Text style={{ flex: 1, fontSize: tipografia.body, lineHeight: 20, color: colors.textSecondary }}>{it}</Text>
         </View>
@@ -215,7 +215,7 @@ export default function WorkDetailScreen() {
   if (!job && loading) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={colors.text.primary} />
         <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: peso.fuerte }}>Cargando oferta…</Text>
       </View>
     );
@@ -223,7 +223,7 @@ export default function WorkDetailScreen() {
   if (!job) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }}>
-        <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><Flag size={26} color={colors.danger} /></View>
+        <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><Flag size={26} color={colors.text.danger} /></View>
         <Text style={{ color: colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.subtitle, textAlign: 'center' }}>No pudimos cargar esta oferta</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e16 }}>{error}</Text>
         <View style={{ flexDirection: 'row', gap: espaciado.e10 }}>
@@ -261,7 +261,7 @@ export default function WorkDetailScreen() {
             accessibilityRole="button"
             accessibilityLabel={bookmarked ? 'Quitar de guardados' : 'Guardar oferta'}
           >
-            <Bookmark size={20} color={bookmarked ? colors.primary : colors.textSecondary} fill={bookmarked ? colors.primary : 'transparent'} />
+            <Bookmark size={20} color={bookmarked ? colors.text.primary : colors.textSecondary} fill={bookmarked ? colors.text.primary : 'transparent'} />
           </Tactil>
         }
       />
@@ -274,14 +274,14 @@ export default function WorkDetailScreen() {
             {job.isUrgent && <View style={[s.badge, { backgroundColor: brand.danger }]}><Text style={s.badgeText}>URGENTE</Text></View>}
             {(job.applicantsCount ?? 0) > 0 && (
               <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.1), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.punta }}>
-                <Text style={{ fontSize: tipografia.nota, color: colors.primary, fontWeight: peso.fuerte }}>
+                <Text style={{ fontSize: tipografia.nota, color: colors.text.primary, fontWeight: peso.fuerte }}>
                   {job.applicantsCount === 1 ? '1 aplicante' : `${job.applicantsCount} aplicantes`}
                 </Text>
               </View>
             )}
           </View>
           <Text style={{ fontSize: tipografia.cabecera, fontWeight: peso.fuerte, color: colors.textPrimary, marginBottom: espaciado.e6 }}>{job.title}</Text>
-          <Text style={{ fontSize: tipografia.cifra, fontWeight: peso.maximo, color: colors.primary, marginBottom: espaciado.e2 }}>{job.salary}</Text>
+          <Text style={{ fontSize: tipografia.cifra, fontWeight: peso.maximo, color: colors.text.primary, marginBottom: espaciado.e2 }}>{job.salary}</Text>
           {showMonthlyCaption && <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginBottom: espaciado.e12 }}>/ mes · Neto</Text>}
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e12, marginBottom: espaciado.e12 }}>
             <Meta icon={MapPin} text={job.location || job.city} />
@@ -292,15 +292,15 @@ export default function WorkDetailScreen() {
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginBottom: espaciado.e12 }}>
               {(job.benefits || []).map((b, i) => (
                 <View key={i} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4, borderRadius: radios.marca }}>
-                  <Check size={10} color={colors.primary} style={{ marginRight: espaciado.e3 }} />
-                  <Text style={{ fontSize: tipografia.nota, color: colors.primary, fontWeight: peso.medio }}>{BENEFIT_LABELS[b] ?? b}</Text>
+                  <Check size={10} color={colors.text.primary} style={{ marginRight: espaciado.e3 }} />
+                  <Text style={{ fontSize: tipografia.nota, color: colors.text.primary, fontWeight: peso.medio }}>{BENEFIT_LABELS[b] ?? b}</Text>
                 </View>
               ))}
             </View>
           )}
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderTopWidth: trazo.fino, borderTopColor: colors.border, paddingTop: espaciado.e10 }}>
             <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Publicado {daysAgo === 0 ? 'hoy' : `hace ${daysAgo} d`}</Text>
-            {job.expiresAt && <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.medio }}>Cierra: {new Date(job.expiresAt).toLocaleDateString('es')}</Text>}
+            {job.expiresAt && <Text style={{ fontSize: tipografia.micro, color: colors.text.danger, fontWeight: peso.medio }}>Cierra: {new Date(job.expiresAt).toLocaleDateString('es')}</Text>}
           </View>
         </View>
 
@@ -348,7 +348,7 @@ export default function WorkDetailScreen() {
             <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary }} numberOfLines={1}>{job.company}</Text>
-                {job.companyVerified && <ShieldCheck size={14} color={colors.primary} style={{ marginLeft: espaciado.e4 }} />}
+                {job.companyVerified && <ShieldCheck size={14} color={colors.text.primary} style={{ marginLeft: espaciado.e4 }} />}
               </View>
               <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{CATEGORY_LABELS[job.category] || job.category}</Text>
             </View>
@@ -376,7 +376,7 @@ export default function WorkDetailScreen() {
                     style={[s.roundBtn, { backgroundColor: alpha(colors.primary, 0.1) }]}
                     accessibilityRole="button" accessibilityLabel={`Llamar a ${job.recruiter.name}`}
                   >
-                    <Phone size={16} color={colors.primary} />
+                    <Phone size={16} color={colors.text.primary} />
                   </Pressable>
                   <Pressable
                     onPress={() => void chatRecruiter(recruiterPhone)}
@@ -393,7 +393,7 @@ export default function WorkDetailScreen() {
                   style={[s.roundBtn, { backgroundColor: alpha(colors.primary, 0.12), opacity: busy || !open ? 0.5 : 1 }]}
                   accessibilityRole="button" accessibilityLabel="Postularse para ver el contacto del reclutador"
                 >
-                  <Lock size={16} color={colors.primary} />
+                  <Lock size={16} color={colors.text.primary} />
                 </Pressable>
               ))}
             </View>
@@ -422,8 +422,8 @@ export default function WorkDetailScreen() {
                     {sj.isUrgent && <View style={{ width: 8, height: 8, borderRadius: radios.full, backgroundColor: brand.danger }} />}
                   </View>
                   <Text style={{ fontSize: tipografia.body, fontWeight: peso.medio, color: colors.textPrimary, minHeight: 34 }} numberOfLines={2}>{sj.title}</Text>
-                  <Text style={{ fontSize: tipografia.micro, color: colors.primary, marginBottom: espaciado.e4 }} numberOfLines={1}>{sj.company}</Text>
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.primary, marginBottom: espaciado.e6 }} numberOfLines={1}>{sj.salary}</Text>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.text.primary, marginBottom: espaciado.e4 }} numberOfLines={1}>{sj.company}</Text>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.text.primary, marginBottom: espaciado.e6 }} numberOfLines={1}>{sj.salary}</Text>
                 </Pressable>
               ))}
             </ScrollView>
@@ -446,7 +446,7 @@ export default function WorkDetailScreen() {
           style={({ pressed }) => [s.iconBtn, { backgroundColor: colors.surface, opacity: reported ? 0.45 : pressed ? 0.7 : 1 }]}
           accessibilityRole="button" accessibilityLabel={reported ? 'Oferta reportada' : 'Reportar oferta'}
         >
-          <Flag size={18} color={reported ? colors.success : colors.textSecondary} />
+          <Flag size={18} color={reported ? colors.text.success : colors.textSecondary} />
         </Pressable>
         {recruiterPhone && (
           <Pressable

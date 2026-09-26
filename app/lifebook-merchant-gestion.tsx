@@ -113,7 +113,7 @@ function Contenido() {
   if (cargando) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -172,7 +172,7 @@ function Contenido() {
               {pendientes.length ? (
                 <View style={{ marginTop: espaciado.e18 }}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e8 }}>
-                    <TriangleAlert size={16} color={colors.secondary} />
+                    <TriangleAlert size={16} color={colors.text.secondary} />
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, marginLeft: espaciado.e7 }}>
                       Te falta por completar ({pendientes.length})
                     </Text>
@@ -200,7 +200,7 @@ function Contenido() {
                         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{x.texto}</Text>
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e3, lineHeight: 17 }}>{x.porque}</Text>
                       </View>
-                      <ChevronRight size={18} color={colors.secondary} />
+                      <ChevronRight size={18} color={colors.text.secondary} />
                     </Pressable>
                   ))}
                 </View>
@@ -223,31 +223,31 @@ function Contenido() {
           </Text>
 
           <Fila
-            icono={<Package size={18} color={colors.primary} />}
+            icono={<Package size={18} color={colors.text.primary} />}
             titulo="Publicaciones"
             detalle={p ? `${p.total} en total · precio, existencias y opciones de cada una` : 'Tu catálogo en Life Book'}
             onPress={() => irSeguro.libre('/lifebook-merchant-products')}
           />
           <Fila
-            icono={<ShoppingBag size={18} color={colors.primary} />}
+            icono={<ShoppingBag size={18} color={colors.text.primary} />}
             titulo="Sin existencias"
             detalle={p?.outOfStock ? `${p.outOfStock} publicación(es) que no se pueden comprar ahora` : 'Ninguna agotada ahora mismo'}
             onPress={() => irSeguro.libre('/lifebook-merchant-products', { f: 'agotado' })}
           />
           <Fila
-            icono={<TriangleAlert size={18} color={colors.primary} />}
+            icono={<TriangleAlert size={18} color={colors.text.primary} />}
             titulo="Esperando aprobación"
             detalle={p?.pending ? `${p.pending} en revisión por la administración` : 'Nada pendiente de aprobar'}
             onPress={() => irSeguro.libre('/lifebook-merchant-products?f=pending')}
           />
           <Fila
-            icono={<Store size={18} color={colors.primary} />}
+            icono={<Store size={18} color={colors.text.primary} />}
             titulo="Ajustes de la tienda"
             detalle="Nombre, dirección, logo, portada, formas de pago y envío"
             onPress={() => irSeguro.libre('/lifebook-merchant-settings')}
           />
           <Fila
-            icono={<Settings size={18} color={colors.primary} />}
+            icono={<Settings size={18} color={colors.text.primary} />}
             titulo="Publicar algo nuevo"
             detalle="Producto, comida, servicio o alquiler: aparece en Life Book al enviarlo"
             onPress={() => irSeguro.libre('/lifebook-sell')}

@@ -90,8 +90,8 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
               const on = activeTab === t.key;
               return (
                 <Pressable key={t.key} onPress={() => setActiveTab(t.key)} accessibilityRole="button" accessibilityState={{ selected: on }} style={[s.tab, on && { backgroundColor: colors.card, borderColor: colors.primary, borderWidth: trazo.fino }]}>
-                  <Icon size={16} color={on ? colors.primary : colors.textSecondary} />
-                  <Text style={{ color: on ? colors.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }} numberOfLines={1}>{t.label}</Text>
+                  <Icon size={16} color={on ? colors.text.primary : colors.textSecondary} />
+                  <Text style={{ color: on ? colors.text.primary : colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }} numberOfLines={1}>{t.label}</Text>
                 </Pressable>
               );
             })}
@@ -103,23 +103,23 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
               <View style={{ gap: espaciado.e12 }}>
                 <View style={[s.card, { borderColor: colors.border, gap: espaciado.e10 }]}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-                    <Wallet size={18} color={colors.primary} />
+                    <Wallet size={18} color={colors.text.primary} />
                     <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>Ganancias</Text>
                   </View>
                   <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                     {PERIODS.map((p) => (
                       <Pressable key={p.key} onPress={() => setPeriod(p.key)} style={[s.chip, { flex: 1, borderColor: period === p.key ? colors.primary : colors.border, backgroundColor: period === p.key ? alpha(colors.primary, 0.08) : 'transparent' }]}>
-                        <Text style={{ color: period === p.key ? colors.primary : colors.textSecondary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>{p.label}</Text>
+                        <Text style={{ color: period === p.key ? colors.text.primary : colors.textSecondary, fontWeight: peso.maximo, fontSize: tipografia.caption }}>{p.label}</Text>
                       </Pressable>
                     ))}
                   </View>
-                  {loadingE && <ActivityIndicator color={colors.primary} />}
+                  {loadingE && <ActivityIndicator color={colors.text.primary} />}
                   {errE ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={errE} /></View> : null}
                   {!loadingE && !errE && earnings && (
                     <>
                       <View style={{ alignItems: 'center', gap: espaciado.e2 }}>
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>NETO ({period === 'all' ? 'total' : period})</Text>
-                        <Precio valor={earnings.totalNet} tamano="xl" color={colors.success} />
+                        <Precio valor={earnings.totalNet} tamano="xl" color={colors.text.success} />
                       </View>
                       <View style={[s.statRow, { backgroundColor: alpha(colors.border, 0.2) }]}>
                         <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>🚕 Taxi ciudad</Text>
@@ -139,8 +139,8 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     accessibilityRole="button"
                     accessibilityLabel="Historial de viajes"
                   >
-                    <History size={16} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Historial de viajes</Text>
+                    <History size={16} color={colors.text.primary} />
+                    <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Historial de viajes</Text>
                     <ChevronRight size={16} color={colors.textSecondary} style={{ marginLeft: 'auto' }} />
                   </Pressable>
                 </View>
@@ -148,7 +148,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                 {/* Resumen de puntuación (honesto: solo si hay valoraciones) */}
                 <View style={[s.card, { borderColor: colors.border, flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }]}>
                   <View style={[dh.ratingBox, { backgroundColor: alpha(brand.warning, 0.14) }]}>
-                    <Star size={22} color={brand.warning} fill={brand.warning} />
+                    <Star size={22} color={colors.text.warning} fill={colors.text.warning} />
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Puntuación</Text>
@@ -198,12 +198,12 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
               <View style={{ gap: espaciado.e12 }}>
                 <View style={[s.card, { borderColor: colors.border, gap: 0 }]}>
                   <View style={[dh.row, { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border }]}>
-                    <Moon size={18} color={colors.primary} />
+                    <Moon size={18} color={colors.text.primary} />
                     <Text style={{ flex: 1, color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Tema oscuro</Text>
                     <Switch value={isDark} onValueChange={(v) => setMode(v ? 'dark' : 'light')} trackColor={{ true: colors.primary }} />
                   </View>
                   <View style={[dh.row, { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border }]}>
-                    <Globe size={18} color={colors.primary} />
+                    <Globe size={18} color={colors.text.primary} />
                     <View style={{ flex: 1 }}>
                       <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Idioma</Text>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>Español (Guinea Ecuatorial) · ES/FR/EN pendiente por fases</Text>
@@ -211,7 +211,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                     <ChevronRight size={16} color={colors.textSecondary} />
                   </View>
                   <Pressable onPress={() => setRulesOpen((v) => !v)} accessibilityRole="button" style={dh.row}>
-                    <FileText size={18} color={colors.primary} />
+                    <FileText size={18} color={colors.text.primary} />
                     <View style={{ flex: 1 }}>
                       <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Normas y términos</Text>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>{rulesOpen ? 'Toca para ocultar' : 'Toca para leer las normas de la comunidad'}</Text>
@@ -239,7 +239,7 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
 
                 <View style={[s.card, { borderColor: colors.border, gap: espaciado.e6 }]}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-                    <ShieldCheck size={18} color={colors.primary} />
+                    <ShieldCheck size={18} color={colors.text.primary} />
                     <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Conductor verificado</Text>
                   </View>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.medio }}>
@@ -248,12 +248,12 @@ export default function DriverHomeSheet({ visible, tab, onClose }: {
                 </View>
 
                 <Pressable onPress={handleLogout} accessibilityRole="button" accessibilityLabel="Cerrar sesión" style={[s.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }]}>
-                  <LogOut size={18} color={colors.danger} />
+                  <LogOut size={18} color={colors.text.danger} />
                   <View style={{ flex: 1 }}>
-                    <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Cerrar sesión</Text>
+                    <Text style={{ color: colors.text.danger, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>Cerrar sesión</Text>
                     <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.medio }}>Solo desde aquí (por seguridad)</Text>
                   </View>
-                  <ChevronRight size={16} color={colors.danger} />
+                  <ChevronRight size={16} color={colors.text.danger} />
                 </Pressable>
               </View>
             )}

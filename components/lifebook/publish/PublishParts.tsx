@@ -56,7 +56,7 @@ export function Notice({ tone = 'info', children }: { tone?: 'info' | 'error' | 
   const border = tone === 'error' ? colors.danger : tone === 'ok' ? colors.success : alpha(colors.primary, 0.3);
   return (
     <View style={[styles.notice, { backgroundColor: bg, borderColor: border }]}>
-      <Text style={{ color: tone === 'error' ? colors.danger : colors.textPrimary, fontSize: tipografia.caption, lineHeight: 18 }}>
+      <Text style={{ color: tone === 'error' ? colors.text.danger : colors.textPrimary, fontSize: tipografia.caption, lineHeight: 18 }}>
         {children}
       </Text>
     </View>

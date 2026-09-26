@@ -1054,7 +1054,7 @@ export default function TaxiScreen() {
                   accessibilityState={{ selected: moveTarget === 'origen' }}
                   style={[s.mapPickBtn, { backgroundColor: moveTarget === 'origen' ? alphaC(brand.success, 0.16) : 'transparent', borderColor: moveTarget === 'origen' ? brand.success : colors.border }]}
                 >
-                  <Pencil size={14} color={moveTarget === 'origen' ? brand.success : colors.textSecondary} />
+                  <Pencil size={14} color={moveTarget === 'origen' ? colors.text.success : colors.textSecondary} />
                 </Pressable>
               ) : null}
             </View>
@@ -1079,7 +1079,7 @@ export default function TaxiScreen() {
                     },
                   ]}
                 >
-                  <ArrowUpDown size={13} color={colors.primary} />
+                  <ArrowUpDown size={13} color={colors.text.primary} />
                 </Pressable>
               </View>
             </View>
@@ -1117,7 +1117,7 @@ export default function TaxiScreen() {
       {/* Botón flotante de origen: ubicarme por GPS real (o centrar en origen) */}
       <View style={[s.mapFabRow]}>
         <Pressable onPress={handleLocate} style={[s.mapFab, { backgroundColor: colors.card, borderColor: colors.border }]} accessibilityRole="button" accessibilityLabel="Ubicarme en mi posición actual">
-          <Navigation size={17} color={colors.primary} />
+          <Navigation size={17} color={colors.text.primary} />
         </Pressable>
       </View>
 
@@ -1141,7 +1141,7 @@ export default function TaxiScreen() {
         <ScrollView contentContainerStyle={s.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEnabled={!enMarcha}>
           {error && (
             <View style={[s.banner, { backgroundColor: colors.danger + '14' }]}>
-              <Text style={{ color: colors.danger, fontWeight: peso.fuerte, fontSize: tipografia.body }}>{error}</Text>
+              <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte, fontSize: tipografia.body }}>{error}</Text>
             </View>
           )}
           {locBanner && (
@@ -1153,8 +1153,8 @@ export default function TaxiScreen() {
           {/* FASE 2 DiDi: "Buscando taxi" con radar animado (nativo). */}
           {status === 'requested' && (
             <View style={{ alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e6 }}>
-              <SearchRadar color={brand.secondary} />
-              <Text style={{ color: brand.secondary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>
+              <SearchRadar color={colors.text.secondary} />
+              <Text style={{ color: colors.text.secondary, fontWeight: peso.maximo, fontSize: tipografia.cuerpo }}>
                 {relaunching ? 'Re-lanzando solicitud…' : 'Buscando taxi…'}
               </Text>
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center' }}>
@@ -1171,7 +1171,7 @@ export default function TaxiScreen() {
                   accessibilityLabel="Cambiar modalidad, presupuesto o pasajeros mientras buscas"
                   style={[s.cancelLink, { borderColor: colors.primary + '66' }]}
                 >
-                  <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>
+                  <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>
                     {relaunching ? 'Re-lanzando…' : '⇄ Cambiar modalidad / presupuesto'}
                   </Text>
                 </Pressable>
@@ -1189,7 +1189,7 @@ export default function TaxiScreen() {
                     Se cancela esta búsqueda y se lanza una nueva con tus cambios.
                   </Text>
                   {relaunching ? (
-                    <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e10 }} />
+                    <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e10 }} />
                   ) : (
                     <>
                       {modes.length > 0 && (
@@ -1216,10 +1216,10 @@ export default function TaxiScreen() {
                                   </Text>
                                 </View>
                                 <View style={{ alignItems: 'flex-end' }}>
-                                  <Text style={{ color: brand.secondary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
+                                  <Text style={{ color: colors.text.secondary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                                     {total != null ? `${total.toLocaleString('es')} XAF` : '—'}
                                   </Text>
-                                  <Text style={{ fontSize: tipografia.nota, color: active ? colors.primary : colors.textSecondary, fontWeight: peso.maximo }}>
+                                  <Text style={{ fontSize: tipografia.nota, color: active ? colors.text.primary : colors.textSecondary, fontWeight: peso.maximo }}>
                                     {active ? '✓ Solicitando' : 'Elegir'}
                                   </Text>
                                 </View>
@@ -1242,7 +1242,7 @@ export default function TaxiScreen() {
                               onPress={() => void relaunch({ price: String(v) })}
                               style={[s.budgetChip, { borderColor: active ? brand.secondary : colors.border, backgroundColor: active ? alphaC(brand.secondary, 0.12) : colors.surface }]}
                             >
-                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: active ? brand.secondary : colors.textPrimary }}>
+                              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: active ? colors.text.secondary : colors.textPrimary }}>
                                 {v.toLocaleString('es')}
                               </Text>
                             </Pressable>
@@ -1276,8 +1276,8 @@ export default function TaxiScreen() {
           {/* Señal perdida: >10 s sin un fix nuevo del conductor (coche en gris). */}
           {live.lost && status === 'accepted' && (
             <View style={[s.banner, { backgroundColor: brand.dangerSoft }]} accessibilityLiveRegion="polite">
-              <RefreshCw size={14} color={brand.danger} />
-              <Text style={{ color: brand.danger, fontSize: tipografia.caption, marginLeft: espaciado.e6, fontWeight: peso.fuerte }}>
+              <RefreshCw size={14} color={colors.text.danger} />
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginLeft: espaciado.e6, fontWeight: peso.fuerte }}>
                 Señal perdida — esperando al GPS del conductor…
               </Text>
             </View>
@@ -1288,7 +1288,7 @@ export default function TaxiScreen() {
               valoración/viajes, coche, precio, PIN y acciones. */}
           {approach && (
             <View style={[s.card, { backgroundColor: brand.successSoft, borderColor: brand.successSoftBorde, gap: espaciado.e10 }]}>
-              <Text style={{ color: brand.success, fontWeight: peso.titulo, fontSize: tipografia.cuerpo, textAlign: 'center' }}>🚕 Conductor en camino</Text>
+              <Text style={{ color: colors.text.success, fontWeight: peso.titulo, fontSize: tipografia.cuerpo, textAlign: 'center' }}>🚕 Conductor en camino</Text>
               {(() => {
                 const t = (trip ?? {}) as Record<string, any>;
                 const name = String(t.driver_name ?? 'Conductor');
@@ -1322,7 +1322,7 @@ export default function TaxiScreen() {
                         <Image source={{ uri: photo }} style={s.avatar} />
                       ) : (
                         <View style={[s.avatar, { backgroundColor: brand.successSoftBorde }]}>
-                          <Text style={{ color: brand.success, fontWeight: peso.titulo, fontSize: tipografia.title }}>{(name || 'C').charAt(0).toUpperCase()}</Text>
+                          <Text style={{ color: colors.text.success, fontWeight: peso.titulo, fontSize: tipografia.title }}>{(name || 'C').charAt(0).toUpperCase()}</Text>
                         </View>
                       )}
                       <View style={{ flex: 1 }}>
@@ -1330,7 +1330,7 @@ export default function TaxiScreen() {
                           <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.subtitle }} numberOfLines={1}>{name}</Text>
                           {(ratingOk || tripsOk) && (
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e2 }}>
-                              <Star size={12} color={brand.warning} fill={brand.warning} />
+                              <Star size={12} color={colors.text.warning} fill={colors.text.warning} />
                               <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                                 {ratingOk ? rating.toFixed(1) : '—'}
                                 {tripsOk ? ` · ${trips} viaje${trips === 1 ? '' : 's'}` : ''}
@@ -1366,7 +1366,7 @@ export default function TaxiScreen() {
                         )}
                       </View>
                       <View style={{ alignItems: 'flex-end' }}>
-                        <Text style={{ color: brand.secondary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>
+                        <Text style={{ color: colors.text.secondary, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>
                           {t.final_price != null ? `${Number(t.final_price).toLocaleString('es')} XAF` : '—'}
                         </Text>
                         <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>Precio acordado</Text>
@@ -1381,7 +1381,7 @@ export default function TaxiScreen() {
                     <Text style={{ fontSize: tipografia.body, color: colors.textPrimary, fontWeight: peso.medio, textAlign: 'center' }}>
                       El conductor te pedirá este PIN para empezar el viaje:
                     </Text>
-                    <Text style={{ fontSize: tipografia.hero, fontWeight: peso.titulo, letterSpacing: 6, color: brand.success, textAlign: 'center' }}>
+                    <Text style={{ fontSize: tipografia.hero, fontWeight: peso.titulo, letterSpacing: 6, color: colors.text.success, textAlign: 'center' }}>
                       {pinLast4(phone)}
                     </Text>
                     {(wa || tel) && (
@@ -1445,7 +1445,7 @@ export default function TaxiScreen() {
               )}
               {sv?.money.locked && !sv.money.released && (
                 <View style={{ padding: espaciado.e10, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: brand.successSoftFuerte, backgroundColor: brand.successSoft }}>
-                  <Text style={{ color: brand.success, fontWeight: peso.titulo, fontSize: tipografia.body }}>
+                  <Text style={{ color: colors.text.success, fontWeight: peso.titulo, fontSize: tipografia.body }}>
                     💳 {Number(sv.fare).toLocaleString('es')} XAF bloqueados con tu PIN
                   </Text>
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>
@@ -1471,7 +1471,7 @@ export default function TaxiScreen() {
                 accessibilityLabel="Rechazar o cancelar el viaje"
                 style={[s.cancelLink, { borderColor: brand.dangerSoftFuerte }]}
               >
-                <Text style={{ color: brand.danger, fontWeight: peso.fuerte, fontSize: tipografia.body }}>Rechazar / Cancelar viaje</Text>
+                <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte, fontSize: tipografia.body }}>Rechazar / Cancelar viaje</Text>
               </Pressable>
             </View>
           )}
@@ -1493,7 +1493,7 @@ export default function TaxiScreen() {
                   Sin tu confirmación se cerrará solo en{' '}
                   {Math.max(0, Math.round((new Date(sv.timers.auto_close_at).getTime() - Date.now()) / 60000))} min.
                   {' '}¿Ha habido un problema?{' '}
-                  <Text onPress={() => setDispOpen(true)} style={{ color: brand.primary, fontWeight: peso.maximo }}>Disputar</Text>
+                  <Text onPress={() => setDispOpen(true)} style={{ color: colors.text.primary, fontWeight: peso.maximo }}>Disputar</Text>
                 </Text>
               )}
             </View>
@@ -1579,8 +1579,8 @@ export default function TaxiScreen() {
           )}
           {status === 'idle' && routeError && (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <RefreshCw size={14} color={colors.danger} />
-              <Text style={{ fontSize: tipografia.caption, color: colors.danger, marginLeft: espaciado.e4, flex: 1 }}>{routeError}</Text>
+              <RefreshCw size={14} color={colors.text.danger} />
+              <Text style={{ fontSize: tipografia.caption, color: colors.text.danger, marginLeft: espaciado.e4, flex: 1 }}>{routeError}</Text>
             </View>
           )}
 
@@ -1588,10 +1588,10 @@ export default function TaxiScreen() {
           <>
           <Text style={s.sectionTitle}>Modalidad de viaje</Text>
           {modesLoading ? (
-            <ActivityIndicator style={{ marginVertical: espaciado.e12 }} color={colors.primary} />
+            <ActivityIndicator style={{ marginVertical: espaciado.e12 }} color={colors.text.primary} />
           ) : modesError ? (
             <View style={[s.card, { backgroundColor: colors.danger + '08' }]}>
-              <Text style={{ fontSize: tipografia.caption, color: colors.danger }}>{modesError}</Text>
+              <Text style={{ fontSize: tipografia.caption, color: colors.text.danger }}>{modesError}</Text>
               <GhostButton title="Reintentar" onPress={retryModes} />
             </View>
           ) : modes.length === 0 ? (
@@ -1636,10 +1636,10 @@ export default function TaxiScreen() {
                       </Text>
                     </View>
                     <View style={{ alignItems: 'flex-end' }}>
-                      <Text style={[s.modePrice, { color: brand.secondary }]}>
+                      <Text style={[s.modePrice, { color: colors.text.secondary }]}>
                         {rowTotal != null ? `${rowTotal.toLocaleString('es')} XAF` : '—'}
                       </Text>
-                      <Text style={{ fontSize: tipografia.nota, color: active ? colors.primary : colors.textSecondary, fontWeight: peso.fuerte }}>
+                      <Text style={{ fontSize: tipografia.nota, color: active ? colors.text.primary : colors.textSecondary, fontWeight: peso.fuerte }}>
                         {active ? '✓ Seleccionado' : 'Elegir'}
                       </Text>
                     </View>
@@ -1676,8 +1676,8 @@ export default function TaxiScreen() {
                         opacity: over ? 0.3 : 1,
                       }]}
                     >
-                      <Text style={[s.paxNum, { color: active ? colors.primary : colors.textPrimary }]}>{n}</Text>
-                      <Text style={{ fontSize: tipografia.rotulo, color: active ? colors.primary : colors.textSecondary, fontWeight: peso.fuerte }}>
+                      <Text style={[s.paxNum, { color: active ? colors.text.primary : colors.textPrimary }]}>{n}</Text>
+                      <Text style={{ fontSize: tipografia.rotulo, color: active ? colors.text.primary : colors.textSecondary, fontWeight: peso.fuerte }}>
                         {n === 1 ? 'persona' : 'personas'}
                       </Text>
                     </Pressable>
@@ -1704,7 +1704,7 @@ export default function TaxiScreen() {
                       borderColor: active ? brand.secondary : colors.border,
                     }]}
                   >
-                    <Text style={[s.budgetTxt, { color: active ? brand.secondary : colors.textPrimary }]}>
+                    <Text style={[s.budgetTxt, { color: active ? colors.text.secondary : colors.textPrimary }]}>
                       {v.toLocaleString('es')} XAF
                     </Text>
                   </Pressable>
@@ -1712,7 +1712,7 @@ export default function TaxiScreen() {
               })}
             </View>
             {userPrice !== '' && !userPriceOk && (
-              <Text style={{ fontSize: tipografia.micro, color: colors.danger, marginTop: espaciado.e4 }}>
+              <Text style={{ fontSize: tipografia.micro, color: colors.text.danger, marginTop: espaciado.e4 }}>
                 El presupuesto debe estar entre {budgetMin} y {budgetMax.toLocaleString('es')} XAF
               </Text>
             )}
@@ -1724,10 +1724,10 @@ export default function TaxiScreen() {
                 <Text style={{ fontSize: tipografia.nota, color: colors.textSecondary }}>
                   Precio {mode?.label}{isPool ? ` × ${usedPax}` : ''}
                 </Text>
-                <Text style={{ fontSize: tipografia.nota, color: colors.primary, fontWeight: peso.fuerte }}>{distanceKm || '—'} km · {etaMin != null ? `${etaMin} min` : '—'}</Text>
+                <Text style={{ fontSize: tipografia.nota, color: colors.text.primary, fontWeight: peso.fuerte }}>{distanceKm || '—'} km · {etaMin != null ? `${etaMin} min` : '—'}</Text>
               </View>
               <View style={[s.priceBox, { backgroundColor: colors.surface }]}>
-                <Text style={{ fontSize: tipografia.subCabecera, fontWeight: peso.maximo, color: userPriceOk ? brand.secondary : colors.textSecondary }}>
+                <Text style={{ fontSize: tipografia.subCabecera, fontWeight: peso.maximo, color: userPriceOk ? colors.text.secondary : colors.textSecondary }}>
                   {userPriceOk ? `${up.toLocaleString('es')} XAF` : '—'}
                 </Text>
                 <Text style={{ fontSize: tipografia.nota, color: colors.textSecondary }}>Tu presupuesto</Text>
@@ -1754,7 +1754,7 @@ export default function TaxiScreen() {
                     </Text>
                   )}
                   {sv.state === 'settled' && (
-                    <Text onPress={() => setDispOpen(true)} style={{ color: brand.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+                    <Text onPress={() => setDispOpen(true)} style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                       ¿Problemas con el viaje? Disputar (hasta 7 días)
                     </Text>
                   )}
@@ -1774,7 +1774,7 @@ export default function TaxiScreen() {
         {status === 'idle' && (
           <View style={[s.footer, { borderTopColor: colors.border }]}>
             {promoNote && (
-              <Text style={{ textAlign: 'center', fontSize: tipografia.caption, color: colors.success, fontWeight: peso.maximo, marginBottom: espaciado.e6 }}>
+              <Text style={{ textAlign: 'center', fontSize: tipografia.caption, color: colors.text.success, fontWeight: peso.maximo, marginBottom: espaciado.e6 }}>
                 {promoNote}
               </Text>
             )}
@@ -1815,7 +1815,7 @@ export default function TaxiScreen() {
               {cancelBusy ? 'Cancelando el viaje…' : 'Tu conductor será liberado y podrá atender a otros pasajeros.'}
             </Text>
             {cancelBusy ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e18 }} />
+              <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e18 }} />
             ) : (
               <View style={{ gap: espaciado.e8, marginTop: espaciado.e14 }}>
                 {REJECT_REASONS.map((r) => (
@@ -1856,7 +1856,7 @@ export default function TaxiScreen() {
                   accessibilityLabel={`${n} de 5 estrellas`}
                   hitSlop={6}
                 >
-                  <Star size={34} color={n <= ratingScore ? brand.warning : colors.border} fill={n <= ratingScore ? brand.warning : 'transparent'} />
+                  <Star size={34} color={n <= ratingScore ? colors.text.warning : colors.border} fill={n <= ratingScore ? colors.text.warning : 'transparent'} />
                 </Pressable>
               ))}
             </View>
@@ -1940,10 +1940,10 @@ export default function TaxiScreen() {
               autoFocus
             />
             {payErr && (
-              <Text style={{ color: brand.danger, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e8 }}>{payErr}</Text>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e8 }}>{payErr}</Text>
             )}
             {payBusy ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e18 }} />
+              <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e18 }} />
             ) : (
               <View style={{ gap: espaciado.e10, marginTop: espaciado.e14 }}>
                 <PrimaryButton
@@ -1979,7 +1979,7 @@ export default function TaxiScreen() {
               editable={!dispBusy}
             />
             {dispBusy ? (
-              <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e18 }} />
+              <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e18 }} />
             ) : (
               <View style={{ gap: espaciado.e10, marginTop: espaciado.e12 }}>
                 <PrimaryButton title="Enviar disputa" onPress={disputar} disabled={dispReason.trim().length < 10} />
@@ -1990,7 +1990,7 @@ export default function TaxiScreen() {
         </View>
       </Modal>
 
-      {busy && <ActivityIndicator color={colors.primary} style={s.loading} />}
+      {busy && <ActivityIndicator color={colors.text.primary} style={s.loading} />}
     </View>
   );
 }

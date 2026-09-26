@@ -132,7 +132,7 @@ export default function IntercityPlanesScreen() {
         <View style={s.featureRow} key={key}>
           <Text style={s.featureLabel}>{label}</Text>
           <View accessible={false}>
-            {v ? <Check size={16} color={colors.success} strokeWidth={trazoIcono.marcado} /> : <X size={16} color={colors.textSecondary} strokeWidth={trazoIcono.marcado} />}
+            {v ? <Check size={16} color={colors.text.success} strokeWidth={trazoIcono.marcado} /> : <X size={16} color={colors.textSecondary} strokeWidth={trazoIcono.marcado} />}
           </View>
         </View>
       );
@@ -163,17 +163,17 @@ export default function IntercityPlanesScreen() {
 
         {plansError && (
           <View style={{ marginBottom: espaciado.e10, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: radios.chip }}>
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption }}>{plansError}</Text>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.caption }}>{plansError}</Text>
             <Pressable onPress={() => void loadPlans()} accessibilityRole="button" accessibilityLabel="Reintentar cargar planes" hitSlop={6}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar planes</Text>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar planes</Text>
             </Pressable>
           </View>
         )}
         {myPlanError && (
           <View style={{ marginBottom: espaciado.e10, backgroundColor: alpha(colors.danger, 0.06), padding: espaciado.e10, borderRadius: radios.chip }}>
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption }}>{myPlanError}</Text>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.caption }}>{myPlanError}</Text>
             <Pressable onPress={() => void loadMyPlan()} accessibilityRole="button" accessibilityLabel="Reintentar cargar mi plan" hitSlop={6}>
-              <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar mi plan</Text>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>Reintentar mi plan</Text>
             </Pressable>
           </View>
         )}
@@ -211,7 +211,7 @@ export default function IntercityPlanesScreen() {
 
         {plansLoading && ordered.length === 0 && (
           <View style={{ alignItems: 'center', marginVertical: espaciado.e30 }}>
-            <ActivityIndicator color={colors.primary} />
+            <ActivityIndicator color={colors.text.primary} />
             <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e8 }}>Cargando planes…</Text>
           </View>
         )}
@@ -228,7 +228,7 @@ export default function IntercityPlanesScreen() {
             <View key={plan.code} style={[s.planCard, { borderColor: isCurrent ? colors.primary : colors.border }, isCurrent && { backgroundColor: alpha(colors.primary, 0.05) }]}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: espaciado.e14 }}>
                 <View style={{ flex: 1, paddingRight: espaciado.e8 }}>
-                  <Text style={[s.planName, { color: isPro ? colors.secondary : colors.primary }]}>{plan.name}</Text>
+                  <Text style={[s.planName, { color: isPro ? colors.text.secondary : colors.text.primary }]}>{plan.name}</Text>
                   {isCurrent && (
                     <View style={[s.currentBadge, { backgroundColor: isPro ? colors.secondary : colors.primary }]}>
                       <Text style={s.currentBadgeText}>Plan actual</Text>

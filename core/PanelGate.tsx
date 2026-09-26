@@ -94,7 +94,7 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
   if (estado === 'comprobando') {
     return (
       <View style={[styles.centro, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -103,7 +103,7 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
     return (
       <View style={[styles.centro, { backgroundColor: colors.background }]}>
         <View style={[styles.candado, { backgroundColor: alpha(colors.primary, 0.1) }]}>
-          <Lock size={26} color={colors.primary} />
+          <Lock size={26} color={colors.text.primary} />
         </View>
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, marginTop: espaciado.e14 }}>
           Gestión de tu negocio
@@ -116,7 +116,7 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
           para entrar.
         </Text>
         {fallo ? (
-          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>
+          <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>
             {fallo}
           </Text>
         ) : null}
@@ -140,7 +140,7 @@ export function PanelGate({ children }: { children: React.ReactNode }) {
           borderBottomColor: alpha(colors.secondary, 0.3),
           paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7,
         }}>
-          <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
+          <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
             Este móvil no tiene huella ni PIN configurados: la gestión entra sin cerradura.
           </Text>
         </View>

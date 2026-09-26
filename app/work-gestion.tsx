@@ -122,7 +122,7 @@ function Contenido() {
   if (cargando) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -165,7 +165,7 @@ function Contenido() {
           {pendientes.length ? (
             <View style={{ marginTop: espaciado.e18 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e8 }}>
-                <TriangleAlert size={16} color={colors.secondary} />
+                <TriangleAlert size={16} color={colors.text.secondary} />
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo, marginLeft: espaciado.e7 }}>
                   Te falta por completar ({pendientes.length})
                 </Text>
@@ -198,7 +198,7 @@ function Contenido() {
           </Text>
 
           <Fila
-            icono={<Briefcase size={18} color={colors.primary} />}
+            icono={<Briefcase size={18} color={colors.text.primary} />}
             titulo="Mis ofertas y publicar"
             detalle={ofertas.length
               ? `${ofertas.length} oferta(s) · crear, editar, cerrar y duplicar`
@@ -206,7 +206,7 @@ function Contenido() {
             onPress={() => router.push('/work-publish' as never)}
           />
           <Fila
-            icono={<Users size={18} color={colors.primary} />}
+            icono={<Users size={18} color={colors.text.primary} />}
             titulo="Candidaturas"
             detalle={totalCandidaturas
               ? `${totalCandidaturas} en total · contéstalas en «Hoy»`
@@ -214,7 +214,7 @@ function Contenido() {
             onPress={() => router.push('/work-panel' as never)}
           />
           <Fila
-            icono={<CreditCard size={18} color={colors.primary} />}
+            icono={<CreditCard size={18} color={colors.text.primary} />}
             titulo="Plan y precios"
             detalle={plan
               ? `${plan.planName} · ${plan.offerLimit} oferta(s) y destacados`
@@ -222,7 +222,7 @@ function Contenido() {
             onPress={() => router.push('/work-planes' as never)}
           />
           <Fila
-            icono={<Plus size={18} color={colors.primary} />}
+            icono={<Plus size={18} color={colors.text.primary} />}
             titulo="Publicar una oferta nueva"
             detalle="Aparece en Buscar Work al enviarla"
             onPress={() => router.push('/work-publish' as never)}

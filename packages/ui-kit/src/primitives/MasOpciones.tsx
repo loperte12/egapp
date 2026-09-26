@@ -58,7 +58,7 @@ export function MasOpciones({ abrir, cerrar, abiertoInicial = false, children }:
         accessibilityLabel={abierto ? cerrar : abrir}
         style={styles.enlace}
       >
-        <Text style={[styles.texto, { color: colors.primary }]}>
+        <Text style={[styles.texto, { color: colors.text.primary }]}>
           {abierto ? cerrar : `${abrir} ›`}
         </Text>
       </Tactil>

@@ -352,7 +352,7 @@ function MediaComposeContent() {
         <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: espaciado.e16, paddingBottom: insets.bottom + 30 }}>
           {error ? (
             <View style={[styles.errorBox, { backgroundColor: alpha(colors.danger, 0.09), borderColor: alpha(colors.danger, 0.4) }]}>
-              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{error}</Text>
             </View>
           ) : null}
 
@@ -416,7 +416,7 @@ function MediaComposeContent() {
                       {fmtDur(file.durSec)}{pesoSubida ? ` · ${lbPeso(pesoSubida)}` : ''} · listo para publicar
                     </Text>
                     {!busy && (
-                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e2 }}>Toca para cambiar</Text>
+                      <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e2 }}>Toca para cambiar</Text>
                     )}
                   </View>
                 ) : (
@@ -443,13 +443,13 @@ function MediaComposeContent() {
               )}
 
               {esVideo && file && file.durSec > perfil.maxSec && (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>
+                <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>
                   ⚠️ El vídeo dura {fmtDur(file.durSec)} y {perfil.label.toLowerCase()} llega a {fmtDur(perfil.maxSec)}.
                   {perfilId === 'short' ? ' Cámbialo a vídeo largo.' : ''}
                 </Text>
               )}
               {esVideo && file && file.durSec <= perfil.maxSec && file.sizeBytes > perfil.maxMb * 1024 * 1024 && (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>
+                <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>
                   ⚠️ Pesa {lbPeso(file.sizeBytes)} y el máximo es {perfil.maxMb} MB.
                 </Text>
               )}
@@ -487,8 +487,8 @@ function MediaComposeContent() {
                   </View>
                 ) : null}
                 <Pressable onPress={pickCover} style={[styles.coverAdd, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-                  <ImagePlus size={22} color={colors.primary} />
-                  <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{cover ? 'Cambiar' : 'Añadir portada'}</Text>
+                  <ImagePlus size={22} color={colors.text.primary} />
+                  <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{cover ? 'Cambiar' : 'Añadir portada'}</Text>
                 </Pressable>
                 {/* B2: portada desde un fotograma del vídeo. Solo con vídeo ya elegido y
                     solo en 'video': 'serie' no tiene archivo todavía y 'podcast' es audio,
@@ -500,8 +500,8 @@ function MediaComposeContent() {
                     accessibilityLabel="Elegir la portada desde un fotograma del vídeo"
                     style={[styles.coverAdd, { backgroundColor: colors.surface, borderColor: colors.border }]}
                   >
-                    <Video size={22} color={colors.primary} />
-                    <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Del vídeo</Text>
+                    <Video size={22} color={colors.text.primary} />
+                    <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Del vídeo</Text>
                   </Pressable>
                 ) : null}
               </View>
@@ -544,7 +544,7 @@ function MediaComposeContent() {
                   const on = city === c;
                   return (
                     <Pressable key={c} onPress={() => setCity(c)} style={[styles.chip, { backgroundColor: on ? alpha(colors.primary, 0.14) : colors.surface, borderColor: on ? alpha(colors.primary, 0.55) : colors.border }]}>
-                      <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{c}</Text>
+                      <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{c}</Text>
                     </Pressable>
                   );
                 })}
@@ -568,8 +568,8 @@ function MediaComposeContent() {
                   borderColor: productos.length ? alpha(colors.primary, 0.55) : colors.border,
                 }}
               >
-                <ShoppingBag size={14} color={productos.length ? colors.primary : colors.textSecondary} />
-                <Text style={{ color: productos.length ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+                <ShoppingBag size={14} color={productos.length ? colors.text.primary : colors.textSecondary} />
+                <Text style={{ color: productos.length ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                   {productos.length
                     ? `${productos.length} producto${productos.length === 1 ? '' : 's'} en este vídeo`
                     : 'Enseñar un producto en el vídeo (opcional)'}

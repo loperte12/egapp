@@ -162,10 +162,10 @@ export default function FoodScreen() {
         accion={
           <>
             <Tactil onPress={() => router.push('/food-rider' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Ser repartidor">
-              <Bike size={20} color={colors.primary} />
+              <Bike size={20} color={colors.text.primary} />
             </Tactil>
             <Tactil onPress={() => router.push('/food-owner' as any)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Mi restaurante">
-              <Utensils size={20} color={colors.primary} />
+              <Utensils size={20} color={colors.text.primary} />
             </Tactil>
           </>
         }
@@ -248,10 +248,10 @@ export default function FoodScreen() {
         }
         ListFooterComponent={
           loadingMore ? (
-            <View style={s.footerNote}><ActivityIndicator size="small" color={colors.primary} /></View>
+            <View style={s.footerNote}><ActivityIndicator size="small" color={colors.text.primary} /></View>
           ) : loadMoreError ? (
             <Pressable onPress={loadMore} style={s.footerNote} accessibilityRole="button">
-              <Text style={[s.footerText, { color: colors.primary }]}>No se pudieron cargar más restaurantes · Reintentar</Text>
+              <Text style={[s.footerText, { color: colors.text.primary }]}>No se pudieron cargar más restaurantes · Reintentar</Text>
             </Pressable>
           ) : showEndNote ? (
             <View style={s.footerNote}><Text style={[s.footerText, { color: colors.textSecondary }]}>Ya están todos · fin de resultados</Text></View>
@@ -310,7 +310,7 @@ function RestaurantCard({ item, onPress }: { item: FoodRestaurant; onPress: () =
         <View style={s_card.titleRow}>
           <Text numberOfLines={1} style={[s_card.name, { color: colors.textPrimary }]}>{item.businessName}</Text>
           {showRating && (
-            <Text style={[s_card.rating, { color: colors.secondary }]}>★ {item.ratingAvg.toFixed(1)}</Text>
+            <Text style={[s_card.rating, { color: colors.text.secondary }]}>★ {item.ratingAvg.toFixed(1)}</Text>
           )}
         </View>
         {/* Fila badges estilo Meituan: estado + cocina */}
@@ -318,14 +318,14 @@ function RestaurantCard({ item, onPress }: { item: FoodRestaurant; onPress: () =
           {item.isOpen !== null && (
             <View style={[s_card.chip, { backgroundColor: item.isOpen ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.1)' }]}>
               <View style={[s_card.dot, { backgroundColor: item.isOpen ? brand.success : brand.danger }]} />
-              <Text style={[s_card.chipText, { color: item.isOpen ? brand.success : brand.danger }]}>
+              <Text style={[s_card.chipText, { color: item.isOpen ? colors.text.success : colors.text.danger }]}>
                 {item.isOpen ? 'Abierto' : 'Cerrado'}
               </Text>
             </View>
           )}
           {item.cuisineLabel && (
             <View style={[s_card.chip, { backgroundColor: alpha(colors.secondary, 0.1) }]}>
-              <Text style={[s_card.chipText, { color: colors.secondary }]} numberOfLines={1}>{item.cuisineLabel}</Text>
+              <Text style={[s_card.chipText, { color: colors.text.secondary }]} numberOfLines={1}>{item.cuisineLabel}</Text>
             </View>
           )}
         </View>
@@ -334,7 +334,7 @@ function RestaurantCard({ item, onPress }: { item: FoodRestaurant; onPress: () =
           📍 {item.city}{item.address ? ` · ${item.address}` : ''}
         </Text>
         <View style={s_card.metaRow}>
-          <Text numberOfLines={1} style={[s_card.meta, { color: brand.secondary }]}>
+          <Text numberOfLines={1} style={[s_card.meta, { color: colors.text.secondary }]}>
             {km > 0 ? `🛵 Reparto hasta ${km} km` : (item.hours ? `🕐 ${item.hours}` : 'Pide y recoge')}
           </Text>
           {showRating && (

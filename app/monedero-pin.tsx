@@ -14,7 +14,6 @@ import { ArrowLeft, KeyRound } from 'lucide-react-native';
 import { espaciado, InlineError, PrimaryButton, tipografia, useTheme, peso, trazo, radios} from '@egrouteplan/ui-kit';
 import { AuthGate } from '../core/AuthGate';
 import { fijarPin } from '../api/settlement';
-import { brand } from '@egrouteplan/ui-kit';
 import { ir } from '../constants/rutas';
 
 export default function MonederoPinScreen() {
@@ -65,7 +64,7 @@ function Contenido() {
       {ok ? (
         <View style={styles.doneWrap}>
           <View style={[styles.okIcon, { backgroundColor: colors.surface }]}>
-            <KeyRound size={26} color={colors.primary} />
+            <KeyRound size={26} color={colors.text.primary} />
           </View>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo, textAlign: 'center' }}>
             PIN guardado
@@ -115,7 +114,7 @@ function Contenido() {
           {err ? <View style={{ marginTop: espaciado.e10 }}><InlineError mensaje={err} /></View> : null}
           <View style={{ marginTop: espaciado.e24 }}>
             {busy
-              ? <ActivityIndicator color={colors.primary} />
+              ? <ActivityIndicator color={colors.text.primary} />
               : <PrimaryButton title="Guardar PIN" onPress={() => void guardar()} disabled={!listo} />}
           </View>
         </ScrollView>

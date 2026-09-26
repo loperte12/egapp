@@ -986,7 +986,7 @@ function ChatThreadContent() {
               <Image source={{ uri: peer.avatarUrl }} style={styles.headAvatar} />
             ) : (
               <View style={[styles.headAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>
+                <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.cuerpo }}>
                   {(peer?.name ?? peerName).trim().charAt(0).toUpperCase() || '?'}
                 </Text>
               </View>
@@ -1033,7 +1033,7 @@ function ChatThreadContent() {
         {live.length > 0 ? (
           <View style={[styles.liveBar, { backgroundColor: alpha(colors.secondary, 0.10), borderColor: alpha(colors.secondary, 0.28) }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 }}>
-              <Radio size={14} color={colors.secondary} />
+              <Radio size={14} color={colors.text.secondary} />
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                 {miLive ? 'Estás compartiendo tu ubicación' : 'Ubicación en vivo'}
               </Text>
@@ -1056,7 +1056,7 @@ function ChatThreadContent() {
             {miLive ? (
               <Pressable onPress={pararEnVivo} accessibilityLabel="Dejar de compartir mi ubicación"
                 style={[styles.liveStop, { backgroundColor: alpha(colors.danger, 0.12) }]}>
-                <Text style={{ color: colors.danger, fontWeight: peso.titulo, fontSize: tipografia.caption }}>Detener</Text>
+                <Text style={{ color: colors.text.danger, fontWeight: peso.titulo, fontSize: tipografia.caption }}>Detener</Text>
               </Pressable>
             ) : null}
           </View>
@@ -1114,8 +1114,8 @@ function ChatThreadContent() {
             olderCursor ? (
               <Pressable onPress={loadOlder} style={{ alignItems: 'center', paddingVertical: espaciado.e10 }}>
                 {loadingOlder
-                  ? <ActivityIndicator size="small" color={colors.primary} />
-                  : <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Mensajes anteriores</Text>}
+                  ? <ActivityIndicator size="small" color={colors.text.primary} />
+                  : <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Mensajes anteriores</Text>}
               </Pressable>
             ) : null
           }
@@ -1215,7 +1215,7 @@ function ChatThreadContent() {
           </Text>
 
           {misProds === null ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e26 }} />
+            <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e26 }} />
           ) : misProds.length === 0 ? (
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingVertical: espaciado.e22 }}>
               No tienes productos activos. Publica uno en tu tienda y podrás mandarlo por aquí.
@@ -1237,7 +1237,7 @@ function ChatThreadContent() {
                     <ExpoImage source={absUrl(p.coverUrl)} style={{ width: 44, height: 44, borderRadius: radios.chip }} contentFit="cover" transition={0} />
                   ) : (
                     <View style={{ width: 44, height: 44, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.08) }}>
-                      <ShoppingBag size={18} color={alpha(colors.primary, 0.6)} />
+                      <ShoppingBag size={18} color={alpha(colors.text.primary, 0.6)} />
                     </View>
                   )}
                   <View style={{ flex: 1 }}>
@@ -1246,7 +1246,7 @@ function ChatThreadContent() {
                       {p.priceXaf === null ? 'Precio a consultar' : `${p.priceXaf} XAF`}
                     </Text>
                   </View>
-                  {enviandoProd === p.id ? <ActivityIndicator size="small" color={colors.primary} /> : null}
+                  {enviandoProd === p.id ? <ActivityIndicator size="small" color={colors.text.primary} /> : null}
                 </Pressable>
               ))}
             </ScrollView>
@@ -1336,7 +1336,7 @@ function ChatThreadContent() {
             </Pressable>
           </View>
           {myPosts === null ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
+            <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e20 }} />
           ) : myPosts.length === 0 ? (
             <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e20, fontSize: tipografia.body }}>
               No tienes publicaciones de ese tipo.
@@ -1363,7 +1363,7 @@ function ChatThreadContent() {
                       <Text numberOfLines={2} style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.medio }}>
                         {post.title?.trim() || post.body?.trim() || 'Publicación'}
                       </Text>
-                      {price ? <Precio valor={price} tamano="sm" color={colors.primary} style={{ marginTop: espaciado.e2 }} /> : null}
+                      {price ? <Precio valor={price} tamano="sm" color={colors.text.primary} style={{ marginTop: espaciado.e2 }} /> : null}
                     </View>
                   </Pressable>
                 );
@@ -1479,7 +1479,7 @@ function ChatThreadContent() {
             <Pressable onPress={() => setForwardMsg(null)} hitSlop={10} accessibilityLabel="Cerrar"><X size={20} color={colors.textSecondary} /></Pressable>
           </View>
           {busyAction === 'forward' ? (
-            <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e20 }} />
+            <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e20 }} />
           ) : convs.length === 0 ? (
             <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingVertical: espaciado.e20, fontSize: tipografia.body }}>
               No tienes otros chats todavía.
@@ -1497,7 +1497,7 @@ function ChatThreadContent() {
                     <Image source={{ uri: (c.kind === 'group' ? c.photoUrl : c.peer.avatarUrl) as string }} style={styles.headAvatar} />
                   ) : (
                     <View style={[styles.headAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                      <Text style={{ color: colors.primary, fontWeight: peso.titulo }}>
+                      <Text style={{ color: colors.text.primary, fontWeight: peso.titulo }}>
                         {((c.kind === 'group' ? c.title : c.peer.name) ?? '?').trim().charAt(0).toUpperCase()}
                       </Text>
                     </View>
@@ -1508,7 +1508,7 @@ function ChatThreadContent() {
                     </Text>
                     <Text numberOfLines={1} style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>{c.lastMessage}</Text>
                   </View>
-                  <Text style={{ color: colors.primary, fontSize: tipografia.title }}>›</Text>
+                  <Text style={{ color: colors.text.primary, fontSize: tipografia.title }}>›</Text>
                 </Pressable>
               ))}
             </ScrollView>
@@ -1539,7 +1539,7 @@ function MenuRow({ icon, label, onPress, colors, danger }: {
       style={({ pressed }) => [styles.menuRow, { backgroundColor: pressed ? alpha(danger ? colors.danger : colors.primary, 0.06) : 'transparent' }]}
     >
       <Text style={{ fontSize: tipografia.subtitle }}>{icon}</Text>
-      <Text style={{ color: danger ? colors.danger : colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte }}>{label}</Text>
+      <Text style={{ color: danger ? colors.text.danger : colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.fuerte }}>{label}</Text>
     </Pressable>
   );
 }
@@ -1588,7 +1588,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
         <Image source={{ uri: absUrl(msg.author.avatarUrl) }} style={styles.msgAvatar} />
       ) : (
         <View style={[styles.msgAvatar, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-          <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.micro }}>
+          <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.micro }}>
             {(msg.author?.name ?? '?').trim().charAt(0).toUpperCase() || '?'}
           </Text>
         </View>
@@ -1635,7 +1635,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
   if (msg.kind === 'file' && msg.fileRef) {
     return wrap(
       <View style={[styles.cardBubble, { backgroundColor: colors.card }]}>
-        <FileText size={20} color={colors.primary} />
+        <FileText size={20} color={colors.text.primary} />
         <View style={{ marginLeft: espaciado.e8, flex: 1 }}>
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.medio }} numberOfLines={1}>{msg.fileRef.name}</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro }}>{msg.fileRef.sizeLabel || 'archivo'}</Text>
@@ -1661,7 +1661,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           <ExpoImage source={absUrl(pr.coverUrl)} style={styles.postCover} contentFit="cover" cachePolicy="memory-disk" transition={0} />
         ) : (
           <View style={[styles.postCover, { alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.08) }]}>
-            <ShoppingCart size={22} color={alpha(colors.primary, 0.5)} />
+            <ShoppingCart size={22} color={alpha(colors.text.primary, 0.5)} />
           </View>
         )}
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e6 }} numberOfLines={2}>
@@ -1681,12 +1681,12 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           </Text>
         ) : null}
         {pr.priceXaf !== null && pr.priceXaf !== undefined ? (
-          <Precio valor={pr.priceXaf} tamano="md" color={colors.primary} style={{ marginTop: espaciado.e2 }} />
+          <Precio valor={pr.priceXaf} tamano="md" color={colors.text.primary} style={{ marginTop: espaciado.e2 }} />
         ) : (
           <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>Precio a consultar</Text>
         )}
         {pr.available === false ? (
-          <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.micro, marginTop: espaciado.e4 }}>
+          <Text style={{ color: colors.text.danger, fontWeight: peso.maximo, fontSize: tipografia.micro, marginTop: espaciado.e4 }}>
             Ya no está a la venta
           </Text>
         ) : (
@@ -1723,7 +1723,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           {msg.kind === 'sale' ? '🏷️ ' : ''}{msg.postRef.title}
         </Text>
         {msg.postRef.priceXaf !== undefined ? (
-          <Precio valor={msg.postRef.priceXaf} tamano="sm" color={colors.primary} style={{ marginTop: espaciado.e2 }} />
+          <Precio valor={msg.postRef.priceXaf} tamano="sm" color={colors.text.primary} style={{ marginTop: espaciado.e2 }} />
         ) : null}
       </View>,
     );
@@ -1770,7 +1770,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
                 {n > 0 ? (
                   <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte }}>{n} · {pct}%</Text>
                 ) : null}
-                {myPick ? <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>✓</Text> : null}
+                {myPick ? <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.titulo }}>✓</Text> : null}
               </View>
             </Pressable>
           );
@@ -1823,7 +1823,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
             opacity: pressed ? 0.85 : 1,
           }]}
         >
-          <Text style={{ color: cr.joinedByMe ? colors.primary : (llena ? colors.textSecondary : brand.white), fontWeight: peso.titulo, fontSize: tipografia.body }}>
+          <Text style={{ color: cr.joinedByMe ? colors.text.primary : (llena ? colors.textSecondary : brand.white), fontWeight: peso.titulo, fontSize: tipografia.body }}>
             {cr.joinedByMe ? '✓ Apuntado · darme de baja' : llena ? 'Cadena completa' : 'Apuntarme'}
           </Text>
         </Pressable>
@@ -1849,7 +1849,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: espaciado.e2 }} numberOfLines={2}>
             📍 {msg.locationRef?.label ?? 'Sitio'}
           </Text>
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e2 }}>
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e2 }}>
             🕒 {kr.when || new Date(kr.at ?? Date.now()).toLocaleString('es-GQ', { weekday: 'short', hour: '2-digit', minute: '2-digit' })}
           </Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e4 }}>
@@ -1866,7 +1866,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
               opacity: pressed ? 0.85 : 1,
             }]}
           >
-            <Text style={{ color: kr.goingByMe ? colors.primary : brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>
+            <Text style={{ color: kr.goingByMe ? colors.text.primary : brand.white, fontWeight: peso.titulo, fontSize: tipografia.body }}>
               {kr.goingByMe ? '✓ Voy · no iré' : 'Voy'}
             </Text>
           </Pressable>
@@ -1879,7 +1879,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
                 opacity: pressed ? 0.85 : 1,
               }]}
             >
-              <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>🚕</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>🚕</Text>
             </Pressable>
           ) : null}
         </View>
@@ -1901,7 +1901,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
       <View style={[styles.cardBubble, { backgroundColor: colors.card, flexDirection: 'column', alignItems: 'stretch', width: 210 }]}>
         <Pressable onPress={onOpenLocation} accessibilityLabel={`Ver ${msg.locationRef.label} en el mapa`}>
           <View style={[styles.locPreview, { backgroundColor: alpha(colors.primary, 0.08) }]}>
-            <MapPin size={22} color={colors.primary} />
+            <MapPin size={22} color={colors.text.primary} />
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e4, fontWeight: peso.fuerte }}>
               {hasCoords ? 'Toca para ver el mapa' : 'Sin coordenadas'}
             </Text>
@@ -1923,7 +1923,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
               backgroundColor: alpha(colors.primary, 0.12), opacity: pressed ? 0.85 : 1,
             }]}
           >
-            <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>🚕  Pedir taxi hasta aquí</Text>
+            <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>🚕  Pedir taxi hasta aquí</Text>
           </Pressable>
         ) : null}
       </View>,
@@ -1960,7 +1960,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
             accessibilityLabel="Abrir el servicio del anuncio"
             style={({ pressed }) => [styles.joinBtn, { backgroundColor: alpha(colors.primary, 0.12), opacity: pressed ? 0.85 : 1 }]}
           >
-            <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>
+            <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.caption }}>
               {ar.link?.type === 'lifebook' ? 'Ver el perfil ›' : 'Ver el servicio ›'}
             </Text>
           </Pressable>

@@ -115,7 +115,7 @@ export default function StepExtras({ categories }: { categories: LbCategory[] })
             accessibilityLabel="Añadir detalle"
             style={[styles.addBtn, { borderColor: colors.primary }]}
           >
-            <Plus size={17} color={colors.primary} />
+            <Plus size={17} color={colors.text.primary} />
           </Pressable>
         </View>
       </StepBlock>

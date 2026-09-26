@@ -112,20 +112,20 @@ export default function EcomerseTiendasScreen() {
               style={[s.miTienda, { backgroundColor: alpha(colors.primary, 0.08), borderColor: alpha(colors.primary, 0.25) }]}
             >
               <View style={[s.iconoMiTienda, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                <Store size={20} color={colors.primary} />
+                <Store size={20} color={colors.text.primary} />
               </View>
               <View style={{ flex: 1, marginLeft: espaciado.e12 }}>
                 <Text style={[s.miTiendaTitulo, { color: colors.textPrimary }]}>Mi tienda</Text>
                 <Text style={[s.miTiendaSub, { color: colors.textSecondary }]}>Publica y gestiona tus anuncios</Text>
               </View>
-              <ChevronRight size={18} color={colors.primary} />
+              <ChevronRight size={18} color={colors.text.primary} />
             </Pressable>
           </View>
         }
         ListEmptyComponent={
           loading ? (
             <View style={{ alignItems: 'center', paddingTop: 48 }}>
-              <ActivityIndicator color={colors.primary} />
+              <ActivityIndicator color={colors.text.primary} />
               <Text style={[s.miTiendaSub, { color: colors.textSecondary, marginTop: espaciado.e10 }]}>Cargando tiendas…</Text>
             </View>
           ) : error ? (

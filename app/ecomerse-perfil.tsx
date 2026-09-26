@@ -305,7 +305,7 @@ export default function EcomersePerfilScreen() {
                 accessibilityRole="button"
                 accessibilityLabel="Reintentar la carga del perfil"
               >
-                <Text style={[styles.sub, { color: colors.primary }]} numberOfLines={1}>
+                <Text style={[styles.sub, { color: colors.text.primary }]} numberOfLines={1}>
                   No se pudo cargar. Toca para reintentar
                 </Text>
               </Pressable>
@@ -315,7 +315,7 @@ export default function EcomersePerfilScreen() {
               </Text>
             )}
           </View>
-          {cargando && <ActivityIndicator size="small" color={colors.primary} />}
+          {cargando && <ActivityIndicator size="small" color={colors.text.primary} />}
           {!isAuthenticated && (
             <Pressable
               onPress={() => router.push('/auth' as never)}
@@ -343,8 +343,8 @@ export default function EcomersePerfilScreen() {
               accessibilityLabel="Ver todos los pedidos"
               style={({ pressed }) => [styles.verTodos, { opacity: pressed ? 0.6 : 1 }]}
             >
-              <Text style={[styles.verTodosTexto, { color: colors.primary }]}>Ver todos</Text>
-              <ChevronRight size={icono.sm} color={colors.primary} />
+              <Text style={[styles.verTodosTexto, { color: colors.text.primary }]}>Ver todos</Text>
+              <ChevronRight size={icono.sm} color={colors.text.primary} />
             </Pressable>
           </View>
 
@@ -417,7 +417,7 @@ function Bloque({
         const contenido = (
           <>
             <View style={[styles.filaIcono, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-              <Icono size={icono.sm} color={vivo ? colors.primary : colors.textSecondary} />
+              <Icono size={icono.sm} color={vivo ? colors.text.primary : colors.textSecondary} />
             </View>
             <View style={styles.filaTexto}>
               <Text style={[styles.filaTitulo, { color: colors.textPrimary }]}>{a.titulo}</Text>

@@ -172,8 +172,8 @@ function GroupsContent() {
         {/* Parte 28 (G4): entrar con el código que te hayan pasado */}
         <Pressable onPress={() => { setCodeOpen(true); setCodeError(null); }} hitSlop={8} accessibilityLabel="Tengo un código de ruta"
           style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, backgroundColor: alpha(colors.primary, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 }}>
-          <QrCode size={14} color={colors.primary} />
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Código</Text>
+          <QrCode size={14} color={colors.text.primary} />
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Código</Text>
         </Pressable>
       </View>
 
@@ -211,7 +211,7 @@ function GroupsContent() {
               accessibilityLabel={`Ciudad ${item.label}`}
               style={[styles.chip, { backgroundColor: active ? alpha(colors.primary, 0.14) : colors.surface, borderColor: active ? colors.primary : 'transparent' }]}
             >
-              <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{item.label}</Text>
+              <Text style={{ color: active ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{item.label}</Text>
             </Pressable>
           );
         }}
@@ -231,7 +231,7 @@ function GroupsContent() {
               accessibilityLabel={`Categoría ${item.label}`}
               style={[styles.chip, { backgroundColor: active ? alpha(colors.secondary, 0.14) : colors.surface, borderColor: active ? colors.secondary : 'transparent' }]}
             >
-              <Text style={{ color: active ? colors.secondary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{item.label}</Text>
+              <Text style={{ color: active ? colors.text.secondary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{item.label}</Text>
             </Pressable>
           );
         }}
@@ -239,7 +239,7 @@ function GroupsContent() {
 
       {/* Lista */}
       {loading ? (
-        <ActivityIndicator color={colors.primary} style={{ marginTop: 40 }} />
+        <ActivityIndicator color={colors.text.primary} style={{ marginTop: 40 }} />
       ) : (
         <FlatList
           data={groups}
@@ -262,7 +262,7 @@ function GroupsContent() {
               </View>
             ) : null
           }
-          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.primary} style={{ marginVertical: espaciado.e12 }} /> : null}
+          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e12 }} /> : null}
           renderItem={({ item }) => (
             <Pressable
               onPress={() => abrirFicha(item.id)}
@@ -273,7 +273,7 @@ function GroupsContent() {
                 <Image source={{ uri: absUrl(item.photoUrl) }} style={styles.groupPhoto} />
               ) : (
                 <View style={[styles.groupPhoto, styles.center, { backgroundColor: alpha(colors.primary, 0.15) }]}>
-                  <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.cabecera }}>
+                  <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.cabecera }}>
                     {(item.title || '?').trim().charAt(0).toUpperCase()}
                   </Text>
                 </View>
@@ -293,20 +293,20 @@ function GroupsContent() {
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e6 }}>
                   {item.myRole ? (
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
-                      <Check size={12} color={colors.primary} />
-                      <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+                      <Check size={12} color={colors.text.primary} />
+                      <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
                         {item.myRole === 'owner' ? 'Eres el organizador' : 'Ya estás dentro'}
                       </Text>
                     </View>
                   ) : item.requestState === 'pending' ? (
-                    <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Solicitud enviada</Text>
+                    <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Solicitud enviada</Text>
                   ) : (
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 }}>
                       {item.joinMode === 'open'
-                        ? <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Entrada libre</Text>
+                        ? <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Entrada libre</Text>
                         : item.joinMode === 'approval'
-                          ? <><Lock size={12} color={colors.secondary} /><Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Pide entrar</Text></>
-                          : <><ShieldQuestion size={12} color={colors.secondary} /><Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Responde para entrar</Text></>}
+                          ? <><Lock size={12} color={colors.text.secondary} /><Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Pide entrar</Text></>
+                          : <><ShieldQuestion size={12} color={colors.text.secondary} /><Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Responde para entrar</Text></>}
                     </View>
                   )}
                 </View>
@@ -336,7 +336,7 @@ function GroupsContent() {
         <Pressable style={[styles.backdrop, { backgroundColor: colors.overlay }]} onPress={() => setCodeOpen(false)} />
         <View style={[styles.sheet, { backgroundColor: colors.card, paddingBottom: insets.bottom + 16 }]}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: espaciado.e10 }}>
-            <QrCode size={18} color={colors.primary} />
+            <QrCode size={18} color={colors.text.primary} />
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.subCabecera, fontWeight: peso.titulo, flex: 1, marginLeft: espaciado.e8 }}>
               Tengo un código de ruta
             </Text>
@@ -357,7 +357,7 @@ function GroupsContent() {
             accessibilityLabel="Código del grupo"
             style={[styles.codeInput, { backgroundColor: colors.surface, color: colors.textPrimary }]}
           />
-          {codeError ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>{codeError}</Text> : null}
+          {codeError ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>{codeError}</Text> : null}
           <Pressable onPress={abrirPorCodigo} disabled={codeBusy} accessibilityLabel="Abrir el grupo con ese código"
             style={[styles.cta, { backgroundColor: colors.primary }]}>
             {codeBusy ? <ActivityIndicator size="small" color={brand.white} /> : (

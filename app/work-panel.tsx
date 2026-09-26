@@ -136,7 +136,7 @@ function Contenido() {
   if (cargando) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -176,7 +176,7 @@ function Contenido() {
             style={[styles.puente, { borderColor: colors.border, backgroundColor: colors.card }]}
           >
             <View style={[styles.puenteIcono, { backgroundColor: alpha(colors.primary, 0.12) }]}>
-              <Settings size={17} color={colors.primary} />
+              <Settings size={17} color={colors.text.primary} />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Gestión</Text>
@@ -295,7 +295,7 @@ function Contenido() {
                       {dias !== null && dias >= 0 ? `vence en ${dias} día(s)` : 'vencida'}
                     </Text>
                   </View>
-                  <ChevronRight size={18} color={colors.secondary} />
+                  <ChevronRight size={18} color={colors.text.secondary} />
                 </Pressable>
               ))}
             </>

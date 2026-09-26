@@ -272,7 +272,7 @@ function OrderContent() {
   if (error && !order) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e12 }]}>
-        <AlertCircle size={34} color={colors.danger} />
+        <AlertCircle size={34} color={colors.text.danger} />
         <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, textAlign: 'center' }}>{error}</Text>
         <GhostButton title="Volver" onPress={() => router.back()} />
       </View>
@@ -281,7 +281,7 @@ function OrderContent() {
   if (!order) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -323,10 +323,10 @@ function OrderContent() {
       <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e24 }}>
         {/* Cabecera según el ESTADO (no siempre «éxito») */}
         <View style={{ alignItems: 'center', paddingVertical: espaciado.e6, gap: espaciado.e6 }}>
-          {cancelado ? <AlertCircle size={40} color={colors.danger} />
-            : enDisputa ? <AlertCircle size={40} color={colors.secondary} />
-              : order.status === 'delivered' ? <CheckCircle2 size={40} color={colors.success} />
-                : <Truck size={40} color={colors.primary} />}
+          {cancelado ? <AlertCircle size={40} color={colors.text.danger} />
+            : enDisputa ? <AlertCircle size={40} color={colors.text.secondary} />
+              : order.status === 'delivered' ? <CheckCircle2 size={40} color={colors.text.success} />
+                : <Truck size={40} color={colors.text.primary} />}
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>
             {cancelado ? 'Pedido cancelado' : enDisputa ? 'Pedido en reclamación'
               : order.status === 'delivered' ? 'Pedido entregado' : 'Tu pedido está en marcha'}
@@ -361,7 +361,7 @@ function OrderContent() {
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, textAlign: 'center' }}>
               Lee este código a quien te entregue y paga en efectivo:
             </Text>
-            <Text style={{ color: colors.primary, fontSize: tipografia.heroGrande, fontWeight: peso.titulo, letterSpacing: 8 }}>{order.deliveryCode}</Text>
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.heroGrande, fontWeight: peso.titulo, letterSpacing: 8 }}>{order.deliveryCode}</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, textAlign: 'center' }}>
               La tienda lo confirma y el pedido queda entregado y cobrado.
             </Text>
@@ -397,7 +397,7 @@ function OrderContent() {
                 <Image source={absUrl(it.mediaUrl)} style={styles.thumb} contentFit="cover" cachePolicy="memory-disk" transition={0} />
               ) : (
                 <View style={[styles.thumb, { backgroundColor: alpha(colors.primary, 0.1), alignItems: 'center', justifyContent: 'center' }]}>
-                  <Package size={18} color={alpha(colors.primary, 0.6)} />
+                  <Package size={18} color={alpha(colors.text.primary, 0.6)} />
                 </View>
               )}
               <View style={{ flex: 1 }}>
@@ -432,7 +432,7 @@ function OrderContent() {
             accessibilityRole="button"
             accessibilityLabel="Ver el justificante del cobro"
           >
-            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>Ver el justificante</Text>
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }}>Ver el justificante</Text>
           </Pressable>
         ) : null}
 
@@ -451,7 +451,7 @@ function OrderContent() {
           <View style={{ marginTop: espaciado.e8 }}>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
               {esComprador ? 'Tu valoración' : 'Valoración del comprador'}:{' '}
-              <Text style={{ color: brand.warning, fontSize: tipografia.body }}>
+              <Text style={{ color: colors.text.warning, fontSize: tipografia.body }}>
                 {'★'.repeat(order.review.rating)}{'☆'.repeat(5 - order.review.rating)}
               </Text>
             </Text>
@@ -633,7 +633,7 @@ function OrderContent() {
                   accessibilityLabel={`Valorar con ${n} de 5`}
                   style={styles.estrella}
                 >
-                  <Text style={{ fontSize: tipografia.hero, color: n <= estrellas ? brand.warning : colors.textSecondary }}>
+                  <Text style={{ fontSize: tipografia.hero, color: n <= estrellas ? colors.text.warning : colors.textSecondary }}>
                     {n <= estrellas ? '★' : '☆'}
                   </Text>
                 </Pressable>

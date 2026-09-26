@@ -304,7 +304,7 @@ function CheckoutContent() {
   if (cargando) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -314,7 +314,7 @@ function CheckoutContent() {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, padding: espaciado.e24, gap: espaciado.e10 }]}>
         <View style={[styles.okIcono, { backgroundColor: alpha(colors.success, 0.15) }]}>
-          <Check size={30} color={colors.success} />
+          <Check size={30} color={colors.text.success} />
         </View>
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>Pago exitoso</Text>
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, textAlign: 'center', lineHeight: 18 }}>
@@ -331,7 +331,7 @@ function CheckoutContent() {
           <Text style={{ color: brand.white, fontSize: tipografia.fino, fontWeight: peso.titulo }}>Ver pedido</Text>
         </Pressable>
         <Pressable onPress={() => irSeguro.libre('/lifebook-catalog')} accessibilityLabel="Seguir comprando">
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e6 }}>Seguir comprando</Text>
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e6 }}>Seguir comprando</Text>
         </Pressable>
       </View>
     );
@@ -360,7 +360,7 @@ function CheckoutContent() {
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: espaciado.e14, paddingBottom: espaciado.e30 }} keyboardShouldPersistTaps="handled">
         {error ? (
           <View style={[styles.aviso, { backgroundColor: alpha(colors.danger, 0.1), borderColor: alpha(colors.danger, 0.4) }]}>
-            <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte }}>{error}</Text>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte }}>{error}</Text>
           </View>
         ) : null}
 
@@ -382,7 +382,7 @@ function CheckoutContent() {
               style={[styles.bloque, { backgroundColor: colors.card, borderColor: alpha(colors.border, 0.6) }]}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e7 }}>
-                <Store size={14} color={colors.primary} />
+                <Store size={14} color={colors.text.primary} />
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, flex: 1 }} numberOfLines={1}>
                   {g.shop?.name ?? 'Tienda'}
                 </Text>
@@ -413,7 +413,7 @@ function CheckoutContent() {
                       accessibilityLabel={m === 'pickup' ? 'Recoger en tienda' : lbTransportLabel(m)}
                       style={[styles.chip, { borderColor: on ? colors.primary : colors.border, backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface }]}
                     >
-                      <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
+                      <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                         {m === 'pickup' ? 'Recoger en tienda' : lbTransportLabel(m)}
                       </Text>
                     </Pressable>
@@ -424,7 +424,7 @@ function CheckoutContent() {
               <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>CÓMO PAGAS</Text>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 }}>
                 {metodos.length === 0 ? (
-                  <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
+                  <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
                     Esta tienda no tiene formas de pago configuradas.
                   </Text>
                 ) : null}
@@ -445,7 +445,7 @@ function CheckoutContent() {
                         opacity: activo ? 1 : 0.45,
                       }]}
                     >
-                      <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
+                      <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                         {lbPayLabel(pm.method)}{activo ? '' : ' · no disponible'}
                       </Text>
                     </Pressable>
@@ -495,17 +495,17 @@ function CheckoutContent() {
               </View>
               {descuentoDeCupon(cuponDe(g), g.subtotalXaf) > 0 ? (
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
-                  <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
+                  <Text style={{ color: colors.text.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                     Cupón {cuponPorTienda[clave]}
                   </Text>
-                  <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
+                  <Text style={{ color: colors.text.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                     −{lbXaf(descuentoDeCupon(cuponDe(g), g.subtotalXaf))}
                   </Text>
                 </View>
               ) : null}
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: espaciado.e4 }}>
                 <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Total de este pedido</Text>
-                <Precio valor={Math.max(0, g.subtotalXaf + (envio ?? 0) - descuentoDeCupon(cuponDe(g), g.subtotalXaf))} tamano="md" color={colors.primary} />
+                <Precio valor={Math.max(0, g.subtotalXaf + (envio ?? 0) - descuentoDeCupon(cuponDe(g), g.subtotalXaf))} tamano="md" color={colors.text.primary} />
               </View>
             </View>
           );
@@ -526,7 +526,7 @@ function CheckoutContent() {
                     accessibilityLabel={c}
                     style={[styles.chip, { borderColor: on ? colors.primary : colors.border, backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface }]}
                   >
-                    <Text style={{ color: on ? colors.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{c}</Text>
+                    <Text style={{ color: on ? colors.text.primary : colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{c}</Text>
                   </Pressable>
                 );
               })}
@@ -569,7 +569,7 @@ function CheckoutContent() {
       }}>
         {/* EL MOTIVO, EN EL PIE: arriba se queda fuera de la pantalla y el botón parece muerto. */}
         {error ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e9 }}>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e9 }}>
             {error}
           </Text>
         ) : null}
@@ -579,7 +579,7 @@ function CheckoutContent() {
               Subtotal {lbXaf(resumen.subtotal)} · Envío {resumen.aConsultar ? 'a acordar' : lbXaf(resumen.envio)}
             </Text>
             {resumen.descuento > 0 ? (
-              <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
+              <Text style={{ color: colors.text.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                 Cupón: −{lbXaf(resumen.descuento)}
               </Text>
             ) : null}
@@ -588,7 +588,7 @@ function CheckoutContent() {
               fallo que reportó el dueño (el pedido salía con un método que nadie eligió).
             */}
             {sinPago.length ? (
-              <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.maximo }} numberOfLines={1}>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.maximo }} numberOfLines={1}>
                 Elige cómo pagas en {sinPago.map((g) => g.shop?.name ?? 'la tienda').join(', ')}
               </Text>
             ) : (

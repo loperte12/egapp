@@ -51,7 +51,7 @@ function CommentsContent() {
           <Image source={{ uri: absUrl(actor.avatarUrl) }} style={[styles.avatar, { backgroundColor: colors.surface }]} />
         ) : (
           <View style={[styles.avatar, { backgroundColor: alpha(colors.primary, 0.15), alignItems: 'center', justifyContent: 'center' }]}>
-            <Text style={{ color: colors.primary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>{(actor.fullName ?? '?').charAt(0).toUpperCase()}</Text>
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.cabecera, fontWeight: peso.titulo }}>{(actor.fullName ?? '?').charAt(0).toUpperCase()}</Text>
           </View>
         )}
         <View style={{ flex: 1 }}>
@@ -72,7 +72,7 @@ function CommentsContent() {
               <Text style={{ fontSize: tipografia.body }}>📝</Text>
             </View>
           )}
-          <Text style={{ flex: 1, color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Ver la publicación</Text>
+          <Text style={{ flex: 1, color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Ver la publicación</Text>
         </Pressable>
       )}
     </View>
@@ -103,7 +103,7 @@ function CommentsContent() {
       </View>
 
       {loading ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={colors.primary} /></View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={colors.text.primary} /></View>
       ) : tab === 'comments' ? (
         <FlatList
           data={comments ?? []}
@@ -112,7 +112,7 @@ function CommentsContent() {
           ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
           ListEmptyComponent={
             <EmptyState
-              icono={<MessageSquare size={38} color={alpha(colors.primary, 0.45)} />}
+              icono={<MessageSquare size={38} color={alpha(colors.text.primary, 0.45)} />}
               titulo="Todavía no hay comentarios"
               texto="Los comentarios de otras personas en tus publicaciones aparecerán aquí, con la opción de responder por mensaje."
             />
@@ -129,7 +129,7 @@ function CommentsContent() {
           ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
           ListEmptyComponent={
             <EmptyState
-              icono={<AtSign size={38} color={alpha(colors.primary, 0.45)} />}
+              icono={<AtSign size={38} color={alpha(colors.text.primary, 0.45)} />}
               titulo="Sin menciones"
               texto="Cuando alguien te mencione con @ en un comentario o en una publicación, lo verás aquí."
             />

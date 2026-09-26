@@ -287,9 +287,9 @@ export function CalendarPicker({
                 cerrado ? (
                   <Text style={[styles.precio, { color: colors.textSecondary }]}>cerrado</Text>
                 ) : lleno ? (
-                  <Text style={[styles.precio, { color: colors.danger }]}>lleno</Text>
+                  <Text style={[styles.precio, { color: colors.text.danger }]}>lleno</Text>
                 ) : (
-                  <Text style={[styles.precio, { color: finde ? colors.secondary : colors.textSecondary }]}>
+                  <Text style={[styles.precio, { color: finde ? colors.text.secondary : colors.textSecondary }]}>
                     {Math.round(Number(d?.priceXaf ?? 0) / 1000)}k
                   </Text>
                 )
@@ -304,10 +304,10 @@ export function CalendarPicker({
 
       {/* ── Leyenda: qué significa cada color ── */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.leyenda}>
-        <Leyenda color={colors.primary} texto="tu selección" colors={colors} />
-        <Leyenda color={colors.secondary} texto="fin de semana" colors={colors} />
+        <Leyenda color={colors.text.primary} texto="tu selección" colors={colors} />
+        <Leyenda color={colors.text.secondary} texto="fin de semana" colors={colors} />
         <Leyenda color={colors.textSecondary} texto="cerrado / pasado" colors={colors} />
-        <Leyenda color={colors.danger} texto="sin plazas" colors={colors} />
+        <Leyenda color={colors.text.danger} texto="sin plazas" colors={colors} />
         <Leyenda color={colors.border} texto="mín N = estancia mínima" colors={colors} />
       </ScrollView>
 

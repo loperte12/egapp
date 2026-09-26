@@ -63,12 +63,12 @@ function StatusContent() {
 
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 28 }} showsVerticalScrollIndicator={false}>
         {loading && !status ? (
-          <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
+          <View style={styles.center}><ActivityIndicator color={colors.text.primary} /></View>
         ) : error && !status ? (
           <View style={styles.center}>
-            <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte }}>No se pudo cargar tu estado.</Text>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte }}>No se pudo cargar tu estado.</Text>
             <Pressable onPress={refresh} style={[styles.retry, { backgroundColor: colors.surface }]}>
-              <Text style={{ color: colors.primary, fontWeight: peso.maximo }}>Reintentar</Text>
+              <Text style={{ color: colors.text.primary, fontWeight: peso.maximo }}>Reintentar</Text>
             </Pressable>
           </View>
         ) : (
@@ -98,14 +98,14 @@ function StatusContent() {
                       <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Cambiar estado</Text>
                     </Pressable>
                     <Pressable onPress={() => { end().then(() => localExpire()).catch(() => {}); }} style={[styles.actionBtn, { backgroundColor: alpha(colors.danger, 0.08) }]}>
-                      <Text style={{ color: colors.danger, fontWeight: peso.maximo, fontSize: tipografia.body }}>Finalizar</Text>
+                      <Text style={{ color: colors.text.danger, fontWeight: peso.maximo, fontSize: tipografia.body }}>Finalizar</Text>
                     </Pressable>
                   </View>
                 </>
               ) : (
                 <Pressable onPress={() => setEditorOpen(true)} style={[styles.addStatus, { backgroundColor: alpha(colors.primary, 0.08), borderColor: alpha(colors.primary, 0.4) }]}>
                   <View style={[styles.addIcon, { backgroundColor: alpha(colors.primary, 0.16) }]}>
-                    <Plus size={20} color={colors.primary} />
+                    <Plus size={20} color={colors.text.primary} />
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>Agregar estado 24h</Text>
@@ -132,8 +132,8 @@ function StatusContent() {
                       accessibilityState={{ checked: active }}
                       style={[styles.visChip, { borderColor: active ? colors.primary : colors.border, backgroundColor: active ? alpha(colors.primary, 0.08) : colors.surface }]}
                     >
-                      <Icon size={13} color={active ? colors.primary : colors.textSecondary} />
-                      <Text style={{ color: active ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{o.label}</Text>
+                      <Icon size={13} color={active ? colors.text.primary : colors.textSecondary} />
+                      <Text style={{ color: active ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>{o.label}</Text>
                     </Pressable>
                   );
                 })}
@@ -172,7 +172,7 @@ function PrefRow({
   return (
     <View style={[styles.prefRow, { borderBottomWidth: last ? 0 : 1, borderBottomColor: colors.border }]}>
       <View style={[styles.prefIcon, { backgroundColor: alpha(colors.primary, 0.08) }]}>
-        <Icon size={15} color={colors.primary} />
+        <Icon size={15} color={colors.text.primary} />
       </View>
       <View style={{ flex: 1 }}>
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>{label}</Text>

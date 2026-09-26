@@ -110,7 +110,7 @@ function MerchantContent() {
   if (!data && !error) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -139,7 +139,7 @@ function MerchantContent() {
       >
         {error ? (
           <View style={[styles.card, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06), marginBottom: espaciado.e14 }]}>
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption }}>{error}</Text>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.caption }}>{error}</Text>
           </View>
         ) : null}
 
@@ -169,7 +169,7 @@ function MerchantContent() {
             }]}
           >
             <View style={[styles.iconoSeccion, { backgroundColor: alpha(colors.primary, 0.12) }]}>
-              <Settings size={17} color={colors.primary} />
+              <Settings size={17} color={colors.text.primary} />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Gestión</Text>
@@ -194,7 +194,7 @@ function MerchantContent() {
             */}
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e9 }}>
               <View style={[styles.iconoSeccion, { backgroundColor: alpha(colors.primary, 0.16) }]}>
-                <BedDouble size={17} color={colors.primary} />
+                <BedDouble size={17} color={colors.text.primary} />
               </View>
               <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo, flex: 1 }}>
                 Tu alojamiento
@@ -223,7 +223,7 @@ function MerchantContent() {
         {/* Sin tienda: el panel no existe todavía, se ofrece abrirla. */}
         {!shop ? (
           <View style={{ alignItems: 'center', paddingTop: 60, gap: espaciado.e10 }}>
-            <Store size={44} color={alpha(colors.primary, 0.45)} />
+            <Store size={44} color={alpha(colors.text.primary, 0.45)} />
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.subtitle, fontWeight: peso.titulo }}>Todavía no tienes tienda</Text>
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', paddingHorizontal: espaciado.e30 }}>
               Abre tu tienda para vender productos, comida o servicios y gestionar tus pedidos desde aquí.
@@ -241,7 +241,7 @@ function MerchantContent() {
                   <Image source={absUrl(shop.logoUrl)} style={styles.logo} contentFit="cover" cachePolicy="memory-disk" transition={0} />
                 ) : (
                   <View style={[styles.logo, { backgroundColor: alpha(colors.primary, 0.12), alignItems: 'center', justifyContent: 'center' }]}>
-                    <Store size={22} color={colors.primary} />
+                    <Store size={22} color={colors.text.primary} />
                   </View>
                 )}
                 <View style={{ flex: 1 }}>
@@ -252,7 +252,7 @@ function MerchantContent() {
                   </Text>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, marginTop: espaciado.e4 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e3 }}>
-                      <Star size={12} color={brand.secondary} />
+                      <Star size={12} color={colors.text.secondary} />
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>
                         {shop.ratingCount > 0 ? `${shop.rating.toFixed(1)} (${shop.ratingCount})` : 'Sin valoraciones'}
                       </Text>
@@ -265,7 +265,7 @@ function MerchantContent() {
                 </View>
                 {!shop.isActive ? (
                   <View style={{ backgroundColor: alpha(colors.danger, 0.12), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
-                    <Text style={{ color: colors.danger, fontSize: tipografia.micro, fontWeight: peso.titulo }}>PAUSADA</Text>
+                    <Text style={{ color: colors.text.danger, fontSize: tipografia.micro, fontWeight: peso.titulo }}>PAUSADA</Text>
                   </View>
                 ) : null}
               </View>
@@ -283,22 +283,22 @@ function MerchantContent() {
             {data?.alerts ? (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginBottom: espaciado.e6 }}>
                 {data.alerts.newOrders > 0 ? (
-                  <Aviso icon={<ShoppingBag size={13} color={brand.white} />} color={colors.primary}
+                  <Aviso icon={<ShoppingBag size={13} color={brand.white} />} color={colors.text.primary}
                     texto={`${data.alerts.newOrders} pedido${data.alerts.newOrders === 1 ? '' : 's'} nuevo${data.alerts.newOrders === 1 ? '' : 's'}`}
                     onPress={() => ir('/lifebook-orders', { side: 'seller' })} />
                 ) : null}
                 {data.alerts.pendingProducts > 0 ? (
-                  <Aviso icon={<Package size={13} color={brand.white} />} color={brand.secondary}
+                  <Aviso icon={<Package size={13} color={brand.white} />} color={colors.text.secondary}
                     texto={`${data.alerts.pendingProducts} en revisión`}
                     onPress={() => ir('/lifebook-merchant-products', { f: 'pending' })} />
                 ) : null}
                 {data.alerts.outOfStock > 0 ? (
-                  <Aviso icon={<TriangleAlert size={13} color={brand.white} />} color={brand.danger}
+                  <Aviso icon={<TriangleAlert size={13} color={brand.white} />} color={colors.text.danger}
                     texto={`${data.alerts.outOfStock} sin existencias`}
                     onPress={() => ir('/lifebook-merchant-products', { f: 'agotado' })} />
                 ) : null}
                 {data.alerts.unreadMessages > 0 ? (
-                  <Aviso icon={<MessageCircle size={13} color={brand.white} />} color={brand.success}
+                  <Aviso icon={<MessageCircle size={13} color={brand.white} />} color={colors.text.success}
                     texto={`${data.alerts.unreadMessages} sin leer`}
                     onPress={() => ir('/lifebook-messages')} />
                 ) : null}
@@ -309,7 +309,7 @@ function MerchantContent() {
             <Seccion titulo="Caja" icono={<BarChart3 size={15} color={colors.textPrimary} />}>
               <View style={[styles.card, { borderColor: colors.border }]}>
                 <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption }}>Cobrado hoy</Text>
-                <Precio valor={data?.money?.paidTodayXaf ?? 0} tamano="xl" color={colors.success} style={{ marginTop: espaciado.e2 }} />
+                <Precio valor={data?.money?.paidTodayXaf ?? 0} tamano="xl" color={colors.text.success} style={{ marginTop: espaciado.e2 }} />
                 <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e12 }}>
                   <Mini label="Este mes" valor={lbXaf(data?.money?.paidMonthXaf ?? 0)} />
                   <Mini label="Por cobrar" valor={lbXaf(data?.money?.pendingCodXaf ?? 0)} />

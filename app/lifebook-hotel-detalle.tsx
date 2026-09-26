@@ -168,12 +168,12 @@ export default function HotelDetalleScreen() {
       </View>
 
       {cargando ? (
-        <View style={styles.centro}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.centro}><ActivityIndicator color={colors.text.primary} /></View>
       ) : error ? (
         <View style={[styles.error, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
           <Pressable onPress={() => void cargar()} accessibilityRole="button" accessibilityLabel="Reintentar">
-            <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
+            <Text style={[styles.enlace, { color: colors.text.primary }]}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -227,7 +227,7 @@ export default function HotelDetalleScreen() {
                 accessibilityLabel={`Cómo llegar a ${hotel?.name ?? 'el alojamiento'}`}
                 style={[styles.botonLinea, { borderColor: colors.border, backgroundColor: colors.surface }]}
               >
-                <Navigation size={14} color={colors.secondary} />
+                <Navigation size={14} color={colors.text.secondary} />
                 <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>
                   Cómo llegar{arrival.lat !== null ? '' : ' (por la referencia escrita)'}
                 </Text>
@@ -239,7 +239,7 @@ export default function HotelDetalleScreen() {
                 recepción. Lo escribe el hotel en su panel (si no lo ha escrito, no se inventa). */}
             {arrival?.note ? (
               <View style={[styles.aviso, { borderColor: alpha(colors.success, 0.45), backgroundColor: alpha(colors.success, 0.10) }]}>
-                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.success }}>🔑 Al llegar</Text>
+                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.success }}>🔑 Al llegar</Text>
                 <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, marginTop: espaciado.e3, lineHeight: 16 }}>{arrival.note}</Text>
               </View>
             ) : null}
@@ -394,7 +394,7 @@ export default function HotelDetalleScreen() {
                       </Text>
                     </View>
                     <View style={{ alignItems: 'flex-end' }}>
-                      <Precio valor={r.basePriceXaf} tamano="md" color={colors.secondary} />
+                      <Precio valor={r.basePriceXaf} tamano="md" color={colors.text.secondary} />
                       {/* ── EL PRECIO EN LA MONEDA DEL HUÉSPED ────────────────────────
                           El precio real es el XAF (es lo que se cobra, en efectivo, al llegar). El
                           equivalente se enseña para que un huésped de fuera sepa cuánto es: lo calcula
@@ -437,16 +437,16 @@ export default function HotelDetalleScreen() {
                             <Fila
                               etiqueta={`Se pagará AHORA (señal ${r.depositPercent}%)`}
                               valor={xaf(cuenta.senal)}
-                              color={colors.primary}
+                              color={colors.text.primary}
                               fuerte
                             />
-                            <Fila etiqueta="Y al llegar al hotel" valor={xaf(cuenta.resto)} color={colors.secondary} fuerte />
+                            <Fila etiqueta="Y al llegar al hotel" valor={xaf(cuenta.resto)} color={colors.text.secondary} fuerte />
                             <Text style={[styles.sub, { color: colors.textSecondary }]}>
                               La habitación queda retenida {r.holdMinutes} min mientras se paga la señal.
                             </Text>
                           </>
                         ) : (
-                          <Fila etiqueta="Se paga todo al llegar" valor={xaf(cuenta.total)} color={colors.secondary} fuerte />
+                          <Fila etiqueta="Se paga todo al llegar" valor={xaf(cuenta.total)} color={colors.text.secondary} fuerte />
                         )}
                       </View>
                     ) : (

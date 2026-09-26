@@ -70,7 +70,7 @@ export default function SearchHeader({
         ]}
       >
         <View style={[styles.searchIconWrap, glass ? { backgroundColor: glassSurface } : { backgroundColor: alpha(colors.primary, 0.1) }]}>
-          <Search size={18} color={colors.primary} />
+          <Search size={18} color={colors.text.primary} />
         </View>
         <Text style={[styles.destText, { color: colors.textPrimary }]}>¿A dónde vas?</Text>
         <View style={[styles.micWrap, glass ? { backgroundColor: glassSurface } : { backgroundColor: colors.surface }]}>

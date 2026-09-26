@@ -121,7 +121,7 @@ export default function EcomerseMensajesScreen() {
         </Pressable>
         <Text style={[styles.cabeceraTitulo, { color: colors.textPrimary }]}>Mensajes</Text>
         {cargando ? (
-          <ActivityIndicator size="small" color={colors.primary} />
+          <ActivityIndicator size="small" color={colors.text.primary} />
         ) : (
           <View style={styles.hueco} />
         )}
@@ -177,7 +177,7 @@ export default function EcomerseMensajesScreen() {
                     ]}
                   >
                     <View style={[styles.filaIcono, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-                      <Icono size={icono.md} color={colors.primary} />
+                      <Icono size={icono.md} color={colors.text.primary} />
                     </View>
                     <View style={styles.filaTexto}>
                       <Text style={[styles.filaTitulo, { color: colors.textPrimary }]}>{canal.label}</Text>

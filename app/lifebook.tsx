@@ -611,7 +611,7 @@ function LifeBookContent() {
         label: 'Vender',
         desc: 'Producto con precio, entrega y pago',
         icon: ShoppingBag,
-        color: brand.success,
+        color: colors.text.success,
         route: '/lifebook-sell' as const,
         params: { type: 'sale' },
       },
@@ -619,7 +619,7 @@ function LifeBookContent() {
         label: 'Ofrecer servicio',
         desc: 'Oficios, clases, reparaciones…',
         icon: Package,
-        color: brand.info,
+        color: colors.text.info,
         route: '/lifebook-sell' as const,
         params: { type: 'service' },
       },
@@ -635,7 +635,7 @@ function LifeBookContent() {
         label: 'Podcast',
         desc: 'Audio con portada · charlas y cultura',
         icon: Mic,
-        color: brand.social,
+        color: colors.text.social,
         route: '/lifebook-media' as const,
         params: { kind: 'podcast' },
       },
@@ -643,7 +643,7 @@ function LifeBookContent() {
         label: 'Serie',
         desc: 'Episodios por temporadas · comedia, drama…',
         icon: Clapperboard,
-        color: brand.secondary,
+        color: colors.text.secondary,
         route: '/lifebook-media' as const,
         params: { kind: 'serie' },
       },
@@ -689,7 +689,7 @@ function LifeBookContent() {
           accessibilityLabel="Asistente"
           style={[styles.msgBtn, { marginRight: espaciado.e8 }]}
         >
-          <Sparkles size={20} color={colors.primary} />
+          <Sparkles size={20} color={colors.text.primary} />
         </Pressable>
 
         <View style={styles.topBarSpacer} />
@@ -781,8 +781,8 @@ function LifeBookContent() {
           accessibilityLabel={"Ciudad: " + city + ". Cambiar de ciudad"}
           style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, paddingHorizontal: espaciado.e14, paddingTop: espaciado.e9 }}
         >
-          <MapPin size={15} color={colors.primary} />
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{city}</Text>
+          <MapPin size={15} color={colors.text.primary} />
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>{city}</Text>
           <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>▾ cambiar</Text>
         </Pressable>
       ) : null}
@@ -814,7 +814,7 @@ function LifeBookContent() {
                     backgroundColor: activo ? alpha(colors.primary, 0.14) : 'transparent',
                   }}
                 >
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: activo ? peso.titulo : peso.medio, color: activo ? colors.primary : colors.textSecondary }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: activo ? peso.titulo : peso.medio, color: activo ? colors.text.primary : colors.textSecondary }}>
                     {item.label}
                   </Text>
                 </Pressable>
@@ -823,7 +823,7 @@ function LifeBookContent() {
           />
           {!miPos && distIdx !== LB_DISTANCIAS.length - 1 ? (
             <Pressable onPress={() => { void pedirUbicacion(); }} accessibilityLabel="Activar la ubicación" style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e5, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e8 }}>
-              <Text style={{ color: brand.warning, fontSize: tipografia.caption, fontWeight: peso.maximo }}>📍 Activar la ubicación</Text>
+              <Text style={{ color: colors.text.warning, fontSize: tipografia.caption, fontWeight: peso.maximo }}>📍 Activar la ubicación</Text>
             </Pressable>
           ) : null}
         </View>
@@ -856,7 +856,7 @@ function LifeBookContent() {
                   style={{
                     fontSize: tipografia.caption,
                     fontWeight: activo ? peso.maximo : peso.medio,
-                    color: activo ? colors.primary : colors.textSecondary,
+                    color: activo ? colors.text.primary : colors.textSecondary,
                   }}
                 >
                   {item.label}
@@ -897,7 +897,7 @@ function LifeBookContent() {
         <View style={styles.center}>
           <Text
             style={{
-              color: colors.danger,
+              color: colors.text.danger,
               fontSize: tipografia.body,
               fontWeight: peso.fuerte,
               textAlign: 'center',
@@ -986,7 +986,7 @@ function LifeBookContent() {
           ListFooterComponent={
             loadingMore ? (
               <ActivityIndicator
-                color={colors.primary}
+                color={colors.text.primary}
                 style={{ marginVertical: espaciado.e16 }}
               />
             ) : posts.length > 0 && !nextCursor ? (
@@ -1230,7 +1230,7 @@ function LifeBookContent() {
                 >
                   <MapPin
                     size={16}
-                    color={active ? colors.primary : colors.textSecondary}
+                    color={active ? colors.text.primary : colors.textSecondary}
                   />
                   <Text
                     style={{
@@ -1257,8 +1257,8 @@ function LifeBookContent() {
               accessibilityLabel="Elegir en el mapa o buscar un sitio"
               style={{ marginTop: espaciado.e12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e7 }}
             >
-              <MapPin size={15} color={colors.primary} />
-              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
+              <MapPin size={15} color={colors.text.primary} />
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                 🗺️ Elegir en el mapa o buscar
               </Text>
             </Pressable>
@@ -1273,7 +1273,7 @@ function LifeBookContent() {
               >
                 <Text
                   style={{
-                    color: colors.primary,
+                    color: colors.text.primary,
                     fontSize: tipografia.caption,
                     textAlign: 'center',
                     fontWeight: peso.medio,

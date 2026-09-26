@@ -61,7 +61,7 @@ export function DocumentChoiceTree({
             ]}
           >
             <View style={[styles.iconWrap, { backgroundColor: alpha(colors.primary, 0.1) }]}>
-              <Icon size={22} color={colors.primary} strokeWidth={trazoIcono.base} />
+              <Icon size={22} color={colors.text.primary} strokeWidth={trazoIcono.base} />
             </View>
             <View style={styles.body}>
               <Text style={[styles.title, { color: colors.textPrimary }]}>{opt.title}</Text>

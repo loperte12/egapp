@@ -156,7 +156,7 @@ function SettingsContent() {
   if (cargando) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -166,7 +166,7 @@ function SettingsContent() {
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Cabecera onBack={() => router.back()} colors={colors} insets={insets} />
         <View style={{ alignItems: 'center', paddingTop: 70, gap: espaciado.e10 }}>
-          <Store size={42} color={alpha(colors.primary, 0.45)} />
+          <Store size={42} color={alpha(colors.text.primary, 0.45)} />
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Todavía no tienes tienda</Text>
           <View style={{ minWidth: 220, marginTop: espaciado.e8 }}>
             <PrimaryButton title="Abrir mi tienda" onPress={() => irSeguro.libre('/lifebook-sell', undefined, true)} />
@@ -197,7 +197,7 @@ function SettingsContent() {
               <Image source={absUrl(logoUrl)} style={[styles.logo, { borderColor: colors.background }]} contentFit="cover" cachePolicy="memory-disk" transition={0} />
             ) : (
               <View style={[styles.logo, { borderColor: colors.background, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }]}>
-                <Store size={20} color={colors.primary} />
+                <Store size={20} color={colors.text.primary} />
               </View>
             )}
             <View style={{ flex: 1 }}>
@@ -314,7 +314,7 @@ function SettingsContent() {
           onPress={() => irSeguro.libre('/lifebook-merchant-products')}
           style={{ marginTop: espaciado.e18, alignItems: 'center' }}
         >
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Ir a mis publicaciones →</Text>
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Ir a mis publicaciones →</Text>
         </Pressable>
       </ScrollView>
     </View>

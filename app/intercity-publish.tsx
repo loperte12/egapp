@@ -309,7 +309,7 @@ export default function IntercityPublishScreen() {
           accessibilityRole="button" accessibilityLabel="Ver planes"
           style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: alpha(colors.primary, 0.08), borderRadius: radios.md, padding: espaciado.e12, marginBottom: espaciado.e14, opacity: pressed ? 0.85 : 1 }]}
         >
-          <Crown size={18} color={colors.primary} />
+          <Crown size={18} color={colors.text.primary} />
           <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
             <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }}>
               {`${plan.planName} · ${plan.monthlyTrips === -1 ? 'viajes ilimitados' : `${plan.monthlyUsed}/${plan.monthlyTrips} viajes este mes`}`}
@@ -318,7 +318,7 @@ export default function IntercityPublishScreen() {
               {atPlanLimit ? 'Alcanzaste tu límite mensual: mejora tu plan para seguir publicando.' : 'Toca para ver tus planes.'}
             </Text>
           </View>
-          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.primary }}>Mejorar plan ›</Text>
+          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.text.primary }}>Mejorar plan ›</Text>
         </Pressable>
       )}
 
@@ -334,12 +334,12 @@ export default function IntercityPublishScreen() {
         <Text style={s.title}>Publicar viaje</Text>
         <View style={{ flexDirection: 'row', gap: espaciado.e14 }}>
           <Pressable onPress={() => setEmergencyOpen(true)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Emergencia">
-            <Siren size={20} color={colors.danger} />
+            <Siren size={20} color={colors.text.danger} />
           </Pressable>
           {driverOk === true && (
             <Pressable onPress={() => switchMode(mode === 'list' ? 'form' : 'list')} hitSlop={12} accessibilityRole="button"
               accessibilityLabel={mode === 'list' ? 'Publicar viaje' : 'Ver mis viajes'}>
-              {mode === 'list' ? <Plus size={22} color={colors.primary} /> : <RefreshCw size={22} color={colors.primary} />}
+              {mode === 'list' ? <Plus size={22} color={colors.text.primary} /> : <RefreshCw size={22} color={colors.text.primary} />}
             </Pressable>
           )}
         </View>
@@ -384,7 +384,7 @@ export default function IntercityPublishScreen() {
           windowSize={7}
           removeClippedSubviews
           renderSectionHeader={({ section }) => (
-            <Text style={{ color: colors.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
+            <Text style={{ color: colors.text.primary, fontWeight: peso.titulo, fontSize: tipografia.body }}>
               {section.titulo} · {section.data.length} viaje{section.data.length === 1 ? '' : 's'}
             </Text>
           )}
@@ -480,12 +480,12 @@ export default function IntercityPublishScreen() {
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text style={s.big}>Mis viajes</Text>
                 <Pressable onPress={() => void load()} hitSlop={10} accessibilityRole="button" accessibilityLabel="Actualizar mis viajes">
-                  <RefreshCw size={18} color={colors.primary} />
+                  <RefreshCw size={18} color={colors.text.primary} />
                 </Pressable>
               </View>
               {pendingFares > 0 && (
                 <View style={{ backgroundColor: alpha(colors.secondary, 0.12), borderRadius: radios.md, padding: espaciado.e10 }}>
-                  <Text style={{ color: colors.secondary, fontWeight: peso.titulo, fontSize: tipografia.body }}>🔔 {pendingFares} tarifa(s) propuesta(s) pendiente(s) de tu respuesta</Text>
+                  <Text style={{ color: colors.text.secondary, fontWeight: peso.titulo, fontSize: tipografia.body }}>🔔 {pendingFares} tarifa(s) propuesta(s) pendiente(s) de tu respuesta</Text>
                 </View>
               )}
             </View>
@@ -510,7 +510,7 @@ export default function IntercityPublishScreen() {
 
               {mode === 'form' && (
                 <View style={s.block}>
-                  <Truck size={36} color={colors.primary} />
+                  <Truck size={36} color={colors.text.primary} />
                   <Text style={s.big}>Publicar viaje</Text>
                   <Text style={s.body}>Provincia → distrito → zona jurídica. Precio por asiento lo pones tú.</Text>
 
@@ -534,7 +534,7 @@ export default function IntercityPublishScreen() {
                         Se publicará en: {nextDayDates(f.days).join(' · ') || '—'} a las {f.time || '—'}.
                       </Text>
                       {droppedDayLabels(f.days, nextDayDates(f.days).length).length > 0 && (
-                        <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
+                        <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>
                           ⚠️ Fuera del horizonte (14 días): {droppedDayLabels(f.days, 0).join(', ')}
                         </Text>
                       )}
@@ -567,8 +567,8 @@ export default function IntercityPublishScreen() {
                   {f.carPhotos.length < MAX_PHOTOS && (
                     <Pressable onPress={() => void pickPhoto()} accessibilityRole="button" accessibilityLabel="Añadir foto del coche"
                       style={[s.photoAdd, { borderColor: colors.border }]}>
-                      <ImageIcon size={18} color={colors.primary} />
-                      <Text style={{ color: colors.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Añadir foto del coche ({f.carPhotos.length}/{MAX_PHOTOS})</Text>
+                      <ImageIcon size={18} color={colors.text.primary} />
+                      <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Añadir foto del coche ({f.carPhotos.length}/{MAX_PHOTOS})</Text>
                     </Pressable>
                   )}
                   <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>Se comprimen al elegirlas. Máx. ~{MAX_PHOTO_B64_KB} KB por foto.</Text>
@@ -607,7 +607,7 @@ function Chip({ label, active, onPress, a11y }: { label: string; active: boolean
   return (
     <Pressable onPress={onPress} accessibilityRole="button" accessibilityState={{ selected: active }} accessibilityLabel={a11y ?? label}
       style={({ pressed }) => [styles(colors).chip, { borderColor: active ? colors.primary : colors.border, backgroundColor: active ? alpha(colors.primary, 0.08) : colors.card, opacity: pressed ? 0.85 : 1 }]}>
-      <Text style={{ color: active ? colors.primary : colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>{label}</Text>
+      <Text style={{ color: active ? colors.text.primary : colors.textPrimary, fontWeight: peso.fuerte, fontSize: tipografia.caption }}>{label}</Text>
     </Pressable>
   );
 }
@@ -627,5 +627,5 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) =>
     bookingRow: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, borderRadius: radios.chip, padding: espaciado.e8 },
     miniBtn: { borderRadius: radios.sm, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9 },
     photoAdd: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8, borderWidth: trazo.base, borderStyle: 'dashed', borderRadius: radios.md, paddingVertical: espaciado.e12 },
-    err: { color: c.danger, fontSize: tipografia.body, fontWeight: peso.fuerte },
+    err: { color: c.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte },
   });

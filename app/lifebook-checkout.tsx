@@ -274,7 +274,7 @@ function CheckoutContent() {
   if (loading) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background }]}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
@@ -326,7 +326,7 @@ function CheckoutContent() {
             <Image source={absUrl(product.media[0].url)} style={styles.thumb} contentFit="cover" cachePolicy="memory-disk" transition={0} />
           ) : (
             <View style={[styles.thumb, { backgroundColor: alpha(colors.primary, 0.1), alignItems: 'center', justifyContent: 'center' }]}>
-              <Package size={20} color={alpha(colors.primary, 0.6)} />
+              <Package size={20} color={alpha(colors.text.primary, 0.6)} />
             </View>
           )}
           <View style={{ flex: 1 }}>
@@ -334,7 +334,7 @@ function CheckoutContent() {
             {variant ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>Opción: {variant.name}</Text> : null}
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>Cantidad: {quantity}</Text>
           </View>
-          <Precio valor={subtotal} tamano="md" color={colors.primary} />
+          <Precio valor={subtotal} tamano="md" color={colors.text.primary} />
         </View>
 
         {/* Entrega */}
@@ -363,7 +363,7 @@ function CheckoutContent() {
             <TextInput value={reference} onChangeText={setReference} placeholder="Punto de referencia (Ej: portón azul, junto al mercado)"
               placeholderTextColor={colors.textSecondary} maxLength={200} style={input} />
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-              <MapPin size={15} color={colors.primary} />
+              <MapPin size={15} color={colors.text.primary} />
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, flex: 1 }}>
                 El pin del mapa y el teléfono se comparten con la tienda por el chat.
               </Text>
@@ -371,7 +371,7 @@ function CheckoutContent() {
           </View>
         ) : (
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, marginTop: espaciado.e10 }}>
-            <Store size={15} color={colors.primary} />
+            <Store size={15} color={colors.text.primary} />
             <Text style={{ color: colors.textSecondary, fontSize: tipografia.body }}>
               Recoges en {product.shop.name}{product.shop.barrio ? ` · ${product.shop.barrio}` : ''}
             </Text>
@@ -403,12 +403,12 @@ function CheckoutContent() {
             );
           })}
           {metodosActivos.length === 0 ? (
-            <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, lineHeight: 17 }}>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, lineHeight: 17 }}>
               Esta tienda no tiene formas de pago activas: todavía no se puede pedir.
             </Text>
           ) : (
             <Text style={{
-              color: paymentMethod ? colors.textSecondary : colors.danger,
+              color: paymentMethod ? colors.textSecondary : colors.text.danger,
               fontSize: tipografia.body,
               lineHeight: 17,
               fontWeight: paymentMethod ? peso.normal : peso.fuerte,
@@ -462,7 +462,7 @@ function CheckoutContent() {
           abajo, así que el botón parecía no hacer nada: es el fallo que reportó el dueño.
         */}
         {error ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e9 }}>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.fuerte, paddingHorizontal: espaciado.e16, paddingTop: espaciado.e9 }}>
             {error}
           </Text>
         ) : null}
@@ -472,13 +472,13 @@ function CheckoutContent() {
               Entrega: {envioAConsultar ? 'a acordar con la tienda' : lbXaf(deliveryCost)}
             </Text>
             {descuento > 0 ? (
-              <Text style={{ color: colors.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
+              <Text style={{ color: colors.text.success, fontSize: tipografia.body, fontWeight: peso.maximo }}>
                 Cupón {cuponElegido}: −{lbXaf(descuento)}
               </Text>
             ) : null}
             {/* Se ve ANTES de confirmar con qué se paga: era justo lo que faltaba. */}
             <Text style={{
-              color: paymentMethod ? colors.textSecondary : colors.danger,
+              color: paymentMethod ? colors.textSecondary : colors.text.danger,
               fontSize: tipografia.body,
               fontWeight: paymentMethod ? peso.normal : peso.maximo,
             }}>
@@ -486,7 +486,7 @@ function CheckoutContent() {
             </Text>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.cifra, fontWeight: peso.titulo }}>Total: {lbXaf(total)}</Text>
             {paymentMethod === 'likebook_wallet' && saldoMonedero !== null ? (
-              <Text style={{ color: saldoMonedero >= total ? brand.success : brand.dangerPressed, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
+              <Text style={{ color: saldoMonedero >= total ? colors.text.success : brand.dangerPressed, fontSize: tipografia.body, fontWeight: peso.fuerte }}>
                 Monedero: {lbXaf(saldoMonedero)}{saldoMonedero >= total ? '' : ' · no llega'}
               </Text>
             ) : null}

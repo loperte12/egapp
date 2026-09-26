@@ -118,14 +118,14 @@ export function BotonSeguirTienda({ sellerId, nombre, style }: BotonSeguirTienda
       style={({ pressed }) => [s.caja, style, { backgroundColor: colors.surface, opacity: pressed ? 0.75 : 1 }]}
     >
       <View style={[s.icono, { backgroundColor: alpha(colors.primary, siguiendo ? 0.18 : 0.12) }]}>
-        <Store size={icono.sm} color={colors.primary} />
+        <Store size={icono.sm} color={colors.text.primary} />
       </View>
       <View style={s.textos}>
         {siguiendo === null ? (
           <Text style={[s.titulo, { color: colors.textSecondary }]}>Comprobando…</Text>
         ) : (
           <>
-            <Text style={[s.titulo, { color: siguiendo ? colors.primary : colors.textPrimary }]}>
+            <Text style={[s.titulo, { color: siguiendo ? colors.text.primary : colors.textPrimary }]}>
               {siguiendo ? 'Siguiendo' : 'Seguir la tienda'}
             </Text>
             <Text style={[s.nota, { color: colors.textSecondary }]}>
@@ -135,9 +135,9 @@ export function BotonSeguirTienda({ sellerId, nombre, style }: BotonSeguirTienda
         )}
       </View>
       {trabajando ? (
-        <ActivityIndicator size="small" color={colors.primary} />
+        <ActivityIndicator size="small" color={colors.text.primary} />
       ) : siguiendo === null ? null : siguiendo ? (
-        <Check size={icono.sm} color={colors.primary} />
+        <Check size={icono.sm} color={colors.text.primary} />
       ) : (
         <ChevronRight size={icono.sm} color={colors.textSecondary} />
       )}

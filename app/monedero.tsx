@@ -109,7 +109,7 @@ function MonederoContent() {
       </View>
 
       {loading && !balance ? (
-        <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.center}><ActivityIndicator color={colors.text.primary} /></View>
       ) : error && !balance ? (
         <View style={styles.center}>
           <Text style={{ color: colors.textSecondary, textAlign: 'center', paddingHorizontal: espaciado.e28 }}>{error}</Text>
@@ -125,7 +125,7 @@ function MonederoContent() {
           {/* Saldo */}
           <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-              <Wallet size={16} color={colors.primary} />
+              <Wallet size={16} color={colors.text.primary} />
               <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, fontWeight: peso.fuerte }}>Saldo disponible</Text>
             </View>
             <Precio valor={Number(balance?.balanceAvailable ?? 0)} tamano="xl" color={colors.textPrimary} style={{ marginTop: espaciado.e6 }} />
@@ -158,7 +158,7 @@ function MonederoContent() {
               onPress={() => router.push('/monedero-retirar')}
               accessibilityRole="button"
             >
-              <ArrowUpFromLine size={20} color={colors.primary} />
+              <ArrowUpFromLine size={20} color={colors.text.primary} />
               <Text style={[styles.actionTxt, { color: colors.textPrimary }]}>Retirar</Text>
               <Text style={[styles.actionHint, { color: colors.textSecondary }]}>efectivo</Text>
             </Tactil>
@@ -179,7 +179,7 @@ function MonederoContent() {
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e20, marginBottom: espaciado.e8 }}>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.cuerpo, fontWeight: peso.titulo }}>Últimos movimientos</Text>
             <Tactil onPress={() => router.push('/monedero-movimientos')} accessibilityRole="button">
-              <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Ver todos</Text>
+              <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Ver todos</Text>
             </Tactil>
           </View>
           <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border, paddingVertical: espaciado.e4 }]}>

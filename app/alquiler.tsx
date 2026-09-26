@@ -79,7 +79,7 @@ export default function AlquilerScreen() {
         lineasTitulo={2}
         accion={
           <Tactil onPress={() => router.push('/alquiler-publicar' as never)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Publicar propiedad">
-            <Plus size={22} color={colors.primary} />
+            <Plus size={22} color={colors.text.primary} />
           </Tactil>
         }
       />
@@ -127,8 +127,8 @@ export default function AlquilerScreen() {
 
       {/* Aviso anti-estafa (tokens del tema) */}
       <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.08), paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10, borderRadius: radios.chip }}>
-        <ShieldAlert size={16} color={colors.danger} />
-        <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.danger, fontWeight: peso.medio, lineHeight: 16 }}>
+        <ShieldAlert size={16} color={colors.text.danger} />
+        <Text style={{ flex: 1, fontSize: tipografia.caption, color: colors.text.danger, fontWeight: peso.medio, lineHeight: 16 }}>
           No pagues por adelantado ni envíes DNI antes de ver el inmueble. Denuncia anuncios sospechosos.
         </Text>
       </View>
@@ -136,10 +136,10 @@ export default function AlquilerScreen() {
       {/* Banner de datos desactualizados (refresco fallido con datos previos) */}
       {!loading && error && anyResult && (
         <View style={{ marginHorizontal: espaciado.e16, marginBottom: espaciado.e8, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, backgroundColor: alpha(colors.danger, 0.07), paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: radios.chip }}>
-          <WifiOff size={14} color={colors.danger} />
-          <Text style={{ flex: 1, fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.medio }}>No se pudo actualizar: mostrando datos anteriores.</Text>
+          <WifiOff size={14} color={colors.text.danger} />
+          <Text style={{ flex: 1, fontSize: tipografia.micro, color: colors.text.danger, fontWeight: peso.medio }}>No se pudo actualizar: mostrando datos anteriores.</Text>
           <Pressable onPress={() => void reload()} accessibilityRole="button" accessibilityLabel="Reintentar actualizar" hitSlop={8}>
-            <Text style={{ fontSize: tipografia.micro, color: colors.danger, fontWeight: peso.maximo }}>Reintentar</Text>
+            <Text style={{ fontSize: tipografia.micro, color: colors.text.danger, fontWeight: peso.maximo }}>Reintentar</Text>
           </Pressable>
         </View>
       )}
@@ -176,12 +176,12 @@ export default function AlquilerScreen() {
         ListEmptyComponent={
           loading && properties.length === 0 ? (
             <View style={{ alignItems: 'center', marginTop: 60 }}>
-              <ActivityIndicator size="large" color={colors.primary} />
+              <ActivityIndicator size="large" color={colors.text.primary} />
               <Text style={{ marginTop: espaciado.e12, color: colors.textSecondary, fontWeight: peso.fuerte }}>Cargando alquileres…</Text>
             </View>
           ) : !loading && error && properties.length === 0 ? (
             <View style={{ alignItems: 'center', marginTop: 50, paddingHorizontal: espaciado.e30 }}>
-              <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><WifiOff size={28} color={colors.danger} /></View>
+              <View style={[s.errIcon, { backgroundColor: alpha(colors.danger, 0.1) }]}><WifiOff size={28} color={colors.text.danger} /></View>
               <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.maximo, color: colors.textPrimary, textAlign: 'center' }}>No pudimos cargar los alquileres</Text>
               <Text style={{ fontSize: tipografia.caption, color: colors.textSecondary, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e14 }}>{error}</Text>
               <Pressable
@@ -212,7 +212,7 @@ export default function AlquilerScreen() {
               accessibilityRole="button" accessibilityLabel="Cargar más anuncios"
               style={({ pressed }) => [{ paddingVertical: espaciado.e14, borderRadius: radios.chip, backgroundColor: colors.surface, alignItems: 'center', opacity: pressed ? 0.7 : 1 }]}
             >
-              <Text style={{ fontSize: tipografia.caption, color: colors.primary, fontWeight: peso.fuerte }}>Cargar más anuncios</Text>
+              <Text style={{ fontSize: tipografia.caption, color: colors.text.primary, fontWeight: peso.fuerte }}>Cargar más anuncios</Text>
             </Pressable>
           ) : null
         }
@@ -231,7 +231,7 @@ export default function AlquilerScreen() {
 
             {loading && !catalog ? (
               <View style={{ alignItems: 'center', paddingVertical: 50 }}>
-                <ActivityIndicator color={colors.primary} />
+                <ActivityIndicator color={colors.text.primary} />
                 <Text style={{ marginTop: espaciado.e10, color: colors.textSecondary, fontSize: tipografia.caption }}>Cargando catálogo…</Text>
               </View>
             ) : draft ? (
@@ -319,8 +319,8 @@ function ActiveChip({ label, onRemove }: { label: string; onRemove: () => void }
       accessibilityLabel={`Quitar filtro: ${label}`}
       style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e5, borderRadius: radios.campo, borderWidth: trazo.fino, borderColor: colors.primary, marginRight: espaciado.e6, opacity: pressed ? 0.7 : 1 }]}
     >
-      <Text style={{ fontSize: tipografia.micro, color: colors.primary, fontWeight: peso.medio }}>{label}</Text>
-      <X size={12} color={colors.primary} style={{ marginLeft: espaciado.e4 }} />
+      <Text style={{ fontSize: tipografia.micro, color: colors.text.primary, fontWeight: peso.medio }}>{label}</Text>
+      <X size={12} color={colors.text.primary} style={{ marginLeft: espaciado.e4 }} />
     </Pressable>
   );
 }

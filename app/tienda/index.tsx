@@ -199,7 +199,7 @@ export default function TiendaResumen() {
               />
             </View>
             {seller?.status === 'rejected' && seller.rejectionReason ? (
-              <Text style={[s.nota, { color: colors.danger }]}>Motivo del rechazo: {seller.rejectionReason}</Text>
+              <Text style={[s.nota, { color: colors.text.danger }]}>Motivo del rechazo: {seller.rejectionReason}</Text>
             ) : null}
           </View>
         )}
@@ -218,7 +218,7 @@ export default function TiendaResumen() {
                   : `${delMes.length} ${delMes.length === 1 ? 'pedido' : 'pedidos'} · no cuenta los cancelados`}
               </Text>
               {kpiTruncado && (
-                <Text style={[s.nota, { color: colors.warning }]}>
+                <Text style={[s.nota, { color: colors.text.warning }]}>
                   Calculado sobre tus últimos {pedidos.length} pedidos de {totalPedidos}.
                 </Text>
               )}
@@ -307,7 +307,7 @@ export default function TiendaResumen() {
                           ajuste de línea (doctrina «figura o frase»). */}
                       <Text style={s.nota}>{formatXAF(p.priceXaf)} · quedan {p.stock}</Text>
                     </View>
-                    <Text style={[s.sello, { color: colors.warning }]}>Reponer</Text>
+                    <Text style={[s.sello, { color: colors.text.warning }]}>Reponer</Text>
                   </Pressable>
                 ))
               )}
@@ -343,7 +343,7 @@ export default function TiendaResumen() {
         {/* Estrella: recuerda que las valoraciones son públicas. Solo si ya hay alguna. */}
         {activa && (seller.ratingCount ?? 0) > 0 && (
           <View style={[s.tarjeta, { backgroundColor: colors.card, marginTop: espaciado.e24, flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }]}>
-            <Star size={icono.sm} color={colors.warning} />
+            <Star size={icono.sm} color={colors.text.warning} />
             <Text style={s.nota}>
               {(seller.ratingAvg ?? 0).toFixed(1)} de 5 · {seller.ratingCount} {seller.ratingCount === 1 ? 'valoración' : 'valoraciones'}
             </Text>
@@ -370,7 +370,7 @@ function Acceso({ Icono, label, ruta, onIr }: {
         borderRadius: radios.md, padding: espaciado.e12, opacity: pressed ? 0.7 : 1,
       }]}
     >
-      <Icono size={icono.sm} color={colors.primary} />
+      <Icono size={icono.sm} color={colors.text.primary} />
       <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: colors.textPrimary }} numberOfLines={1}>{label}</Text>
     </Pressable>
   );

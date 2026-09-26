@@ -60,15 +60,15 @@ export default function LandlordProfileScreen() {
   if (loading) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
       </View>
     );
   }
   if (!landlord) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: espaciado.e24 }}>
-        <Text style={{ color: colors.danger, fontWeight: peso.fuerte }}>{error ?? 'Arrendador no encontrado'}</Text>
-        <Pressable onPress={() => router.back()} style={{ marginTop: espaciado.e12 }}><Text style={{ color: colors.primary, fontWeight: peso.fuerte }}>Volver</Text></Pressable>
+        <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte }}>{error ?? 'Arrendador no encontrado'}</Text>
+        <Pressable onPress={() => router.back()} style={{ marginTop: espaciado.e12 }}><Text style={{ color: colors.text.primary, fontWeight: peso.fuerte }}>Volver</Text></Pressable>
       </View>
     );
   }

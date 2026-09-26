@@ -225,7 +225,7 @@ export default function AsistenteDeTalla({
   if (tablas === null) {
     return (
       <View style={{ paddingVertical: espaciado.e26, alignItems: 'center' }}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.text.primary} />
         <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, marginTop: espaciado.e8 }}>Mirando la tabla de esta tienda…</Text>
       </View>
     );
@@ -295,7 +295,7 @@ export default function AsistenteDeTalla({
 
         {!verOpcionales ? (
           <Pressable onPress={() => setVerOpcionales(true)} accessibilityLabel="Añadir pecho, cintura o cadera" style={{ marginTop: espaciado.e8 }}>
-            <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>+ Pecho · Cintura · Cadera</Text>
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>+ Pecho · Cintura · Cadera</Text>
           </Pressable>
         ) : null}
       </ScrollView>
@@ -325,7 +325,7 @@ export default function AsistenteDeTalla({
                   <Text style={{ color: brand.white, fontSize: tipografia.body, fontWeight: peso.titulo }}>Usar esta talla</Text>
                 </Pressable>
               ) : (
-                <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e8 }}>
+                <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e8 }}>
                   La tabla recomienda la {tallaRecomendada}, pero este producto no la tiene entre sus tallas. Elige la más cercana.
                 </Text>
               )}
@@ -354,9 +354,9 @@ export default function AsistenteDeTalla({
           style={[styles.botonPie, { flex: 1, borderWidth: trazo.base, borderColor: colors.primary }]}
         >
           {guardando
-            ? <ActivityIndicator size="small" color={colors.primary} />
+            ? <ActivityIndicator size="small" color={colors.text.primary} />
             : (
-              <Text numberOfLines={1} style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
+              <Text numberOfLines={1} style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
                 {guardadas ? 'Guardadas ✓' : 'Guardar medidas'}
               </Text>
             )}
@@ -366,7 +366,7 @@ export default function AsistenteDeTalla({
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: espaciado.e6, gap: espaciado.e10 }}>
         {deGuardadas ? (
           <Pressable onPress={borrar} accessibilityLabel="Borrar mis medidas">
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Borrar mis medidas</Text>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Borrar mis medidas</Text>
           </Pressable>
         ) : null}
       </View>

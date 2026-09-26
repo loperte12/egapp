@@ -41,12 +41,12 @@ export function FilaRequisito({ ok, label, hint, onPress }: FilaRequisitoProps) 
       style={styles.fila}
     >
       {ok
-        ? <BadgeCheck size={icono.sm} color={colors.success} />
+        ? <BadgeCheck size={icono.sm} color={colors.text.success} />
         : <CircleDashed size={icono.sm} color={colors.textSecondary} />}
       <View style={styles.textos}>
         <Text style={[styles.label, { color: ok ? colors.textPrimary : colors.textSecondary }]}>{label}</Text>
         {hint ? (
-          <Text style={[styles.hint, { color: onPress ? colors.primary : colors.textSecondary }]}>
+          <Text style={[styles.hint, { color: onPress ? colors.text.primary : colors.textSecondary }]}>
             {hint}{onPress ? ' ›' : ''}
           </Text>
         ) : null}

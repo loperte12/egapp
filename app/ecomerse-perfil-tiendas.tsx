@@ -131,7 +131,7 @@ export default function EcomersePerfilTiendasScreen() {
         </View>
       ) : cargando && tiendas === null ? (
         <View style={styles.centro}>
-          <ActivityIndicator color={colors.primary} />
+          <ActivityIndicator color={colors.text.primary} />
         </View>
       ) : (
         <FlatList

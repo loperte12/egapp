@@ -29,7 +29,7 @@ export default function RutaFallidaScreen() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: espaciado.e24, paddingBottom: insets.bottom + 24 }}>
         <View style={[styles.icono, { backgroundColor: alpha(colors.primary, 0.1) }]}>
-          <MapPinOff size={30} color={colors.primary} />
+          <MapPinOff size={30} color={colors.text.primary} />
         </View>
 
         <Text style={{ color: colors.textPrimary, fontSize: tipografia.cifra, fontWeight: peso.titulo, textAlign: 'center', marginTop: espaciado.e14 }}>

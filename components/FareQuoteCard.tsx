@@ -31,7 +31,7 @@ export default function FareQuoteCard({ distanceKm = 3.5, city = 'Malabo' }: { d
   if (loading) {
     return (
       <View style={[styles.card, { backgroundColor: alpha(colors.secondary, 0.08), borderColor: alpha(colors.secondary, 0.25) }]}>
-        <ActivityIndicator color={colors.secondary} size="small" />
+        <ActivityIndicator color={colors.text.secondary} size="small" />
         <Text style={[styles.loadingText, { color: colors.textSecondary }]}>Tarifa en vivo…</Text>
       </View>
     );
@@ -41,7 +41,7 @@ export default function FareQuoteCard({ distanceKm = 3.5, city = 'Malabo' }: { d
   return (
     <View style={[styles.card, { backgroundColor: alpha(colors.secondary, 0.08), borderColor: alpha(colors.secondary, 0.25) }]}>
       <View style={[styles.iconWrap, { backgroundColor: alpha(colors.secondary, 0.15) }]}>
-        <CarTaxiFront size={18} color={colors.secondary} />
+        <CarTaxiFront size={18} color={colors.text.secondary} />
       </View>
       <View style={styles.body}>
         <Text style={[styles.title, { color: colors.textPrimary }]}>
@@ -52,7 +52,7 @@ export default function FareQuoteCard({ distanceKm = 3.5, city = 'Malabo' }: { d
         </Text>
       </View>
       <View style={styles.priceBlock}>
-        <Text style={[styles.price, { color: colors.secondary }]}>{fmtXaf(quote.quote)} XAF</Text>
+        <Text style={[styles.price, { color: colors.text.secondary }]}>{fmtXaf(quote.quote)} XAF</Text>
         <View style={styles.bandRow}>
           <BadgeInfo size={11} color={colors.textSecondary} />
           <Text style={[styles.band, { color: colors.textSecondary }]}>

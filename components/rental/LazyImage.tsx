@@ -135,7 +135,7 @@ export function LazyImage({
       {/* Indicador de carga (solo si ni thumbnail ni full han cargado) */}
       {!thumbLoaded && !mainLoaded && (
         <View style={[s.loading, { backgroundColor: colors.surface }]}>
-          <ActivityIndicator color={colors.primary} size="small" />
+          <ActivityIndicator color={colors.text.primary} size="small" />
         </View>
       )}
     </View>

@@ -129,13 +129,13 @@ export default function EcomerseMensajesChatScreen() {
             /* Sin logo —o con la imagen rota— se pinta la inicial, que es lo que ya hace la tarjeta
                de tienda. Una imagen rota en una cabecera es peor que una letra. */
             <View style={[s.avatar, s.avatarLetra, { backgroundColor: alpha(colors.primary, 0.15), borderColor: colors.border }]}>
-              <Text style={[s.inicial, { color: colors.primary }]}>{nombre.charAt(0).toUpperCase()}</Text>
+              <Text style={[s.inicial, { color: colors.text.primary }]}>{nombre.charAt(0).toUpperCase()}</Text>
             </View>
           )}
           <View style={s.cabeceraTexto}>
             <View style={s.cabeceraFila}>
               <Text style={[s.cabeceraTitulo, { color: colors.textPrimary }]} numberOfLines={1}>{nombre}</Text>
-              {verificado && <ShieldCheck size={13} color={brand.success} />}
+              {verificado && <ShieldCheck size={13} color={colors.text.success} />}
             </View>
             <Text style={[s.cabeceraNota, { color: colors.textSecondary }]} numberOfLines={1}>
               Conversación con la tienda
@@ -194,7 +194,7 @@ export default function EcomerseMensajesChatScreen() {
           onContentSizeChange={() => listaRef.current?.scrollToEnd({ animated: false })}
           ListEmptyComponent={
             cargando ? (
-              <View style={s.cargando}><ActivityIndicator color={colors.primary} /></View>
+              <View style={s.cargando}><ActivityIndicator color={colors.text.primary} /></View>
             ) : (
               <EmptyState
                 emoji="👋"

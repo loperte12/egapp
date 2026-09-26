@@ -161,7 +161,7 @@ export default function HotelResultadosScreen() {
           accessibilityLabel="Cambiar la búsqueda"
           style={[styles.cambiar, { borderColor: colors.border }]}
         >
-          <Text style={[styles.cambiarTxt, { color: colors.primary }]}>Cambiar</Text>
+          <Text style={[styles.cambiarTxt, { color: colors.text.primary }]}>Cambiar</Text>
         </Pressable>
       </View>
 
@@ -182,7 +182,7 @@ export default function HotelResultadosScreen() {
             backgroundColor: hayFiltro ? alpha(colors.primary, 0.12) : colors.surface,
           }]}
         >
-          <Text style={{ color: hayFiltro ? colors.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+          <Text style={{ color: hayFiltro ? colors.text.primary : colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
             {hayFiltro
               ? `Precio: ${aplicado.min !== undefined ? xaf(aplicado.min) : '0'} – ${aplicado.max !== undefined ? xaf(aplicado.max) : 'sin tope'}`
               : '💰 Precio'}
@@ -220,7 +220,7 @@ export default function HotelResultadosScreen() {
             </View>
           </View>
           {aplicado.error ? (
-            <Text style={{ color: colors.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8 }}>
+            <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8 }}>
               ⚠ {aplicado.error}
             </Text>
           ) : null}
@@ -245,14 +245,14 @@ export default function HotelResultadosScreen() {
 
       {cargando ? (
         <View style={styles.centro}>
-          <ActivityIndicator color={colors.primary} />
+          <ActivityIndicator color={colors.text.primary} />
           <Text style={[styles.sub, { color: colors.textSecondary }]}>Buscando disponibilidad…</Text>
         </View>
       ) : error ? (
         <View style={[styles.aviso, { borderColor: colors.danger, backgroundColor: alpha(colors.danger, 0.06) }]}>
-          <Text style={{ color: colors.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.body, fontWeight: peso.medio }}>{error}</Text>
           <Pressable onPress={() => void cargar()} accessibilityRole="button" accessibilityLabel="Reintentar">
-            <Text style={[styles.enlace, { color: colors.primary }]}>Reintentar</Text>
+            <Text style={[styles.enlace, { color: colors.text.primary }]}>Reintentar</Text>
           </Pressable>
         </View>
       ) : (
@@ -301,7 +301,7 @@ export default function HotelResultadosScreen() {
                 aparecen marcados como «sin disponibilidad», así que puedes ajustar el rango.
               </Text>
               <Pressable onPress={() => router.push('/lifebook-hotel' as never)} accessibilityRole="button" accessibilityLabel="Cambiar la búsqueda">
-                <Text style={[styles.enlace, { color: colors.primary }]}>Cambiar la búsqueda</Text>
+                <Text style={[styles.enlace, { color: colors.text.primary }]}>Cambiar la búsqueda</Text>
               </Pressable>
             </View>
           }
