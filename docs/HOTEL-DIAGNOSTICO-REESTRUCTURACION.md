@@ -124,7 +124,7 @@ Un valor fuera de la lista da `AMENITY_INVALID`. Máx 20 por hotel.
 | LH-03 | Alta | Guardar precio o estancia mínima **REABRE los días cerrados** del calendario |
 | LH-04 | Alta | El precio cambia según la pantalla y el cobro usa la noche **MÁS CARA** |
 | LH-05 | Alta | El método «Monedero» es **inalcanzable** desde la app: toda reserva con él responde 400 |
-| LH-06 | Alta | Se puede **cancelar DESPUÉS del check-in**: «Devuelto» sin devolución y habitación liberada con el huésped dentro |
+| LH-06 | Alta | Se puede **cancelar DESPUÉS del check-in**: «Devuelto» sin devolución y habitación liberada con el huésped dentro. **La regla estaba escrita TRES veces y el servidor tiene una CUARTA** (§9.1). **Mitad cliente: HECHA** (`egapp 0d30e35`) · **mitad servidor: ABIERTA** |
 | LH-07 | Media | La señal pagada con monedero caduca en `hold_minutes` (20 min) aunque el hotel tenga 24 h |
 | LH-08 | Media | Una reserva `pending` con retención vencida ocupa inventario y sigue «viva» para siempre |
 | LH-09 | Media | Reintentar con la misma `Idempotency-Key` reaprovecha un cerrojo **ya devuelto**: el hotel no cobra |
@@ -193,7 +193,7 @@ paso previo a cualquier carga de datos reales.
 | **Valoraciones: escribir y listar** | **`rating` sale de `shops.rating`** — la nota **de la tienda**, no del hotel. **No hay tabla de reseñas.** | **modelo nuevo · DEFINIDO (§8.1)**: tabla `lifebook.hotel_reviews` (`021`), permiso = reserva `checked_out`, espejo en `hotel_profiles`. `shops.rating` **no se toca** (es la nota del mercado) |
 | **Pestañas 亮点 / 设施 / 政策 / 周边** | la ficha es **una sola página** (amenities como chips) | frontend |
 | **Galería 封面 / 房间 / 公共区域 / 相册** | `images` (máx 12) **sin clasificar** | modelo + frontend |
-| **Política con fecha/hora + penalización calculada** | `cancellation_policy` es **texto libre 600** y `cancellation_hours` un número relativo (0-720, def. 48). Meituan usa **hasta qué hora** y **tramos con tarifa** | **MODELO DECIDIDO (§8.2): `cancellation_hours`, sin tramos.** El modelo de tramos **no se construye**; la penalización **es la señal**. Queda **frontend** (pintar el rótulo) y el desacople del texto libre |
+| **Política con fecha/hora + penalización calculada** | `cancellation_policy` es **texto libre 600** y `cancellation_hours` un número relativo (0-720, def. 48). Meituan usa **hasta qué hora** y **tramos con tarifa** | **MODELO DECIDIDO (§8.2): `cancellation_hours`, sin tramos.** El modelo de tramos **no se construye**; la penalización **es la señal**. El rótulo **ya está pintado** (3 pantallas) y el servidor ya calcula el campo → lo que queda es **backend**: el instante (LH-13) y el efecto en el dinero (LH-01), más el desacople del texto libre |
 | **Etiqueta 立即确认** | **el dato YA existe**: `room_types.confirmation_hours`. No se pinta | **solo frontend** |
 | **费用明细 con N descuentos** | `quote()` devuelve total / señal / restante. **Sin desglose** | backend |
 | **Promociones y 神券 del hotel** | `014_cupones.sql` es del **mercado**, no del hotel | modelo |
@@ -210,7 +210,9 @@ paso previo a cualquier carga de datos reales.
 2. **Filtro de facilities sobre `amenities`** — el enum existe, es cerrado y validado. Solo falta exponerlo.
 3. **Filtro de estrellas** — `stars` existe.
 4. **Política de cancelación por N horas** — **decidido**: `cancellation_hours` (0-720, def. 48) ya existe.
-   Es pintar «cancelación gratuita hasta N horas antes» en la ficha y en la tarjeta. **Cero modelo nuevo.**
+   **Corregido el 27-sep: el rótulo ya está pintado** en tres pantallas y el servidor ya calcula el campo
+   (`freeCancellationUntil`). Lo que falta es **backend**, no frontend: el instante usa 14:00 UTC fijo en
+   vez del `checkin_from` del hotel (**LH-13**), y fuera de plazo no cambia lo que se devuelve (**LH-01**).
 5. **Modo mapa** — MapLibre ya está en uso y las coordenadas ya vienen en `arrival`. *(Se construye después de
    publicar, §7/D2 — pero el coste es el mismo de siempre: bajo.)*
 
@@ -363,6 +365,18 @@ hace falta ninguna columna nueva**:
 y si `checkin_from` viniera nulo, 00:00. Un huésped entiende «hasta 48 h antes de las 14:00 del día de
 entrada»; «hasta 48 h antes de ese día» es ambiguo justo cuando importa.
 
+> **CORRECCIÓN MEDIDA (27-sep-2026) — esto NO es «solo frontend», como decía esta sección.**
+> El rótulo **ya existe y ya se pinta**, en tres pantallas (`lifebook-hotel-panel.tsx:413`,
+> `lifebook-hotel-reserva.tsx:313` y `:378`, `lifebook-hotel-reservas.tsx:408`), y el servidor **ya
+> calcula el campo** (`freeCancellationUntil`, en `reservations.service.ts:511` y `hotel.service.ts:852`;
+> el tipo del cliente ya lo declara, `api/hotel.ts:237`). Lo que **falta** no es pintarlo:
+> 1. **El cálculo ignora el horario real del hotel.** El servidor hace
+>    `new Date(fecha + 'T14:00:00Z')` — **14:00 UTC fijo** (16:00 en Malabo, UTC+1) — en vez de usar el
+>    `checkin_from` que el propio fichero mapea unas líneas antes. **[NUEVO · LH-13]**
+> 2. **El efecto en el dinero no existe:** fuera de plazo el servidor no devuelve distinto. Eso es LH-01.
+> 3. Y `canCancel` (el dato que el servidor sí manda) lo **calcula con una regla que contradice §8.2** —
+>    ver §9.1.
+
 **La penalización ya existe: es la SEÑAL.** Fuera de plazo se pierde el depósito ya cobrado
 (`deposit_percent` sobre el total) y **se devuelve el resto** si lo había pagado. No se inventa una tarifa
 de cancelación: introducir otro importe obligaría a modelarlo, a devengarlo y a una segunda ruta en el
@@ -394,9 +408,100 @@ reloj se está** resuelve la mitad de los hallazgos de dinero.
 
 ### 8.4 Lo que estas dos decisiones cierran
 
-- Del mapa de brecha: **«política con fecha/hora y tramos»** → cerrado como **frontend**; **«valoraciones:
-  escribir y listar»** → cerrado como **modelo**, con la tabla ya definida.
+- Del mapa de brecha: **«política con fecha/hora y tramos»** → cerrado como **backend** (corregido el
+  27-sep: el rótulo ya existía y el campo ya se calculaba); **«valoraciones: escribir y listar»** → cerrado
+  como **modelo**, con la tabla ya definida.
 - De §7.2: quedan **el orden de trabajos (D1)**, el barrido `expire-stale` **[SIN MEDIR]**, y **cómo se
   marca un ejemplo** (bandera o disciplina de nombres — sigue sin medirse ninguna bandera).
 - Y queda **una migración por escribir** (`021`) más el volcado del esquema del hotel (trabajo B), del que
   `021` es la primera pieza versionada: hoy **ni una** de las cinco tablas del hotel está en el repo.
+
+---
+
+## 9. Trabajo A — acta de la primera tanda (27-sep-2026)
+
+Bernardo: «**sigue la orden que has propuesto**» → autorizado **A → B → C**. Dentro de A, el orden lo
+decide la puerta, no la severidad: **LH-01 (la crítica) exige servidor** y el servidor no está accesible
+(§9.3). A se parte, por tanto, en dos frentes que **no se mezclan**:
+
+| Frente | Qué entra | Puerta |
+|---|---|---|
+| **A-cliente** | contrato + pantallas; lo que vive en el repo y se verifica con `tsc` + guardias | **abierta** |
+| **A-servidor** | todo lo que mueve el monedero: LH-01, LH-02, LH-05, LH-07→LH-10, LH-12 | **bloqueada** (§9.3) |
+
+### 9.1 LH-06: la regla estaba escrita CUATRO veces, y la cuarta es la que manda
+
+Al ir a arreglarlo apareció que **no era un botón mal puesto**: era la misma regla copiada, y ninguna copia
+coincidía con la decisión §8.2.
+
+| # | Sitio | Regla | ¿Excluye `checked_in`? |
+|---|---|---|---|
+| 1 | `packages/contracts/src/reservation-flow.ts:56` | `checked_in: ['checkout','cancel']` | **no** |
+| 2 | `app/lifebook-hotel-reservas.tsx:327` | `!['checked_out','cancelled','no_show']` | **no** |
+| 3 | `app/lifebook-hotel-reserva.tsx:128` | **idéntica a la 2** (copia literal) | **no** |
+| 4 | `reservations.service.ts:479` (servidor) | `viva && ['hold','pending','confirmed','checked_in'] && ventana` | **no** |
+
+**Y el censo por función no las veía.** Buscar `availableActions` devolvía **dos** consumidores (el contrato
+y el panel del hotelero); las dos pantallas del huésped **no usaban el contrato**: tenían su propio `if`. Se
+localizaron censando por **la acción sobre la API** (`hotelApi.cancel`), no por el ayudante. *Regla: cuando la
+regla de negocio se puede escribir a mano, se copia a mano — censar por el efecto, no por la función.*
+
+**Decisión de diseño:** la regla **de estado** vive en el contrato (es estática y compartida); la regla **de
+tiempo** vive en el servidor (`canCancel`), porque depende del reloj. Hoy el cliente **no** puede confiar en
+`canCancel`, porque la lista del servidor incluye `checked_in`.
+
+### 9.2 Lo que se ha hecho (commit `egapp 0d30e35`, 3 ficheros, +30/−4)
+
+1. `reservation-flow.ts`: `checked_in` pasa de `['checkout','cancel']` a **`['checkout']`**.
+2. Las dos pantallas del huésped preguntan a `availableActions()` en vez de a su lista copiada.
+3. El porqué queda escrito **dentro del contrato**, incluido lo que **no** cierra.
+
+**Verificación (la tabla completa, no el caso suelto): 7 estados × 3 roles × 2 modos = 21 filas comparadas
+contra el respaldo. 3 cambios, y los 3 son `checked_in` perdiendo «cancel»:**
+
+| Estado / rol | Antes | Ahora |
+|---|---|---|
+| `checked_in` · hotel | `checkout, cancel` | `checkout` |
+| `checked_in` · huésped | `cancel` | *(ninguna)* — `checkout` es acción solo del hotel |
+| `checked_in` · admin | `checkout, cancel` | `checkout` |
+
+Las **otras 18 filas salen idénticas**: no hay regresión en ningún otro estado ni rol. Puertas: `tsc
+--noEmit` limpio · trinquete intacto (`hex 0 · fontSize 0 · borderRadius 0 · fontWeight 0 · borderWidth 5 ·
+espaciado 183 · precioFigura 5 · strokeWidth 0`) · rutas sin enlaces rotos.
+
+> **Y esto NO cierra LH-06.** Endurece el cliente: la app deja de ofrecer el botón. El servidor sigue
+> aceptando `cancel` desde `checked_in` (fila 4 de la tabla), así que **la mitad que manda queda abierta**.
+> Se declara así a propósito, para que nadie lo dé por cerrado.
+
+### 9.3 Lo que bloquea A-servidor, y está medido
+
+```
+ssh root@8.218.88.237  →  Connection timed out during banner exchange
+```
+
+El **TCP conecta** (llega al intercambio de banner), pero el handshake no se completa. No es el aislamiento
+del entorno — con el aislamiento quitado da el mismo resultado, y el síntoma cambia de `connect timed out` a
+`timed out during banner exchange`. Es el veto del servidor (`fail2ban`). **No se reintenta en ráfaga: cada
+intento lo alarga.** Consecuencia: **no se puede verificar que el fichero desplegado siga siendo la copia del
+17-sep**, y esa comprobación es la que autoriza a editar en local sin miedo.
+
+**[SIN MEDIR]** por lo mismo: (a) la huella `sha256` del `hotel.service.ts` y `reservations.service.ts`
+desplegados; (b) si la versión desplegada de `canCancel` ya excluye `checked_in` — el comentario de
+`reservations.service.ts:399` («sin este campo `freeCancellationUntil` salía siempre vacío») demuestra que
+hay arreglos posteriores al 17-sep; (c) el barrido `expire-stale`.
+
+### 9.4 A-servidor: el inventario de lo que hay que tocar, ya localizado
+
+| # | Sev. | Fichero (copia del 17-sep) | Qué hay que cambiar |
+|---|---|---|---|
+| LH-01 | **Crítica** | `hotel-merchant.service.ts` | las transiciones del panel deben emitir `ESCROW_RELEASE` / `ESCROW_REFUND`, igual que ya hace `lifebook-hotel-reservas.tsx` |
+| LH-06 | Alta | `reservations.service.ts:479` | quitar `checked_in` de la lista de `canCancel` |
+| LH-13 | **nueva** | `reservations.service.ts:511` | el instante: `T14:00:00Z` fijo → `checkin_from` del hotel |
+| LH-05 | Alta | método «Monedero» | inalcanzable: toda reserva con él responde 400 |
+| LH-02 | Alta | `hotel-merchant.service.ts` | «Confirmar reserva» sin cobrar la señal deja la reserva sin salida |
+| LH-07 | Media | el reloj de `hold_minutes` | la señal con monedero caduca a los 20 min aunque el hotel dé 24 h |
+| LH-10 | Media | el `ESCROW_RELEASE` | si falla la liberación, no hay reintento ni cola |
+
+**Sigue en pie lo que dice §3:** antes de escribir una línea de backend hay que volcar el esquema real y
+bajar la Parte 42, porque la copia que se audita es del **17-sep** y ya sabemos que hay arreglos posteriores
+(el comentario de la línea 399). Editar sobre ella sin sincronizar es trabajar a ciegas.
