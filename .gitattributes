@@ -1,0 +1,7 @@
+# Terminadores de línea: donde son parte del ARTEFACTO, no del editor.
+#
+# `core.autocrlf=true` en este repo convierte a CRLF todo lo que sale del índice.
+# Para el código del servidor eso rompe dos cosas a la vez: la huella sha256 deja
+# de cuadrar (se despliega por huella) y el generador de despliegue aborta con CRLF.
+# Los ficheros desplegados en Linux se quedan en LF, byte a byte como se revisaron.
+backend/server-src/** -text
