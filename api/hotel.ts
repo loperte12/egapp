@@ -499,16 +499,10 @@ export const hotelApi = {
   },
 };
 
-/** Estados de reserva en lenguaje humano (los usa la app y el panel). */
-export const RESERVA_ETIQUETA: Record<ReservationStatus, string> = {
-  hold: 'Sin pagar (retenida)',
-  pending: 'Señal pagada · por confirmar',
-  confirmed: 'Confirmada',
-  checked_in: 'Dentro',
-  checked_out: 'Salida hecha',
-  cancelled: 'Cancelada',
-  no_show: 'No se presentó',
-};
+// RESERVA_ETIQUETA se retiró el 27-sep-2026: era un SEGUNDO mapa de etiquetas de estado,
+// con textos distintos para los mismos estados que el del contrato, y los dos afirmaban
+// «Señal pagada» aunque no la hubiera. Las etiquetas viven en `@egrouteplan/contracts`
+// (`RESERVATION_STATUS_LABELS` y, para el matiz de dinero, `estadoRotulo()`).
 
 export const PAGO_ETIQUETA: Record<PaymentStatus, string> = {
   pending: 'Sin cobrar',

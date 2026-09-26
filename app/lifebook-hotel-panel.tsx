@@ -34,8 +34,8 @@ import { PanelGate } from '../core/PanelGate';
 import { hotelApi, PAGO_ETIQUETA, type HotelDashboard, type Reservation } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
 import {
-  availableActions, isReservationLive, RESERVATION_ACTIONS_SPEC, RESERVATION_STATUS_LABELS,
-  type ReservationAction, type ReservationStatus,
+  availableActions, estadoRotulo, isReservationLive, senalCobrada, RESERVATION_ACTIONS_SPEC,
+  type ReservationAction,
 } from '@egrouteplan/contracts';
 import { countdown, longDate, shortDate, todayIso, xaf } from '../utils/datetime';
 
@@ -327,7 +327,7 @@ function Tarjeta({
   onSenal: (r: Reservation) => void;
 }) {
   const { colors } = useTheme();
-  const estado = RESERVATION_STATUS_LABELS[r.status as ReservationStatus] ?? r.status;
+  const estado = estadoRotulo(r.status, { senalCobrada: senalCobrada(r.paymentStatus) });
   const viva = isReservationLive(r.status, r.holdExpiresAt);
   const acciones = availableActions(r.status, { who: 'hotel', viva });
 
@@ -353,7 +353,7 @@ function Tarjeta({
           : colors.text.primary;
 
   const senalPendiente = ['hold', 'pending'].includes(r.status) && r.depositXaf > 0
-    && !['deposit_paid', 'paid'].includes(r.paymentStatus);
+    && !senalCobrada(r.paymentStatus);
 
   return (
     <View style={[styles.card, { borderColor: colors.border, backgroundColor: colors.card }]}>

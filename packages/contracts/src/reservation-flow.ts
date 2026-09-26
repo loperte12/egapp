@@ -88,18 +88,52 @@ export const RESERVATION_ACTIONS_SPEC: Readonly<Record<ReservationAction, Reserv
 };
 
 /**
- * Etiquetas de estado en lenguaje humano, con el matiz del DINERO incluido (una
- * reserva «pending» no es solo «pendiente»: es «señal pagada, por confirmar»).
+ * Etiquetas de estado en lenguaje humano. **Es el ÚNICO mapa de etiquetas.**
+ *
+ * Había dos: este y `RESERVA_ETIQUETA` en `api/hotel.ts`, con textos distintos para
+ * los mismos estados («Huésped dentro» / «Dentro», «Finalizada» / «Salida hecha»).
+ * Se retiró el de la API.
+ *
+ * Y `pending` decía «Señal pagada · por confirmar» **siempre**, aunque no hubiera
+ * señal (LH-11). Aquí queda el hecho que se sabe siempre; el matiz de dinero lo
+ * añade `estadoRotulo()` cuando consta el pago.
  */
 export const RESERVATION_STATUS_LABELS: Readonly<Record<ReservationStatus, string>> = {
   hold: 'Sin pagar (retenida)',
-  pending: 'Señal pagada · por confirmar',
+  pending: 'Por confirmar',
   confirmed: 'Confirmada',
   checked_in: 'Huésped dentro',
   checked_out: 'Finalizada',
   cancelled: 'Cancelada',
   no_show: 'No se presentó',
 };
+
+/**
+ * ¿Está COBRADA la señal? Es la única forma admitida de preguntarlo.
+ *
+ * Estaba escrito de dos maneras y **no coincidían**: el panel del hotelero contaba
+ * `deposit_paid` y `paid`, y la lista del huésped solo `deposit_paid` — así que una
+ * reserva pagada del todo le salía «sin cobrar» al huésped.
+ */
+export function senalCobrada(paymentStatus?: string | null): boolean {
+  return paymentStatus === 'deposit_paid' || paymentStatus === 'paid';
+}
+
+/**
+ * El rótulo de un estado, con el matiz de DINERO resuelto contra el pago real.
+ *
+ * `pending` significa dos cosas —señal cobrada y sin confirmar, o aún sin cobrar— y
+ * el rótulo afirmaba la primera siempre (LH-11). El dinero solo se afirma cuando
+ * consta; el resto del tiempo vale el hecho seguro («Por confirmar»).
+ */
+export function estadoRotulo(
+  status: ReservationStatus | string,
+  opts?: { senalCobrada?: boolean },
+): string {
+  const base = RESERVATION_STATUS_LABELS[status as ReservationStatus] ?? String(status);
+  if (status === 'pending' && opts?.senalCobrada) return 'Señal pagada · por confirmar';
+  return base;
+}
 
 /** Estados que OCUPAN inventario (una retención vencida ya no). */
 export const OCCUPYING_STATUSES: readonly ReservationStatus[] =

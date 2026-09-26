@@ -16,10 +16,10 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { alpha, altura, brand, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
-import { availableActions } from '@egrouteplan/contracts';
+import { availableActions, estadoRotulo, senalCobrada } from '@egrouteplan/contracts';
 import { AuthGate } from '../core/AuthGate';
 import {
-  hotelApi, PAGO_ETIQUETA, RESERVA_ETIQUETA, METODO_ETIQUETA, type Reservation,
+  hotelApi, PAGO_ETIQUETA, METODO_ETIQUETA, type Reservation,
 } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
 import { countdown, longDate, shortDate, xaf } from '../utils/datetime';
@@ -324,7 +324,7 @@ function Tarjeta({
   const puedeEnviarRef = r.role === 'guest' && r.paymentMethod === 'transfer'
     && r.paymentStatus === 'pending' && r.status === 'hold';
   const puedeConfirmarSenal = r.role === 'hotel' && ['hold', 'pending'].includes(r.status)
-    && r.paymentStatus !== 'deposit_paid' && r.depositXaf > 0;
+    && !senalCobrada(r.paymentStatus) && r.depositXaf > 0;
   // Quién puede cancelar lo dice el CONTRATO, no una lista copiada aquí (antes: la misma
   // lista `!['checked_out','cancelled','no_show']` que en la ficha, y ninguna de las dos
   // excluía `checked_in`). `viva: true` porque el `r.viva &&` de delante ya lo exige: así no
@@ -364,7 +364,7 @@ function Tarjeta({
           </Text>
         </View>
         <View style={[styles.badge, { backgroundColor: alpha(colorEstado, 0.12), borderColor: colorEstado }]}>
-          <Text style={[styles.badgeTxt, { color: colorEstadoTxt }]}>{RESERVA_ETIQUETA[r.status] ?? r.status}</Text>
+          <Text style={[styles.badgeTxt, { color: colorEstadoTxt }]}>{estadoRotulo(r.status, { senalCobrada: senalCobrada(r.paymentStatus) })}</Text>
         </View>
       </View>
 

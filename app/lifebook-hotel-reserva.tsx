@@ -36,7 +36,7 @@ import { hotelApi, METODO_ETIQUETA, PAGO_ETIQUETA, type Reservation } from '../a
 import { ApiError } from '../api/httpClient';
 import { absUrl } from '../api/config';
 import {
-  availableActions, RESERVATION_STATUS_LABELS, type ReservationStatus,
+  availableActions, estadoRotulo, senalCobrada, type ReservationStatus,
 } from '@egrouteplan/contracts';
 import { countdown, longDate, shortDate, xaf } from '../utils/datetime';
 
@@ -45,7 +45,10 @@ const POLL_MS = 20_000;
 /** Pasos de la estancia. `hold` es el primero: la reserva retenida sin pagar la señal. */
 const PASOS: { clave: string; etiqueta: string }[] = [
   { clave: 'hold', etiqueta: 'Retenida' },
-  { clave: 'pending', etiqueta: 'Señal pagada' },
+  // Decia «Señal pagada» sin condición: es el MISMO defecto de LH-11 en la línea de
+  // tiempo. El dinero no se afirma aquí; el rótulo grande de arriba sí lo dice cuando
+  // consta (`estadoRotulo` con el pago delante).
+  { clave: 'pending', etiqueta: 'Por confirmar' },
   { clave: 'confirmed', etiqueta: 'Confirmada' },
   { clave: 'checked_in', etiqueta: 'Dentro' },
   { clave: 'checked_out', etiqueta: 'Salida' },
@@ -241,7 +244,7 @@ function Contenido() {
           <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
             <Text style={[styles.codigo, { color: colors.textPrimary }]}>{r.code}</Text>
             <Text style={[styles.estado, { color: cancelada ? colors.text.danger : colors.text.primary }]}>
-              {RESERVATION_STATUS_LABELS[estado] ?? r.status}
+              {estadoRotulo(estado, { senalCobrada: senalCobrada(r.paymentStatus) })}
             </Text>
 
             {!cancelada ? (
