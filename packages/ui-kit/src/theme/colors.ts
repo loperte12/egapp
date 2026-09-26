@@ -52,6 +52,10 @@ export const brand = {
    */
   neutral: '#64748B',
   neutralPressed: '#475569',
+  /** Mismo valor que `neutralPressed`, y es a propósito: uno es el gris pulsado y otro el gris
+   *  legible. `neutral` cumple sobre blanco (4,76) pero NO sobre `surface` (4,43), y el texto de la
+   *  app cae en las dos. Usar `neutralPressed` para texto dejaría al lector preguntándose por qué. */
+  neutralText: '#475569', // claro 7,58 · sobre surface 7,06
   /**
    * Variantes OSCURAS para texto sobre fondo claro. Faltaban: el código usaba #991B1B y
    * #78350F a mano justamente porque danger (3,4:1) y warning no llegan a AA como texto.
@@ -59,6 +63,17 @@ export const brand = {
    */
   dangerText: '#991B1B',
   warningText: '#78350F',
+  /**
+   * El ámbar oscuro, para el acento `warning` cuando va sobre fondo claro. NO es `warningText`.
+   *
+   * POR QUÉ HACÍA FALTA (A2, 26/09/2026): `warningText` (#78350F, 9,07) sí es legible, pero el
+   * acento `warning` no se usa solo como texto — de sus 54 sitios, 13 son la ESTRELLA de una
+   * valoración y la insignia de un estado (`fill` de un icono). Pintar una estrella con #78350F la
+   * vuelve MARRÓN. Medido: `#B45309` da 5,02 sobre blanco y 4,68 sobre `surface` — cumple AA en las
+   * dos, y sigue siendo ámbar. Un solo valor sirve para las dos posiciones, que es lo que el grupo
+   * `text` necesita para no partir la familia por la mitad.
+   */
+  warningFuerte: '#B45309', // claro 5,02 · sobre surface 4,68
   /* ---------------------------------------------------------------------------------------------
      ESTADO TRANSLÚCIDO — el mismo color de estado a tres intensidades, en vez de doce valores a mano.
      POR QUÉ EXISTEN (auditoría de tokens, H1b, 25/09/2026): la app tenía DOCE valores de alfa
@@ -91,14 +106,34 @@ export const brand = {
      El kit ya tenía la variante del caso contrario (dangerText y warningText, «para texto sobre fondo
      claro»); lo que faltaba era ésta. Estos seis cierran el hueco.
      REGLA: los tokens base NO se tocan — se usan como RELLENO o con texto blanco encima. Estos, SOLO
-     como texto o icono sobre fondo oscuro. Contraste medido sobre #17171A / #1E1E23 / #232329.
+     como texto o icono sobre fondo oscuro. Contraste medido sobre #17171A / #1E1E23 / #232329 — y
+     re-medido el 26/09 contra el cuarto nivel, la hoja #2E3338, que nació después (hallazgo H-2).
      --------------------------------------------------------------------------------------------- */
-  primaryDark: '#4D9AEB', // 6,08 · 5,31
-  successDark: '#45B87A', // 7,15 · 6,24
-  dangerDark: '#F26D6D', // 6,12 · 5,35
-  secondaryDark: '#F08A4B', // 7,19 · 6,28
-  neutralDark: '#B0B8C4', // 8,94 · 8,30 · 7,81
-  warningDark: '#F5B942', // 10,14 · 8,86
+  /* Ratios en el orden [fondo #17171A · tarjeta #232329 · hoja #2E3338].
+     H-2 (26/09): los seis se midieron contra TRES superficies y la HOJA nació después. `primaryDark`
+     daba 4,33 en ella y `dangerDark` 4,36 — por debajo de AA justo donde más texto de acción se pone
+     (las hojas de lifebook). Se han aclarado lo justo: 4,33→5,10 y 4,36→5,21. Los otros cuatro ya
+     cumplían y NO se tocan. */
+  primaryDark: '#5FA9EE', // 7,15 · 6,25 · 5,10
+  successDark: '#45B87A', // 7,15 · 6,24 · 5,09
+  dangerDark: '#F58585', // 7,31 · 6,38 · 5,21
+  secondaryDark: '#F08A4B', // 7,19 · 6,28 · 5,13
+  neutralDark: '#B0B8C4', // 8,94 · 8,30 · 7,81 · 6,38
+  warningDark: '#F5B942', // 10,14 · 8,86 · 7,23
+  /* Los que faltaban para que los acentos de CATEGORÍA también se puedan leer como texto.
+     `social` (#E0439A) da 3,86 en claro, 4,05 en tarjeta oscura y 3,30 en la hoja oscura;
+     `servicio` (#00A870) da 3,07 en claro y 4,15 en la hoja; `lifebook` (#8B5CF6) falla como texto
+     en LOS DOS temas (4,23 en claro y 4,22/3,69/3,01 en oscuro) — su remedio de claro,
+     `lifebookFuerte`, falla todavía más en oscuro (3,14). El violeta no tenía ningún valor legible
+     sobre fondo oscuro. */
+  socialText: '#BE185D', // claro 6,04 · sobre surface 5,68
+  socialDark: '#F472B6', // oscuro 6,75 · sobre hoja 4,81
+  servicioText: '#00784F', // claro 5,53 · sobre surface 5,20
+  servicioDark: '#34D399', // oscuro 9,31 · sobre hoja 6,63
+  lifebookDark: '#A78BFA', // oscuro 6,57 · sobre hoja 4,69
+  /** `info` tal cual da 2,77 en claro (el azul de aviso es claro por diseño). Este es el mismo azul
+   *  oscurecido para que se lea como texto. En oscuro NO se necesita: allí `info` da 6,45. */
+  infoText: '#0369A1', // claro 5,93
   /** Blanco de superficie. Destino de las 554 ocurrencias de blanco escrito a mano. */
   white: '#FFFFFF',
   /* ---------------------------------------------------------------------------------------------
@@ -153,6 +188,34 @@ export const brand = {
   decoIndigo: '#6366F1',
 } as const;
 
+/**
+ * LOS ACENTOS COMO TEXTO, RESUELTOS POR EL TEMA — el grupo `text`.
+ *
+ * POR QUÉ EXISTE (contraste de la Fase 4, 26/09/2026): un acento se usa de DOS maneras que piden
+ * valores distintos — como RELLENO (un botón, con texto blanco encima) y como TEXTO o icono sobre la
+ * superficie. El kit tenía razón al separar los valores, pero dejó la elección en manos de quien
+ * escribe el estilo, y ese no sabe en qué tema está corriendo. Resultado medido: los seis `*Dark`
+ * nacieron con **0 usos** mientras el código usaba los base como texto en 560 sitios que no cumplen.
+ *
+ * Con este grupo, el consumidor escribe `colors.text.danger` y **el tema elige el valor**. No hay
+ * ternarios, no hay que desestructurar `isDark`, y el mismo sitio de estilo vale en claro y en oscuro.
+ *
+ * REGLA: los tokens base siguen siendo para RELLENO. Este grupo es solo para `color:`, `stroke`/`fill`
+ * y el `color` de un icono.
+ */
+export interface AcentoTexto {
+  primary: string;
+  danger: string;
+  success: string;
+  secondary: string;
+  neutral: string;
+  warning: string;
+  info: string;
+  lifebook: string;
+  social: string;
+  servicio: string;
+}
+
 export interface ThemeColors {
   primary: string;
   primaryPressed: string;
@@ -175,6 +238,7 @@ export interface ThemeColors {
   whatsapp: string;
   dangerText: string;
   warningText: string;
+  warningFuerte: string;
   /** Estado translúcido a tres intensidades (Soft 8 % · SoftBorde 20 % · SoftFuerte 33 %).
    *  Ver el bloque en `brand`: son deltas de `primary`/`success`/`warning`/`danger`. */
   primarySoft: string;
@@ -196,6 +260,14 @@ export interface ThemeColors {
   secondaryDark: string;
   neutralDark: string;
   warningDark: string;
+  /** Acentos de categoría y aviso legibles como texto. Ver el bloque en `brand`. */
+  socialText: string;
+  socialDark: string;
+  servicioText: string;
+  servicioDark: string;
+  lifebookDark: string;
+  infoText: string;
+  neutralText: string;
   white: string;
   /** Identidad de producto: acento de lifebook y de lo social. Ver el bloque en `brand`. */
   lifebook: string;
@@ -228,6 +300,8 @@ export interface ThemeColors {
   border: string;
   overlay: string;
   shadow: string;
+  /** Los acentos resueltos para ir como TEXTO o icono. Ver `AcentoTexto`. */
+  text: AcentoTexto;
 }
 
 export const lightColors: ThemeColors = {
@@ -246,6 +320,21 @@ export const lightColors: ThemeColors = {
   border: 'rgba(29, 33, 41, 0.08)',
   overlay: 'rgba(23, 23, 26, 0.45)',
   shadow: '#17171A',
+  /* En claro, cuatro de los diez acentos ya cumplen tal cual y son los que se usan como relleno
+     (primary 5,19 · danger 5,24 · success 4,99 · secondary 4,83 sobre `surface`, la peor de las dos
+     superficies claras). Los otros seis fallan y toman su variante de texto. */
+  text: {
+    primary: brand.primary,
+    danger: brand.danger,
+    success: brand.success,
+    secondary: brand.secondary,
+    neutral: brand.neutralText,
+    warning: brand.warningFuerte,
+    info: brand.infoText,
+    lifebook: brand.lifebookFuerte,
+    social: brand.socialText,
+    servicio: brand.servicioText,
+  },
 };
 
 export const darkColors: ThemeColors = {
@@ -260,6 +349,22 @@ export const darkColors: ThemeColors = {
   border: 'rgba(255, 255, 255, 0.08)',
   overlay: 'rgba(0, 0, 0, 0.55)',
   shadow: '#000000',
+  /* En oscuro NINGÚN acento base cumple como texto (3,18–4,22), así que los diez toman su variante.
+     Ratios contra la peor superficie, la hoja: primary 5,10 · danger 5,21 · success 5,09 ·
+     secondary 5,13 · neutral 6,38 · warning 7,23 · info 4,60 · lifebook 4,69 · social 4,81 ·
+     servicio 6,63. Todos por encima de 4,5. */
+  text: {
+    primary: brand.primaryDark,
+    danger: brand.dangerDark,
+    success: brand.successDark,
+    secondary: brand.secondaryDark,
+    neutral: brand.neutralDark,
+    warning: brand.warningDark,
+    info: brand.info,
+    lifebook: brand.lifebookDark,
+    social: brand.socialDark,
+    servicio: brand.servicioDark,
+  },
 };
 
 /**

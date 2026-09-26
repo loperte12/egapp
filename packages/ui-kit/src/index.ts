@@ -13,6 +13,7 @@ export {
   elevation,
   elevationDark,
   type ThemeColors,
+  type AcentoTexto,
   type ElevationStyle,
 } from './theme/colors';
 export { ThemeProvider, useTheme, type ThemeMode } from './theme/ThemeContext';

@@ -15,7 +15,13 @@ import { trazoIcono } from '../theme/escalas';
 
 type BannerTone = 'review' | 'success' | 'error';
 
-const TONE_MAP: Record<BannerTone, { colorKey: keyof ThemeColors; Icon: LucideIcon }> = {
+/**
+ * `Exclude<…, 'text'>`: la paleta dejó de ser PLANA con la tanda A2 — `colors.text` es un GRUPO (un
+ * objeto de 10 acentos resueltos por tema), no un color. Un índice dinámico sobre `keyof ThemeColors`
+ * devolvería `string | AcentoTexto`, y `alpha()` o `color:` no aceptan un objeto. Se excluye la clave
+ * del grupo y el mapa sigue leyendo solo colores planos.
+ */
+const TONE_MAP: Record<BannerTone, { colorKey: Exclude<keyof ThemeColors, 'text'>; Icon: LucideIcon }> = {
   review: { colorKey: 'secondary', Icon: Clock },
   success: { colorKey: 'success', Icon: CheckCircle2 },
   error: { colorKey: 'danger', Icon: AlertTriangle },
