@@ -163,7 +163,13 @@ Las 5 tablas del hotel existen **solo en el servidor**. Ni en `backend/sql/`, ni
 
 > **Antes de escribir una línea de backend:** volcar el esquema real del hotel (5 tablas, columnas, tipos,
 > índices, constraints) a `backend/sql/` y bajar la Parte 42 a `backend/server-src/`. Sin esto se trabaja
-> contra una foto de hace 9 días.
+> contra una foto de 9 días.
+>
+> **MATIZADO el 27-sep (§9.3):** esa foto resultó estar **viva** — las 5 huellas del código del hotel
+> coinciden al byte con el servidor. Así que **se puede editar en local y desplegar sin riesgo de partir de
+> una base falsa**. El volcado del esquema (el `CREATE TABLE` de las 5 tablas) sigue pendiente y sigue siendo
+> lo que permite **versionar** y **purgar los ejemplos**: eso no lo cubre la verificación de huellas, porque
+> lo que falta no es el código, es **el esquema de la base**.
 
 **Y B tiene ahora un motivo de publicación, no solo de higiene** (D5, §7.1): los hoteles que hay son
 **ejemplos** y hay que poder **purgarlos o recargarlos** cuando lleguen los reales. Un ejemplo que no se puede
@@ -427,7 +433,7 @@ decide la puerta, no la severidad: **LH-01 (la crítica) exige servidor** y el s
 | Frente | Qué entra | Puerta |
 |---|---|---|
 | **A-cliente** | contrato + pantallas; lo que vive en el repo y se verifica con `tsc` + guardias | **abierta** |
-| **A-servidor** | todo lo que mueve el monedero: LH-01, LH-02, LH-05, LH-07→LH-10, LH-12 | **bloqueada** (§9.3) |
+| **A-servidor** | todo lo que mueve el monedero: LH-01, LH-02, LH-04, LH-05, LH-07→LH-10, LH-12 | **bloqueada** (§9.3) |
 
 ### 9.1 LH-06: la regla estaba escrita CUATRO veces, y la cuarta es la que manda
 
@@ -473,22 +479,46 @@ espaciado 183 · precioFigura 5 · strokeWidth 0`) · rutas sin enlaces rotos.
 > aceptando `cancel` desde `checked_in` (fila 4 de la tabla), así que **la mitad que manda queda abierta**.
 > Se declara así a propósito, para que nadie lo dé por cerrado.
 
-### 9.3 Lo que bloquea A-servidor, y está medido
+### 9.3 La puerta al servidor: se abrió, y la copia del 17-sep queda VERIFICADA
+
+Al principio de la sesión el servidor no respondía:
 
 ```
 ssh root@8.218.88.237  →  Connection timed out during banner exchange
 ```
 
-El **TCP conecta** (llega al intercambio de banner), pero el handshake no se completa. No es el aislamiento
-del entorno — con el aislamiento quitado da el mismo resultado, y el síntoma cambia de `connect timed out` a
-`timed out during banner exchange`. Es el veto del servidor (`fail2ban`). **No se reintenta en ráfaga: cada
-intento lo alarga.** Consecuencia: **no se puede verificar que el fichero desplegado siga siendo la copia del
-17-sep**, y esa comprobación es la que autoriza a editar en local sin miedo.
+El **TCP conecta** (llega al intercambio de banner) y el handshake no se completa; con el aislamiento del
+entorno quitado pasa lo mismo → es el **veto del servidor** (`fail2ban`), no el sandbox. **No se reintenta en
+ráfaga: cada intento lo alarga.**
 
-**[SIN MEDIR]** por lo mismo: (a) la huella `sha256` del `hotel.service.ts` y `reservations.service.ts`
-desplegados; (b) si la versión desplegada de `canCancel` ya excluye `checked_in` — el comentario de
-`reservations.service.ts:399` («sin este campo `freeCancellationUntil` salía siempre vacío») demuestra que
-hay arreglos posteriores al 17-sep; (c) el barrido `expire-stale`.
+**Bernardo eligió reintentar más tarde, y a los ~40 minutos la puerta se abrió.** El recon (solo lectura) trajo
+lo que faltaba, y **retira el `[SIN MEDIR]` más importante del documento**:
+
+| Fichero (`/opt/mirror/app/src/lifebook/`) | bytes | mtime en el servidor | huella local vs servidor |
+|---|---|---|---|
+| `hotel.service.ts` | 66.676 | 2026-09-17 14:53:31 | `3c38d2a1…` = `3c38d2a1…` ✓ |
+| `hotel.controller.ts` | 11.887 | 2026-09-17 14:53:31 | `9c812ca3…` = `9c812ca3…` ✓ |
+| `hotel-merchant.service.ts` | 27.086 | 2026-09-12 03:16:55 | `77523f2b…` = `77523f2b…` ✓ |
+| `hotel-merchant.controller.ts` | 6.197 | 2026-09-12 03:16:55 | `fee2272a…` = `fee2272a…` ✓ |
+| `reservations.service.ts` | 48.746 | 2026-09-17 16:59:19 | `989f5c0b…` = `989f5c0b…` ✓ |
+
+**La copia congelada ES el código desplegado: 5 de 5 huellas idénticas, y los `mtime` al segundo.**
+
+Consecuencias, las tres:
+1. **La auditoría es válida** — los 13 hallazgos se midieron sobre el código que de verdad corre.
+2. **Se puede editar en local y desplegar con confianza**: la base de partida está probada.
+3. **[RETIRADO] «hay arreglos posteriores al 17-sep».** Se dedujo del comentario de
+   `reservations.service.ts:399`; el fichero desplegado **es** el del 17-sep 16:59, así que ese comentario
+   ya estaba dentro. También se confirma que **el `canCancel` desplegado es el que incluye `checked_in`**.
+4. Y `dist/src/lifebook/*.js` está compilado el **23-sep 19:12** — **no contradice nada**: con
+   `rootDir: "."`, un `tsc` de cualquier módulo recompila el árbol entero. Lo que manda es el `.ts`.
+
+**Lo que sigue sin medir:** el barrido `expire-stale` (no hay `@Cron` en el backend) y **cómo se marca un
+ejemplo** — ninguna de las dos bloquea A.
+
+> **Lo que esto NO cambia:** el trabajo **B sigue siendo requisito de publicación**, pero ya no por «no poder
+> auditar» — la auditoría vale. Sigue siendo por **versionar** (hoy las 5 tablas existen **solo** en la base
+> del servidor) y por **poder purgar los ejemplos**.
 
 ### 9.4 A-servidor: el inventario de lo que hay que tocar, ya localizado
 
@@ -501,7 +531,53 @@ hay arreglos posteriores al 17-sep; (c) el barrido `expire-stale`.
 | LH-02 | Alta | `hotel-merchant.service.ts` | «Confirmar reserva» sin cobrar la señal deja la reserva sin salida |
 | LH-07 | Media | el reloj de `hold_minutes` | la señal con monedero caduca a los 20 min aunque el hotel dé 24 h |
 | LH-10 | Media | el `ESCROW_RELEASE` | si falla la liberación, no hay reintento ni cola |
+| **LH-04** | Alta | `quote()` (servidor) | **cobra `max(precio por noche) × noches`** en vez de la suma. El cliente lo reproduce **a propósito** (`reservar.tsx:197-200`, con el comentario «el servidor usa el mayor (snapshot prudente)») y la ficha **suma** (`detalle.tsx:135`) → **el huésped ve dos totales distintos y se le cobra el mayor**. **No se puede arreglar en el cliente:** alinear la ficha al máximo propagaría un cobro que no corresponde, y alinearla a la suma dejaría al huésped viendo 110.000 mientras se le cobran 150.000 **sin aviso** |
 
-**Sigue en pie lo que dice §3:** antes de escribir una línea de backend hay que volcar el esquema real y
-bajar la Parte 42, porque la copia que se audita es del **17-sep** y ya sabemos que hay arreglos posteriores
-(el comentario de la línea 399). Editar sobre ella sin sincronizar es trabajar a ciegas.
+**Y una cosa que §3 decía y §9.3 ha corregido:** la copia del 17-sep **está verificada contra el servidor**
+(5 de 5 huellas), así que **A-servidor ya no tiene el obstáculo de «trabajar a ciegas»**: se puede editar en
+local, compilar y desplegar con la base de partida probada. El único obstáculo que queda es el `fail2ban`:
+**la puerta se abre y se cierra**, así que el despliegue hay que pedirlo como una **ventana**, no intentarlo
+como parte de una tanda larga. El volcado del esquema (**B**) sigue pendiente y es lo que habilita
+**versionar y purgar**.
+
+### 9.5 Segunda tanda del cliente — `A-2` (`LH-11`), commit `egapp 56699d6`
+
+Bernardo eligió seguir por A-cliente mientras el servidor esté cerrado. `LH-04` se descartó al medirlo (§9.4:
+es del servidor y hacerlo en el cliente lo empeora), así que la tanda es `LH-11`.
+
+**El defecto estaba contado tres veces, y una decisión de dinero dos.** El mismo patrón que `LH-06`: una
+regla de negocio escrita a mano donde cabía.
+
+| # | Sitio | Qué decía |
+|---|---|---|
+| 1 | `RESERVATION_STATUS_LABELS` (contrato) | `pending` = «Señal pagada · por confirmar» **siempre** |
+| 2 | `RESERVA_ETIQUETA` (`api/hotel.ts`) | un **segundo** mapa, con textos distintos para los mismos estados («Dentro» vs «Huésped dentro», «Salida hecha» vs «Finalizada») |
+| 3 | `PASOS` (`lifebook-hotel-reserva.tsx`) | la línea de tiempo decía «Señal pagada» **sin condición** |
+
+Y la pregunta «¿está cobrada la señal?»:
+
+| Sitio | Fórmula | `paid` → |
+|---|---|---|
+| `panel.tsx:356` | `['deposit_paid','paid'].includes(...)` | cobrada |
+| `reservas.tsx:327` | `!== 'deposit_paid'` | **sin cobrar** → una reserva **pagada del todo** le salía «sin cobrar» al huésped |
+
+**Arreglo:** `senalCobrada(paymentStatus)` y `estadoRotulo(status, {senalCobrada})` como **puertas únicas** en
+el contrato; `pending` pasa a «Por confirmar» —el hecho que se sabe siempre— y el matiz de dinero se afirma
+**solo cuando consta**; `RESERVA_ETIQUETA` **retirado**; las tres pantallas usan el contrato; y `PASOS` deja
+de afirmar la señal.
+
+**Verificación:** rótulo estado por estado, antes contra después → **1 de 7 cambia** (`pending`) y los otros
+6 salen idénticos; `senalCobrada` sobre los 6 estados de pago → solo **`paid`** discrepaba entre las dos
+fórmulas antiguas, ahora las dos dan «cobrada». Puertas: `tsc` limpio · trinquete intacto · rutas en orden ·
+los 5 ficheros sin mezcla de terminadores.
+
+> **Cambio visible declarado:** en la lista de reservas, `checked_in` pasa de «Dentro» a **«Huésped dentro»**
+> y `checked_out` de «Salida hecha» a **«Finalizada»** — se adopta el texto del contrato, que es la fuente.
+
+### 9.6 Lo que sigue en A-cliente
+
+`LH-03` (guardar precio o estancia mínima **reabre los días cerrados** del calendario) es el siguiente
+candidato del lado cliente: su pantalla es `lifebook-hotel-calendario.tsx` y el defecto se ve **en el
+formulario que escribe** — habría que medir si el daño está en el envío o en el `UPDATE` del servidor antes
+de tocarlo. Y `LH-12` (los DTO no se aplican en el panel: un `images` malformado borra las fotos) es de
+servidor, pero su parte de cliente —**no mandar un `images` malformado**— sí se puede cerrar aquí.
