@@ -14,6 +14,237 @@ ellos y los lleva a ejecución.
 
 ---
 
+## 0. Estado medido al 26/09/2026
+
+**Esta sección se añade después. El resto del documento es del 19/09 y se conserva tal cual**, porque sus
+mediciones siguen siendo válidas; lo que ha cambiado es **cuánto de su propio plan se ha ejecutado** — y
+ese resultado obliga a reordenar lo que queda.
+
+Medido hoy sobre el árbol, no deducido del plan:
+
+| Pieza del §8 | Estado real | Evidencia |
+|---|---|---|
+| **Fase 0** · tokens de movimiento | **CERRADA** | `packages/ui-kit/src/theme/movimiento.ts` — `duracion`, `curva`, `opacidad`, `umbral`, `resorte`, `repeticion` |
+| **Fase 0** · `useMovimientoReducido()` | **CERRADA** | `packages/ui-kit/src/a11y/useMovimientoReducido.ts` (lee `isReduceMotionEnabled` y escucha `reduceMotionChanged`) |
+| **Fase 0** · geometría a `escalas.ts` | **CERRADA** | `trazo` :326 · `trazoIcono` :383 · `altura` :433 · `icono` :451 |
+| **Fase 0** · `peerDependencies` del kit | **CERRADA** | `packages/ui-kit/package.json` ya declara `react-native-reanimated`, `react-native-gesture-handler` y `expo-haptics` |
+| **Fase 1** · los 3 componentes | **CONSTRUIDOS** | `micro/Segmentado.tsx` · `micro/Corazon.tsx` · `micro/Estrellas.tsx`, exportados en `src/index.ts:104-105` |
+| **Fase 1** · su ADOPCIÓN | **0 ficheros. CERO.** | ninguna pantalla de `app/` ni de `components/` importa `Segmentado`, `Corazon` ni `Estrellas` |
+| §7.8 · el banco temporal | **RESUELTO** | `app/banco-*.tsx` no existen; el baseline de diseño ya no los cuenta |
+| Fases 2, 3 y 4 | **sin empezar** | — |
+
+### 0.1 El hallazgo que reordena todo: se construyó sin adoptar
+
+El §1.3 de este mismo informe avisaba de que `haptico` y `anunciar` existen desde el primer día, están
+exportados… y tienen **0 usos**. Los tres componentes de la Fase 1 acaban de repetir ese camino exacto:
+
+> **El kit ha crecido en tres controles y las pantallas no han cambiado en ninguna.**
+
+Esto no es un detalle de proceso. La Fase 1 se justificó diciendo «1 componente → 5 pantallas»
+(`pulse-heart`) y «1 → 4 flujos de dinero» (`peek-rating`). **Ninguna de esas dos frases se ha cumplido
+todavía.** Mientras siga así, cada componente nuevo es inventario, no mejora: y la deuda de diseño que el
+§7.9 pone en la mesa (190 hex · 753 `fontSize` · 709 `borderRadius`) no baja ni un punto.
+
+**Consecuencia para el plan:** la adopción de lo ya construido es trabajo de la misma categoría que
+construir lo que falta — no un paso posterior. Y **la pregunta §7.9 («¿sustituyen o se suman?») hay que
+responderla ANTES de escribir el cuarto componente**, porque es la que decide si el resultado son 15
+controles en uso o 15 controles huérfanos.
+
+### 0.2 Los 15, nombre a nombre, contra el estado de hoy
+
+| React Bits | Nombre en la casa | Sustituye / dónde entra | Estado 26/09 |
+|---|---|---|---|
+| `rubber-segment` | **`Segmentado`** | `ecomerse-orders.tsx:249,264` · `ecomerse.tsx:302` · `ecomerse-favorites.tsx:118` | Construido · **adopción 0** |
+| `pulse-heart` | **`Corazon`** | `PostCard.tsx:215` · `CommentsSheet.tsx:183` · `lifebook-post/[id].tsx:936` · `lifebook-videos.tsx:906` · `lifebook-ai.tsx:451` | Construido · **adopción 0** |
+| `peek-rating` | **`Estrellas`** | `taxi.tsx:1845` · `food-orders.tsx:757` · `ecomerse-orders.tsx:520` · `lifebook-hotel-perfil.tsx:249` | Construido · **adopción 0** |
+| `code-slots` | *no se crea* | **ya cubierto** por `OtpInput.tsx` (`length` parametrizable, `:25`) | Sin trabajo |
+| `spring-check` | — | `lifebook-carrito.tsx:41-68` (casilla 21×21) | Sin empezar |
+| `jelly-radio` | — | `ecomerse-checkout.tsx:328,338,349` · `food-checkout.tsx:493` · `lifebook-carrito-checkout.tsx:439` | Sin empezar |
+| `glide-select` | — | filas de `Sheet.tsx:47-87`; llamantes en `ecomerse-seller.tsx:1055` (24 ciudades), `food-owner.tsx:788`, `ecomerse.tsx:484`, `lifebook-explore.tsx:301` | Sin empezar |
+| `hold-button` | — | las 4 pulsaciones largas ya existentes: `lifebook-videos.tsx:973` · `ServiceGrid.tsx:100` · `lifebook-carrito.tsx:477` · `lifebook-chat/[id].tsx:1608` | Sin empezar |
+| `prompt-bar` | — | `lifebook-ai.tsx:568-579` · `lifebook-videos.tsx:1319-1331` | Sin empezar |
+| `voice-pill` | — | `lifebook-ai.tsx:638-648` + el **micrófono muerto** de `SearchHeader.tsx:76` | Sin empezar |
+| `swipe-toast` | *ampliar `Aviso`* | `Aviso.tsx:28-55`; hoy **1 sola pantalla** lo usa (`billing-status.tsx:383`) | Sin empezar |
+| `squish-switch` | — | `alquiler.tsx:332` · `settings.tsx:142,209,220` (**+ 4 envoltorios a unificar**) | Sin empezar · el más caro |
+| `slide-commit` | — | `conductor.tsx:1431` (oferta) y `:1664` (cobrar) · `intercity.tsx:344` · `taxi.tsx:1778` | Sin empezar |
+| `fuse-button` | — | — | **RECHAZADO por escrito** (§3 y §4.4) |
+| `balatro` | — | **no en `app/index.tsx`**; candidatos `auth.tsx:136` o `SocialHomeHeader.tsx:36-44` | **Bloqueado por decisión** (§4.1) |
+
+**Recuento:** 3 construidos y sin adoptar · 1 ya cubierto por el kit · 9 por construir · 2 que no van
+donde se pidió.
+
+### 0.3 ¿Encajan sobre lo que YA está construido? Censo de los sitios REALES (26/09)
+
+La §0.2 dice dónde entrarían. Esta dice **cuántos sitios existen hoy** — porque un componente que
+sustituye a 30 sitios es deuda que baja, y uno que no sustituye a nada es inventario nuevo. Medido sobre
+`app/` y `components/`:
+
+| Familia | Sitios reales hoy | Dónde |
+|---|---|---|
+| **Interruptores** (`squish-switch`) | **27 `<Switch>` directos + 3 envoltorios distintos** | `PrefRow` en `status.tsx:166` · `SwitchRow` en `alquiler.tsx:328` · `ToggleRow` en `work.tsx:237`; el grueso repartido por `settings.tsx:143,210,221`, `lifebook-hotel-*`, `GroupManageSheet.tsx:532,544,584`, `ChatOptionsSheet.tsx:222,225` |
+| **Segmentados** (`rubber-segment`) | **24 usos de `accessibilityRole="tab"` en 18 ficheros**; el componente del kit: **0 usos** | `ecomerse-orders.tsx` (3) · `ecomerse-favorites.tsx` · `ecomerse.tsx` · `lifebook.tsx` · `lifebook-catalog.tsx` (2) · `lifebook-user.tsx` (2) · `lifebook-inbox*.tsx` · `BarraTienda.tsx` · `PieDelMercado.tsx`… |
+| **Casillas** (`spring-check`) | **4** con `accessibilityRole="checkbox"` | `tienda/publicar.tsx:759,959,994` · `ecomerse-direccion.tsx:260` |
+| **Estrellas** (`peek-rating`) | **4 implementaciones**; el kit: **0 usos** | `taxi.tsx:1855` (**la única interactiva**, 5 toques) · `trips-history.tsx:185` (sólo lectura) · y `★` en texto en `CabeceraTienda.tsx:72`, `DriverHomeSheet.tsx:157`, `tienda/index.tsx:344` |
+| **Corazón** (`pulse-heart`) | el kit: **0 usos** | los 5 sitios del §0.2 siguen con su propio `Heart` |
+| **Radios** (`jelly-radio`) | **52 `accessibilityRole="radio"` en 19 ficheros — y 0 contenedores `radiogroup`** | selección exclusiva de verdad: direcciones de entrega en `ecomerse-checkout.tsx:456,529,539,550` · método de pago y entrega en `food-checkout.tsx:394,403,487,496` · planes en `ecomerse-planes.tsx:282`. **Corregido el 26/09: la primera versión de este apartado dijo «0 grupos de radio», y era FALSO** |
+| **Selectores** (`glide-select`) | **2 de ciudad en hoja + el de variante** | `tienda/publicar.tsx:600` · `tienda/perfil.tsx:398` · `SelectorDeVariante` (comercio) |
+| **Avisos** (`swipe-toast`) | **428 `Alert.alert`**: **318 informativos** + **110 con botones** | el diálogo del sistema es hoy el ÚNICO lenguaje de feedback de la app |
+| **Destructivas** (`hold-button` / `slide-commit`) | **99 menciones** de eliminar/borrar/descartar/cancelar | `lifebook-carrito.tsx` (8) · `work-panel.tsx` · `edit-profile.tsx` · `ecomerse-direcciones.tsx` · `work-publish.tsx:176,186`… |
+| **Voz** (`voice-pill`) | **3 micrófonos, y uno YA dicta** | `lifebook-ai.tsx:647` — funciona: `accessibilityLabel` alterna `'Dictar con la voz'` / `'Parar de dictar'` y tiene estado `selected`. Los otros dos **no son controles**: `lifebook-media.tsx:425` indica el tipo de archivo (podcast) y `SearchHeader.tsx:77` es **adorno** dentro del `Pressable` del buscador. Además hay **TTS real** en `api/voice` (`sayNavigation`, `stopAllVoice`, usado por `conductor.tsx`) |
+
+**Lo que esto significa, sin adornos:**
+
+1. **Cinco familias tienen sitio y volumen** (interruptores, segmentados, estrellas, corazón, selectores):
+   son las que bajan duplicación. **Tres de ellas ya están construidas y con 0 adopción.**
+2. **`jelly-radio` SÍ tiene sitio, y es el MAYOR de todos**: **52** controles de selección exclusiva sin un
+   solo contenedor de grupo. **Corrijo aquí mi propia cifra**: la primera versión de este apartado decía «0
+   grupos de radio», medida con un `grep` por **nombre de componente** (`Radio`, `Picker`, `Selector`). Con
+   **rol de plataforma** son 52 sitios en 19 ficheros. La lección es idéntica a la de los segmentados: **un
+   censo por nombre propio da falsos negativos; se cuenta por ROL.**
+3. **`voice-pill` no se construye: se EXTRAE.** El micrófono de `lifebook-ai.tsx:647` **ya dicta** y
+   alterna a «Parar de dictar». No es un anclaje muerto: es una implementación a la que le falta
+   generalizarse. Escribir `voice-pill` aparte sería la segunda implementación de lo mismo.
+4. **Una cambia de PATRÓN, no de componente**: `swipe-toast`. Los 318 informativos no son «toasts
+   pendientes»: son el diálogo del sistema, que **bloquea**, y en muchos casos precede a un `return` de
+   validación. Sustituirlos por un aviso no bloqueante cambia el flujo, y hacerlo a medias deja **tres
+   dialectos de aviso** conviviendo (diálogo + toast + prompt-bar).
+5. **Dos compiten entre sí**: `hold-button` y `slide-commit` resuelven el MISMO problema (confirmar algo
+   irreversible). Adoptar los dos deja dos gestos para una sola idea.
+
+**El terreno técnico está listo, medido:** `react-native-reanimated`, `react-native-gesture-handler` y
+`expo-haptics` (**`~14.1.4`**) están instalados y en `package.json`; `packages/ui-kit/src` **sí entra en el
+`tsconfig`** (`include: **/*.tsx`), así que `tsc` cubre lo que se escriba ahí. **No hay que instalar nada.**
+Pero `hapticos.ts` (34 líneas) tiene **0 usos**: la háptica de la mitad de estos gestos está escrita y nunca
+se ha encendido.
+
+> El comentario de `lifebook-videos.tsx:84` («`expo-haptics` **no está instalado**») es **obsoleto**:
+> medido hoy, está en `package.json:35` y en `node_modules/`.
+
+> **Corrección de una cifra de la primera versión de este §0.3.** Se dijo «**9 ficheros** hacen
+> segmentados a mano», salido de un `grep` que buscaba `activo`+`chip`. Medido en estricto —el
+> contenedor o las opciones con **rol de plataforma**, `accessibilityRole="tab"`— son **24 usos en 18
+> ficheros**. Los «9» mezclaban chips de filtro sin rol con otras cosas: `alquiler.tsx` y
+> `ecomerse-direccion.tsx` tienen **0** roles `tab`. La cifra buena es **24 / 18**, y es **seis veces**
+> lo que la propia cabecera de `Segmentado.tsx` declara (3 ficheros / 4 sitios).
+
+### 0.4 El encaje real, sitio por sitio: los tres construidos NO son igual de buenos
+
+Medido leyendo cada sitio, no la cabecera de cada componente:
+
+**`Estrellas` — el mejor situado.** 3 interactivos + 2 de lectura:
+
+| Sitio | Forma real | ¿Sustitución limpia? |
+|---|---|---|
+| `taxi.tsx:1852-1863` | 34 px · `gap e10` · `hitSlop 6` · rol **button** | Sí, salvo el rol (ver abajo) |
+| `food-orders.tsx:757-763` | 32 px · `gap e6` + `hitSlop 4` | Sí — y **corrige un defecto real**: 8 px de área sobre 6 de hueco, zonas que se pisan |
+| `ecomerse-orders.tsx:721-722` | 34 px · `hitSlop 8` · rol button | Sí |
+| `trips-history.tsx:187-189` | 14 px, sólo lectura | Sí, con `interactivo={false}` |
+| `conductor.tsx:1401-1402` | 11 px, sólo lectura | Sí, con `interactivo={false}` |
+| `lifebook-hotel-perfil.tsx:249-259` | **no son estrellas: son píldoras `n★`** | **No es sustitución: cambia el aspecto** |
+
+Los tres interactivos declaran **`accessibilityRole="button"`** donde corresponde un **`radiogroup` con
+`radio`**: elegir 1 de 5 es una opción exclusiva, no cinco botones sueltos. `Estrellas` ya usa el rol
+correcto, así que adoptarlo **mejora** la semántica — pero es un cambio que hay que declarar.
+
+**`Segmentado` — el de más alcance, y su cabecera lo subestima 6×.** Declara 3 ficheros / 4 sitios; el
+censo estricto da **24 / 18**. Pero **no todos son segmentados**: hay **pestañas de navegación** (cambian
+de vista entera) mezcladas con **filtros en fila** (cambian un listado). Y **ni un solo contenedor del
+árbol declara `tablist`**: hoy hay 24 roles `tab` **huérfanos**, sin grupo que los agrupe. Antes de
+adoptar hay que separar los dos usos.
+
+**`Corazon` — el peor, y su cabecera afirma lo contrario** («el que más arregla con menos código»).
+Cubre **1 de 6**:
+
+| Sitio | Forma real | Veredicto |
+|---|---|---|
+| `PostCard.tsx:215-225` | fila, corazón + **contador compacto** (`formatCount` → «1.2k») | Encaja, pero el kit pinta `String(cuenta)`: **pierde el formato** |
+| `CommentsSheet.tsx:183-193` | **columna**, contador **debajo** del corazón | **No encaja**: el kit es fila |
+| `lifebook-ai.tsx:451-458` | corazón + **texto** «Me gusta»/«Te gustó» | **No encaja**: el kit pinta número |
+| `lifebook-post/[id].tsx:938-948` | `DetailActionButton` **genérico** (`label`+`count`+`icon`) | **No conviene**: meter un corazón específico dentro de un botón genérico |
+| `lifebook-videos.tsx:906-911` | el **gesto** de doble toque (`doubleTapLike`) | **No es un botón** |
+| `alquiler-detalle.tsx:431` · `ecomerse.tsx:218` · `ecomerse-detail.tsx:453` | corazones de **favorito** (guardar) | **Otra semántica** |
+
+**Conclusión:** `Corazon` necesita **3 ampliaciones de contrato** antes de poder adoptarse en más de un
+sitio — `orientacion: 'fila' \| 'columna'`, un `texto` alternativo al contador, y formato compacto — o
+aceptar que **sólo entra en `PostCard`**. Su cabecera promete cinco superficies y mide una.
+
+**Una regla transversal, nacida aquí:** las cabeceras de los tres componentes citan **números de línea**
+del 19/09. El árbol se movió (A3.1 y A3.2 tocaron esos mismos ficheros) y hoy
+`Estrellas.tsx:9` cita `ecomerse-orders.tsx:517-524` **donde ahora hay un `EmptyState`** — el selector
+está en `:721-722`. **Un comentario que cita un número de línea caduca; hay que citar el ancla** (el
+nombre del estilo, de la función o del componente).
+
+### 0.5 Lo que se corrigió hoy en el kit, y por qué
+
+`Estrellas.tsx` pintaba las estrellas puestas con **`brand.warning`**, mientras los cinco sitios que
+sustituye pintan **`colors.text.warning`** (ámbar `#B45309`, que es como quedó en la tanda de contraste
+**A3.2** y como se **verificó en el móvil**). Adoptarlo tal cual habría **cambiado el color de las
+estrellas de cinco pantallas** y reabierto por la puerta de atrás una tanda cerrada.
+
+**Corregido hoy** (`packages/ui-kit/src/micro/Estrellas.tsx`): el icono puesto usa `colors.text.warning`,
+y el `import` de `brand`, que quedaba sin uso, se ha retirado. **Criterio: una sustitución no cambia lo
+que el usuario ya ve.**
+
+### 0.6 La decisión: no son 15 piezas, son CUATRO intenciones
+
+**Decidido por mí el 26/09**, porque las dos preguntas de alcance quedaron sin respuesta y dejarlo abierto
+bloqueaba el trabajo entero. Queda sujeto a corrección de Bernardo, pero está escrito para poder discutirlo
+en concreto y no en abstracto.
+
+El encargo llegó como una lista de 15 componentes de React Bits. Medida contra el árbol, la lista **no
+describe 15 necesidades**: describe **cuatro intenciones** que se repiten con distinta cardinalidad. Y la
+medida que lo demuestra es esta:
+
+> **111 controles de selección** (25 `tab` + 52 `radio` + 27 `<Switch>` + 7 `checkbox`) **no tienen ni un
+> solo contenedor de grupo declarado**: **0 `tablist`, 0 `radiogroup`** en toda la app.
+
+| Intención | Pieza única | Sustituye a | Sitios |
+|---|---|---|---|
+| **Seleccionar** · exclusiva que cambia la vista | `Segmentado` | 25 `tab` sueltos | 18 ficheros |
+| **Seleccionar** · exclusiva que elige un valor | `jelly-radio` | 52 `radio` sueltos | 19 ficheros |
+| **Seleccionar** · sí/no inmediato | `squish-switch` | 27 `<Switch>` (**21 sin rol**) + 3 envoltorios | 19 ficheros |
+| **Seleccionar** · opciones independientes | `spring-check` | 7 `checkbox` | 5 ficheros |
+| **Seleccionar** · lista larga | `glide-select` | 2 de ciudad + variante | 3 |
+| **Valorar** | `Estrellas` · `Corazon` | 37 menciones + 5-6 `Heart` propios | 8 + 3 |
+| **Confirmar** · irreversible | `hold-button` **o** `slide-commit` — **uno, no los dos** | 104 acciones destructivas | 33 ficheros |
+| **Informar** · con acción | `prompt-bar` | 110 `Alert.alert` con botones | — |
+| **Informar** · descartar | `swipe-toast` | 318 `Alert.alert` informativos → **cambio de PATRÓN, no de pieza** | — |
+
+**Los cuatro descartes, por escrito** (la doctrina del proyecto es declarar, no borrar en silencio):
+
+- **`fuse-button`** — rechazado ya en §4.4: una mecha es una espera impuesta que no informa, y no tiene
+  equivalente para lector de pantalla.
+- **`balatro` en la home** — rechazado en §4.1: `app/index.tsx` es un mapa a pantalla completa con hoja de
+  cristal encima; ahí no se ve y compite por fotogramas con el WebView.
+- **`code-slots`** — ya cubierto: `OtpInput.tsx` tiene `length` parametrizable.
+- **`voice-pill`** — no se construye: se **extrae** el dictado que ya funciona en `lifebook-ai.tsx:647`.
+
+**El límite: DENTRO DE LO SELLADO.** Los gestos se construyen con `movimiento.ts` (duraciones y curvas),
+`trazo`, `haptico` y la escala de `escalas.ts`, que **ya existen**. **Cero tokens nuevos, cero valores
+nuevos.** El motivo no es conservadurismo: reabrir tokens invalidaría `A2`, `A3.1` y `A3.2` —las tres
+verificadas en el móvil el 26/09— y obligaría a repetir el ciclo entero de medición y verificación. Un
+cambio de valor ya tiene su puerta: **su propia fase, con acta**. Este rediseño no la necesita porque no
+cambia lo que el usuario ve, cambia **cómo lo toca**.
+
+**La tesis, en una frase:** el rediseño de las micro-interacciones no es cosmética. Es **cerrar la
+semántica de la selección** — 111 controles que hoy se comportan como opciones exclusivas sin declararlo, y
+de los cuales **21 interruptores ni siquiera tienen rol**. Los gestos (muelle, háptica, retención) son lo
+último que se enchufa encima, no lo primero que se construye.
+
+### 0.7 El error de destino que hay que evitar
+
+El encargo llega pidiendo `src/components/micro/` y «variante TS+CSS». Las dos cosas son inviables, y por
+razones ya medidas en este documento:
+
+- **`src/` no existe** en `D:\egapp`. El destino real es `packages/ui-kit/src/micro/` (§1.2).
+- **«TS+CSS» no existe en React Native**: no hay DOM, ni CSS, ni `:hover`, ni `@media`. Son 2.551 líneas
+  de CSS reescritas a `StyleSheet` + Reanimated (§1.1).
+- Y si aun así se creara `components/micro/`, la guarda **escanea esa carpeta y no está en su base**:
+  cualquier `fontSize`, `borderRadius` o hex literal haría **fallar `npm run diseno` en la primera
+  pasada** (§1.2).
+
+---
+
 ## 1. Las cinco cosas que cambian el plan
 
 ### 1.1 No es un port: es una reescritura

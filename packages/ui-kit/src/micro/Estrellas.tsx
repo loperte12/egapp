@@ -6,7 +6,9 @@
  *
  * QUÉ SUSTITUYE (y por qué importa)
  * El mismo control está escrito **cuatro veces** en cuatro flujos distintos, y ninguno anima:
- *   · `app/ecomerse-orders.tsx:517-524` — el selector (estrella de 34, `brand.warning`)
+ *   · `app/ecomerse-orders.tsx` — en el modal de valoración, `onPress={() => setRating(n)}` (estrella
+ *     de 34, `hitSlop 8`). OJO: la primera versión de esta cabecera citaba `:517-524`, y ese número
+ *     **caducó** — hoy ahí hay un `EmptyState`. **Localizar por ancla, no por número de línea.**
  *   · `app/food-orders.tsx:757-761` — el selector de comida (32)
  *   · `app/taxi.tsx:1845-1856` — el del viaje (34)
  *   · `app/lifebook-hotel-perfil.tsx:249-259` — las píldoras del hotel
@@ -46,7 +48,6 @@ import Animated, {
 import { Star } from 'lucide-react-native';
 
 import { useTheme } from '../theme/ThemeContext';
-import { brand } from '../theme/colors';
 import { espaciado, peso, tipografia, trazoIcono} from '../theme/escalas';
 import { curva, duracion, resorte } from '../theme/movimiento';
 import { haptico } from '../feedback/hapticos';
@@ -124,7 +125,13 @@ export function Estrellas({
             tamano={tamano}
             interactivo={interactivo}
             movReducido={movReducido}
-            colorPuesta={brand.warning}
+            /* `colors.text.warning` y NO `brand.warning`: los cinco sitios que este control sustituye
+               (`taxi`, `food-orders`, `ecomerse-orders`, `trips-history`, `conductor`) ya pintan
+               `colors.text.warning`, y esa fue la decisión que cerró la tanda de contraste A3.2 y que
+               se verificó en el móvil (ámbar `#B45309`). Adoptar con `brand.warning` habría cambiado el
+               color de las estrellas y reabierto a escondidas una tanda cerrada. Criterio: **una
+               sustitución no cambia lo que el usuario ya ve.** */
+            colorPuesta={colors.text.warning}
             colorApagada={colors.border}
             queSeValora={queSeValora}
             onElegir={alElegir}
