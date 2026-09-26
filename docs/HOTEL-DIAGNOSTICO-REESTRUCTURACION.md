@@ -119,18 +119,23 @@ Un valor fuera de la lista da `AMENITY_INVALID`. Máx 20 por hotel.
 
 | # | Sev. | Qué pasa |
 |---|---|---|
-| **LH-01** | **Crítica** | **El panel del hotelero no mueve el monedero.** Registra entrada/cancelación por `hotel-merchant.service` sin `ESCROW_RELEASE`/`ESCROW_REFUND`: **el hotel nunca cobra y el huésped nunca recupera**. Y la MISMA estancia se comporta distinto según la pantalla (`lifebook-hotel-reservas.tsx` sí devuelve; el panel no). |
+| **LH-01** | **Crítica** | **El panel del hotelero no mueve el monedero.** Registra entrada/cancelación por `hotel-merchant.service` sin `ESCROW_RELEASE`/`ESCROW_REFUND`: **el hotel nunca cobra y el huésped nunca recupera**. Y la MISMA estancia se comporta distinto según la pantalla (`lifebook-hotel-reservas.tsx` sí devuelve; el panel no). **CERRADA en servidor** el 27-sep (§10): las dos puertas liquidan por el mismo sitio. |
 | LH-02 | Alta | «Confirmar reserva» sin cobrar la señal deja la reserva atascada sin salida |
 | LH-03 | Alta | Guardar precio o estancia mínima **REABRE los días cerrados** del calendario |
 | LH-04 | Alta | El precio cambia según la pantalla y el cobro usa la noche **MÁS CARA** |
 | LH-05 | Alta | El método «Monedero» es **inalcanzable** desde la app: toda reserva con él responde 400 |
-| LH-06 | Alta | Se puede **cancelar DESPUÉS del check-in**: «Devuelto» sin devolución y habitación liberada con el huésped dentro. **La regla estaba escrita TRES veces y el servidor tiene una CUARTA** (§9.1). **Mitad cliente: HECHA** (`egapp 0d30e35`) · **mitad servidor: ABIERTA** |
+| LH-06 | Alta | Se puede **cancelar DESPUÉS del check-in**: «Devuelto» sin devolución y habitación liberada con el huésped dentro. **La regla estaba escrita CUATRO veces, y la que mandaba no era la del contrato** (§9.1). **HECHA entera**: cliente (`egapp 0d30e35`) y servidor (§10), donde las cuatro copias pasan a una sola lista `CANCELABLES` |
 | LH-07 | Media | La señal pagada con monedero caduca en `hold_minutes` (20 min) aunque el hotel tenga 24 h |
 | LH-08 | Media | Una reserva `pending` con retención vencida ocupa inventario y sigue «viva» para siempre |
 | LH-09 | Media | Reintentar con la misma `Idempotency-Key` reaprovecha un cerrojo **ya devuelto**: el hotel no cobra |
 | LH-10 | Media | Si la liberación al hotel falla, no hay reintento ni cola: la señal se queda en garantía |
 | LH-11 | Baja | `pending` significa dos cosas y la app lo rotula «Señal pagada · por confirmar» aunque no haya señal |
 | LH-12 | Baja | Los DTO no se aplican en el panel: un `images` malformado **borra las fotos** |
+
+**Y dos más que nacieron DESPUÉS, al medir** (no estaban en el censo de 12): **`LH-13`** — el corte de la
+cancelación gratuita con la hora incrustada a `14:00` y en UTC (§9.5 → cerrada en §10) — y **`LH-14`** — el
+rótulo de cancelación gratuita nunca aparecía en las listas porque las consultas no traían sus columnas
+(§10.5 → cerrada en §10).
 
 **Por qué esto bloquea lo demás:** cada pantalla nueva que añade un camino a «confirmar entrada»,
 «cancelar» o «cerrar reserva» **multiplica un camino roto**. LH-01 es exactamente el caso: dos pantallas,
@@ -581,3 +586,149 @@ candidato del lado cliente: su pantalla es `lifebook-hotel-calendario.tsx` y el 
 formulario que escribe** — habría que medir si el daño está en el envío o en el `UPDATE` del servidor antes
 de tocarlo. Y `LH-12` (los DTO no se aplican en el panel: un `images` malformado borra las fotos) es de
 servidor, pero su parte de cliente —**no mandar un `images` malformado**— sí se puede cerrar aquí.
+
+---
+
+## 10. Trabajo A en el SERVIDOR — acta de `A-3` (27-sep-2026)
+
+La ventana se abrió (07:02 del servidor) y se usó. Tres hallazgos cerrados, uno nuevo que apareció al
+hacerlos y también cerrado, y **un cambio de fondo que no estaba en el plan**: el código del hotel entra en
+el repositorio. A partir de aquí, lo de A-servidor es código revisable y no un parche sobre una foto.
+
+### 10.1 Qué se desplegó
+
+| Fichero (`/opt/mirror/app/src/lifebook/`) | Antes (17-sep) | Después | Qué cambió |
+|---|---|---|---|
+| `hotel.service.ts` | `3c38d2a1…` | `a85382a5…` | `freeCancellationUntil()` pública que usa `checkin_from`; el `shape` la llama |
+| `reservations.service.ts` | `989f5c0b…` | `3b240dc4…` | `CANCELABLES`; `canCancel` y `permitido.cancel`; `liquidarMonedero` público; 5 consultas completadas |
+| `hotel-merchant.service.ts` | `77523f2b…` | `22e81890…` | `DESDE.cancel` importa la lista; **llama a `liquidarMonedero`**; 2 consultas completadas |
+
+Las tres huellas «antes» son **exactamente** las que el recon del 27-sep midió en el servidor (§9.3): prueba
+de que el servidor seguía siendo la copia del 17-sep cuando se escribió encima. Sello de respaldo:
+`20260927-070244` — con él se vuelve atrás fichero a fichero.
+
+### 10.2 Primero, el código al repositorio (`egapp 552d9c6`)
+
+El módulo del hotel **no estaba versionado**: vivía en el servidor y en la copia congelada, que está ignorada
+por git. Sin ese paso el parche no tenía diff ni vuelta atrás. Se bajaron los tres ficheros tocados a
+`backend/server-src/lifebook/` **en un commit que no cambia una línea**, así que `git show 2b77ffd` es el
+parche entero, revisable.
+
+> Son 3 de los 9 ficheros del módulo. Los otros seis siguen sin versionar: **eso es B, y no se da por hecho.**
+
+### 10.3 `.gitattributes` (`egapp 5b8800e`) — la huella que git rompía sola
+
+Al commitear el baseline, git avisó: *«LF will be replaced by CRLF the next time Git touches it»*. Con
+`core.autocrlf=true` y sin `.gitattributes`, el siguiente checkout habría dejado los tres ficheros en CRLF —
+y entonces **la huella deja de cuadrar y el generador de despliegue aborta**. Es una pérdida silenciosa: no
+falla nada, simplemente lo que se revisa deja de ser lo que se despliega.
+
+Se añade `backend/server-src/** -text` (**solo esa ruta**: en el resto del árbol los terminadores se mezclan
+a propósito y normalizarlos sería un diff de miles de líneas). Verificado, no declarado: se borra el fichero,
+se hace `git checkout --` y la huella vuelve **idéntica**.
+
+### 10.4 El parche (`egapp 2b77ffd`)
+
+**Las cuatro listas de cancelación pasan a una.** `CANCELABLES = ['hold','pending','confirmed']` nace en
+`reservations.service`, `permitido.cancel` y `canCancel` la leen, y **el panel la importa** en vez de copiarla.
+Y —esto es lo que importaba— **la que mandaba no era la del contrato**: el cliente ofrecía lo que el servidor
+permitía. Ahora, con el huésped dentro (`checked_in`) la acción «cancelar» no existe **ni se permite**.
+
+**`liquidarMonedero(reservationId, accion)`, público, y las dos puertas lo llaman.** La app (`action`) y el
+panel (`updateReservationStatus`) liquidan por el mismo sitio, fuera de la transacción del estado, como ya
+hacían el mercado, la comida y ciudad-a-ciudad. `releaseCommerceOrder`/`refundCommerceOrder` son idempotentes
+por `idempotencyKey` (`lb-release:` / `lb-refund:`), así que pasar por las dos puertas no cobra dos veces.
+
+**`LH-13` — el corte es el del hotel.** Una sola definición, en `hotel.service`, con
+`hotel_profiles.checkin_from` y desfase **`+01:00`**. Los dos errores que se sumaban: `14:00` fijo aunque el
+hotel declare otra hora, y `Z` (UTC) cuando Malabo es UTC+1 → **el corte caía a las 15:00 locales**. La hora
+decide si una cancelación entra gratis o se come la señal.
+
+### 10.5 `LH-14` (nueva, y cerrada en la misma tanda)
+
+Medido al hacer `LH-13`: la app **sí** pinta «Cancelación gratuita hasta el X» en las listas
+(`reservas.tsx:413`, `panel.tsx:413`), pero **las consultas de esas listas no pedían `cancellation_hours` ni
+`checkin_from`** → el campo salía `null` y el rótulo **no aparecía nunca**. Solo se veía en el detalle, que sí
+las traía. Se completan las 5 consultas de `reservations.service` (lista del huésped, lista del hotel y las 3
+del cuaderno del día) y las 2 del panel. **Se arregla de paso algo que nunca funcionó**, no solo lo que se
+rompió.
+
+### 10.6 `LH-01`: el daño medido hoy es **CERO**, y por qué eso no lo hace menor
+
+Medido antes de tocar nada, con el monedero del hotel (2 reservas con señal pagada por monedero):
+
+| debería estar cobrada | sin liberar | canceladas | sin devolver |
+|---|---|---|---|
+| 1 | **0** | 1 | **0** |
+
+Es decir: **hoy no hay ni un franco varado**. Las dos pasaron por la app —que sí liquidaba—, no por el panel.
+El fallo es **latente**: el mecanismo está roto y no se ha ejercitado porque nadie ha marcado una entrada
+desde el panel con una reserva de monedero. Lo que esto corrige no es una pérdida, es **el día que se
+ejercite**: el panel es precisamente la pantalla que usará el hotelero.
+
+> Y el corolario incómodo, que ya estaba en §7.1: **no haberlo notado es la consecuencia de que todo sea de
+> prueba, no la prueba de que importe menos.** El primer hotel real que use el monedero desde el panel habría
+> visto «entrada registrada» y ningún dinero.
+
+### 10.7 La cadena de verificación: seis puertas
+
+| # | Puerta | Qué demostró |
+|---|---|---|
+| 1 | **Guion verificado sin servidor** (`as-verifica-despliegue.py`) | los 3 bloques base64 decodifican y sus huellas coinciden: **0 sin cuadrar**, `crlf=0` |
+| 2 | **Puerta local** (`_a3-verifica-local.cjs`) | los 3 ficheros **parsean** y 21 comprobaciones contadas: el parche es el que se decidió |
+| 3 | **Preflight en el servidor** (solo lectura) | las 13 columnas existen; **el JOIN nuevo ejecutado de verdad** devolvió filas reales; y la medida del daño de `LH-01` |
+| 4 | **`tsc` en el servidor** | **`tsc OK`** — la puerta semántica; si falla, restaura los `.bak` y **no reinicia** |
+| 5 | **Las 9 consultas EJECUTADAS** | extraídas del fichero desplegado (no transcritas) y corridas contra la base: **`rc=0`, cero errores** |
+| 6 | **Rutas reales** | `/search` y `/hotels` → **200**; `/reservations/mine`, `/my/day-book`, `/my/hotel/reservations`, `/my/hotel/dashboard`, `/my/room-types` → **401** (existen y piden sesión). Ningún 404, ningún 500 |
+
+`pm2`: **online**, `unstable restarts 0`. La 5.ª es la que importa: **`tsc` demuestra que el TypeScript
+compila, no que el SQL sea válido** — un nombre de columna mal escrito dentro de un `$queryRaw` no lo ve nadie
+hasta que la pantalla devuelve 500 en caliente.
+
+### 10.8 El comentario que citaba un método que no existe (`egapp 5d70f2e`)
+
+En el comentario de `liquidarMonedero` escribí «la app (`setStatus`)». El método se llama **`action`**. Se
+corrige **en el fichero y en el servidor** (segundo despliegue, un fichero, `tsc OK`, `unstable restarts 0`).
+Un comentario que nombra un método inexistente es una mentira dentro del artefacto: el siguiente que busque
+`setStatus` no lo encuentra y deja de fiarse del comentario. Los demás métodos citados se comprobaron uno a
+uno contra el código.
+
+### 10.9 Dos trampas nuevas
+
+1. **Un backtick dentro de un comentario SQL de un `$queryRaw` cierra el template literal.** Escribí
+   `` -- Faltaba: `cancellation_hours` … `` dentro de la consulta y el fichero **dejó de parsear**
+   (`':' expected`). Lo cazó la puerta local, **no `tsc`** — porque `tsc` en el servidor habría fallado
+   *después* de subir el fichero. Los backticks se retiraron de los 5 comentarios afectados.
+2. **Los comentarios `--` dentro de `$queryRaw` son seguros** (ya se usaban: «Lo urgente primero…»). El
+   problema no es el comentario, es el backtick.
+
+### 10.10 Estado de los hallazgos tras `A-3`
+
+| # | Sev. | Estado |
+|---|---|---|
+| `LH-01` | Crítica | **CERRADA** (servidor) |
+| `LH-02` | Alta | abierta — servidor |
+| `LH-03` | Alta | abierta — cliente (`lifebook-hotel-calendario.tsx`), §9.6 |
+| `LH-04` | Alta | abierta y **es del servidor**: el cliente reproduce a propósito el `Math.max` del `quote()` (§9.4) |
+| `LH-05` | Alta | abierta — servidor (el método «Monedero» inalcanzable: 400) |
+| `LH-06` | Alta | **CERRADA** (cliente + servidor) |
+| `LH-07` | Media | abierta — servidor (el reloj de `hold_minutes`) |
+| `LH-08` | Media | abierta — servidor |
+| `LH-09` | Media | abierta — servidor |
+| `LH-10` | Media | abierta **y ahora más visible**: `liquidarMonedero` deja un `warn` si falla, sin reintento ni cola |
+| `LH-11` | Baja | **CERRADA** (`egapp 56699d6`) |
+| `LH-12` | Baja | abierta — servidor (DTO del panel) |
+| `LH-13` | **nueva** | **CERRADA** |
+| `LH-14` | **nueva** | **CERRADA** |
+
+### 10.11 Una consecuencia que hay que decir en voz alta
+
+Al quitar `cancel` de `checked_in`, **una salida anticipada con acuerdo de devolución se queda sin camino**:
+la única salida con el huésped dentro es `checkout` (acción del hotel, sin devolución). Es lo decidido en
+§8.2 y es más honesto que lo que había —que **prometía** la devolución y no la hacía—, pero conviene saber
+que el camino no existe: si algún día hace falta, es una función nueva («salida anticipada»), no un
+`cancel` que vuelva por la puerta de atrás.
+
+**Lo que queda de A-servidor:** `LH-02`, `LH-05`, `LH-07`→`LH-10` y `LH-12`, todos ya localizados por
+fichero. Y **B**: el esquema de las 5 tablas sigue sin versionar, y es lo que habilita versionar y purgar los
+ejemplos. La puerta del servidor **se abre y se cierra**: cada uno de estos es una ventana.
