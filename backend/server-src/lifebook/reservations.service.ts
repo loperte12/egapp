@@ -884,7 +884,7 @@ export class LifebookReservationsService {
    * Mueve el monedero por una transición, DESPUÉS de que el estado quede en firme.
    *
    * 🔒 ES PÚBLICO A PROPÓSITO. Hay **dos puertas** que cambian el estado de una reserva
-   * —la app (`setStatus`) y el panel del hotelero (`updateReservationStatus`)— y las dos
+   * —la app (`action`) y el panel del hotelero (`updateReservationStatus`)— y las dos
    * tienen que liquidar igual. El panel no lo hacía (LH-01), y el resultado era dinero
    * varado en las dos direcciones:
    *
