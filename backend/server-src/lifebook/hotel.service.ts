@@ -28,6 +28,42 @@ export const MAX_RANGE_NIGHTS = 92;
 /** Ventana de calendario que devuelve la ficha del hotel. */
 export const DETAIL_CALENDAR_DAYS = 60;
 
+/**
+ * 🔒 LA REGLA DEL PLAZO DE UNA RESERVA, EN UN SOLO SITIO (`A-4`, LH-08).
+ *
+ * Una reserva ocupa inventario **mientras su plazo siga vivo**. `hold_expires_at` significa una
+ * cosa sola: *para cuándo se espera el siguiente hecho que la mantiene viva* — que llegue la
+ * transferencia (`hold`) o que el hotel confirme (`pending`). Cuando el plazo pasa, la reserva
+ * deja de ocupar la habitación **y** deja de poder confirmarse: son la misma regla, y por eso
+ * se leen del mismo sitio.
+ *
+ * Estaba escrita **a mano en seis sitios** (cinco consultas de ocupación y una forma de salida) y
+ * **cinco guardas en JavaScript**, y la mitad de las copias solo miraban `hold` — así que una
+ * reserva `pending` con el plazo cumplido bloqueaba la habitación para siempre y el hotel veía
+ * «sin disponibilidad» en fechas libres (LH-08). El número de sitios donde vive una regla es el
+ * número de sitios donde se puede escribir mal (fallo 48 de `codemod-seguro`).
+ *
+ * Solo `hold` y `pending` caducan: `confirmed` y `checked_in` son servicio en curso y **no** se
+ * sueltan porque haya vencido una fecha. Generalizar esto a todos los estados sería vender dos
+ * veces la misma habitación.
+ */
+export function plazoVencido(status: unknown, holdExpiresAt: unknown, ahora: number = Date.now()): boolean {
+  const s = String(status);
+  if (s !== 'hold' && s !== 'pending') return false;
+  if (!holdExpiresAt) return false;
+  const t = new Date(holdExpiresAt as string | number | Date).getTime();
+  return Number.isFinite(t) && t <= ahora;
+}
+
+/** Estados de reserva que OCUPAN inventario. La lista única (antes estaba escrita tres veces). */
+export const ESTADOS_QUE_OCUPAN = ['hold', 'pending', 'confirmed', 'checked_in'] as const;
+
+/** ¿Esta reserva sigue ocupando la habitación? (= su estado ocupa y su plazo no venció). */
+export function ocupaInventario(status: unknown, holdExpiresAt: unknown, ahora: number = Date.now()): boolean {
+  if (!(ESTADOS_QUE_OCUPAN as readonly string[]).includes(String(status))) return false;
+  return !plazoVencido(status, holdExpiresAt, ahora);
+}
+
 const PROPERTY_KINDS = ['hotel', 'hostal', 'guest_house', 'apartahotel', 'resort', 'motel'] as const;
 /** Métodos de pago que un hotel puede aceptar (los de la tienda, ya validados en BD). */
 const HOTEL_METHODS = ['transfer', 'deposit', 'in_store', 'billing', 'likebook_wallet'] as const;
@@ -515,6 +551,15 @@ export class LifebookHotelService {
    * la ficha no puede enlazar a un dominio ajeno ni a un fichero que no existe).
    */
   async images(userId: string, v: unknown): Promise<string[]> {
+    // 🔒 LH-12: un `images` que no sea lista NO se interpreta como «sin fotos».
+    // Antes se devolvía `[]` —que es *truthy*— y el servicio escribía `images = '[]'`:
+    // un cuerpo fuera de contrato borraba TODAS las fotos de la habitación sin un solo
+    // error. Ausente = no se toca (`create`: sin fotos · `update`: se conservan);
+    // presente y malformado = 400 explicado. La lista VACÍA sigue siendo legítima: el
+    // hotelero quitó sus fotos y eso se respeta.
+    if (v !== undefined && !Array.isArray(v)) {
+      throw new DomainError('IMAGE_INVALID', 'Las fotos tienen que venir como lista de enlaces');
+    }
     const raw = Array.isArray(v) ? v : [];
     if (raw.length > IMAGES_MAX) throw new DomainError('IMAGES_LIMIT', `Como máximo ${IMAGES_MAX} fotos`);
     const urls = raw.map((u) => String(u ?? '').trim()).filter(Boolean);
@@ -782,8 +827,14 @@ export class LifebookHotelService {
     if (!r || !r.is_hotel || !r.shop_active || !r.is_active || r.product_status !== 'active') {
       throw new DomainError('ROOM_NOT_FOUND', 'Esa habitación no existe o no está disponible');
     }
+    // LH-05: sin `ORDER BY`, el método que la app preselecciona lo decidía el plan de
+    // ejecución — y podía salir «Monedero» ya marcado, que es justo el que la app todavía
+    // no sabe completar (le falta mandar el `X-Payment-Token`). Con el orden explícito la
+    // preselección es estable y reproducible; la mitad que falta de LH-05 es del cliente.
     const pay: any[] = await this.db.$queryRaw`
-      SELECT method FROM lifebook.shop_payment_methods WHERE shop_id = ${r.shop_id}::uuid AND status = 'active'`;
+      SELECT method FROM lifebook.shop_payment_methods
+       WHERE shop_id = ${r.shop_id}::uuid AND status = 'active'
+       ORDER BY method`;
     return {
       room: this.roomShape(r, {
         productStatus: r.product_status,
@@ -815,9 +866,8 @@ export class LifebookHotelService {
    * chat), no su identificador. El teléfono solo lo añade el DETALLE.
    */
   hotelReservationShape(r: any, extra: Record<string, unknown> = {}) {
-    const OCUPAN = ['hold', 'pending', 'confirmed', 'checked_in'];
-    const viva = OCUPAN.includes(String(r.status))
-      && !(r.status === 'hold' && r.hold_expires_at && new Date(r.hold_expires_at).getTime() <= Date.now());
+    // La regla del plazo, importada: la misma que usan `action`, el panel y el SQL (LH-08).
+    const viva = ocupaInventario(r.status, r.hold_expires_at);
     const cancelaHasta = this.freeCancellationUntil(r);
     return {
       id: r.id,
@@ -1047,7 +1097,8 @@ export class LifebookHotelService {
        WHERE rn.room_type_id = ${roomTypeId}::uuid
          AND rn.night BETWEEN ${from}::date AND ${to}::date
          AND r.status IN ('hold','pending','confirmed','checked_in')
-         AND (r.status <> 'hold' OR r.hold_expires_at IS NULL OR r.hold_expires_at > now())
+         -- Ocupa mientras su plazo siga vivo: la regla de plazoVencido() (LH-08).
+         AND (r.status NOT IN ('hold','pending') OR r.hold_expires_at IS NULL OR r.hold_expires_at > now())
        GROUP BY rn.night`;
     const usadas = new Map<string, number>(occ.map((o) => [o.night, Number(o.usadas)]));
     const cal: any[] = await this.db.$queryRaw`
@@ -1174,7 +1225,8 @@ export class LifebookHotelService {
          WHERE rn.room_type_id = ANY(${roomIds}::uuid[])
            AND rn.night BETWEEN ${checkIn}::date AND ${this.addDays(checkOut, -1)}::date
            AND r.status IN ('hold','pending','confirmed','checked_in')
-           AND (r.status <> 'hold' OR r.hold_expires_at IS NULL OR r.hold_expires_at > now())
+           -- Ocupa mientras su plazo siga vivo: la regla de plazoVencido() (LH-08).
+           AND (r.status NOT IN ('hold','pending') OR r.hold_expires_at IS NULL OR r.hold_expires_at > now())
          GROUP BY rn.room_type_id, rn.night`;
       usadasPorRoom = new Map();
       for (const o of occ) {

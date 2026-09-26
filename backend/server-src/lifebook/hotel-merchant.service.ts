@@ -28,7 +28,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DomainError } from '../services/payment-auth.service';
 import { MobilityPrismaService } from '../mobility/mobility-prisma.service';
-import { LifebookHotelService } from './hotel.service';
+import { ESTADOS_QUE_OCUPAN, LifebookHotelService, plazoVencido } from './hotel.service';
 import { CANCELABLES, LifebookReservationsService } from './reservations.service';
 
 /** Acciones admitidas y su estado de destino. */
@@ -68,8 +68,8 @@ const PERMISO: Record<string, Array<'hotel' | 'guest'>> = {
   cancel: ['hotel', 'guest'],
 };
 
-/** Estados que OCUPAN inventario. */
-const OCUPAN = ['hold', 'pending', 'confirmed', 'checked_in'];
+/** Estados que OCUPAN inventario: la MISMA lista que usa la regla (antes, una copia a mano más). */
+const OCUPAN = [...ESTADOS_QUE_OCUPAN];
 
 @Injectable()
 export class LifebookHotelMerchantService {
@@ -155,7 +155,8 @@ export class LifebookHotelMerchantService {
                 JOIN lifebook.reservations r2 ON r2.id = rn.reservation_id
                WHERE rn.room_type_id = rt.id AND rn.night = ${hoy}::date
                  AND r2.status = ANY(${OCUPAN}::varchar[])
-                 AND (r2.status <> 'hold' OR r2.hold_expires_at IS NULL OR r2.hold_expires_at > now())) AS occupied
+                 -- Ocupa mientras su plazo siga vivo: la regla de plazoVencido() (LH-08).
+                 AND (r2.status NOT IN ('hold','pending') OR r2.hold_expires_at IS NULL OR r2.hold_expires_at > now())) AS occupied
         FROM lifebook.room_types rt
        WHERE rt.shop_id = ${shop.id}::uuid AND rt.is_active
        ORDER BY rt.name`;
@@ -371,12 +372,23 @@ export class LifebookHotelMerchantService {
     }
 
     const estado = String(r.status);
-    const vencida = estado === 'hold' && r.hold_expires_at && new Date(r.hold_expires_at).getTime() <= Date.now();
+    // LH-08: la MISMA regla que el SQL de disponibilidad. Si aquí solo se mirara `hold`, el panel
+    // podría confirmar o dar entrada a una reserva cuya habitación ya volvió a estar libre.
+    const vencida = plazoVencido(estado, r.hold_expires_at);
     if (vencida && !['cancel', 'noshow'].includes(accion)) {
-      throw new DomainError('HOLD_EXPIRED', 'La retención venció: esa reserva ya no ocupa la habitación');
+      throw new DomainError('HOLD_EXPIRED', 'El plazo de esa reserva venció: ya no ocupa la habitación');
     }
     if (!DESDE[accion].includes(estado)) {
       throw new DomainError('INVALID_TRANSITION', `No se puede pasar de «${estado}» a «${destino}»`);
+    }
+    // 🔒 LH-02, por la misma puerta que la app: CONFIRMAR ES UN ACTO DE DINERO. El panel ofrecía
+    // «Confirmar» sin mirar la señal, y esa pulsación es irreversible: después `confirm-deposit` ya
+    // responde 409, el comprobante no se admite y la entrada está bloqueada por
+    // `DEPOSIT_NOT_CONFIRMED`. El huésped veía «Confirmada» y el hotel no podía cobrar ni alojarlo.
+    // Sin señal (`deposit_xaf = 0`) sí se confirma: no hay nada que cobrar.
+    if (accion === 'confirm' && Number(r.deposit_xaf) > 0
+        && !['deposit_paid', 'paid'].includes(String(r.payment_status))) {
+      throw new DomainError('DEPOSIT_NOT_CONFIRMED', 'Confirma antes el cobro de la señal');
     }
     if (accion === 'checkin') {
       const hoy = this.hoyMalabo();
@@ -467,10 +479,11 @@ export class LifebookHotelMerchantService {
     if (Number(r.deposit_xaf) <= 0) {
       throw new DomainError('NO_DEPOSIT', 'Esa reserva no tiene señal: se paga al llegar');
     }
-    const vencida = String(r.status) === 'hold' && r.hold_expires_at
-      && new Date(r.hold_expires_at).getTime() <= Date.now();
+    // LH-08: el plazo vencido cuenta también en `pending`. Confirmar el cobro de una reserva cuya
+    // habitación ya se soltó dejaría «pagada» una estancia que ya no está reservada.
+    const vencida = plazoVencido(String(r.status), r.hold_expires_at);
     if (vencida) {
-      throw new DomainError('HOLD_EXPIRED', 'La retención venció: pídele al huésped que reserve otra vez');
+      throw new DomainError('HOLD_EXPIRED', 'El plazo de esa reserva venció: pídele al huésped que reserve otra vez');
     }
     const proof = String(opts.proof ?? '').trim().slice(0, 200) || null;
 

@@ -28,16 +28,19 @@
 //     un tercero recibe 403 NOT_RESERVATION_PARTICIPANT.
 // =============================================================================
 import { Injectable, Logger } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { createHash, randomInt } from 'node:crypto';
 import { DomainError } from '../services/payment-auth.service';
 import { MobilityPrismaService } from '../mobility/mobility-prisma.service';
-import { LifebookHotelService, MAX_RANGE_NIGHTS } from './hotel.service';
+import { LifebookHotelService, MAX_RANGE_NIGHTS, plazoVencido } from './hotel.service';
 import { WalletService } from '../services/wallet.service';
 
 /** Métodos de pago válidos en una reserva de hotel. */
 const METHODS = ['transfer', 'deposit', 'in_store', 'billing', 'likebook_wallet'] as const;
-/** Estados de reserva que OCUPAN inventario. */
-const OCUPAN = ['hold', 'pending', 'confirmed', 'checked_in'] as const;
+// La lista de estados que OCUPAN inventario y la regla del plazo viven en `hotel.service.ts`
+// (`ESTADOS_QUE_OCUPAN` / `plazoVencido` / `ocupaInventario`). Aquí había **otra copia** de esa
+// lista, sin usar: es exactamente el patrón que hizo daño en LH-06 (cuatro copias de una regla) y
+// en LH-08 (seis copias del predicado de ocupación, la mitad mirando solo `hold`).
 
 /**
  * Estados desde los que se puede CANCELAR. **Esta es la lista.**
@@ -208,7 +211,8 @@ export class LifebookReservationsService {
           JOIN lifebook.reservations r ON r.id = rn.reservation_id
          WHERE rn.room_type_id = ${roomTypeId}::uuid AND rn.night = ANY(${noches}::date[])
            AND r.status IN ('hold','pending','confirmed','checked_in')
-           AND (r.status <> 'hold' OR r.hold_expires_at IS NULL OR r.hold_expires_at > now())
+           -- Ocupa mientras su plazo siga vivo: la regla de plazoVencido() (LH-08).
+           AND (r.status NOT IN ('hold','pending') OR r.hold_expires_at IS NULL OR r.hold_expires_at > now())
          GROUP BY rn.night`;
       const usadas = new Map<string, number>(occ.map((o) => [o.night, Number(o.usadas)]));
 
@@ -250,16 +254,29 @@ export class LifebookReservationsService {
        * 5-bis) EL DINERO DEL MONEDERO (parche 99): la SEÑAL se retiene aquí.
        *
        * El importe lo calcula el servidor (nunca el cliente) y el token de pago (PIN, scope
-       * ESCROW_LOCK, importe EXACTO) se consume al retener: uno robado no sirve dos veces. La
-       * clave del cerrojo sale de la Idempotency-Key de la reserva, así que un reintento del
-       * huésped no bloquea el dinero dos veces.
+       * ESCROW_LOCK, importe EXACTO) se consume al retener: uno robado no sirve dos veces.
+       *
+       * 🔒 LH-09: la clave del cerrojo lleva un NONCE DEL INTENTO, no solo la `Idempotency-Key`.
+       * Antes era `lb-hotel:<clave>`; el monedero **devuelve el cerrojo antiguo** cuando la clave
+       * ya existe (`replay: true`) y el `catch` de aquí abajo ya lo había devuelto al huésped
+       * cuando el primer intento falló. Como la app NO renueva su clave al fallar (a propósito:
+       * así el doble toque no crea dos reservas), el reintento —la carrera por la última
+       * habitación— enlazaba con la reserva nueva un cerrojo **ya reembolsado**: la reserva decía
+       * «señal pagada» sin un franco retenido, y al entrar la liberación fallaba por saldo y el
+       * hotel no cobraba nunca.
+       *
+       * El nonce NO rompe el doble toque: la clave de idempotencia se sigue reservando DENTRO de
+       * esta transacción bajo `pg_advisory_xact_lock`, así que dos peticiones idénticas a la vez
+       * se ordenan y la segunda devuelve la respuesta guardada **sin llegar hasta aquí**. Lo que
+       * cambia es que cada creación que de verdad se ejecuta retiene dinero de verdad.
        */
       if (method === 'likebook_wallet' && cuenta.depositXaf > 0) {
         if (!paymentToken) {
           throw new DomainError('PAYMENT_TOKEN_REQUIRED', 'Falta el token de pago del monedero: confirma la señal con tu PIN');
         }
+        const intento = randomInt(1, 2 ** 31).toString(36);
         const lock = await this.wallets.lockForCommerceOrder({
-          userId: guestId, amount: cuenta.depositXaf, paymentToken, idempotencyKey: `lb-hotel:${key}`,
+          userId: guestId, amount: cuenta.depositXaf, paymentToken, idempotencyKey: `lb-hotel:${key}:${intento}`,
         });
         lockTxId = lock.transactionId;
       }
@@ -267,10 +284,27 @@ export class LifebookReservationsService {
       // 5) Retención: con señal por cobrar la habitación se retiene; sin señal,
       //    la reserva queda pendiente de que el hotel confirme (con su plazo).
       const haySenal = cuenta.depositXaf > 0;
-      const holdMin = method === 'transfer' ? TRANSFER_HOLD_HOURS * 60 : Number(rt.hold_minutes);
-      const holdExpires = haySenal
-        ? `now() + interval '${holdMin} minutes'`
-        : `now() + interval '${Number(rt.confirmation_hours)} hours'`;
+      /**
+       * 🔒 LH-07: el plazo depende de QUÉ se está esperando, y con el monedero ya no se espera
+       * dinero.
+       *
+       * Antes usaba `hold_minutes` (5–120, por defecto **20 min**) siempre que hubiera señal
+       * —también con el monedero, donde la señal **ya está retenida**. Resultado: el huésped
+       * pagaba la señal a las 22:00 y a las 22:20 el barrido cancelaba su reserva y le devolvía
+       * el dinero si el hotel no había pulsado «confirmar», mientras el hotel creía tener las
+       * 24 h que él mismo configuró (`confirmation_hours`) y que su panel muestra como «Horas
+       * para confirmar».
+       *
+       * Con el dinero ya en garantía lo que se espera es **la confirmación del hotel**, así que
+       * el plazo es el suyo. `hold_minutes` sigue midiendo lo que siempre midió: cuánto se
+       * espera a que LLEGUE una transferencia.
+       */
+      const esperaDinero = haySenal && method !== 'likebook_wallet';
+      const crudo = esperaDinero
+        ? (method === 'transfer' ? TRANSFER_HOLD_HOURS * 60 : Number(rt.hold_minutes ?? 20))
+        : Number(rt.confirmation_hours ?? 24) * 60;
+      const holdMin = Number.isFinite(crudo) && crudo > 0 ? Math.floor(crudo) : 24 * 60;
+      const holdExpires = `now() + interval '${holdMin} minutes'`;
       // 17/09 (parche 99: con monedero NO hay espera). «hold» significa «retenida hasta que
       // llegue la transferencia»; si el dinero ya está retenido en el monedero, la reserva nace
       // pendiente de que el hotel confirme, igual que cuando no hay señal que cobrar.
@@ -620,7 +654,8 @@ export class LifebookReservationsService {
                 JOIN lifebook.reservations r2 ON r2.id = rn.reservation_id
                WHERE rn.room_type_id = rt.id AND rn.night = ${fecha}::date
                  AND r2.status IN ('hold','pending','confirmed','checked_in')
-                 AND (r2.status <> 'hold' OR r2.hold_expires_at IS NULL OR r2.hold_expires_at > now())) AS ocupadas
+                 -- Ocupa mientras su plazo siga vivo: la regla de plazoVencido() (LH-08).
+                 AND (r2.status NOT IN ('hold','pending') OR r2.hold_expires_at IS NULL OR r2.hold_expires_at > now())) AS ocupadas
         FROM lifebook.room_types rt WHERE rt.shop_id = ${shopId}::uuid AND rt.is_active ORDER BY rt.name`;
     const forma = (r: any) => this.shape(r, { esHuesped: false, esHotel: true, esAdmin: false });
     return {
@@ -651,7 +686,10 @@ export class LifebookReservationsService {
     if (!estados.includes(String(r.status))) {
       throw new DomainError('INVALID_STATE_TRANSITION', `No se puede confirmar la señal de una reserva «${r.status}»`);
     }
-    const retenida = r.hold_expires_at && new Date(r.hold_expires_at).getTime() <= Date.now();
+    // LH-08: la misma regla que en `action` y que en el SQL (una llamada a `plazoVencido`, no una
+    // comparación de fechas escrita a mano). Confirmar la señal de una retención vencida resucitaría
+    // una reserva cuya habitación ya volvió al calendario.
+    const retenida = plazoVencido(r.status, r.hold_expires_at);
     if (r.status === 'hold' && retenida) {
       throw new DomainError('HOLD_EXPIRED', 'La retención de esa reserva ya venció: pídele al huésped que reserve otra vez');
     }
@@ -707,9 +745,12 @@ export class LifebookReservationsService {
       throw new DomainError('REASON_REQUIRED', 'Indica el motivo (queda registrado en la reserva)');
     }
     const estado = String(r.status);
-    const vencida = estado === 'hold' && r.hold_expires_at && new Date(r.hold_expires_at).getTime() <= Date.now();
+    // LH-08: el plazo vencido cuenta también en `pending`. Es LA MISMA regla que aplica el SQL de
+    // disponibilidad, así que si aquí no se comprobara se podría confirmar una reserva cuya
+    // habitación el hotel ya volvió a tener libre — dos huéspedes y una cama.
+    const vencida = plazoVencido(estado, r.hold_expires_at);
     if (vencida && !['cancel', 'noshow'].includes(accion)) {
-      throw new DomainError('HOLD_EXPIRED', 'La retención venció: esa reserva ya no ocupa la habitación');
+      throw new DomainError('HOLD_EXPIRED', 'El plazo de esa reserva venció: ya no ocupa la habitación');
     }
 
     // ── Transiciones permitidas (cerradas, como en los pedidos) ──
@@ -722,6 +763,23 @@ export class LifebookReservationsService {
     };
     if (!permitido[accion].includes(estado)) {
       throw new DomainError('INVALID_STATE_TRANSITION', `No se puede hacer eso con una reserva «${estado}»`);
+    }
+    /**
+     * 🔒 LH-02: CONFIRMAR ES UN ACTO DE DINERO.
+     *
+     * `confirm` daba por buena la reserva sin mirar la señal, y esa pulsación es irreversible:
+     * después, `confirm-deposit` responde 409 (solo admite `hold`/`pending`), el comprobante ya
+     * no se admite (`submitProof` exige lo mismo) y la entrada queda bloqueada por
+     * `DEPOSIT_NOT_CONFIRMED`. La reserva se trababa con el huésped viendo «Confirmada» y el
+     * hotel sin poder cobrar ni alojarlo; la única salida era cancelar y perder la estancia.
+     *
+     * La app ya declaraba la exigencia (`requiresDepositPaid: true`), pero la aplicaba solo a la
+     * transición de estado y el panel no le pasaba `depositPaid`; el servidor era el único que
+     * podía sostenerla. Sin señal (`deposit_xaf = 0`) sí se confirma: no hay nada que cobrar.
+     */
+    if (accion === 'confirm' && Number(r.deposit_xaf) > 0
+        && !['deposit_paid', 'paid'].includes(String(r.payment_status))) {
+      throw new DomainError('DEPOSIT_NOT_CONFIRMED', 'Confirma antes el cobro de la señal');
     }
     // Check-in: no antes del día de entrada (ni sin confirmar el cobro).
     if (accion === 'checkin') {
@@ -801,6 +859,31 @@ export class LifebookReservationsService {
 
   // ═══════════════════════════ BARRIDO ══════════════════════════════════════
   /**
+   * El barrido, AUTOMÁTICO (LH-08).
+   *
+   * `expireStale` existía desde el principio, pero su **único** acceso era una ruta ADMIN a mano:
+   * en todo el backend no hay ningún `@Cron` de reservas (los tres que hay son de cobros y de
+   * SMS), así que una retención vencida se quedaba en la tabla indefinidamente —el inventario no
+   * volvía al calendario y el hotelero veía reservas zombis—.
+   *
+   * Cada 15 minutos y con `catch`: si el barrido falla, el siguiente lo reintenta, y el trabajo es
+   * idempotente (el `UPDATE` filtra por estado y por plazo, así que dos barridos a la vez no pisan
+   * nada). Si alguien lo llamaba ya desde fuera por la ruta ADMIN, ahora se hace dos veces: no pasa
+   * nada, por lo mismo.
+   *
+   * La DISPONIBILIDAD no depende de esto (el SQL ya ignora lo vencido, LH-08): esto es la limpieza
+   * de verdad, más el reintento del dinero (LH-10).
+   */
+  @Cron('*/15 * * * *')
+  async barridoAutomatico(): Promise<void> {
+    try {
+      await this.expireStale(200);
+    } catch (e) {
+      this.log.warn(`el barrido automático de reservas falló: ${(e as Error).message}`);
+    }
+  }
+
+  /**
    * Libera lo que ya venció: retenciones sin pagar y reservas que el hotel no
    * confirmó dentro de su plazo. Se puede llamar a mano (ADMIN) o desde un cron.
    *
@@ -813,9 +896,13 @@ export class LifebookReservationsService {
       SELECT id FROM lifebook.reservations
        WHERE status IN ('hold','pending')
          AND hold_expires_at IS NOT NULL AND hold_expires_at <= now()
-         AND (payment_status IN ('pending','proof_submitted')
-              -- Parche 99: una señal pagada con el monedero también caduca, y al caducar se DEVUELVE.
-              OR (payment_method = 'likebook_wallet' AND payment_status = 'deposit_paid'))
+         -- LH-08: TODO lo vencido, sin mirar el pago. Antes había un filtro por payment_status
+         -- que dejaba fuera justo un caso: la reserva por transferencia con la señal ya cobrada
+         -- (deposit_paid) y el hotel sin confirmar. No la barría nadie —y con la regla nueva
+         -- tampoco ocupaba—, así que quedaba en el limbo: invisible para la disponibilidad, sin
+         -- poder confirmarse y sin cancelar. Un plazo vencido es un plazo vencido.
+         -- (Los nombres van SIN acentos graves a proposito: uno de ellos dentro de un comentario
+         --  SQL cierra el template literal de $queryRaw y el fichero deja de parsear. Fallo 49.)
        ORDER BY hold_expires_at LIMIT ${Math.min(Math.max(Number(limit) || 200, 1), 1000)}`;
     let liberadas = 0;
     for (const f of filas) {
@@ -823,7 +910,19 @@ export class LifebookReservationsService {
         const upd: number = await tx.$executeRaw`
           UPDATE lifebook.reservations
              SET status = 'cancelled', cancelled_at = now(),
-                 cancel_reason = COALESCE(cancel_reason, 'Sin pagar la señal a tiempo'),
+                 -- LH-07: el motivo dice QUÉ se estaba esperando. Con el monedero la señal ya
+                 -- estaba pagada, así que «sin pagar la señal» era sencillamente falso: lo que
+                 -- faltó fue la confirmación del hotel.
+                 cancel_reason = COALESCE(cancel_reason,
+                   CASE WHEN payment_status IN ('pending','proof_submitted')
+                        THEN 'Sin pagar la señal a tiempo'
+                        ELSE 'El hotel no confirmó dentro de su plazo' END),
+                 -- El barrido ES una cancelación, así que deja el dinero igual que la deja
+                 -- action: si había señal cobrada, queda pendiente de devolución. Sin esto, una
+                 -- cancelación de monedero decía «señal pagada» para siempre aunque el dinero ya
+                 -- hubiera vuelto al huésped.
+                 payment_status = CASE WHEN payment_status IN ('deposit_paid','paid')
+                                       THEN 'refunded' ELSE payment_status END,
                  updated_at = now()
            WHERE id = ${f.id}::uuid AND status IN ('hold','pending')
              AND hold_expires_at IS NOT NULL AND hold_expires_at <= now()`;
@@ -837,7 +936,13 @@ export class LifebookReservationsService {
       await this.devolverSiMonederoHotel(f.id);
     }
     if (liberadas) this.log.log(`barrido de hotel: ${liberadas} reserva(s) sin pagar liberadas`);
-    return { checked: filas.length, released: liberadas };
+    // LH-10: y de paso, el dinero que se quedó a medias. Va aquí y no en un método aparte porque
+    // el barrido ya es, por definición, «lo que revisa lo que no llegó a su fin».
+    const dinero = await this.reconciliarMonedero();
+    if (dinero.liberaciones || dinero.devoluciones) {
+      this.log.log(`barrido de hotel · monedero reintentado: ${dinero.liberaciones} liberación(es) · ${dinero.devoluciones} devolución(es)`);
+    }
+    return { checked: filas.length, released: liberadas, ...dinero };
   }
 
   /**
@@ -845,6 +950,16 @@ export class LifebookReservationsService {
    * la llamada— y solo actúa si es de monedero y el huésped ya entró (o no se presentó).
    * Hoteles no tiene comisión de plataforma todavía: el hotel cobra la señal ÍNTEGRA. Cuando
    * exista, entra aquí como `platformFee`.
+   *
+   * 🔒 LH-10: al liberar se deja MARCA (`paid_at`), que es lo que dice «el hotel ya cobró» y lo
+   * que permite distinguir después una liberación que falló de una que se hizo. Antes el fallo
+   * solo dejaba un `warn` en un log que se rota: ni rastro ni reintento, así que el dinero del
+   * huésped se quedaba en garantía para siempre y el hotel cobraba cero.
+   *
+   * Es **idempotente por `idempotencyKey`** (`lb-release:<reserva>`): si ya se liberó, el monedero
+   * responde `replay` y no mueve un franco. Por eso el barrido puede reintentarla sin miedo, y por
+   * eso también las reservas anteriores a esta tanda —que se liberaron bien pero no dejaron marca—
+   * se vuelven a pasar sin efecto una sola vez.
    */
   private async liberarSiMonederoHotel(reservationId: string) {
     const filas: any[] = await this.db.$queryRaw`
@@ -861,8 +976,15 @@ export class LifebookReservationsService {
         orderId: reservationId, sellerId: String(r.owner_id),
         sellerNet: senal, platformFee: 0, deliveryHeld: 0,
       });
+      await this.db.$executeRaw`
+        UPDATE lifebook.reservations
+           SET paid_at = COALESCE(paid_at, now()), updated_at = now()
+         WHERE id = ${reservationId}::uuid`;
     } catch (e) {
-      this.log.warn(`reserva ${reservationId} con la señal retenida y sin liberar: ${(e as Error).message}`);
+      // No se traga el fallo: queda con marca propia en el log y con `paid_at` SIN escribir, que
+      // es lo que hace que el barrido lo vuelva a intentar (LH-10). La causa más frecuente es el
+      // hotelero sin monedero provisionado (`WALLET_NOT_FOUND`).
+      this.log.warn(`LIQUIDACION_PENDIENTE reserva ${reservationId} con la señal retenida y sin liberar: ${(e as Error).message}`);
     }
   }
 
@@ -876,7 +998,10 @@ export class LifebookReservationsService {
     try {
       await this.wallets.refundCommerceOrder({ orderId: reservationId });
     } catch (e) {
-      this.log.warn(`reserva ${reservationId} cancelada y sin devolver el monedero: ${(e as Error).message}`);
+      // LH-10: con marca propia, para poder buscar el caso en el log. No hay estado nuevo que
+      // escribir —`payment_status` ya dice «refunded» desde que se canceló— pero el barrido
+      // encuentra la devolución por «cancelada + de monedero + pago sin cerrar» y la reintenta.
+      this.log.warn(`LIQUIDACION_PENDIENTE reserva ${reservationId} cancelada y sin devolver el monedero: ${(e as Error).message}`);
     }
   }
 
@@ -899,12 +1024,56 @@ export class LifebookReservationsService {
    * operaciones son **idempotentes por `idempotencyKey`** (`lb-release:` / `lb-refund:`),
    * así que llamarlas dos veces (o desde las dos puertas) no cobra dos veces.
    *
-   * Lo que NO cubre: si la liquidación falla, solo queda un `warn` en el log — no hay
-   * reintento ni cola (LH-10, sigue abierto).
+   * Lo que NO cubre: provisionar el monedero del HOTELERO. Si la liquidación falla queda un `warn`
+   * marcado como `LIQUIDACION_PENDIENTE` —pero ya no se pierde: `paid_at` sin escribir es la marca
+   * de que el hotel no cobró, y el barrido reintenta la operación cada 15 minutos (LH-10). Lo del
+   * monedero del vendedor vive en un fichero COMPARTIDO que esta tanda no toca; queda en el acta.
    */
   async liquidarMonedero(reservationId: string, accion: string) {
     if (accion === 'checkin' || accion === 'noshow') await this.liberarSiMonederoHotel(reservationId);
     if (accion === 'cancel') await this.devolverSiMonederoHotel(reservationId);
+  }
+
+  /**
+   * REINTENTAR EL DINERO QUE SE QUEDÓ A MEDIAS (LH-10).
+   *
+   * Las dos operaciones del monedero son idempotentes por clave (`lb-release:` / `lb-refund:`): si
+   * ya se hicieron, el monedero responde `replay` y no mueve nada. Así que reintentar es gratis y
+   * la única pregunta es **a quién**. Se busca en la propia tabla de reservas, **sin estado nuevo**:
+   * el esquema de hotel no está versionado, así que no se inventa un valor de `payment_status` sin
+   * poder leer su `CHECK` — y resulta que no hace falta.
+   *
+   *   · LIBERAR → de monedero, con la entrada registrada o no presentado, y `paid_at` **vacío**.
+   *     `paid_at` es la marca de «el hotel ya cobró», así que esto es exactamente «quedó sin
+   *     liberar»; no hace falta ningún `release_pending`.
+   *   · DEVOLVER → de monedero, cancelada o caducada, con el pago sin cerrar.
+   *
+   * Se acota a **48 h** con `ORDER BY updated_at DESC`: un fallo de monedero se arregla enseguida
+   * (o no se arregla nunca), y así el barrido no arrastra para siempre las reservas viejas. Pasado
+   * el plazo queda el rastro —`paid_at` vacío en una estancia cerrada, y el `warn` del log—.
+   *
+   * Lo que NO hace: provisionar el monedero del hotelero. Eso vive en `wallet.service` (más
+   * `KycGateService`), fichero COMPARTIDO por mercado, comida y viajes que **no está versionado**
+   * en el repo: tocarlo sería un cambio de alcance que esta tanda no puede verificar.
+   */
+  async reconciliarMonedero(limit = 25) {
+    const n = Math.min(Math.max(Number(limit) || 25, 1), 200);
+    const porLiberar: any[] = await this.db.$queryRaw`
+      SELECT id FROM lifebook.reservations
+       WHERE payment_method = 'likebook_wallet' AND payment_status = 'deposit_paid'
+         AND paid_at IS NULL AND status IN ('checked_in', 'no_show')
+         AND updated_at > now() - interval '48 hours'
+       ORDER BY updated_at DESC LIMIT ${n}`;
+    for (const f of porLiberar) await this.liberarSiMonederoHotel(f.id);
+    const porDevolver: any[] = await this.db.$queryRaw`
+      SELECT id FROM lifebook.reservations
+       WHERE payment_method = 'likebook_wallet'
+         AND status IN ('cancelled', 'expired')
+         AND payment_status IN ('deposit_paid', 'refunded')
+         AND updated_at > now() - interval '48 hours'
+       ORDER BY updated_at DESC LIMIT ${n}`;
+    for (const f of porDevolver) await this.devolverSiMonederoHotel(f.id);
+    return { liberaciones: porLiberar.length, devoluciones: porDevolver.length };
   }
 
   // ═══════════════════════════ AVISO EN EL CHAT ═════════════════════════════
