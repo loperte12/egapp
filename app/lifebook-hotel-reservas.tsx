@@ -311,6 +311,14 @@ function Tarjeta({
       : r.status === 'hold'
         ? colors.danger
         : colors.primary;
+  /* El MISMO estado en color de TEXTO: `colorEstado` pinta también el tinte y el borde. */
+  const colorEstadoTxt = r.status === 'cancelled' || r.status === 'no_show'
+    ? colors.textSecondary
+    : r.status === 'checked_out'
+      ? colors.text.success
+      : r.status === 'hold'
+        ? colors.text.danger
+        : colors.text.primary;
 
   const puedeEnviarRef = r.role === 'guest' && r.paymentMethod === 'transfer'
     && r.paymentStatus === 'pending' && r.status === 'hold';
@@ -351,7 +359,7 @@ function Tarjeta({
           </Text>
         </View>
         <View style={[styles.badge, { backgroundColor: alpha(colorEstado, 0.12), borderColor: colorEstado }]}>
-          <Text style={[styles.badgeTxt, { color: colorEstado }]}>{RESERVA_ETIQUETA[r.status] ?? r.status}</Text>
+          <Text style={[styles.badgeTxt, { color: colorEstadoTxt }]}>{RESERVA_ETIQUETA[r.status] ?? r.status}</Text>
         </View>
       </View>
 

@@ -87,7 +87,7 @@ export default function PieDelMercado({
          * `/tienda`, y se resuelve igual: Home se compara exacto, los demás por prefijo.
          */
         const activo = destino.ruta === '/ecomerse' ? ruta === '/ecomerse' : ruta.startsWith(destino.ruta);
-        const tinte = activo ? colors.primary : colors.textSecondary;
+        const tinte = activo ? colors.text.primary : colors.textSecondary;
         const Icono = destino.icon;
         const contador = destino.id === 'mensajes' ? sinLeer : 0;
         return (

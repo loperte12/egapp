@@ -268,7 +268,7 @@ export default function AlquilerPlanesScreen() {
             <View key={plan.key} style={[s.planCard, { borderColor: isCurrent ? planColor : colors.border }, isCurrent && { backgroundColor: alpha(planColor, 0.06) }]}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: espaciado.e14 }}>
                 <View style={{ flex: 1, paddingRight: espaciado.e8 }}>
-                  <Text style={[s.planName, { color: planColor }]}>{plan.name}</Text>
+                  <Text style={[s.planName, { color: plan.color || colors.text.primary }]}>{plan.name}</Text>
                   {isCurrent && (
                     <View style={[s.currentBadge, { backgroundColor: planColor }]}>
                       <Text style={s.currentBadgeText}>Plan actual</Text>

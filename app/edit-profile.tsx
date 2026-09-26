@@ -311,7 +311,7 @@ function EditProfileContent() {
   if (!profile || loadError) {
     return (
       <View style={[styles.center, { backgroundColor: colors.background, paddingHorizontal: espaciado.e28 }]}>
-        <Text style={{ color: colors.danger, fontWeight: peso.fuerte, textAlign: 'center', fontSize: tipografia.body }}>No se pudo cargar tu perfil.</Text>
+        <Text style={{ color: colors.text.danger, fontWeight: peso.fuerte, textAlign: 'center', fontSize: tipografia.body }}>No se pudo cargar tu perfil.</Text>
         {loadError ? <Text style={{ color: colors.textSecondary, fontSize: tipografia.caption, textAlign: 'center', marginTop: espaciado.e6, marginBottom: espaciado.e16 }}>{loadError}</Text> : null}
         <Pressable
           onPress={() => setReloadKey((k) => k + 1)}
@@ -338,6 +338,9 @@ function EditProfileContent() {
   // Información original (creador): solo lectura.
   const oc = (profile.originalCreator ?? 'not_verified') as 'verified' | 'pending' | 'not_verified';
   const ocColor = oc === 'verified' ? colors.success : oc === 'pending' ? colors.secondary : colors.textSecondary;
+  /* El MISMO estado, en color de TEXTO: `ocColor` se queda para el tinte del icono y de la
+     píldora (alpha) y no se puede mover sin cambiar el relleno. */
+  const ocColorTxt = oc === 'verified' ? colors.text.success : oc === 'pending' ? colors.text.secondary : colors.textSecondary;
   const ocLabel = oc === 'verified' ? 'Verificado' : oc === 'pending' ? 'Pendiente' : 'No verificado';
 
   return (
@@ -349,7 +352,7 @@ function EditProfileContent() {
         </Pressable>
         <Text style={[styles.topTitle, { color: colors.textPrimary }]} numberOfLines={1}>Editar perfil</Text>
         <Pressable onPress={() => setPreviewOpen(true)} hitSlop={8} accessibilityRole="button" accessibilityLabel="Vista previa del perfil" style={{ width: 72, alignItems: 'flex-end' }}>
-          <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Vista previa</Text>
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Vista previa</Text>
         </Pressable>
       </View>
 
@@ -381,7 +384,7 @@ function EditProfileContent() {
               <Image source={{ uri: avatarDisplay }} style={styles.avatarImg} />
             ) : (
               <View style={[styles.avatarEmpty, { backgroundColor: alpha(colors.primary, 0.16) }]}>
-                <Text style={[styles.avatarInitial, { color: colors.primary }]}>{initial}</Text>
+                <Text style={[styles.avatarInitial, { color: colors.text.primary }]}>{initial}</Text>
               </View>
             )}
           </View>
@@ -391,10 +394,10 @@ function EditProfileContent() {
             <MiniAction icon={Camera} label="Cambiar foto de perfil" busy={pickingAvatar} disabled={picking !== null} onPress={() => pedirOrigen('avatar')} />
             <MiniAction icon={ImagePlus} label="Cambiar portada" busy={pickingCover} disabled={picking !== null} onPress={() => pedirOrigen('cover')} />
             {imageError ? (
-              <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>{imageError}</Text>
+              <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>{imageError}</Text>
             ) : null}
             {(newAvatar || newCover) ? (
-              <Text style={{ color: colors.success, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>
+              <Text style={{ color: colors.text.success, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e4 }}>
                 Imagen{newAvatar && newCover ? 'es' : ''} nueva elegida · se aplicará al guardar
               </Text>
             ) : null}
@@ -570,7 +573,7 @@ function EditProfileContent() {
               </Text>
             </View>
             <View style={[styles.statusPill, { backgroundColor: alpha(ocColor, 0.14) }]}>
-              <Text style={{ color: ocColor, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{ocLabel}</Text>
+              <Text style={{ color: ocColorTxt, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{ocLabel}</Text>
             </View>
           </View>
         </View>
@@ -610,7 +613,7 @@ function EditProfileContent() {
             style={({ pressed }) => [styles.addLinkRow, { borderColor: colors.border, backgroundColor: colors.surface, opacity: pressed ? 0.75 : 1 }]}
           >
             <Plus size={17} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Añadir enlace o correo</Text>
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Añadir enlace o correo</Text>
             <Text style={{ marginLeft: 'auto', color: colors.textSecondary, fontSize: tipografia.caption, fontWeight: peso.fuerte }}>{links.length}/8</Text>
           </Pressable>
 
@@ -623,7 +626,7 @@ function EditProfileContent() {
             style={({ pressed }) => [styles.addLinkRow, { borderColor: colors.border, backgroundColor: colors.surface, opacity: pressed ? 0.75 : 1, marginTop: espaciado.e8 }]}
           >
             <Users size={17} color={colors.primary} />
-            <Text style={{ color: colors.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Enlazar uno de mis grupos</Text>
+            <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.maximo }}>Enlazar uno de mis grupos</Text>
           </Pressable>
 
           {links.length === 0 ? (
@@ -685,7 +688,7 @@ function EditProfileContent() {
 
         {/* ============ 6) Pie: Guardar ============ */}
         {saveError ? (
-          <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center', marginTop: espaciado.e18 }}>
+          <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center', marginTop: espaciado.e18 }}>
             {saveError}
           </Text>
         ) : null}
@@ -720,7 +723,7 @@ function EditProfileContent() {
                   {avatarDisplay ? (
                     <Image source={{ uri: avatarDisplay }} style={styles.previewAvatarImg} />
                   ) : (
-                    <Text style={[styles.previewAvatarTxt, { color: colors.primary }]}>{initial}</Text>
+                    <Text style={[styles.previewAvatarTxt, { color: colors.text.primary }]}>{initial}</Text>
                   )}
                 </View>
                 <View style={{ flex: 1 }}>
@@ -883,7 +886,7 @@ function MisMedidasCard({ colors }: { colors: any }) {
             accessibilityLabel="Borrar mis medidas"
             style={{ paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e8 }}
           >
-            <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
+            <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.maximo }}>
               {borrando ? 'Borrando…' : 'Borrar'}
             </Text>
           </Pressable>
@@ -975,7 +978,7 @@ function MiniAction({ icon: Icon, label, onPress, busy = false, disabled = false
       {busy ? (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
           <ActivityIndicator size="small" color={colors.primary} />
-          <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Procesando…</Text>
+          <Text style={{ color: colors.text.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Procesando…</Text>
         </View>
       ) : (
         <>
@@ -1295,7 +1298,7 @@ function ModalEnlace({ visible, onAdd, onClose }: {
         />
       </View>
 
-      {error ? <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8 }}>{error}</Text> : null}
+      {error ? <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e8 }}>{error}</Text> : null}
 
       <View style={{ flexDirection: 'row', gap: espaciado.e10, marginTop: espaciado.e14 }}>
         <View style={{ flex: 1 }}><GhostButton title="Cancelar" onPress={onClose} /></View>
@@ -1407,7 +1410,7 @@ function ModalGrupo({ visible, onAdd, onClose }: {
       )}
 
       {error && grupos && grupos.length > 0 ? (
-        <Text style={{ color: colors.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>{error}</Text>
+        <Text style={{ color: colors.text.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e10 }}>{error}</Text>
       ) : null}
 
       <View style={{ marginTop: espaciado.e14 }}>

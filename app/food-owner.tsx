@@ -483,7 +483,7 @@ export default function FoodOwnerScreen() {
                   style={[s.photoBtn, { borderColor: ACCENT }]}>
                   {photoBusy
                     ? <ActivityIndicator size="small" color={ACCENT} />
-                    : <Text style={{ color: ACCENT, fontWeight: peso.maximo, fontSize: tipografia.body }}>📷 {photoUrl ? 'Cambiar foto' : 'Añadir foto'}</Text>}
+                    : <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>📷 {photoUrl ? 'Cambiar foto' : 'Añadir foto'}</Text>}
                 </Pressable>
                 {photoUrl ? (
                   <Pressable onPress={() => setPhotoUrl(null)} accessibilityRole="button" accessibilityLabel="Quitar foto"
@@ -572,7 +572,7 @@ export default function FoodOwnerScreen() {
                   error={iPriceErr ?? undefined}
                 />
                 {pricePreview ? (
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT, marginTop: espaciado.e4, marginLeft: espaciado.e2 }}>{pricePreview}</Text>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary, marginTop: espaciado.e4, marginLeft: espaciado.e2 }}>{pricePreview}</Text>
                 ) : null}
                 <View style={{ flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e10 }}>
                   {CATS.map((c) => (
@@ -600,7 +600,7 @@ export default function FoodOwnerScreen() {
                       <View style={{ flexDirection: 'row', gap: espaciado.e16, marginTop: espaciado.e8 }}>
                         <Pressable onPress={() => { void elegirFotoPlato().then((u) => { if (u) setIPhoto(u); }); }}
                           hitSlop={8} accessibilityRole="button" accessibilityLabel="Cambiar la foto del plato">
-                          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>Cambiar</Text>
+                          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary }}>Cambiar</Text>
                         </Pressable>
                         <Pressable onPress={() => setIPhoto(null)} hitSlop={8}
                           accessibilityRole="button" accessibilityLabel="Quitar la foto del plato">
@@ -622,7 +622,7 @@ export default function FoodOwnerScreen() {
                     ) : (
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
                         <Camera size={16} color={ACCENT} />
-                        <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>Hacer o elegir una foto</Text>
+                        <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary }}>Hacer o elegir una foto</Text>
                       </View>
                     )}
                   </Pressable>
@@ -645,10 +645,10 @@ export default function FoodOwnerScreen() {
                   accessibilityLabel="Detalles del plato, opcional"
                   style={[s.detailsHead, { backgroundColor: alpha(ACCENT, 0.06), borderColor: alpha(ACCENT, 0.25) }]}
                 >
-                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
+                  <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary }}>
                     Detalles del plato (opcional)
                   </Text>
-                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: ACCENT }}>{showDetails ? '−' : '+'}</Text>
+                  <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.text.primary }}>{showDetails ? '−' : '+'}</Text>
                 </Pressable>
 
                 {showDetails && (
@@ -682,7 +682,7 @@ export default function FoodOwnerScreen() {
                             accessibilityLabel={SPICE_LABEL[lvl]}
                             style={[s.chip, { borderColor: active ? ACCENT : colors.border, backgroundColor: active ? alpha(ACCENT, 0.1) : colors.surface }]}
                           >
-                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: active ? ACCENT : colors.textPrimary }}>
+                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: active ? colors.text.primary : colors.textPrimary }}>
                               {SPICE_ICON[lvl]} {SPICE_LABEL[lvl]}
                             </Text>
                           </Pressable>
@@ -802,7 +802,7 @@ export default function FoodOwnerScreen() {
               onPress={() => { setCity(c.name); setCityModal(false); }}
               accessibilityRole="button"
               style={[s.cityItem, { borderBottomColor: colors.border }]}>
-              <Text style={{ fontSize: tipografia.body, fontWeight: city === c.name ? peso.maximo : peso.medio, color: city === c.name ? ACCENT : colors.textPrimary }}>{c.name}</Text>
+              <Text style={{ fontSize: tipografia.body, fontWeight: city === c.name ? peso.maximo : peso.medio, color: city === c.name ? colors.text.primary : colors.textPrimary }}>{c.name}</Text>
               {c.region ? <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary }}>{c.region}</Text> : null}
             </Pressable>
           ))}
@@ -823,7 +823,7 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
 }) {
   const { colors } = useTheme();
   const photo = item.photos?.[0] && /^https?:\/\//i.test(item.photos[0]) ? item.photos[0] : null;
-  const statusColor = item.status === 'active' ? brand.success : item.status === 'rejected' ? colors.danger : colors.secondary;
+  const statusColor = item.status === 'active' ? colors.text.success : item.status === 'rejected' ? colors.text.danger : colors.text.secondary;
   const statusText = item.status === 'active' ? (item.available ? '✓ Activo' : 'Oculto') : item.status === 'rejected' ? '✗ Rechazado' : 'En revisión';
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.surface, borderRadius: radios.chip, padding: espaciado.e10, marginBottom: espaciado.e6, borderWidth: trazo.fino, borderColor: colors.border }}>
@@ -842,7 +842,7 @@ function MenuRow({ item, busy, onToggle, onPhoto, onRemove }: {
       <View style={{ flex: 1, marginLeft: espaciado.e10 }}>
         <Text numberOfLines={1} style={{ fontSize: tipografia.body, fontWeight: peso.fuerte, color: colors.textPrimary }}>{item.name}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>
-          <Precio valor={item.priceXaf} tamano="sm" color={ACCENT} />
+          <Precio valor={item.priceXaf} tamano="sm" color={colors.text.primary} />
           <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: statusColor }}>{statusText}</Text>
           {!photo ? <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: colors.text.warning }}>· falta foto</Text> : null}
         </View>

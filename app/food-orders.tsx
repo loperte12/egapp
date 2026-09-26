@@ -357,7 +357,7 @@ export default function FoodOrdersScreen() {
               <Text style={[s_center.title, { color: colors.textPrimary }]}>Sin pedidos en este estado</Text>
               <Text style={[s_center.sub, { color: colors.textSecondary }]}>Prueba con otro filtro.</Text>
               <Pressable onPress={() => setStateFilter('')} accessibilityRole="button" style={s_center.btnGhost}>
-                <Text style={{ color: ACCENT, fontWeight: peso.maximo, fontSize: tipografia.body }}>Ver todos</Text>
+                <Text style={{ color: colors.text.primary, fontWeight: peso.maximo, fontSize: tipografia.body }}>Ver todos</Text>
               </Pressable>
             </View>
           ) : (
@@ -525,7 +525,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
       {o.items.map((it, i) => (
         <Text key={`${o.id}-${it.itemId}-${i}`} style={{ fontSize: tipografia.caption, color: colors.textSecondary, marginTop: espaciado.e2 }}>{it.qty} × {it.name}</Text>
       ))}
-      <Text style={{ fontSize: tipografia.body, fontWeight: peso.titulo, color: ACCENT, marginTop: espaciado.e4 }}>
+      <Text style={{ fontSize: tipografia.body, fontWeight: peso.titulo, color: colors.text.primary, marginTop: espaciado.e4 }}>
         {formatXAF(o.totalXaf)} · {o.pickupType === 'delivery' ? 'a domicilio' : 'recoger'} · {o.paymentMethod === 'cash' ? 'efectivo' : 'Billing'}
       </Text>
 
@@ -615,7 +615,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
               accessibilityLabel="Ver el punto de encuentro en el mapa"
               style={{ marginTop: espaciado.e6, alignSelf: 'flex-start' }}
             >
-              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>Ver en el mapa</Text>
+              <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary }}>Ver en el mapa</Text>
             </Pressable>
           ) : null}
         </View>
@@ -648,7 +648,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
               const pos = FLOW.indexOf(stName);
               return (
                 <Text key={stName} numberOfLines={1}
-                  style={{ flex: 1, textAlign: 'center', fontSize: tipografia.sello, fontWeight: pos <= idx ? peso.maximo : peso.medio, color: pos <= idx ? ACCENT : colors.textSecondary }}>
+                  style={{ flex: 1, textAlign: 'center', fontSize: tipografia.sello, fontWeight: pos <= idx ? peso.maximo : peso.medio, color: pos <= idx ? colors.text.primary : colors.textSecondary }}>
                   {STATUS[stName].label}
                 </Text>
               );
@@ -662,7 +662,7 @@ function OrderCard({ order: o, role, busy, onAct, onAssign, onReview, onCancel }
           antes de la migración vienen null y no muestran nada. */}
       {!cancelled && o.status !== 'delivered' && typeof o.estPrepMinutes === 'number' && o.estPrepMinutes > 0 && (
         <View style={[s_card.etaBox, { backgroundColor: alpha(ACCENT, 0.08), borderColor: alpha(ACCENT, 0.25) }]}>
-          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
+          <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary }}>
             ⏱️ Tiempo de cocina estimado: ~{o.estPrepMinutes} min
           </Text>
           <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>

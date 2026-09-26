@@ -289,7 +289,7 @@ export default function IntercityPublishScreen() {
     ]);
 
   const s = styles(colors);
-  const priceColor = colors.secondary ?? brand.secondary;
+  const priceColor = colors.text.secondary;
 
   const set = <K extends keyof typeof emptyForm>(k: K, v: (typeof emptyForm)[K]) => {
     setF((prev) => ({ ...prev, [k]: v }));

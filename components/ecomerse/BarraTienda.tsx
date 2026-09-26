@@ -81,7 +81,7 @@ export default function BarraTienda() {
       {PESTANAS_TIENDA.map((p) => {
         // `/tienda` es prefijo de todas: sin la comparación exacta, Resumen saldría activo siempre.
         const activa = p.ruta === '/tienda' ? ruta === '/tienda' : ruta.startsWith(p.ruta);
-        const tinte = activa ? colors.primary : colors.textSecondary;
+        const tinte = activa ? colors.text.primary : colors.textSecondary;
         const Icon = p.icon;
         return (
           <Pressable

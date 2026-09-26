@@ -335,7 +335,7 @@ export default function DriverOnboardingScreen() {
                   </Pressable>
                 )}
                 {vehicle.vehiclePhoto.startsWith('captured://') && (
-                  <Text style={{ fontSize: tipografia.micro, color: colors.secondary, fontWeight: peso.fuerte }}>
+                  <Text style={{ fontSize: tipografia.micro, color: colors.text.secondary, fontWeight: peso.fuerte }}>
                     ⚠️ Captura de prueba (sin cámara real). En el dispositivo se tomará la foto real.
                   </Text>
                 )}
@@ -430,7 +430,7 @@ export default function DriverOnboardingScreen() {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingBottom: espaciado.e6 }}>
               <Text style={{ color: colors.textPrimary, fontWeight: peso.maximo, fontSize: tipografia.body }}>{capturing.label}</Text>
               <Pressable onPress={() => setCapturing(null)} hitSlop={10}>
-                <Text style={{ color: colors.danger, fontWeight: peso.maximo }}>Cancelar</Text>
+                <Text style={{ color: colors.text.danger, fontWeight: peso.maximo }}>Cancelar</Text>
               </Pressable>
             </View>
             <CameraCapture

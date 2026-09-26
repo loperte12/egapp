@@ -374,7 +374,7 @@ export default function FoodCheckoutScreen() {
                 </View>
                 <View style={[s.brRow, { marginTop: espaciado.e4 }]}>
                   <Text style={{ fontSize: tipografia.cuerpo, fontWeight: peso.maximo, color: colors.textPrimary }}>Total</Text>
-                  <Precio valor={total} tamano="lg" color={ACCENT} />
+                  <Precio valor={total} tamano="lg" color={colors.text.primary} />
                 </View>
                 {/* Honestidad sobre las comisiones: existen y las paga el restaurante. Se dice
                     aquí porque el dueño decidió que la comisión se muestre a ambos, y el

@@ -385,14 +385,14 @@ export default function FoodRiderScreen() {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e8 }}>
                           <Text numberOfLines={1} style={{ flex: 1, fontSize: tipografia.body, fontWeight: peso.maximo, color: colors.textPrimary }}>{d.restaurantName}</Text>
                           <View style={{ backgroundColor: alpha(ACCENT, 0.12), paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, borderRadius: radios.marca }}>
-                            <Text style={{ fontSize: tipografia.micro, fontWeight: peso.maximo, color: ACCENT }}>{stLabel}</Text>
+                            <Text style={{ fontSize: tipografia.micro, fontWeight: peso.maximo, color: colors.text.primary }}>{stLabel}</Text>
                           </View>
                         </View>
                         <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>Tracking {d.trackingCode}</Text>
                         {d.items.map((it, i) => (
                           <Text key={`${d.id}-${it.itemId}-${i}`} style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e2 }}>{it.qty} × {it.name}</Text>
                         ))}
-                        <Precio valor={d.totalXaf} tamano="sm" color={ACCENT} style={{ marginTop: espaciado.e2 }} />
+                        <Precio valor={d.totalXaf} tamano="sm" color={colors.text.primary} style={{ marginTop: espaciado.e2 }} />
 
                         {/* ── ¿HAY QUE COBRAR EN LA PUERTA? (C5) ────────────────────────────
                             El repartidor necesita saberlo ANTES de llegar, no al anotar. Sin esto
@@ -404,7 +404,7 @@ export default function FoodRiderScreen() {
                             viene a evitar. */}
                         {d.paymentMethod === 'cash' ? (
                           <View style={[s.payBadge, { backgroundColor: alpha(ACCENT, 0.14), borderColor: alpha(ACCENT, 0.4) }]}>
-                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: ACCENT }}>
+                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: colors.text.primary }}>
                               💵 COBRAR {formatXAF(d.totalXaf)} en la puerta
                             </Text>
                           </View>
@@ -441,7 +441,7 @@ export default function FoodRiderScreen() {
                             style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, marginTop: espaciado.e8, alignSelf: 'flex-start', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: alpha(ACCENT, 0.5), backgroundColor: alpha(ACCENT, 0.10) }}
                           >
                             <Navigation size={14} color={ACCENT} />
-                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
+                            <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.primary }}>
                               Cómo llegar{d.deliveryLat != null ? '' : ' (dirección escrita)'}
                             </Text>
                           </Pressable>
@@ -461,7 +461,7 @@ export default function FoodRiderScreen() {
                                 accessibilityLabel="Cambiar el punto de encuentro"
                                 style={{ marginTop: espaciado.e6, alignSelf: 'flex-start' }}
                               >
-                                <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: ACCENT }}>Cambiar</Text>
+                                <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: colors.text.primary }}>Cambiar</Text>
                               </Pressable>
                             </View>
                           ) : puntoDe === d.orderId ? (

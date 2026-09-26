@@ -1952,7 +1952,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, marginTop: espaciado.e6, lineHeight: 17 }} numberOfLines={5}>{ar.text}</Text>
         ) : null}
         {ar.priceXaf ? (
-          <Precio valor={ar.priceXaf} tamano="md" color={brand.secondary} style={{ marginTop: espaciado.e6 }} />
+          <Precio valor={ar.priceXaf} tamano="md" color={colors.text.secondary} style={{ marginTop: espaciado.e6 }} />
         ) : null}
         {route ? (
           <Pressable

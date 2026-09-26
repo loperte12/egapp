@@ -401,7 +401,7 @@ export default function TiendaAnuncios() {
                   <AccionHoja Icono={Pause} label="Pausar" onPress={() => cambiarEstado(enGestion, 'paused')} colors={colors} />
                 )}
                 {enGestion.status !== 'removed' && (
-                  <AccionHoja Icono={Trash2} label="Retirar" tono={colors.danger} onPress={() => cambiarEstado(enGestion, 'removed')} colors={colors} />
+                  <AccionHoja Icono={Trash2} label="Retirar" tono={colors.text.danger} onPress={() => cambiarEstado(enGestion, 'removed')} colors={colors} />
                 )}
               </View>
               {enGestion.status === 'active' && enGestion.stock <= 0 && (
@@ -575,9 +575,9 @@ function FilaAnuncio({ producto, activa, ocupado, onStock, onGestionar, onCorreg
   const s = estilos(colors);
   const foto = producto.photos?.[0] ?? null;
   const estado = ESTADOS[producto.status] ?? { label: producto.status, tono: 'neutro' as const };
-  const tono = estado.tono === 'bien' ? colors.success
-    : estado.tono === 'aviso' ? colors.warning
-      : estado.tono === 'peligro' ? colors.danger
+  const tono = estado.tono === 'bien' ? colors.text.success
+    : estado.tono === 'aviso' ? colors.text.warning
+      : estado.tono === 'peligro' ? colors.text.danger
         : colors.textSecondary;
   const retirado = producto.status === 'removed';
   /* Los tres estados que el carril rápido NO puede activar (la moderación manda): su salida es

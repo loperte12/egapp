@@ -156,6 +156,13 @@ export default function TiendaPerfil() {
         : estado.tono === 'peligro' ? colors.danger
           : colors.textSecondary)
     : colors.textSecondary;
+  /* El MISMO estado en color de TEXTO: `tonoEstado` pinta también el borde y el fondo. */
+  const tonoEstadoTxt = estado
+    ? (estado.tono === 'bien' ? colors.text.success
+      : estado.tono === 'aviso' ? colors.text.warning
+        : estado.tono === 'peligro' ? colors.text.danger
+          : colors.textSecondary)
+    : colors.textSecondary;
   const activa = seller?.status === 'active';
 
   if (cargando) {
@@ -200,7 +207,7 @@ export default function TiendaPerfil() {
         {/* ── Estado de la solicitud: la respuesta a «¿por qué no vendo nada?» ─────────────────── */}
         {seller && estado && (
           <View style={[s.tarjeta, { borderColor: alpha(tonoEstado, 0.35), backgroundColor: alpha(tonoEstado, 0.07), marginBottom: espaciado.e16 }]}>
-            <Text style={[s.etiqueta, { color: tonoEstado }]}>ESTADO DE TU TIENDA</Text>
+            <Text style={[s.etiqueta, { color: tonoEstadoTxt }]}>ESTADO DE TU TIENDA</Text>
             <Text style={s.tituloBloque}>{estado.label}</Text>
             {seller.status === 'pending' && (
               <Text style={s.nota}>Suele tardar 24–48 h. Tus anuncios se publican cuando esté aprobada.</Text>

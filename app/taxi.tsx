@@ -71,12 +71,14 @@ const MODE_ICON = (c: ReturnType<typeof useTheme>['colors']): Record<string, Rea
   minibus: <Bus size={22} color={c.text.secondary} />,
 });
 
-const STATUS_UI: Record<string, { t: string; c: string }> = {
-  requested: { t: 'Buscando conductor…', c: brand.secondary },
-  accepted: { t: 'Conductor en camino', c: brand.success },
-  cancelled: { t: 'Viaje cancelado', c: brand.danger },
-  completed: { t: 'Viaje finalizado', c: brand.success },
-};
+/* Los colores del chip de estado, resueltos por TEMA. `st.c` pinta el texto Y su propio
+   tinte al 8 %: con el acento base el texto suspende AA en oscuro, y el tinte lo sigue. */
+const STATUS_UI = (colors: ReturnType<typeof useTheme>['colors']): Record<string, { t: string; c: string }> => ({
+  requested: { t: 'Buscando conductor…', c: colors.text.secondary },
+  accepted: { t: 'Conductor en camino', c: colors.text.success },
+  cancelled: { t: 'Viaje cancelado', c: colors.text.danger },
+  completed: { t: 'Viaje finalizado', c: colors.text.success },
+});
 
 /** Motivos de rechazo/cancelación del viaje (DiDi). */
 const REJECT_REASONS = [
@@ -998,7 +1000,7 @@ export default function TaxiScreen() {
   useEffect(() => () => { if (abortRef.current) abortRef.current.abort(); }, []);
 
   // Etiqueta de estado: en marcha (in_progress) el chip dice "Viaje en marcha".
-  const st = enMarcha ? { t: 'Viaje en marcha', c: brand.primary } : arrived ? { t: 'Has llegado al destino', c: brand.warning } : STATUS_UI[status];
+  const st = enMarcha ? { t: 'Viaje en marcha', c: colors.text.primary } : arrived ? { t: 'Has llegado al destino', c: colors.text.warning } : STATUS_UI(colors)[status];
   const s = styles(colors);
 
   return (

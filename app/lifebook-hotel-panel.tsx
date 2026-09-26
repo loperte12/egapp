@@ -340,6 +340,17 @@ function Tarjeta({
         : r.status === 'checked_out'
           ? colors.success
           : colors.primary;
+  /* El MISMO estado en color de TEXTO: `colorEstado` no se puede mover porque pinta también
+     el borde y el tinte del badge. */
+  const colorEstadoTxt = r.status === 'hold'
+    ? colors.text.danger
+    : r.status === 'pending'
+      ? colors.text.secondary
+      : r.status === 'cancelled' || r.status === 'no_show'
+        ? colors.textSecondary
+        : r.status === 'checked_out'
+          ? colors.text.success
+          : colors.text.primary;
 
   const senalPendiente = ['hold', 'pending'].includes(r.status) && r.depositXaf > 0
     && !['deposit_paid', 'paid'].includes(r.paymentStatus);
@@ -355,7 +366,7 @@ function Tarjeta({
           </Text>
         </View>
         <View style={[styles.badge, { borderColor: colorEstado, backgroundColor: alpha(colorEstado, 0.12) }]}>
-          <Text style={[styles.badgeTxt, { color: colorEstado }]}>{estado}</Text>
+          <Text style={[styles.badgeTxt, { color: colorEstadoTxt }]}>{estado}</Text>
         </View>
       </View>
 

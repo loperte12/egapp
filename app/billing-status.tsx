@@ -435,8 +435,8 @@ function RenewCard({ tone, icon, title, body, cta, onPress, testID }: {
   const { colors } = useTheme();
   const border = tone === 'warn' ? brand.warning : tone === 'danger' ? brand.danger : colors.border;
   const bg = tone === 'warn' ? alpha(brand.warning, 0.08) : tone === 'danger' ? alpha(brand.danger, 0.07) : colors.surface;
-  const titleColor = tone === 'warn' ? brand.warningText : tone === 'danger' ? brand.dangerText : colors.textPrimary;
-  const bodyColor = tone === 'danger' ? brand.dangerText : colors.textSecondary;
+  const titleColor = tone === 'warn' ? colors.text.warning : tone === 'danger' ? colors.text.danger : colors.textPrimary;
+  const bodyColor = tone === 'danger' ? colors.text.danger : colors.textSecondary;
   return (
     <View style={[s_card.entitleCard, { borderColor: border, backgroundColor: bg, marginBottom: espaciado.e10 }]}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 }}>

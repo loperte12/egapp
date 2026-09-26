@@ -228,7 +228,7 @@ export default function TiendaResumen() {
             <View style={s.filaContadores}>
               {CONTADORES.map((c) => {
                 const n = c.estados.reduce((t, e) => t + (counts[e] ?? 0), 0);
-                const tono = c.tono === 'peligro' ? colors.danger : c.tono === 'bien' ? colors.success : c.tono === 'aviso' ? colors.warning : colors.primary;
+                const tono = c.tono === 'peligro' ? colors.text.danger : c.tono === 'bien' ? colors.text.success : c.tono === 'aviso' ? colors.text.warning : colors.text.primary;
                 return (
                   <Pressable
                     key={c.id}

@@ -226,7 +226,7 @@ function RestaurantHeader({ detail }: { detail: FoodRestaurantDetail }) {
         <Text numberOfLines={2} style={[s_h.sub, { color: colors.textSecondary, marginTop: espaciado.e2 }]}>📍 {detail.address}</Text>
       ) : null}
       {km > 0 ? (
-        <Text style={[s_h.sub, { color: ACCENT, fontWeight: peso.fuerte, marginTop: espaciado.e2 }]}>🛵 Reparto hasta {km} km</Text>
+        <Text style={[s_h.sub, { color: colors.text.primary, fontWeight: peso.fuerte, marginTop: espaciado.e2 }]}>🛵 Reparto hasta {km} km</Text>
       ) : null}
     </View>
   );
@@ -279,7 +279,7 @@ function MenuItemRow({ item, qty, onAdd, onDec, onInc }: {
           <View style={s_row.chips}>
             {item.spiceLevel ? (
               <View style={[s_row.miniChip, { backgroundColor: alpha(ACCENT, 0.1) }]}>
-                <Text style={s_row.miniChipText}>{SPICE_ICON[item.spiceLevel]} {SPICE_LABEL[item.spiceLevel]}</Text>
+                <Text style={[s_row.miniChipText, { color: colors.text.primary }]}>{SPICE_ICON[item.spiceLevel]} {SPICE_LABEL[item.spiceLevel]}</Text>
               </View>
             ) : null}
             {item.portionSize ? (
@@ -295,7 +295,7 @@ function MenuItemRow({ item, qty, onAdd, onDec, onInc }: {
           </View>
         ) : null}
 
-        <Precio valor={item.priceXaf} tamano="md" color={ACCENT} style={{ marginTop: espaciado.e2 }} />
+        <Precio valor={item.priceXaf} tamano="md" color={colors.text.primary} style={{ marginTop: espaciado.e2 }} />
       </View>
       {qty === 0 ? (
         <Pressable onPress={onAdd} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Añadir ${item.name}`}
@@ -360,7 +360,6 @@ const s_row = StyleSheet.create({
   body: { flex: 1, marginLeft: espaciado.e10, marginRight: espaciado.e8 },
   name: { fontSize: tipografia.body, fontWeight: peso.fuerte },
   desc: { fontSize: tipografia.micro, marginTop: 1, lineHeight: 14 },
-  price: { fontSize: tipografia.body, fontWeight: peso.titulo, color: ACCENT, marginTop: espaciado.e2 },
   addBtn: { backgroundColor: ACCENT, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e8, borderRadius: radios.chip },
   stepper: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
   stepBtn: { width: 30, height: 30, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
@@ -373,7 +372,7 @@ const s_row = StyleSheet.create({
   detailLine: { fontSize: tipografia.micro, marginTop: espaciado.e2, lineHeight: 14 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e5, marginTop: espaciado.e4 },
   miniChip: { borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
-  miniChipText: { fontSize: tipografia.nota, fontWeight: peso.fuerte, color: ACCENT },
+  miniChipText: { fontSize: tipografia.nota, fontWeight: peso.fuerte },
 });
 
 const s_sk = StyleSheet.create({

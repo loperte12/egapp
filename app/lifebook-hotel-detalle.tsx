@@ -272,7 +272,7 @@ export default function HotelDetalleScreen() {
                   style={[styles.botonLinea, { borderColor: alpha(ACCENT, 0.5), backgroundColor: alpha(ACCENT, 0.10) }]}
                 >
                   <Car size={14} color={ACCENT} />
-                  <Text style={[styles.botonLineaTxt, { color: ACCENT }]}>Pedir taxi al hotel</Text>
+                  <Text style={[styles.botonLineaTxt, { color: colors.text.primary }]}>Pedir taxi al hotel</Text>
                 </Pressable>
               </View>
             ) : null}

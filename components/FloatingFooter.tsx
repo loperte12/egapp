@@ -80,7 +80,7 @@ export default function DockFooter({
     >
       {TABS.map((tab) => {
         const isActive = active === tab.id;
-        const tint = isActive ? colors.primary : colors.textSecondary;
+        const tint = isActive ? colors.text.primary : colors.textSecondary;
         const Icon = tab.icon;
         const esMensajes = tab.id === 'mensajes';
         const n = esMensajes ? badge : 0;
