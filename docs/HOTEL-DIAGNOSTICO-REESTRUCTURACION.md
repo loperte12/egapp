@@ -190,10 +190,10 @@ paso previo a cualquier carga de datos reales.
 | **Filtros de TEMAS** (电竞酒店 · 情侣约会 · 温泉汤池 · 亲子 · 商务) | **no existe el dato** — `amenities` son servicios, no temas | **modelo nuevo** |
 | **Filtro de distancia con % de elección** | no existe | **backend + frontend** — y Bernardo **lo ha pedido**: la búsqueda se hará «por filtro o por la ubicación donde se encuentra el usuario». La parte de **distancia** sí; el **«% de elección»** de Meituan no (necesita volumen, §7/D4) |
 | **Modo mapa con precios** | **0** en resultados (MapLibre ya se usa en `-reserva.tsx:417` y la ficha tiene lat/lng) | frontend — **después de publicar** (§7/D2) |
-| **Valoraciones: escribir y listar** | **`rating` sale de `shops.rating`** — la nota **de la tienda**, no del hotel. **No hay tabla de reseñas.** | **modelo nuevo** — y **la valoración es la del HOTEL**, decidido (§7/D3). Hay que **desacoplar** `shops.rating` del hotel |
+| **Valoraciones: escribir y listar** | **`rating` sale de `shops.rating`** — la nota **de la tienda**, no del hotel. **No hay tabla de reseñas.** | **modelo nuevo · DEFINIDO (§8.1)**: tabla `lifebook.hotel_reviews` (`021`), permiso = reserva `checked_out`, espejo en `hotel_profiles`. `shops.rating` **no se toca** (es la nota del mercado) |
 | **Pestañas 亮点 / 设施 / 政策 / 周边** | la ficha es **una sola página** (amenities como chips) | frontend |
 | **Galería 封面 / 房间 / 公共区域 / 相册** | `images` (máx 12) **sin clasificar** | modelo + frontend |
-| **Política con fecha/hora + penalización calculada** | `cancellation_policy` es **texto libre 600** y `cancellation_hours` un número relativo (0-720, def. 48). Meituan usa **hasta qué hora** y **tramos con tarifa** | **DECIDIDO: `cancellation_hours`, sin tramos** (§7/D4). El modelo de tramos **no se construye**. `cancellation_hours` ya es el dato correcto: solo falta **pintarlo bien** (frontend) y **dejar de duplicar** el texto libre |
+| **Política con fecha/hora + penalización calculada** | `cancellation_policy` es **texto libre 600** y `cancellation_hours` un número relativo (0-720, def. 48). Meituan usa **hasta qué hora** y **tramos con tarifa** | **MODELO DECIDIDO (§8.2): `cancellation_hours`, sin tramos.** El modelo de tramos **no se construye**; la penalización **es la señal**. Queda **frontend** (pintar el rótulo) y el desacople del texto libre |
 | **Etiqueta 立即确认** | **el dato YA existe**: `room_types.confirmation_hours`. No se pinta | **solo frontend** |
 | **费用明细 con N descuentos** | `quote()` devuelve total / señal / restante. **Sin desglose** | backend |
 | **Promociones y 神券 del hotel** | `014_cupones.sql` es del **mercado**, no del hotel | modelo |
@@ -219,9 +219,10 @@ paso previo a cualquier carga de datos reales.
 1. **Valoraciones.** Hoy la nota es la de la tienda (`shops.rating`). Hacer lo de Meituan es: tabla de
    reseñas, permiso de escritura solo para quien se alojó, agregado por hotel, y **UI de leer y escribir**.
    Es el hueco **con más dependencias detrás**: sin reseñas no hay filtro «4.5+», ni ordenación por
-   puntuación, ni etiquetas extraídas.
+   puntuación, ni etiquetas extraídas. → **Modelo DEFINIDO en §8.1** (`021_hotel_resenas.sql`).
 2. **Filtros de tema.** `amenities` es una lista de SERVICIOS. «电竞酒店», «情侣约会», «亲子» son otra
    dimensión. O se añade un campo `themes` con su propio enum, o los filtros de Meituan no se replican.
+   **No urge con 0 hoteles reales** (§7/D2).
 
 ---
 
@@ -265,8 +266,8 @@ Respuestas literales, resumidas, y su consecuencia medida en el código.
 |---|---|---|---|
 | **D1** | ¿Orden de trabajos? | **Sin respuesta explícita.** Mi recomendación sigue siendo **A → B → C** | **[PROPUESTA, no acuerdo]** |
 | **D2** | ¿Cuántos hoteles hay? | **Cero reales.** «Los hoteles que tenemos son de ejemplo, no son reales, son de prueba, nunca deben ser considerados reales». En **Malabo, Bata y otras ciudades hay muchos** (físicamente), y «después de publicar iremos hotel en hotel para buscar que se unan». **La búsqueda se hará por filtro o por la ubicación donde se encuentre el usuario** | El aparato de descubrimiento de Meituan **se pospone a después de publicar**; antes solo **filtro + ubicación** |
-| **D3** | ¿La valoración es de la tienda o del hotel? | **Del hotel** | Hay que **desacoplar `shops.rating`** y crear reseñas propias del hotel → modelo nuevo |
-| **D4** | ¿Tramos de cancelación o N horas? | **Por N horas** | **No se construye el modelo de tramos.** `cancellation_hours` (ya existe) es el dato correcto → queda **solo frontend** |
+| **D3** | ¿La valoración es de la tienda o del hotel? | **Del hotel** | Desacoplar `shops.rating` + reseñas propias → **modelo definido en §8.1** |
+| **D4** | ¿Tramos de cancelación o N horas? | **Por N horas** | **El modelo de tramos NO se construye.** `cancellation_hours` es la fuente → **§8.2**, y queda **solo frontend** |
 | **D5** | ¿Y el resto de datos? | «Nada de lo que tenemos construido en la app, como tienda o usuario, es real; simplemente nos sirven de prueba» | Regla de oro del proyecto: **ningún dato de la app es real**; lo prioritario son los **fallos de código**, no los importes |
 
 ### 7.1 La lectura peligrosa que hay que bloquear
@@ -288,6 +289,114 @@ Publicar con ejemplos dentro exige poder **identificarlos y borrarlos**, y eso h
    real de LH-07 y LH-08. **Requiere el servidor.**
 3. **Cómo se marca un ejemplo**: ¿bandera en la tabla, o disciplina de nombres? No he medido ninguna bandera.
    Es requisito de publicación (D5) y no existe hoy.
-4. **`cancellation_policy` (texto libre, 600)**: ¿se retira en favor de `cancellation_hours`, o convive como
-   nota del hotelero? Decidido el modelo (D4); **falta decidir si el texto se queda**.
-5. **Los filtros de TEMA** (§4.2): con 0 hoteles reales **no urgen**; se reevalúan con el inventario delante.
+4. **Los filtros de TEMA** (§4.2): con 0 hoteles reales **no urgen**; se reevalúan con el inventario delante.
+5. ~~¿La valoración es de la tienda o del hotel?~~ → **decidido** (§8.1).
+6. ~~¿Tramos de cancelación, o «N horas»?~~ → **decidido** (§8.2).
+
+---
+
+## 8. Las dos decisiones delegadas (26-sep-2026)
+
+Bernardo: «**la valoración te dejo como tu decisión y la política de cancelación**». Decididas las dos, con
+el modelo concreto. Marcadas **`[D-K]`** las que son criterio mío de producto y no una restricción técnica:
+son las únicas revisables sin tocar código.
+
+### 8.1 Valoración — modelo decidido
+
+**La nota es del HOTEL y se calcula de reseñas propias. `shops.rating` no se toca: es la nota del MERCADO.**
+Si un hotel vende además como tienda, tendrá **dos notas distintas y las dos verdaderas** — una por lo que
+vende en el mercado, otra por cómo aloja. Mezclarlas es lo que hay que evitar, y es lo que pasa hoy.
+
+**Migración `021_hotel_resenas.sql`** (una tabla, siguiendo la numeración de `backend/sql/`):
+
+| Columna | Tipo | Por qué |
+|---|---|---|
+| `id` | `uuid pk` | — |
+| `shop_id` | `uuid not null` → `lifebook.shops(id)` | el hotel **es** una `shop` (así funcionan los 5 endpoints `shops/:shopId/*`) |
+| `reservation_id` | `uuid not null UNIQUE` → `lifebook.reservations(id)` | **una reseña por estancia** — el `UNIQUE` es lo que lo garantiza, no una comprobación |
+| `guest_id` | `uuid not null` | autor |
+| `rating` | `smallint not null CHECK (rating between 1 and 5)` | 1–5, la escala que la app ya usa (`stars`) |
+| `body` | `text` (tope **600**) | 600 es el tope del módulo (`house_rules`, `cancellation_policy`) — no se inventa otro |
+| `reply` + `replied_at` | `text` + `timestamptz` | **la respuesta del hotel** |
+| `created_at` | `timestamptz not null default now()` | el patrón de todas las hermanas |
+
+**Quién puede escribir, y por qué el permiso no es un `if`:** solo el autor de una reserva **`checked_out`**
+suya. El derecho **es** la fila de la reserva: `reservation_id` es el permiso. Un `no_show` **no** da
+derecho (no se alojó), y `cancelled` tampoco.
+
+- **El hotelero responde, no borra** `[D-K]`. Su panel ofrece «Responder» y nunca «Eliminar»: si pudiera
+  borrar, solo existirían las notas buenas y la nota dejaría de valer.
+- **El autor puede borrar dentro de 7 días** `[D-K]`; después solo el administrador. Sin plazo, el hotel
+  puede presionar al huésped para que borre.
+- **Sin moderación previa.** Publicar no pasa por revisión: el control es la respuesta y el borrado del
+  administrador. Un hotel pequeño no tiene con quién moderar.
+- **La reseña es única e inmutable en su nota** `[D-K]`: no se edita (para cambiar la nota, se borra y se
+  vuelve a escribir dentro del plazo). Editar la nota sin dejar rastro es la forma más fácil de que una
+  valoración deje de significar nada.
+
+**El agregado va en columnas ESPEJO de `hotel_profiles`** — `hotel_rating numeric(3,2)` y
+`hotel_rating_count int`, recalculadas **en la misma transacción** del alta y del borrado. No es una
+preferencia: la lista de resultados pinta una tarjeta por hotel y **no puede agregar por subconsulta en
+cada tarjeta**, ni ordenar por una nota calculada al vuelo. Es el mismo patrón que el `stock` del anuncio
+(espejo de la suma de sus variantes, comprobado).
+
+> **`[D-K]` No se publica la nota hasta tener 3 reseñas.** Con una sola, un «5,0» no es información: es el
+> ruido que ya descartamos en §5 con el 性价比 de Meituan. Por debajo del umbral la ficha **muestra las
+> reseñas y dice cuántas hay**, sin cifra. El umbral es un número, no un modelo: se cambia sin migración.
+
+**Desacople, en tres sitios y no en uno:** (1) el mapper que hoy lee `shops.rating` para el hotel, (2) el
+filtro «4,5+» y la ordenación por nota cuando se construyan (ya sobre el espejo, no sobre `shops`), y
+(3) la ficha, que debe decir **«4,6 · 38 reseñas»** en lugar de heredar el número de una tienda.
+
+### 8.2 Política de cancelación — modelo decidido
+
+**`room_types.cancellation_hours` es la única fuente.** No se construye el modelo de tramos (§7/D4) y **no
+hace falta ninguna columna nueva**:
+
+| Valor | Significa | Rótulo que genera el servidor |
+|---|---|---|
+| `0` | **No reembolsable** | «No reembolsable» |
+| `1…719` | **Cancelación gratuita** hasta N h antes de la entrada | «Cancelación gratis hasta 48 h antes» |
+| `720` (máx.) | 30 días | «Cancelación gratis hasta 30 días antes» |
+
+**El instante de referencia es la ENTRADA, no la medianoche:** `fecha de entrada + hotel.checkin_from − h`,
+y si `checkin_from` viniera nulo, 00:00. Un huésped entiende «hasta 48 h antes de las 14:00 del día de
+entrada»; «hasta 48 h antes de ese día» es ambiguo justo cuando importa.
+
+**La penalización ya existe: es la SEÑAL.** Fuera de plazo se pierde el depósito ya cobrado
+(`deposit_percent` sobre el total) y **se devuelve el resto** si lo había pagado. No se inventa una tarifa
+de cancelación: introducir otro importe obligaría a modelarlo, a devengarlo y a una segunda ruta en el
+monedero — con `LH-01`, `LH-02` y `LH-10` ya abiertos, **sería la cuarta forma de mover el mismo dinero**.
+
+**Y cierra `LH-06` por diseño, no por parche:** con el huésped **dentro** (`checked_in`) **no existe la
+acción «cancelar»**. Hoy el contrato la ofrece (`reservation-flow.ts:56`: `checked_in: ['checkout',
+'cancel']`) y el resultado medido es «Devuelto» sin devolución. La regla pasa a ser de tiempo y de estado:
+antes del check-in cancela el huésped; después, el hotel cierra con `checkout` o `no_show`.
+
+**`confirmation_hours` y `hold_minutes` NO son esto** y no se mezclan (§8.3). Y **`cancellation_policy`
+(el texto libre de 600) se queda** como **nota del hotelero**, rotulada aparte («Notas del hotel»), nunca
+como si fuera la política: retirarla tiraría texto ya escrito, y computarla dejaría dos verdades.
+
+### 8.3 Los tres relojes de una reserva
+
+Las tres columnas que ya existen miden **cosas distintas**, y confundirlas es la raíz de `LH-07`:
+
+1. **`hold_minutes`** (20 min) — plazo del **huésped** para pagar la señal. Si vence, la retención se
+   suelta. No tiene nada que ver con el hotel.
+2. **`confirmation_hours`** — plazo del **hotel** para confirmar. **Es la etiqueta de «confirmación
+   inmediata»**: `0` significa que confirma al instante.
+3. **`cancellation_hours`** (def. 48) — plazo del **huésped** para cancelar gratis, contado **hacia atrás
+   desde la entrada**.
+
+`LH-07` es exactamente una confusión de relojes: la señal pagada con monedero caduca en el reloj 1
+(20 min) mientras la reserva vive en el reloj 2 (24 h). Al escribir código de este módulo, **decir en qué
+reloj se está** resuelve la mitad de los hallazgos de dinero.
+
+### 8.4 Lo que estas dos decisiones cierran
+
+- Del mapa de brecha: **«política con fecha/hora y tramos»** → cerrado como **frontend**; **«valoraciones:
+  escribir y listar»** → cerrado como **modelo**, con la tabla ya definida.
+- De §7.2: quedan **el orden de trabajos (D1)**, el barrido `expire-stale` **[SIN MEDIR]**, y **cómo se
+  marca un ejemplo** (bandera o disciplina de nombres — sigue sin medirse ninguna bandera).
+- Y queda **una migración por escribir** (`021`) más el volcado del esquema del hotel (trabajo B), del que
+  `021` es la primera pieza versionada: hoy **ni una** de las cinco tablas del hotel está en el repo.
