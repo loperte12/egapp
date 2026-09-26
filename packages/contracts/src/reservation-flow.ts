@@ -15,6 +15,19 @@
  *
  * Sigue siendo una copia del servidor (el servidor es la fuente): vive aquí para que la
  * app no cablee literales en las pantallas y para poder probarla sin base de datos.
+ *
+ * **LA REGLA DE CANCELAR ESTABA ESCRITA TRES VECES.** Medido el 27-sep-2026: este fichero
+ * (`RESERVATION_TRANSITIONS`) más dos condiciones copiadas entre sí, a mano, en las dos
+ * pantallas del huésped (`lifebook-hotel-reservas.tsx` y `lifebook-hotel-reserva.tsx`), las
+ * dos con la misma lista `!['checked_out','cancelled','no_show']`. Ninguna de las tres
+ * excluía `checked_in`. Se unifican aquí: las pantallas preguntan a `availableActions()`.
+ *
+ * **[PENDIENTE EN EL SERVIDOR — no cerrado por esto]** `reservations.service.ts` calcula su
+ * propio `canCancel` y su lista **sí incluye `checked_in`**, así que el servidor sigue
+ * aceptando cancelar una estancia en curso. Este cambio endurece EL CLIENTE (deja de ofrecer
+ * el botón); no cierra el agujero. Cuando el servidor corrija su lista, el cliente debe pasar
+ * a confiar en `reservation.canCancel ?? availableActions(...)`: la ventana de cancelación
+ * depende del reloj y el reloj del servidor es el que vale.
  */
 
 /** Los SIETE estados reales (los mismos que la tabla `lifebook.reservations`). */
@@ -53,7 +66,13 @@ export const RESERVATION_TRANSITIONS: Readonly<Record<ReservationStatus, Reserva
   // Señal cobrada, sin confirmar por el hotel: lo natural es confirmar la reserva.
   pending: ['confirm', 'cancel'],
   confirmed: ['checkin', 'noshow', 'cancel'],
-  checked_in: ['checkout', 'cancel'],
+  // Con el huésped DENTRO no existe «cancelar» (decisión §8.2 del dossier del hotel).
+  // Antes decía `['checkout', 'cancel']`, y con eso una estancia en curso se podía
+  // «cancelar»: el resultado medido era «Devuelto» SIN devolución, y la habitación
+  // quedaba libre con el huésped dentro. La regla es de tiempo y de estado: antes del
+  // check-in cancela el huésped; después, el hotel cierra con `checkout` o `no_show`
+  // (este último solo desde `confirmed`).
+  checked_in: ['checkout'],
   checked_out: [],
   cancelled: [],
   no_show: [],

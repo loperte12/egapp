@@ -16,6 +16,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { alpha, altura, brand, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
+import { availableActions } from '@egrouteplan/contracts';
 import { AuthGate } from '../core/AuthGate';
 import {
   hotelApi, PAGO_ETIQUETA, RESERVA_ETIQUETA, METODO_ETIQUETA, type Reservation,
@@ -324,7 +325,11 @@ function Tarjeta({
     && r.paymentStatus === 'pending' && r.status === 'hold';
   const puedeConfirmarSenal = r.role === 'hotel' && ['hold', 'pending'].includes(r.status)
     && r.paymentStatus !== 'deposit_paid' && r.depositXaf > 0;
-  const puedeCancelar = r.viva && !['checked_out', 'cancelled', 'no_show'].includes(r.status);
+  // Quién puede cancelar lo dice el CONTRATO, no una lista copiada aquí (antes: la misma
+  // lista `!['checked_out','cancelled','no_show']` que en la ficha, y ninguna de las dos
+  // excluía `checked_in`). `viva: true` porque el `r.viva &&` de delante ya lo exige: así no
+  // se cuela la rama del contrato que deja «soltar» una retención ya vencida, que es otro caso.
+  const puedeCancelar = r.viva && availableActions(r.status, { who: r.role, viva: true }).includes('cancel');
 
   const enviar = async () => {
     if (ref.trim().length < 4) return;

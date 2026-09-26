@@ -36,7 +36,7 @@ import { hotelApi, METODO_ETIQUETA, PAGO_ETIQUETA, type Reservation } from '../a
 import { ApiError } from '../api/httpClient';
 import { absUrl } from '../api/config';
 import {
-  RESERVATION_STATUS_LABELS, type ReservationStatus,
+  availableActions, RESERVATION_STATUS_LABELS, type ReservationStatus,
 } from '@egrouteplan/contracts';
 import { countdown, longDate, shortDate, xaf } from '../utils/datetime';
 
@@ -125,7 +125,9 @@ function Contenido() {
 
   const puedeEnviarReferencia = !!r && r.role === 'guest' && r.paymentMethod === 'transfer'
     && r.paymentStatus === 'pending' && viva;
-  const puedeCancelar = !!r && viva && !['checked_out', 'cancelled', 'no_show'].includes(estado);
+  // La regla vive en el contrato (antes era una lista copiada de la pantalla hermana).
+  // Con el huésped DENTRO ya no hay «cancelar»: se cierra con «registrar salida».
+  const puedeCancelar = !!r && viva && availableActions(estado, { who: r.role, viva: true }).includes('cancel');
 
   const enviarReferencia = async () => {
     if (!r || referencia.trim().length < 4) return;
