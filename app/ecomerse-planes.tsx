@@ -371,9 +371,9 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
      `/mes` ya no se escriben aquí. Eran, además, el último sitio del módulo que se construía el
      periodo a mano. */
   tagCurrent: { backgroundColor: 'rgba(16,185,129,0.12)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
-  tagCurrentText: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.titulo },
+  tagCurrentText: { color: c.text.success, fontSize: tipografia.micro, fontWeight: peso.titulo },
   tagRec: { backgroundColor: 'rgba(255,107,53,0.14)', borderRadius: radios.sm, paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2 },
-  tagRecText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo },
+  tagRecText: { color: c.text.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo },
   prodRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e8 },
   radio: { width: 18, height: 18, borderRadius: radios.full, borderWidth: trazo.base, alignItems: 'center', justifyContent: 'center' },
   radioDot: { width: 10, height: 10, borderRadius: radios.full },

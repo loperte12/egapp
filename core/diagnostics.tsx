@@ -71,6 +71,8 @@ function CrashView({ error }: { error: Error }) {
   );
 }
 
+/* dato-color: pantalla de CRASH — no puede depender del proveedor de tema, que es justo lo que
+   puede haber fallado. Colores fijos a propósito (26/09/2026). */
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: brand.decoBrasa },
   content: { padding: espaciado.e20, paddingTop: 80 },

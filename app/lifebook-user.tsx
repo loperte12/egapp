@@ -44,6 +44,7 @@ export default function LifeBookUserScreen() {
   );
 }
 
+/* dato-color: el color ES la identidad del rol — no es un acento de tema (fallo 27) */
 const VERIFIED_CHIPS: Array<{ key: keyof LbProfile['verified']; label: string; icon: typeof Store; color: string }> = [
   { key: 'driver', label: 'Conductor', icon: CarTaxiFront, color: brand.primary },
   { key: 'seller', label: 'Tienda', icon: Store, color: brand.social },

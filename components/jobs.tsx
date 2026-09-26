@@ -41,7 +41,7 @@ export function WorkJobCard({ job, onPress }: { job: WorkJob; onPress: () => voi
       {/* Fila 1: título IZQ + salario naranja DER (patrón BOSS) */}
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: espaciado.e10 }}>
         <Text style={[s.title, { color: colors.textPrimary }]} numberOfLines={2}>{job.title}</Text>
-        <Text style={s.salary} numberOfLines={1}>{salaryShort(job)}</Text>
+        <Text style={[s.salary, { color: colors.text.secondary }]} numberOfLines={1}>{salaryShort(job)}</Text>
       </View>
 
       {/* Fila 2: empresa + verificada */}
@@ -168,7 +168,7 @@ export function WorkSafetyNotice() {
 const s = StyleSheet.create({
   card: { marginHorizontal: espaciado.e16, marginBottom: espaciado.e10, borderRadius: radios.campo, padding: espaciado.e13, borderWidth: trazo.fino },
   title: { fontSize: tipografia.subtitle, fontWeight: peso.maximo, flex: 1, lineHeight: 20 },
-  salary: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: brand.secondary },
+  salary: { fontSize: tipografia.subtitle, fontWeight: peso.titulo },
   company: { fontSize: tipografia.body, fontWeight: peso.medio, flexShrink: 1 },
   urgentBadge: { paddingHorizontal: espaciado.e6, paddingVertical: espaciado.e2, borderRadius: radios.punta, backgroundColor: brand.danger },
   urgentText: { color: brand.white, fontSize: tipografia.sello, fontWeight: peso.maximo, letterSpacing: 0.4 },

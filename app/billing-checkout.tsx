@@ -34,6 +34,7 @@ import { billingApi, BillingOrder, BillingPlan } from '../api/billing';
 import { formatXAF } from '../utils/formatHelpers';
 import { brand } from '@egrouteplan/ui-kit';
 
+/* dato-color: el color ES la identidad del estado — no es un acento de tema (fallo 27) */
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   pending_payment: { label: 'Pendiente de pago', color: brand.warning },
   proof_submitted: { label: 'Comprobante recibido — en revisión (2–24 h)', color: brand.info },

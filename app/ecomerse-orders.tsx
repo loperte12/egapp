@@ -25,6 +25,7 @@ import {
   type EntregadosSinResena, type SeccionId,
 } from '../components/ecomerse/seccionesCompra';
 
+/* dato-color: el color ES la identidad del estado — no es un acento de tema (fallo 27) */
 const STATUS_LABEL: Record<string, { label: string; color: string }> = {
   pending: { label: 'Pendiente', color: brand.warning },
   confirmed: { label: 'Confirmado', color: brand.info },

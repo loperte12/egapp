@@ -134,26 +134,26 @@ export function OrderCardEnChat({ pedido, onOpen }: {
         <View style={[styles.ticket, { borderTopColor: alpha(colors.border, 0.6) }]}>
           {pedido.buyerName ? (
             <Text style={[styles.ticketLinea, { color: colors.textPrimary }]} numberOfLines={1}>
-              <Text style={styles.ticketEtiqueta}>Compra </Text>{pedido.buyerName}
+              <Text style={[styles.ticketEtiqueta, { color: colors.textSecondary }]}>Compra </Text>{pedido.buyerName}
             </Text>
           ) : null}
           {pedido.paymentMethod ? (
             <Text style={[styles.ticketLinea, { color: colors.textPrimary }]} numberOfLines={1}>
-              <Text style={styles.ticketEtiqueta}>Pago </Text>{lbPayLabel(pedido.paymentMethod)}
+              <Text style={[styles.ticketEtiqueta, { color: colors.textSecondary }]}>Pago </Text>{lbPayLabel(pedido.paymentMethod)}
             </Text>
           ) : null}
           {/* La tienda COBRA menos con un cupón: tiene que verlo en el ticket, no descubrirlo luego. */}
           {(pedido.discountXaf ?? 0) > 0 ? (
             <Text style={[styles.ticketLinea, { color: colors.textPrimary }]} numberOfLines={1}>
-              <Text style={styles.ticketEtiqueta}>Cupón </Text>−{lbXaf(pedido.discountXaf ?? 0)}
+              <Text style={[styles.ticketEtiqueta, { color: colors.textSecondary }]}>Cupón </Text>−{lbXaf(pedido.discountXaf ?? 0)}
             </Text>
           ) : null}
           <Text style={[styles.ticketLinea, { color: colors.textPrimary }]} numberOfLines={2}>
-            <Text style={styles.ticketEtiqueta}>Entrega </Text>{entrega}
+            <Text style={[styles.ticketEtiqueta, { color: colors.textSecondary }]}>Entrega </Text>{entrega}
           </Text>
           {pedido.note ? (
             <Text style={[styles.ticketLinea, { color: colors.textSecondary }]} numberOfLines={2}>
-              <Text style={styles.ticketEtiqueta}>Nota </Text>{pedido.note}
+              <Text style={[styles.ticketEtiqueta, { color: colors.textSecondary }]}>Nota </Text>{pedido.note}
             </Text>
           ) : null}
         </View>
@@ -197,6 +197,6 @@ const styles = StyleSheet.create({
   /** El bloque del ticket: nombre, pago, entrega y nota. */
   ticket: { marginTop: espaciado.e8, paddingTop: espaciado.e6, borderTopWidth: StyleSheet.hairlineWidth, gap: espaciado.e2 },
   ticketLinea: { fontSize: tipografia.micro, lineHeight: 14 },
-  ticketEtiqueta: { color: neutro.n600, fontSize: tipografia.nota, fontWeight: peso.titulo },
+  ticketEtiqueta: {  fontSize: tipografia.nota, fontWeight: peso.titulo },
   boton: { marginTop: espaciado.e8, borderRadius: radios.full, paddingVertical: espaciado.e7, alignItems: 'center' },
 });

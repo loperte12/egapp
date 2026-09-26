@@ -35,6 +35,7 @@ type StateFilter = '' | 'open' | 'delivered' | 'cancelled';
 
 const ACCENT = brand.primary; // A1: la acción avanza en azul
 const PAGE_SIZE = 20;
+/* dato-color: el color ES la identidad del estado — no es un acento de tema (fallo 27) */
 const STATUS: Record<string, { label: string; color: string }> = {
   placed: { label: 'Recibido', color: brand.warning },
   confirmed: { label: 'Confirmado', color: brand.info },

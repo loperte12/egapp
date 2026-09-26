@@ -300,7 +300,7 @@ function ServiceLink({ status, colors, onOpen }: { status: UserStatus; colors: a
       accessibilityRole="button"
       style={({ pressed }) => [styles.serviceBtn, { backgroundColor: 'rgba(0,132,255,0.08)', opacity: pressed ? 0.8 : 1 }]}
     >
-      <Text style={{ color: brand.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
+      <Text style={{ color: colors.text.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
         {labelMap[link.type] ?? 'Ver servicio'} →
       </Text>
     </Pressable>

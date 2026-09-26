@@ -135,7 +135,7 @@ function SettingsContent() {
 
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]} showsVerticalScrollIndicator={false}>
         {/* APARIENCIA */}
-        <Text style={styles.groupTitle}>Apariencia</Text>
+        <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>Apariencia</Text>
         <View style={[styles.group, { backgroundColor: colors.card }]}>
           <Row
             icon={Moon}
@@ -148,13 +148,13 @@ function SettingsContent() {
         </View>
 
         {/* IDIOMA */}
-        <Text style={styles.groupTitle}>Idioma</Text>
+        <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>Idioma</Text>
         <View style={[styles.group, { backgroundColor: colors.card }]}>
           <Row icon={Languages} label="Idioma" hint={LANG_OPTIONS.find((l) => l.code === lang)?.label} onPress={() => setLangOpen(true)} last />
         </View>
 
         {/* DOCUMENTOS según rol → /documents */}
-        <Text style={styles.groupTitle}>{`Documentos · ${roleLabel}`}</Text>
+        <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>{`Documentos · ${roleLabel}`}</Text>
         <View style={[styles.group, { backgroundColor: colors.card }]}>
           <Row
             icon={FileWarning}
@@ -166,7 +166,7 @@ function SettingsContent() {
         </View>
 
         {/* ESTADO 24H → /status */}
-        <Text style={styles.groupTitle}>Estado 24h</Text>
+        <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>Estado 24h</Text>
         <View style={[styles.group, { backgroundColor: colors.card }]}>
           <Row
             icon={Clock}
@@ -180,7 +180,7 @@ function SettingsContent() {
         {/* LIFE BOOK — ajustes del módulo */}
         {lb && (
           <>
-            <Text style={styles.groupTitle}>Life Book · Privacidad</Text>
+            <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>Life Book · Privacidad</Text>
             <View style={[styles.group, { backgroundColor: colors.card }]}>
               {LB_PRIVACY_KEYS.map((p, i) => {
                 const val = (lb.privacy as Record<string, string>)[p.key] ?? 'public';
@@ -196,7 +196,7 @@ function SettingsContent() {
                 );
               })}
             </View>
-            <Text style={styles.groupTitle}>Life Book · Notificaciones</Text>
+            <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>Life Book · Notificaciones</Text>
             <View style={[styles.group, { backgroundColor: colors.card }]}>
               {LB_NOTIF_ROWS.map((n, i) => {
                 const on = !!((lb.notifications as Record<string, boolean>)[n.key]);
@@ -212,7 +212,7 @@ function SettingsContent() {
                 );
               })}
             </View>
-            <Text style={styles.groupTitle}>Life Book · Contenido</Text>
+            <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>Life Book · Contenido</Text>
             <View style={[styles.group, { backgroundColor: colors.card }]}>
               <Row
                 icon={Eye}
@@ -248,7 +248,7 @@ function SettingsContent() {
         )}
 
         {/* SOPORTE */}
-        <Text style={styles.groupTitle}>Soporte</Text>
+        <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>Soporte</Text>
         <View style={[styles.group, { backgroundColor: colors.card }]}>
           {/*
             SOPORTE REAL (auditoría de diseño, D-37). Aquí había cuatro filas que respondían
@@ -399,7 +399,7 @@ function Row({ icon: Icon, label, hint, danger, centered, onPress, right, last }
         </View>
       )}
       <Text style={[styles.rowLabel, { color: danger ? colors.text.danger : colors.textPrimary }]}>{label}</Text>
-      {!centered && hint ? <Text style={styles.rowHint} numberOfLines={1}>{hint}</Text> : null}
+      {!centered && hint ? <Text style={[styles.rowHint, { color: colors.textSecondary }]} numberOfLines={1}>{hint}</Text> : null}
       {!centered && (right ?? <ChevronRight size={16} color={colors.textSecondary} />)}
     </Pressable>
   );
@@ -413,12 +413,12 @@ const styles = StyleSheet.create({
   },
   topTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
   content: { padding: espaciado.e16, gap: espaciado.e6 },
-  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: neutro.n600, textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e8, marginBottom: espaciado.e2 },
+  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.5, marginTop: espaciado.e8, marginBottom: espaciado.e2 },
   group: { borderRadius: radios.lg, overflow: 'hidden' },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e12 },
   rowIcon: { width: 32, height: 32, borderRadius: radios.hermano, alignItems: 'center', justifyContent: 'center' },
   rowLabel: { flex: 1, fontSize: tipografia.body, fontWeight: peso.fuerte },
-  rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, color: neutro.n600, maxWidth: '52%' },
+  rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, maxWidth: '52%' },
   emergency: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e8,
     borderRadius: radios.campo, paddingVertical: espaciado.e13, marginTop: espaciado.e10,

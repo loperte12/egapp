@@ -667,14 +667,14 @@ const stylesRoot = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.crea
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   photoCounter: { position: 'absolute', right: 12, bottom: 12, backgroundColor: 'rgba(0,0,0,0.55)', paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3, borderRadius: radios.full },
   tagFeat: { backgroundColor: 'rgba(255,107,53,0.14)', borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
-  tagFeatText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  tagFeatText: { color: c.text.secondary, fontSize: tipografia.micro, fontWeight: peso.maximo },
   /* `avatar` y `roundBtn` se fueron con el bloque de la tienda: viven en `CabeceraTienda`, que es
      donde se pintan ahora. Dejar aquí sus copias era garantizar que un día se cambie una sí y otra
      no. */
   tagPro: { backgroundColor: 'rgba(0,132,255,0.12)', borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
-  tagProText: { color: brand.primary, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  tagProText: { color: c.text.primary, fontSize: tipografia.micro, fontWeight: peso.maximo },
   tagSoft: { backgroundColor: 'rgba(16,185,129,0.12)', borderRadius: radios.sm, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e3 },
-  tagSoftText: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  tagSoftText: { color: c.text.success, fontSize: tipografia.micro, fontWeight: peso.maximo },
   title: { fontSize: tipografia.subtitle, fontWeight: peso.maximo, color: c.textPrimary, marginTop: espaciado.e6, lineHeight: 23 },
   metrics: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e12, marginTop: espaciado.e10 },
   warranty: { flexDirection: 'row', alignItems: 'center', borderRadius: radios.md, borderWidth: trazo.fino, padding: espaciado.e10, marginTop: espaciado.e12 },

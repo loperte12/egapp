@@ -139,6 +139,6 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   /** `fuerte` (700) y no el 800 que llevaba la ficha: el 800 no está en la escala `peso`, y meterlo
    *  aquí habría subido la deuda del trinquete para pintar tres letras. La diferencia entre 700 y
    *  800 en un sello de 11 dp no se ve; la deuda, sí. */
-  tagProText: { color: brand.primary, fontSize: tipografia.micro, fontWeight: peso.fuerte },
+  tagProText: { color: c.text.primary, fontSize: tipografia.micro, fontWeight: peso.fuerte },
   redondo: { width: 34, height: 34, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },
 });

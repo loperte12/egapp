@@ -221,7 +221,7 @@ export const PostCard = memo(function PostCard({ post, width, onPress, onMore, o
           style={styles.socialBtn}
         >
           <Heart size={15} color={liked ? brand.like : colors.textSecondary} fill={liked ? brand.like : 'none'} />
-          <Text style={[styles.socialN, liked ? { color: brand.like } : null]}>{formatCount(likes)}</Text>
+          <Text style={[styles.socialN, { color: colors.textSecondary }, liked ? { color: brand.like } : null]}>{formatCount(likes)}</Text>
         </Pressable>
       </View>
 
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   socialRow: { flexDirection: 'row', alignItems: 'center' },
   socialBtn: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e3, paddingHorizontal: espaciado.e4, paddingVertical: espaciado.e2 },
   heartPop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' },
-  socialN: { color: neutro.n600, fontSize: tipografia.micro, fontWeight: peso.medio, marginLeft: espaciado.e3 },
+  socialN: {  fontSize: tipografia.micro, fontWeight: peso.medio, marginLeft: espaciado.e3 },
   chip: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2 },
   chipText: { color: brand.white, fontSize: tipografia.micro, fontWeight: peso.maximo },
   chipTL: { top: 6, left: 6 },

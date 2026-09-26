@@ -270,7 +270,7 @@ function EpisodePlayerView({ src, title, insets, onClose }: { src: string; title
         <Text style={styles.timeTxt}>{fmtDur(dur)}</Text>
       </View>
 
-      {error ? <Text style={styles.errTxt}>No se pudo reproducir este episodio. Reintenta.</Text> : null}
+      {error ? <Text style={[styles.errTxt, { color: colors.text.danger }]}>No se pudo reproducir este episodio. Reintenta.</Text> : null}
 
       <View style={{ height: insets.bottom }} />
     </View>
@@ -384,7 +384,7 @@ const styles = StyleSheet.create({
   knob: { position: 'absolute', width: 14, height: 14, borderRadius: radios.marca, marginLeft: -7 },
   timeRow: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: TRACK_MARGIN, paddingBottom: espaciado.e6 },
   timeTxt: { color: 'rgba(255,255,255,0.8)', fontSize: tipografia.caption, fontWeight: peso.fuerte },
-  errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center', paddingHorizontal: espaciado.e24, paddingBottom: espaciado.e8 },
+  errTxt: {  fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center', paddingHorizontal: espaciado.e24, paddingBottom: espaciado.e8 },
 
   // Estilos del AUDIO.
   audioRoot: { flex: 1 },

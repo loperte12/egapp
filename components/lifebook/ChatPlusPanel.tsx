@@ -20,6 +20,7 @@ import { alpha, espaciado, useTheme, peso, tipografia, radios} from '@egroutepla
 import type { LbChatAction } from '../../api/messages';
 import { brand } from '@egrouteplan/ui-kit';
 
+/* dato-color: el color ES la identidad de la acción — no es un acento de tema (fallo 27) */
 const ACTIONS: { id: LbChatAction; label: string; icon: any; color: string }[] = [
   { id: 'photos', label: 'Fotos', icon: ImageIcon, color: brand.primary },
   { id: 'camera', label: 'Cámara', icon: Camera, color: brand.success },

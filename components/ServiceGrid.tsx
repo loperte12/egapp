@@ -141,7 +141,7 @@ export default function ServiceGrid({ onEmergencyPress, glass = false }: {
         >
           {item.label}
         </Text>
-        {disabled ? <Text style={styles.comingSoon}>Próximamente</Text> : null}
+        {disabled ? <Text style={[styles.comingSoon, { color: colors.textSecondary }]}>Próximamente</Text> : null}
       </Pressable>
     );
   };
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
   },
   label: { fontSize: tipografia.micro, fontWeight: peso.maximo, textAlign: 'center', lineHeight: 13, paddingHorizontal: espaciado.e2 },
-  comingSoon: { fontSize: tipografia.sello, fontWeight: peso.maximo, color: neutro.n600, letterSpacing: 0.2, textTransform: 'uppercase' },
+  comingSoon: { fontSize: tipografia.sello, fontWeight: peso.maximo, letterSpacing: 0.2, textTransform: 'uppercase' },
   moreBlock: {
     marginTop: espaciado.e16,
     borderRadius: radios.lg,

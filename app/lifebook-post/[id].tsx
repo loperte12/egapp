@@ -67,6 +67,7 @@ const COLUMN_W = (SCREEN_W - SIDE_PADDING * 2 - COLUMN_GAP) / 2;
  */
 const DETAIL_MEDIA_H = Math.round((SCREEN_W * 4) / 3);
 
+/* dato-color: el color ES la identidad del tipo de post — no es un acento de tema (fallo 27) */
 const TYPE_TINT: Record<string, string> = {
   note: neutro.n700, sale: brand.social, service: brand.primary, debate: brand.secondary,
   video: brand.lifebookFuerte, podcast: brand.social, serie: brand.secondary,
@@ -85,6 +86,7 @@ const STATE_LABEL: Record<string, string> = {
   community_resolved: 'Resuelto por la comunidad', attention: 'En espera de atención', closed: 'Cerrado',
 };
 /** Servicios reales enlazables (mismo mapa que usa el Estado 24h + alias shop/delivery). */
+/* dato-color: el color ES la identidad del servicio — no es un acento de tema (fallo 27) */
 const SERVICE_ROUTES: Record<string, { route: string; label: string; color: string; icon: typeof Car }> = {
   taxi: { route: '/taxi', label: 'Llamar Taxi', color: brand.secondary, icon: Car },
   food: { route: '/food', label: 'Pedir comida', color: brand.social, icon: Utensils },

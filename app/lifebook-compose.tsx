@@ -171,7 +171,7 @@ function ComposeContent() {
           ) : null}
 
           {/* Descripción */}
-          <Text style={styles.label}>DESCRIPCIÓN *</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>DESCRIPCIÓN *</Text>
           <TextInput
             value={body}
             onChangeText={setBody}
@@ -184,7 +184,7 @@ function ComposeContent() {
           <Text style={[styles.counter, { color: colors.textSecondary }]}>{body.length}/{LB_NOTE_BODY_MAX}</Text>
 
           {/* Título opcional */}
-          <Text style={styles.label}>TÍTULO (opcional)</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>TÍTULO (opcional)</Text>
           <TextInput
             value={title}
             onChangeText={setTitle}
@@ -196,7 +196,7 @@ function ComposeContent() {
           <Text style={[styles.counter, { color: colors.textSecondary }]}>{title.length}/{LB_NOTE_TITLE_MAX}</Text>
 
           {/* Fotos */}
-          <Text style={styles.label}>FOTOS ({photos.length}/{LB_NOTE_MEDIA_MAX})</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>FOTOS ({photos.length}/{LB_NOTE_MEDIA_MAX})</Text>
           <View style={styles.photoRow}>
             {photos.map((p, i) => (
               <View key={p.uri + i}>
@@ -268,7 +268,7 @@ function ComposeContent() {
           </Text>
 
           {/* Temas */}
-          <Text style={styles.label}>TEMAS ({topics.length}/{LB_NOTE_TOPICS_MAX})</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>TEMAS ({topics.length}/{LB_NOTE_TOPICS_MAX})</Text>
           <View style={styles.chipsWrap}>
             {LB_TOPIC_CATALOG.map((t) => {
               const on = topics.includes(t);
@@ -308,7 +308,7 @@ function ComposeContent() {
           )}
 
           {/* Tono */}
-          <Text style={styles.label}>TONO</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>TONO</Text>
           <View style={styles.chipsWrap}>
             {LB_TONE_OPTIONS.map((o) => {
               const on = tone === o.value;
@@ -325,7 +325,7 @@ function ComposeContent() {
           </View>
 
           {/* Ubicación */}
-          <Text style={styles.label}>CIUDAD *</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>CIUDAD *</Text>
           <View style={styles.chipsWrap}>
             {LB_CITIES.map((c) => {
               const on = city === c;
@@ -340,7 +340,7 @@ function ComposeContent() {
               );
             })}
           </View>
-          <Text style={styles.label}>BARRIO (opcional)</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>BARRIO (opcional)</Text>
           <TextInput
             value={barrio}
             onChangeText={setBarrio}
@@ -351,7 +351,7 @@ function ComposeContent() {
           />
 
           {/* Visibilidad */}
-          <Text style={styles.label}>VISIBILIDAD</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>VISIBILIDAD</Text>
           <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
             {LB_VISIBILITY_OPTIONS.map((o) => {
               const on = visibility === o.value;
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 },
   publishBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 74, alignItems: 'center' },
-  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: neutro.n600, letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
+  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
   textArea: { borderRadius: radios.campo, borderWidth: trazo.fino, padding: espaciado.e12, fontSize: tipografia.cuerpo, minHeight: 110, textAlignVertical: 'top' },
   input: { borderRadius: radios.md, borderWidth: trazo.fino, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e9, fontSize: tipografia.body },
   counter: { fontSize: tipografia.micro, textAlign: 'right', marginTop: espaciado.e3 },

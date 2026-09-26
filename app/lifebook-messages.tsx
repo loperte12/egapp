@@ -185,7 +185,7 @@ function MessagesContent() {
               </Text>
             </View>
           )}
-          <Text style={styles.inboxLabel}>Mi perfil</Text>
+          <Text style={[styles.inboxLabel, { color: colors.textSecondary }]}>Mi perfil</Text>
         </Pressable>
 
         <InboxShortcut
@@ -318,6 +318,7 @@ function MessagesContent() {
 function InboxShortcut({ icon, bg, label, badge, onPress }: {
   icon: React.ReactNode; bg: string; label: string; badge: number; onPress: () => void;
 }) {
+  const { colors } = useTheme();
   return (
     <Pressable onPress={onPress} style={styles.inboxShortcut} hitSlop={6} accessibilityLabel={`${label}${badge > 0 ? `, ${badge}` : ''}`}>
       <View style={[styles.inboxIcon, { backgroundColor: bg }]}>
@@ -328,7 +329,7 @@ function InboxShortcut({ icon, bg, label, badge, onPress }: {
           </View>
         ) : null}
       </View>
-      <Text style={styles.inboxLabel} numberOfLines={1}>{label}</Text>
+      <Text style={[styles.inboxLabel, { color: colors.textSecondary }]} numberOfLines={1}>{label}</Text>
     </Pressable>
   );
 }
@@ -436,7 +437,7 @@ const styles = StyleSheet.create({
     borderRadius: radios.hermano, minWidth: 18, height: 18, paddingHorizontal: espaciado.e3,
     alignItems: 'center', justifyContent: 'center', borderWidth: trazo.base, borderColor: brand.white,
   },
-  inboxLabel: { fontSize: tipografia.micro, fontWeight: peso.medio, color: neutro.n600 },
+  inboxLabel: { fontSize: tipografia.micro, fontWeight: peso.medio },
   filterRow: { flexDirection: 'row', gap: espaciado.e8, paddingHorizontal: espaciado.e16, paddingBottom: espaciado.e10 },
   filterChip: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e6 },
   convoRow: {

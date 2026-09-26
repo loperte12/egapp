@@ -1388,7 +1388,7 @@ export default function ConductorScreen() {
                           {paxVerified ? (
                             <View style={PK.badgeGreen}>
                               <BadgeCheck size={12} color={colors.text.success} />
-                              <Text style={PK.badgeGreenTxt}>Verificado</Text>
+                              <Text style={[PK.badgeGreenTxt, { color: colors.text.success }]}>Verificado</Text>
                             </View>
                           ) : (
                             <View style={PK.badgeGray}>
@@ -2065,7 +2065,7 @@ const PK = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e3,
     backgroundColor: 'rgba(43,194,106,0.16)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2,
   },
-  badgeGreenTxt: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  badgeGreenTxt: { fontSize: tipografia.micro, fontWeight: peso.maximo },
   badgeGray: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e3,
     backgroundColor: 'rgba(255,255,255,0.10)', borderRadius: radios.full, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2,

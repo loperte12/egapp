@@ -75,7 +75,7 @@ function StatusContent() {
           <>
             {/* Estado actual */}
             <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-              <Text style={styles.groupTitle}>ESTADO ACTUAL</Text>
+              <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>ESTADO ACTUAL</Text>
               {status ? (
                 <>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e12 }}>
@@ -116,7 +116,7 @@ function StatusContent() {
             </View>
 
             {/* Ajustes de estado */}
-            <Text style={styles.groupTitle}>AJUSTES DE ESTADO</Text>
+            <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>AJUSTES DE ESTADO</Text>
             <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
               {/* Visibilidad por defecto */}
               <Text style={[styles.subLabel, { color: colors.textSecondary }]}>VISIBILIDAD POR DEFECTO</Text>
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   retry: { borderRadius: radios.md, paddingHorizontal: espaciado.e22, paddingVertical: espaciado.e10 },
   card: { marginHorizontal: espaciado.e16, borderRadius: radios.panel, borderWidth: trazo.fino, padding: espaciado.e14 },
   groupTitle: {
-    fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 1, color: neutro.n600,
+    fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 1,
     textTransform: 'uppercase', marginTop: espaciado.e18, marginBottom: espaciado.e6, marginHorizontal: espaciado.e18,
   },
   actionBtn: { flex: 1, alignItems: 'center', borderRadius: radios.md, paddingVertical: espaciado.e11 },

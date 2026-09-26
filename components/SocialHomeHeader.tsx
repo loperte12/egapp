@@ -239,7 +239,7 @@ export default function SocialHomeHeader({
         style={({ pressed }) => [styles.cityBtn, { top: insets.top + bannerH + 10, opacity: pressed ? 0.85 : 1 }]}
       >
         <MapPin size={13} color={colors.text.primary} />
-        <Text style={styles.cityTxt} numberOfLines={1}>{cityName || 'Seleccionar ciudad'}</Text>
+        <Text style={[styles.cityTxt, { color: colors.text.primary }]} numberOfLines={1}>{cityName || 'Seleccionar ciudad'}</Text>
         <ChevronDown size={13} color={colors.text.primary} />
       </Pressable>
 
@@ -306,5 +306,5 @@ const styles = StyleSheet.create({
     zIndex: 30,
     elevation: 3,
   },
-  cityTxt: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: brand.primary, maxWidth: 180 },
+  cityTxt: { fontSize: tipografia.caption, fontWeight: peso.titulo, maxWidth: 180 },
 });

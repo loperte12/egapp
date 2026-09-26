@@ -32,11 +32,11 @@ import { Notice } from '../components/lifebook/publish/PublishParts';
 import { ir as irSeguro } from '../constants/rutas';
 import { brand } from '@egrouteplan/ui-kit';
 
-const PAY_ICON: Record<string, React.ReactNode> = {
-  cash_on_delivery: <Banknote size={15} color={brand.success} />,
-  likebook_wallet: <Wallet size={15} color={neutro.n600} />,
-  billing: <Building2 size={15} color={brand.primary} />,
-};
+const PAY_ICON = (c: ReturnType<typeof useTheme>['colors']): Record<string, React.ReactNode> => ({
+  cash_on_delivery: <Banknote size={15} color={c.text.success} />,
+  likebook_wallet: <Wallet size={15} color={c.textSecondary} />,
+  billing: <Building2 size={15} color={c.text.primary} />,
+});
 
 export default function LifeBookCheckoutScreen() {
   return (
@@ -389,7 +389,7 @@ function CheckoutContent() {
               <View key={pm.method} style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
                 <Chip
                   label={meta?.label ?? lbPayLabel(pm.method)}
-                  icon={PAY_ICON[pm.method]}
+                  icon={PAY_ICON(colors)[pm.method]}
                   active={active}
                   disabled={!selectable}
                   onPress={() => setPaymentMethod(pm.method)}

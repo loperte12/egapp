@@ -146,7 +146,7 @@ function DocumentsContent() {
       </View>
 
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]} showsVerticalScrollIndicator={false}>
-        <Text style={styles.groupTitle}>{`Documentos · ${roleLabel}`}</Text>
+        <Text style={[styles.groupTitle, { color: colors.textSecondary }]}>{`Documentos · ${roleLabel}`}</Text>
         <View style={[styles.group, { backgroundColor: colors.card }]}>
           {docs.map((d, i) => {
             const Icon = d.icon;
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
   topTitle: { fontSize: tipografia.subCabecera, fontWeight: peso.titulo },
   content: { padding: espaciado.e16, gap: espaciado.e8 },
-  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: neutro.n600, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e2 },
+  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: espaciado.e2 },
   group: { borderRadius: radios.lg, overflow: 'hidden' },
   row: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e12, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e13 },
   rowIcon: { width: 36, height: 36, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center' },

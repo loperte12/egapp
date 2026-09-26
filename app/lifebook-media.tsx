@@ -59,6 +59,7 @@ export default function LifeBookMediaComposeScreen() {
 
 type Mode = 'video' | 'podcast' | 'serie' | 'episode';
 
+/* dato-color: el color ES la identidad del tipo — no es un acento de tema (fallo 27) */
 const MODE_META: Record<Mode, { title: string; icon: typeof Video; color: string }> = {
   video: { title: 'Publicar video corto', icon: Video, color: brand.lifebookFuerte },
   podcast: { title: 'Publicar podcast', icon: Mic, color: brand.social },
@@ -363,7 +364,7 @@ function MediaComposeContent() {
                   (carga al instante); el largo es hasta 50 minutos. */}
               {esVideo && (
                 <>
-                  <Text style={styles.label}>TIPO DE VÍDEO</Text>
+                  <Text style={[styles.label, { color: colors.textSecondary }]}>TIPO DE VÍDEO</Text>
                   <View style={{ flexDirection: 'row', gap: espaciado.e8 }}>
                     {(['short', 'long'] as LbVideoPerfilId[]).map((id) => {
                       const p = LB_VIDEO_PERFILES[id];
@@ -401,7 +402,7 @@ function MediaComposeContent() {
                 </>
               )}
 
-              <Text style={styles.label}>{fileLabel} *</Text>
+              <Text style={[styles.label, { color: colors.textSecondary }]}>{fileLabel} *</Text>
               <Pressable
                 onPress={busy ? undefined : (kind === 'podcast' ? pickAudioFile : pickVideoFile)}
                 style={[styles.dropZone, { backgroundColor: colors.surface, borderColor: file ? alpha(colors.success, 0.6) : colors.border }]}
@@ -459,7 +460,7 @@ function MediaComposeContent() {
           {/* Podcast: duración manual en minutos */}
           {kind === 'podcast' && (
             <>
-              <Text style={styles.label}>DURACIÓN (minutos) *</Text>
+              <Text style={[styles.label, { color: colors.textSecondary }]}>DURACIÓN (minutos) *</Text>
               <TextInput
                 value={durManual}
                 onChangeText={(t) => setDurManual(t.replace(/[^0-9]/g, '').slice(0, 2))}
@@ -474,7 +475,7 @@ function MediaComposeContent() {
           {/* Portada */}
           {(kind === 'video' || kind === 'serie' || kind === 'podcast') && (
             <>
-              <Text style={styles.label}>
+              <Text style={[styles.label, { color: colors.textSecondary }]}>
                 PORTADA ({kind === 'podcast' ? 'OBLIGATORIA 1:1' : 'recomendada'})
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 }}>
@@ -511,7 +512,7 @@ function MediaComposeContent() {
           {/* Título */}
           {(kind === 'video' || kind === 'serie' || kind === 'episode') && (
             <>
-              <Text style={styles.label}>TÍTULO {titleRequired ? '*' : '(opcional)'}</Text>
+              <Text style={[styles.label, { color: colors.textSecondary }]}>TÍTULO {titleRequired ? '*' : '(opcional)'}</Text>
               <TextInput
                 value={title}
                 onChangeText={setTitle}
@@ -524,7 +525,7 @@ function MediaComposeContent() {
           )}
 
           {/* Descripción */}
-          <Text style={styles.label}>DESCRIPCIÓN {kind === 'podcast' || kind === 'episode' ? '(opcional)' : '(opcional)'}</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>DESCRIPCIÓN {kind === 'podcast' || kind === 'episode' ? '(opcional)' : '(opcional)'}</Text>
           <TextInput
             value={body}
             onChangeText={setBody}
@@ -538,7 +539,7 @@ function MediaComposeContent() {
           {/* Ciudad (no en episode: pertenece a la serie) */}
           {kind !== 'episode' && (
             <>
-              <Text style={styles.label}>CIUDAD *</Text>
+              <Text style={[styles.label, { color: colors.textSecondary }]}>CIUDAD *</Text>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 }}>
                 {LB_CITIES.map((c) => {
                   const on = city === c;
@@ -557,7 +558,7 @@ function MediaComposeContent() {
               podcast/serie/episodio no se ofrece, en vez de ofrecerlo y perderlo por el camino. */}
           {kind === 'video' ? (
             <>
-              <Text style={styles.label}>PRODUCTOS DEL VÍDEO (opcional)</Text>
+              <Text style={[styles.label, { color: colors.textSecondary }]}>PRODUCTOS DEL VÍDEO (opcional)</Text>
               <Pressable
                 onPress={() => setProdOpen(true)}
                 accessibilityLabel="Elegir productos para este vídeo"
@@ -645,7 +646,7 @@ const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10, paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e8, borderBottomWidth: StyleSheet.hairlineWidth },
   topTitle: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, flex: 1 },
   publishBtn: { borderRadius: radios.full, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e7, minWidth: 76, alignItems: 'center' },
-  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: neutro.n600, letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
+  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, letterSpacing: 0.8, marginTop: espaciado.e16, marginBottom: espaciado.e6 },
   dropZone: { borderRadius: radios.lg, borderWidth: trazo.base, borderStyle: 'dashed', paddingVertical: espaciado.e26, paddingHorizontal: espaciado.e16, alignItems: 'center' },
   coverPreview: { width: 84, height: 84, borderRadius: radios.campo, backgroundColor: neutro.n200 },
   photoX: { position: 'absolute', top: -6, right: -6, width: 20, height: 20, borderRadius: radios.full, alignItems: 'center', justifyContent: 'center' },

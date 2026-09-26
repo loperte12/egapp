@@ -364,6 +364,7 @@ export default function StatusEditorModal({
  * Máx 420 px; si la imagen es muy alta se usa "contain" (nunca se recorta).
  */
 function PreviewPhoto({ uri }: { uri: string }) {
+  const { colors } = useTheme();
   const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
   const [boxW, setBoxW] = useState(0);
   useEffect(() => {
@@ -387,7 +388,7 @@ function PreviewPhoto({ uri }: { uri: string }) {
       {natural ? (
         <Image source={{ uri }} style={StyleSheet.absoluteFill} resizeMode={clamped ? 'contain' : 'cover'} />
       ) : (
-        <View style={styles.previewPhotoLoading}><ActivityIndicator color={neutro.n600} size="small" /></View>
+        <View style={styles.previewPhotoLoading}><ActivityIndicator color={colors.textSecondary} size="small" /></View>
       )}
     </View>
   );

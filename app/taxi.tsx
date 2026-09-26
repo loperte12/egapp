@@ -63,13 +63,13 @@ function pinLast4(p?: string | null): string {
   return d.length >= 4 ? d.slice(-4) : d.padStart(4, '0');
 }
 
-const MODE_ICON: Record<string, React.ReactNode> = {
-  recomendado: <Star size={22} color={brand.primary} />,
-  compartido: <Users size={22} color={brand.secondary} />,
-  no_compartido: <User size={22} color={brand.success} />,
-  especial: <Tag size={22} color={brand.primary} />,
-  minibus: <Bus size={22} color={brand.secondary} />,
-};
+const MODE_ICON = (c: ReturnType<typeof useTheme>['colors']): Record<string, React.ReactNode> => ({
+  recomendado: <Star size={22} color={c.text.primary} />,
+  compartido: <Users size={22} color={c.text.secondary} />,
+  no_compartido: <User size={22} color={c.text.success} />,
+  especial: <Tag size={22} color={c.text.primary} />,
+  minibus: <Bus size={22} color={c.text.secondary} />,
+});
 
 const STATUS_UI: Record<string, { t: string; c: string }> = {
   requested: { t: 'Buscando conductor…', c: brand.secondary },
@@ -1604,7 +1604,7 @@ export default function TaxiScreen() {
             <View style={{ gap: espaciado.e8 }}>
               {modes.map((item) => {
                 const active = modeId === item.id;
-                const Icon = MODE_ICON[item.id] ?? <CarFront size={20} color={colors.textSecondary} />;
+                const Icon = MODE_ICON(colors)[item.id] ?? <CarFront size={20} color={colors.textSecondary} />;
                 const cap = item.id === 'minibus' ? 6 : item.id === 'compartido' ? 3 : 0;
                 const rowPax = cap > 0 ? Math.min(pax, cap) : pax;
                 const rowTotal = item.price != null ? Math.round(item.price * (cap > 0 ? rowPax : 1)) : null;
