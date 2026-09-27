@@ -1,10 +1,28 @@
 /**
- * lifebook-hotel-detalle — FICHA de un alojamiento + sus habitaciones y calendario.
+ * lifebook-hotel-detalle — FICHA de un alojamiento: sus habitaciones y sus reseñas.
  *
- * Enseña lo que decide la compra, sin rodeos: fotos, normas de llegada, servicios,
- * y por cada tipo de habitación **el calendario con el precio de cada noche**, la
- * disponibilidad real, la estancia mínima y **cuánto se paga ahora (señal) y cuánto
- * al llegar**. Elegir fechas aquí lleva directo a reservar con esos días puestos.
+ * ── QUÉ CAMBIÓ EL 27-sep-2026 (P2 del plan de UI, `docs/UI-HOTEL-PLAN-MEJORA.md` §11) ───────────
+ *
+ * EL DIAGNÓSTICO, MEDIDO. La ficha se abrió en el móvil y se volcó con `uiautomator`. Pantalla de
+ * 2.374 px: en la primera pantalla ENTERA no había **ni una habitación ni un precio** — solo galería,
+ * horario, dirección, el botón de mapa, el bloque del taxi al aeropuerto, la descripción, dos
+ * servicios y la línea de formas de pago. Desplazando una pantalla aparecía `Habitaciones (8)` y el
+ * primer precio; y el desplazamiento SIGUIENTE era el calendario, abierto dentro de la primera
+ * habitación, ocupando la pantalla completa antes de que se viera el segundo precio.
+ *
+ * LO QUE SE HA QUITADO: **el acordeón**. Un tipo de habitación ya no despliega dentro su calendario,
+ * su desglose y su botón (`setAbierta`, el `CalendarPicker` interno, la cuenta con `Fila`). Ahora es
+ * una tarjeta (`HotelRoomCard`) con foto, servicios, condiciones, el precio de fin de semana —que
+ * existía y no se enseñaba en ninguna pantalla— y un solo botón.
+ *
+ * LO QUE HA OCUPADO SU SITIO: **una barra de fechas** (`HotelDateRange`) encima de la lista, que se
+ * elige una vez y vale para todos los tipos. El dinero exacto de la estancia se calcula donde
+ * siempre se calculó de verdad: en `lifebook-hotel-reservar.tsx`, que pide el calendario del tipo
+ * elegido y desglosa noches, limpieza, tasas, señal y resto. La ficha elige; la reserva cobra.
+ *
+ * LO QUE NO SE TOCA: las reseñas siguen **después** de las habitaciones (D1 de C-1) y siguen
+ * gateadas por `publishesRating` del servidor (D2). El chip de la cabecera baja a la sección (D1).
+ * Ninguna de esas tres decisiones se reabre aquí.
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
@@ -12,33 +30,25 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, peso, Precio, radios, tipografia, trazo, trazoIcono, useTheme } from '@egrouteplan/ui-kit';
-import { Car, Navigation, Star } from 'lucide-react-native';
-import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
+import { alpha, brand, espaciado, peso, radios, tipografia, trazo, trazoIcono, useTheme } from '@egrouteplan/ui-kit';
+import { BadgeCheck, Car, Navigation, Star } from 'lucide-react-native';
 import { PhotoGallery } from '../components/PhotoGallery';
+import { HotelGuestsSheet } from '../components/hotel/HotelGuestsSheet';
+import { HotelDateBar } from '../components/hotel/HotelDateRange';
+import { HotelRoomCard } from '../components/hotel/HotelRoomCard';
+import { nombreServicio } from '../components/hotel/servicios';
 import {
   hotelApi, type HotelProfile, type HotelRoom, type HotelFx, type HotelArrival, type HotelAirport,
   type HotelReview, type HotelReviewsPage,
 } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
 import { absUrl } from '../api/config';
-import { nightsBetween, shortDate, todayIso, xaf } from '../utils/datetime';
+import { nightsBetween, shortDate, xaf } from '../utils/datetime';
 import { abrirMapa } from '../utils/maps';
 import { formatearMoneda, getPaisParaPrecios, setPaisElegido } from '../utils/region';
 
-const MAX_NOCHES = 92;
 /** Acento del marketplace (naranja), como en el resto del flujo de servicios. */
 const ACCENT = brand.primary; // A1: la acción avanza en azul
-
-/** Etiquetas legibles de los servicios (las claves las define el servidor). */
-const SERVICIOS: Record<string, string> = {
-  wifi: 'Wi-Fi', desayuno: 'Desayuno', aire: 'Aire acondicionado', piscina: 'Piscina',
-  parking: 'Aparcamiento', restaurante: 'Restaurante', bar: 'Bar', gimnasio: 'Gimnasio',
-  recepcion_24h: 'Recepción 24 h', agua_caliente: 'Agua caliente', generador: 'Generador',
-  lavanderia: 'Lavandería', tv: 'TV', terraza: 'Terraza', ascensor: 'Ascensor',
-  admite_mascotas: 'Admite mascotas', adaptado: 'Adaptado', cocina: 'Cocina',
-  nevera: 'Nevera', caja_fuerte: 'Caja fuerte', seguridad: 'Seguridad',
-};
 
 const TIPOS: Record<string, string> = {
   hotel: 'Hotel', hostal: 'Hostal', guest_house: 'Casa de huéspedes',
@@ -69,15 +79,18 @@ export default function HotelDetalleScreen() {
   const [arrival, setArrival] = useState<HotelArrival | null>(null);
   const [airport, setAirport] = useState<HotelAirport | null>(null);
 
-  const [huespedes] = useState(Number(p.guests ?? 2));
-  const [habitaciones] = useState(Number(p.units ?? 1));
+  /*
+    LAS FECHAS Y LA OCUPACIÓN SON DE LA PANTALLA, no de una habitación.
+
+    Antes, las fechas solo existían dentro del acordeón de un tipo —y `huespedes`/`habitaciones` eran
+    constantes que llegaban por parámetro y no se podían cambiar. Ahora viven en la barra de arriba y
+    valen para toda la lista, así que tienen que poder cambiar.
+  */
+  const [huespedes, setHuespedes] = useState(Number(p.guests ?? 2));
+  const [habitaciones, setHabitaciones] = useState(Number(p.units ?? 1));
   const [checkIn, setCheckIn] = useState<string | null>(p.checkIn ?? null);
   const [checkOut, setCheckOut] = useState<string | null>(p.checkOut ?? null);
-
-  // Habitación con el calendario abierto (una cada vez: no se pintan N calendarios).
-  const [abierta, setAbierta] = useState<string | null>(null);
-  const [dias, setDias] = useState<CalendarDay[]>([]);
-  const [cargandoCal, setCargandoCal] = useState(false);
+  const [elegirQuien, setElegirQuien] = useState(false);
 
   // ── LAS RESEÑAS DE ESTE ALOJAMIENTO (C-1) ────────────────────────────────────
   /*
@@ -109,13 +122,12 @@ export default function HotelDetalleScreen() {
       setFx(out.fx ?? null);
       setArrival(out.arrival ?? null);
       setAirport(out.airport ?? null);
-      if (!abierta && out.rooms?.length) setAbierta(out.rooms[0].id);
     } catch (e) {
       setError(e instanceof ApiError ? e.message : 'No se pudo cargar el alojamiento.');
     } finally {
       setCargando(false);
     }
-  }, [shopId, abierta, pais]);
+  }, [shopId, pais]);
 
   useEffect(() => { void cargar(); }, [cargar]);
 
@@ -145,22 +157,6 @@ export default function HotelDetalleScreen() {
     void hotelApi.fx(pais).then((r) => setPaises(r.paises ?? [])).catch(() => undefined);
   }, [elegirMoneda, paises.length, pais]);
 
-  // Calendario de la habitación abierta (92 días de una vez: una sola consulta).
-  useEffect(() => {
-    if (!abierta) { setDias([]); return; }
-    let vivo = true;
-    setCargandoCal(true);
-    hotelApi
-      .calendar(abierta, todayIso(), addDays(todayIso(), MAX_NOCHES), habitaciones)
-      .then((c) => { if (vivo) setDias(c.days ?? []); })
-      .catch(() => { if (vivo) setDias([]); })
-      .finally(() => { if (vivo) setCargandoCal(false); });
-    return () => { vivo = false; };
-  }, [abierta, habitaciones]);
-
-  const noches = checkIn && checkOut ? nightsBetween(checkIn, checkOut) : 0;
-  const roomAbierta = rooms.find((r) => r.id === abierta) ?? null;
-
   /*
     LA NOTA, COMO LA DECIDE EL SERVIDOR (D2 · [D-K]).
     Tres estados, y ninguno enseña una cifra que el servidor no publique:
@@ -177,19 +173,8 @@ export default function HotelDetalleScreen() {
       }
     : null;
 
-  const cuenta = (() => {
-    if (!roomAbierta || !noches) return null;
-    const precios = dias
-      .filter((d) => checkIn && checkOut && d.date >= checkIn && d.date < checkOut)
-      .map((d) => d.priceXaf);
-    if (precios.length !== noches) return null;
-    const subtotal = precios.reduce((a, b) => a + b, 0) * habitaciones;
-    const limpieza = roomAbierta.cleaningFeeXaf * habitaciones;
-    const tasas = roomAbierta.taxesXaf * habitaciones;
-    const total = subtotal + limpieza + tasas;
-    const senal = Math.round((total * roomAbierta.depositPercent) / 100);
-    return { subtotal, limpieza, tasas, total, senal, resto: total - senal, media: Math.round(subtotal / noches / habitaciones) };
-  })();
+  /** Noches de la estancia elegida: la barra las muestra, y el botón de la tarjeta las repite. */
+  const noches = checkIn && checkOut ? nightsBetween(checkIn, checkOut) : 0;
 
   const irAReservar = (room: HotelRoom) => {
     router.push({
@@ -255,6 +240,18 @@ export default function HotelDetalleScreen() {
           {/* ── Datos del alojamiento ── */}
           <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
             <Text style={[styles.nombre, { color: colors.textPrimary }]}>{hotel?.name}</Text>
+            {/*
+              EL ALOJAMIENTO VERIFICADO. `isVerified` / `verificationLevel` llevaban desde la
+              migración del módulo viajando en cada respuesta y **no se pintaban en ninguna pantalla**.
+              Es el equivalente real al distintivo de la referencia (优美会), y a diferencia de aquel
+              no hay que inventarlo ni contratarlo: el dato ya está.
+            */}
+            {hotel?.isVerified ? (
+              <View style={styles.verificadoFila}>
+                <BadgeCheck size={13} color={colors.text.success} strokeWidth={trazoIcono.acento} />
+                <Text style={[styles.verificadoTxt, { color: colors.text.success }]}>Alojamiento verificado</Text>
+              </View>
+            ) : null}
             <Text style={[styles.sub, { color: colors.textSecondary }]}>
               {[TIPOS[hotel?.propertyKind ?? ''] ?? null, hotel?.stars ? `${hotel.stars}★` : null,
                 hotel?.barrio, hotel?.city].filter(Boolean).join(' · ')}
@@ -373,13 +370,63 @@ export default function HotelDetalleScreen() {
               <View style={styles.servicios}>
                 {(hotel?.amenities ?? []).map((a) => (
                   <View key={a} style={[styles.servicio, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-                    <Text style={[styles.servicioTxt, { color: colors.textPrimary }]}>
-                      {SERVICIOS[a] ?? a.replace(/_/g, ' ')}
-                    </Text>
+                    <Text style={[styles.servicioTxt, { color: colors.textPrimary }]}>{nombreServicio(a)}</Text>
                   </View>
                 ))}
               </View>
             ) : null}
+
+            {/*
+              ── CON QUÉ MONEDA SE VEN LOS PRECIOS ─────────────────────────────────────
+              El precio real, y el que se cobra, es en XAF (en efectivo, al llegar al hotel). Esto
+              solo cambia CÓMO SE ENSEÑA, para que quien reserva desde fuera sepa cuánto es.
+
+              Va al FINAL del bloque informativo y no en medio de la lista de habitaciones, que es
+              donde estaba: un selector de moneda partiendo la lista de precios obliga a leerlo antes
+              de ver el primer cuarto, y no es eso lo que se viene a mirar aquí.
+            */}
+            <View style={{ gap: espaciado.e6, marginTop: espaciado.e6 }}>
+              <Pressable
+                onPress={() => setElegirMoneda((v) => !v)}
+                accessibilityRole="button"
+                accessibilityLabel="Elegir el país para ver los precios en su moneda"
+                style={[styles.botonLinea, { borderColor: colors.border, backgroundColor: colors.surface, alignSelf: 'flex-start' }]}
+              >
+                <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>
+                  {fx && !fx.esMonedaDelCobro
+                    ? `${fx.countryLabel ?? fx.currency} · ${fx.symbol}`
+                    : '💱 Ver los precios en otra moneda'}
+                </Text>
+              </Pressable>
+              {fx && !fx.esMonedaDelCobro ? (
+                <Text style={[styles.sub, { color: colors.textSecondary }]}>
+                  Equivalencia orientativa al cambio del {fx.updatedAt ? shortDate(String(fx.updatedAt).slice(0, 10)) : '—'}.
+                  El pago es en XAF (francos), en efectivo al llegar.
+                </Text>
+              ) : null}
+              {elegirMoneda ? (
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
+                  {paises.length === 0 ? (
+                    <Text style={[styles.sub, { color: colors.textSecondary }]}>Cargando países…</Text>
+                  ) : (
+                    paises.map((p) => (
+                      <Pressable
+                        key={p.code}
+                        onPress={() => { setElegirMoneda(false); setPais(p.code); void setPaisElegido(p.code); }}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Ver los precios desde ${p.label} (${p.currency})`}
+                        style={[styles.botonLinea, {
+                          borderColor: pais === p.code ? colors.secondary : colors.border,
+                          backgroundColor: pais === p.code ? alpha(colors.secondary, 0.12) : colors.surface,
+                        }]}
+                      >
+                        <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>{p.label} · {p.currency}</Text>
+                      </Pressable>
+                    ))
+                  )}
+                </View>
+              ) : null}
+            </View>
 
             {(hotel?.paymentMethods ?? []).length ? (
               <Text style={[styles.sub, { color: colors.textSecondary }]}>
@@ -404,52 +451,24 @@ export default function HotelDetalleScreen() {
             Habitaciones ({rooms.length})
           </Text>
 
-          {/* ── CON QUÉ MONEDA ESTÁ VIENDO LOS PRECIOS ────────────────────────────────
-              El precio real, y el que se cobra, es en XAF (en efectivo, al llegar al hotel). Esto
-              solo cambia CÓMO SE ENSEÑA, para que quien reserva desde fuera sepa cuánto es. Se dice
-              con todas las letras, con la fecha del cambio y sin llamarlo «precio»: es una referencia. */}
-          <View style={{ gap: espaciado.e6 }}>
-            <Pressable
-              onPress={() => setElegirMoneda((v) => !v)}
-              accessibilityRole="button"
-              accessibilityLabel="Elegir el país para ver los precios en su moneda"
-              style={[styles.botonLinea, { borderColor: colors.border, backgroundColor: colors.surface, alignSelf: 'flex-start' }]}
-            >
-              <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>
-                {fx && !fx.esMonedaDelCobro
-                  ? `${fx.countryLabel ?? fx.currency} · ${fx.symbol}`
-                  : '💱 Ver los precios en otra moneda'}
-              </Text>
-            </Pressable>
-            {fx && !fx.esMonedaDelCobro ? (
-              <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                Equivalencia orientativa al cambio del {fx.updatedAt ? shortDate(String(fx.updatedAt).slice(0, 10)) : '—'}.
-                El pago es en XAF (francos), en efectivo al llegar.
-              </Text>
-            ) : null}
-            {elegirMoneda ? (
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
-                {paises.length === 0 ? (
-                  <Text style={[styles.sub, { color: colors.textSecondary }]}>Cargando países…</Text>
-                ) : (
-                  paises.map((p) => (
-                    <Pressable
-                      key={p.code}
-                      onPress={() => { setElegirMoneda(false); setPais(p.code); void setPaisElegido(p.code); }}
-                      accessibilityRole="button"
-                      accessibilityLabel={`Ver los precios desde ${p.label} (${p.currency})`}
-                      style={[styles.botonLinea, {
-                        borderColor: pais === p.code ? colors.secondary : colors.border,
-                        backgroundColor: pais === p.code ? alpha(colors.secondary, 0.12) : colors.surface,
-                      }]}
-                    >
-                      <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>{p.label} · {p.currency}</Text>
-                    </Pressable>
-                  ))
-                )}
-              </View>
-            ) : null}
-          </View>
+          {/*
+            LA BARRA DE FECHAS, UNA VEZ Y PARA TODOS LOS TIPOS.
+
+            Va pegada a la lista porque es SU control: cambiar aquí las noches cambia el verbo del
+            botón de cada tarjeta, y el precio exacto de esas noches se calcula en la pantalla de
+            reservar. Antes esto era un calendario por habitación dentro del acordeón.
+          */}
+          {rooms.length > 0 ? (
+            <HotelDateBar
+              rooms={rooms}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              huespedes={huespedes}
+              habitaciones={habitaciones}
+              onFechas={(a, b) => { setCheckIn(a); setCheckOut(b); }}
+              onOcupacion={() => setElegirQuien(true)}
+            />
+          ) : null}
 
           {rooms.length === 0 ? (
             <Text style={[styles.sub, { color: colors.textSecondary }]}>
@@ -457,119 +476,20 @@ export default function HotelDetalleScreen() {
             </Text>
           ) : null}
 
-          {rooms.map((r) => {
-            const esAbierta = r.id === abierta;
-            return (
-              <View key={r.id} style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
-                <Pressable
-                  onPress={() => setAbierta(esAbierta ? null : r.id)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${r.name}: ${esAbierta ? 'ocultar' : 'ver'} calendario`}
-                  accessibilityState={{ expanded: esAbierta }}
-                >
-                  <View style={styles.filaHab}>
-                    <View style={{ flex: 1 }}>
-                      <Text style={[styles.habNombre, { color: colors.textPrimary }]}>{r.name}</Text>
-                      <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                        {r.capacity} huésped(es)
-                        {r.beds?.length ? ` · ${r.beds.map((b) => `${b.count} ${b.kind}`).join(', ')}` : ''}
-                        {r.sizeM2 ? ` · ${r.sizeM2} m²` : ''}
-                        {r.totalUnits > 1 ? ` · ${r.totalUnits} iguales` : ''}
-                      </Text>
-                      <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                        Estancia mínima {r.minNights} noche(s)
-                        {r.depositPercent > 0 ? ` · señal del ${r.depositPercent}%` : ' · sin señal (pago al llegar)'}
-                        {r.cancellationHours ? ` · cancelación gratis hasta ${r.cancellationHours} h antes` : ''}
-                      </Text>
-                    </View>
-                    <View style={{ alignItems: 'flex-end' }}>
-                      <Precio valor={r.basePriceXaf} tamano="md" color={colors.text.secondary} />
-                      {/* ── EL PRECIO EN LA MONEDA DEL HUÉSPED ────────────────────────
-                          El precio real es el XAF (es lo que se cobra, en efectivo, al llegar). El
-                          equivalente se enseña para que un huésped de fuera sepa cuánto es: lo calcula
-                          el servidor. Si el país usa XAF, `esMonedaDelCobro` lo dice y NO se repite la
-                          misma cifra con un «≈». */}
-                      {typeof r.pricePerNightLocal === 'number' && fx && !fx.esMonedaDelCobro ? (
-                        <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                          ≈ {formatearMoneda(r.pricePerNightLocal, fx.currency, fx.decimals)}
-                        </Text>
-                      ) : null}
-                      <Text style={[styles.sub, { color: colors.textSecondary }]}>por noche</Text>
-                    </View>
-                  </View>
-                </Pressable>
-
-                {esAbierta ? (
-                  <View style={{ marginTop: espaciado.e10, gap: espaciado.e10 }}>
-                    <CalendarPicker
-                      days={dias}
-                      checkIn={checkIn}
-                      checkOut={checkOut}
-                      onChange={(a, b) => { setCheckIn(a); setCheckOut(b); }}
-                      units={habitaciones}
-                      minNights={r.minNights}
-                      maxNights={Math.min(MAX_NOCHES, r.maxNights)}
-                      loading={cargandoCal}
-                    />
-
-                    {/* ── La cuenta, con el pago parcial bien visible ── */}
-                    {cuenta ? (
-                      <View style={[styles.cuenta, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-                        <Fila etiqueta={`${noches} noche(s)${habitaciones > 1 ? ` × ${habitaciones} habitaciones` : ''}`} valor={xaf(cuenta.subtotal)} />
-                        <Fila etiqueta={`Precio medio por noche`} valor={xaf(cuenta.media)} tenue />
-                        {cuenta.limpieza ? <Fila etiqueta="Limpieza" valor={xaf(cuenta.limpieza)} /> : null}
-                        {cuenta.tasas ? <Fila etiqueta="Tasas" valor={xaf(cuenta.tasas)} /> : null}
-                        <View style={[styles.separador, { backgroundColor: colors.border }]} />
-                        <Fila etiqueta="Total de la estancia" valor={xaf(cuenta.total)} fuerte />
-                        {cuenta.senal > 0 ? (
-                          <>
-                            <Fila
-                              etiqueta={`Se pagará AHORA (señal ${r.depositPercent}%)`}
-                              valor={xaf(cuenta.senal)}
-                              color={colors.text.primary}
-                              fuerte
-                            />
-                            <Fila etiqueta="Y al llegar al hotel" valor={xaf(cuenta.resto)} color={colors.text.secondary} fuerte />
-                            <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                              La habitación queda retenida {r.holdMinutes} min mientras se paga la señal.
-                            </Text>
-                          </>
-                        ) : (
-                          <Fila etiqueta="Se paga todo al llegar" valor={xaf(cuenta.total)} color={colors.text.secondary} fuerte />
-                        )}
-                      </View>
-                    ) : (
-                      <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                        Elige entrada y salida en el calendario para ver el total y la señal.
-                      </Text>
-                    )}
-
-                    <Pressable
-                      onPress={() => irAReservar(r)}
-                      accessibilityRole="button"
-                      accessibilityLabel={`Reservar ${r.name}`}
-                      style={[styles.cta, { backgroundColor: colors.primary }]}
-                    >
-                      <Text style={styles.ctaTxt}>
-                        {noches ? `Reservar · ${cuenta ? xaf(cuenta.total) : `${noches} noche(s)`}` : 'Elegir fechas y reservar'}
-                      </Text>
-                    </Pressable>
-                  </View>
-                ) : null}
-              </View>
-            );
-          })}
-
-          {checkIn && checkOut ? (
-            <Text style={[styles.sub, { color: colors.textSecondary }]}>
-              Fechas elegidas: {shortDate(checkIn, true)} → {shortDate(checkOut, true)} · {noches} noche(s)
-            </Text>
-          ) : null}
+          {rooms.map((r) => (
+            <HotelRoomCard
+              key={r.id}
+              room={r}
+              noches={noches}
+              habitaciones={habitaciones}
+              onReservar={irAReservar}
+            />
+          ))}
 
           {/* ── RESEÑAS ────────────────────────────────────────────────────────────────
               VA DESPUÉS DE LAS HABITACIONES, y es una decisión, no un descuido (D1): una reserva se
               decide primero por «¿hay cama y a cuánto?» —que es lo que responde esta pantalla con el
-              calendario y el precio— y después por «¿qué dicen los que durmieron?». Con la lista
+              precio de cada tipo— y después por «¿qué dicen los que durmieron?». Con la lista
               delante, el precio sale de la primera pantalla. */}
           <View onLayout={(e) => setYResenas(e.nativeEvent.layout.y)} style={{ gap: espaciado.e10 }}>
             <Text style={[styles.seccion, { color: colors.textPrimary }]}>
@@ -622,22 +542,15 @@ export default function HotelDetalleScreen() {
           </View>
         </ScrollView>
       )}
-    </View>
-  );
-}
 
-function Fila({
-  etiqueta, valor, tenue, fuerte, color,
-}: { etiqueta: string; valor: string; tenue?: boolean; fuerte?: boolean; color?: string }) {
-  const { colors } = useTheme();
-  return (
-    <View style={styles.filaCuenta}>
-      <Text style={[styles.cuentaEtq, { color: tenue ? colors.textSecondary : colors.textPrimary, fontWeight: fuerte ? peso.fuerte : peso.medio }]}>
-        {etiqueta}
-      </Text>
-      <Text style={[styles.cuentaVal, { color: color ?? colors.textPrimary, fontWeight: fuerte ? peso.maximo : peso.medio }]}>
-        {valor}
-      </Text>
+      <HotelGuestsSheet
+        visible={elegirQuien}
+        onClose={() => setElegirQuien(false)}
+        huespedes={huespedes}
+        habitaciones={habitaciones}
+        onHuespedes={setHuespedes}
+        onHabitaciones={setHabitaciones}
+      />
     </View>
   );
 }
@@ -690,12 +603,6 @@ function nombreCorto(nombre: string | null | undefined): string {
   return limpio ? limpio.split(/\s+/)[0] : 'Huésped';
 }
 
-function addDays(iso: string, days: number): string {
-  const d = new Date(`${iso}T00:00:00Z`);
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().slice(0, 10);
-}
-
 const styles = StyleSheet.create({
   screen: { flex: 1 },
   barra: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8, paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: trazo.fino },
@@ -714,6 +621,8 @@ const styles = StyleSheet.create({
   enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   bloque: { borderWidth: trazo.fino, borderRadius: radios.panel, padding: espaciado.e12, gap: espaciado.e4 },
   nombre: { fontSize: tipografia.cabecera, fontWeight: peso.maximo },
+  verificadoFila: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 },
+  verificadoTxt: { fontSize: tipografia.micro, fontWeight: peso.fuerte },
   sub: { fontSize: tipografia.caption },
   dato: { fontSize: tipografia.body, marginTop: espaciado.e4 },
   servicios: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6, marginTop: espaciado.e8 },
@@ -725,14 +634,6 @@ const styles = StyleSheet.create({
   botonLineaTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   /** Aviso con borde (Al llegar / taxi): información que el huésped necesita, sin gritar. */
   aviso: { borderWidth: trazo.fino, borderRadius: radios.chip, padding: espaciado.e10, marginTop: espaciado.e8 },
-  filaHab: { flexDirection: 'row', gap: espaciado.e10, alignItems: 'flex-start' },
-  habNombre: { fontSize: tipografia.fino, fontWeight: peso.maximo },
-  precio: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
-  cuenta: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e10, gap: espaciado.e3 },
-  filaCuenta: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: espaciado.e10 },
-  cuentaEtq: { fontSize: tipografia.caption, flex: 1 },
-  cuentaVal: { fontSize: tipografia.body },
-  separador: { height: 1, marginVertical: espaciado.e5 },
   /** La nota del alojamiento en la cabecera: pastilla pulsable que baja a las reseñas. */
   notaChip: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, alignSelf: 'flex-start',
@@ -750,6 +651,4 @@ const styles = StyleSheet.create({
   resenaTexto: { fontSize: tipografia.body, lineHeight: 20 },
   respuesta: { borderWidth: trazo.fino, borderRadius: radios.chip, padding: espaciado.e10, marginTop: espaciado.e6, gap: espaciado.e3 },
   respuestaEtq: { fontSize: tipografia.micro, fontWeight: peso.maximo },
-  cta: { height: altura.campo, borderRadius: radios.campo, alignItems: 'center', justifyContent: 'center' },
-  ctaTxt: { color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
 });
