@@ -732,3 +732,212 @@ que el camino no existe: si algún día hace falta, es una función nueva («sal
 **Lo que queda de A-servidor:** `LH-02`, `LH-05`, `LH-07`→`LH-10` y `LH-12`, todos ya localizados por
 fichero. Y **B**: el esquema de las 5 tablas sigue sin versionar, y es lo que habilita versionar y purgar los
 ejemplos. La puerta del servidor **se abre y se cierra**: cada uno de estos es una ventana.
+
+## 11. Trabajo A en el SERVIDOR — acta de `A-4` (27-sep-2026)
+
+Los siete hallazgos que quedaban de A-servidor, en la misma ventana de la mañana. `A-4` no añade pantallas:
+**cambia cuándo y por qué se mueve el dinero**, y quita de encima al hotelero las reservas zombis.
+
+### 11.1 Qué se desplegó
+
+| Fichero (`/opt/mirror/app/src/lifebook/`) | Antes (`A-3`) | Después (`A-4`) | Qué cambió |
+|---|---|---|---|
+| `hotel.service.ts` | `a85382a5…` | `5b929c07…` | `plazoVencido()` y `ocupaInventario()` públicas; `ESTADOS_QUE_OCUPAN`; 2 consultas de ocupación; `images()` rechaza lo que no es lista; `ORDER BY method` |
+| `reservations.service.ts` | `3b240dc4…` | `a601d0fa…` | los tres relojes; la guarda de `confirm`; el `nonce` del cerrojo; `@Cron` del barrido; la marca `paid_at`; `reconciliarMonedero()` |
+| `hotel-merchant.service.ts` | `22e81890…` | `826c91c5…` | importa la lista y la regla en vez de copiarlas; la guarda de `confirm` en el panel; el `warn` con nombre |
+
+Sello de respaldo: **`20260927-080224`**. Las tres huellas «antes» son **exactamente** las que dejó `A-3`
+(§10.1) — y eso no se supone: el propio guion lo comprueba en su paso 0 y **aborta sin escribir** si no es así.
+
+### 11.2 La decisión que atraviesa toda la tanda: **no se inventan estados**
+
+El esquema **no está versionado** y sus `CHECK` no se pueden leer desde aquí, así que añadir `expired` o
+`release_pending` a una columna ya desplegada es una apuesta a ciegas: si el `CHECK` no los admite, el
+`UPDATE` falla **en caliente**. Se re-semantizan columnas que ya existen:
+
+- **`hold_expires_at`** = «cuándo vence lo que se está esperando». El `INSERT` la pone a `NULL::timestamptz` y
+  una `UPDATE` inmediata en la misma transacción la rellena.
+- **`paid_at`** = «el hotel ya cobró». Ya existía, la ficha del hotel ya la exponía como `paidAt`, y la
+  entrada (`checked_in`) ya la escribía. Es la marca que `LH-10` necesitaba y no había que crear nada.
+
+El preflight midió que las **15 columnas** que el parche escribe y lee existen (**0 faltan**), y que
+**ninguna es nueva**: `cancel_reason`, `cancelled_at`, `paid_at` y `deposit_paid_at` ya las escribía el código
+desplegado. El riesgo, por tanto, no viene de la forma de la tabla.
+
+### 11.3 `LH-07` — se esperaba con el reloj equivocado
+
+El vencimiento se calculaba **siempre** con `hold_minutes` (20 min por defecto). Pero hay **tres relojes** y
+no son intercambiables (§7): `hold_minutes` es lo que tarda el **huésped** en pagar la señal;
+`confirmation_hours` es lo que tarda el **hotel** en confirmar; `cancellation_hours` es hasta cuándo se
+cancela gratis.
+
+Con el monedero **no se espera dinero del huésped**: el dinero ya está retenido y lo que se espera es al
+hotel. Usar el reloj del huésped daba **20 minutos para que el hotel confirmara**, y al vencer el barrido
+liberaba una reserva que el hotel todavía estaba mirando. Ahora el plazo se elige por **lo que de verdad
+falta**: `confirmation_hours` cuando paga el monedero, `hold_minutes` (o `TRANSFER_HOLD_HOURS`) cuando falta
+dinero.
+
+### 11.4 `LH-08` — la regla estaba escrita **once** veces, y media docena mal
+
+«Qué ocupa inventario» estaba escrito **6 veces en SQL y 5 en JavaScript**, y **media docena de las copias
+solo miraba el estado**: `status IN ('hold','pending')`, sin mirar si el plazo ya había vencido. Efecto: una
+retención caducada **seguía ocupando la habitación para siempre** — nada la barría y nadie la miraba.
+
+- Nace `plazoVencido(status, holdExpiresAt)` y, sobre ella, `ocupaInventario(...)`, con `ESTADOS_QUE_OCUPAN`
+  como **lista única**. Se borra la lista local que cada servicio tenía.
+- Las consultas de ocupación (2 en `hotel.service`, 2 en `reservations.service` y 1 en el panel) pasan a
+  `status NOT IN ('hold','pending') OR hold_expires_at IS NULL OR hold_expires_at > now()`.
+- **Y se barre solo**: `@Cron('*/15 * * * *')`, con `try/catch` — un barrido que revienta no puede tumbar el
+  proceso. `@nestjs/schedule` ya era dependencia y `ScheduleModule.forRoot()` ya estaba registrado: el
+  preflight lo comprobó **antes** de escribir (está en `node_modules` y en el compilado).
+
+`expireStale` deja además de filtrar por `payment_status`: ese filtro dejaba fuera **justo un caso** —la
+reserva por transferencia con la señal ya cobrada y el hotel sin confirmar— que no barría nadie y, con la
+regla nueva, tampoco ocupaba. Quedaba en el limbo: invisible, sin poder confirmarse y sin cancelar. Y su
+motivo distingue **qué** se esperaba: «Sin pagar la señal a tiempo» o «El hotel no confirmó dentro de su
+plazo».
+
+**El daño medido antes de tocar nada** (`hold`/`pending` con el plazo vencido):
+
+| reserva | estado | pago | método | señal | venció |
+|---|---|---|---|---|---|
+| `LBH-260913-0005` | `hold` | `pending` | transferencia | 7.800 XAF | **12 días 17 h antes** |
+| `LBH-260917-0005` | `hold` | `pending` | transferencia | 11.100 XAF | 18-sep |
+
+Dos habitaciones bloqueadas por transferencias que nunca llegaron —una desde el 14-sep—: exactamente lo que
+el barrido venía a limpiar.
+
+### 11.5 `LH-02` y `LH-09`
+
+**`LH-02`**: `confirm` pasaba de `hold` a `confirmed` **sin mirar el dinero**. Si el hotel confirmaba sin que
+la señal estuviera pagada, la reserva quedaba en firme con `deposit_xaf` por cobrar y sin nada que la
+retuviera: la habitación bloqueada gratis y el hotel viendo «Confirmada» sin haber cobrado. Ahora `confirm`
+exige `payment_status IN ('deposit_paid','paid')` cuando la señal es mayor que cero, y **en las dos
+puertas** — la app (`action`) y el panel (`updateReservationStatus`, más `confirmDepositForShop`). El daño
+hoy: **11 confirmadas con señal, 0 sin cobrar** → es un agujero **latente**, no una pérdida.
+
+**`LH-09`**: la clave del cerrojo era `lb-hotel:<clave>`. `lockForCommerceOrder` **devuelve el cerrojo
+antiguo** en un reintento —correcto, para no cobrar dos veces— pero si ese cerrojo **ya se había liberado o
+devuelto**, el reintento con la misma clave del cliente recibía un cerrojo **muerto**. Ahora la clave lleva
+un nonce por intento: `lb-hotel:<clave>:<nonce>`. Antes de tocarlo se comprobó que `lb-hotel:` es **interno**:
+ni el servidor, ni la app, ni el móvil leen su valor.
+
+### 11.6 `LH-10` — una liberación fallida ya no se pierde
+
+Antes: si `releaseCommerceOrder` fallaba, quedaba **una línea de `warn`** en un log que se rota. Ni marca ni
+reintento, y el dinero del huésped en garantía para siempre. Ahora:
+
+- al liberar **bien** se escribe `paid_at = COALESCE(paid_at, now())` — la marca de «liquidada»;
+- el `catch` pasa a **`LIQUIDACION_PENDIENTE …`**, greppable, en los dos servicios;
+- nace `reconciliarMonedero(limit = 25)`, **público**, que relee las dos formas de quedar colgado —
+  `paid_at IS NULL AND status IN ('checked_in','no_show')` y
+  `status IN ('cancelled','expired') AND payment_status IN ('deposit_paid','refunded')`— acotado a
+  `updated_at > now() - interval '48 hours'`. Lo llama el propio barrido, y es **idempotente** por
+  `idempotencyKey`: reintentar no mueve un franco de más.
+
+Medido en el servidor: **1 estancia `checked_in` con `paid_at` vacío** (`LBH-260917-0003`, señal 1.000 XAF,
+con `lock=1` y `liberado=1`): el dinero **sí** se liberó, lo que faltaba era la marca. Es justo la reserva
+que la reconciliación recupera sin mover dinero.
+
+**No cubre la causa raíz** — el `ensureProvisioned` del monedero del vendedor vive en `wallet.service` /
+`kyc-gate.service`, compartidos y fuera de esta tanda—: queda anotado, no cerrado.
+
+### 11.7 Las dos mitades que **no** entraban: `LH-12` y `LH-05`
+
+- **`LH-12`**: `images()` hacía `Array.isArray(v) ? v : []` → un cuerpo mal formado se leía como «lista
+  vacía», o sea **«borra las fotos»**, en silencio. Ahora lo que no es lista se **rechaza**
+  (`IMAGE_INVALID`) y **ausente sigue significando «no se toca»**. La otra mitad (los DTO del `controller`)
+  **no entra**: `hotel.controller.ts` no está versionado en el repo.
+- **`LH-05`**: la consulta de métodos del tipo de habitación no llevaba `ORDER BY`, así que **el método que
+  la app preselecciona lo decidía el plan de ejecución** — y podía salir «Monedero» ya marcado, que es justo
+  el que la app todavía no sabe completar. `ORDER BY method` lo hace reproducible (las 3 consultas de
+  métodos ordenan ya; en `A-3` eran 2). La otra mitad —que la app mande `X-Payment-Token`— es del cliente;
+  el servidor **ya lo acepta**, así que el orden servidor-primero / app-después se sostiene.
+
+Y un dato que cierra la duda de `LH-05` por el lado del **dato**, no del código: el método «monedero» está
+**`active` en 3 tiendas** (incluidos `Hotel Demo Malabo` y `Tienda Hotel 079171`). El hotel **sí** lo ofrece;
+lo que falta es el cliente.
+
+### 11.8 La medición que estaba pendiente desde `A-3`: **la escritura SÍ sobrevive**
+
+`LH-07` y `LH-08` solo sirven de algo si `hold_expires_at` llega a escribirse. El `INSERT` la pone a
+`NULL::timestamptz` y una `UPDATE` inmediata la rellena; si el servidor tuviera un build anterior a esa
+`UPDATE`, **todas** las retenciones nacerían sin plazo y los dos hallazgos serían **latentes**, no arreglados.
+
+Medido: **2 retenciones, 2 con plazo, 0 sin plazo** — y las dos ya vencidas. La escritura sobrevive, el
+barrido tiene por dónde barrer, y **el daño es real y visible** (§11.4), no teórico.
+
+### 11.9 La cadena de verificación
+
+| # | Puerta | Qué demostró |
+|---|---|---|
+| 1 | **Auditoría del paquete SIN conectarse** (`_a4-audita-local.sh` + `_a4-audita-local.cjs`) | `bash -n` de las 6 piezas; **0 bytes CR**; los 3 bloques base64 decodifican **a la huella que el guion afirma** y al fichero del repo; la guarda de partida lleva las 3 huellas de `A-3`; **los 17 «esperado» re-medidos** contra el fichero; 2 `UPDATE` y `BEGIN/ROLLBACK`; ni un `rm` |
+| 2 | **Guarda de partida en el servidor** | los 3 ficheros eran **el `A-3` desplegado** (3 de 3) |
+| 3 | **Preflight (lectura)** | 15 columnas, **0 faltan**; la medida del daño de `LH-08`, `LH-02` y `LH-10`; el cron tiene su dependencia; el método «monedero» está `active` en 3 tiendas |
+| 4 | **`tsc` en el servidor** | **`tsc OK`** — si falla, restaura los `.bak` y **no reinicia** |
+| 5 | **Huellas desplegadas** | las 3 **exactamente** las del `A-4`, y `dist/src/` recompilado |
+| 6 | **Las 13 consultas EJECUTADAS** | extraídas del fichero desplegado (no transcritas), con los parámetros por literales, dentro de `BEGIN`/`ROLLBACK`: **13 de 13, 0 errores** |
+| 7 | **Las rutas reales** | `/hotels` y `/search` → **200**; `/reservations/mine`, `/my/hotel`, `/my/day-book` → **401** (existen y piden sesión). Ningún 500 |
+
+`pm2`: **online**, `uptime 2m`, `unstable restarts 0` — el `@Cron` nuevo no rompe el arranque. Y en el log
+de errores solo hay entradas **viejas** (22–23 sep), ninguna de hoy.
+
+### 11.10 Tropezones y trampas nuevas
+
+1. **Un nombre de variable con guion no es una asignación: es un comando.** El guion guardaba la huella de
+   partida en `hotel-merchant_service_ts_AHORA=…` (derivado del nombre del fichero). Bash responde `command
+   not found` y dos líneas después `set -u` mata el guion con `unbound variable`. **`bash -n` lo daba por
+   bueno**: para el parser es una orden bien formada. Se cambió a `A4_ANTES_1/2/3` y la auditoría local
+   ahora **exige que toda asignación sea un identificador válido**.
+   Lo que salvó la ventana: **la guarda iba antes de la primera escritura**, así que abortó sin tocar un
+   byte. Costó **un intento**, no un despliegue a medias.
+2. **`\`` dentro de comillas simples no es un backtick: es backslash + backtick.** Un `grep -cF 'ORDER BY
+   method\`;'` buscaba un backslash que no existe y devolvió **0** — que se lee como «el código desplegado no
+   tiene el arreglo». La comprobación (la 3.ª de este acto, la única con el correcto) dio **3 de 3**. La
+   auditoría ahora prohíbe el patrón: un **0 falso** en una afirmación es un fallo del verificador, no del
+   código.
+3. **Una tabla de otro esquema falla en caliente.** El preflight consultaba `mobility.shops`, que **no
+   existe** (`relation "mobility.shops" does not exist`): las tiendas viven en **`lifebook.shops`**. No rompía
+   nada —el preflight solo lee— pero el dato salía por la mitad. La auditoría ahora avisa de las tablas del
+   preflight que el módulo **no** usa.
+4. **Las rutas de la API llevan prefijo, y el prefijo no es el que parece.** El controlador es
+   `@Controller('v1/lifebook/commerce/hotel')` y nginx lo sirve bajo **`/wallet`**. Con la ruta corta
+   (`/api/lifebook/hotel/…`) la comprobación dio **404** y parecía la app rota. Las cinco rutas reales
+   responden 200/401/200.
+5. **Y una que ahorra ventanas: la web no está racionada, el SSH sí.** Las rutas se comprobaron por **HTTP
+   desde aquí**, sin gastar la puerta. Lo racionado (`fail2ban`) es el SSH; el `curl` no toca ese contador.
+6. **Un guion de despliegue tiene que funcionar al SEGUNDO intento** (recogido en el skill, fallo 52): el
+   sello del respaldo se **reutiliza** (`/tmp/a4-sello.txt`) porque un sello nuevo con `cp -n` respalda el
+   fichero ya parcheado y deja el respaldo bueno a salvo por casualidad; y si la huella no cuadra al
+   escribir, **restaura los tres** y no reinicia en vez de dejar un fichero truncado.
+
+### 11.11 Estado de los hallazgos tras `A-4`
+
+| # | Sev. | Estado |
+|---|---|---|
+| `LH-01` | Crítica | **CERRADA** (`A-3`) |
+| `LH-02` | Alta | **CERRADA** (las dos puertas) |
+| `LH-03` | Alta | abierta — cliente (`lifebook-hotel-calendario.tsx`), §9.6 |
+| `LH-04` | Alta | abierta — servidor (el `Math.max` del `quote()`, §9.4) |
+| `LH-05` | Alta | **mitad cerrada** — servidor (`ORDER BY method`); falta el cliente (`X-Payment-Token`) |
+| `LH-06` | Alta | **CERRADA** (`A-3`) |
+| `LH-07` | Media | **CERRADA** |
+| `LH-08` | Media | **CERRADA** (+ barrido automático cada 15 min) |
+| `LH-09` | Media | **CERRADA** |
+| `LH-10` | Media | **CERRADA** salvo la causa raíz (el `ensureProvisioned` compartido, anotado) |
+| `LH-11` | Baja | **CERRADA** (`A-2`) |
+| `LH-12` | Baja | **mitad cerrada** — servidor (`images()`); falta versionar el `controller` |
+| `LH-13` | nueva | **CERRADA** (`A-3`) |
+| `LH-14` | nueva | **CERRADA** (`A-3`) |
+
+### 11.12 Lo que queda, y qué se espera ver
+
+1. **El barrido de las 08:15** (siguiente tick del cron). Debe cancelar las **2** retenciones de §11.4 con el
+   motivo «Sin pagar la señal a tiempo» y, en la misma pasada, escribir la marca `paid_at` de
+   `LBH-260917-0003`. Queda **por confirmar en el log** (`barrido de hotel: 2 reserva(s) sin pagar liberadas`
+   y, si toca, `… monedero reintentado: 1 liberación(es)`).
+2. **`LH-05` (mitad del cliente)**: la app tiene que mandar `X-Payment-Token` (necesita PIN). El servidor ya
+   lo acepta y el método está `active` en 3 tiendas: el dato está listo, falta el cliente.
+3. **`LH-12` (mitad del `controller`)**: exige **versionar `hotel.controller.ts`**, que es B.
+4. **`LH-10` (causa raíz)**: `wallet.service` / `kyc-gate.service`, fuera del módulo del hotel.
+5. **`LH-04` y `LH-03`**, y **`B`**: versionar el esquema de las 5 tablas y **poder purgar los ejemplos**.
