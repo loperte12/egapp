@@ -434,7 +434,53 @@ alojamiento**, y se descartan los tres accesos hermanos (`机票火车票` vuelo
 **ablandar la guardia**, se extrajo la nota a una variable `const nota = hotel.ratingPublished ? …`.
 La puerta sigue donde estaba, la comprobación sigue midiendo lo mismo y el JSX queda más corto.
 
-### 10.5 Dos trampas que esta pantalla destapa
+### 10.5 Lo medido en el móvil (27-sep, 20:01)
+
+**APK:** `BUILD SUCCESSFUL in 2m 44s` · **116.852.653 B** · sha256
+`de6ac24294c41f8e84f4f0c49aa8298053f7e0132badcd95327118629da69037`.
+
+**Instalación verificada por BYTES** (no por el mensaje): el `base.apk` del dispositivo da el **mismo
+sha256** y los **mismos 116.852.653 B**. Lo que se mide es lo que se compiló.
+
+**Un matiz que no se maquilla:** `firstInstallTime` = `lastUpdateTime` = `2026-09-27 19:55:48` ⇒ fue
+una instalación **fresca**, no una actualización en sitio (en C-1 sí diferían). Aun así **la sesión se
+conservó**: la app abrió directamente en el alojamiento, sin pasar por el acceso.
+
+| Qué | Medido en el píxel |
+|---|---|
+| Panel de búsqueda | destino `y=386-456` · celdas `y=525-649` · CTA `Buscar alojamiento` `y=718-785` |
+| Controles | `Cerca de mí` y `Precio` en `y=936-993` |
+| **Primera tarjeta** | `y=1413` (el nombre, `y=1413-1547`) |
+| Botones «Ver fechas» | **CERO** en el volcado — desaparecieron los cinco de `_c1-01` |
+| Tarjeta | nombre **entero** (`Hotel Demo Malabo ✓`, `Tienda Hotel 079171`), `Paraíso · Malabo`, `7 tipos de habitación`, un precio `25.000 XAF · por noche · desde` |
+| Chip de nota | **no sale** — correcto: `ratingPublished` es falso con 0 reseñas |
+| Hoja de ciudades | `¿Dónde buscas?` con `Malabo`, `Bata`, `Luba`, `Riaba`, `Mbini`, `Corisco`, `San Antonio de Palé`… |
+| Hoja de precio | `Desde (XAF)` · `Hasta (XAF)` · `Aplicar` · la nota de «antes de limpieza y tasas» |
+| Tarjeta → ficha | funciona: abre el alojamiento con `Habitaciones (1)`, horario y formas de pago |
+
+**Y una predicción que se cumplió, medida.** Al tocar `Cerca de mí` **desde Guilin**, la pantalla
+responde, palabra por palabra, lo que §8 y §10.6 anunciaban:
+
+> «No he podido situarte. La ubicación sólo funciona dentro de Guinea Ecuatorial; puedes elegir una
+> ciudad y buscar igual.»
+
+El control **no se queda encendido** mintiendo y la lista no se rompe. Es exactamente el
+comportamiento que `isInsideGq` (`api/locate.ts:18-20`) obliga, y confirma que **«cerca de mí» no se
+puede medir de verdad desde aquí**: sólo su estado deshabilitado.
+
+**Lo que NO se ha medido, y por qué:**
+- **`Cerca de mí` funcionando** (orden por distancia y `a 1,1 km` en la tarjeta): imposible desde China
+  por el bbox del país. Se medirá donde haya posición, o con el origen puesto a mano.
+- **El filtro de precio aplicado** (pulsar `Aplicar` con un rango y ver la lista cambiar): la hoja se
+  abrió y se capturó, pero no se aplicó un rango en esta sesión. El camino contra el servidor ya estaba
+  probado en `/lifebook-hotel-resultados`.
+- **La comparación de altura contra el APK anterior**: la lista empieza en `y≈1413`, pero **no hay una
+  medida del «antes»** con el mismo método, así que no se afirma cuánto se ganó. Lo que sí está medido
+  es lo que hay delante de la primera tarjeta: los controles (`y=936`), el contador de resultados
+  (`y=1067`) y el botón `Ver la lista completa` (`y=1241-1308`) — **ese botón es el candidato evidente
+  a desaparecer** en la próxima pasada, porque la lista ya está justo debajo y se come ~250 px.
+
+### 10.6 Dos trampas que esta pantalla destapa
 
 1. **«Cerca de mí» no se puede probar desde Guilin** (§8): `isInsideGq` devuelve `null` fuera
    del país. Se mide con el origen puesto a mano, o midiendo el estado deshabilitado.
