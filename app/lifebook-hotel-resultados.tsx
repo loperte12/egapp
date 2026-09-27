@@ -19,7 +19,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { alpha, espaciado, FormField, GhostButton, PrimaryButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { HotelResultCard } from '../components/HotelResultCard';
-import { hotelApi, type HotelRoom, type HotelSearchResult } from '../api/hotel';
+import { hotelApi, type HotelSearchResult } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
 import { nightsBetween, xaf } from '../utils/datetime';
 
@@ -121,21 +121,6 @@ export default function HotelResultadosScreen() {
   };
 
   const hayFiltro = aplicado.min !== undefined || aplicado.max !== undefined;
-
-  const abrirHabitacion = (room: HotelRoom, shopId: string, shopName: string) => {
-    router.push({
-      pathname: '/lifebook-hotel-reservar',
-      params: {
-        roomTypeId: room.id,
-        shopId,
-        shopName,
-        ...(checkIn ? { checkIn } : {}),
-        ...(checkOut ? { checkOut } : {}),
-        guests: String(huespedes),
-        units: String(habitaciones),
-      },
-    } as never);
-  };
 
   const hoteles = datos?.hotels ?? [];
 
@@ -320,7 +305,6 @@ export default function HotelResultadosScreen() {
                   units: String(habitaciones),
                 },
               } as never)}
-              onReservar={(room) => abrirHabitacion(room, item.hotel.id, item.hotel.name)}
             />
           )}
         />

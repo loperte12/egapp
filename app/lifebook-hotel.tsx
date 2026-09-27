@@ -1,53 +1,85 @@
 /**
- * lifebook-hotel — BUSCAR ALOJAMIENTO y reservar (módulo hotelero, Parte 42).
+ * lifebook-hotel — BUSCAR ALOJAMIENTO (módulo hotelero).
  *
- * Lo que corrige respecto al boceto que se evaluó:
- *   · **Las fechas se ELIGEN, no se teclean**: calendario de verdad (mes navegable,
- *     precio por noche, días cerrados/llenos no seleccionables y estancia mínima).
- *   · **No hay pasos previos obligatorios**: fechas y huéspedes primero (es lo que
- *     decide el precio), y solo después la habitación. Nada de teclear `2026-07-01`.
- *   · Ruta PLANA con prefijo (`/lifebook-hotel*`), como el resto de Life Book: no
- *     se inventa un grupo `(hotel)` que colisionaría con `/search` y `/results`.
- *   · Área segura reservada (barra propia con `useSafeAreaInsets`), errores visibles
- *     con «Reintentar» (nunca un spinner mudo) y estado de carga por bloque.
+ * ── REESCRITA EL 27-sep-2026 (P1 del plan de UI, `docs/UI-HOTEL-PLAN-MEJORA.md` §10) ──
+ *
+ * QUÉ PASABA. El buscador vivía **dentro del `ListHeaderComponent`** de la propia lista, y estaba
+ * partido en tres bloques con etiquetas —`DÓNDE` / `CUÁNDO` / `QUIÉN Y CUÁNTAS HABITACIONES`—, cada
+ * uno en su marco: dos cajas de fecha, un contador de noches, un aviso, un botón de calendario y dos
+ * contadores más. Medido en el móvil (`_c1-01-arranque.png`): **más de mil píxeles de formulario**
+ * antes de la primera tarjeta. Además la búsqueda se disparaba SOLA al cambiar cualquier criterio
+ * (`useEffect` sobre `buscar`), así que no había un momento en el que el usuario hubiera «buscado».
+ *
+ * QUÉ HACE AHORA. Una sola tarjeta con tres filas y un botón, como la referencia:
+ *   1. **destino** — una hoja con las ciudades reales del país (la API filtra por nombre EXACTO, así
+ *      que un campo de texto libre sólo acierta si se escribe perfecto);
+ *   2. **llegada · salida · noches · habitaciones y huéspedes** — una línea de cuatro celdas, cada
+ *      una con su hoja: los tres primeros trozos abren el calendario, el cuarto abre los contadores;
+ *   3. **un botón**: «Buscar alojamiento».
+ *
+ * Y debajo, la fila de controles con lo que **este servidor sabe hacer de verdad**: `Cerca de mí`
+ * (distancia en línea recta, calculada en el cliente) y `Precio` (`minPrice`/`maxPrice`, que la API
+ * ya aplicaba). **No hay control de ordenación**: `sort` no existe en el DTO de la búsqueda y
+ * responde 400 — un mando que falla es peor que no tenerlo, y queda anotado como pendiente.
+ *
+ * LA LISTA SE QUEDA. La referencia enseña los resultados en la misma pantalla, debajo del buscador;
+ * lo que estaba mal no era tenerla, era el formulario que tenía delante. `/lifebook-hotel-resultados`
+ * sigue existiendo para la vista completa.
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  ActivityIndicator, FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, View,
+  ActivityIndicator, FlatList, Pressable, RefreshControl, StyleSheet, Text, View,
 } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
-import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
+import { alpha, brand, espaciado, peso, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
+import { ChevronDown, Search } from 'lucide-react-native';
 import { HotelResultCard } from '../components/HotelResultCard';
-import { hotelApi, type HotelRoom, type HotelSearchResult } from '../api/hotel';
+import { HotelCitySheet } from '../components/hotel/HotelCitySheet';
+import { HotelGuestsSheet } from '../components/hotel/HotelGuestsSheet';
+import { HotelPriceSheet } from '../components/hotel/HotelPriceSheet';
+import { hotelApi, type HotelSearchResult } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
-import { addDaysIso, nightsBetween, shortDate, todayIso, xaf } from '../utils/datetime';
-
-const CIUDADES = ['Malabo', 'Bata', 'Mongomo', 'Ebebiyín', 'Oyala', 'Annobón'];
-/** El servidor acepta hasta 92 noches por reserva (tope de calendario). */
-const MAX_NOCHES = 92;
+import { getCurrentGqPosition } from '../api/locate';
+import { havKm, type Coord } from '../utils/distancia';
+import { nightsBetween, shortDate } from '../utils/datetime';
 
 export default function LifebookHotelScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   // Se puede llegar con fechas ya elegidas (desde una ficha o desde «mis reservas»).
-  const params = useLocalSearchParams<{ roomTypeId?: string; checkIn?: string; checkOut?: string; city?: string }>();
+  const params = useLocalSearchParams<{ checkIn?: string; checkOut?: string; city?: string }>();
 
-  const hoy = todayIso();
+  // ── criterios de búsqueda ──
   const [ciudad, setCiudad] = useState<string>(params.city ?? '');
   const [checkIn, setCheckIn] = useState<string | null>(params.checkIn ?? null);
   const [checkOut, setCheckOut] = useState<string | null>(params.checkOut ?? null);
   const [huespedes, setHuespedes] = useState(2);
   const [habitaciones, setHabitaciones] = useState(1);
-  const [modo, setModo] = useState<'noches' | 'rango'>('noches');
-  const [nochesPedidas, setNochesPedidas] = useState(1);
+  const [precio, setPrecio] = useState<{ min?: number; max?: number }>({});
+
+  // ── hojas ──
+  const [hojaCiudad, setHojaCiudad] = useState(false);
+  const [hojaQuien, setHojaQuien] = useState(false);
+  const [hojaPrecio, setHojaPrecio] = useState(false);
+
+  // ── «cerca de mí»: la posición se pide SÓLO cuando el usuario lo pide ──
+  const [miPos, setMiPos] = useState<Coord | null>(null);
+  const [cerca, setCerca] = useState(false);
+  const [avisoGps, setAvisoGps] = useState<string | null>(null);
+
+  const [datos, setDatos] = useState<HotelSearchResult | null>(null);
+  const [cargando, setCargando] = useState(true);
+  const [refrescando, setRefrescando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  /** Contador: subirlo es «el usuario ha pulsado Buscar». Es lo que dispara la búsqueda explícita. */
+  const [buscando, setBuscando] = useState(0);
 
   /**
-   * Al volver de la pantalla de fechas (`/lifebook-hotel-fechas`), los parámetros traen
-   * la selección: se sincroniza al recuperar el foco para que el buscador muestre las
-   * fechas elegidas sin recargar nada a mano.
+   * Al volver de la pantalla de fechas (`/lifebook-hotel-fechas`) los parámetros traen la selección:
+   * se sincroniza al recuperar el foco para que el buscador muestre las fechas elegidas y el precio
+   * se recalcule sin tocar nada.
    */
   useFocusEffect(
     useCallback(() => {
@@ -56,15 +88,9 @@ export default function LifebookHotelScreen() {
     }, [params.checkIn, params.checkOut]),
   );
 
-  const [datos, setDatos] = useState<HotelSearchResult | null>(null);
-  const [cargando, setCargando] = useState(false);
-  const [refrescando, setRefrescando] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  // Disponibilidad de la habitación de referencia: da el PRECIO POR NOCHE del
-  // calendario antes de elegir hotel (es lo que hace útil el calendario).
-  // Los precios del calendario se cargan en la pantalla de fechas
-  // (`/lifebook-hotel-fechas`), que es donde vive el calendario.
+  const noches = checkIn && checkOut ? nightsBetween(checkIn, checkOut) : 0;
+  const listo = !!checkIn && !!checkOut && noches > 0;
+  const hayPrecio = precio.min !== undefined || precio.max !== undefined;
 
   const buscar = useCallback(async (silencioso = false) => {
     if (!silencioso) setCargando(true);
@@ -76,6 +102,8 @@ export default function LifebookHotelScreen() {
         checkOut: checkOut ?? undefined,
         guests: huespedes,
         units: habitaciones,
+        minPrice: precio.min,
+        maxPrice: precio.max,
         limit: 20,
       });
       setDatos(out);
@@ -87,69 +115,71 @@ export default function LifebookHotelScreen() {
       setCargando(false);
       setRefrescando(false);
     }
-  }, [ciudad, checkIn, checkOut, huespedes, habitaciones]);
-
-  // Primera búsqueda al entrar (y cuando cambian fechas/habitaciones: el precio
-  // depende de ellas, así que no se deja el resultado viejo en pantalla).
-  useEffect(() => { void buscar(); }, [buscar]);
-
-  // Precio por noche del calendario: se pide la disponibilidad de la habitación más
-  // barata de los resultados (una sola petición para los 92 días).
-  //
-  // ⚠️ ANTES ESTO ESTABA ROTO: se exigía `(r.freeUnits ?? 1) >= habitaciones`, y sin
-  const noches = checkIn && checkOut ? nightsBetween(checkIn, checkOut) : 0;
-  const listo = !!checkIn && !!checkOut && noches > 0;
+  }, [ciudad, checkIn, checkOut, huespedes, habitaciones, precio]);
 
   /**
-   * Contador de días del buscador: solo mueve la SALIDA a partir de la llegada ya elegida
-   * (los mínimos por fecha los aplica la pantalla de fechas, que es la que tiene el
-   * calendario delante).
+   * Cuándo se busca, y por qué así:
+   *   · al entrar (la lista nunca está vacía por defecto, como en la referencia);
+   *   · cuando cambian las FECHAS — el precio depende de ellas, así que volver del calendario
+   *     con una selección nueva tiene que refrescar sola;
+   *   · cuando el usuario PULSA «Buscar alojamiento» (`buscando`).
+   *
+   * Y NO cuando cambia la ciudad o los huéspedes por sí solos: esos criterios se aplican al pulsar.
+   * Eso es justamente lo que devuelve el gesto de buscar al usuario: antes la pantalla se recargaba
+   * sola cada vez que se tocaba un chip y no había forma de saber cuándo había buscado.
    */
-  const ajustarNoches = useCallback((delta: number) => {
-    setNochesPedidas((prev) => {
-      const siguiente = Math.min(MAX_NOCHES, Math.max(1, prev + delta));
-      if (checkIn) setCheckOut(addDaysIso(checkIn, siguiente));
-      return siguiente;
-    });
-  }, [checkIn]);
-
-  // Si las fechas cambian por fuera (al volver de la pantalla de fechas), el contador se
-  // sincroniza con lo elegido.
   useEffect(() => {
-    if (checkIn && checkOut) {
-      const n = nightsBetween(checkIn, checkOut);
-      if (n > 0 && n !== nochesPedidas) setNochesPedidas(n);
-    }
+    void buscar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkIn, checkOut]);
+  }, [checkIn, checkOut, buscando]);
 
-  const abrirHotel = (shopId: string) => {
+  const abrirFechas = () => {
     router.push({
-      pathname: '/lifebook-hotel-detalle',
+      pathname: '/lifebook-hotel-fechas',
       params: {
-        id: shopId,
+        ...(ciudad ? { city: ciudad } : {}),
         ...(checkIn ? { checkIn } : {}),
         ...(checkOut ? { checkOut } : {}),
         guests: String(huespedes),
         units: String(habitaciones),
+        modo: 'noches',
       },
     } as never);
   };
 
-  const abrirHabitacion = (room: HotelRoom, shopId: string, shopName: string) => {
-    router.push({
-      pathname: '/lifebook-hotel-reservar',
-      params: {
-        roomTypeId: room.id,
-        shopId,
-        shopName,
-        ...(checkIn ? { checkIn } : {}),
-        ...(checkOut ? { checkOut } : {}),
-        guests: String(huespedes),
-        units: String(habitaciones),
-      },
-    } as never);
+  /**
+   * «Cerca de mí». El GPS del proyecto sólo devuelve posición **dentro de Guinea Ecuatorial**
+   * (`api/locate.ts`): fuera del país, o sin permiso, devuelve `null` — es una regla de negocio, no
+   * un fallo. Cuando eso pasa se dice por qué y no se deja el control encendido mintiendo.
+   */
+  const alternarCerca = async () => {
+    setAvisoGps(null);
+    if (cerca) { setCerca(false); return; }
+    const pos = await getCurrentGqPosition();
+    if (!pos) {
+      setAvisoGps('No he podido situarte. La ubicación sólo funciona dentro de Guinea Ecuatorial; puedes elegir una ciudad y buscar igual.');
+      return;
+    }
+    setMiPos(pos);
+    setCerca(true);
   };
+
+  /**
+   * La lista que se pinta: con distancia si se sabe, y ordenada por cercanía cuando «Cerca de mí»
+   * está encendido. El orden se hace sobre la página recibida —ordenar en el servidor exige `sort`,
+   * que no existe— y por eso el control sólo promete «lo más cerca de esta página».
+   */
+  const filas = useMemo(() => {
+    const hoteles = datos?.hotels ?? [];
+    const conKm = hoteles.map((h) => {
+      const km = miPos && h.hotel.lat != null && h.hotel.lng != null
+        ? havKm(miPos, [h.hotel.lng, h.hotel.lat])
+        : null;
+      return { h, km };
+    });
+    if (cerca) conKm.sort((a, b) => (a.km ?? Infinity) - (b.km ?? Infinity));
+    return conKm;
+  }, [datos, miPos, cerca]);
 
   return (
     <View style={[styles.screen, { backgroundColor: colors.background }]}>
@@ -166,7 +196,7 @@ export default function LifebookHotelScreen() {
         <View style={{ flex: 1 }}>
           <Text style={[styles.titulo, { color: colors.textPrimary }]}>Alojamiento</Text>
           <Text style={[styles.sub, { color: colors.textSecondary }]}>
-            Reserva por noches · señal y pago al llegar
+            {ciudad ? `En ${ciudad}` : 'Guinea Ecuatorial'}
           </Text>
         </View>
         <Pressable
@@ -177,18 +207,11 @@ export default function LifebookHotelScreen() {
         >
           <Text style={[styles.misReservasTxt, { color: colors.text.primary }]}>Mis reservas</Text>
         </Pressable>
-        {/*
-          AQUÍ ESTABA EL BOTÓN «MI HOTEL» (el panel del hotelero) Y SE HA QUITADO.
-          Esta pantalla es la del HUÉSPED: quien busca alojamiento. Meter aquí la puerta del
-          comerciante mezclaba los dos papeles —el que reserva y el que recibe— en el mismo
-          sitio, y el hotelero no tenía un acceso PROPIO, lo encontraba de casualidad dentro
-          del buscador. Su acceso vive ahora en su cuenta: Perfil → «Tu comercio».
-        */}
       </View>
 
       <FlatList
-        data={datos?.hotels ?? []}
-        keyExtractor={(item) => item.hotel.id}
+        data={filas}
+        keyExtractor={(item) => item.h.hotel.id}
         contentContainerStyle={{ padding: espaciado.e14, paddingBottom: insets.bottom + 28, gap: espaciado.e12 }}
         refreshControl={
           <RefreshControl
@@ -199,137 +222,136 @@ export default function LifebookHotelScreen() {
         }
         ListHeaderComponent={
           <View style={{ gap: espaciado.e12 }}>
-            {/* ── Dónde ── */}
-            <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
-              <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>DÓNDE</Text>
-              <TextInput
-                value={ciudad}
-                onChangeText={setCiudad}
-                placeholder="Ciudad (Malabo, Bata…)"
-                placeholderTextColor={colors.textSecondary}
-                style={[styles.input, { color: colors.textPrimary, borderColor: colors.border, backgroundColor: colors.surface }]}
-                accessibilityLabel="Ciudad"
-                returnKeyType="search"
-                onSubmitEditing={() => void buscar()}
-              />
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e8, paddingTop: espaciado.e8 }}>
-                <Chip activo={ciudad === ''} texto="Todas" onPress={() => setCiudad('')} />
-                {CIUDADES.map((c) => (
-                  <Chip key={c} activo={ciudad === c} texto={c} onPress={() => setCiudad(c)} />
-                ))}
-              </ScrollView>
+
+            {/* ─────────── EL BUSCADOR: una tarjeta, tres filas, un botón ─────────── */}
+            <View style={[styles.panel, { borderColor: colors.border, backgroundColor: colors.card }]}>
+
+              {/* fila 1 · destino */}
+              <Pressable
+                onPress={() => setHojaCiudad(true)}
+                accessibilityRole="button"
+                accessibilityLabel={`Destino: ${ciudad || 'todas las ciudades'}. Toca para cambiar`}
+                style={[styles.filaDestino, { borderBottomColor: colors.border }]}
+              >
+                <Search size={17} color={colors.textSecondary} />
+                <Text style={[styles.destino, { color: colors.textPrimary }]} numberOfLines={1}>
+                  {ciudad || 'Todas las ciudades'}
+                </Text>
+                <ChevronDown size={17} color={colors.textSecondary} />
+              </Pressable>
+
+              {/* fila 2 · cuándo y cuántos, en una línea de cuatro celdas */}
+              <View style={styles.celdas}>
+                <Pressable
+                  onPress={abrirFechas}
+                  accessibilityRole="button"
+                  accessibilityLabel={checkIn ? `Llegada ${shortDate(checkIn, true)}. Toca para cambiar` : 'Elegir la fecha de llegada'}
+                  style={styles.celda}
+                >
+                  <Text style={[styles.celdaEtq, { color: colors.textSecondary }]}>Llegada</Text>
+                  <Text style={[styles.celdaVal, { color: colors.textPrimary }]}>
+                    {checkIn ? shortDate(checkIn) : '—'}
+                  </Text>
+                </Pressable>
+
+                <Pressable
+                  onPress={abrirFechas}
+                  accessibilityRole="button"
+                  accessibilityLabel={checkOut ? `Salida ${shortDate(checkOut, true)}. Toca para cambiar` : 'Elegir la fecha de salida'}
+                  style={[styles.celda, { borderLeftWidth: trazo.fino, borderLeftColor: colors.border }]}
+                >
+                  <Text style={[styles.celdaEtq, { color: colors.textSecondary }]}>Salida</Text>
+                  <Text style={[styles.celdaVal, { color: colors.textPrimary }]}>
+                    {checkOut ? shortDate(checkOut) : '—'}
+                  </Text>
+                </Pressable>
+
+                <Pressable
+                  onPress={abrirFechas}
+                  accessibilityRole="button"
+                  accessibilityLabel={noches > 0 ? `${noches} noche(s). Toca para cambiar` : 'Elegir cuántas noches'}
+                  style={[styles.celda, { borderLeftWidth: trazo.fino, borderLeftColor: colors.border }]}
+                >
+                  <Text style={[styles.celdaEtq, { color: colors.textSecondary }]}>Noches</Text>
+                  <Text style={[styles.celdaVal, { color: colors.textPrimary }]}>{noches > 0 ? noches : '—'}</Text>
+                </Pressable>
+
+                <Pressable
+                  onPress={() => setHojaQuien(true)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${habitaciones} habitación(es), ${huespedes} huésped(es). Toca para cambiar`}
+                  style={[styles.celda, { borderLeftWidth: trazo.fino, borderLeftColor: colors.border }]}
+                >
+                  <Text style={[styles.celdaEtq, { color: colors.textSecondary }]}>Hab · huésp</Text>
+                  <Text style={[styles.celdaVal, { color: colors.textPrimary }]}>
+                    {habitaciones} · {huespedes}
+                  </Text>
+                </Pressable>
+              </View>
+
+              {/* fila 3 · el botón */}
+              <View style={styles.ctaCaja}>
+                <Pressable
+                  onPress={() => setBuscando((n) => n + 1)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Buscar alojamiento"
+                  style={({ pressed }) => [styles.cta, {
+                    backgroundColor: colors.primary, opacity: pressed ? 0.85 : 1,
+                  }]}
+                >
+                  <Text style={styles.ctaTxt}>Buscar alojamiento</Text>
+                </Pressable>
+              </View>
             </View>
 
-            {/* ── Cuándo: resumen + puerta a la pantalla de fechas ── */}
-            <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
-              <View style={styles.filaCabecera}>
-                <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>CUÁNDO</Text>
-              </View>
-
-              <View style={styles.fechas}>
-                <View style={[styles.fechaCaja, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-                  <Text style={[styles.fechaEtq, { color: colors.textSecondary }]}>Entrada</Text>
-                  <Text style={[styles.fechaVal, { color: colors.textPrimary }]}>
-                    {checkIn ? shortDate(checkIn, true) : '—'}
-                  </Text>
-                </View>
-                <View style={[styles.fechaCaja, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-                  <Text style={[styles.fechaEtq, { color: colors.textSecondary }]}>Salida</Text>
-                  <Text style={[styles.fechaVal, { color: colors.textPrimary }]}>
-                    {checkOut ? shortDate(checkOut, true) : '—'}
-                  </Text>
-                </View>
-              </View>
-
-              {/* El contador de DÍAS: antes la estancia solo se podía fijar con dos toques
-                  en el calendario y no había forma de decir «3 noches» de una vez. */}
-              <View style={styles.diasFila}>
-                <Text style={[styles.diasEtq, { color: colors.textPrimary }]}>
-                  {nochesPedidas === 1 ? '1 noche' : `${nochesPedidas} noches`}
-                  <Text style={{ color: colors.textSecondary }}>
-                    {checkIn ? ` · ${shortDate(checkIn)} → ${shortDate(addDaysIso(checkIn, nochesPedidas))}` : ''}
-                  </Text>
-                </Text>
-                <View style={styles.diasBtns}>
-                  <Pressable
-                    onPress={() => ajustarNoches(-1)}
-                    disabled={nochesPedidas <= 1}
-                    accessibilityRole="button"
-                    accessibilityLabel="Quitar una noche"
-                    accessibilityState={{ disabled: nochesPedidas <= 1 }}
-                    style={[styles.diasBtn, {
-                      borderColor: colors.border, backgroundColor: colors.surface,
-                      opacity: nochesPedidas <= 1 ? 0.35 : 1,
-                    }]}
-                  >
-                    <Text style={[styles.diasBtnTxt, { color: colors.textPrimary }]}>−</Text>
-                  </Pressable>
-                  <Text style={[styles.diasVal, { color: colors.textPrimary }]}>{nochesPedidas}</Text>
-                  <Pressable
-                    onPress={() => ajustarNoches(1)}
-                    disabled={nochesPedidas >= MAX_NOCHES}
-                    accessibilityRole="button"
-                    accessibilityLabel="Añadir una noche"
-                    accessibilityState={{ disabled: nochesPedidas >= MAX_NOCHES }}
-                    style={[styles.diasBtn, {
-                      borderColor: colors.border, backgroundColor: colors.surface,
-                      opacity: nochesPedidas >= MAX_NOCHES ? 0.35 : 1,
-                    }]}
-                  >
-                    <Text style={[styles.diasBtnTxt, { color: colors.textPrimary }]}>+</Text>
-                  </Pressable>
-                </View>
-              </View>
-              {!checkIn ? (
-                <Text style={[styles.aviso, { color: colors.textSecondary }]}>
-                  Elige el día de llegada en el calendario (abajo).
-                </Text>
-              ) : null}
-
-              {/* El calendario YA NO se mete aquí: con el contador de días y todo lo de
-                  arriba, la rejilla caía por debajo de la barra del sistema y **los días
-                  no se podían tocar** (medido: celdas hasta y≈2260). Ahora se elige en su
-                  propia pantalla, con el calendario a pantalla completa. */}
+            {/* ─────────── CONTROLES: sólo lo que el servidor sabe hacer ─────────── */}
+            <View style={styles.filtros}>
               <Pressable
-                onPress={() => router.push({
-                  pathname: '/lifebook-hotel-fechas',
-                  params: {
-                    ...(ciudad ? { city: ciudad } : {}),
-                    ...(checkIn ? { checkIn } : {}),
-                    ...(checkOut ? { checkOut } : {}),
-                    guests: String(huespedes),
-                    units: String(habitaciones),
-                    modo,
-                  },
-                } as never)}
+                onPress={() => void alternarCerca()}
                 accessibilityRole="button"
-                accessibilityLabel={checkIn && checkOut
-                  ? `Cambiar las fechas. Ahora: ${shortDate(checkIn, true)} a ${shortDate(checkOut, true)}`
-                  : 'Elegir las fechas de la estancia'}
-                style={[styles.elegirFechas, { borderColor: colors.primary, backgroundColor: alpha(colors.primary, 0.06) }]}
+                accessibilityState={{ selected: cerca }}
+                accessibilityLabel={cerca ? 'Dejar de ordenar por cercanía' : 'Ordenar por cercanía a mí'}
+                style={[styles.chip, {
+                  borderColor: cerca ? colors.primary : colors.border,
+                  backgroundColor: cerca ? alpha(colors.primary, 0.12) : colors.surface,
+                }]}
               >
-                <Text style={[styles.elegirFechasTxt, { color: colors.text.primary }]}>
-                  {checkIn && checkOut
-                    ? `Cambiar fechas · ${shortDate(checkIn, true)} → ${shortDate(checkOut, true)}`
-                    : 'Elegir las fechas y los días'}
+                <Text style={[styles.chipTxt, { color: colors.textPrimary }]}>Cerca de mí</Text>
+              </Pressable>
+
+              <Pressable
+                onPress={() => setHojaPrecio(true)}
+                accessibilityRole="button"
+                accessibilityLabel={hayPrecio ? 'Cambiar el filtro de precio' : 'Filtrar por precio'}
+                style={[styles.chip, {
+                  borderColor: hayPrecio ? colors.primary : colors.border,
+                  backgroundColor: hayPrecio ? alpha(colors.primary, 0.12) : colors.surface,
+                }]}
+              >
+                <Text style={[styles.chipTxt, { color: colors.textPrimary }]}>
+                  {hayPrecio ? 'Precio puesto' : 'Precio'}
                 </Text>
               </Pressable>
+
+              {hayPrecio ? (
+                <Pressable
+                  onPress={() => { setPrecio({}); setBuscando((n) => n + 1); }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Quitar el filtro de precio"
+                  style={[styles.chip, { borderColor: colors.border, backgroundColor: colors.surface }]}
+                >
+                  <Text style={[styles.chipTxt, { color: colors.textSecondary }]}>Quitar</Text>
+                </Pressable>
+              ) : null}
+
+              <Text style={[styles.porNoche, { color: colors.textSecondary }]}>por noche</Text>
             </View>
 
-            {/* ── Quién viaja ── */}
-            <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
-              <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>QUIÉN Y CUÁNTAS HABITACIONES</Text>
-              <Contador
-                etiqueta="Huéspedes" valor={huespedes} min={1} max={20}
-                onCambio={setHuespedes}
-              />
-              <Contador
-                etiqueta="Habitaciones" valor={habitaciones} min={1} max={10}
-                onCambio={setHabitaciones}
-              />
-            </View>
+            {avisoGps ? (
+              <Text style={[styles.aviso, { color: colors.text.secondary }]}>{avisoGps}</Text>
+            ) : null}
 
-            {/* ── Estado de la búsqueda ── */}
+            {/* ─────────── Estado de la búsqueda ─────────── */}
             {cargando ? (
               <View style={styles.centro}>
                 <ActivityIndicator color={colors.text.primary} />
@@ -342,10 +364,10 @@ export default function LifebookHotelScreen() {
                   <Text style={[styles.enlace, { color: colors.text.primary }]}>Reintentar</Text>
                 </Pressable>
               </View>
-            ) : listo && (datos?.hotels.length ?? 0) === 0 ? (
+            ) : (datos?.hotels.length ?? 0) === 0 ? (
               <View style={[styles.error, { borderColor: colors.border, backgroundColor: colors.surface }]}>
                 <Text style={[styles.aviso, { color: colors.textPrimary }]}>
-                  No hay alojamiento disponible con esos datos.
+                  No hay alojamiento con esos datos.
                 </Text>
                 <Text style={[styles.aviso, { color: colors.textSecondary }]}>
                   Prueba otras fechas, otra ciudad o menos habitaciones. Los hoteles sin hueco sí
@@ -355,33 +377,29 @@ export default function LifebookHotelScreen() {
             ) : (
               <View style={{ gap: espaciado.e8 }}>
                 <Text style={[styles.aviso, { color: colors.textSecondary }]}>
-                  {datos?.hotels.length
-                    ? listo
-                      ? `${datos.hotels.length} alojamiento(s) para ${noches} noche(s) · ${huespedes} huésped(es)`
-                      : `${datos.hotels.length} alojamiento(s) en ${datos.city || 'Guinea Ecuatorial'} · elige fechas para ver el precio`
-                    : 'Elige fechas y pulsa buscar.'}
+                  {filas.length} alojamiento(s)
+                  {listo ? ` para ${noches} noche(s) · ${huespedes} huésped(es)` : ' · elige fechas para ver el precio de la estancia'}
+                  {hayPrecio ? ' · con el precio puesto' : ''}
                 </Text>
-                {(datos?.hotels.length ?? 0) > 0 ? (
-                  <Pressable
-                    onPress={() => router.push({
-                      pathname: '/lifebook-hotel-resultados',
-                      params: {
-                        ...(ciudad ? { city: ciudad } : {}),
-                        ...(checkIn ? { checkIn } : {}),
-                        ...(checkOut ? { checkOut } : {}),
-                        guests: String(huespedes),
-                        units: String(habitaciones),
-                      },
-                    } as never)}
-                    accessibilityRole="button"
-                    accessibilityLabel="Ver todos los resultados"
-                    style={[styles.verTodos, { borderColor: colors.primary }]}
-                  >
-                    <Text style={[styles.verTodosTxt, { color: colors.text.primary }]}>
-                      Ver la lista de resultados
-                    </Text>
-                  </Pressable>
-                ) : null}
+                <Pressable
+                  onPress={() => router.push({
+                    pathname: '/lifebook-hotel-resultados',
+                    params: {
+                      ...(ciudad ? { city: ciudad } : {}),
+                      ...(checkIn ? { checkIn } : {}),
+                      ...(checkOut ? { checkOut } : {}),
+                      guests: String(huespedes),
+                      units: String(habitaciones),
+                    },
+                  } as never)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Ver la lista completa de resultados"
+                  style={[styles.verTodos, { borderColor: colors.primary }]}
+                >
+                  <Text style={[styles.verTodosTxt, { color: colors.text.primary }]}>
+                    Ver la lista completa
+                  </Text>
+                </Pressable>
               </View>
             )}
           </View>
@@ -389,84 +407,52 @@ export default function LifebookHotelScreen() {
         ListEmptyComponent={null}
         renderItem={({ item }) => (
           <HotelResultCard
-            datos={item}
+            datos={item.h}
             habitaciones={habitaciones}
             listo={listo}
-            onAbrir={() => abrirHotel(item.hotel.id)}
-            onReservar={(room) => abrirHabitacion(room, item.hotel.id, item.hotel.name)}
+            distanciaKm={item.km}
+            onAbrir={() => router.push({
+              pathname: '/lifebook-hotel-detalle',
+              params: {
+                id: item.h.hotel.id,
+                ...(checkIn ? { checkIn } : {}),
+                ...(checkOut ? { checkOut } : {}),
+                guests: String(huespedes),
+                units: String(habitaciones),
+              },
+            } as never)}
           />
         )}
       />
-    </View>
-  );
-}
 
-// ─────────────────────────── piezas de la pantalla ──────────────────────────
-
-function Chip({ activo, texto, onPress }: { activo: boolean; texto: string; onPress: () => void }) {
-  const { colors } = useTheme();
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityState={{ selected: activo }}
-      accessibilityLabel={texto}
-      style={[styles.chip, {
-        borderColor: activo ? colors.primary : colors.border,
-        backgroundColor: activo ? alpha(colors.primary, 0.1) : colors.surface,
-      }]}
-    >
-      <Text style={[styles.chipTxt, { color: activo ? colors.text.primary : colors.textSecondary }]}>{texto}</Text>
-    </Pressable>
-  );
-}
-
-function Contador({
-  etiqueta, valor, min, max, onCambio,
-}: { etiqueta: string; valor: number; min: number; max: number; onCambio: (v: number) => void }) {
-  const { colors } = useTheme();
-  const boton = (texto: string, delta: number, deshabilitado: boolean) => (
-    <Pressable
-      onPress={() => !deshabilitado && onCambio(Math.min(max, Math.max(min, valor + delta)))}
-      disabled={deshabilitado}
-      accessibilityRole="button"
-      accessibilityLabel={`${delta > 0 ? 'Añadir' : 'Quitar'} ${etiqueta}`}
-      accessibilityState={{ disabled: deshabilitado }}
-      style={[styles.contBtn, {
-        borderColor: colors.border, opacity: deshabilitado ? 0.35 : 1, backgroundColor: colors.surface,
-      }]}
-    >
-      <Text style={[styles.contBtnTxt, { color: colors.textPrimary }]}>{texto}</Text>
-    </Pressable>
-  );
-  return (
-    <View style={styles.contFila}>
-      <Text style={[styles.contEtq, { color: colors.textPrimary }]}>{etiqueta}</Text>
-      <View style={styles.contAcciones}>
-        {boton('−', -1, valor <= min)}
-        <Text style={[styles.contVal, { color: colors.textPrimary }]}>{valor}</Text>
-        {boton('+', 1, valor >= max)}
-      </View>
+      <HotelCitySheet
+        visible={hojaCiudad}
+        onClose={() => setHojaCiudad(false)}
+        ciudad={ciudad}
+        onElegir={setCiudad}
+      />
+      <HotelGuestsSheet
+        visible={hojaQuien}
+        onClose={() => setHojaQuien(false)}
+        huespedes={huespedes}
+        habitaciones={habitaciones}
+        onHuespedes={setHuespedes}
+        onHabitaciones={setHabitaciones}
+      />
+      <HotelPriceSheet
+        visible={hojaPrecio}
+        onClose={() => setHojaPrecio(false)}
+        min={precio.min}
+        max={precio.max}
+        onAplicar={(min, max) => { setPrecio({ min, max }); setBuscando((n) => n + 1); }}
+        onQuitar={() => { setPrecio({}); setBuscando((n) => n + 1); }}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  // Selector de modo (llegada + días · entrada y salida) y contador de noches.
-  modoBtn: { flex: 1, borderWidth: trazo.fino, borderRadius: radios.md, paddingVertical: espaciado.e8, alignItems: 'center' },
-  modoTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
-  elegirFechas: { marginTop: espaciado.e10, borderWidth: trazo.fino, borderRadius: radios.md, paddingVertical: espaciado.e11, alignItems: 'center' },
-  elegirFechasTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
-  diasFila: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    gap: espaciado.e10, marginTop: espaciado.e10,
-  },
-  diasEtq: { fontSize: tipografia.body, fontWeight: peso.fuerte, flex: 1 },
-  diasBtns: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
-  diasBtn: { width: 36, height: 36, borderWidth: trazo.fino, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center' },
-  diasBtnTxt: { fontSize: tipografia.cifra, fontWeight: peso.maximo, lineHeight: 21 },
-  diasVal: { fontSize: tipografia.subtitle, fontWeight: peso.maximo, minWidth: 24, textAlign: 'center' },
   barra: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
     paddingHorizontal: espaciado.e14, paddingBottom: espaciado.e10, borderBottomWidth: trazo.fino,
@@ -477,40 +463,36 @@ const styles = StyleSheet.create({
   sub: { fontSize: tipografia.caption },
   misReservas: { borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e7 },
   misReservasTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
+
+  // El buscador: una sola pieza con borde, y dentro las tres filas.
+  panel: { borderWidth: trazo.fino, borderRadius: radios.lg, overflow: 'hidden' },
+  filaDestino: {
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e8,
+    paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e12, borderBottomWidth: trazo.fino,
+  },
+  destino: { flex: 1, fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
+  celdas: { flexDirection: 'row', alignItems: 'stretch', paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e10 },
+  celda: { flex: 1, minWidth: 0, paddingHorizontal: espaciado.e2 },
+  celdaEtq: { fontSize: tipografia.micro, fontWeight: peso.medio },
+  celdaVal: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e2 },
+  ctaCaja: { paddingHorizontal: espaciado.e12, paddingBottom: espaciado.e12 },
+  cta: { borderRadius: radios.md, paddingVertical: espaciado.e13, alignItems: 'center' },
+  ctaTxt: { color: brand.white, fontSize: tipografia.body, fontWeight: peso.maximo },
+
+  // Controles: cerca y precio. Sin orden, porque el servidor no la admite.
+  filtros: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
+  chip: {
+    borderWidth: trazo.fino, borderRadius: radios.full, paddingHorizontal: espaciado.e13,
+    minHeight: 44, justifyContent: 'center',
+  },
+  chipTxt: { fontSize: tipografia.caption, fontWeight: peso.maximo },
+  porNoche: { fontSize: tipografia.caption, marginLeft: 'auto' },
+
+  aviso: { fontSize: tipografia.caption, lineHeight: 18 },
+  enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   verTodos: { borderWidth: trazo.fino, borderRadius: radios.md, paddingVertical: espaciado.e9, alignItems: 'center' },
   verTodosTxt: { fontSize: tipografia.body, fontWeight: peso.maximo },
-  bloque: { borderWidth: trazo.fino, borderRadius: radios.lg, padding: espaciado.e12, gap: espaciado.e2 },
-  filaCabecera: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  etiqueta: { fontSize: tipografia.micro, fontWeight: peso.maximo, letterSpacing: 0.6 },
-  enlace: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
-  input: { borderWidth: trazo.fino, borderRadius: radios.md, paddingHorizontal: espaciado.e12, height: altura.punto, fontSize: tipografia.fino, marginTop: espaciado.e6 },
-  fechas: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e8 },
-  fechaCaja: { flex: 1, borderWidth: trazo.fino, borderRadius: radios.md, padding: espaciado.e9 },
-  fechaEtq: { fontSize: tipografia.micro, fontWeight: peso.medio },
-  fechaVal: { fontSize: tipografia.body, fontWeight: peso.maximo, marginTop: espaciado.e2 },
-  chip: { borderWidth: trazo.fino, borderRadius: radios.tarjeta, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e6 },
-  chipTxt: { fontSize: tipografia.caption, fontWeight: peso.medio },
-  contFila: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: espaciado.e8 },
-  contEtq: { fontSize: tipografia.body, fontWeight: peso.medio },
-  contAcciones: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e10 },
-  contBtn: { width: 34, height: 34, borderWidth: trazo.fino, borderRadius: radios.chip, alignItems: 'center', justifyContent: 'center' },
-  contBtnTxt: { fontSize: tipografia.cabecera, fontWeight: peso.maximo, lineHeight: 20 },
-  contVal: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo, minWidth: 22, textAlign: 'center' },
   centro: { alignItems: 'center', gap: espaciado.e8, paddingVertical: espaciado.e18 },
-  aviso: { fontSize: tipografia.caption },
   error: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12, gap: espaciado.e6 },
   errorTxt: { fontSize: tipografia.body, fontWeight: peso.medio },
-  tarjeta: { borderWidth: trazo.fino, borderRadius: radios.panel, padding: espaciado.e12 },
-  tarjetaCab: { flexDirection: 'row', gap: espaciado.e10 },
-  tarjetaTitulo: { fontSize: tipografia.ancho, fontWeight: peso.maximo },
-  tarjetaSub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
-  precio: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
-  precioSub: { fontSize: tipografia.micro },
-  habitacion: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e10, flexDirection: 'row', gap: espaciado.e10, alignItems: 'center' },
-  habNombre: { fontSize: tipografia.body, fontWeight: peso.maximo },
-  habDatos: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
-  habTotal: { fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 },
-  habLibre: { fontSize: tipografia.micro, fontWeight: peso.fuerte },
-  reservarBtn: { borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
-  reservarTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo },
 });

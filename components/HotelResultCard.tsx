@@ -1,27 +1,33 @@
 /**
- * HotelResultCard — LA TARJETA DE UN ALOJAMIENTO EN LOS RESULTADOS.
+ * HotelResultCard — LA TARJETA DE UN ALOJAMIENTO EN LA LISTA.
  *
- * Vive aparte porque la usan DOS pantallas: el buscador (`/lifebook-hotel`, que lleva
- * el calendario y los filtros) y los resultados (`/lifebook-hotel-resultados`). Antes
- * cada pantalla habría tenido su propia tarjeta, y ya sabemos cómo acaba eso: dos
- * formas de lo mismo que se desincronizan.
+ * Vive aparte porque la usan DOS pantallas: el buscador (`/lifebook-hotel`) y los resultados
+ * (`/lifebook-hotel-resultados`). Una sola forma de pintar un resultado, no dos.
  *
- * Lo que enseña, y por qué:
- *   · por habitación, **el TOTAL de la estancia** y el reparto **«ahora + al llegar»**
- *     (es la mitad del producto: el pago parcial);
- *   · cuántas quedan libres para ESAS fechas y el número de habitaciones pedido — y si
- *     no hay hueco lo dice («lleno»), en vez de desaparecer;
- *   · la estancia mínima, que es la causa número uno de un rechazo al reservar;
- *   · los importes llegan SIEMPRE calculados del servidor (aquí no se hace aritmética
- *     de dinero, solo se pinta).
+ * ── LO QUE CAMBIÓ EL 27-sep-2026 (P1 del plan de UI, `docs/UI-HOTEL-PLAN-MEJORA.md` §10) ──
+ *
+ * ANTES: dentro de cada tarjeta iban las habitaciones, cada una con su precio, su disponibilidad y
+ * **su propio botón azul**. Medido en el móvil (`_c1-01-arranque.png`): **cinco botones «Ver fechas»
+ * para dos hoteles**, y el nombre del alojamiento recortado porque el bloque de precio le comía el
+ * ancho. La lista se leía como un formulario, no como una lista.
+ *
+ * AHORA: la tarjeta enseña el ALOJAMIENTO —foto grande, nombre entero, dónde está, la nota si el
+ * servidor la publica y el precio desde— y resume las habitaciones a **una línea de texto**
+ * («3 tipos · 2 libres ahora»). Se toca la tarjeta y las habitaciones se eligen en la ficha, que es
+ * donde vive la decisión. Es lo que hace la referencia.
+ *
+ * La información no se pierde: se conserva la ventaja de este producto frente a Meituan —poder ver
+ * que hay habitaciones y cuántas quedan libres sin abrir la ficha— en una línea en vez de en cinco.
+ *
+ * Los importes siguen llegando **calculados del servidor**: aquí no se hace aritmética de dinero.
  */
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { alpha, brand, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import type { HotelRoom, HotelSearchResult } from '../api/hotel';
-import { xaf } from '../utils/datetime';
-import { LazyImage } from './rental/LazyImage';
 import { absUrl } from '../api/config';
+import { etiquetaDistancia } from '../utils/distancia';
+import { LazyImage } from './rental/LazyImage';
 
 /** Primera foto disponible de una habitación o del hotel (el servidor valida al publicar). */
 function fotoDe(room?: HotelRoom | null): string | null {
@@ -34,159 +40,120 @@ export function HotelResultCard({
   datos,
   habitaciones,
   listo,
+  distanciaKm,
   onAbrir,
-  onReservar,
 }: {
   datos: HotelSearchResult['hotels'][number];
-  /** Habitaciones que quiere el huésped (para exigir disponibilidad suficiente). */
+  /** Habitaciones que quiere el huésped (para saber cuántas quedan libres). */
   habitaciones: number;
-  /** ¿Ya hay fechas elegidas? Sin ellas se enseña el precio por noche, no el total. */
+  /** ¿Ya hay fechas elegidas? Sin ellas no se puede afirmar disponibilidad. */
   listo: boolean;
+  /** Distancia en línea recta al huésped, si se sabe. `null`/ausente = no se pinta. */
+  distanciaKm?: number | null;
   onAbrir: () => void;
-  onReservar: (room: HotelRoom) => void;
 }) {
   const { colors } = useTheme();
   const { hotel, rooms, fromPricePerNightXaf, soldOut } = datos;
-  const mejores = rooms.slice(0, 3);
   // Portada del hotel si la tiene; si no, la primera foto de su habitación más barata.
-  const portada = absUrl(hotel.coverUrl) || fotoDe(mejores[0]);
+  const portada = absUrl(hotel.coverUrl) || fotoDe(rooms[0]);
+
+  const nTipos = rooms.length;
+  const libres = rooms.filter((r) => (r.freeUnits ?? 0) >= habitaciones).length;
+  const distancia = typeof distanciaKm === 'number' ? etiquetaDistancia(distanciaKm) : '';
+
+  /**
+   * LA CIFRA, SOLO SI EL SERVIDOR DICE QUE SE PUBLICA (C-1 · [D-K]).
+   *
+   * La condición es `ratingPublished` y **no el valor**: el umbral de reseñas es del servidor y no se
+   * copia aquí. Con dos reseñas la media existe pero no se publica, y un «★ 3,0 (1)» de una sola
+   * estancia decide peor que no decir nada.
+   *
+   * Va en una variable —y no como ternario dentro del JSX— porque así la condición y la cifra se
+   * leen juntas en el mismo sitio, que es como la guardia de C-1 (`pruebas/c1-verifica-app.cjs`)
+   * comprueba que la puerta sigue puesta.
+   */
+  const nota = hotel.ratingPublished
+    ? `★ ${Number(hotel.rating).toFixed(1).replace('.', ',')} (${hotel.ratingCount})`
+    : null;
 
   return (
-    <View style={[styles.tarjeta, { borderColor: colors.border, backgroundColor: colors.card }]}>
-      <Pressable onPress={onAbrir} accessibilityRole="button" accessibilityLabel={`Ver ${hotel.name}`}>
-        <View style={styles.tarjetaCab}>
-          {/* Foto del alojamiento: es lo que hace que la fila se reconozca de un vistazo. */}
-          <View style={[styles.portada, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-            {portada ? (
-              <LazyImage source={{ uri: portada }} style={styles.portadaImg} />
-            ) : (
-              <Text style={{ fontSize: tipografia.subtitulo }}>🏨</Text>
-            )}
-          </View>
-          <View style={{ flex: 1 }}>
-            {/*
-              El nombre del alojamiento y de la habitación son texto que escribe el hotelero.
-              Estaban recortados a UNA línea, que es lo que hace que «Habitación doble con
-              vistas al mar» se quede en «Habitación doble con…» y el huésped no sepa qué
-              elige. Se permiten dos líneas: sigue siendo una lista ordenada y se ve el nombre.
-            */}
-            <Text style={[styles.tarjetaTitulo, { color: colors.textPrimary }]} numberOfLines={2}>
-              {hotel.name} {hotel.isVerified ? '✓' : ''}
-            </Text>
-            <Text style={[styles.tarjetaSub, { color: colors.textSecondary }]} numberOfLines={1}>
-              {[hotel.barrio, hotel.city].filter(Boolean).join(' · ') || 'Guinea Ecuatorial'}
-              {/*
-                LA CIFRA, SOLO SI EL SERVIDOR DICE QUE SE PUBLICA (C-1 · [D-K]).
-
-                Antes esto era `hotel.rating ? …` y el campo venía de `lifebook.shops.rating`, la nota
-                del MERCADO. Desde `026` la nota del alojamiento es la de sus reseñas, y con dos
-                reseñas la media existe pero **no se publica**: en esta tarjeta el hueco es corto y un
-                «★ 3,0 (1)» de una sola estancia decide peor que no decir nada. Por eso la condición es
-                `ratingPublished` y no el valor: el umbral es del servidor y no se copia aquí.
-              */}
-              {hotel.ratingPublished
-                ? ` · ★ ${Number(hotel.rating).toFixed(1)} (${hotel.ratingCount})`
-                : ''}
-            </Text>
-          </View>
-          <View style={{ alignItems: 'flex-end' }}>
-            <Precio valor={fromPricePerNightXaf} tamano="md" color={soldOut ? colors.textSecondary : colors.text.secondary} />
-            <Text style={[styles.precioSub, { color: colors.textSecondary }]}>
-              {soldOut ? 'sin disponibilidad' : 'por noche · desde'}
-            </Text>
-          </View>
-        </View>
-      </Pressable>
-
-      <View style={{ gap: espaciado.e8, marginTop: espaciado.e10 }}>
-        {mejores.map((r) => {
-          // Con fechas, la disponibilidad es la del servidor para TODO el rango y para
-          // las habitaciones pedidas; sin fechas no se puede afirmar nada.
-          const libre = (r.freeUnits ?? 0) >= habitaciones;
-          const total = r.totalXaf ?? 0;
-          const cerrado = r.closedForDates === true;
-          const foto = fotoDe(r);
-          return (
-            <View key={r.id} style={[styles.habitacion, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-              {/* Foto REAL de esa habitación (la sube el hotelero y el servidor la valida). */}
-              <View style={[styles.habFoto, { borderColor: colors.border, backgroundColor: colors.card }]}>
-                {foto ? <LazyImage source={{ uri: foto }} style={styles.habFotoImg} /> : <Text style={{ fontSize: tipografia.cabecera }}>🛏️</Text>}
-              </View>
-              <View style={{ flex: 1 }}>
-                {/* Dos líneas para el nombre de la habitación: es texto del hotelero. */}
-                <Text style={[styles.habNombre, { color: colors.textPrimary }]} numberOfLines={2}>{r.name}</Text>
-                <Text style={[styles.habDatos, { color: colors.textSecondary }]} numberOfLines={2}>
-                  {r.capacity} huésped(es)
-                  {r.beds?.length ? ` · ${r.beds.map((b) => `${b.count} ${b.kind}`).join(', ')}` : ''}
-                  {r.minNights > 1 ? ` · mín ${r.minNights} noches` : ''}
-                  {r.depositPercent > 0 ? ` · señal ${r.depositPercent}%` : ' · sin señal'}
-                </Text>
-                {listo && total > 0 ? (
-                  <Text style={[styles.habTotal, { color: colors.textPrimary }]}>
-                    {xaf(total)} en total
-                    <Text style={{ color: colors.textSecondary }}>
-                      {`  ·  ahora ${xaf(r.depositXaf)} + ${xaf(r.remainingXaf)} al llegar`}
-                    </Text>
-                  </Text>
-                ) : null}
-                {cerrado ? (
-                  <Text style={[styles.habAviso, { color: colors.textSecondary }]}>
-                    El hotel tiene cerrada alguna de esas noches
-                  </Text>
-                ) : null}
-              </View>
-              <View style={{ alignItems: 'flex-end', gap: espaciado.e4 }}>
-                {listo ? (
-                  <Text style={[styles.habLibre, { color: libre ? colors.text.success : colors.textSecondary }]}>
-                    {libre
-                      ? `${r.freeUnits} libre(s)`
-                      : Number(r.freeUnits) === 0
-                        ? 'lleno'
-                        : `solo ${r.freeUnits}`}
-                  </Text>
-                ) : (
-                  <Text style={[styles.habLibre, { color: colors.textSecondary }]}>{xaf(r.basePriceXaf)}/noche</Text>
-                )}
-                <Pressable
-                  onPress={() => onReservar(r)}
-                  disabled={listo && !libre}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Reservar ${r.name}`}
-                  accessibilityState={{ disabled: listo && !libre }}
-                  style={[styles.reservarBtn, {
-                    backgroundColor: listo && !libre ? alpha(colors.textSecondary, 0.25) : colors.primary,
-                  }]}
-                >
-                  <Text style={styles.reservarTxt}>{listo ? 'Reservar' : 'Ver fechas'}</Text>
-                </Pressable>
-              </View>
-            </View>
-          );
-        })}
+    <Pressable
+      onPress={onAbrir}
+      accessibilityRole="button"
+      accessibilityLabel={`Ver ${hotel.name}`}
+      style={({ pressed }) => [styles.tarjeta, {
+        borderColor: colors.border, backgroundColor: colors.card, opacity: pressed ? 0.85 : 1,
+      }]}
+    >
+      {/* ── Foto del alojamiento: es lo que hace que la fila se reconozca de un vistazo. ── */}
+      <View style={[styles.portada, { borderColor: colors.border, backgroundColor: colors.surface }]}>
+        {portada
+          ? <LazyImage source={{ uri: portada }} style={styles.portadaImg} />
+          : <Text style={{ fontSize: tipografia.subtitulo }}>🏨</Text>}
       </View>
-    </View>
+
+      <View style={styles.cuerpo}>
+        {/* Dos líneas: el nombre lo escribe el hotelero y recortado no se sabe qué se elige. */}
+        <Text style={[styles.titulo, { color: colors.textPrimary }]} numberOfLines={2}>
+          {hotel.name} {hotel.isVerified ? '✓' : ''}
+        </Text>
+
+        <Text style={[styles.sub, { color: colors.textSecondary }]} numberOfLines={1}>
+          {[hotel.barrio, hotel.city].filter(Boolean).join(' · ') || 'Guinea Ecuatorial'}
+          {distancia ? ` · ${distancia}` : ''}
+        </Text>
+
+        {nota ? (
+          <View style={[styles.chipNota, { backgroundColor: alpha(colors.primary, 0.14) }]}>
+            <Text style={[styles.chipNotaTxt, { color: colors.textPrimary }]}>{nota}</Text>
+          </View>
+        ) : null}
+
+        {/* Las habitaciones, en UNA línea y sin botón: se eligen en la ficha. */}
+        <Text style={[styles.tipos, { color: colors.textSecondary }]} numberOfLines={1}>
+          {nTipos === 1 ? '1 tipo de habitación' : `${nTipos} tipos de habitación`}
+          {listo
+            ? soldOut
+              ? ' · lleno esas fechas'
+              : libres > 0
+                ? ` · ${libres} con hueco ahora`
+                : ' · ninguna con hueco'
+            : ''}
+        </Text>
+      </View>
+
+      <View style={styles.precio}>
+        <Precio
+          valor={fromPricePerNightXaf}
+          tamano="md"
+          color={soldOut ? colors.textSecondary : colors.text.secondary}
+        />
+        <Text style={[styles.precioSub, { color: colors.textSecondary }]} numberOfLines={1}>
+          {soldOut ? 'sin hueco' : 'por noche · desde'}
+        </Text>
+      </View>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  tarjeta: { borderWidth: trazo.fino, borderRadius: radios.panel, padding: espaciado.e12 },
-  tarjetaCab: { flexDirection: 'row', gap: espaciado.e10, alignItems: 'center' },
-  // Foto del alojamiento en la fila (92×92, redondeada, con hueco gris si no hay).
-  portada: { width: 92, height: 92, borderRadius: radios.campo, borderWidth: trazo.fino, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
+  tarjeta: {
+    borderWidth: trazo.fino, borderRadius: radios.panel, padding: espaciado.e12,
+    flexDirection: 'row', gap: espaciado.e12, alignItems: 'flex-start',
+  },
+  // La foto manda: 104 px (antes 92) y sin encogerse cuando el nombre es largo.
+  portada: {
+    width: 104, height: 104, borderRadius: radios.campo, borderWidth: trazo.fino,
+    overflow: 'hidden', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+  },
   portadaImg: { width: '100%', height: '100%' },
-  tarjetaTitulo: { fontSize: tipografia.ancho, fontWeight: peso.maximo },
-  tarjetaSub: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
-  precio: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
+  cuerpo: { flex: 1, minWidth: 0, gap: espaciado.e2 },
+  titulo: { fontSize: tipografia.ancho, fontWeight: peso.maximo },
+  sub: { fontSize: tipografia.caption },
+  chipNota: { alignSelf: 'flex-start', borderRadius: radios.chip, paddingHorizontal: espaciado.e7, paddingVertical: espaciado.e2, marginTop: espaciado.e2 },
+  chipNotaTxt: { fontSize: tipografia.micro, fontWeight: peso.maximo },
+  tipos: { fontSize: tipografia.caption, marginTop: espaciado.e2 },
+  // El precio, a la derecha y sin partirse: «25.000 XAF» en dos renglones no se lee.
+  precio: { alignItems: 'flex-end', flexShrink: 0 },
   precioSub: { fontSize: tipografia.micro },
-  habitacion: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e10, flexDirection: 'row', gap: espaciado.e10, alignItems: 'center' },
-  // Foto de la habitación en su fila (56×56): «fotos reales de las habitaciones».
-  habFoto: { width: 56, height: 56, borderRadius: radios.chip, borderWidth: trazo.fino, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
-  habFotoImg: { width: '100%', height: '100%' },
-  habNombre: { fontSize: tipografia.body, fontWeight: peso.maximo },
-  habDatos: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
-  habTotal: { fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e4 },
-  habAviso: { fontSize: tipografia.micro, marginTop: espaciado.e2 },
-  habLibre: { fontSize: tipografia.micro, fontWeight: peso.fuerte },
-  reservarBtn: { borderRadius: radios.chip, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e7 },
-  reservarTxt: { color: brand.white, fontSize: tipografia.caption, fontWeight: peso.maximo },
 });
