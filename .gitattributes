@@ -5,3 +5,11 @@
 # de cuadrar (se despliega por huella) y el generador de despliegue aborta con CRLF.
 # Los ficheros desplegados en Linux se quedan en LF, byte a byte como se revisaron.
 backend/server-src/** -text
+
+# Lo mismo para las migraciones, y se midió el 27-sep-2026 con dos ficheros
+# byte-idénticos (LF, sha256 061e995a…) dentro de un repo desechable: tras un
+# checkout limpio, el que NO tenía atributo volvió en CRLF y su huella pasó a
+# 2674985e…, mientras el que sí lo tiene siguió dando 061e995a…. Una migración
+# se aplica al servidor y se verifica POR HUELLA: si un clon la devuelve con
+# CRLF, la huella versionada deja de reproducirse y el acta afirmaría algo falso.
+backend/sql/** -text
