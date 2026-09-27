@@ -932,12 +932,58 @@ de errores solo hay entradas **viejas** (22–23 sep), ninguna de hoy.
 
 ### 11.12 Lo que queda, y qué se espera ver
 
-1. **El barrido de las 08:15** (siguiente tick del cron). Debe cancelar las **2** retenciones de §11.4 con el
-   motivo «Sin pagar la señal a tiempo» y, en la misma pasada, escribir la marca `paid_at` de
-   `LBH-260917-0003`. Queda **por confirmar en el log** (`barrido de hotel: 2 reserva(s) sin pagar liberadas`
-   y, si toca, `… monedero reintentado: 1 liberación(es)`).
+1. **El barrido de las 08:15** — **CONFIRMADO** en el log y en la base: §11.13.
 2. **`LH-05` (mitad del cliente)**: la app tiene que mandar `X-Payment-Token` (necesita PIN). El servidor ya
    lo acepta y el método está `active` en 3 tiendas: el dato está listo, falta el cliente.
 3. **`LH-12` (mitad del `controller`)**: exige **versionar `hotel.controller.ts`**, que es B.
 4. **`LH-10` (causa raíz)**: `wallet.service` / `kyc-gate.service`, fuera del módulo del hotel.
 5. **`LH-04` y `LH-03`**, y **`B`**: versionar el esquema de las 5 tablas y **poder purgar los ejemplos**.
+
+### 11.13 El barrido corrió (08:15), y qué es lo que **no** alcanza
+
+Primer tick del `@Cron` tras el reinicio, leído en el log de pm2:
+
+```
+[Nest] 887323 - 09/27/2026, 8:15:00 AM   LOG [LifebookReservations] barrido de hotel: 2 reserva(s) sin pagar liberadas
+```
+
+Y en la base, las dos de §11.4:
+
+| reserva | estado | `cancel_reason` | cancelada |
+|---|---|---|---|
+| `LBH-260913-0005` | `cancelled` | Sin pagar la señal a tiempo | 08:15:00 |
+| `LBH-260917-0005` | `cancelled` | Sin pagar la señal a tiempo | 08:15:00 |
+
+`candidatas_que_quedan = 0`. **`LH-08` no es «el código lo hace»: es el barrido haciéndolo solo.**
+
+**Pero hay algo que hay que decir, porque se midió y no sale bien del todo.** La estancia
+`LBH-260917-0003` (`checked_in`, `paid_at` vacío) **no** quedó marcada. La razón, medida y no supuesta:
+
+```
+ LBH-260917-0003 | checked_in | paid_at: (vacío) | updated_at: 2026-09-17 08:52:55+00
+                 | antigüedad: 9 días 15:26 | fuera_de_la_ventana: t
+```
+
+`reconciliarMonedero` acota a **`updated_at > now() - interval '48 hours'`** — a propósito, para que el
+barrido no barra media tabla cada 15 minutos. La fila tiene **9 días** y queda fuera. Dentro de la ventana
+hay **0 y 0**; fuera quedan **3** en la red de «liberar» y **38** en la de «devolver».
+
+Y esas cifras, tal cual, **asustan sin motivo**, así que se separan (el mismo día, con consultas de lectura):
+
+| red | lo que son de verdad |
+|---|---|
+| «devolver»: 38 | **las 38 ya están devueltas** (`refunded` es el estado que se escribe *después* de que el monedero contesta: 37 transferencia + 1 monedero). Canceladas con `deposit_paid` —o sea, señal cobrada y **sin** devolver—: **0** |
+| «liberar»: 3 | dos son de **transferencia** (el `paid_at` de liberación no aplica: solo el monedero retiene) y la tercera es `LBH-260917-0003`, que **ya tiene su `ESCROW_RELEASE`** (`liberado = 1`) |
+
+El resumen que se puede citar:
+
+| canceladas sin devolver | estancias sin liberar | solo falta la **marca** |
+|---|---|---|
+| **0** | **0** | **1** |
+
+Es decir: **fuera de la ventana no hay ni un franco varado** — lo que falta es una **marca** en una fila
+vieja. La consecuencia honesta: `LH-10` **cubre de ahora en adelante**, y el pasado anterior a la ventana
+**no lo repara nadie** (la fila se quedará sin `paid_at` hasta que alguien corra un pase sin ventana). No es
+dinero, es trazabilidad: el día que alguien audite «¿este hotel cobró?» sin la marca, tendrá que mirar las
+transacciones. Queda con nombre: **un pase único de `reconciliarMonedero` sin la ventana de 48 h**, que es
+una tarea de C (o de la limpieza de ejemplos de B), no de A.
