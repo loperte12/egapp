@@ -1343,4 +1343,164 @@ infinito ni saltos. Antes de implementar: **decisión y previsualización**, com
 mecanismo en §13.3; falta escribir el seed) y el resto de deudas de B (§13.6). C no empieza borrando
 nada: empieza por la migración `026`, que ya está escrita y revisada contra el esquema medido.
 
+---
+
+# 15 · C-1 · La confianza: el backend escrito, los códigos, y la decisión de la app (27-sep-2026)
+
+Esta sección se escribe **en dos tiempos**: primero lo que ya está hecho, aplicado y medido
+(§15.1-§15.4), y después **la decisión de interfaz, que no se implementa sin visto bueno** (§15.5),
+como pide Bernardo para cualquier pieza de UI. **El backend de C-1 está en producción**: `026`
+aplicada en la base y las cuatro rutas sirviendo por nginx, ambas cosas verificadas por HTTP
+(§15.4).
+
+## 15.1 Lo medido, antes de escribir una línea
+
+- **La nota no se pinta en ninguna pantalla del flujo de hotel.** `api/hotel.ts:29-30` declara
+  `rating` y `ratingCount` en `HotelSummary`, el servidor los manda… y **ninguna pantalla los lee**:
+  `lifebook-hotel-detalle.tsx` (547 líneas) solo pinta `propertyKind` y `stars` (línea 208), y los
+  resultados solo nombre y precio. Es decir: el desacople de `shops.rating` **no cambia nada visible
+  hoy**; lo que C-1 hace en la app es **añadir la confianza que nunca se enseñó**. El `★` de la
+  cabecera no es una estrella de valoración: es `stars`, la categoría que declara el hotelero.
+- **El filtro de errores es un mapa explícito** (`src/http/error.filter.ts`, no versionado):
+  `CODE_TO_STATUS[código] ?? 422`. Ya tiene bloque del hotel («Parte 42-a»), así que **añadir bloque
+  por módulo es la convención**, no una excepción. C-1 añade cuatro códigos y sin ese bloque caerían
+  en 422, que no es la convención de la casa (400 petición · 403 quién · 404 no existe · 409 estado).
+- **`hotel_profiles` tiene PK `shop_id`** (`lifebook-hotel-20260927.sql:270`), así que el espejo se
+  puede escribir con `INSERT … ON CONFLICT (shop_id) DO UPDATE`. Importa porque un hotel **puede
+  tener reservas sin ficha**: marcar `is_hotel` al publicar la primera habitación
+  (`hotel.service.ts:683`) **no crea** la fila de `hotel_profiles`. Un `UPDATE` sobre cero filas
+  habría dejado el espejo sin escribir y sin avisar.
+- **Treinta códigos que el módulo versionado ya usa no están en la copia local del filtro.** La
+  copia es del espejo de auditoría (ago-2026) y el módulo creció después (cupones, pedidos, IA): no
+  se puede parchear el filtro «a ciegas» desde el portátil. **Se trae vivo en la ventana y se
+  parchea contado** (fallo 55 de `codemod-seguro`).
+
+## 15.2 Lo escrito (commit `2afe025`, ya desplegado — §15.4)
+
+Servicio, rutas y DTO de reseñas, y el desacople en los cuatro sitios que §14.1 midió más dos más
+que aparecieron al abrirlos:
+
+| Sitio | Qué lee ahora |
+|---|---|
+| `hotel.service profileShape` | El espejo. Es **la ficha del hotel**, el sitio del que habla la cabecera de `026` |
+| `hotel.service searchHotels` | El espejo en la tarjeta. El `ORDER BY` sigue en `s.rating` **a propósito** (es C-2) |
+| `commerce.service shopShape` | Decisión por `is_hotel`, en un solo punto del mapper |
+| `commerce.service userShopCard` | La tarjeta del perfil: `shopOf` trae el espejo |
+| `commerce.service shopPublic` | La ficha de la tienda: `LEFT JOIN` |
+| `commerce.service product` | La ficha del producto: alias `shop_*`, como el resto de la tienda |
+| `commerce.service updateShop` | **Séptimo sitio, no medido antes**: el `RETURNING *` del `UPDATE` no trae las columnas del espejo y la respuesta volvía a enseñar la nota del mercado. Se relee con el patrón `fresca` que ya usa el hotelero al guardar su ficha |
+
+**[D-K] en un solo sitio**: `REVIEWS_THRESHOLD = 3` y `notaPublicada()`. Cada respuesta que lleva una
+nota de hotel emite además `ratingPublished`, para que la app **no copie el número** (§15.5, D2).
+
+**Las cuatro operaciones**, con la puerta donde toca: listar (pública), escribir (autor de una
+estancia `checked_out` **de ese hotel**), responder (el dueño de la tienda de la reseña; 404 si no es
+suya, no 403), borrar (autor dentro de 7 días, admin siempre; **borrado físico**, que es lo que
+permite reescribir la nota dentro del plazo).
+
+## 15.3 Lo que falta del backend, y es una pieza: `hasReview` en mis reservas
+
+`myReservations` no dice si una estancia ya tiene reseña. Sin ese dato la app ofrecería «Valorar la
+estancia» a quien ya la escribió y el `409` sería la puerta en vez de la red. **Decisión:** añadir
+`reviewId` (y con él `hasReview`) con un `LEFT JOIN` a `lifebook.hotel_reviews` en la consulta de
+«mis reservas» — la reseña es 1:1 con la estancia, así que no duplica filas. Va con la app, no antes.
+
+## 15.4 Las cuatro ventanas: acta de lo aplicado y lo desplegado
+
+Cuatro ventanas al servidor, **dos de ellas fallidas** — y los dos fallos fueron **del guion, no del
+código**. El backend de C-1 quedó **en producción y verificado por HTTP**.
+
+| Ventana | Qué intentó | Resultado |
+|---|---|---|
+| 1 · aplicar `026` | `pg_dump` antes/después + `psql -f` | **Rebotó.** 3 × `Connection reset by peer` (`fail2ban`); en el reintento, `psql: error: /tmp/c1-026.sql: No such file or directory` |
+| 2 · aplicar `026` | lo mismo, con `docker cp` del `.sql` | **Aplicada.** Tres candados probados en vivo, diff de esquema normalizado **+81 / −0**, tabla a cero |
+| 3 · desplegar | los 5 ficheros + `tsc` + `pm2 restart` | **Falló por el guion** y **revirtió**; el servidor quedó intacto |
+| 4 · desplegar | lo mismo, con cada `cp` comprobado contra su huella | **Desplegado.** Las 5 huellas cuadran, `tsc` limpio, `pm2` online (pid 898111) |
+
+### Las dos trampas nuevas de la ventana
+
+- **`psql` corre DENTRO del contenedor.** Un `.sql` escrito en `/tmp` del **host** no existe para
+  `docker exec -i mirror-postgres psql -f /tmp/x.sql`. La cura es
+  `docker cp archivo mirror-postgres:/tmp/x.sql`. En la ventana 1 el `psql` falló con `exit=1` y
+  **nada se aplicó**: los dos `pg_dump` salieron idénticos, que es la prueba de que la base quedó
+  intacta.
+- **Volvió a morder el `docker exec -i` (fallo 57)**: dentro de un `ssh 'bash -s' < guion` se come el
+  resto del guion con `exit=0` y `stderr` vacío. **Todas** las llamadas a `docker` llevan
+  `< /dev/null`.
+
+### El fallo de la ventana 3, y por qué no se repite
+
+1. El decodificador escribía los ficheros por **ruta completa** (`src_lifebook_hotel.service.ts`) y
+   el instalador los buscaba **sin el `src/`**: el `cp` falló, **no se comprobó**, y el guion
+   imprimió «instalado» con la huella vieja. Un guion que no comprueba el `cp` miente.
+2. `grep` sobre `pm2 jlist` (JSON anidado) devolvió vacío → el guion creyó que el proceso no había
+   levantado y **revirtió**. Lo correcto es `pm2 pid malabogo-api` (pid > 0 = online).
+
+La ventana 4 lo cierra **por construcción**: cada `cp` se compara con su `sha256` esperado y la
+guarda de arranque usa `pm2 pid`. En ningún momento el servidor se quedó con código a medias (en la
+ventana 3 las cinco huellas originales seguían en su sitio, con sus `.bak`).
+
+### La verificación, por HTTP y por nginx
+
+- `ss -ltnp` → `*:3000` con `pid=898111`; `pm2 pid malabogo-api` = 898111 (online).
+- El log de arranque de Nest (pid 898111) **mapea las cuatro rutas nuevas**:
+  `hotels/:shopId/reviews` (GET y POST), `reviews/:id` (DELETE) y `reviews/:id/reply` (POST).
+- nginx: `/wallet/api/ → http://127.0.0.1:3000/api/`. La ruta pública
+  `https://hk.egrouteplan.com/wallet/api/v1/lifebook/commerce/hotel/hotels/<shopId>/reviews`
+  responde **200** con
+  `{"total":0,"average":0,"publishesRating":false,"limit":20,"offset":0,"items":[]}`. El hotel de
+  prueba es `d8a2ece3-92b4-4959-8412-d26b5d698ade`.
+- `dist/` recompilado a las 17:12: `hotel.service.js` 89.687 B, `hotel.controller.js` 23.687 B,
+  `error.filter.js` 25.077 B.
+
+**Un matiz que se confirma aquí:** el `codigo=000` que dio el `curl` en la ventana 4 **no** era el
+servicio caído, era la ruta probada. El proceso sí escuchaba — lo que faltaba era el prefijo
+(`/api/v1/…`). Un `000` significa «no conecté», no «no está»: se comprueba con `ss` antes de
+revertir nada.
+
+### Lo que se cierra en este commit, y lo que queda
+
+En este commit entra **`backend/server-src/http/error.filter.ts`, versionado por primera vez**. Hasta
+ahora el filtro solo existía en el servidor (espejo de auditoría local desactualizado), así que C-1
+lo trajo vivo y lo parcheó **contado** (fallo 55 de `codemod-seguro`): copia byte-exacta del vivo
+(447 líneas) + los cuatro códigos de §15.2 → **456 líneas, 334 entradas del mapa**, con
+`FEE_POLICY_MISSING` intacta.
+
+Del backend de C-1 solo queda **§15.3** (`reviewId`/`hasReview` en «mis reservas»), que va **con la
+app**: es lo que impide ofrecer «Valorar la estancia» a quien ya la escribió.
+
+## 15.5 La decisión de la app — PROPUESTA, no implementada
+
+Medido sobre lo que hay, y con la regla de C-5 delante («lo que decide una reserva visible sin
+scroll infinito ni saltos»):
+
+- **D1 · Dónde va cada cosa.** La **cifra** va en la cabecera de datos (junto al tipo y las
+  estrellas) y es **pulsable**: baja a la sección. La **lista** va **después de las habitaciones**.
+  El motivo es el orden en que se decide una reserva: primero «¿hay cama y a cuánto?» —hoy la ficha
+  ya lo responde con calendario y precio— y después «¿qué dicen los que durmieron?». Meter 38 textos
+  antes de las habitaciones empuja el precio fuera de la primera pantalla, que es justo lo que el
+  dossier prohíbe.
+- **D2 · [D-K] sin cifra, y sin misterio.** `ratingPublished` lo manda el servidor. Con 0 reseñas: la
+  cabecera no dice nada y la sección explica qué aparecerá ahí. Con 1-2: la cabecera dice «2 reseñas»
+  **sin cifra** y la sección lo explica («la nota se publica a partir de 3 reseñas»). Con 3 o más:
+  «★ 4,6 · 38 reseñas». Lo que no se hace nunca es enseñar una media de una sola estancia como si
+  fuera la nota del hotel.
+- **D3 · La estrella.** Relleno con `warning` (`#F5B942` oscuro), nunca con `guardado` (`#FFB800`):
+  son dos estados distintos y ya hay 13 sitios que usan `warning` para la estrella de valoración.
+- **D4 · Escribir.** La puerta es la estancia, así que el sitio es **«Mis reservas»**: en cada
+  estancia terminada sin reseña, «Valorar la estancia» → pantalla nueva `lifebook-hotel-resena.tsx`
+  (estrellas grandes, texto opcional de 600, y dicho en texto: **se puede borrar 7 días, no se
+  edita**). Necesita §15.3.
+- **D5 · Responder.** El panel del hotelero **reusa la ruta pública** (`GET hotels/:shopId/reviews`):
+  no se crea una segunda lista que se pueda desincronizar. Las que no tienen respuesta van primero;
+  responder es un texto de 600. En la ficha, la respuesta va debajo del texto y **marcada como del
+  hotel** — no es una reseña más.
+- **D6 · La nota en los resultados.** En la tarjeta: «★ 4,6 · 38» **solo** cuando `ratingPublished`.
+  Sin cifra publicada no se pinta nada: en esa tarjeta el hueco es corto y un «nuevo» que no compara
+  no ayuda a elegir.
+
+**Lo que se pide antes de tocar `app/`:** el visto bueno a D1-D6 sobre la previsualización, como
+siempre. Lo que se implemente después lleva su `assembleRelease` y su verificación en el móvil.
+
+
 
