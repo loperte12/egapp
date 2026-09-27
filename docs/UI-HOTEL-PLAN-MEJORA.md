@@ -179,8 +179,8 @@ Capturas del estado actual: `_c1-01-arranque.png`, `_c1-02-resultados.png`,
 
 | Elemento de la referencia | Hoy en la app | Gravedad |
 |---|---|---|
-| Buscador = una pantalla con un botón | Formulario de 3 bloques **dentro** de la lista | **Crítica** |
-| La lista de resultados es su propia pantalla | Existe (`lifebook-hotel-resultados.tsx`) pero **también** hay lista en la entrada, con la misma tarjeta | **Crítica** |
+| Buscador = **3 filas y un botón** | Formulario de 3 **bloques** con etiquetas `DÓNDE` / `CUÁNDO` / `QUIÉN Y CUÁNTAS HABITACIONES`, cada uno en su marco, **dentro** de la lista | **Crítica** |
+| La **home** lleva buscador **y** lista debajo (foto 1) | Cierto — pero el formulario ocupa ~1.000 px antes de la primera tarjeta, así que no se parece a la referencia. **Corrige D1** (§10.2) | **Alta** |
 | Tarjeta: foto manda, nombre sin pisarse con el precio | Foto solo en algunos hoteles; nombre truncado; `2.000 XAF` + `por noche · desde` en dos renglones a la derecha | **Alta** |
 | Una habitación se elige **dentro** de la ficha | Se elige en la lista (botón azul por habitación) | **Alta** (ver decisión D2) |
 | Fila de orden y filtros | Un chip `Precio` sin función visible y `2 alojamiento(s)` en texto plano | **Alta** |
@@ -273,10 +273,13 @@ trabajo de código después de P1.
 > pantalla de la habitación**. Se le ha presentado (§6.1) y **D1/D2/D3 siguen abiertas**.
 > D6 nace de esa respuesta.
 
-**D1 — ¿La lista vive en la entrada o en su propia pantalla?**
-Propuesta: **en su propia pantalla**, y la entrada se queda con el buscador. Meituan hace
-eso, y aquí ya existe `/lifebook-hotel-resultados` con la misma tarjeta — o sea, **hoy hay
-dos listas y el usuario no sabe cuál es la buena**.
+**D1 — ¿La lista vive en la entrada o en su propia pantalla?** *(corregida el 27-sep con la
+foto 1 delante — ver §10.2)*
+Este documento afirmaba «Meituan hace eso [separar]». **La foto 1 lo desmiente**: la home
+de Meituan lleva buscador **y** lista debajo, con su fila de filtros en medio. El defecto de
+la app no es tener lista en la entrada: es tener **un formulario de ~1.000 px delante**.
+Propuesta corregida: la home **conserva** la lista, el buscador se compacta a **3 filas +
+un CTA**, y `/lifebook-hotel-resultados` pasa a ser «ver todos» (o se retira del flujo).
 
 **D2 — ¿Qué pasa con las habitaciones dentro de la tarjeta de la lista?**
 El documento del 12-sep lo apuntó como *«mejor que Meituan»*, y no lo discuto: el dato es
@@ -329,13 +332,77 @@ de la entrada»), nunca una hora inventada.
 - Antes de comparar ningún `mtime`: **commit**.
 - **Trinquete** que no puede empeorar: `hex 0 · fontSize 0 · borderRadius 0 · fontWeight 0 ·
   borderWidth 5 · espaciado 183 · precioFigura 5 · strokeWidth 0`.
+- **El GPS solo vive dentro de Guinea Ecuatorial.** `api/locate.ts:18-20` (`isInsideGq`)
+  devuelve `null` si el aparato está fuera del bbox del país — es regla de negocio, no un
+  fallo. Cualquier control de «cerca de mí» **no se puede medir desde Guilin**: se verifica
+  con el origen puesto a mano o con el estado deshabilitado y su explicación.
+
+---
+
+## 10. La HOME, bloque a bloque — foto 1 del recorrido
+
+`D:\wechat\…\c574a576…jpg` (la foto que envió el dueño del producto). Instrucción de
+alcance que la acompaña, literal: **«ignora los otros servicios que aparecen en el header
+como vuelos y otros, sólo los de hoteles»**. Se lee, por tanto, como pantalla **de
+alojamiento**, y se descartan los tres accesos hermanos (`机票火车票` vuelos y tren,
+`景点游玩` entradas, `旅游度假` vacaciones).
+
+### 10.1 La pantalla, bloque a bloque
+
+| # | Bloque de la foto | Contenido | ¿Tiene dato en la app? |
+|---|---|---|---|
+| 0 | Cabecera azul con el título | `酒店旅行` + icono | Sí — hoy `Alojamiento` + `Mis reservas` |
+| 1 | Servicios hermanos | `酒店民宿 · 机票火车票 · 景点游玩 · 旅游度假` | **NO** — **fuera de alcance por instrucción expresa** |
+| 2 | Tipo de alojamiento | `国内 · 民宿 · 钟点房 · 短租 · 海外` | **NO.** `HotelSummary` (`api/hotel.ts:23-58`) no trae tipo; `propertyKind` solo está en el perfil (ficha) |
+| 3 | **Destino** | ciudad + lupa (`位置/品牌/酒店`) + GPS | **Sí, con matiz**: la API filtra por `city` **exacta**; la lista real de ciudades está en `constants/lifebook.ts:154-157` (~30). El GPS existe (`api/locate.ts`) |
+| 4 | **Fecha y ocupación en UNA línea** | `09.26 住 — 09.27 离 · 共1晚 · 1间·1成人`, cada trozo con chevron | **Sí** — hoy son **dos cajas + contador de noches + aviso + botón**, repartidos en `lifebook-hotel.tsx:224-317` |
+| 5 | **Un botón** | `找酒店` | **No existe.** Hoy la búsqueda se dispara sola (`useEffect`, `:94`) y el único botón es `Ver la lista de resultados` (`:365`) |
+| 6 | Tira promocional | `学生专享…每周四抽免房券` | **NO** — no hay promociones. Sustituible por una frase de confianza **real** (pago al llegar · señal) |
+| 7 | Tres accesos grandes | `特价酒店 · 酒店团购 · 周末去哪` | **NO** — no hay ofertas ni cupones |
+| 8 | Fila de orden y filtros | `附近5公里内 · 智能排序 · 价格·星级 · 筛选` | **A medias**: precio **sí** (`minPrice`/`maxPrice`); «cerca» **sí** en cliente (`lat`/`lng` en `HotelSummary`); orden **no** (`sort` no existe); estrellas **no** en la lista |
+| 9 | Tarjeta de hotel | foto + nombre + `经济型` + `4.7 棒` + cita + `距您直线1.1公里` + servicios + ranking + `¥86` `¥62起` + chip `神券` | **A medias**: foto, nombre, ciudad y distancia sí; `经济型` no; nota solo si `ratingPublished`; cita, ranking y cupón **no** |
+| 10 | Barra inferior de 5 | `酒店旅行 · 收藏/浏览 · 旅行助手 · 行程/订单 · 我的` | Fuera de alcance (navegación global) |
+
+### 10.2 Lo que la foto **corrige** de este documento
+
+1. **D1 estaba mal.** «Meituan separa el buscador de la lista» es falso: la foto 1 muestra
+   la lista **en la misma pantalla**, debajo del buscador y de su fila de filtros.
+2. **La fecha y la ocupación no son tres bloques.** En la referencia son **una línea de
+   tres trozos** con chevrones; en la app son dos cajas, un contador, un aviso y un botón.
+3. **Buscar es un acto, no un efecto.** Al dispararse sola (`useEffect`), el usuario no sabe
+   cuándo ha buscado ni qué se recargó.
+
+### 10.3 La propuesta para la home (estructura de Meituan, tokens del kit)
+
+- **Panel de búsqueda: una tarjeta, 3 filas.**
+  · fila 1 **destino** — abre una hoja con la lista real de ciudades (`constants/lifebook.ts`)
+    y «Todas»; nada de texto libre, porque la API filtra por `city` **exacta**;
+  · fila 2 **una línea**: `26 sep 住 — 27 sep 离 | 1 noche | 1 hab · 2 huésp.`, cada trozo
+    abre su hoja (fechas / ocupación);
+  · fila 3 **CTA único**: `Buscar alojamiento`.
+- **Fila de filtros** con lo que existe de verdad: `Cerca de mí` (distancia calculada en
+  cliente sobre la página recibida) y `Precio` (`minPrice`/`maxPrice` → API). **No** se
+  pintan estrellas ni orden por nota: no hay dato.
+- **La lista, debajo** — como la foto 1. `/lifebook-hotel-resultados` no desaparece: pasa a
+  ser «ver todos».
+- **La tarjeta** (P3): foto mandando, nombre a dos líneas, ciudad + distancia, nota **solo si
+  `ratingPublished`**, un precio «desde» y **una línea** de habitaciones (D2-b).
+
+### 10.4 Dos trampas que esta pantalla destapa
+
+1. **«Cerca de mí» no se puede probar desde Guilin** (§8): `isInsideGq` devuelve `null` fuera
+   del país. Se mide con el origen puesto a mano, o midiendo el estado deshabilitado.
+2. **El campo de ciudad de hoy acepta texto libre y la API no.**
+   `lifebook-hotel.tsx:205-214` manda lo tecleado tal cual como `city`; «Malab» no devuelve
+   nada. El selector de la propuesta elimina el problema de raíz.
 
 ---
 
 ## 9. Lo que este documento **no** afirma
 
 - **No** se ha medido el tramo B completo foto a foto en esta sesión (orden, filtros y
-  mapa): su detalle se re-verificará con las fotos 11-14 delante **cuando se diseñe P2**.- **No** se ha comprobado si la API de búsqueda admite ordenación (`sort`). Se sabe que
+  mapa): su detalle se re-verificará con las fotos 11-14 delante **cuando se diseñe P2**.
+- **No** se ha comprobado si la API de búsqueda admite ordenación (`sort`). Se sabe que
   admite `minPrice`/`maxPrice`; para lo demás, **leer `api/hotel.ts` antes de prometerlo**.
 - **No** hay medida de las pantallas del hotelero en este documento: están fuera de alcance.
 - Dos cosas de la API que se han **leído** en esta sesión y que acotan el plan:
