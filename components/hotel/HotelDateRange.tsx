@@ -42,7 +42,22 @@ import { Sheet, SheetHeader } from '../lifebook/ui/Sheet';
 import { hotelApi, type HotelRoom } from '../../api/hotel';
 import { addDaysIso, isWeekendNight, shortDate, todayIso } from '../../utils/datetime';
 
-/** El mismo horizonte que usa la ficha: 92 días, que es el máximo que acepta el servidor. */
+/**
+ * EL HORIZONTE DEL CALENDARIO, Y EL DÍA QUE SE CONTABA DE MÁS.
+ *
+ * El servidor acepta **92 días por consulta** y los cuenta **inclusive** (comprobado contra el
+ * servidor el 27-sep-2026: de `2026-09-27` a `2026-12-27` —91 de diferencia, 92 contando el primero—
+ * responde `200`, y a `2026-12-28` —92 de diferencia, 93 contando— responde
+ * `400 RANGE_TOO_LONG · Como máximo 92 días por consulta`).
+ *
+ * Por eso el rango se pide con **`MAX_NOCHES - 1`**: pedir «hoy + 92» son 93 días y **siempre falla**.
+ * Es el fallo que tenía la ficha antes de esta tanda, escondido detrás de un `catch` que dejaba la
+ * lista de días vacía: el calendario se pintaba con sus números y **ningún día se podía tocar**. No
+ * se veía porque el `catch` trataba el 400 como «este tipo no tiene datos».
+ *
+ * El `CalendarPicker` ya lo hacía bien en su propia navegación de mes (`addDaysIso(desde, 91)`):
+ * el dato correcto estaba en el componente y la pantalla lo escribía mal.
+ */
 const MAX_NOCHES = 92;
 /** Cuántos tipos se consultan para componer la disponibilidad del alojamiento. */
 const MAX_CALENDARIOS = 12;
@@ -125,7 +140,8 @@ export function HotelDateBar({
     let vivo = true;
     setCargando(true);
     const desde = todayIso();
-    const hasta = addDaysIso(desde, MAX_NOCHES);
+    // `-1` porque el servidor cuenta los días INCLUSIVE: «hoy + 92» son 93 y da 400.
+    const hasta = addDaysIso(desde, MAX_NOCHES - 1);
     void Promise.all(
       activas.map((r) => hotelApi
         .calendar(r.id, desde, hasta, habitaciones)
@@ -199,6 +215,20 @@ export function HotelDateBar({
         </Text>
         {cargando && dias.length === 0 ? (
           <ActivityIndicator color={colors.text.primary} style={{ marginVertical: espaciado.e16 }} />
+        ) : dias.length === 0 ? (
+          /*
+            SIN DÍAS, EL CALENDARIO NO SE ENSEÑA.
+
+            Un calendario sin datos no es un calendario vacío: es una rejilla cuyos días NO se pueden
+            tocar (`seleccionable` exige que el día exista), y eso se lee como «la app está rota» sin
+            decir por qué. Es exactamente lo que pasaba con el 400 del rango de un día de más: el
+            `catch` lo trataba como «sin datos» y la pantalla dibujaba una rejilla muerta en silencio.
+            Decirlo es más útil que dibujarla.
+          */
+          <Text style={[styles.nota, { color: colors.text.warning }]}>
+            No se ha podido comprobar la disponibilidad de estos días. Puedes seguir igual: al reservar
+            se vuelve a preguntar al servidor y te dirá si esas noches están libres.
+          </Text>
         ) : (
           <View style={[styles.marco, { backgroundColor: colors.surface, borderRadius: radios.panel }]}>
             <CalendarPicker
