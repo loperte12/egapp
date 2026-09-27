@@ -2,11 +2,11 @@
  * hotel — cliente API del MÓDULO HOTELERO (Parte 42 del servidor).
  *
  * Rutas (bajo `/wallet/api/v1/lifebook/commerce/hotel`):
- *   PÚBLICAS   search · hotel · rooms · calendar · room
+ *   PÚBLICAS   search · hotel · rooms · calendar · room · **reviews**
  *   HUÉSPED    reserve (Idempotency-Key obligatoria) · mine · reservation ·
- *              proof · action · confirmDeposit
+ *              proof · action · confirmDeposit · **escribir/borrar su reseña**
  *   HOTELERO   myHotel · saveHotel · myRooms · createRoom · updateRoom ·
- *              saveCalendar · dayBook
+ *              saveCalendar · dayBook · **responder una reseña**
  *
  * Reglas que el servidor impone y que este cliente respeta:
  *   · **El dinero no viaja**: el total, la señal y el restante los calcula el
@@ -14,6 +14,8 @@
  *   · **Idempotency-Key obligatoria al reservar**: un doble toque no crea dos
  *     reservas. La clave es ESTABLE por intento (`reserveKey`), no nueva en cada
  *     pulsación — si se genera nueva en cada toque, la idempotencia no protege.
+ *   · **La nota del hotel se publica por umbral, no por tener reseñas** (C-1): quien
+ *     decide es `ratingPublished`, que lo manda el servidor. La app no deduce el umbral.
  */
 import { http, httpRequest } from './httpClient';
 
@@ -26,8 +28,28 @@ export interface HotelSummary {
   region: string | null;
   logoUrl: string | null;
   coverUrl: string | null;
+  /**
+   * La nota del ALOJAMIENTO — las estrellas que le dan quienes durmieron (C-1).
+   *
+   * ⚠️ OJO CON LA TRAMPA: hasta el 27-sep-2026 este campo era `lifebook.shops.rating`, la nota del
+   * MERCADO (valoraba lo que se compra, no cómo se duerme), y `hotel_profiles` nace en la migración
+   * `026` con su propio espejo. El servidor ya manda el espejo — pero **no se pinta por el valor**:
+   * se pinta por `ratingPublished`, que es quien sabe si hay reseñas suficientes.
+   */
   rating: number;
   ratingCount: number;
+  /**
+   * ¿Se puede enseñar la cifra? Lo decide el SERVIDOR (`notaPublicada`, umbral de 3 reseñas en
+   * `REVIEWS_THRESHOLD`) y viaja en cada respuesta que lleva una nota: ficha, tarjeta de resultados y
+   * lista de reseñas.
+   *
+   * Por qué NO se deduce del cliente: el umbral es una [D-K] y una sola definición. Si la app lo
+   * copiara, cambiar el umbral en el servidor dejaría a la app enseñando medias de una sola estancia
+   * como si fueran la nota del hotel — sin que nadie tocara la app.
+   *
+   * Ausente = no se puede afirmar nada (respuestas viejas o de otro módulo): no se pinta la cifra.
+   */
+  ratingPublished?: boolean;
   addressReference: string | null;
   lat: number | null;
   lng: number | null;
@@ -252,8 +274,64 @@ export interface Reservation {
   cancelledAt: string | null;
   checkinFrom?: string | null;
   checkoutUntil?: string | null;
+  /**
+   * La reseña que TÚ escribiste de esta estancia, o `null` (C-1). Solo viaja al huésped: el hotel no
+   * necesita el identificador por reserva —tiene la lista pública de reseñas— y así no se expone de más.
+   *
+   * Con este dato la tarjeta decide sin adivinar: `null` + `checked_out` = se ofrece «Valorar la
+   * estancia»; con valor, ya está escrita (y se puede borrar dentro de los 7 días).
+   *
+   * 🔒 NO se duplica aquí la regla de los 7 días ni el umbral de publicación: los dos viven en el
+   * servidor. La app ofrece la acción y el servidor responde con su motivo si el plazo pasó.
+   */
+  reviewId?: string | null;
   /** Precio noche a noche (solo en la respuesta de la creación). */
   nightlyPrices?: { date: string; priceXaf: number }[];
+}
+
+/**
+ * UNA RESEÑA de un alojamiento (C-1). La escribe quien durmió, y el hotel puede responderla.
+ *
+ * `body` es opcional en el servidor: una reseña de solo estrellas es una reseña. `reply` es la voz
+ * del HOTEL (no otra reseña) y por eso viaja separada, con su fecha: la ficha la pinta debajo y
+ * marcada — mezclarla con el texto del huésped sería poner al vendedor dentro de la opinión.
+ */
+export interface HotelReview {
+  id: string;
+  rating: number;
+  body: string | null;
+  reply: string | null;
+  repliedAt: string | null;
+  createdAt: string;
+  guest: { id: string; name: string | null; avatarUrl: string | null };
+}
+
+/**
+ * La lista de reseñas con la nota del hotel.
+ *
+ * `total` es el número de reseñas, no el de la página: la lista viene recortada con `limit`/`offset`
+ * y el «(38)» del titular tiene que decir 38 aunque solo se manden 20.
+ *
+ * `average` y `publishesRating` salen del ESPEJO del servidor (`hotel_profiles.hotel_rating`), no de
+ * una media calculada en la app: si cada pantalla se la calculara, la cifra de la ficha y la de la
+ * lista podrían no coincidir nunca más.
+ */
+export interface HotelReviewsPage {
+  total: number;
+  average: number;
+  publishesRating: boolean;
+  limit: number;
+  offset: number;
+  items: HotelReview[];
+}
+
+/** Lo que devuelve escribir o borrar una reseña: la reseña, y cómo queda la nota del hotel. */
+export interface HotelReviewMutation {
+  review?: HotelReview;
+  ok?: boolean;
+  hotelRating: number;
+  hotelRatingCount: number;
+  ratingPublished: boolean;
 }
 
 export interface DayBook {
@@ -389,6 +467,44 @@ export const hotelApi = {
     );
   },
 
+  // ── reseñas del alojamiento (C-1) ──
+  /**
+   * Las reseñas de un alojamiento — **PÚBLICA**, sin sesión: son lo que el huésped lee antes de
+   * reservar. Pedirlas con cuenta sería esconder la confianza detrás de un registro.
+   *
+   * Se piden de una vez las que quepan en `limit` (20 por defecto, 50 es el tope del servidor) y la
+   * ficha pinta las cinco primeras con un «ver todas»: una consulta, y el desplegable no vuelve a
+   * pedir nada.
+   */
+  reviews(shopId: string, q: { limit?: number; offset?: number } = {}) {
+    const p = new URLSearchParams();
+    p.set('limit', String(q.limit ?? 20));
+    if (q.offset) p.set('offset', String(q.offset));
+    return http.get<HotelReviewsPage>(`${BASE}/hotels/${shopId}/reviews?${p.toString()}`, false);
+  },
+
+  /**
+   * Escribir la reseña de UNA estancia. El permiso no es la compra: es la ESTANCIA, y la decide el
+   * servidor (tuya, de ese alojamiento, ya terminada). El texto va opcional.
+   *
+   * La clave de esta llamada es que **manda la reserva**, no el hotel: por eso el mismo
+   * `reservationId` dos veces no crea dos reseñas — el `unique` de la base responde 409
+   * (`REVIEW_EXISTS`) y el mensaje ya lo explica.
+   */
+  createReview(shopId: string, dto: { reservationId: string; rating: number; body?: string }) {
+    return http.post<HotelReviewMutation>(`${BASE}/hotels/${shopId}/reviews`, dto);
+  },
+
+  /** Borrar MI reseña (el servidor admite al autor dentro de 7 días, y al admin siempre). */
+  deleteReview(id: string) {
+    return http.delete<HotelReviewMutation>(`${BASE}/reviews/${id}`);
+  },
+
+  /** La respuesta del HOTEL a una reseña. Solo el dueño de la tienda de esa reseña. */
+  replyReview(id: string, reply: string) {
+    return http.post<{ id: string; reply: string; repliedAt: string }>(`${BASE}/reviews/${id}/reply`, { reply });
+  },
+
   // ── huésped ──
   /**
    * Reservar. `Idempotency-Key` OBLIGATORIA (el servidor responde 400 sin ella):
@@ -503,6 +619,18 @@ export const hotelApi = {
 // con textos distintos para los mismos estados que el del contrato, y los dos afirmaban
 // «Señal pagada» aunque no la hubiera. Las etiquetas viven en `@egrouteplan/contracts`
 // (`RESERVATION_STATUS_LABELS` y, para el matiz de dinero, `estadoRotulo()`).
+
+/**
+ * CUÁNTOS DÍAS SE PUEDE BORRAR UNA RESEÑA, para DECIRLO (C-1).
+ *
+ * ⚠️ Es COPIA de `REVIEWS_DELETE_DAYS` del servidor (`hotel.service.ts`), y se usa **solo como
+ * texto**: la puerta es del servidor y él es quien la cierra (`REVIEW_WINDOW_CLOSED`). Aquí está
+ * porque prometer un plazo que no es el del servidor sería mentir al huésped en la pantalla donde
+ * decide si escribe. Si cambia allí, cambia aquí — y no hay forma de deducirlo desde la app: la
+ * alternativa (que el servidor lo mande) añadiría un campo a cada respuesta de reseñas para
+ * ahorrar un número.
+ */
+export const REVIEWS_DELETE_DAYS = 7;
 
 export const PAGO_ETIQUETA: Record<PaymentStatus, string> = {
   pending: 'Sin cobrar',

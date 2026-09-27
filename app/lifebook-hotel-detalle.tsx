@@ -6,17 +6,20 @@
  * disponibilidad real, la estancia mínima y **cuánto se paga ahora (señal) y cuánto
  * al llegar**. Elegir fechas aquí lleva directo a reservar con esos días puestos.
  */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, altura, brand, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
-import { Car, Navigation } from 'lucide-react-native';
+import { alpha, altura, brand, espaciado, peso, Precio, radios, tipografia, trazo, trazoIcono, useTheme } from '@egrouteplan/ui-kit';
+import { Car, Navigation, Star } from 'lucide-react-native';
 import { CalendarPicker, type CalendarDay } from '../components/CalendarPicker';
 import { PhotoGallery } from '../components/PhotoGallery';
-import { hotelApi, type HotelProfile, type HotelRoom, type HotelFx, type HotelArrival, type HotelAirport } from '../api/hotel';
+import {
+  hotelApi, type HotelProfile, type HotelRoom, type HotelFx, type HotelArrival, type HotelAirport,
+  type HotelReview, type HotelReviewsPage,
+} from '../api/hotel';
 import { ApiError } from '../api/httpClient';
 import { absUrl } from '../api/config';
 import { nightsBetween, shortDate, todayIso, xaf } from '../utils/datetime';
@@ -76,6 +79,26 @@ export default function HotelDetalleScreen() {
   const [dias, setDias] = useState<CalendarDay[]>([]);
   const [cargandoCal, setCargandoCal] = useState(false);
 
+  // ── LAS RESEÑAS DE ESTE ALOJAMIENTO (C-1) ────────────────────────────────────
+  /*
+    Consulta PÚBLICA y SEPARADA de la ficha: son dos datos independientes y si una falla la otra
+    sigue en pie (con la ficha caída no se reserva; con las reseñas caídas se reserva igual, sin la
+    confianza delante). Se piden veinte de una vez —el tope del servidor es cincuenta— y se pintan
+    cinco: el desplegable no gasta una segunda petición.
+  */
+  const [resenas, setResenas] = useState<HotelReviewsPage | null>(null);
+  const [verTodas, setVerTodas] = useState(false);
+
+  // Para que la nota de la cabecera BAJE a la sección (D1): se suman las dos posiciones —la del
+  // contenedor dentro del scroll y la de la sección dentro del contenedor—, que es lo que `onLayout`
+  // sabe decir en cada nivel. Sin refs a componentes nativos ni `measure()`.
+  const scrollRef = useRef<ScrollView>(null);
+  const [yContenido, setYContenido] = useState(0);
+  const [yResenas, setYResenas] = useState(0);
+  const bajarAResenas = () => {
+    scrollRef.current?.scrollTo({ y: Math.max(0, yContenido + yResenas - espaciado.e10), animated: true });
+  };
+
   const cargar = useCallback(async () => {
     setCargando(true);
     setError(null);
@@ -95,6 +118,18 @@ export default function HotelDetalleScreen() {
   }, [shopId, abierta, pais]);
 
   useEffect(() => { void cargar(); }, [cargar]);
+
+  // Las reseñas, una vez por alojamiento.
+  useEffect(() => {
+    if (!shopId) { setResenas(null); return; }
+    let vivo = true;
+    setVerTodas(false);
+    void hotelApi
+      .reviews(shopId, { limit: 20 })
+      .then((r) => { if (vivo) setResenas(r); })
+      .catch(() => { if (vivo) setResenas(null); });
+    return () => { vivo = false; };
+  }, [shopId]);
 
   // El país, una sola vez al abrir: lo elegido a mano manda sobre lo que diga el sistema.
   useEffect(() => {
@@ -125,6 +160,22 @@ export default function HotelDetalleScreen() {
 
   const noches = checkIn && checkOut ? nightsBetween(checkIn, checkOut) : 0;
   const roomAbierta = rooms.find((r) => r.id === abierta) ?? null;
+
+  /*
+    LA NOTA, COMO LA DECIDE EL SERVIDOR (D2 · [D-K]).
+    Tres estados, y ninguno enseña una cifra que el servidor no publique:
+      · 0 reseñas   → la cabecera NO dice nada (ni un «0,0» ni un «sin valoraciones»);
+      · 1-2 reseñas → dice cuántas hay, SIN media (una sola estancia no es una nota);
+      · 3 o más     → la media y el número, que es lo que compara.
+    La media sale del espejo del servidor y `publishesRating` es quien manda: aquí no se cuenta nada.
+  */
+  const nota = resenas && resenas.total > 0
+    ? {
+        total: resenas.total,
+        publica: resenas.publishesRating === true,
+        media: Number(resenas.average ?? 0).toFixed(1),
+      }
+    : null;
 
   const cuenta = (() => {
     if (!roomAbierta || !noches) return null;
@@ -177,7 +228,7 @@ export default function HotelDetalleScreen() {
           </Pressable>
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 30, gap: espaciado.e14 }}>
+        <ScrollView ref={scrollRef} contentContainerStyle={{ paddingBottom: insets.bottom + 30, gap: espaciado.e14 }}>
           {/* ── Galería del alojamiento (fotos reales subidas por el hotelero) ── */}
           <PhotoGallery
             photos={[
@@ -200,7 +251,7 @@ export default function HotelDetalleScreen() {
             }
           />
 
-          <View style={{ paddingHorizontal: espaciado.e14, gap: espaciado.e14 }}>
+          <View style={{ paddingHorizontal: espaciado.e14, gap: espaciado.e14 }} onLayout={(e) => setYContenido(e.nativeEvent.layout.y)}>
           {/* ── Datos del alojamiento ── */}
           <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
             <Text style={[styles.nombre, { color: colors.textPrimary }]}>{hotel?.name}</Text>
@@ -208,6 +259,44 @@ export default function HotelDetalleScreen() {
               {[TIPOS[hotel?.propertyKind ?? ''] ?? null, hotel?.stars ? `${hotel.stars}★` : null,
                 hotel?.barrio, hotel?.city].filter(Boolean).join(' · ')}
             </Text>
+
+            {/*
+              ── LA NOTA DEL ALOJAMIENTO, EN LA CABECERA Y PULSABLE (D1/D2/D3) ──────────────
+              Va aquí, con el tipo y las estrellas —que son la categoría que DECLARA el hotelero,
+              no una valoración—, porque es el dato que dice si el sitio es bueno de verdad.
+              Y es el único sitio de la ficha donde la estrella se pinta RELLENA: el `★` de la
+              línea de arriba es `stars`.
+
+              El toque BAJA a la sección de reseñas en vez de abrir otra pantalla: la lista ya está
+              cargada, y salir y volver para leer dos opiniones es lo que hace que nadie las lea.
+            */}
+            {nota ? (
+              <Pressable
+                onPress={bajarAResenas}
+                accessibilityRole="button"
+                accessibilityLabel={
+                  nota.publica
+                    ? `Nota ${nota.media} de ${nota.total} reseñas. Ver las reseñas`
+                    : `${nota.total} reseña${nota.total === 1 ? '' : 's'} sin nota publicada. Ver las reseñas`
+                }
+                hitSlop={8}
+                style={[styles.notaChip, { borderColor: colors.border, backgroundColor: colors.surface }]}
+              >
+                {/* RELLENA solo si la nota se publica; apagada cuando aún no hay con qué (D3). */}
+                <Star
+                  size={13}
+                  color={nota.publica ? colors.text.warning : colors.textSecondary}
+                  fill={nota.publica ? colors.text.warning : 'transparent'}
+                  strokeWidth={trazoIcono.base}
+                />
+                <Text style={[styles.notaTxt, { color: colors.textPrimary }]}>
+                  {nota.publica
+                    ? `${nota.media} · ${nota.total} reseñas`
+                    : `${nota.total} reseña${nota.total === 1 ? '' : 's'}`}
+                </Text>
+                <Text style={[styles.notaFlecha, { color: colors.textSecondary }]}>›</Text>
+              </Pressable>
+            ) : null}
             {/* Horario de llegada: es la primera pregunta del huésped al reservar. */}
             <Text style={[styles.dato, { color: colors.textPrimary }]}>
               🕐 Entrada de {hotel?.checkinFrom} a {hotel?.checkinUntil} · salida hasta {hotel?.checkoutUntil}
@@ -476,6 +565,60 @@ export default function HotelDetalleScreen() {
               Fechas elegidas: {shortDate(checkIn, true)} → {shortDate(checkOut, true)} · {noches} noche(s)
             </Text>
           ) : null}
+
+          {/* ── RESEÑAS ────────────────────────────────────────────────────────────────
+              VA DESPUÉS DE LAS HABITACIONES, y es una decisión, no un descuido (D1): una reserva se
+              decide primero por «¿hay cama y a cuánto?» —que es lo que responde esta pantalla con el
+              calendario y el precio— y después por «¿qué dicen los que durmieron?». Con la lista
+              delante, el precio sale de la primera pantalla. */}
+          <View onLayout={(e) => setYResenas(e.nativeEvent.layout.y)} style={{ gap: espaciado.e10 }}>
+            <Text style={[styles.seccion, { color: colors.textPrimary }]}>
+              {resenas && resenas.total > 0 ? `Reseñas (${resenas.total})` : 'Reseñas'}
+            </Text>
+
+            {resenas === null ? (
+              <Text style={[styles.sub, { color: colors.textSecondary }]}>Cargando reseñas…</Text>
+            ) : resenas.total === 0 ? (
+              <Text style={[styles.sub, { color: colors.textSecondary }]}>
+                Este alojamiento todavía no tiene reseñas. Las escribe quien ha dormido aquí, cuando
+                termina su estancia, y su nota aparecerá en esta ficha.
+              </Text>
+            ) : (
+              <>
+                {/* POR QUÉ NO HAY CIFRA (D2): decirlo es la diferencia entre «no hay datos» y
+                    «hay dos y no se publican». Debajo del umbral el titular no enseña media. */}
+                {!resenas.publishesRating ? (
+                  <Text style={[styles.sub, { color: colors.textSecondary }]}>
+                    La nota del alojamiento se publica a partir de 3 reseñas. Con {resenas.total}{' '}
+                    todavía no se enseña la media: una sola estancia no es una nota.
+                  </Text>
+                ) : null}
+
+                {(verTodas ? resenas.items : resenas.items.slice(0, 5)).map((r) => (
+                  <Resena key={r.id} r={r} />
+                ))}
+
+                {!verTodas && resenas.items.length > 5 ? (
+                  <Pressable
+                    onPress={() => setVerTodas(true)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Ver todas las reseñas"
+                    style={[styles.botonLinea, { borderColor: colors.border, backgroundColor: colors.surface, alignSelf: 'flex-start' }]}
+                  >
+                    <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>Ver todas</Text>
+                  </Pressable>
+                ) : null}
+
+                {/* Se dice cuántas se enseñan cuando no son todas: un «(38)» con cinco tarjetas
+                    debajo parece un error de la app. */}
+                {resenas.total > resenas.items.length ? (
+                  <Text style={[styles.sub, { color: colors.textSecondary }]}>
+                    Se enseñan las {resenas.items.length} más recientes de {resenas.total}.
+                  </Text>
+                ) : null}
+              </>
+            )}
+          </View>
           </View>
         </ScrollView>
       )}
@@ -497,6 +640,54 @@ function Fila({
       </Text>
     </View>
   );
+}
+
+/**
+ * UNA RESEÑA, en la ficha. Solo lectura: aquí no se responde ni se borra nada (eso es de su autor y
+ * del hotel, y cada uno tiene su puerta).
+ *
+ * El nombre va CORTO —el primer nombre—. Esta lista es pública: el servidor manda el nombre completo
+ * y nadie pidió figurar con sus dos apellidos por haber dormido una noche. Recortarlo es una decisión
+ * de la pantalla, no un olvido.
+ *
+ * La respuesta del hotel va DEBAJO y con su propio recuadro: es la voz del vendedor, no una reseña
+ * más, y mezclarla con el texto del huésped sería meter al hotel dentro de la opinión.
+ */
+function Resena({ r }: { r: HotelReview }) {
+  const { colors } = useTheme();
+  return (
+    <View style={[styles.resena, { borderColor: colors.border, backgroundColor: colors.card }]}>
+      <View style={styles.resenaCab}>
+        <Text style={[styles.resenaQuien, { color: colors.textPrimary }]} numberOfLines={1}>
+          {nombreCorto(r.guest?.name)}
+        </Text>
+        <View style={styles.resenaNota}>
+          {/* La misma estrella y el MISMO token que en la cabecera y que en taxi/comida/comercio:
+              `colors.text.warning`. Una reseña no inventa un color de estrella propio (D3). */}
+          <Star size={12} color={colors.text.warning} fill={colors.text.warning} strokeWidth={trazoIcono.base} />
+          <Text style={[styles.resenaNotaTxt, { color: colors.textPrimary }]}>{r.rating}</Text>
+        </View>
+      </View>
+      <Text style={[styles.sub, { color: colors.textSecondary }]}>
+        {shortDate(String(r.createdAt).slice(0, 10))}
+      </Text>
+      {r.body ? (
+        <Text style={[styles.resenaTexto, { color: colors.textPrimary }]}>{r.body}</Text>
+      ) : null}
+      {r.reply ? (
+        <View style={[styles.respuesta, { borderColor: colors.border, backgroundColor: colors.surface }]}>
+          <Text style={[styles.respuestaEtq, { color: colors.textSecondary }]}>Respuesta del alojamiento</Text>
+          <Text style={[styles.resenaTexto, { color: colors.textPrimary }]}>{r.reply}</Text>
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
+/** El primer nombre, y nada más: la lista de reseñas es pública. */
+function nombreCorto(nombre: string | null | undefined): string {
+  const limpio = String(nombre ?? '').trim();
+  return limpio ? limpio.split(/\s+/)[0] : 'Huésped';
 }
 
 function addDays(iso: string, days: number): string {
@@ -542,6 +733,23 @@ const styles = StyleSheet.create({
   cuentaEtq: { fontSize: tipografia.caption, flex: 1 },
   cuentaVal: { fontSize: tipografia.body },
   separador: { height: 1, marginVertical: espaciado.e5 },
+  /** La nota del alojamiento en la cabecera: pastilla pulsable que baja a las reseñas. */
+  notaChip: {
+    flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, alignSelf: 'flex-start',
+    borderWidth: trazo.fino, borderRadius: radios.chip,
+    paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, marginTop: espaciado.e8,
+  },
+  notaTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
+  notaFlecha: { fontSize: tipografia.body },
+  /** Una reseña: cabecera (quién y cuántas), fecha, texto y, si la hay, la respuesta del hotel. */
+  resena: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e10, gap: espaciado.e4 },
+  resenaCab: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e8 },
+  resenaQuien: { fontSize: tipografia.fino, fontWeight: peso.fuerte, flex: 1 },
+  resenaNota: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 },
+  resenaNotaTxt: { fontSize: tipografia.caption, fontWeight: peso.maximo },
+  resenaTexto: { fontSize: tipografia.body, lineHeight: 20 },
+  respuesta: { borderWidth: trazo.fino, borderRadius: radios.chip, padding: espaciado.e10, marginTop: espaciado.e6, gap: espaciado.e3 },
+  respuestaEtq: { fontSize: tipografia.micro, fontWeight: peso.maximo },
   cta: { height: altura.campo, borderRadius: radios.campo, alignItems: 'center', justifyContent: 'center' },
   ctaTxt: { color: brand.white, fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
 });

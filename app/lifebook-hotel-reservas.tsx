@@ -9,17 +9,17 @@
  * enviar la referencia de la transferencia, cancelar **con motivo**, y —el hotel—
  * confirmar el cobro de la señal.
  */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator, Alert, Platform, Pressable, RefreshControl, SectionList, StyleSheet, Text, TextInput, View,
 } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { alpha, altura, brand, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { availableActions, estadoRotulo, senalCobrada } from '@egrouteplan/contracts';
 import { AuthGate } from '../core/AuthGate';
 import {
-  hotelApi, PAGO_ETIQUETA, METODO_ETIQUETA, type Reservation,
+  hotelApi, PAGO_ETIQUETA, METODO_ETIQUETA, REVIEWS_DELETE_DAYS, type Reservation,
 } from '../api/hotel';
 import { ApiError } from '../api/httpClient';
 import { countdown, longDate, shortDate, xaf } from '../utils/datetime';
@@ -84,6 +84,26 @@ function Contenido() {
 
   useEffect(() => { void cargar(); }, [cargar]);
 
+  /*
+    AL VOLVER DE VALORAR UNA ESTANCIA, la tarjeta tiene que dejar de ofrecer «Valorar la estancia»
+    — y esa reseña se escribe en otra pantalla, así que sin esto la lista seguiría como estaba hasta
+    tirar del refresco a mano.
+
+    Se refresca EN SILENCIO y solo en el foco POSTERIOR al montaje: de la primera carga y del cambio
+    de pestaña ya se encarga el `useEffect` de arriba (que sí enseña el indicador). La función va por
+    referencia para que este efecto no se vuelva a suscribir en cada cambio de lado — si dependiera
+    de `cargar`, cada cambio de pestaña dispararía DOS peticiones.
+  */
+  const cargarRef = useRef(cargar);
+  cargarRef.current = cargar;
+  const primerFoco = useRef(true);
+  useFocusEffect(
+    useCallback(() => {
+      if (primerFoco.current) { primerFoco.current = false; return; }
+      void cargarRef.current(true);
+    }, []),
+  );
+
   // La retención se agota: se refresca el contador cada 30 s para que la cuenta
   // atrás no se quede congelada.
   const [, setTick] = useState(0);
@@ -106,7 +126,7 @@ function Contenido() {
     [reservas, hoy],
   );
 
-  const accion = async (fn: () => Promise<{ reservation: Reservation }>, exito: string) => {
+  const accion = async (fn: () => Promise<unknown>, exito: string) => {
     setAviso(null);
     try {
       await fn();
@@ -150,6 +170,47 @@ function Contenido() {
 
   const confirmarSenal = (r: Reservation) =>
     void accion(() => hotelApi.confirmDeposit(r.id, 'Confirmado en recepción'), 'Señal confirmada: la reserva queda pendiente de tu confirmación final.');
+
+  /**
+   * Valorar la estancia: abre la pantalla de la reseña con ESTA reserva delante. La puerta la cierra
+   * el servidor (estancia tuya, de ese alojamiento, ya terminada); aquí solo se ofrece a quien puede.
+   *
+   * El `shopId` va en la reserva: `hotel.id` es el identificador de la tienda, que es lo que pide la
+   * ruta de las reseñas. Sin él la pantalla no cargaría nada, así que se manda siempre.
+   */
+  const valorar = (r: Reservation) =>
+    router.push({
+      pathname: '/lifebook-hotel-resena',
+      params: {
+        reservationId: r.id,
+        shopId: r.hotel?.id ?? '',
+        shopName: r.hotel?.name ?? 'el alojamiento',
+        roomName: r.roomName,
+      },
+    } as never);
+
+  /**
+   * Borrar la propia reseña. El plazo —7 días— NO se comprueba aquí: lo cierra el servidor
+   * (`REVIEW_WINDOW_CLOSED`) y su mensaje ya dice cuál es el plazo. Duplicar la regla en la app sería
+   * tener dos versiones que se desincronizan, y la de la app no podría cerrar nada de todos modos.
+   */
+  const borrarResena = (r: Reservation) => {
+    if (!r.reviewId) return;
+    const hacerlo = () =>
+      void accion(() => hotelApi.deleteReview(String(r.reviewId)), 'Reseña borrada. Puedes escribir otra de esta estancia.');
+    if (Platform.OS === 'web') {
+      if (window.confirm('Se borrará tu reseña de esta estancia. ¿Seguir?')) hacerlo();
+      return;
+    }
+    Alert.alert(
+      'Borrar mi reseña',
+      'Se borrará la reseña de esta estancia y podrás escribir otra. No se puede deshacer.',
+      [
+        { text: 'No', style: 'cancel' },
+        { text: 'Sí, borrar', style: 'destructive', onPress: hacerlo },
+      ],
+    );
+  };
 
   return (
     <View style={[styles.screen, { backgroundColor: colors.background }]}>
@@ -219,6 +280,8 @@ function Contenido() {
               lado={lado}
               onCancelar={cancelar}
               onConfirmarSenal={confirmarSenal}
+              onValorar={valorar}
+              onBorrarResena={borrarResena}
               onAbrir={(x) => router.push({ pathname: '/lifebook-hotel-reserva', params: { id: x.id } } as never)}
             />
           )}
@@ -292,12 +355,14 @@ function Contenido() {
 }
 
 function Tarjeta({
-  r, lado, onCancelar, onConfirmarSenal, onAbrir,
+  r, lado, onCancelar, onConfirmarSenal, onValorar, onBorrarResena, onAbrir,
 }: {
   r: Reservation;
   lado: 'guest' | 'hotel';
   onCancelar: (r: Reservation) => void;
   onConfirmarSenal: (r: Reservation) => void;
+  onValorar: (r: Reservation) => void;
+  onBorrarResena: (r: Reservation) => void;
   onAbrir: (r: Reservation) => void;
 }) {
   const { colors } = useTheme();
@@ -417,6 +482,42 @@ function Tarjeta({
       ) : null}
       {r.cancelReason ? (
         <Text style={[styles.aviso, { color: colors.textSecondary }]}>Motivo: {r.cancelReason}</Text>
+      ) : null}
+
+      {/*
+        ── VALORAR LA ESTANCIA (C-1 · D4) ─────────────────────────────────────────────────
+        La puerta es la estancia TERMINADA y solo para el huésped: valorar una estancia en curso es
+        valorar una promesa, y el hotel no escribe reseñas de sí mismo. El `reviewId` que manda el
+        servidor es lo que evita ofrecer «Valorar» a quien ya la escribió — sin él, el 409 sería la
+        puerta en vez de la red.
+      */}
+      {lado === 'guest' && r.status === 'checked_out' ? (
+        r.reviewId ? (
+          <View style={{ gap: espaciado.e4, marginTop: espaciado.e8 }}>
+            <Text style={[styles.aviso, { color: colors.textSecondary }]}>
+              <Text style={{ color: colors.text.warning }}>★ </Text>
+              Ya valoraste esta estancia. Se puede borrar durante {REVIEWS_DELETE_DAYS} días; no se
+              edita.
+            </Text>
+            <Pressable
+              onPress={() => onBorrarResena(r)}
+              accessibilityRole="button"
+              accessibilityLabel={`Borrar mi reseña de la reserva ${r.code}`}
+              style={[styles.botonFantasma, { borderColor: colors.border }]}
+            >
+              <Text style={[styles.botonFantasmaTxt, { color: colors.text.danger }]}>Borrar mi reseña</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <Pressable
+            onPress={() => onValorar(r)}
+            accessibilityRole="button"
+            accessibilityLabel={`Valorar la estancia de la reserva ${r.code}`}
+            style={[styles.boton, { backgroundColor: colors.primary, marginTop: espaciado.e8 }]}
+          >
+            <Text style={styles.botonTxt}>Valorar la estancia</Text>
+          </Pressable>
+        )
       ) : null}
 
       {puedeEnviarRef ? (

@@ -75,7 +75,18 @@ export function HotelResultCard({
             </Text>
             <Text style={[styles.tarjetaSub, { color: colors.textSecondary }]} numberOfLines={1}>
               {[hotel.barrio, hotel.city].filter(Boolean).join(' · ') || 'Guinea Ecuatorial'}
-              {hotel.rating ? ` · ★ ${Number(hotel.rating).toFixed(1)} (${hotel.ratingCount})` : ''}
+              {/*
+                LA CIFRA, SOLO SI EL SERVIDOR DICE QUE SE PUBLICA (C-1 · [D-K]).
+
+                Antes esto era `hotel.rating ? …` y el campo venía de `lifebook.shops.rating`, la nota
+                del MERCADO. Desde `026` la nota del alojamiento es la de sus reseñas, y con dos
+                reseñas la media existe pero **no se publica**: en esta tarjeta el hueco es corto y un
+                «★ 3,0 (1)» de una sola estancia decide peor que no decir nada. Por eso la condición es
+                `ratingPublished` y no el valor: el umbral es del servidor y no se copia aquí.
+              */}
+              {hotel.ratingPublished
+                ? ` · ★ ${Number(hotel.rating).toFixed(1)} (${hotel.ratingCount})`
+                : ''}
             </Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>

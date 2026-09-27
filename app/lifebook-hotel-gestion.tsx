@@ -32,7 +32,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { alpha, espaciado, GhostButton, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import { useScreenGuard } from '@egrouteplan/ui-kit';
 import {
-  ArrowLeft, BedDouble, CalendarDays, ChevronRight, ClipboardList, Settings, Store, TriangleAlert,
+  ArrowLeft, BedDouble, CalendarDays, ChevronRight, ClipboardList, Settings, Star, Store, TriangleAlert,
 } from 'lucide-react-native';
 import { AuthGate } from '../core/AuthGate';
 import { PanelGate } from '../core/PanelGate';
@@ -259,6 +259,15 @@ function Contenido() {
             titulo="Ficha del hotel"
             detalle="Categoría, horario de entrada y salida, servicios, normas y formas de pago"
             onPress={() => router.push('/lifebook-hotel-perfil' as never)}
+          />
+          {/* Las reseñas van en GESTIÓN y no en «Hoy» por la regla que separa las dos partes: no
+              CADUCAN. Un mensaje sin responder tiene una persona esperando; una reseña sin responder
+              espera indefinidamente, y meterla en «Hoy» sería ruido fijo en la pantalla de lo urgente. */}
+          <Fila
+            icono={<Star size={18} color={colors.text.primary} />}
+            titulo="Valoraciones"
+            detalle="Lo que cuentan tus huéspedes, y tu respuesta pública. Las que no tienen respuesta van primero"
+            onPress={() => router.push('/lifebook-hotel-valoraciones' as never)}
           />
           <Fila
             icono={<Store size={18} color={colors.text.primary} />}
