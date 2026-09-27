@@ -1502,5 +1502,121 @@ scroll infinito ni saltos»):
 **Lo que se pide antes de tocar `app/`:** el visto bueno a D1-D6 sobre la previsualización, como
 siempre. Lo que se implemente después lleva su `assembleRelease` y su verificación en el móvil.
 
+---
+
+## 16. C-1 en la app: acta de la implementación y de lo medido en el móvil
+
+El visto bueno a D1-D6 se dio sobre la propuesta (§15.5) y está implementado. Lo que sigue separa
+**lo medido en el píxel** de **lo que sigue sin poder medirse**, con el motivo — porque un acta que
+no distingue las dos cosas deja creyendo que está probado lo que solo está escrito.
+
+### 16.1 La corrección que dejó el acta anterior
+
+«La nota del hotel no se pintaba en ninguna pantalla» era **casi** cierto, y el matiz cambia lo que
+había que hacer. `HotelResultCard.tsx` **sí** leía `hotel.rating`: lo hacía con la condición vieja
+(por el valor), no con la nueva (por si el servidor la publica). El `★` de la ficha es `stars`, la
+categoría que declara el hotelero — no una valoración. Así que C-1 en la app no fue «añadir la nota
+a la ficha»: fue **añadir una confianza que el backend ya escribía y la interfaz callaba**, y
+cerrar la única lectura que existía.
+
+### 16.2 Lo que la app añade
+
+`api/hotel.ts` (tipos `HotelReview`/`HotelReviewsPage`/`HotelReviewMutation` y los cuatro métodos
+`reviews`/`createReview`/`deleteReview`/`replyReview`), la ficha (chip pulsable + sección de
+reseñas **después** de las habitaciones), la pantalla de valorar (nueva), «Mis reservas» (valorar /
+borrar la propia), el panel del hotelero (nueva, reusando la ruta pública) y la tarjeta de
+resultados (gateada por `ratingPublished`). Con dos reglas que no se copian en el cliente: el
+umbral de 3 vive en el servidor (`REVIEWS_THRESHOLD`) y quien decide el borrado es el servidor —
+`REVIEWS_DELETE_DAYS = 7` es una copia **declarada** y solo se usa para el texto de la pantalla.
+
+### 16.3 Lo medido en el móvil (OPPO PKK110, `com.egrouteplan.app.prueba`)
+
+**El APK.** `BUILD SUCCESSFUL in 6m 42s`. **116.848.885 B**, frente a los 116.825.769 B de A3.2; y el
+bundle de dentro: **6.779.440 B / `md5 c827f62a2eaa1d5687dd9f52d0f81653`** contra los
+6.756.324 B / `bd17ab1c1cd6de6eafc69f9d22fa951880` del anterior. C-1 solo mueve **referencias** (no
+introduce ni retira un literal de color), así que la prueba del bundle es esta —tamaño y huella
+distintos, que descartan un APK reciclado— y no un recuento de literales, que daría 0 y 0.
+
+**La instalación, por bytes y no por el mensaje.** `Success` y `116848885` en el móvil = `116848885`
+en disco: es el mismo fichero. `firstInstallTime` (25-sep 21:52) ≠ `lastUpdateTime` (27-sep 18:11):
+actualización en sitio, **sesión conservada**. Arranque en frío sin `FATAL`, pid vivo.
+
+**La tarjeta de resultados, cruzada con el servidor.** En la lista de Alojamiento las dos fichas
+muestran «por noche · desde» y **ninguna cifra de nota**. La API pública —`GET
+…/lifebook/commerce/hotel/hotels?city=Malabo`— devuelve para las dos `rating: 0`,
+`ratingCount: 0`, `ratingPublished: false`: el desacople de `shops.rating` se ve en el dato, no solo
+en el código. **Matiz honesto:** con el espejo a cero, la condición vieja habría pintado lo mismo
+(0 es falsy), así que esta captura **no** distingue la condición vieja de la nueva. Lo que sí prueba
+es que no hay cifra falsa donde antes podía haberla.
+
+**La ficha.** La sección de reseñas está **después de las habitaciones**, con su estado vacío
+(«Este alojamiento todavía no tiene reseñas…»). El chip de la cabecera **no aparece**, y es lo
+correcto: `nota` exige `total > 0`, porque anunciar «0 reseñas» en la cabecera no ayuda a nadie. Y
+la ruta pública lo confirma: `{"total":0,"average":0,"publishesRating":false,"items":[]}` con
+HTTP 200 — el estado vacío es **la verdad del servidor**, no una petición que falló y se disfrazó de
+vacío.
+
+**«Mis reservas».** La reserva que hay está **Confirmada**, no «Salida»: el botón de valorar no
+aparece. La puerta es la estancia terminada, y se comporta como se decidió.
+
+**Valorar la estancia.** La pantalla se abre con el `Estrellas` del kit: cinco vacías, «Toca las
+estrellas para poner tu nota» (coherente con `useState(0)`), el contador `0/600` y **las tres reglas
+escritas** —los 7 días de borrado, que la nota no sale con la primera, y que responde el
+alojamiento—. Al tocar la tercera estrella: tres rellenas, «3 de 5 · Normal» y el botón
+«Publicar valoración · 3 de 5».
+
+Medido con `_pixel.cjs` en los mismos puntos de las dos capturas (misma pantalla, antes y después):
+
+| punto | antes (nota 0) | después (nota 3) | qué dice |
+|---|---|---|---|
+| estrellas 1-3 | `#343439` | **`#ECBB59`** | el ámbar de `colors.text.warning` (`#F5B942` leído en P3) |
+| estrellas 4-5 | `#343439` | `#343439` | **no cambian** — el par que descarta el artefacto |
+| tarjeta | `#232329` | `#232329` | control gris: idéntico |
+| fondo | `#17171A` | `#17171A` | control gris: idéntico |
+
+Los dos controles grises salen **exactos**, así que el lector es fiel en ese fotograma y la
+desviación de las estrellas es del display (P3), no del código — la misma regla que ya se midió con
+`#0066CC → #2A64C4`. Y `#343439` es literalmente 8 % de blanco sobre `#232329`: la estrella vacía
+se pinta con `colors.border`, como dice el código.
+
+Publicar con una reserva ajena devuelve a la pantalla **«Esa reserva no existe o no es tuya»**: el
+404 del servidor llega traducido, en un recuadro de peligro, encima del botón.
+
+### 16.4 Lo que NO está verificado, y por qué
+
+- **Los estados CON reseñas** —el chip con cifra, la lista, «ya valoraste esta estancia», el panel
+  del hotelero— **no se han podido ver**. No es un fallo de la app: la base **no tiene ninguna
+  reseña** (lo dice la ruta pública) y no hay ninguna estancia terminada que las produzca. Plantar
+  reseñas exige hablar con la base, y la ventana SSH está **vetada por `fail2ban`** en este tramo:
+  cuatro intentos, todos con `Connection reset by 8.218.88.237 port 22`.
+- **§15.3 (`reviewId`) está escrito y commiteado (`4dcd1db`), pero NO desplegado.** Consecuencia que
+  hay que tener presente: la app, tal como está instalada hoy, no puede distinguir «ya valoré» de
+  «me falta valorar»; el botón se ofrecería igual y el segundo intento daría 409 `REVIEW_EXISTS`.
+  Se despliega en la primera ventana que abra, y entonces el ciclo se cierra.
+- **La estrella rellena con cifra** (`★ 4,6 · 38`) no se ha visto en pantalla: falta el dato.
+- **El color del chip** no se ha medido: sin reseñas el chip no existe, y medir un elemento que no
+  se pinta no es medir.
+
+### 16.5 Trampas nuevas medidas en este tramo
+
+1. **El aislamiento del proceso tapa el USB**: `adb devices` sale **vacío** con el móvil enchufado y
+   la depuración activada (`CompatibleIds` con `Class_FF&SubClass_42&Prot_01` = la interfaz ADB, y
+   `Service = WINUSB`, que es lo que Windows reporta). Toda orden de `adb` va **sin aislamiento**.
+2. **El daemon de `adb` muere entre invocaciones**: el calentamiento, el sondeo de `get-state` y la
+   orden van **en la misma llamada**.
+3. **El shell del móvil parte la URL en el `&`**: `am start -d "…?a=1&b=2"` pierde los parámetros a
+   partir del primero; la URL va **entrecomillada para el shell del dispositivo**.
+4. **El deep link no se sostiene**: minutos después de abrirlo, la app ha vuelto a su ruta inicial.
+   Capturar y tocar tienen que ir **dentro de la misma orden**, con la captura `screencap -p
+   /sdcard/x.png` + `pull` (que necesita `MSYS_NO_PATHCONV=1` y ruta Windows).
+5. **`exec-out screencap -p` puede truncar el PNG en silencio** (16.768 B de una pantalla que da
+   877 KB): hay que **comprobar el tamaño antes de medir**, o `_pixel.cjs` muere con `Z_BUF_ERROR`.
+6. **La API del proyecto, desde el host, exige `curl --noproxy '*'`**: el `https_proxy` del entorno
+   devuelve `CONNECT tunnel failed, response 502`.
+7. **El servidor va intermitente** para los clientes: con el móvil y el host, en la misma franja,
+   hubo `[http] red falló … Network request failed` en `/lifebook/chat/unread` y timeouts de 21 s
+   contra `:443` — con la ruta de reseñas respondiendo 200 entre medias. No confundir esa
+   intermitencia con un fallo del cambio.
+
 
 
