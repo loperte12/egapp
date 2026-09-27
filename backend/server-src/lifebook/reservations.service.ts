@@ -448,12 +448,17 @@ export class LifebookReservationsService {
              -- podia decir hasta cuando se cancela gratis (lo destapo el detalle del huesped).
              rt.cancellation_hours AS cancellation_hours,
              hp.checkin_from AS checkin_from, hp.checkout_until AS checkout_until,
-             u.full_name AS guest_full_name, u.avatar_url AS guest_avatar
+             u.full_name AS guest_full_name, u.avatar_url AS guest_avatar,
+             -- La reseña de ESTA estancia (C-1, 026): es 1:1 (unique uq_lb_reviews_reserva), así que el
+             -- LEFT JOIN no puede duplicar la fila de la reserva. Sin este dato la app ofrece
+             -- «Valorar la estancia» a quien ya la escribió y el 409 hace de puerta en vez de red.
+             rv.id AS review_id
         FROM lifebook.reservations r
         LEFT JOIN lifebook.shops s ON s.id = r.shop_id
         LEFT JOIN lifebook.room_types rt ON rt.id = r.room_type_id
         LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = r.shop_id
         LEFT JOIN mobility.users u ON u.id = r.guest_id
+        LEFT JOIN lifebook.hotel_reviews rv ON rv.reservation_id = r.id
        WHERE r.id = ${reservationId}::uuid LIMIT 1`;
     const r = rows[0];
     if (!r) throw new DomainError('RESERVATION_NOT_FOUND', 'Esa reserva no existe');
@@ -554,6 +559,13 @@ export class LifebookReservationsService {
       },
       checkinFrom: r.checkin_from ?? null,
       checkoutUntil: r.checkout_until ?? null,
+      /**
+       * La reseña que el huésped escribió de ESTA estancia, o `null` (C-1). Solo para el huésped:
+       * el hotel no necesita el identificador por reserva —tiene la lista pública de reseñas— y
+       * así no se expone de más. Quien mire la reserva sin ser el huésped recibe `null` aunque la
+       * reseña exista, que es lo que el campo significa aquí: «¿la has escrito TÚ?».
+       */
+      reviewId: roles.esHuesped ? r.review_id ?? null : null,
     });
   }
 
@@ -595,11 +607,15 @@ export class LifebookReservationsService {
                  -- La LISTA del huésped pinta «Cancelación gratuita hasta…» (reservas.tsx):
                  -- sin estas dos columnas el rótulo sale vacío siempre.
                  rt.cancellation_hours AS cancellation_hours,
-                 hp.checkin_from AS checkin_from
+                 hp.checkin_from AS checkin_from,
+                 -- La reseña de la estancia (C-1): la tarjeta del huésped decide con esto si
+                 -- ofrece «Valorar la estancia» o el estado «ya valorada». 1:1 por el unique.
+                 rv.id AS review_id
             FROM lifebook.reservations r
             LEFT JOIN lifebook.shops s ON s.id = r.shop_id
             LEFT JOIN lifebook.room_types rt ON rt.id = r.room_type_id
             LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = r.shop_id
+            LEFT JOIN lifebook.hotel_reviews rv ON rv.reservation_id = r.id
            WHERE r.guest_id = ${userId}::uuid
            ORDER BY r.check_in DESC, r.created_at DESC LIMIT 100`;
     return {
