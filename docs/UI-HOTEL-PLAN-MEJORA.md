@@ -269,9 +269,18 @@ trabajo de código después de P1.
 
 ## 7. Las decisiones que hacen falta
 
-> **Estado a 27-sep:** el usuario, ante D1, D2 y D3, no las contestó: pidió **ver antes la
-> pantalla de la habitación**. Se le ha presentado (§6.1) y **D1/D2/D3 siguen abiertas**.
-> D6 nace de esa respuesta.
+> **Estado a 27-sep, por la tarde.** D1, D2 y D3 quedaron sin contestar en su momento —el usuario
+> pidió **ver antes la pantalla de la habitación**— y de ahí nació D6.
+>
+> **Resueltas con la foto 1 delante** (las cinco, aprobadas por el usuario):
+> **D1** — **corregida**, y esta vez con la foto como prueba: la home **conserva** la lista (§10.2);
+> **D2 = (b)** — las habitaciones se resumen a **una línea**, sin botón;
+> **H1** — el destino es un **selector de ciudades**, no un campo de texto;
+> **H2** — la fila de controles lleva **`Cerca de mí` + `Precio`** (y nada más, porque nada más tiene dato);
+> **H3** — **home con lista**, y `/lifebook-hotel-resultados` pasa a «ver la lista completa».
+>
+> **Implementadas** en `783ad75` (7 ficheros, +752/−496) — el detalle, en §10.4.
+> **Siguen abiertas:** D3, D4, D5, D6 y D7.
 
 **D1 — ¿La lista vive en la entrada o en su propia pantalla?** *(corregida el 27-sep con la
 foto 1 delante — ver §10.2)*
@@ -388,7 +397,44 @@ alojamiento**, y se descartan los tres accesos hermanos (`机票火车票` vuelo
 - **La tarjeta** (P3): foto mandando, nombre a dos líneas, ciudad + distancia, nota **solo si
   `ratingPublished`**, un precio «desde» y **una línea** de habitaciones (D2-b).
 
-### 10.4 Dos trampas que esta pantalla destapa
+### 10.4 Lo implementado en `783ad75` (P1 de la home)
+
+**Verificado antes de tocar código** — las cuatro redes, en este orden:
+
+| Red | Resultado |
+|---|---|
+| `tsc -p tsconfig.json` | **0 errores** |
+| `pruebas/verifica-diseno.cjs` | trinquete **idéntico**: `hex 0 · fontSize 0 · borderRadius 0 · fontWeight 0 · borderWidth 5 · espaciado 183 · precioFigura 5 · strokeWidth 0` |
+| `pruebas/c1-verifica-app.cjs` | **TODO OK** |
+| Revisión de los dos llamadores de la tarjeta | 2 reales (`lifebook-hotel.tsx`, `-resultados.tsx`); el resto son `_respaldo-*` |
+
+**Qué ficheros, y qué cambia en cada uno**
+
+| Fichero | Estado | Qué hace |
+|---|---|---|
+| `app/lifebook-hotel.tsx` | **reescrito** | El buscador: una tarjeta con **3 filas** (destino · llegada/salida/noches/hab-huésp en **una línea de 4 celdas** · **un botón**) y la **fila de controles** (`Cerca de mí`, `Precio`). La lista se queda debajo. |
+| `components/HotelResultCard.tsx` | **reescrito** | Fuera las filas de habitación con su botón. Foto **92 → 104 px**, nombre a 2 líneas, `barrio · ciudad · distancia`, chip de nota **solo si `ratingPublished`**, **una línea** de habitaciones y **un** precio «desde». La tarjeta entera es el botón que abre la ficha. |
+| `components/hotel/HotelCitySheet.tsx` | **nuevo** | La hoja de ciudades, leída de `constants/lifebook.ts` (`LB_CITIES`). Cierra el agujero del texto libre. |
+| `components/hotel/HotelGuestsSheet.tsx` | **nuevo** | Los dos contadores, que salen del formulario y pasan a una hoja. |
+| `components/hotel/HotelPriceSheet.tsx` | **nuevo** | `minPrice`/`maxPrice` con `FormField` + `PrimaryButton` + `GhostButton` del kit (el patrón que ya estaba probado en `-resultados.tsx`). |
+| `utils/distancia.ts` | **nuevo** | `havKm` + `etiquetaDistancia`. |
+| `app/lifebook-hotel-resultados.tsx` | tocado | Se adapta a la tarjeta sin `onReservar`. |
+
+**Dos decisiones de ejecución que conviene no volver a discutir**
+
+1. **La búsqueda dejó de dispararse sola al tocar cualquier criterio.** Se busca al entrar, al
+   cambiar las **fechas** (que es lo que mueve el precio) y al pulsar el botón. Antes, tocar un chip
+   recargaba la lista sin que el usuario hubiera pedido nada.
+2. **`havKm` se escribe una vez, pero `taxi.tsx` conserva la suya.** Migrarla toca la pantalla del
+   conductor y tiene su propia verificación: es **deuda declarada**, no un olvido.
+
+**Lo que la guardia de C-1 obligó a corregir.** Después de reescribir la tarjeta, `c1-verifica-app.cjs`
+**falló** en «la tarjeta gatea la cifra por `ratingPublished`»: la guardia exige que la condición y el
+`toFixed(1)` estén a menos de 120 caracteres, y al pasar la nota a JSX anidado se separaban. En vez de
+**ablandar la guardia**, se extrajo la nota a una variable `const nota = hotel.ratingPublished ? …`.
+La puerta sigue donde estaba, la comprobación sigue midiendo lo mismo y el JSX queda más corto.
+
+### 10.5 Dos trampas que esta pantalla destapa
 
 1. **«Cerca de mí» no se puede probar desde Guilin** (§8): `isInsideGq` devuelve `null` fuera
    del país. Se mide con el origen puesto a mano, o midiendo el estado deshabilitado.
