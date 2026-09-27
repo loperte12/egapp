@@ -12,6 +12,11 @@
 
 ## 6. El dato: contrato de la API
 
+> **El mapeo campo a campo —nombres, tipos, nulabilidad, la muestra real de cada respuesta y los 12
+> desajustes medidos entre el TIPO y lo que el servidor manda de verdad— está en
+> `docs/UI-HOTEL-CONTRATO-CAMPOS.md`.** Ese fichero es el que se le pasa a quien vaya a escribir
+> contra el dato. No se declaran interfaces propias: las de `api/hotel.ts` se importan.
+
 Todo en **`api/hotel.ts`**. Host `https://hk.egrouteplan.com`, base `…/wallet/api/v1`, y el módulo
 cuelga de **`/lifebook/commerce/hotel`**.
 
@@ -94,6 +99,9 @@ Verificado contra el servidor de prueba (`Hotel Demo Malabo`, 8 tipos de habitac
 - **La ficha no sabe el importe de unas fechas concretas** sin pedir el calendario de cada tipo.
 - `followersCount` viaja en el JSON pero **no está en el tipo `HotelSummary`** (además, son
   «seguidores», no ventas).
+- ⚠️ **En la FICHA `hotel.id` NO existe: llega `hotel.shopId`** (en la LISTA es al revés: `id` sí y
+  `shopId` no; **el valor es el mismo**). Como el tipo declara `id` obligatorio, leer `hotel.id` de
+  una ficha da `undefined` **sin error de tipos**. Hoy nadie lo hace; quien venga de la lista, sí.
 
 ---
 
