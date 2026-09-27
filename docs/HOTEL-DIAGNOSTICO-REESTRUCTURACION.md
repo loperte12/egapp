@@ -987,3 +987,131 @@ vieja. La consecuencia honesta: `LH-10` **cubre de ahora en adelante**, y el pas
 dinero, es trazabilidad: el día que alguien audite «¿este hotel cobró?» sin la marca, tendrá que mirar las
 transacciones. Queda con nombre: **un pase único de `reconciliarMonedero` sin la ventana de 48 h**, que es
 una tarea de C (o de la limpieza de ejemplos de B), no de A.
+
+---
+
+# 12 · Acta de `B-2` / `B-3` — el esquema y el módulo, al repo (27-sep-2026)
+
+## 12.1 La ventana: una, de solo lectura, y a la primera
+
+Un solo comando (`bash _remoto.sh _b2-trae.sh`), **42 segundos**, `exit=0`. El guion **no escribe** en la
+base ni en `/opt/mirror`: solo `SELECT`, `pg_dump --schema-only` y lecturas; lo único que crea es
+`/tmp/b2-ddl.sql` y lo borra. Si hubiera muerto a la mitad, el daño habría sido **cero** — por eso pudo ir
+en ventana sin ceremonia.
+
+**Lo primero que hizo fue desconfiar:** antes de traer nada, comprobó que el servidor sigue siendo el que se
+parcheó en `A-4`. Las **tres huellas cuadran** (las tres columnas dicen `CUADRA`), así que versionar encima
+es legítimo y no una suposición:
+
+```
+hotel.service.ts             5b929c0708c39fb9  CUADRA
+reservations.service.ts      a601d0fa600c38f4  CUADRA
+hotel-merchant.service.ts    826c91c54be0265a  CUADRA
+```
+
+## 12.2 El esquema, versionado por primera vez (`B-2`)
+
+`backend/sql/esquema/lifebook-hotel-20260927.sql` — **`31a5ce29…431a`**, 17.799 B, `pg_dump --schema-only`
+con el comando exacto en su README. **No es una migración: es una foto**, y va byte a byte sin retocar
+porque la huella ES su identidad.
+
+**Lo que trajo, y que `A-4` no pudo tener cuando escribió el parche:**
+
+| Medido en el esquema real | Consecuencia |
+|---|---|
+| `lb_res_estado` acepta **siete** estados: `hold`, `pending`, `confirmed`, `checked_in`, `checked_out`, `cancelled`, `no_show` | **No hay `expired` ni `release_pending`.** Re-semantizar `hold_expires_at` no fue preferencia: era la **única opción legal** |
+| `ix_lb_res_hold` = índice parcial `(status, hold_expires_at) WHERE status='hold'` | El esquema está **diseñado** para vencer retenciones por esa columna. Y el comentario de la columna lo dice: «al vencer, el calendario la libera aunque el barrido no haya pasado» — literalmente lo que hacen las dos consultas de ocupación de `A-4` |
+| `uq_lb_res_idem` = `UNIQUE (guest_id, idempotency_key)` | El nonce de `LH-09` **no era cosmético**: sin él, un reintento del mismo pago **viola el índice único** |
+| `lb_res_pago_est` incluye `refunded` · `lb_res_pago` incluye `likebook_wallet` | Lo que `A-4` escribe es **legal** en el esquema; `LH-05` (monedero) tiene su método aceptado |
+| `room_types`: `hold_minutes` 5–120 (def. 20) · `confirmation_hours` 1–168 (def. 24) · `cancellation_hours` 0–720 (def. 48) | Los **tres relojes** confirmados, con sus techos, y con el matiz que faltaba: `confirmation_hours` es «una reserva **sin señal**» |
+
+No hay **ni un tipo `enum`** en el esquema `lifebook` (`0 rows`): todo son `varchar` + `CHECK`. Eso cierra
+el círculo: añadir un estado no es «declararlo», es **alterar un `CHECK`** — y con el esquema sin versionar
+era imposible saber si se podía.
+
+## 12.3 El módulo del hotel: completo, y la cifra del dossier corregida
+
+El dossier decía «son 3 de los 9 ficheros». **Medido, la cifra no se sostiene en ninguna de sus dos
+lecturas**, así que se retira por escrito:
+
+| Lectura | Realidad medida |
+|---|---|
+| El **módulo del hotel** | son **6** ficheros: 3 *service* + 2 *controller* + 1 *dto*. El repo tenía 3 → faltaban **3**, no 6 |
+| **`src/lifebook/` entero** | **22 ficheros de código** (914 KB), más **113 respaldos `.bak`** (12 MB) |
+
+Versionados los tres que faltaban, verificados byte a byte y con la huella declarada al lado:
+
+```
+hotel.controller.ts            11887 B  9c812ca3f422ccad
+hotel-merchant.controller.ts    6197 B  fee2272ab861e121
+dto/hotel-reservation.dto.ts    5660 B  83505cb14d40c50e
+```
+
+Y —esto es lo que hace que la palabra «verificado» signifique algo— **los 3 que ya estaban se re-verificaron
+CONTRA el servidor en la misma pasada**: 71.421 / 64.124 / 29.892 B, las huellas de `A-4`. Lo versionado es
+lo desplegado, no una copia parecida.
+
+Los `*.bak-*` **no se versionan** (113 ficheros, 12 MB): son respaldos, se excluyen por patrón, igual que
+los `_respaldo-*`.
+
+## 12.4 Un defecto de transporte, cazado por la aritmética
+
+Un bloque llegó con el base64 **corrupto**, y el extractor **se negó a escribirlo** — que es exactamente lo
+que tiene que hacer.
+
+La causa: por el canal SSH, **el stdout del guion va en bloque y el stderr de `psql` sin buffer**, y se
+intercalan. El error de la consulta `6b` (`column "name" does not exist`) apareció **dentro** del payload de
+la sección 3, partiendo una línea en dos.
+
+Lo que convierte esto en un hallazgo y no en una pérdida:
+
+```
+fragmento A (16372) + fragmento B (72384) = 88756 chars
+88756 = longitud base64 de un fichero de 66567 B  ✓
+decodificado: 66567 B, sha256 49969af1ab5d0784…992668 = el declarado en su propio @INICIO  ✓
+```
+
+**El error ocupaba 36 chars (35 + el salto) y la cuenta cuadra al byte.** El registro bruto se conserva
+(`_b2-registro-bruto.txt`) y el reparado lleva la nota con el texto reubicado, sin borrar nada.
+
+## 12.5 Lo que **no** quedó cerrado: el censo de ejemplos
+
+La consulta `6b` —«¿cuántos nombres parecen de prueba?»— **murió entera**: `lifebook.products` no tiene
+columna `name`, así que el `UNION` completo falló y **no hay ni un recuento**. Es un defecto de mi guion,
+no del servidor, y se dice aquí en vez de disimularlo.
+
+Lo que **sí** se sabe del marcado de ejemplos, y es más de lo que había:
+
+- **No existe bandera.** `0 filas` al buscar columnas con `is_test`/`prueba`/`ejemplo`/`seed`/`dummy`… en
+  los cinco esquemas (`lifebook`, `wallet`, `mobility`, `ecomerse`, `public`).
+- **La única señal es el nombre**, y en `lifebook.shops` cuadra **exactamente uno**: **`Hotel Demo Malabo`**
+  (creada el 11-sep). Coherente con `hotel_profiles = 1` fila.
+- Colocación de las 5 tablas: `hotel_profiles` 1 · `room_types` 43 · `room_type_calendar` 0 ·
+  `reservation_nights` 17 · `reservations` 90.
+
+O sea: **«purgar los ejemplos» sigue abierto**, ahora con el censo a medias y con la razón escrita. Falta
+repetir `6b` con la columna correcta de `products` — se hace en la próxima ventana que se abra por otro
+motivo, no en una propia.
+
+## 12.6 Estado de `B` y lo que deja abierto
+
+**Hecho:** `B-1` (5 migraciones + `.gitattributes`) · **`B-2`** (esquema) · **`B-3`** (módulo del hotel).
+
+**Abierto, con nombre:**
+
+1. **Purgar los ejemplos** — necesita el censo `6b` repetido y una decisión de qué se borra. No hay bandera.
+2. **Los 16 ficheros de código que quedan sin versionar** en `src/lifebook/` (~730 KB: `commerce.*`,
+   `orders.*`, `lifebook.*`, `media.*`, `merchant.*`, `payments.*`, `ai.*`, …). Fuera del alcance del hotel,
+   pero es el mismo agujero: **el repo versiona 6 de 22**. Decidir si se versionan.
+3. **`LH-05` mitad app** (cabecera `X-Payment-Token`, exige PIN) · **`LH-12` mitad controlador** ·
+   **`LH-10` causa raíz** en `wallet.service`/`kyc-gate.service`.
+4. **El pase de `reconciliarMonedero` sin la ventana de 48 h** (§11.13).
+5. **Los 5 commits** de `B` sin subir (los sube Bernardo: desde aquí falta credencial, no red).
+
+## 12.7 Trampas nuevas (§12.4)
+
+- **Mezclar un payload grande en stdout con errores de `psql` en stderr, por un solo canal SSH, los
+  intercala.** El stdout va en bloque, el stderr sin buffer. Mitigación: el payload **al final**, o
+  mandarlo a fichero, o separar los errores de la sección que los produce.
+- **Corregir la cifra no basta: hay que RETIRARLA por escrito.** El «3 de los 9» queda dicho aquí como
+  retirado, y con las dos cifras medidas en su lugar, porque sobre él se habría construido un plan.
