@@ -497,6 +497,32 @@ casualidad.
 
 ---
 
+## 8. Cómo se comprueba que este documento no inventa nada
+
+```bash
+cd /d/egapp && node pruebas/verifica-contrato-campos.cjs
+```
+
+**Qué hace la puerta:** recorre los bloques de este documento y falla si un campo no existe en
+`api/hotel.ts`, si su opcionalidad no coincide, o si su tipo no coincide — comparando **interfaz por
+interfaz** (un mapa global de nombres da falsos positivos: `guests`, `lat` y `checkinFrom` existen en
+varias interfaces con formas distintas). Con las muestras locales presentes, comprueba además que cada
+clave de los bloques JSON existe de verdad en la respuesta del servidor.
+
+**Resultado del 27-sep-2026:** `192 campos de tipo comprobados · 47 claves JSON · 0 inventados`.
+
+**Para regenerar las muestras** (servidor de PRUEBA, desde la máquina, sin aislamiento):
+
+```bash
+B=https://hk.egrouteplan.com/wallet/api/v1/lifebook/commerce/hotel
+curl -s --noproxy '*' "$B/hotels/d8a2ece3-92b4-4959-8412-d26b5d698ade" -o pruebas/_p2-ficha.json
+curl -s --noproxy '*' "$B/hotels?city=Malabo" -o pruebas/_p2-search.json
+curl -s --noproxy '*' "$B/rooms/e0a56105-6986-4759-a58c-23fea95808fd/calendar?from=2026-09-27&to=2026-10-03&units=1" -o pruebas/_ct-calendar.json
+curl -s --noproxy '*' "$B/hotels/d8a2ece3-92b4-4959-8412-d26b5d698ade/reviews?limit=3" -o pruebas/_ct-reviews.json
+```
+
+---
+
 **Y lo que sigue sin poder prometerse:** un filtro que ordene, una estrella en la lista o un precio
 tachado **necesitan backend**. Lo demás —tarjeta con foto, franja de fechas, tabla de servicios,
 calendario con precio por noche, escaparate de reseñas— **se puede hacer ya, con estos campos.**
