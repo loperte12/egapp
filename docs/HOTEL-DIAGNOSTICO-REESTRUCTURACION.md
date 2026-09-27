@@ -320,7 +320,11 @@ son las únicas revisables sin tocar código.
 Si un hotel vende además como tienda, tendrá **dos notas distintas y las dos verdaderas** — una por lo que
 vende en el mercado, otra por cómo aloja. Mezclarlas es lo que hay que evitar, y es lo que pasa hoy.
 
-**Migración `021_hotel_resenas.sql`** (una tabla, siguiendo la numeración de `backend/sql/`):
+**Migración `026_hotel_resenas.sql`** (una tabla, siguiendo la numeración de `backend/sql/`):
+
+> **CORRECCIÓN de numeración (27-sep):** esta sección decía `021_hotel_resenas.sql`, y `021` **ya está
+> tomado** por `021_ecomerse_variantes.sql` (el repo llega hasta `025_ecomerse_store_follows.sql`).
+> El hueco real es **`026`**. Se corrige aquí y en §8.4; el número no era una decisión, era un choque.
 
 | Columna | Tipo | Por qué |
 |---|---|---|
@@ -424,8 +428,10 @@ reloj se está** resuelve la mitad de los hallazgos de dinero.
   como **modelo**, con la tabla ya definida.
 - De §7.2: quedan **el orden de trabajos (D1)**, el barrido `expire-stale` **[SIN MEDIR]**, y **cómo se
   marca un ejemplo** (bandera o disciplina de nombres — sigue sin medirse ninguna bandera).
-- Y queda **una migración por escribir** (`021`) más el volcado del esquema del hotel (trabajo B), del que
-  `021` es la primera pieza versionada: hoy **ni una** de las cinco tablas del hotel está en el repo.
+- Y queda **una migración por escribir** (`026_hotel_resenas.sql`; §8.1 la numeró `021` y `021` ya estaba
+  tomado por el ecomerse) más el volcado del esquema del hotel (trabajo B) — **hecho desde `B-2`**: el
+  esquema está versionado en `backend/sql/esquema/lifebook-hotel-20260927.sql`, y `B-7` comprobó que no
+  se ha movido (huella normalizada `415fb5d2…`, §13.5).
 
 ---
 
@@ -1093,16 +1099,20 @@ O sea: **«purgar los ejemplos» sigue abierto**, ahora con el censo a medias y 
 repetir `6b` con la columna correcta de `products` — se hace en la próxima ventana que se abra por otro
 motivo, no en una propia.
 
+> **CERRADO el 27-sep por `B-7` → §13.** El censo se repitió **sin necesidad de columnas**
+> (`to_jsonb` + límites de palabra) y la decisión de mecanismo está en §13.3: seed versionado con ids
+> deterministas + purga por esos ids. Lo que este epígrafe decía «a medias» está completo en §13.2.
+
 ## 12.6 Estado de `B` y lo que deja abierto
 
 **Hecho:** `B-1` (5 migraciones + `.gitattributes`) · **`B-2`** (esquema) · **`B-3`** (módulo del hotel).
 
 **Abierto, con nombre:**
 
-1. **Purgar los ejemplos** — necesita el censo `6b` repetido y una decisión de qué se borra. No hay bandera.
-2. **Los 16 ficheros de código que quedan sin versionar** en `src/lifebook/` (~730 KB: `commerce.*`,
-   `orders.*`, `lifebook.*`, `media.*`, `merchant.*`, `payments.*`, `ai.*`, …). Fuera del alcance del hotel,
-   pero es el mismo agujero: **el repo versiona 6 de 22**. Decidir si se versionan.
+1. **~~Purgar los ejemplos~~ → CERRADO en §13** (`B-7`, 27-sep): censo medido y mecanismo decidido
+   (seed versionado con ids deterministas + purga por esos ids). Falta escribirlos y ejecutarla.
+2. **~~Los 16 ficheros de código que quedan sin versionar~~ → CERRADO en §13.4** (`B-4`, commit
+   `6a8e481`): los 22 del módulo están en el repo. Era prerrequisito de la tanda C, no un extra.
 3. **`LH-05` mitad app** (cabecera `X-Payment-Token`, exige PIN) · **`LH-12` mitad controlador** ·
    **`LH-10` causa raíz** en `wallet.service`/`kyc-gate.service`.
 4. **El pase de `reconciliarMonedero` sin la ventana de 48 h** (§11.13).
@@ -1115,3 +1125,222 @@ motivo, no en una propia.
   mandarlo a fichero, o separar los errores de la sección que los produce.
 - **Corregir la cifra no basta: hay que RETIRARLA por escrito.** El «3 de los 9» queda dicho aquí como
   retirado, y con las dos cifras medidas en su lugar, porque sobre él se habría construido un plan.
+
+---
+
+# 13 · Acta de `B-7` — el censo de ejemplos y los 16 ficheros (27-sep-2026)
+
+Cierra los dos puntos que §12.6 dejaba abiertos con nombre: el censo de ejemplos (1) y los 16 ficheros
+sin versionar (2). Los dos, con medición; ninguno con opinión.
+
+## 13.1 La ventana: dos intentos, y la trampa que el primero destapó
+
+El primer intento acabó **`exit=0` limpio, con 12.414 bytes de registro, cortado justo después de la
+primera llamada a `docker`, y stderr vacío**. No hay mensaje de error que leer: ese es el problema.
+
+- **Diagnóstico (medido, no supuesto):** dentro de un guion que se alimenta por stdin
+  (`ssh … 'bash -s' < guion.sh`), un `docker exec -i` **puede comerse el resto del guion**: su lectura
+  de stdin corre una carrera con la lectura de `bash`. Al llegar a EOF, `bash` salió 0 sin avisar — de
+  ahí el `exit=0` con la mitad del trabajo sin hacer.
+- **Cura:** negarle el stdin a docker en **todas** sus llamadas (`< /dev/null`): 5 de `psql` y 1 de
+  `pg_dump`. Segundo intento: **1.029.513 bytes, completo hasta la última línea**, a la primera.
+- **Por qué es peor que la trampa de §12.4:** aquella rompía el payload y se veía en la aritmética.
+  Esta **no rompe nada visible** y sale con éxito. Solo la longitud del registro delata que falta algo.
+  En `TRAMPAS-ENTORNO` queda como regla: **guion por stdin ⇒ docker con `< /dev/null`, sin excepción.**
+
+## 13.2 El censo, arreglado y medido
+
+El arreglo de la consulta `6b` no es «poner la columna correcta de `products`»: es **dejar de necesitar
+columnas**. El censo ahora compara contra `to_jsonb(t)::text` — la fila entera, cualquier tabla — con
+límites de palabra `\m…\M` para que un `e2e` dentro de un uuid **no** cuadre (los uuid son hexadecimales;
+`E2E` podría formarse, pero entre dígitos hexadecimales los límites de palabra lo matan). Antes, el
+inventario de tablas sale de `pg_stat_user_tables`: **206 tablas en los cinco esquemas**, con filas, sin
+adivinar ni un nombre.
+
+| Tabla | Filas | Parecen prueba |
+|---|---:|---:|
+| `lifebook.shops` | 3 | **1** |
+| `lifebook.products` | 120 | **120** |
+| `lifebook.room_types` | 43 | **16** |
+| `lifebook.hotel_profiles` | 1 | 0 |
+| `lifebook.reservations` | 90 | **48** |
+| `lifebook.reservation_nights` | 17 | 0 |
+| `lifebook.room_type_calendar` | 0 | 0 |
+| `lifebook.post_products` | 10 | 0 |
+| `mobility.users` | 17 | **5** |
+| `wallet.ecomerse_products` | 12 | **12** |
+
+Y por **nombre**, en las dos columnas verificadas (shops `name`; products `title`, que está en
+`commerce.service.ts:816`): `shops` → **1** (`Hotel Demo Malabo`, creada el 11-sep); `products` → **4**
+(dos «de prueba» del 14-sep, `Producto E2E Monedero` y `Habitación E2E` del 17-sep).
+
+**La advertencia honesta que este censo lleva pegada:** `to_jsonb` también mira **dentro** de los valores
+`jsonb` — URLs de imágenes, etiquetas —. Por eso `products` da **120 de 120**: es una cota superior, no
+una verdad fila a fila. No hace falta resolverla para decidir, porque la decisión de §13.3 no depende de
+eso; pero **ninguna cifra de esta tabla se puede usar como «cuántas filas se borran»**.
+
+## 13.3 La respuesta a §7.2-3: ni bandera ni disciplina de nombres
+
+Lo medido manda sobre las dos opciones que había sobre la mesa:
+
+- **Una bandera por fila sería peso muerto hoy**: en las tablas del mercado el ejemplo **es** el 100 %
+  (3 de 3 tiendas, 120 de 120 productos). Una bandera que vale `true` en todas las filas no distingue nada.
+- **La disciplina de nombres ya está medida y no alcanza**: 4 de 120 productos delatan por nombre. El
+  otro 116 no tiene ninguna señal — y `is_room_type`/`Hotel Demo Malabo` prueban que los ejemplos se
+  crearon sin convención de nomenclatura.
+
+**La decisión:** el mecanismo de «purgar los ejemplos» es un **seed versionado con ids deterministas** más
+una **purga que borra exactamente los ids que ese seed insertó**. Hoy la purga es un **reset** (todo es
+ejemplo); el día que entren datos reales, la misma lista de ids del seed hace la purga **quirúrgica**, sin
+columna nueva, sin migración y sin depender del idioma de los nombres. Los ids van en el propio fichero
+del seed: la identidad del ejemplo **es** la fila que el seed declara, no un texto que aparece en su título.
+
+Lo que esto **no** hace: no borra nada todavía. La purga se ejecuta en ventana, con `pg_dump -Fc` fresco
+verificado delante (regla de §11), y después de que el seed exista y esté versionado — si se borra antes
+de que el seed exista, no hay forma de recargar.
+
+## 13.4 Los 16 ficheros, versionados (`B-4`)
+
+Los trajo la ventana en base64 con su `sha256` al lado; el extractor (`_b2-extrae.py`, sin cambiar una
+línea) verificó los **22 ficheros del módulo**: **16 escritos, 6 ya versionados comprobados contra el
+servidor, 0 errores**. Commit **`6a8e481`**: 14.470 líneas.
+
+| Fichero | Bytes | | Fichero | Bytes |
+|---|---:|---|---|---:|
+| `lifebook.service.ts` | 304.440 | | `orders.controller.ts` | 3.947 |
+| `commerce.service.ts` | 156.601 | | `payments.service.ts` | 10.098 |
+| `orders.service.ts` | 81.928 | | `orders-fees.ts` | 6.725 |
+| `ai.service.ts` | 57.932 | | `commerce.controller.ts` | 15.350 |
+| `lifebook.controller.ts` | 58.826 | | `merchant.service.ts` | 14.002 |
+| `media.service.ts` | 25.934 | | `ai.controller.ts` | 3.526 |
+| `payments.controller.ts` | 1.975 | | `orders-money.controller.ts` | 2.247 |
+| `media.controller.ts` | 2.191 | | `merchant.controller.ts` | 1.531 |
+
+**Por qué esto no es ampliar el alcance:** el mapper de la tarjeta del hotel lee `shops.rating` en
+`commerce.service.ts` (líneas **322**, **813**, **1546** y **1576-1603**) — es el desacople que §8.1
+exige como «(1) el mapper». Ese fichero **no estaba en el repo**. Sin él, la tanda C no se puede ni
+planear: se estaría editando a ciegas un fichero del que el repo no tiene copia.
+
+**El espejo de septiembre sigue siendo válido, con una excepción medida:** los 16 comparados contra
+`.auditoria-servicios/backend/src/lifebook/` dan **15 idénticos byte a byte**. El que difiere es
+`lifebook.service.ts`, y la diferencia es **exactamente el arreglo conocido de la política del bucket**
+(aplicarla siempre, no solo al crear): dos trozos, cero sorpresas. Las citas de línea del espejo valen
+para los 15; para `lifebook.service.ts` hay que citar sobre la copia del repo.
+
+## 13.5 El DDL otra vez: la huella cambió y el esquema NO se movió
+
+El volcado de B-7 dio **17.799 bytes —los mismos que B-2— con otra huella**. La razón está en las líneas
+5 y 474: `pg_dump` 16.15 mete un `\restrict` con **semilla aleatoria en cada tirada**, así que **un
+volcado crudo no es reproducible byte a byte**, y comparar huellas crudas de `pg_dump` **miente**.
+
+Quitadas las dos líneas `\restrict`/`\unrestrict`, los volcados de B-2 y B-7 son **idénticos**. Huella
+normalizada: `415fb5d2c1988cf8418df146d33d7c35408f25fd603b512759d373fc87ce4fb8`. Regla que queda: **los
+`pg_dump` se comparan normalizados, o la comparación no vale nada.** Para la migración `026` esto importa:
+el esquema sobre el que se escribe es el mismo que se versionó en B-2.
+
+## 13.6 Estado de `B` tras esta tanda
+
+**Cerrado:** el censo de ejemplos (§13.2, con decisión de mecanismo en §13.3) · los 16 ficheros (§13.4).
+**El repo ya versiona 22 de 22 del módulo** y el esquema completo del hotel.
+
+**Queda abierto, con nombre:**
+
+1. **Escribir el seed y la purga** (§13.3) y ejecutar la purga en ventana — nada se ha borrado.
+2. **`LH-05` mitad app** (cabecera `X-Payment-Token`, exige PIN) · **`LH-12` mitad controlador** ·
+   **`LH-10` causa raíz** en `wallet.service`/`kyc-gate.service`.
+3. **El pase de `reconciliarMonedero` sin la ventana de 48 h** (§11.13).
+4. **4 commits** de `B` sin subir (`dc14bc6`, `c473eb1`, `922a479`, `6a8e481`) — los sube Bernardo.
+
+---
+
+# 14 · Trabajo C — lo que decide la compra, antes de publicar (27-sep-2026)
+
+§4 definió C como el mapa de brecha frente a Meituan. Esta tanda es **la mitad que tiene que estar
+antes de publicar**, y el reparto frontend/backend de cada pieza está **medido, no repartido a ojo**.
+Las cinco piezas, en el orden en que se tocan:
+
+## 14.1 C-1 · La confianza: reseñas propias (backend + app)
+
+**La pieza más larga y la que desbloquea las demás.** El modelo está decidido (§8.1) y la migración
+**ya está escrita**: `backend/sql/026_hotel_resenas.sql` — tabla `lifebook.hotel_reviews` (una por
+estancia, `uq_lb_reviews_reserva`), FK a `reservations`/`shops`/`users` con `cascade` como la familia,
+y **el espejo** `hotel_profiles.hotel_rating` + `hotel_rating_count`, que la búsqueda lee y por el que
+ordena. Aplicarla necesita ventana; el resto se puede escribir mientras tanto.
+
+Lo que falta por construir, medido sobre lo que hay:
+
+- **Rutas: no existe ni una.** `hotel.controller.ts` tiene **23 rutas** (medidas) y ninguna es de
+  reseñas: `hotels`, `search`, `fx`, `hotels/:id`, `rooms/:roomTypeId…`, `reservations…`, `my/hotel`,
+  `my/room-types`, `my/day-book`, `admin/expire-stale`. Hacen falta: listar las de un hotel (pública),
+  escribir (el autor de una estancia `checked_out`), responder (el hotelero) y borrar (el autor, dentro
+  de 7 días; el administrador, siempre).
+- **El desacople de `shops.rating`, en el sitio medido:** `commerce.service.ts` líneas **322**, **813**,
+  **1546** y **1576-1603** — el mapper de la tarjeta y el de la tienda. La ficha debe enseñar
+  «4,6 · 38 reseñas» del espejo, no el número de la tienda; y el filtro «4,5+» y la ordenación, cuando
+  se construyan (C-4), **van sobre el espejo**, no sobre `shops`.
+- **En la app:** la ficha (`lifebook-hotel-detalle.tsx`, 547 líneas) no tiene sección de reseñas ni
+  hay pantalla para escribirlas.
+
+## 14.2 C-2 · La búsqueda por filtros: lo que se promete y no se entrega
+
+**Hallazgo nuevo de esta tanda, medido:** `searchHotels` **acepta `amenities` y no la usa**. Está en la
+firma (`hotel.service.ts:1154`) y en el DTO, y la consulta `WHERE` solo filtra ciudad, estado y
+`is_hotel` — ni una mención a `amenities` en las **267 líneas del método** (1071→1337). El parámetro
+existe para que el cliente crea que filtra. Y **`stars` ni siquiera se acepta**: `hotel_profiles.stars`
+existe (1–5, con su CHECK) y no hay manera de pedir «4 estrellas o más».
+
+- **Backend:** aplicar `amenities` (jsonb, comparación de contención) y aceptar `stars` (mínimo), los dos
+  sobre `hotel_profiles`. Más el filtro de nota mínima y la ordenación por nota **sobre el espejo** de C-1.
+- **Por ubicación del usuario:** `shops.lat/lng` existen; la búsqueda no recibe coordenadas. Es la pieza
+  con decisión pendiente — distancia en km con filtro de radio (haversine en SQL) o solo orden por
+  cercanía. Se decide antes de construirla, no dentro.
+- **En la app:** `lifebook-hotel-resultados.tsx` (354 líneas) y el buscador (`lifebook-hotel.tsx`).
+
+## 14.3 C-3 · El desglose del precio — VERIFICADO, no hay que construirlo
+
+Escrito primero como pendiente y **retirado al medirlo**, como ya pasó con la política de cancelación
+(§8.2). El desglose **existe y está en las dos orillas**:
+
+- **El servidor lo calcula y nunca recibe dinero del cliente:** los precios noche a noche salen del
+  calendario → fin de semana → base (`reservations.service.ts:225-237`), toma el **mayor** como
+  instantánea prudente, y `quote()` (`hotel.service.ts:1338`) devuelve subtotal, limpieza, tasas,
+  total, señal y resto. Además **ya viaja el desglose por noche**: `nightlyPrices`
+  (`api/hotel.ts:256`, `:398`).
+- **La app lo pinta:** la reserva (`lifebook-hotel-reserva.tsx:328-330`) y la pre-reserva
+  (`lifebook-hotel-reservar.tsx:531`), cuya estimación **reproduce la regla del servidor a mano**
+  (`Math.max(...noches)`, línea 199, con el comentario que lo dice).
+
+Lo que queda aquí no es construir, es **vigilar que las dos orillas no diverjan**: hoy la igualdad
+depende de que el código de la app copie a mano la regla del servidor. Si algún día cambia una de las
+dos (por ejemplo, para C-2 con precios de temporada), la otra se queda vieja **sin que nadie se entere**.
+El remedio natural es que el servidor mande el desglose ya calculado en la respuesta de disponibilidad
+— decisión que se toma al tocar C-2, no antes.
+
+## 14.4 C-4 · La etiqueta de confirmación inmediata (solo app)
+
+`confirmation_hours = 0` significa «confirma al instante» (§8.3) y el dato ya viaja. Falta pintarlo en
+la tarjeta de resultados y en la ficha, con el mismo reloj que el panel del hotelero. Es la pieza más
+corta de la tanda y no toca servidor.
+
+## 14.5 C-5 · La ficha (el conjunto, no una pieza)
+
+`lifebook-hotel-detalle.tsx` concentra hoy lo que hay. C-1, C-3 y C-4 le añaden reseñas, desglose y
+etiqueta; C-5 es revisar el **conjunto** con la regla del dossier: lo que decide una reserva — fotos,
+habitaciones, precio con desglose, política con fecha y hora, nota con reseñas — visible sin scroll
+infinito ni saltos. Antes de implementar: **decisión y previsualización**, como pide Bernardo.
+
+## 14.6 El orden y lo que cada paso necesita
+
+| Paso | Necesita | Ventana |
+|---|---|---|
+| C-1 (reseñas) | migración `026` + servicio + rutas + app | sí, para aplicar `026` y desplegar |
+| C-2 (filtros) | el espejo de C-1 para nota mínima/orden | sí, para desplegar |
+| ~~C-3 (desglose)~~ | **nada: verificado hecho** (§14.3) | — |
+| C-4 (etiqueta) | solo app | no, pero sí `assembleRelease` para verificarla |
+| C-5 (ficha) | las anteriores | la verificación es en el móvil |
+
+**Lo que NO es C:** el desglose del precio (verificado en §14.3), purgar los ejemplos (cerrado como
+mecanismo en §13.3; falta escribir el seed) y el resto de deudas de B (§13.6). C no empieza borrando
+nada: empieza por la migración `026`, que ya está escrita y revisada contra el esquema medido.
+
+
