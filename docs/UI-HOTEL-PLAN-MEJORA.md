@@ -490,7 +490,262 @@ puede medir de verdad desde aquí**: sólo su estado deshabilitado.
 
 ---
 
+## 11. LA FICHA (foto 2 del recorrido) — el clic desde la home
+
+Las tres fotos enviadas son la **misma pantalla** en dos fotogramas del carrusel de servicios.
+Lo que se lee, solo en la parte de hoteles:
+
+| # | Bloque de la foto | Qué es |
+|---|---|---|
+| 1 | Galería con **pestañas** `封面 · 房间 · 公共区域 · 相册 ›` | Las fotos van **atribuidas por zona**, no en una tira anónima |
+| 2 | Título `吉米电竞·酷驰酒店(东安路店)` + etiqueta `经济型` | Nombre + categoría |
+| 3 | `2024年开业 · [榜第1名] · [优美会]` | Antigüedad, ranking y membresía |
+| 4 | `1万+ 销量 · 40分钟前 最新预订 · 寄存 · 洗衣服务 · 管家服务 · 亮点·设施 ›` | **Prueba social** + servicios en carrusel + puerta a la lista completa |
+| 5 | `4.9 超棒 2066条` + cita de una reseña **\|** `距您驾车18.2公里 · 距桂林站1.8公里` + dirección + botón `地图` | **Dos columnas: la nota y la ubicación, juntas** |
+| 6 | `神券 最高膨胀至100 · 膨胀 · 支付红包200 领取 · 全部 ›` | Cupones |
+| 7 | Tabs `预订 · 评价 (2066) · 设施 · 周边` | **La pantalla está partida en cuatro** |
+| 8 | `‹ 09月26日 今天 [1晚] 09月27日 明天 · 1间·1人` + chip `错峰订` | **Fechas y ocupación en una barra, siempre a la vista** |
+| 9 | `学生专享 · 神券 · 白银会员 ·` `筛选 ⚙` | Beneficios y filtro |
+| 10 | Tarjeta de habitación: **foto** + `高级电竞双人间 ›` + `2张1.2米单人床 20-25m² 2人入住` + `无早餐` + `15分钟内可免费取消` + `2台电脑 RTX4060Ti i5 13490F` + `刷新率>240Hz 专线网络 电竞椅` + `赠 LOL全英雄特权…` + `本店双房房销量No.1` `住就送·70元券包` + `立即确认` + `¥605` ~~`¥166`~~ + `仅1间` `抢` | **La tarjeta de habitación, entera** |
+
+### 11.1 La brecha, medida EN EL MÓVIL (27-sep, 20:0x)
+
+Ficha del `Hotel Demo Malabo` (`d8a2ece3…`, 8 habitaciones) abierta por deep link y volcada con
+`uiautomator`. Pantalla de **2.374 px** de alto.
+
+**Primera pantalla completa — de arriba abajo:**
+
+| y (px) | Qué |
+|---|---|
+| 146 | Barra: `‹ Hotel Demo Malabo` |
+| 318 | `1/7` (contador de la galería) |
+| ~430-1000 | Galería (≈600 px) |
+| 1044 | `Hotel Demo Malabo` |
+| 1137 | `Hotel · 3★ · Paraíso · Malabo` |
+| 1218 | `🕐 Entrada de 14:00 a 22:00 · salida hasta 12:00` |
+| 1355 | `📍 Frente al mar, a 5 min del centro` |
+| 1469 | `Cómo llegar` |
+| 1622-1894 | `🛫 ¿Llegas al aeropuerto?` + línea de precios + `Pedir taxi al hotel` |
+| 1978-2161 | Descripción (3 líneas) |
+| 2212 | `Wi-Fi` `Desayuno` |
+| 2296 | `Formas de pago: …` (cortado por el borde) |
+
+→ **En la primera pantalla entera no hay ni una habitación, ni un precio, ni la nota, ni una
+reseña.** El huésped recorre galería, horario, dirección, mapa, taxi al aeropuerto, descripción,
+dos servicios y las formas de pago — y no ha visto todavía **cuánto cuesta dormir aquí**.
+
+**Tras un desplazamiento largo (swipe de 1.200 px):** `Habitaciones (8)` queda en y=411,
+el selector de moneda `China · ¥` en y=568, la nota de equivalencia en y=670 y **el primer
+precio —18.000 XAF, `Habitación individual`— en y=857**.
+
+**El desplazamiento siguiente ya es el calendario:** la rejilla de días (1…30) ocupa la pantalla
+entera, dentro de la primera habitación. Es el acordeón de §6.1, medido: **el calendario se come
+una pantalla completa antes de que el huésped haya visto cuánto cuesta la segunda habitación.**
+
+### 11.2 La misma enfermedad que la home
+
+En la home eran ~1.000 px de formulario antes de la lista. Aquí son **más de 2.374 px de texto
+informativo antes del primer precio**. No es que la ficha tenga demasiado contenido: es que lo
+**informativo** (horario, dirección, taxi, normas) está **delante** de lo que **decide** (cuánto
+cuesta y si queda).
+
+La foto de Meituan mete en su primera pantalla: galería, nombre, meta, servicios, nota + distancia,
+cupones, las cuatro pestañas, la barra de fechas **y la primera habitación con su precio y su
+botón**. Ocho bloques *más* la decisión. Aquí caben ocho bloques y ninguna decisión.
+
+### 11.3 Lo que se puede copiar **ya**, con datos que existen — verificado contra el servidor
+
+Leído en vivo (`/hotels/d8a2ece3…` y `/search?city=Malabo`, 27-sep):
+
+| Dato | Estado | Qué permite |
+|---|---|---|
+| `isVerified` / `verificationLevel = verified` | **Existe y hoy NO se pinta en ninguna pantalla** | El badge de confianza del bloque 3 de la foto. Es el equivalente real a `优美会` — y no hay que inventarlo |
+| `room.weekendPriceXaf` (22.000 · 32.000 · 32.000 · 34.000) | **Existe y hoy NO se enseña en ninguna pantalla** | Avisar de que viernes y sábado cuestan más **antes** de reservar, no en la cuenta final |
+| `room.images` — 2 de 8 habitaciones con 3 fotos | Existe | **La tarjeta de la habitación con foto** (bloque 10). Y obliga a que funcione **sin** foto: 6 de 8 no tienen |
+| `room.amenities` — `wifi, aire, tv, agua_caliente, nevera` | Existe | Las tres líneas de iconos de la tarjeta; el diccionario `SERVICIOS` ya traduce estas claves |
+| `coverUrl` + `logoUrl` | Existen; **`logoUrl` no se pinta** | El avatar del hotel junto al nombre |
+| `roomCount = 8`, `stars = 3`, `propertyKind = hotel` | Existen | `Hotel · 3★ · 8 tipos de habitación` |
+| `cancellationHours = 48` | Existe | «Cancelación gratis hasta 48 h **antes de la llegada**» |
+| `confirmationHours = 24` | Existe | Aquí **`24` = el hotel confirma en 24 h**, NO es inmediata. La promesa «confirmación inmediata» de la foto **solo se puede escribir si vale `0`** |
+| `lat`/`lng` del hotel + `lat`/`lng` del aeropuerto | Existen | La distancia del bloque 5. `utils/distancia.ts` ya la calcula; `HotelAirport` da el segundo punto de referencia («a X km del aeropuerto»), que es el papel del `距桂林站1.8公里` de la foto |
+| `resenas.items[0].body` | Existe (C-1) | La cita de reseña que acompaña a la nota |
+| `followersCount = 0` | **Existe en el JSON y NO está en el tipo TS** | Es «seguidores», no ventas. Si se quiere usar, hay que añadirlo primero a `HotelSummary` |
+
+**Y un hallazgo que corrige la galería:** las `1/7` fotos de la ficha son **una portada + las 3
+de `Habitación individual` + las 3 de `Habitación doble`**. La galería de hoy (`lifebook-hotel-detalle.tsx:233-240`)
+las junta **todas** sin decir de dónde sale cada una: quien mira cree que son siete fotos del
+alojamiento y está viendo el mismo cuarto tres veces. **Separarlas por origen no necesita ningún
+campo nuevo** — el origen ya está en el dato.
+
+### 11.4 Lo que **no** se puede copiar de la foto
+
+Sin esto, copiar el bloque deja la pantalla mintiendo o vacía:
+
+- **`2024年开业`** (año de apertura): no existe el campo.
+- **`榜第1名`** (ranking) y **`优美会`** (membresía): no existen, y son de la contabilidad de Meituan.
+- **`1万+ 销量`** y **`40分钟前 最新预订`**: no existe el dato. Es **prueba social inventada** si se
+  escribe a ojo — y una cifra falsa en la ficha es peor que no tenerla.
+- **Cupones, `神券`, `支付红包`, `学生专享`, `白银会员`**: no existe el sistema de cupones.
+- **Precio tachado `¥605 → ¥166`**: no existe el precio de referencia, así que **no hay descuento
+  que enseñar**. Un tachado sin precio anterior es un adorno.
+- **Etiquetas de venta de la habitación** (`本店双房房销量No.1`, `住就送·70元券包`): no existen.
+- **`无早餐`** en la habitación: aquí el desayuno es un servicio **del hotel** (`amenities: ['wifi','desayuno']`),
+  no de la habitación. Poner «sin desayuno» en la tarjeta de la habitación sería **contradecir** al
+  hotel, que sí lo ofrece.
+- **`15分钟内可免费取消`**: es **otro concepto**. Aquí `cancellationHours` cuenta **horas antes de
+  la llegada**. Traducirlo mal es prometer una política que el servidor no aplica.
+- **`仅1间`**: `freeUnits` llega **solo en la búsqueda con fechas**, y en la ficha viene `null`.
+  Enseñarlo aquí exige pedir el calendario de cada habitación.
+- **`抢`**: urgencia sin dato que la sostenga.
+- **Las cuatro pestañas**: aquí no hay pantallas de `设施` ni `周边`. Una pestaña que no lleva a
+  ningún sitio es peor que un scroll largo.
+
+### 11.5 La propuesta, en una frase
+
+**Bajar lo informativo y subir la decisión**, con los tres datos que ya existen y hoy no se pintan
+(**verificado**, **precio de fin de semana**, **fotos de la habitación**):
+
+1. **Galería con dos pestañas de verdad**: `Alojamiento (1)` / `Habitaciones (6)`. Sin campo nuevo.
+2. **Cabecera**: nombre + `Hotel · 3★ · Paraíso · Malabo` + **`✓ Verificado`** (el dato que hoy no se pinta).
+3. **Barra de fechas y ocupación, siempre visible**, y **el calendario sale del acordeón**: hoy vive
+   dentro de la habitación y se come una pantalla por cada tipo.
+4. **Dos columnas**: nota (con la cita de la reseña más reciente) **|** distancia + dirección + `Mapa`.
+5. **Lista de habitaciones**: foto cuando la haya, `m²`, camas, capacidad, servicios con iconos,
+   **el precio de fin de semana cuando lo tenga**, y **un solo botón**.
+6. **El bloque informativo** (descripción, servicios, horario, formas de pago, normas, cancelación,
+   cómo llegar, al llegar, taxi al aeropuerto) **baja debajo de las habitaciones**.
+7. **Reseñas al final**, donde las dejó C-1.
+
+Los commits de esta sección, cuando se implementen, irán a `783ad75`-style: código y documento
+separados.
+
+### 11.6 Las decisiones del dueño del producto, y lo que se ha implementado
+
+**Las cuatro respuestas (27-sep-2026), tal como se dieron:**
+
+| | Decisión | Consecuencia |
+|---|---|---|
+| **D8** | **Pestañas, como Meituan**: `Reservar · Reseñas · El alojamiento` | **No era la propuesta por defecto** (que era bajar el bloque informativo, sin partir la pantalla). El usuario eligió las pestañas: la ficha se parte en tres. Es más trabajo y hay que decidir qué pasa con el botón de volver y con la sección de reseñas — que con pestañas cumple D1 de C-1 **mejor** que con scroll. Queda para la tanda siguiente. |
+| **D9** | Barra de fechas arriba, calendario en hoja | **Hecho** |
+| **D10** | Galería con dos pestañas: `Alojamiento (n)` / `Habitaciones (m)` | Pendiente. Sin campo nuevo: el origen ya está en el dato. |
+| **D11** | Primero la tarjeta de habitación | **Hecho** |
+
+**Implementado en `13332f8`** (4 ficheros, +668/−247):
+
+| Fichero | Qué |
+|---|---|
+| `components/hotel/HotelRoomCard.tsx` **(nuevo)** | La tarjeta del tipo de habitación: foto cuando la tiene, medidas, servicios con icono, condiciones, el precio de fin de semana y **un solo botón** |
+| `components/hotel/HotelDateRange.tsx` **(nuevo)** | La barra de fechas y su hoja de calendario, con la disponibilidad **agregada** de los tipos activos |
+| `components/hotel/servicios.ts` **(nuevo)** | El diccionario de nombres de servicio, que sale de la ficha porque ya lo usan dos pantallas |
+| `app/lifebook-hotel-detalle.tsx` | Se va el acordeón; las fechas pasan a ser de la pantalla; el selector de moneda se muda al final del bloque informativo; se pinta el sello de verificado |
+
+**Tres precisiones que la implementación obligó a fijar por escrito:**
+
+1. **`cancellationHours` son horas ANTES DE LA LLEGADA**, no minutos después de reservar. El aviso
+   de la referencia (`15分钟内可免费取消`) es **otra política** y no se copia: escribirla aquí
+   prometería algo que el servidor no aplica.
+2. **`confirmationHours = 24` NO es confirmación inmediata.** El aviso «confirmación inmediata» solo
+   se escribe cuando vale `0`. Con `24` —el valor real del alojamiento de prueba— el hotel tarda un
+   día, y callarlo para parecerse a la referencia sería mentir en el dato que más ansiedad quita.
+3. **El precio de las fechas elegidas no se enseña en la ficha.** Haría falta el calendario de CADA
+   tipo (ocho peticiones en el alojamiento de prueba) y la ficha no puede gastar eso al abrirse. La
+   tarjeta enseña el precio **por noche** —base y fin de semana— y el importe exacto de la estancia
+   lo sigue calculando el servidor en `lifebook-hotel-reservar.tsx`, que es donde el dinero se
+   desglosa y se enseña la señal. **La ficha elige; la reserva cobra.**
+
+**Lo que queda de esta pantalla:** las pestañas (D8) y la galería con dos pestañas (D10).
+
+### 11.7 Lo medido en el móvil (27-sep, 20:28)
+
+**APK** `1df321d6…`, **116.858.681 B**, instalado y verificado **por bytes** contra el del teléfono
+(mismo sha256). Esta vez la instalación fue **en sitio** (`firstInstallTime 19:55:48` ≠
+`lastUpdateTime 20:28:53`), no fresca como en P1 — la sesión se conserva.
+
+**Lo que se ve ahora en la ficha, medido con `uiautomator`** (pantalla de 2.374 px):
+
+| y (px) | Qué |
+|---|---|
+| 146 | Barra: `‹ Hotel Demo Malabo` |
+| 318 | `1/7` (galería) |
+| 1044 | `Hotel Demo Malabo` |
+| **1137** | **`Alojamiento verificado`** ← el dato que existía y no se pintaba |
+| 1200 | `Hotel · 3★ · Paraíso · Malabo` |
+| 1281 | `🕐 Entrada de 14:00 a 22:00 · salida hasta 12:00` |
+| 1418 | `📍 Frente al mar, a 5 min del centro` |
+| 1532 | `Cómo llegar` |
+| 1685-1957 | `🛫 ¿Llegas al aeropuerto?` + precios + `Pedir taxi al hotel` |
+| 2041-2224 | Descripción |
+| 2275 | `Wi-Fi` · `Desayuno` |
+
+**Sigue sin haber ni una habitación ni un precio en la primera pantalla.** Eso es exactamente lo que
+resuelve D8 (las pestañas), y **no se ha hecho todavía**: aquí solo se ha quitado el acordeón.
+
+**Lo medido con el MISMO gesto que la medición de antes** (un swipe de 1.200 px, 300 ms):
+
+| | Antes | Ahora |
+|---|---|---|
+| Qué se ve tras un swipe | `Habitaciones (8)`, `China · ¥`, la nota de cambio y **el primer precio** | **cuatro tarjetas de habitación completas**, cada una con su precio y su botón |
+| El swipe siguiente | **el calendario**, a pantalla completa | la 5.ª y 6.ª tarjeta |
+| Recorrido total de la ficha | no se llegaba al final en 3 swipes | **3 swipes**, y en el tercero ya no se mueve |
+
+**La tarjeta, tal como se lee en el volcado** (con los datos reales del alojamiento de prueba):
+
+- `Habitación individual` · `14 m² · 1 cama individual · 1 huésped` · `Wi-Fi` `Aire acondicionado`
+  `TV` `Agua caliente` · `· Cancelación gratis hasta 48 h antes` · `· Señal del 30% al reservar` ·
+  **`18.000 XAF` por noche** · **`viernes y sábado: 22 000 XAF`** · `Elegir fechas y reservar`
+- `Habitación doble 208520` · `18 m² · 1 cama doble · 2 huéspedes` · **`25.000 XAF`** ·
+  `viernes y sábado: 32 000 XAF`
+- `Habitación contrato 206554` · `1 cama queen · 3 huéspedes` · **`· Estancia mínima de 2 noches`** ·
+  `28.000 XAF`
+
+Dos cosas que confirman el diseño: **las tarjetas sin foto no dejan ningún hueco** (6 de las 8 no
+tienen), y **el precio de fin de semana se pinta solo donde existe** — las `Habitación panel` tienen
+`weekendPriceXaf: null` y no dicen nada.
+
+**La barra de fechas** se lee en el volcado: `Llegada —` · `noches` · `Salida —` ·
+`1 hab · 2 huéspedes ›`, y abre la hoja `¿Qué noches?` con el calendario de septiembre de 2026, su
+leyenda (`tu selección` · `fin de semana` · `cerrado / pasado`) y el aviso de agregación.
+
+### 11.8 **Un fallo real que la medición destapó**, y que no era de esta tanda
+
+Al tocar el 28 de septiembre en el calendario, **no pasó nada**: el resumen siguió diciendo
+`Toca el día de ENTRADA` y ningún día se podía elegir. El calendario se pintaba —con sus números— pero
+era **una rejilla muerta**.
+
+Diagnóstico contra el servidor (`/rooms/{id}/calendar`), y la prueba es concluyente:
+
+```
+2026-09-27 → 2026-12-27   (91 de diferencia, 92 contando el primero)   HTTP 200 · 92 días
+2026-09-27 → 2026-12-28   (92 de diferencia, 93 contando el primero)   HTTP 400
+   {'code':'RANGE_TOO_LONG','message':'Como máximo 92 días por consulta'}
+```
+
+**El servidor cuenta los días INCLUSIVE.** La ficha pedía `hoy + 92`, que son 93 días, así que
+**siempre** recibía un `400`. Y el `catch` lo trataba como «este tipo no tiene datos» y dejaba la
+lista de días vacía; con la lista vacía, `seleccionable` devuelve `false` para todo día y la rejilla
+queda inerte. **El fallo llevaba tiempo ahí** —afectaba al calendario del acordeón que había antes de
+esta tanda— y no se había visto porque **los números de la rejilla sí se pintan sin datos**: parecía
+un calendario, no un error.
+
+El arreglo va en dos partes (`1ebd689`):
+
+1. El rango se pide con **`MAX_NOCHES - 1`**. El propio `CalendarPicker` ya lo hacía bien en su
+   navegación de mes (`addDaysIso(desde, 91)`): **el dato correcto estaba dentro del componente y la
+   pantalla lo escribía mal.**
+2. **La hoja ya no dibuja una rejilla muerta.** Si no hay días, lo dice —«No se ha podido comprobar
+   la disponibilidad de estos días»— y explica que al reservar se vuelve a preguntar. Un calendario
+   sin datos no es un calendario vacío: es una rejilla que no responde.
+
+**La lección, para el registro:** un `catch` que devuelve vacío convierte un error del servidor en una
+pantalla que parece correcta. El calendario estuvo roto **pintándose**.
+
+---
+
 ## 9. Lo que este documento **no** afirma
+
+> **Nota sobre la numeración**: 9, 10 y 11 no están en orden creciente porque cada sección se
+> añadió cuando el usuario envió su tramo de fotos, y **no se renumeran** para no romper las
+> referencias de las actas ya commiteadas (§10.5, §10.6).
 
 - **No** se ha medido el tramo B completo foto a foto en esta sesión (orden, filtros y
   mapa): su detalle se re-verificará con las fotos 11-14 delante **cuando se diseñe P2**.
