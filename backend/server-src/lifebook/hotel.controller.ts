@@ -14,14 +14,17 @@
 //     hotelero (ficha, tipos de habitación, calendario, ocupación).
 // =============================================================================
 import {
-  Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Patch, Post, Put, Query, Req, UseGuards,
+  Body, Controller, Delete, Get, Headers, Injectable, Param, ParseUUIDPipe, Patch, Post, Put, Query, Req, UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser, JwtAuthGuard, Roles, RolesGuard, OptionalUser, type AuthUser, PaymentToken } from '../http/guards';
 import { DomainError } from '../services/payment-auth.service';
 import { LifebookHotelService } from './hotel.service';
 import { LifebookReservationsService } from './reservations.service';
-import { HotelProfileDto, HotelSearchQueryDto, HotelCalendarDto } from './dto/hotel-reservation.dto';
+import {
+  HotelProfileDto, HotelSearchQueryDto, HotelCalendarDto,
+  HotelReviewDto, HotelReviewReplyDto, HotelReviewsQueryDto,
+} from './dto/hotel-reservation.dto';
 
 /** Sesión OPCIONAL: con token válido se usa; sin token la ruta sigue pública. */
 @Injectable()
@@ -84,6 +87,16 @@ export class LifebookHotelController {
   @Get('hotels/:shopId/rooms')
   rooms(@Param('shopId', ParseUUIDPipe) shopId: string) {
     return this.hotel.roomTypesPublic(shopId);
+  }
+
+  /**
+   * 🔒 LAS RESEÑAS DEL HOTEL (C-1) — PÚBLICAS, como la ficha: son justo lo que el huésped lee
+   * antes de reservar, y pedirlas con cuenta sería esconder la confianza detrás de un registro.
+   * `?limit=&offset=`: la respuesta lleva `total`, `average` y `publishesRating` (§8.1 [D-K]).
+   */
+  @Get('hotels/:shopId/reviews')
+  reviews(@Param('shopId', ParseUUIDPipe) shopId: string, @Query() q: HotelReviewsQueryDto) {
+    return this.hotel.reviewsOfHotel(shopId, q ?? {});
   }
 
   /** 🔒 CALENDARIO de un tipo de habitación: precio por noche, cerrado, ocupación. */
@@ -207,6 +220,31 @@ export class LifebookHotelController {
     return this.reservas.confirmDeposit(u.userId, id, body?.proof);
   }
 
+  /**
+   * 🔒 Escribir la reseña de una estancia. El permiso de escribir ES la reserva: el servicio exige
+   * que sea TUYA, de ESTE hotel y con la estancia TERMINADA (`checked_out`). Una por estancia —
+   * lo garantiza el `unique` de la base, y el 409 lo explica.
+   */
+  @Post('hotels/:shopId/reviews')
+  @UseGuards(JwtAuthGuard)
+  createReview(
+    @CurrentUser() u: AuthUser,
+    @Param('shopId', ParseUUIDPipe) shopId: string,
+    @Body() dto: HotelReviewDto,
+  ) {
+    return this.hotel.createReview(u.userId, shopId, dto ?? {});
+  }
+
+  /**
+   * 🔒 Borrar una reseña: el AUTOR dentro de 7 días, el ADMINISTRADOR siempre. El borrado es físico
+   * (para que la estancia se pueda volver a valorar dentro del plazo) y recalcula el espejo.
+   */
+  @Delete('reviews/:id')
+  @UseGuards(JwtAuthGuard)
+  deleteReview(@CurrentUser() u: AuthUser, @Param('id', ParseUUIDPipe) id: string) {
+    return this.hotel.deleteReview(u.userId, id);
+  }
+
   // ══════════════════════════ PANEL DEL HOTELERO ═════════════════════════════
 
   /** Mi ficha de hotel y mis tipos de habitación. */
@@ -258,6 +296,16 @@ export class LifebookHotelController {
   @UseGuards(JwtAuthGuard)
   dayBook(@CurrentUser() u: AuthUser, @Query('shopId') shopId: string, @Query('date') date?: string) {
     return this.reservas.dayBook(shopId, u.userId, date);
+  }
+
+  /**
+   * 🔒 LA RESPUESTA DEL HOTEL a una reseña: responde, no borra (§8.1). Solo el dueño de la tienda
+   * de esa reseña; si no es suya, el servicio responde 404 (entre vendedores no se confirma lo ajeno).
+   */
+  @Post('reviews/:id/reply')
+  @UseGuards(JwtAuthGuard)
+  replyReview(@CurrentUser() u: AuthUser, @Param('id', ParseUUIDPipe) id: string, @Body() dto: HotelReviewReplyDto) {
+    return this.hotel.replyReview(u.userId, id, dto?.reply);
   }
 
   /** Barrido de reservas vencidas: ADMIN (o cron). */

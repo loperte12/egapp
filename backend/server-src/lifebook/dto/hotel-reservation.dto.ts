@@ -206,3 +206,47 @@ export class HotelCalendarDto {
   @IsOptional() weekdays?: unknown;
   @IsOptional() @IsString() @MaxLength(120) note?: string;
 }
+
+// ═══════════════════════ RESEÑAS DEL HOTEL (C-1 · 026) ═══════════════════════
+
+/**
+ * Escribir la reseña de UNA estancia.
+ *
+ * El `reservationId` es la LLAVE, no un adorno: el permiso de valorar ES la reserva (y el servicio
+ * comprueba que sea del que pide, de ese hotel y con la salida hecha). La nota se cierra en 1..5
+ * aquí —el mismo rango del CHECK `lb_hr_rating`— para que un 0 o un 6 den **400 en la puerta** en
+ * vez de un 23514 de la base. El texto es OPCIONAL: una reseña de solo estrellas es una reseña.
+ */
+export class HotelReviewDto {
+  @IsString() @MaxLength(40) reservationId!: string;
+
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  rating!: number;
+
+  @IsOptional() @IsString() @MaxLength(600) body?: string;
+}
+
+/** La respuesta del hotel: obligatoria y con contenido (responder en blanco no es responder). */
+export class HotelReviewReplyDto {
+  @IsString() @MinLength(1) @MaxLength(600) reply!: string;
+}
+
+/** Página de reseñas de la ficha. Acotada como el resto de listas del módulo. */
+export class HotelReviewsQueryDto {
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(50)
+  limit?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(0)
+  @Max(10_000)
+  offset?: number;
+}

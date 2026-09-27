@@ -258,9 +258,17 @@ export class LifebookCommerceService {
     return rows[0]?.id ?? null;
   }
 
+  /**
+   * La tienda del usuario, con el ESPEJO de la nota de hotel si la tienda es un alojamiento (C-1).
+   * Las dos columnas extra son inofensivas para una tienda normal (llegan nulas y nadie las lee):
+   * `shopShape` decide por `is_hotel`, no por si el join encontró fila.
+   */
   private async shopOf(userId: string): Promise<any | null> {
     const rows: any[] = await this.db.$queryRaw`
-      SELECT * FROM lifebook.shops WHERE owner_id = ${userId}::uuid LIMIT 1`;
+      SELECT s.*, hp.hotel_rating, hp.hotel_rating_count
+        FROM lifebook.shops s
+        LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = s.id
+       WHERE s.owner_id = ${userId}::uuid LIMIT 1`;
     return rows[0] ?? null;
   }
 
@@ -299,6 +307,14 @@ export class LifebookCommerceService {
 
   // ─────────────────────────── TIENDA ────────────────────────────────────────
   private shopShape(s: any, pm: any[], sp: any[], extra: Record<string, unknown> = {}) {
+    // DOS JUICIOS, DOS NOTAS (C-1 · 026 · §8.1). `shops.rating` es la nota del MERCADO —valora lo
+    // que se compra— y no se toca. Un alojamiento tiene la suya, de sus reseñas propias, en el
+    // espejo `hotel_profiles.hotel_rating` / `hotel_rating_count` (que las consultas traen con
+    // `LEFT JOIN`). Enseñar la de la tienda en la ficha de un hotel mezclaba los dos juicios en un
+    // número que no era verdad para ninguno de los dos.
+    const esHotel = !!s.is_hotel;
+    const rating = Number((esHotel ? s.hotel_rating : s.rating) ?? 0);
+    const ratingCount = Number((esHotel ? s.hotel_rating_count : s.rating_count) ?? 0);
     return {
       id: s.id,
       ownerId: s.owner_id,
@@ -319,8 +335,10 @@ export class LifebookCommerceService {
       openingHours: s.opening_hours ?? {},
       verificationLevel: s.verification_level,
       isVerified: s.is_verified,
-      rating: Number(s.rating ?? 0),
-      ratingCount: Number(s.rating_count ?? 0),
+      rating,
+      ratingCount,
+      /** La tienda publica la cifra con UNA valoración; el hotel necesita TRES (§8.1 [D-K]). */
+      ratingPublished: esHotel ? ratingCount >= 3 : ratingCount > 0,
       followersCount: Number(s.followers_count ?? 0),
       isActive: s.is_active,
       ecomerse: !!s.ecomerse_seller_id,
@@ -809,9 +827,13 @@ export class LifebookCommerceService {
         description: shop.description ?? null,
         city: shop.city ?? null,
         isVerified: !!shop.is_verified,
-        // `ratingCount` es el que manda: sin reseñas no se enseña puntuación.
-        rating: Number(shop.rating ?? 0),
-        ratingCount: Number(shop.rating_count ?? 0),
+        // `ratingCount` es el que manda: sin reseñas no se enseña puntuación. Y si la tienda es un
+        // alojamiento, la nota es la del hotel (espejo de sus reseñas), no la del mercado (C-1).
+        rating: Number((shop.is_hotel ? shop.hotel_rating : shop.rating) ?? 0),
+        ratingCount: Number((shop.is_hotel ? shop.hotel_rating_count : shop.rating_count) ?? 0),
+        ratingPublished: shop.is_hotel
+          ? Number(shop.hotel_rating_count ?? 0) >= 3
+          : Number(shop.rating_count ?? 0) > 0,
         followersCount: Number(shop.followers_count ?? 0),
       },
       featured: filas.map((p) => ({
@@ -1054,18 +1076,28 @@ export class LifebookCommerceService {
       }
     }
     const { pm, sp } = await this.shopChildren(shop.id);
-    return { shop: this.shopShape(rows[0], pm, sp) };
+    // Relectura con el ESPEJO de la nota (C-1): el `RETURNING *` del UPDATE no trae las columnas
+    // de `hotel_profiles`, y la respuesta de guardar una ficha de hotel no puede volver a enseñar
+    // la nota del mercado. Mismo patrón `fresca` que usa el hotelero al guardar su ficha.
+    const fresca: any[] = await this.db.$queryRaw`
+      SELECT s.*, hp.hotel_rating, hp.hotel_rating_count
+        FROM lifebook.shops s
+        LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = s.id
+       WHERE s.id = ${shop.id}::uuid LIMIT 1`;
+    return { shop: this.shopShape(fresca[0] ?? rows[0], pm, sp) };
   }
 
   /** Ficha pública de la tienda (con pestañas: catálogo, notas, opiniones, info). */
   async shopPublic(shopId: string, viewerId?: string) {
     const sid = this.uuidOrNull(shopId) as string;
     const rows: any[] = await this.db.$queryRaw`
-      SELECT s.*, u.full_name AS owner_name, u.avatar_url AS owner_avatar, u.city AS owner_city,
+      SELECT s.*, hp.hotel_rating, hp.hotel_rating_count,
+             u.full_name AS owner_name, u.avatar_url AS owner_avatar, u.city AS owner_city,
              EXISTS(SELECT 1 FROM lifebook.follows f
                      WHERE f.followee_id = s.owner_id AND f.follower_id = ${viewerId ?? null}::uuid) AS following
         FROM lifebook.shops s
         JOIN mobility.users u ON u.id = s.owner_id
+        LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = s.id
        WHERE s.id = ${sid}::uuid LIMIT 1`;
     const s = rows[0];
     if (!s || (!s.is_active && s.owner_id !== viewerId)) throw new DomainError('SHOP_NOT_FOUND', 'La tienda no existe');
@@ -1543,8 +1575,13 @@ export class LifebookCommerceService {
         region: shop.region,
         lat: shop.lat === null || shop.lat === undefined ? null : Number(shop.lat),
         lng: shop.lng === null || shop.lng === undefined ? null : Number(shop.lng),
-        rating: Number(shop.rating ?? 0),
-        ratingCount: Number(shop.rating_count ?? 0),
+        // C-1: si la tienda es un alojamiento, la nota que viaja es la del hotel (espejo), no la
+        // del mercado. `shopRow` trae las dos; la decisión es la misma que en `shopShape`.
+        rating: Number((shop.is_hotel ? shop.hotel_rating : shop.rating) ?? 0),
+        ratingCount: Number((shop.is_hotel ? shop.hotel_rating_count : shop.rating_count) ?? 0),
+        ratingPublished: shop.is_hotel
+          ? Number(shop.hotel_rating_count ?? 0) >= 3
+          : Number(shop.rating_count ?? 0) > 0,
         followersCount: Number(shop.followers_count ?? 0),
         isMine: !!extra.isMine,
       },
@@ -1575,9 +1612,11 @@ export class LifebookCommerceService {
              s.city AS shop_city, s.barrio AS shop_barrio, s.region AS shop_region,
              s.lat AS shop_lat, s.lng AS shop_lng, s.rating AS shop_rating,
              s.rating_count AS shop_rating_count, s.followers_count AS shop_followers,
-             s.is_active AS shop_active
+             s.is_active AS shop_active, s.is_hotel AS shop_is_hotel,
+             hp.hotel_rating AS shop_hotel_rating, hp.hotel_rating_count AS shop_hotel_rating_count
         FROM lifebook.products p
         JOIN lifebook.shops s ON s.id = p.shop_id
+        LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = s.id
        WHERE p.id = ${pid}::uuid LIMIT 1`;
     const row = rows[0];
     if (!row) throw new DomainError('PRODUCT_NOT_FOUND', 'El producto no existe');
@@ -1603,6 +1642,11 @@ export class LifebookCommerceService {
       rating_count: row.shop_rating_count,
       followers_count: row.shop_followers,
       is_active: row.shop_active,
+      // C-1: la tienda es un alojamiento y tiene su propia nota. Se pasan con el nombre que lee
+      // `shopShape` (`hotel_rating`), que es quien decide — aquí no se duplica la regla.
+      is_hotel: row.shop_is_hotel,
+      hotel_rating: row.shop_hotel_rating,
+      hotel_rating_count: row.shop_hotel_rating_count,
     };
 
     const variants: any[] = await db.$queryRaw`

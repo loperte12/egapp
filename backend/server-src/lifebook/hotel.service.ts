@@ -29,6 +29,27 @@ export const MAX_RANGE_NIGHTS = 92;
 export const DETAIL_CALENDAR_DAYS = 60;
 
 /**
+ * El umbral [D-K] de la CONFIANZA (C-1, §8.1): por debajo de tres reseñas propias, la ficha
+ * enseña las reseñas **sin cifra**. Una nota media de una sola estancia no es una nota, es una
+ * opinión — y publicarla como si fuera la del hotel es la misma mentira que enseñar `shops.rating`.
+ *
+ * Vive aquí y no en la base a propósito (026, cabecera): cambiarlo no es una migración.
+ * El servicio lo traduce a `ratingPublished` en cada sitio donde sale una nota de hotel, para que
+ * la app no tenga que copiar el número: una sola regla, en un solo sitio.
+ */
+export const REVIEWS_THRESHOLD = 3;
+/**
+ * Días que el AUTOR tiene para borrar su reseña. Pasado el plazo solo el administrador puede:
+ * una reseña que se puede reescribir siempre no es un registro, es un borrador.
+ */
+export const REVIEWS_DELETE_DAYS = 7;
+
+/** ¿Se publica la cifra de la nota? La regla [D-K], en una función (la usan tres sitios). */
+export function notaPublicada(count: unknown, umbral: number = REVIEWS_THRESHOLD): boolean {
+  return Number(count ?? 0) >= umbral;
+}
+
+/**
  * 🔒 LA REGLA DEL PLAZO DE UNA RESERVA, EN UN SOLO SITIO (`A-4`, LH-08).
  *
  * Una reserva ocupa inventario **mientras su plazo siga vivo**. `hold_expires_at` significa una
@@ -334,8 +355,14 @@ export class LifebookHotelService {
       lng: shop.lng,
       addressReference: shop.address_reference,
       description: shop.description,
-      rating: Number(shop.rating ?? 0),
-      ratingCount: Number(shop.rating_count ?? 0),
+      // LA NOTA DEL ALOJAMIENTO, NO LA DE LA TIENDA (C-1 · 026 · §8.1). Antes salía `shops.rating`:
+      // la nota del mercado, que valora lo que se compra, no cómo se duerme. Ahora sale el espejo
+      // de las reseñas propias (`hotel_reviews`), que el servicio recalcula en la misma transacción
+      // del alta y del borrado. Sin ficha de hotel no hay espejo: «0 con 0», y el umbral lo oculta.
+      rating: Number(p?.hotel_rating ?? 0),
+      ratingCount: Number(p?.hotel_rating_count ?? 0),
+      /** [D-K]: por debajo de tres reseñas la ficha enseña las reseñas SIN cifra. */
+      ratingPublished: notaPublicada(p?.hotel_rating_count),
       followersCount: Number(shop.followers_count ?? 0),
       verificationLevel: shop.verification_level,
       isVerified: !!shop.is_verified,
@@ -1182,9 +1209,14 @@ export class LifebookHotelService {
     }
 
     // 1) Hoteles candidatos: abiertos, con al menos una habitación activa publicada.
+    // El `LEFT JOIN` trae el ESPEJO de la nota (C-1): la tarjeta del resultado enseña la nota del
+    // alojamiento, no `shops.rating`. El `ORDER BY` sigue sobre `s.rating` — la decisión de ordenar
+    // por el espejo es de C-2 (dossier §14.1), y cambiarlo cuando todavía no hay reseñas dejaría
+    // todos los hoteles empatados a cero. Queda anotado en el acta como el único sitio sin desacoplar.
     const hoteles: any[] = await this.db.$queryRaw`
-      SELECT DISTINCT s.*
+      SELECT DISTINCT s.*, hp.hotel_rating, hp.hotel_rating_count
         FROM lifebook.shops s
+        LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = s.id
         JOIN lifebook.room_types rt ON rt.shop_id = s.id AND rt.is_active
         JOIN lifebook.products p ON p.id = rt.product_id AND p.status = 'active'
        WHERE s.is_hotel AND s.is_active
@@ -1315,8 +1347,13 @@ export class LifebookHotelService {
       salida.push({
         hotel: {
           id: h.id, name: h.name, city: h.city, barrio: h.barrio, region: h.region,
-          logoUrl: h.logo_url, coverUrl: h.cover_url, rating: Number(h.rating ?? 0),
-          ratingCount: Number(h.rating_count ?? 0), addressReference: h.address_reference,
+          logoUrl: h.logo_url, coverUrl: h.cover_url,
+          // La nota del ALOJAMIENTO (espejo de las reseñas propias), no la de la tienda: ver 026.
+          rating: Number(h.hotel_rating ?? 0),
+          ratingCount: Number(h.hotel_rating_count ?? 0),
+          /** [D-K]: sin tres reseñas, la tarjeta no enseña cifra (la app solo pinta si es `true`). */
+          ratingPublished: notaPublicada(h.hotel_rating_count),
+          addressReference: h.address_reference,
           lat: h.lat, lng: h.lng, verificationLevel: h.verification_level, isVerified: !!h.is_verified,
         },
         fromPricePerNightXaf: disponibles[0].avgPricePerNightXaf ?? disponibles[0].basePriceXaf,
@@ -1362,6 +1399,200 @@ export class LifebookHotelService {
       depositPercent: pct,
       depositXaf: senal,
       remainingXaf: total - senal,
+    };
+  }
+
+  // ═══════════════════════ LAS RESEÑAS DEL HOTEL (C-1) ═══════════════════════
+  /**
+   * La nota del ALOJAMIENTO (026 · §8.1). El permiso de escribir no es la compra: es la ESTANCIA
+   * (`checked_out`). Quien no durmió no valora, y quien durmió valora una vez — el `unique` de
+   * `reservation_id` lo garantiza aunque dos toques lleguen a la vez, así que el servicio no
+   * comprueba nada antes de insertar: intenta y traduce el 23505.
+   *
+   * El ESPEJO (`hotel_profiles.hotel_rating` / `hotel_rating_count`) se recalcula aquí, en la MISMA
+   * transacción del alta y del borrado. No hay trigger: la obligación es del servicio (026, cabecera).
+   */
+  private async reflejarNotas(tx: any, shopId: string) {
+    const filas: any[] = await tx.$queryRaw`
+      SELECT coalesce(avg(rating), 0) AS media, count(*)::int AS total
+        FROM lifebook.hotel_reviews WHERE shop_id = ${shopId}::uuid`;
+    const media = Number(filas[0]?.media ?? 0);
+    const total = Number(filas[0]?.total ?? 0);
+    // `INSERT ... ON CONFLICT` y no un `UPDATE`: un hotel puede tener habitaciones y reservas sin
+    // ficha creada (marcar `is_hotel` al publicar la primera habitación no crea `hotel_profiles`),
+    // y un `UPDATE` sobre cero filas dejaría el espejo sin escribir y sin avisar.
+    await tx.$executeRaw`
+      INSERT INTO lifebook.hotel_profiles (shop_id, hotel_rating, hotel_rating_count)
+      VALUES (${shopId}::uuid, ${media}, ${total})
+      ON CONFLICT (shop_id) DO UPDATE
+         SET hotel_rating = EXCLUDED.hotel_rating,
+             hotel_rating_count = EXCLUDED.hotel_rating_count,
+             updated_at = now()`;
+    return { media, total };
+  }
+
+  /**
+   * Las reseñas de un hotel — PÚBLICO: es lo que el huésped lee antes de reservar (y lo que la
+   * ficha pinta). Devuelve `total` aunque la lista venga recortada, como manda la casa.
+   *
+   * `average`/`publishesRating` salen del ESPEJO, no de una media calculada aquí: si se calcularan
+   * en cada sitio, la cifra de la ficha y la de la lista podrían no coincidir nunca más.
+   */
+  async reviewsOfHotel(shopIdRaw: string, q: { limit?: unknown; offset?: unknown } = {}) {
+    const shopId = this.uuid(shopIdRaw, 'Hotel');
+    const limit = this.int(q.limit, 1, 50, 'Límite', 20) as number;
+    const offset = this.int(q.offset, 0, 10_000, 'Desplazamiento', 0) as number;
+
+    const shops: any[] = await this.db.$queryRaw`
+      SELECT s.id, hp.hotel_rating, hp.hotel_rating_count
+        FROM lifebook.shops s
+        LEFT JOIN lifebook.hotel_profiles hp ON hp.shop_id = s.id
+       WHERE s.id = ${shopId}::uuid AND s.is_hotel LIMIT 1`;
+    if (!shops[0]) throw new DomainError('HOTEL_NOT_FOUND', 'Ese alojamiento no existe');
+
+    const items: any[] = await this.db.$queryRaw`
+      SELECT r.id, r.rating, r.body, r.reply, r.replied_at, r.created_at,
+             u.id AS guest_id, u.full_name AS guest_name, u.avatar_url AS guest_avatar
+        FROM lifebook.hotel_reviews r
+        JOIN mobility.users u ON u.id = r.guest_id
+       WHERE r.shop_id = ${shopId}::uuid
+       ORDER BY r.created_at DESC
+       LIMIT ${limit} OFFSET ${offset}`;
+
+    return {
+      total: Number(shops[0].hotel_rating_count ?? 0),
+      average: Number(shops[0].hotel_rating ?? 0),
+      /** [D-K]: por debajo de tres reseñas, la ficha las enseña SIN cifra. */
+      publishesRating: notaPublicada(shops[0].hotel_rating_count),
+      limit,
+      offset,
+      items: items.map((r) => ({
+        id: r.id,
+        rating: Number(r.rating),
+        body: r.body ?? null,
+        reply: r.reply ?? null,
+        repliedAt: r.replied_at ?? null,
+        createdAt: r.created_at,
+        guest: { id: r.guest_id, name: r.guest_name ?? null, avatarUrl: r.guest_avatar ?? null },
+      })),
+    };
+  }
+
+  /**
+   * Escribir la reseña de UNA estancia. Tres puertas, en este orden:
+   *   1. la reserva existe y es TUYA (`guest_id` = quien pide) — si no, no existe para ti;
+   *   2. esa reserva es de ESTE hotel (el `shopId` de la ruta no es decorativo);
+   *   3. la estancia ya TERMINÓ (`checked_out`): valorar una estancia en curso es valorar una promesa.
+   * Después, el `unique` de la base cierra la cuarta: una reseña por estancia, para siempre.
+   */
+  async createReview(userId: string, shopIdRaw: string, dto: { reservationId?: unknown; rating?: unknown; body?: unknown }) {
+    const shopId = this.uuid(shopIdRaw, 'Hotel');
+    const reservationId = this.uuid(dto.reservationId, 'Reserva');
+    const rating = this.int(dto.rating, 1, 5, 'Nota') as number;
+    // El texto es OPCIONAL: una reseña de solo estrellas es una reseña (026). Se limpia, no se exige.
+    const texto = dto.body === undefined || dto.body === null || String(dto.body).trim() === ''
+      ? null
+      : this.clean(dto.body, 600);
+
+    const estancias: any[] = await this.db.$queryRaw`
+      SELECT id, shop_id, status FROM lifebook.reservations
+       WHERE id = ${reservationId}::uuid AND guest_id = ${userId}::uuid LIMIT 1`;
+    const estancia = estancias[0];
+    // Un solo código para «no existe», «no es tuya» y «no es de este hotel»: el mensaje explica
+    // cuál de las tres es, pero la puerta responde lo mismo a las tres (no se confirma lo ajeno).
+    if (!estancia) throw new DomainError('RESERVATION_NOT_FOUND', 'Esa reserva no existe o no es tuya');
+    if (String(estancia.shop_id) !== shopId) {
+      throw new DomainError('RESERVATION_NOT_FOUND', 'Esa reserva no es de este alojamiento');
+    }
+    if (String(estancia.status) !== 'checked_out') {
+      throw new DomainError('STAY_NOT_FINISHED', 'Solo se valora una estancia terminada (con la salida hecha)');
+    }
+
+    try {
+      return await this.db.$transaction(async (tx: any) => {
+        const filas: any[] = await tx.$queryRaw`
+          INSERT INTO lifebook.hotel_reviews (reservation_id, shop_id, guest_id, rating, body)
+          VALUES (${reservationId}::uuid, ${shopId}::uuid, ${userId}::uuid, ${rating}, ${texto})
+          RETURNING id, rating, body, created_at`;
+        const espejo = await this.reflejarNotas(tx, shopId);
+        return {
+          review: {
+            id: filas[0].id,
+            rating: Number(filas[0].rating),
+            body: filas[0].body ?? null,
+            reply: null,
+            repliedAt: null,
+            createdAt: filas[0].created_at,
+          },
+          hotelRating: espejo.media,
+          hotelRatingCount: espejo.total,
+          ratingPublished: notaPublicada(espejo.total),
+        };
+      });
+    } catch (e: any) {
+      // 23505 = `uq_lb_reviews_reserva`: dos reseñas de la misma estancia. No es un fallo del
+      // cliente por enviar mal los datos: es la regla haciendo su trabajo, y se traduce a 409.
+      //
+      // El código se busca en los DOS sitios donde Prisma lo deja: `$queryRaw` envuelve el error
+      // del driver (`P2010`) y el 23505 de Postgres queda en `meta.code`; si alguna versión lo
+      // dejara arriba, `e.code` lo trae. El nombre de la restricción es el último recurso — y el
+      // que no depende de la versión de Prisma.
+      const codigo = String(e?.code ?? '') === '23505' || String(e?.meta?.code ?? '') === '23505';
+      if (codigo || String(e?.message ?? '').includes('uq_lb_reviews_reserva')) {
+        throw new DomainError('REVIEW_EXISTS', 'Ya escribiste la reseña de esta estancia');
+      }
+      throw e;
+    }
+  }
+
+  /**
+   * La respuesta del HOTEL a una reseña (responde, no borra). Solo el dueño de la tienda de esa
+   * reseña. Si la reseña no es de una tienda suya se responde igual que si no existiera: entre
+   * vendedores no se confirma la existencia de lo ajeno (404, no 403).
+   */
+  async replyReview(userId: string, reviewIdRaw: string, replyRaw: unknown) {
+    const id = this.uuid(reviewIdRaw, 'Reseña');
+    const texto = this.text(replyRaw, 600, 'La respuesta');
+    const filas: any[] = await this.db.$queryRaw`
+      SELECT id, shop_id FROM lifebook.hotel_reviews WHERE id = ${id}::uuid LIMIT 1`;
+    const resena = filas[0];
+    if (!resena || !(await this.ownsShop(userId, String(resena.shop_id)))) {
+      throw new DomainError('REVIEW_NOT_FOUND', 'La reseña no existe');
+    }
+    await this.db.$executeRaw`
+      UPDATE lifebook.hotel_reviews SET reply = ${texto}, replied_at = now()
+       WHERE id = ${id}::uuid`;
+    return { id, reply: texto, repliedAt: new Date().toISOString() };
+  }
+
+  /**
+   * Borrar una reseña: el AUTOR dentro de los 7 días, el ADMINISTRADOR siempre (§8.1). El borrado
+   * es FÍSICO a propósito — una baja lógica dejaría el `unique` de `reservation_id` ocupado y el
+   * huésped no podría reescribir su nota dentro del plazo (026, cabecera).
+   */
+  async deleteReview(userId: string, reviewIdRaw: string) {
+    const id = this.uuid(reviewIdRaw, 'Reseña');
+    const filas: any[] = await this.db.$queryRaw`
+      SELECT id, shop_id, guest_id, created_at FROM lifebook.hotel_reviews WHERE id = ${id}::uuid LIMIT 1`;
+    const resena = filas[0];
+    const esAutor = !!resena && String(resena.guest_id) === userId;
+    const esAdmin = !esAutor && (await this.isAdmin(userId));
+    if (!resena || (!esAutor && !esAdmin)) throw new DomainError('REVIEW_NOT_FOUND', 'La reseña no existe');
+    if (esAutor && !esAdmin) {
+      const dias = (Date.now() - new Date(resena.created_at).getTime()) / 86_400_000;
+      if (dias > REVIEWS_DELETE_DAYS) {
+        throw new DomainError('REVIEW_WINDOW_CLOSED', `Tu reseña se puede borrar durante ${REVIEWS_DELETE_DAYS} días; ese plazo ya pasó`);
+      }
+    }
+    const espejo = await this.db.$transaction(async (tx: any) => {
+      await tx.$executeRaw`DELETE FROM lifebook.hotel_reviews WHERE id = ${id}::uuid`;
+      return this.reflejarNotas(tx, String(resena.shop_id));
+    });
+    return {
+      ok: true,
+      hotelRating: espejo.media,
+      hotelRatingCount: espejo.total,
+      ratingPublished: notaPublicada(espejo.total),
     };
   }
 }
