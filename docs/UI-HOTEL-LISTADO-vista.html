@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1720" />
+<title>EG Route Plan · Listado de hoteles — vista previa</title>
+
+<!-- La vista necesita internet: Tailwind compila estas clases y FontAwesome trae los iconos. -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+<!-- La tipografia base del kit. En la app es la del sistema; aqui Inter es lo mas parecido. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+
+<style>
+  /* Solo lo que Tailwind no puede saber: la fuente base y quitar el scroll horizontal molesto. */
+  html, body { background: #0F0F12; font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  body { margin: 0; padding: 0; overflow-x: auto; }
+  img { display: block; }
+
+  /* El protocolo de MasterGo dice que un <span> es **auto-ancho y NUNCA pliega**; el lienzo lo respeta
+     de serie, pero un navegador no. Sin esta regla, una etiqueta larga dentro de una fila Flex se
+     parte en dos lineas y desborda su pildora (pasó con «hasta 25.000 XAF» y con «Precio ↑»). */
+  span { white-space: nowrap; }
+</style>
+</head>
+<body>
+<!-- GENERADO por pruebas/prepara-vista-listado.cjs desde docs/UI-HOTEL-LISTADO.html — no editar a mano -->
+<main data-name="Hotel-Listado-390" class="flex flex-col justify-start items-start w-[1720px] min-h-[2600px] bg-[#0F0F12] p-[32px] gap-[32px]">
+
+  <!-- ══════════ CABECERA DEL ARTBOARD ══════════ -->
+  <div data-name="artboard-header" class="flex flex-col justify-start items-start self-stretch gap-[6px]">
+    <span data-name="artboard-title" class="text-[24px] leading-[30px] font-[800] text-[#F2F3F5] text-left">EG Route Plan · Listado de hoteles</span>
+    <p data-name="artboard-sub" class="self-stretch text-[14px] leading-[20px] font-[400] text-[#A9AEB8] text-left">Móvil 390×844 · tema oscuro · tokens del ui-kit. Cuatro estados + matriz de componentes y variantes.</p>
+  </div>
+
+  <div data-name="frames-row" class="flex flex-row justify-start items-start self-stretch gap-[32px]">
+
+    <!-- ══════════ ESTADO 1 · CARGANDO ══════════ -->
+    <div data-name="frame-cargando" class="flex flex-col justify-start items-start w-[390px] gap-[12px]">
+      <div data-name="cap-cargando" class="flex flex-row justify-start items-center self-stretch gap-[8px]">
+        <i class="fas fa-circle-notch text-[13px] text-[#5FA9EE]"></i>
+        <span data-name="cap-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Cargando · 3 esqueletos</span>
+      </div>
+      <div data-name="phone-cargando" class="flex flex-col justify-start items-stretch w-[390px] h-[844px] bg-[#17171A] overflow-hidden">
+
+        <div data-name="TopBar" class="flex flex-col justify-start items-stretch self-stretch border-b-[1px] border-[#FFFFFF]/10">
+          <div data-name="topbar-location-row" class="flex flex-row justify-between items-center self-stretch p-[16px] gap-[12px]">
+            <div data-name="location-group" class="flex flex-row justify-start items-center gap-[6px]">
+              <i class="fas fa-location-dot text-[16px] text-[#5FA9EE]"></i>
+              <span data-name="location-text" class="text-[15px] leading-[20px] font-[700] text-[#F2F3F5] text-left">Malabo, Guinea Ecuatorial</span>
+              <i class="fas fa-chevron-down text-[11px] text-[#A9AEB8]"></i>
+            </div>
+            <div data-name="topbar-actions" class="flex flex-row justify-start items-center gap-[14px]">
+              <i class="fas fa-map text-[20px] text-[#F2F3F5]"></i>
+              <div data-name="bell-wrapper" class="relative flex flex-row justify-center items-center w-[22px] h-[22px]">
+                <i class="fas fa-bell text-[20px] text-[#F2F3F5]"></i>
+                <div data-name="bell-dot" class="absolute top-[0px] right-[0px] w-[9px] h-[9px] bg-[#C62828] border-[1.5px] border-[#17171A] rounded-[999px]"></div>
+              </div>
+              <div data-name="avatar" class="flex flex-row justify-center items-center w-[28px] h-[28px] bg-[#2E3338] rounded-[999px] overflow-hidden">
+                <span data-name="avatar-initials" class="text-[11px] leading-[14px] font-[800] text-[#F2F3F5] text-center">BL</span>
+              </div>
+            </div>
+          </div>
+          <div data-name="search-wrap" class="flex flex-row justify-start items-stretch self-stretch px-[16px] pb-[12px]">
+            <div data-name="SearchField" class="flex flex-row justify-start items-center flex-1 gap-[10px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px] px-[14px]">
+              <i class="fas fa-magnifying-glass text-[14px] text-[#A9AEB8]"></i>
+              <p data-name="search-placeholder" class="flex-1 text-[15px] leading-[20px] font-[400] text-[#A9AEB8] text-left">¿Dónde quieres dormir?</p>
+            </div>
+          </div>
+        </div>
+
+        <div data-name="FilterChip-row" class="flex flex-row justify-start items-center self-stretch overflow-hidden gap-[8px] px-[16px] py-[12px]">
+          <div data-name="chip-precio" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[12px]">
+            <i class="fas fa-tag text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Precio</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
+          </div>
+          <div data-name="chip-distancia" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[12px]">
+            <i class="fas fa-route text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Distancia</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
+          </div>
+          <div data-name="chip-orden" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[12px]">
+            <i class="fas fa-arrow-down-short-wide text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Orden</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
+          </div>
+        </div>
+
+        <div data-name="lista-cargando" class="flex flex-col justify-start items-stretch self-stretch px-[16px] gap-[12px]">
+          <div data-name="SkeletonCard-1" class="flex flex-col justify-start items-stretch self-stretch bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+            <div data-name="sk-foto" class="flex flex-row justify-start items-stretch self-stretch h-[201px] bg-[linear-gradient(100deg,#1E1E23_0%,#2E3338_50%,#1E1E23_100%)]"></div>
+            <div data-name="sk-cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[10px]">
+              <div data-name="sk-l1" class="flex flex-row justify-start items-stretch w-[228px] h-[16px] bg-[#2E3338] rounded-[4px]"></div>
+              <div data-name="sk-l2" class="flex flex-row justify-start items-stretch w-[168px] h-[12px] bg-[#2E3338] rounded-[4px]"></div>
+              <div data-name="sk-l3" class="flex flex-row justify-start items-stretch w-[104px] h-[22px] bg-[#2E3338] rounded-[10px]"></div>
+              <div data-name="sk-pie" class="flex flex-row justify-between items-center self-stretch">
+                <div data-name="sk-cta" class="flex flex-row justify-start items-stretch w-[150px] h-[44px] bg-[#2E3338] rounded-[12px]"></div>
+                <div data-name="sk-precio" class="flex flex-row justify-start items-stretch w-[92px] h-[22px] bg-[#2E3338] rounded-[4px]"></div>
+              </div>
+            </div>
+          </div>
+          <div data-name="SkeletonCard-2" class="flex flex-col justify-start items-stretch self-stretch bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+            <div data-name="sk-foto" class="flex flex-row justify-start items-stretch self-stretch h-[201px] bg-[linear-gradient(100deg,#1E1E23_0%,#2E3338_50%,#1E1E23_100%)]"></div>
+            <div data-name="sk-cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[10px]">
+              <div data-name="sk-l1" class="flex flex-row justify-start items-stretch w-[196px] h-[16px] bg-[#2E3338] rounded-[4px]"></div>
+              <div data-name="sk-l2" class="flex flex-row justify-start items-stretch w-[148px] h-[12px] bg-[#2E3338] rounded-[4px]"></div>
+              <div data-name="sk-l3" class="flex flex-row justify-start items-stretch w-[104px] h-[22px] bg-[#2E3338] rounded-[10px]"></div>
+              <div data-name="sk-pie" class="flex flex-row justify-between items-center self-stretch">
+                <div data-name="sk-cta" class="flex flex-row justify-start items-stretch w-[150px] h-[44px] bg-[#2E3338] rounded-[12px]"></div>
+                <div data-name="sk-precio" class="flex flex-row justify-start items-stretch w-[92px] h-[22px] bg-[#2E3338] rounded-[4px]"></div>
+              </div>
+            </div>
+          </div>
+          <div data-name="SkeletonCard-3" class="flex flex-col justify-start items-stretch self-stretch bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+            <div data-name="sk-foto" class="flex flex-row justify-start items-stretch self-stretch h-[201px] bg-[linear-gradient(100deg,#1E1E23_0%,#2E3338_50%,#1E1E23_100%)]"></div>
+            <div data-name="sk-cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[10px]">
+              <div data-name="sk-l1" class="flex flex-row justify-start items-stretch w-[212px] h-[16px] bg-[#2E3338] rounded-[4px]"></div>
+              <div data-name="sk-l2" class="flex flex-row justify-start items-stretch w-[156px] h-[12px] bg-[#2E3338] rounded-[4px]"></div>
+              <div data-name="sk-l3" class="flex flex-row justify-start items-stretch w-[104px] h-[22px] bg-[#2E3338] rounded-[10px]"></div>
+              <div data-name="sk-pie" class="flex flex-row justify-between items-center self-stretch">
+                <div data-name="sk-cta" class="flex flex-row justify-start items-stretch w-[150px] h-[44px] bg-[#2E3338] rounded-[12px]"></div>
+                <div data-name="sk-precio" class="flex flex-row justify-start items-stretch w-[92px] h-[22px] bg-[#2E3338] rounded-[4px]"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ══════════ ESTADO 2 · RESULTADOS (listado completo) ══════════ -->
+    <div data-name="frame-resultados" class="flex flex-col justify-start items-start w-[390px] gap-[12px]">
+      <div data-name="cap-resultados" class="flex flex-row justify-start items-center self-stretch gap-[8px]">
+        <i class="fas fa-list text-[13px] text-[#45B87A]"></i>
+        <span data-name="cap-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Resultados · 6 hoteles (listado completo)</span>
+      </div>
+      <div data-name="phone-resultados" class="flex flex-col justify-start items-stretch w-[390px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 overflow-hidden">
+
+        <div data-name="TopBar" class="flex flex-col justify-start items-stretch self-stretch border-b-[1px] border-[#FFFFFF]/10">
+          <div data-name="topbar-location-row" class="flex flex-row justify-between items-center self-stretch p-[16px] gap-[12px]">
+            <div data-name="location-group" class="flex flex-row justify-start items-center gap-[6px]">
+              <i class="fas fa-location-dot text-[16px] text-[#5FA9EE]"></i>
+              <span data-name="location-text" class="text-[15px] leading-[20px] font-[700] text-[#F2F3F5] text-left">Malabo, Guinea Ecuatorial</span>
+              <i class="fas fa-chevron-down text-[11px] text-[#A9AEB8]"></i>
+            </div>
+            <div data-name="topbar-actions" class="flex flex-row justify-start items-center gap-[14px]">
+              <i class="fas fa-map text-[20px] text-[#F2F3F5]"></i>
+              <div data-name="bell-wrapper" class="relative flex flex-row justify-center items-center w-[22px] h-[22px]">
+                <i class="fas fa-bell text-[20px] text-[#F2F3F5]"></i>
+                <div data-name="bell-dot" class="absolute top-[0px] right-[0px] w-[9px] h-[9px] bg-[#C62828] border-[1.5px] border-[#17171A] rounded-[999px]"></div>
+              </div>
+              <div data-name="avatar" class="flex flex-row justify-center items-center w-[28px] h-[28px] bg-[#2E3338] rounded-[999px] overflow-hidden">
+                <span data-name="avatar-initials" class="text-[11px] leading-[14px] font-[800] text-[#F2F3F5] text-center">BL</span>
+              </div>
+            </div>
+          </div>
+          <div data-name="search-wrap" class="flex flex-row justify-start items-stretch self-stretch px-[16px] pb-[12px]">
+            <div data-name="SearchField" class="flex flex-row justify-start items-center flex-1 gap-[10px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px] px-[14px]">
+              <i class="fas fa-magnifying-glass text-[14px] text-[#A9AEB8]"></i>
+              <p data-name="search-value" class="flex-1 text-[15px] leading-[20px] font-[500] text-[#F2F3F5] text-left">Hotel en Malabo</p>
+              <i class="fas fa-circle-xmark text-[14px] text-[#A9AEB8]"></i>
+            </div>
+          </div>
+        </div>
+
+        <div data-name="FilterChip-row" class="flex flex-row justify-start items-center self-stretch overflow-hidden gap-[8px] px-[16px] py-[12px]">
+          <div data-name="chip-precio-activo" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#0066CC]/[0.16] border-[1px] border-[#0066CC] rounded-[10px] px-[12px]">
+            <i class="fas fa-tag text-[11px] text-[#5FA9EE]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">hasta 25.000 XAF</span>
+            <i class="fas fa-xmark text-[10px] text-[#5FA9EE]"></i>
+          </div>
+          <div data-name="chip-distancia" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[12px]">
+            <i class="fas fa-route text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Distancia</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
+          </div>
+          <div data-name="chip-orden" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[12px]">
+            <i class="fas fa-arrow-down-short-wide text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Precio ↑</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
+          </div>
+        </div>
+
+        <div data-name="lista-resultados" class="flex flex-col justify-start items-stretch self-stretch px-[16px] pb-[8px] gap-[12px]">
+          <!-- ── 1 · HotelCard con favorito guardado ── -->
+          <div data-name="HotelCard-1" class="flex flex-col justify-start items-stretch self-stretch bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+            <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+              <img data-name="foto-img" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22358%22%20height%3D%22201%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%231E1E23%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%235A6070%22%20font-family%3D%22Inter%2C%20sans-serif%22%20font-size%3D%2213%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3Ehotel%20seafront%20facade%20with%20palm%20trees%3C%2Ftext%3E%3C%2Fsvg%3E" class="w-[358px] h-[201px] object-cover" />
+              <div data-name="favorite-guardado" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+                <i class="fas fa-heart text-[16px] text-[#FF2442]"></i>
+              </div>
+            </div>
+            <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[8px]">
+              <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+                <p data-name="nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[#F2F3F5] text-left">Hotel Bahía de Malabo</p>
+                <i class="fas fa-circle-check text-[14px] text-[#45B87A]"></i>
+              </div>
+              <p data-name="ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Malabo Centro · Malabo · a 1,2 km</p>
+              <div data-name="RatingBadge" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#0066CC]/[0.14] rounded-[10px] px-[8px]">
+                <i class="fas fa-star text-[10px] text-[#F5B942]"></i>
+                <span data-name="nota-txt" class="text-[10.5px] leading-[14px] font-[800] text-[#F2F3F5] text-left">4,6 (28)</span>
+              </div>
+              <div data-name="servicios" class="flex flex-row justify-start items-center self-stretch gap-[6px]">
+                <div data-name="servicio-wifi" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-wifi text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Wi-Fi</span>
+                </div>
+                <div data-name="servicio-desayuno" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-mug-hot text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Desayuno</span>
+                </div>
+                <div data-name="servicio-aire" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-snowflake text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Aire acondicionado</span>
+                </div>
+                <span data-name="servicio-mas" class="text-[10.5px] leading-[14px] font-[700] text-[#A9AEB8] text-left">+2</span>
+              </div>
+              <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[8px]">
+                <div data-name="cta-default" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#0066CC] rounded-[12px]">
+                  <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Ver habitaciones</span>
+                </div>
+                <div data-name="PriceTag" class="flex flex-col justify-start items-end flex-1">
+                  <span data-name="importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">18.000 XAF</span>
+                  <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+                  <span data-name="impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 2.000 XAF impuestos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── 2 · HotelCard CON PROMOCIÓN ── -->
+          <div data-name="HotelCard-2-promo" class="flex flex-col justify-start items-stretch self-stretch bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+            <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+              <img data-name="foto-img" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22358%22%20height%3D%22201%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%231E1E23%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%235A6070%22%20font-family%3D%22Inter%2C%20sans-serif%22%20font-size%3D%2213%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3Etropical%20hotel%20exterior%20city%20street%3C%2Ftext%3E%3C%2Fsvg%3E" class="w-[358px] h-[201px] object-cover" />
+              <div data-name="badge-oferta" class="absolute top-[12px] left-[12px] flex flex-row justify-start items-center gap-[5px] h-[24px] bg-[#C2410C] rounded-[8px] px-[9px]">
+                <i class="fas fa-fire text-[10px] text-[#FFFFFF]"></i>
+                <span data-name="oferta-txt" class="text-[11px] leading-[14px] font-[800] text-[#FFFFFF] text-left">-20% · Oferta</span>
+              </div>
+              <div data-name="favorite-default" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+                <i class="far fa-heart text-[16px] text-[#FFFFFF]"></i>
+              </div>
+            </div>
+            <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[8px]">
+              <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+                <p data-name="nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[#F2F3F5] text-left">Hotel Ureca Bata</p>
+                <i class="fas fa-circle-check text-[14px] text-[#45B87A]"></i>
+              </div>
+              <p data-name="ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Centro · Bata · a 3,8 km</p>
+              <div data-name="RatingBadge" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#0066CC]/[0.14] rounded-[10px] px-[8px]">
+                <i class="fas fa-star text-[10px] text-[#F5B942]"></i>
+                <span data-name="nota-txt" class="text-[10.5px] leading-[14px] font-[800] text-[#F2F3F5] text-left">4,2 (11)</span>
+              </div>
+              <div data-name="servicios" class="flex flex-row justify-start items-center self-stretch gap-[6px]">
+                <div data-name="servicio-wifi" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-wifi text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Wi-Fi</span>
+                </div>
+                <div data-name="servicio-aire" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-snowflake text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Aire acondicionado</span>
+                </div>
+                <span data-name="servicio-mas" class="text-[10.5px] leading-[14px] font-[700] text-[#A9AEB8] text-left">+1</span>
+              </div>
+              <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[8px]">
+                <div data-name="cta-default" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#0066CC] rounded-[12px]">
+                  <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Ver habitaciones</span>
+                </div>
+                <div data-name="PriceTag-promo" class="flex flex-col justify-start items-end flex-1">
+                  <span data-name="precio-antes" class="text-[12px] leading-[16px] font-[500] text-[#A9AEB8] text-right">15.600 XAF</span>
+                  <span data-name="importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">12.500 XAF</span>
+                  <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+                  <span data-name="impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 1.500 XAF impuestos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── 3 · favorito guardado + sin nota publicada ── -->
+          <div data-name="HotelCard-3-sin-nota" class="flex flex-col justify-start items-stretch self-stretch bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+            <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+              <img data-name="foto-img" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22358%22%20height%3D%22201%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%231E1E23%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%235A6070%22%20font-family%3D%22Inter%2C%20sans-serif%22%20font-size%3D%2213%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3Emodern%20apartment%20building%20africa%3C%2Ftext%3E%3C%2Fsvg%3E" class="w-[358px] h-[201px] object-cover" />
+              <div data-name="favorite-guardado" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+                <i class="fas fa-heart text-[16px] text-[#FF2442]"></i>
+              </div>
+            </div>
+            <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[8px]">
+              <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+                <p data-name="nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[#F2F3F5] text-left">Residencia Oyala</p>
+                <i class="fas fa-circle-check text-[14px] text-[#45B87A]"></i>
+              </div>
+              <p data-name="ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Djibloho · Oyala · a 0,9 km</p>
+              <div data-name="RatingBadge-sin-nota" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#FFFFFF]/[0.06] rounded-[10px] px-[8px]">
+                <i class="fas fa-star-half-stroke text-[10px] text-[#A9AEB8]"></i>
+                <span data-name="nota-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Sin valoraciones todavía</span>
+              </div>
+              <div data-name="servicios" class="flex flex-row justify-start items-center self-stretch gap-[6px]">
+                <div data-name="servicio-wifi" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-wifi text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Wi-Fi</span>
+                </div>
+                <div data-name="servicio-cocina" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-utensils text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Cocina</span>
+                </div>
+              </div>
+              <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[8px]">
+                <div data-name="cta-default" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#0066CC] rounded-[12px]">
+                  <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Ver habitaciones</span>
+                </div>
+                <div data-name="PriceTag" class="flex flex-col justify-start items-end flex-1">
+                  <span data-name="importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">9.000 XAF</span>
+                  <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+                  <span data-name="impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 1.000 XAF impuestos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ── 4 ── -->
+          <div data-name="HotelCard-4" class="flex flex-col justify-start items-stretch self-stretch bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+            <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+              <img data-name="foto-img" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22358%22%20height%3D%22201%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%231E1E23%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%235A6070%22%20font-family%3D%22Inter%2C%20sans-serif%22%20font-size%3D%2213%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3Ebeach%20resort%20bungalows%20at%20sunset%3C%2Ftext%3E%3C%2Fsvg%3E" class="w-[358px] h-[201px] object-cover" />
+              <div data-name="favorite-default" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+                <i class="far fa-heart text-[16px] text-[#FFFFFF]"></i>
+              </div>
+            </div>
+            <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[8px]">
+              <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+                <p data-name="nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[#F2F3F5] text-left">Hotel Mbini Playa</p>
+                <i class="fas fa-circle-check text-[14px] text-[#45B87A]"></i>
+              </div>
+              <p data-name="ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Playa · Mbini · a 12,5 km</p>
+              <div data-name="RatingBadge" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#0066CC]/[0.14] rounded-[10px] px-[8px]">
+                <i class="fas fa-star text-[10px] text-[#F5B942]"></i>
+                <span data-name="nota-txt" class="text-[10.5px] leading-[14px] font-[800] text-[#F2F3F5] text-left">4,8 (64)</span>
+              </div>
+              <div data-name="servicios" class="flex flex-row justify-start items-center self-stretch gap-[6px]">
+                <div data-name="servicio-piscina" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-water text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Piscina</span>
+                </div>
+                <div data-name="servicio-desayuno" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-mug-hot text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Desayuno</span>
+                </div>
+                <span data-name="servicio-mas" class="text-[10.5px] leading-[14px] font-[700] text-[#A9AEB8] text-left">+3</span>
+              </div>
+              <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[8px]">
+                <div data-name="cta-default" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#0066CC] rounded-[12px]">
+                  <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Ver habitaciones</span>
+                </div>
+                <div data-name="PriceTag" class="flex flex-col justify-start items-end flex-1">
+                  <span data-name="importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">24.000 XAF</span>
+                  <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+                  <span data-name="impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 3.000 XAF impuestos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── 5 · sin sello de verificado ── -->
+          <div data-name="HotelCard-5-sin-sello" class="flex flex-col justify-start items-stretch self-stretch bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+            <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+              <img data-name="foto-img" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22358%22%20height%3D%22201%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%231E1E23%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%235A6070%22%20font-family%3D%22Inter%2C%20sans-serif%22%20font-size%3D%2213%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3Esmall%20guesthouse%20rural%20street%3C%2Ftext%3E%3C%2Fsvg%3E" class="w-[358px] h-[201px] object-cover" />
+              <div data-name="favorite-default" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+                <i class="far fa-heart text-[16px] text-[#FFFFFF]"></i>
+              </div>
+            </div>
+            <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[8px]">
+              <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+                <p data-name="nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[#F2F3F5] text-left">Hostal Evinayong</p>
+              </div>
+              <p data-name="ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Centro · Evinayong · a 21,0 km</p>
+              <div data-name="RatingBadge" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#0066CC]/[0.14] rounded-[10px] px-[8px]">
+                <i class="fas fa-star text-[10px] text-[#F5B942]"></i>
+                <span data-name="nota-txt" class="text-[10.5px] leading-[14px] font-[800] text-[#F2F3F5] text-left">3,9 (7)</span>
+              </div>
+              <div data-name="servicios" class="flex flex-row justify-start items-center self-stretch gap-[6px]">
+                <div data-name="servicio-wifi" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-wifi text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Wi-Fi</span>
+                </div>
+              </div>
+              <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[8px]">
+                <div data-name="cta-default" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#0066CC] rounded-[12px]">
+                  <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Ver habitaciones</span>
+                </div>
+                <div data-name="PriceTag" class="flex flex-col justify-start items-end flex-1">
+                  <span data-name="importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">7.500 XAF</span>
+                  <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+                  <span data-name="impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 900 XAF impuestos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── 6 · SIN DISPONIBILIDAD (tarjeta apagada, CTA deshabilitado) ── -->
+          <div data-name="HotelCard-6-sin-disponibilidad" class="flex flex-col justify-start items-stretch self-stretch bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+            <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+              <img data-name="foto-img" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22358%22%20height%3D%22201%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%231E1E23%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%235A6070%22%20font-family%3D%22Inter%2C%20sans-serif%22%20font-size%3D%2213%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3Eisland%20house%20volcano%20coastline%3C%2Ftext%3E%3C%2Fsvg%3E" class="w-[358px] h-[201px] object-cover opacity-[0.45]" />
+              <div data-name="badge-sin-disponibilidad" class="absolute top-[12px] left-[12px] flex flex-row justify-start items-center gap-[5px] h-[24px] bg-[#2E3338] rounded-[8px] px-[9px]">
+                <i class="fas fa-ban text-[10px] text-[#A9AEB8]"></i>
+                <span data-name="badge-txt" class="text-[11px] leading-[14px] font-[800] text-[#A9AEB8] text-left">Sin disponibilidad</span>
+              </div>
+              <div data-name="favorite-default" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+                <i class="far fa-heart text-[16px] text-[#FFFFFF]"></i>
+              </div>
+            </div>
+            <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[8px]">
+              <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+                <p data-name="nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[#A9AEB8] text-left">Casa Annobón</p>
+                <i class="fas fa-circle-check text-[14px] text-[#A9AEB8]"></i>
+              </div>
+              <p data-name="ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">San Antonio de Palé · Annobón · a 48,3 km</p>
+              <div data-name="RatingBadge-apagado" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#FFFFFF]/[0.06] rounded-[10px] px-[8px]">
+                <i class="fas fa-star text-[10px] text-[#A9AEB8]"></i>
+                <span data-name="nota-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">4,4 (19)</span>
+              </div>
+              <div data-name="servicios" class="flex flex-row justify-start items-center self-stretch gap-[6px]">
+                <div data-name="servicio-wifi" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-wifi text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Wi-Fi</span>
+                </div>
+                <div data-name="servicio-generador" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+                  <i class="fas fa-bolt text-[10px] text-[#A9AEB8]"></i>
+                  <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Generador</span>
+                </div>
+              </div>
+              <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[8px]">
+                <div data-name="cta-disabled" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#2E3338] rounded-[12px]">
+                  <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#A9AEB8] text-center">Ver habitaciones</span>
+                </div>
+                <div data-name="PriceTag-vacio" class="flex flex-col justify-start items-end flex-1">
+                  <span data-name="sin-disponibilidad" class="text-[15px] leading-[20px] font-[700] text-[#A9AEB8] text-right">Sin disponibilidad</span>
+                  <span data-name="para-fechas" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">para esas fechas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div data-name="scroll-hint" class="flex flex-row justify-center items-center self-stretch py-[10px] border-t-[1px] border-[#FFFFFF]/10">
+          <span data-name="scroll-hint-txt" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-center">6 alojamientos · desliza para ver más</span>
+        </div>
+      </div>
+    </div>
+    <!-- ══════════ ESTADO 3 · SIN RESULTADOS ══════════ -->
+    <div data-name="frame-vacio" class="flex flex-col justify-start items-start w-[390px] gap-[12px]">
+      <div data-name="cap-vacio" class="flex flex-row justify-start items-center self-stretch gap-[8px]">
+        <i class="fas fa-bed text-[13px] text-[#A9AEB8]"></i>
+        <span data-name="cap-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Sin resultados · EmptyState</span>
+      </div>
+      <div data-name="phone-vacio" class="flex flex-col justify-start items-stretch w-[390px] h-[844px] bg-[#17171A] overflow-hidden">
+
+        <div data-name="TopBar" class="flex flex-col justify-start items-stretch self-stretch border-b-[1px] border-[#FFFFFF]/10">
+          <div data-name="topbar-location-row" class="flex flex-row justify-between items-center self-stretch p-[16px] gap-[12px]">
+            <div data-name="location-group" class="flex flex-row justify-start items-center gap-[6px]">
+              <i class="fas fa-location-dot text-[16px] text-[#5FA9EE]"></i>
+              <span data-name="location-text" class="text-[15px] leading-[20px] font-[700] text-[#F2F3F5] text-left">Malabo, Guinea Ecuatorial</span>
+              <i class="fas fa-chevron-down text-[11px] text-[#A9AEB8]"></i>
+            </div>
+            <div data-name="topbar-actions" class="flex flex-row justify-start items-center gap-[14px]">
+              <i class="fas fa-map text-[20px] text-[#F2F3F5]"></i>
+              <div data-name="bell-wrapper" class="relative flex flex-row justify-center items-center w-[22px] h-[22px]">
+                <i class="fas fa-bell text-[20px] text-[#F2F3F5]"></i>
+                <div data-name="bell-dot" class="absolute top-[0px] right-[0px] w-[9px] h-[9px] bg-[#C62828] border-[1.5px] border-[#17171A] rounded-[999px]"></div>
+              </div>
+              <div data-name="avatar" class="flex flex-row justify-center items-center w-[28px] h-[28px] bg-[#2E3338] rounded-[999px] overflow-hidden">
+                <span data-name="avatar-initials" class="text-[11px] leading-[14px] font-[800] text-[#F2F3F5] text-center">BL</span>
+              </div>
+            </div>
+          </div>
+          <div data-name="search-wrap" class="flex flex-row justify-start items-stretch self-stretch px-[16px] pb-[12px]">
+            <div data-name="SearchField" class="flex flex-row justify-start items-center flex-1 gap-[10px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px] px-[14px]">
+              <i class="fas fa-magnifying-glass text-[14px] text-[#A9AEB8]"></i>
+              <p data-name="search-value" class="flex-1 text-[15px] leading-[20px] font-[500] text-[#F2F3F5] text-left">Hotel en Malabo</p>
+              <i class="fas fa-circle-xmark text-[14px] text-[#A9AEB8]"></i>
+            </div>
+          </div>
+        </div>
+
+        <div data-name="FilterChip-row" class="flex flex-row justify-start items-center self-stretch overflow-hidden gap-[8px] px-[16px] py-[12px]">
+          <div data-name="chip-precio-activo" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#0066CC]/[0.16] border-[1px] border-[#0066CC] rounded-[10px] px-[12px]">
+            <i class="fas fa-tag text-[11px] text-[#5FA9EE]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">hasta 5.000 XAF</span>
+            <i class="fas fa-xmark text-[10px] text-[#5FA9EE]"></i>
+          </div>
+          <div data-name="chip-distancia-activo" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#0066CC]/[0.16] border-[1px] border-[#0066CC] rounded-[10px] px-[12px]">
+            <i class="fas fa-route text-[11px] text-[#5FA9EE]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">a menos de 1 km</span>
+            <i class="fas fa-xmark text-[10px] text-[#5FA9EE]"></i>
+          </div>
+        </div>
+
+        <div data-name="EmptyState" class="flex flex-col justify-center items-center self-stretch flex-1 px-[32px] gap-[14px]">
+          <div data-name="empty-icon" class="flex flex-row justify-center items-center w-[88px] h-[88px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[999px]">
+            <i class="fas fa-bed text-[34px] text-[#A9AEB8]"></i>
+          </div>
+          <p data-name="empty-title" class="self-stretch text-[18px] leading-[24px] font-[800] text-[#F2F3F5] text-center">No hay hoteles con esos filtros</p>
+          <p data-name="empty-sub" class="self-stretch text-[14px] leading-[20px] font-[400] text-[#A9AEB8] text-center">Prueba a subir el precio máximo o a ampliar la distancia. Ahora mismo hay 2 alojamientos publicados en Malabo.</p>
+          <div data-name="empty-cta-primario" class="flex flex-row justify-center items-center gap-[8px] w-[210px] h-[46px] bg-[#0066CC] rounded-[12px]">
+            <i class="fas fa-filter-circle-xmark text-[14px] text-[#FFFFFF]"></i>
+            <span data-name="empty-cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Limpiar filtros</span>
+          </div>
+          <div data-name="empty-cta-secundario" class="flex flex-row justify-center items-center w-[210px] h-[46px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px]">
+            <span data-name="empty-cta-sec-txt" class="text-[15px] leading-[20px] font-[700] text-[#F2F3F5] text-center">Ver todos los alojamientos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ ESTADO 4 · ERROR DE RED ══════════ -->
+    <div data-name="frame-error" class="flex flex-col justify-start items-start w-[390px] gap-[12px]">
+      <div data-name="cap-error" class="flex flex-row justify-start items-center self-stretch gap-[8px]">
+        <i class="fas fa-triangle-exclamation text-[13px] text-[#F58585]"></i>
+        <span data-name="cap-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Error de red · ErrorState</span>
+      </div>
+      <div data-name="phone-error" class="flex flex-col justify-start items-stretch w-[390px] h-[844px] bg-[#17171A] overflow-hidden">
+
+        <div data-name="TopBar" class="flex flex-col justify-start items-stretch self-stretch border-b-[1px] border-[#FFFFFF]/10">
+          <div data-name="topbar-location-row" class="flex flex-row justify-between items-center self-stretch p-[16px] gap-[12px]">
+            <div data-name="location-group" class="flex flex-row justify-start items-center gap-[6px]">
+              <i class="fas fa-location-dot text-[16px] text-[#5FA9EE]"></i>
+              <span data-name="location-text" class="text-[15px] leading-[20px] font-[700] text-[#F2F3F5] text-left">Malabo, Guinea Ecuatorial</span>
+              <i class="fas fa-chevron-down text-[11px] text-[#A9AEB8]"></i>
+            </div>
+            <div data-name="topbar-actions" class="flex flex-row justify-start items-center gap-[14px]">
+              <i class="fas fa-map text-[20px] text-[#F2F3F5]"></i>
+              <div data-name="bell-wrapper" class="relative flex flex-row justify-center items-center w-[22px] h-[22px]">
+                <i class="fas fa-bell text-[20px] text-[#F2F3F5]"></i>
+                <div data-name="bell-dot" class="absolute top-[0px] right-[0px] w-[9px] h-[9px] bg-[#C62828] border-[1.5px] border-[#17171A] rounded-[999px]"></div>
+              </div>
+              <div data-name="avatar" class="flex flex-row justify-center items-center w-[28px] h-[28px] bg-[#2E3338] rounded-[999px] overflow-hidden">
+                <span data-name="avatar-initials" class="text-[11px] leading-[14px] font-[800] text-[#F2F3F5] text-center">BL</span>
+              </div>
+            </div>
+          </div>
+          <div data-name="search-wrap" class="flex flex-row justify-start items-stretch self-stretch px-[16px] pb-[12px]">
+            <div data-name="SearchField" class="flex flex-row justify-start items-center flex-1 gap-[10px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px] px-[14px]">
+              <i class="fas fa-magnifying-glass text-[14px] text-[#A9AEB8]"></i>
+              <p data-name="search-placeholder" class="flex-1 text-[15px] leading-[20px] font-[400] text-[#A9AEB8] text-left">¿Dónde quieres dormir?</p>
+            </div>
+          </div>
+        </div>
+
+        <div data-name="FilterChip-row" class="flex flex-row justify-start items-center self-stretch overflow-hidden gap-[8px] px-[16px] py-[12px]">
+          <div data-name="chip-precio-disabled" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/[0.04] rounded-[10px] px-[12px]">
+            <i class="fas fa-tag text-[11px] text-[#5A5F68]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#5A5F68] text-left">Precio</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#5A5F68]"></i>
+          </div>
+          <div data-name="chip-distancia-disabled" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/[0.04] rounded-[10px] px-[12px]">
+            <i class="fas fa-route text-[11px] text-[#5A5F68]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#5A5F68] text-left">Distancia</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#5A5F68]"></i>
+          </div>
+          <div data-name="chip-orden-disabled" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/[0.04] rounded-[10px] px-[12px]">
+            <i class="fas fa-arrow-down-short-wide text-[11px] text-[#5A5F68]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#5A5F68] text-left">Orden</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#5A5F68]"></i>
+          </div>
+        </div>
+
+        <div data-name="ErrorState" class="flex flex-col justify-center items-center self-stretch flex-1 px-[32px] gap-[14px]">
+          <div data-name="error-icon" class="flex flex-row justify-center items-center w-[88px] h-[88px] bg-[#C62828]/[0.14] border-[1px] border-[#C62828]/[0.33] rounded-[999px]">
+            <i class="fas fa-triangle-exclamation text-[36px] text-[#F58585]"></i>
+          </div>
+          <p data-name="error-title" class="self-stretch text-[18px] leading-[24px] font-[800] text-[#F2F3F5] text-center">No se pudo conectar</p>
+          <p data-name="error-sub" class="self-stretch text-[14px] leading-[20px] font-[400] text-[#A9AEB8] text-center">Comprueba tu conexión e inténtalo de nuevo. Si estás en el móvil, prueba con datos móviles o Wi-Fi.</p>
+          <div data-name="error-cta" class="flex flex-row justify-center items-center gap-[8px] w-[180px] h-[46px] bg-[#0066CC] rounded-[12px]">
+            <i class="fas fa-rotate-right text-[14px] text-[#FFFFFF]"></i>
+            <span data-name="error-cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Reintentar</span>
+          </div>
+          <div data-name="error-aviso" class="flex flex-row justify-center items-center w-[280px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[12px] py-[8px]">
+            <p data-name="error-aviso-txt" class="flex-1 text-[11px] leading-[15px] font-[400] text-[#A9AEB8] text-center">No se ha cobrado nada. Tus reservas anteriores siguen guardadas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- ══════════ MATRIZ DE COMPONENTES Y VARIANTES ══════════ -->
+  <div data-name="matriz-header" class="flex flex-col justify-start items-start self-stretch gap-[6px]">
+    <span data-name="matriz-title" class="text-[24px] leading-[30px] font-[800] text-[#F2F3F5] text-left">Componentes y variantes</span>
+    <p data-name="matriz-sub" class="self-stretch text-[14px] leading-[20px] font-[400] text-[#A9AEB8] text-left">Los diez componentes pedidos. Un componente por fila y las variantes de izquierda a derecha: default · pressed · disabled · loading.</p>
+  </div>
+
+  <div data-name="matriz" class="flex flex-col justify-start items-stretch self-stretch bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[12px] p-[24px] gap-[24px]">
+
+    <!-- FilterChip -->
+    <div data-name="fila-FilterChip" class="flex flex-col justify-start items-stretch self-stretch gap-[10px]">
+      <span data-name="fila-titulo" class="text-[14px] leading-[18px] font-[800] text-[#F2F3F5] text-left">FilterChip</span>
+      <div data-name="variantes" class="flex flex-row justify-start items-center self-stretch gap-[16px]">
+        <div data-name="v-default" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">default</span>
+          <div data-name="chip" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[12px]">
+            <i class="fas fa-tag text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Precio</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
+          </div>
+        </div>
+        <div data-name="v-pressed" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">pressed</span>
+          <div data-name="chip" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#2E3338] border-[1px] border-[#FFFFFF]/[0.16] rounded-[10px] px-[12px]">
+            <i class="fas fa-tag text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Precio</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
+          </div>
+        </div>
+        <div data-name="v-activo" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">activo (filtro puesto)</span>
+          <div data-name="chip" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#0066CC]/[0.16] border-[1px] border-[#0066CC] rounded-[10px] px-[12px]">
+            <i class="fas fa-tag text-[11px] text-[#5FA9EE]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">hasta 25.000 XAF</span>
+            <i class="fas fa-xmark text-[10px] text-[#5FA9EE]"></i>
+          </div>
+        </div>
+        <div data-name="v-disabled" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">disabled</span>
+          <div data-name="chip" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/[0.04] rounded-[10px] px-[12px]">
+            <i class="fas fa-star text-[11px] text-[#5A5F68]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#5A5F68] text-left">Estrellas</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#5A5F68]"></i>
+          </div>
+        </div>
+        <div data-name="v-loading" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">loading</span>
+          <div data-name="chip" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[12px]">
+            <i class="fas fa-circle-notch text-[11px] text-[#5FA9EE]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#A9AEB8] text-left">Cargando…</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boton primario -->
+    <div data-name="fila-BotonPrimario" class="flex flex-col justify-start items-stretch self-stretch gap-[10px]">
+      <span data-name="fila-titulo" class="text-[14px] leading-[18px] font-[800] text-[#F2F3F5] text-left">Botón primario · «Ver habitaciones»</span>
+      <div data-name="variantes" class="flex flex-row justify-start items-center self-stretch gap-[16px]">
+        <div data-name="v-default" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">default</span>
+          <div data-name="btn" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#0066CC] rounded-[12px]">
+            <span data-name="btn-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Ver habitaciones</span>
+          </div>
+        </div>
+        <div data-name="v-pressed" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">pressed</span>
+          <div data-name="btn" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#00529E] rounded-[12px]">
+            <span data-name="btn-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Ver habitaciones</span>
+          </div>
+        </div>
+        <div data-name="v-disabled" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">disabled</span>
+          <div data-name="btn" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#2E3338] rounded-[12px]">
+            <span data-name="btn-txt" class="text-[15px] leading-[20px] font-[700] text-[#A9AEB8] text-center">Ver habitaciones</span>
+          </div>
+        </div>
+        <div data-name="v-loading" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">loading</span>
+          <div data-name="btn" class="flex flex-row justify-center items-center gap-[8px] w-[150px] h-[44px] bg-[#00529E] rounded-[12px]">
+            <i class="fas fa-circle-notch text-[14px] text-[#FFFFFF]"></i>
+            <span data-name="btn-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Abriendo…</span>
+          </div>
+        </div>
+        <div data-name="v-favorito" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">favorito guardado</span>
+          <div data-name="btn" class="flex flex-row justify-center items-center gap-[8px] w-[150px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px]">
+            <i class="fas fa-heart text-[14px] text-[#FF2442]"></i>
+            <span data-name="btn-txt" class="text-[15px] leading-[20px] font-[700] text-[#F2F3F5] text-center">Guardado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FavoriteButton -->
+    <div data-name="fila-FavoriteButton" class="flex flex-col justify-start items-stretch self-stretch gap-[10px]">
+      <span data-name="fila-titulo" class="text-[14px] leading-[18px] font-[800] text-[#F2F3F5] text-left">FavoriteButton · 36×36, superpuesto a la foto en posición absoluta</span>
+      <div data-name="variantes" class="flex flex-row justify-start items-center self-stretch gap-[16px]">
+        <div data-name="v-default" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">default</span>
+          <div data-name="fav" class="flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+            <i class="far fa-heart text-[16px] text-[#FFFFFF]"></i>
+          </div>
+        </div>
+        <div data-name="v-pressed" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">pressed</span>
+          <div data-name="fav" class="flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.65] border-[1px] border-[#FFFFFF]/[0.28] rounded-[999px]">
+            <i class="far fa-heart text-[16px] text-[#FFFFFF]"></i>
+          </div>
+        </div>
+        <div data-name="v-guardado" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">guardado</span>
+          <div data-name="fav" class="flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+            <i class="fas fa-heart text-[16px] text-[#FF2442]"></i>
+          </div>
+        </div>
+        <div data-name="v-disabled" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">disabled</span>
+          <div data-name="fav" class="flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.25] border-[1px] border-[#FFFFFF]/[0.08] rounded-[999px]">
+            <i class="far fa-heart text-[16px] text-[#5A5F68]"></i>
+          </div>
+        </div>
+        <div data-name="v-loading" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">loading</span>
+          <div data-name="fav" class="flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+            <i class="fas fa-circle-notch text-[14px] text-[#FFFFFF]"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RatingBadge -->
+    <div data-name="fila-RatingBadge" class="flex flex-col justify-start items-stretch self-stretch gap-[10px]">
+      <span data-name="fila-titulo" class="text-[14px] leading-[18px] font-[800] text-[#F2F3F5] text-left">RatingBadge · la nota solo se pinta si el servidor publica (ratingPublished)</span>
+      <div data-name="variantes" class="flex flex-row justify-start items-center self-stretch gap-[16px]">
+        <div data-name="v-con-nota" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">con nota publicada</span>
+          <div data-name="badge" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#0066CC]/[0.14] rounded-[10px] px-[8px]">
+            <i class="fas fa-star text-[10px] text-[#F5B942]"></i>
+            <span data-name="badge-txt" class="text-[10.5px] leading-[14px] font-[800] text-[#F2F3F5] text-left">4,6 (28)</span>
+          </div>
+        </div>
+        <div data-name="v-sin-nota" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">sin nota (ratingPublished false)</span>
+          <div data-name="badge" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#FFFFFF]/[0.06] rounded-[10px] px-[8px]">
+            <i class="fas fa-star-half-stroke text-[10px] text-[#A9AEB8]"></i>
+            <span data-name="badge-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Sin valoraciones todavía</span>
+          </div>
+        </div>
+        <div data-name="v-apagado" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">apagado (sin hueco)</span>
+          <div data-name="badge" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#FFFFFF]/[0.06] rounded-[10px] px-[8px]">
+            <i class="fas fa-star text-[10px] text-[#A9AEB8]"></i>
+            <span data-name="badge-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">4,4 (19)</span>
+          </div>
+        </div>
+        <div data-name="v-oferta" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">etiqueta de promoción</span>
+          <div data-name="badge" class="flex flex-row justify-start items-center gap-[5px] h-[24px] bg-[#C2410C] rounded-[8px] px-[9px]">
+            <i class="fas fa-fire text-[10px] text-[#FFFFFF]"></i>
+            <span data-name="badge-txt" class="text-[11px] leading-[14px] font-[800] text-[#FFFFFF] text-left">-20% · Oferta</span>
+          </div>
+        </div>
+        <div data-name="v-sin-disponibilidad" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">sin disponibilidad</span>
+          <div data-name="badge" class="flex flex-row justify-start items-center gap-[5px] h-[24px] bg-[#2E3338] rounded-[8px] px-[9px]">
+            <i class="fas fa-ban text-[10px] text-[#A9AEB8]"></i>
+            <span data-name="badge-txt" class="text-[11px] leading-[14px] font-[800] text-[#A9AEB8] text-left">Sin disponibilidad</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PriceTag -->
+    <div data-name="fila-PriceTag" class="flex flex-col justify-start items-stretch self-stretch gap-[10px]">
+      <span data-name="fila-titulo" class="text-[14px] leading-[18px] font-[800] text-[#F2F3F5] text-left">PriceTag · importe + «por noche · desde» + impuestos</span>
+      <div data-name="variantes" class="flex flex-row justify-start items-start self-stretch gap-[32px]">
+        <div data-name="v-normal" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">normal</span>
+          <div data-name="price" class="flex flex-col justify-start items-end">
+            <span data-name="importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">18.000 XAF</span>
+            <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+            <span data-name="impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 2.000 XAF impuestos</span>
+          </div>
+        </div>
+        <div data-name="v-promo" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">con promoción</span>
+          <div data-name="price" class="flex flex-col justify-start items-end">
+            <span data-name="precio-antes" class="text-[12px] leading-[16px] font-[500] text-[#A9AEB8] text-right">15.600 XAF</span>
+            <span data-name="importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">12.500 XAF</span>
+            <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+            <span data-name="impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 1.500 XAF impuestos</span>
+          </div>
+        </div>
+        <div data-name="v-sin-disponibilidad" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">sin disponibilidad</span>
+          <div data-name="price" class="flex flex-col justify-start items-end">
+            <span data-name="sin-disponibilidad" class="text-[15px] leading-[20px] font-[700] text-[#A9AEB8] text-right">Sin disponibilidad</span>
+            <span data-name="para-fechas" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">para esas fechas</span>
+          </div>
+        </div>
+        <div data-name="v-skeleton" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">loading</span>
+          <div data-name="price" class="flex flex-col justify-start items-end">
+            <div data-name="sk-importe" class="flex flex-row justify-start items-stretch w-[92px] h-[22px] bg-[#2E3338] rounded-[4px]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SearchField -->
+    <div data-name="fila-SearchField" class="flex flex-col justify-start items-stretch self-stretch gap-[10px]">
+      <span data-name="fila-titulo" class="text-[14px] leading-[18px] font-[800] text-[#F2F3F5] text-left">SearchField</span>
+      <div data-name="variantes" class="flex flex-row justify-start items-center self-stretch gap-[16px]">
+        <div data-name="v-vacio" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">default (vacío)</span>
+          <div data-name="SearchField" class="flex flex-row justify-start items-center w-[280px] gap-[10px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px] px-[14px]">
+            <i class="fas fa-magnifying-glass text-[14px] text-[#A9AEB8]"></i>
+            <p data-name="ph" class="flex-1 text-[15px] leading-[20px] font-[400] text-[#A9AEB8] text-left">¿Dónde quieres dormir?</p>
+          </div>
+        </div>
+        <div data-name="v-con-valor" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">con valor (borrable)</span>
+          <div data-name="SearchField" class="flex flex-row justify-start items-center w-[280px] gap-[10px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px] px-[14px]">
+            <i class="fas fa-magnifying-glass text-[14px] text-[#A9AEB8]"></i>
+            <p data-name="valor" class="flex-1 text-[15px] leading-[20px] font-[500] text-[#F2F3F5] text-left">Hotel en Malabo</p>
+            <i class="fas fa-circle-xmark text-[14px] text-[#A9AEB8]"></i>
+          </div>
+        </div>
+        <div data-name="v-enfoque" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">pressed / enfocado</span>
+          <div data-name="SearchField" class="flex flex-row justify-start items-center w-[280px] gap-[10px] h-[44px] bg-[#1E1E23] border-[2px] border-[#0066CC] rounded-[12px] px-[14px]">
+            <i class="fas fa-magnifying-glass text-[14px] text-[#5FA9EE]"></i>
+            <p data-name="ph" class="flex-1 text-[15px] leading-[20px] font-[400] text-[#A9AEB8] text-left">Malabo</p>
+          </div>
+        </div>
+        <div data-name="v-loading" class="flex flex-col justify-start items-start gap-[6px]">
+          <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">loading</span>
+          <div data-name="SearchField" class="flex flex-row justify-start items-center w-[280px] gap-[10px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px] px-[14px]">
+            <i class="fas fa-circle-notch text-[14px] text-[#5FA9EE]"></i>
+            <p data-name="ph" class="flex-1 text-[15px] leading-[20px] font-[400] text-[#A9AEB8] text-left">Buscando alojamientos…</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SkeletonCard aislado -->
+    <div data-name="fila-SkeletonCard" class="flex flex-col justify-start items-stretch self-stretch gap-[10px]">
+      <span data-name="fila-titulo" class="text-[14px] leading-[18px] font-[800] text-[#F2F3F5] text-left">SkeletonCard · el bloque que se repite 3 veces en el estado de carga</span>
+      <div data-name="variantes" class="flex flex-row justify-start items-start self-stretch gap-[24px]">
+        <div data-name="SkeletonCard" class="flex flex-col justify-start items-stretch w-[300px] bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+          <div data-name="sk-foto" class="flex flex-row justify-start items-stretch self-stretch h-[169px] bg-[linear-gradient(100deg,#1E1E23_0%,#2E3338_50%,#1E1E23_100%)]"></div>
+          <div data-name="sk-cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[10px]">
+            <div data-name="sk-l1" class="flex flex-row justify-start items-stretch w-[200px] h-[16px] bg-[#2E3338] rounded-[4px]"></div>
+            <div data-name="sk-l2" class="flex flex-row justify-start items-stretch w-[150px] h-[12px] bg-[#2E3338] rounded-[4px]"></div>
+            <div data-name="sk-pie" class="flex flex-row justify-between items-center self-stretch">
+              <div data-name="sk-cta" class="flex flex-row justify-start items-stretch w-[120px] h-[44px] bg-[#2E3338] rounded-[12px]"></div>
+              <div data-name="sk-precio" class="flex flex-row justify-start items-stretch w-[80px] h-[22px] bg-[#2E3338] rounded-[4px]"></div>
+            </div>
+          </div>
+        </div>
+        <div data-name="nota-skeleton" class="flex flex-col justify-start items-start w-[420px] gap-[6px]">
+          <span data-name="nota-titulo" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Reglas del esqueleto</span>
+          <p data-name="nota-txt" class="self-stretch text-[12px] leading-[18px] font-[400] text-[#A9AEB8] text-left">La silueta tiene que medir lo mismo que la tarjeta real —imagen, nombre, línea de ubicación, píldora y pie— para que al llegar el dato nada salte de sitio. Se repite 3 veces, no una por resultado: el número de resultados aún no se sabe.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- EmptyState + ErrorState -->
+    <div data-name="fila-Estados" class="flex flex-col justify-start items-stretch self-stretch gap-[10px]">
+      <span data-name="fila-titulo" class="text-[14px] leading-[18px] font-[800] text-[#F2F3F5] text-left">EmptyState · ErrorState (icono + título + explicación + acción)</span>
+      <div data-name="variantes" class="flex flex-row justify-start items-start self-stretch gap-[24px]">
+        <div data-name="EmptyState-mini" class="flex flex-col justify-center items-center w-[340px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[12px] p-[20px] gap-[10px]">
+          <div data-name="icono" class="flex flex-row justify-center items-center w-[64px] h-[64px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[999px]">
+            <i class="fas fa-bed text-[26px] text-[#A9AEB8]"></i>
+          </div>
+          <p data-name="titulo" class="self-stretch text-[16px] leading-[22px] font-[800] text-[#F2F3F5] text-center">No hay hoteles con esos filtros</p>
+          <p data-name="sub" class="self-stretch text-[12px] leading-[18px] font-[400] text-[#A9AEB8] text-center">Prueba a subir el precio máximo o a ampliar la distancia.</p>
+          <div data-name="cta" class="flex flex-row justify-center items-center w-[180px] h-[46px] bg-[#0066CC] rounded-[12px]">
+            <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Limpiar filtros</span>
+          </div>
+        </div>
+        <div data-name="ErrorState-mini" class="flex flex-col justify-center items-center w-[340px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[12px] p-[20px] gap-[10px]">
+          <div data-name="icono" class="flex flex-row justify-center items-center w-[64px] h-[64px] bg-[#C62828]/[0.14] border-[1px] border-[#C62828]/[0.33] rounded-[999px]">
+            <i class="fas fa-triangle-exclamation text-[26px] text-[#F58585]"></i>
+          </div>
+          <p data-name="titulo" class="self-stretch text-[16px] leading-[22px] font-[800] text-[#F2F3F5] text-center">No se pudo conectar</p>
+          <p data-name="sub" class="self-stretch text-[12px] leading-[18px] font-[400] text-[#A9AEB8] text-center">Comprueba tu conexión e inténtalo de nuevo.</p>
+          <div data-name="cta" class="flex flex-row justify-center items-center gap-[8px] w-[180px] h-[46px] bg-[#0066CC] rounded-[12px]">
+            <i class="fas fa-rotate-right text-[14px] text-[#FFFFFF]"></i>
+            <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Reintentar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TopBar mini -->
+    <div data-name="fila-TopBar" class="flex flex-col justify-start items-stretch self-stretch gap-[10px]">
+      <span data-name="fila-titulo" class="text-[14px] leading-[18px] font-[800] text-[#F2F3F5] text-left">TopBar · dos filas (la ubicación larga no cabe junto al buscador en 390 px)</span>
+      <div data-name="variantes" class="flex flex-row justify-start items-start self-stretch gap-[24px]">
+        <div data-name="TopBar-mini" class="flex flex-col justify-start items-stretch w-[390px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+          <div data-name="fila-1" class="flex flex-row justify-between items-center self-stretch p-[16px] gap-[12px]">
+            <div data-name="location-group" class="flex flex-row justify-start items-center gap-[6px]">
+              <i class="fas fa-location-dot text-[16px] text-[#5FA9EE]"></i>
+              <span data-name="location-text" class="text-[15px] leading-[20px] font-[700] text-[#F2F3F5] text-left">Malabo, Guinea Ecuatorial</span>
+              <i class="fas fa-chevron-down text-[11px] text-[#A9AEB8]"></i>
+            </div>
+            <div data-name="acciones" class="flex flex-row justify-start items-center gap-[14px]">
+              <i class="fas fa-map text-[20px] text-[#F2F3F5]"></i>
+              <div data-name="bell-wrapper" class="relative flex flex-row justify-center items-center w-[22px] h-[22px]">
+                <i class="fas fa-bell text-[20px] text-[#F2F3F5]"></i>
+                <div data-name="bell-dot" class="absolute top-[0px] right-[0px] w-[9px] h-[9px] bg-[#C62828] border-[1.5px] border-[#17171A] rounded-[999px]"></div>
+              </div>
+              <div data-name="avatar" class="flex flex-row justify-center items-center w-[28px] h-[28px] bg-[#2E3338] rounded-[999px] overflow-hidden">
+                <span data-name="avatar-initials" class="text-[11px] leading-[14px] font-[800] text-[#F2F3F5] text-center">BL</span>
+              </div>
+            </div>
+          </div>
+          <div data-name="fila-2" class="flex flex-row justify-start items-stretch self-stretch px-[16px] pb-[12px]">
+            <div data-name="SearchField" class="flex flex-row justify-start items-center flex-1 gap-[10px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px] px-[14px]">
+              <i class="fas fa-magnifying-glass text-[14px] text-[#A9AEB8]"></i>
+              <p data-name="ph" class="flex-1 text-[15px] leading-[20px] font-[400] text-[#A9AEB8] text-left">¿Dónde quieres dormir?</p>
+            </div>
+          </div>
+        </div>
+        <div data-name="nota-topbar" class="flex flex-col justify-start items-start w-[420px] gap-[6px]">
+          <span data-name="nota-titulo" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Por qué dos filas</span>
+          <p data-name="nota-txt" class="self-stretch text-[12px] leading-[18px] font-[400] text-[#A9AEB8] text-left">«Malabo, Guinea Ecuatorial» mide unos 190 px a 15 px. Con el buscador, el mapa, la campana y el avatar en la misma línea, el buscador se queda en menos de 90 px. Reparto en dos filas: ubicación y acciones arriba, buscador a todo el ancho debajo.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>
