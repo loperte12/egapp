@@ -9,12 +9,13 @@
 
 | Fichero | Qué es |
 |---|---|
-| `docs/UI-HOTEL-LISTADO.html` | el prototipo editable: 4 estados + la matriz de componentes. Cumple el protocolo `page-generate` de MasterGo (raíz única `<main>`, `data-name` en cada nodo, Flex puro, valores arbitrarios de Tailwind, FontAwesome). **Es el payload de `submit_page_to_canvas`** |
+| `docs/UI-HOTEL-LISTADO.html` | el prototipo editable: 4 estados + la matriz de componentes. Cumple el protocolo `page-generate` de MasterGo (raíz única `<main>`, `data-name` en cada nodo, Flex puro, valores arbitrarios de Tailwind, FontAwesome). **Lleva comentarios de documentación: NO se envía tal cual** |
+| `docs/UI-HOTEL-LISTADO-canvas.html` | **el payload que se envía al lienzo.** Derivado del anterior por `pruebas/prepara-canvas.cjs`: sin ningún comentario HTML, empieza en `<main` y acaba en `</main>`. Se regenera, no se edita a mano |
 | `docs/UI-HOTEL-LISTADO-vista.html` | la misma pantalla **derivada para poder verla en un navegador** (el payload no lleva Tailwind compilado). Se regenera, no se edita a mano |
 | `docs/design.md` | el sistema de diseño en tabla: color, tipografía, espaciado, radio, trazo, elevación y las reglas de contenido |
 | este documento | medidas, matriz de variantes, contrato de dato por elemento y lo que falta |
 
-**Verificado mecánicamente** (901 líneas): etiquetas balanceadas (`div` 279/279, `span` 143/143, `p` 34/34, `img` 6/6 autocerradas), **463 nodos con `data-name`**, cero clases de `margin`, cero formularios nativos, cero `table`, cero grid, cero `%`/`vw`/`vh`/`rem`/`em`/`calc` para medidas, y **todos los `<span>` y `<p>` con las cinco propiedades de texto** y los `<p>` con ancho limitado.
+**Verificado mecánicamente** (905 líneas): etiquetas balanceadas (`div` 279/279, `span` 143/143, `p` 34/34, `img` 6/6 autocerradas), **463 nodos con `data-name`**, cero clases de `margin`, cero formularios nativos, cero `table`, cero grid, cero `%`/`vw`/`vh`/`rem`/`em`/`calc` para medidas, y **todos los `<span>` y `<p>` con las cinco propiedades de texto** y los `<p>` con ancho limitado.
 
 ---
 
@@ -158,18 +159,30 @@ cortar la propagación, o cada «me gusta» abre además la ficha.
 
 ## 8. Cómo subirlo a MasterGo
 
-El lienzo estaba en **`no online mg canvas`** cuando se generó esto, así que el HTML se entrega como
-fichero. Para llevarlo al lienzo, en dos pasos:
+El lienzo **ya está conectado** (fichero `新文件`, `documentId 205808662226877`) y **la pantalla ya está
+dentro**, como nodo **`3:166` «Hotel-Listado-390»**. Para reenviarla o regenerarla:
 
-1. Abrir el fichero de destino en el cliente de MasterGo (escritorio o web) y comprobar **en el propio
-   cliente** que el estado es «MCP 服务端启动并已连接».
-2. Entonces el contenido de `UI-HOTEL-LISTADO.html` se envía con `submit_page_to_canvas`, que crea la
-   página con sus capas. **Verlo en el navegador interno del agente no basta.**
+1. Abrir el fichero de destino en el cliente de MasterGo y comprobar **en el propio cliente** que el
+   estado es «MCP 服务端启动并已连接». **Verlo en el navegador interno del agente no basta.**
+2. `design_page` (obligatorio antes de cualquier envío; crea o reutiliza el nodo ancla).
+3. `node pruebas/prepara-canvas.cjs` → genera el payload limpio `docs/UI-HOTEL-LISTADO-canvas.html`.
+4. Enviar **ese** fichero con `submit_page_to_canvas` (`filePath`), no el fuente.
 
-Lo que **no** se ha hecho y no se puede hacer sin lienzo: guardar los colores y los textos como
-**variables de MasterGo** (`agent_update_variables`) y convertir los diez componentes en **componentes
-con variantes** (`agent_create_component`). El HTML ya está preparado para ello: cada variante está
-aislada en su bloque con nombre propio.
+> ### ⚠️ La trampa que costó tres entregas fantasma
+> **MasterGo NO ignora los comentarios HTML: los transcribe como capas de texto.** El payload empezaba
+> por el comentario de documentación de cabecera, y lo que aterrizó en el lienzo fue **ese comentario
+> pintado como texto** —hasta el `-->` final como carácter visible—, con el `<main>` sin pintarse nunca.
+> Por eso `UI-HOTEL-LISTADO.html` **no se envía nunca tal cual**: lleva 22 comentarios, y cada uno sería
+> una capa de basura.
+>
+> El error se disfrazó tres veces de éxito: las tres respuestas dijeron «✅ 设计稿生成已成功完成». La
+> señal de que el envío está **aceptado de verdad** es otra: **`状态: accepted`** («画布仍在后台处理中»).
+> Y la prueba definitiva es leer el nodo: el bueno se llama como el `data-name` del `<main>`.
+
+Lo que **no** se ha hecho todavía: guardar los colores y los textos como **variables de MasterGo**
+(`agent_update_variables`) y convertir los diez componentes en **componentes con variantes**
+(`agent_create_component`). El HTML ya está preparado para ello: cada variante está aislada en su bloque
+con nombre propio.
 
 ### Cómo se ha medido el render (sin lienzo)
 
