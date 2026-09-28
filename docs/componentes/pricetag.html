@@ -1,0 +1,17 @@
+<div data-type="component-set" data-name="PriceTag" data-prop='[{"type":"text","name":"Importe","value":"18.000 XAF"},{"type":"text","name":"Impuestos","value":"+ 2.000 XAF impuestos"},{"type":"text","name":"PrecioAntes","value":"15.600 XAF"}]' class="flex flex-col justify-start items-end gap-[12px] p-[16px]">
+  <div data-type="component" data-name="PriceTag-default" data-variant-state="default" class="flex flex-col justify-start items-end">
+    <span data-name="importe" data-prop-bind-text="Importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">18.000 XAF</span>
+    <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+    <span data-name="impuestos" data-prop-bind-text="Impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 2.000 XAF impuestos</span>
+  </div>
+  <div data-type="component" data-name="PriceTag-promo" data-variant-state="promo" class="flex flex-col justify-start items-end">
+    <span data-name="precio-antes" data-prop-bind-text="PrecioAntes" class="text-[12px] leading-[16px] font-[500] text-[#A9AEB8] text-right">15.600 XAF</span>
+    <span data-name="importe" data-prop-bind-text="Importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">12.500 XAF</span>
+    <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+    <span data-name="impuestos" data-prop-bind-text="Impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 1.500 XAF impuestos</span>
+  </div>
+  <div data-type="component" data-name="PriceTag-unavailable" data-variant-state="unavailable" class="flex flex-col justify-start items-end">
+    <span data-name="sin-disponibilidad" class="text-[15px] leading-[20px] font-[700] text-[#A9AEB8] text-right">Sin disponibilidad</span>
+    <span data-name="para-fechas" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">para esas fechas</span>
+  </div>
+</div>
