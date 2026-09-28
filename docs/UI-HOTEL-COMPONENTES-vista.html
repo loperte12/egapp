@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>EG Route Plan · Componentes del hotel</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+  html, body { background: #0F0F12; }
+  body { font-family: Inter, system-ui, -apple-system, sans-serif; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  span { white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="flex flex-col justify-start items-start w-[1120px] gap-[28px] p-[32px]">
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[6px]">
+  <span class="text-[24px] leading-[30px] font-[800] text-[#F2F3F5] text-left">Componentes del hotel</span>
+  <p class="self-stretch text-[14px] leading-[20px] font-[400] text-[#A9AEB8] text-left">Los diez del pliego, en el orden del listado. Cada bloque es el fragmento de <code>docs/componentes/</code> tal cual: lo que se envia al lienzo. Este documento es solo para mirar.</p>
+</div>
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[10px] p-[20px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[16px]">
+  <div class="flex flex-row justify-start items-center self-stretch gap-[10px]">
+    <span class="text-[15px] leading-[20px] font-[800] text-[#F2F3F5] text-left">TopBar</span>
+    <span class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">docs/componentes/topbar.html · 17 nodos · sin variantes</span>
+  </div>
+  <p class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Ubicacion (TEXT). Lleva el buscador dentro, como en la pantalla.</p>
+  <div class="flex flex-row justify-start items-start self-stretch gap-[16px] overflow-hidden">
+    <div data-type="component" data-name="TopBar" data-prop='[{"type":"text","name":"Ubicacion","value":"Malabo, Guinea Ecuatorial"}]' class="flex flex-col justify-start items-stretch w-[390px] border-b-[1px] border-[#FFFFFF]/10">
+      <div data-name="topbar-location-row" class="flex flex-row justify-between items-center self-stretch p-[16px] gap-[12px]">
+        <div data-name="location-group" class="flex flex-row justify-start items-center gap-[6px]">
+          <i data-name="icono-ubicacion" class="fas fa-location-dot text-[16px] text-[#5FA9EE]"></i>
+          <span data-name="ubicacion" data-prop-bind-text="Ubicacion" class="text-[15px] leading-[20px] font-[700] text-[#F2F3F5] text-left">Malabo, Guinea Ecuatorial</span>
+          <i data-name="icono-desplegar" class="fas fa-chevron-down text-[11px] text-[#A9AEB8]"></i>
+        </div>
+        <div data-name="topbar-actions" class="flex flex-row justify-start items-center gap-[14px]">
+          <i data-name="icono-mapa" class="fas fa-map text-[20px] text-[#F2F3F5]"></i>
+          <div data-name="campana" class="relative flex flex-row justify-center items-center w-[22px] h-[22px]">
+            <i data-name="icono-campana" class="fas fa-bell text-[20px] text-[#F2F3F5]"></i>
+            <div data-name="punto-aviso" class="absolute top-[0px] right-[0px] w-[9px] h-[9px] bg-[#C62828] border-[1.5px] border-[#17171A] rounded-[999px]"></div>
+          </div>
+          <div data-name="avatar" class="flex flex-row justify-center items-center w-[28px] h-[28px] bg-[#2E3338] rounded-[999px] overflow-hidden">
+            <span data-name="avatar-iniciales" class="text-[11px] leading-[14px] font-[800] text-[#F2F3F5] text-center">BL</span>
+          </div>
+        </div>
+      </div>
+      <div data-name="search-wrap" class="flex flex-row justify-start items-stretch self-stretch px-[16px] pb-[12px]">
+        <div data-name="SearchField" class="flex flex-row justify-start items-center flex-1 gap-[10px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px] px-[14px]">
+          <i data-name="icono-buscar" class="fas fa-magnifying-glass text-[14px] text-[#A9AEB8]"></i>
+          <p data-name="marcador" class="flex-1 text-[15px] leading-[20px] font-[400] text-[#A9AEB8] text-left">¿Dónde quieres dormir?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[10px] p-[20px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[16px]">
+  <div class="flex flex-row justify-start items-center self-stretch gap-[10px]">
+    <span class="text-[15px] leading-[20px] font-[800] text-[#F2F3F5] text-left">SearchField</span>
+    <span class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">docs/componentes/searchfield.html · 3 nodos · sin variantes</span>
+  </div>
+  <p class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Marcador (TEXT). El atomo suelto, por si se usa en otra pantalla.</p>
+  <div class="flex flex-row justify-start items-start self-stretch gap-[16px] overflow-hidden">
+    <div data-type="component" data-name="SearchField" data-prop='[{"type":"text","name":"Marcador","value":"¿Dónde quieres dormir?"}]' class="flex flex-row justify-start items-center w-[358px] gap-[10px] h-[44px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px] px-[14px]">
+      <i data-name="icono-buscar" class="fas fa-magnifying-glass text-[14px] text-[#A9AEB8]"></i>
+      <p data-name="texto" data-prop-bind-text="Marcador" class="flex-1 text-[15px] leading-[20px] font-[400] text-[#A9AEB8] text-left">¿Dónde quieres dormir?</p>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[10px] p-[20px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[16px]">
+  <div class="flex flex-row justify-start items-center self-stretch gap-[10px]">
+    <span class="text-[15px] leading-[20px] font-[800] text-[#F2F3F5] text-left">FilterChip</span>
+    <span class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">docs/componentes/filterchip.html · 16 nodos · 3 variantes</span>
+  </div>
+  <p class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">state default/pressed/disabled + Etiqueta + Mostrar icono.</p>
+  <div class="flex flex-row justify-start items-start self-stretch gap-[16px] overflow-hidden">
+    <div data-type="component-set" data-name="FilterChip" data-prop='[{"type":"text","name":"Etiqueta","value":"Precio"},{"type":"boolean","name":"Mostrar icono","value":true}]' class="flex flex-col justify-start items-start gap-[16px] p-[16px]">
+      <div data-type="component" data-name="FilterChip-default" data-variant-state="default" class="flex flex-row justify-start items-center gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[12px]">
+        <div data-name="icono" data-prop-bind-visible="Mostrar icono" class="flex flex-row justify-center items-center">
+          <i data-name="icono-tag" class="fas fa-tag text-[11px] text-[#A9AEB8]"></i>
+        </div>
+        <span data-name="etiqueta" data-prop-bind-text="Etiqueta" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">Precio</span>
+        <i data-name="indicador" class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
+      </div>
+      <div data-type="component" data-name="FilterChip-pressed" data-variant-state="pressed" class="flex flex-row justify-start items-center gap-[6px] h-[36px] bg-[#0066CC]/[0.16] border-[1px] border-[#0066CC] rounded-[10px] px-[12px]">
+        <div data-name="icono" data-prop-bind-visible="Mostrar icono" class="flex flex-row justify-center items-center">
+          <i data-name="icono-tag" class="fas fa-tag text-[11px] text-[#5FA9EE]"></i>
+        </div>
+        <span data-name="etiqueta" data-prop-bind-text="Etiqueta" class="text-[13px] leading-[18px] font-[700] text-[#F2F3F5] text-left">hasta 25.000 XAF</span>
+        <i data-name="indicador" class="fas fa-xmark text-[10px] text-[#5FA9EE]"></i>
+      </div>
+      <div data-type="component" data-name="FilterChip-disabled" data-variant-state="disabled" class="flex flex-row justify-start items-center gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/[0.04] rounded-[10px] px-[12px]">
+        <div data-name="icono" data-prop-bind-visible="Mostrar icono" class="flex flex-row justify-center items-center">
+          <i data-name="icono-tag" class="fas fa-tag text-[11px] text-[#A9AEB8]"></i>
+        </div>
+        <span data-name="etiqueta" data-prop-bind-text="Etiqueta" class="text-[13px] leading-[18px] font-[700] text-[#A9AEB8] text-left">Precio</span>
+        <i data-name="indicador" class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[10px] p-[20px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[16px]">
+  <div class="flex flex-row justify-start items-center self-stretch gap-[10px]">
+    <span class="text-[15px] leading-[20px] font-[800] text-[#F2F3F5] text-left">HotelCard</span>
+    <span class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">docs/componentes/hotelcard.html · 78 nodos · 3 variantes</span>
+  </div>
+  <p class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">state default/promo/unavailable + 5 TEXT + Con sello.</p>
+  <div class="flex flex-row justify-start items-start self-stretch gap-[16px] overflow-hidden">
+    <div data-type="component-set" data-name="HotelCard" data-prop='[{"type":"text","name":"Nombre","value":"Hotel Bahía de Malabo"},{"type":"text","name":"Ubicacion","value":"Malabo Centro · Malabo · a 1,2 km"},{"type":"text","name":"Nota","value":"4,6 (28)"},{"type":"text","name":"Precio","value":"18.000 XAF"},{"type":"text","name":"Impuestos","value":"+ 2.000 XAF impuestos"},{"type":"boolean","name":"Con sello","value":true}]' class="flex flex-col justify-start items-start gap-[16px] p-[16px]">
+      <div data-type="component" data-name="HotelCard-default" data-variant-state="default" class="flex flex-col justify-start items-stretch w-[358px] bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+        <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+          <img data-name="foto-img" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22358%22%20height%3D%22201%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%232E3338%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%23A9AEB8%22%20font-family%3D%22Inter%2Csans-serif%22%20font-size%3D%2213%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3Ehotel%20facade%20with%20palm%20trees%3C%2Ftext%3E%3C%2Fsvg%3E" class="self-stretch h-[201px] object-cover" />
+          <div data-name="favorite" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+            <i data-name="corazon" class="fas fa-heart text-[16px] text-[#FF2442]"></i>
+          </div>
+        </div>
+        <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[8px]">
+          <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+            <p data-name="nombre" data-prop-bind-text="Nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[#F2F3F5] text-left">Hotel Bahía de Malabo</p>
+            <div data-name="sello" data-prop-bind-visible="Con sello" class="flex flex-row justify-center items-center">
+              <i data-name="icono-sello" class="fas fa-circle-check text-[14px] text-[#45B87A]"></i>
+            </div>
+          </div>
+          <p data-name="ubicacion" data-prop-bind-text="Ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Malabo Centro · Malabo · a 1,2 km</p>
+          <div data-name="RatingBadge" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#0066CC]/[0.14] rounded-[10px] px-[8px]">
+            <i data-name="icono-estrella" class="fas fa-star text-[10px] text-[#F5B942]"></i>
+            <span data-name="nota" data-prop-bind-text="Nota" class="text-[10.5px] leading-[14px] font-[800] text-[#F2F3F5] text-left">4,6 (28)</span>
+          </div>
+          <div data-name="servicios" class="flex flex-row justify-start items-center self-stretch gap-[6px]">
+            <div data-name="servicio-wifi" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+              <i data-name="icono-wifi" class="fas fa-wifi text-[10px] text-[#A9AEB8]"></i>
+              <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Wi-Fi</span>
+            </div>
+            <div data-name="servicio-desayuno" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#1E1E23] rounded-[8px] px-[8px]">
+              <i data-name="icono-desayuno" class="fas fa-mug-hot text-[10px] text-[#A9AEB8]"></i>
+              <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-left">Desayuno</span>
+            </div>
+            <span data-name="servicio-mas" class="text-[10.5px] leading-[14px] font-[700] text-[#A9AEB8] text-left">+2</span>
+          </div>
+          <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[8px]">
+            <div data-name="cta" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#0066CC] rounded-[12px]">
+              <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Ver habitaciones</span>
+            </div>
+            <div data-name="PriceTag" class="flex flex-col justify-start items-end flex-1">
+              <span data-name="importe" data-prop-bind-text="Precio" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">18.000 XAF</span>
+              <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+              <span data-name="impuestos" data-prop-bind-text="Impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 2.000 XAF impuestos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="component" data-name="HotelCard-promo" data-variant-state="promo" class="flex flex-col justify-start items-stretch w-[358px] bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+        <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+          <img data-name="foto-img" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22358%22%20height%3D%22201%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%232E3338%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%23A9AEB8%22%20font-family%3D%22Inter%2Csans-serif%22%20font-size%3D%2213%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3Ehotel%20facade%20with%20palm%20trees%3C%2Ftext%3E%3C%2Fsvg%3E" class="self-stretch h-[201px] object-cover" />
+          <div data-name="badge-oferta" class="absolute top-[12px] left-[12px] flex flex-row justify-start items-center gap-[5px] h-[24px] bg-[#C2410C] rounded-[8px] px-[9px]">
+            <i data-name="icono-oferta" class="fas fa-tag text-[10px] text-[#FFFFFF]"></i>
+            <span data-name="oferta-txt" class="text-[11px] leading-[14px] font-[800] text-[#FFFFFF] text-left">-20% · Oferta</span>
+          </div>
+          <div data-name="favorite" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+            <i data-name="corazon" class="far fa-heart text-[16px] text-[#FFFFFF]"></i>
+          </div>
+        </div>
+        <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[8px]">
+          <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+            <p data-name="nombre" data-prop-bind-text="Nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[#F2F3F5] text-left">Hotel Ureca Bata</p>
+            <div data-name="sello" data-prop-bind-visible="Con sello" class="flex flex-row justify-center items-center">
+              <i data-name="icono-sello" class="fas fa-circle-check text-[14px] text-[#45B87A]"></i>
+            </div>
+          </div>
+          <p data-name="ubicacion" data-prop-bind-text="Ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Centro · Bata · a 3,8 km</p>
+          <div data-name="RatingBadge" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#0066CC]/[0.14] rounded-[10px] px-[8px]">
+            <i data-name="icono-estrella" class="fas fa-star text-[10px] text-[#F5B942]"></i>
+            <span data-name="nota" data-prop-bind-text="Nota" class="text-[10.5px] leading-[14px] font-[800] text-[#F2F3F5] text-left">4,2 (11)</span>
+          </div>
+          <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[8px]">
+            <div data-name="cta" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#0066CC] rounded-[12px]">
+              <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Ver habitaciones</span>
+            </div>
+            <div data-name="PriceTag" class="flex flex-col justify-start items-end flex-1">
+              <span data-name="precio-antes" class="text-[12px] leading-[16px] font-[500] text-[#A9AEB8] text-right">15.600 XAF</span>
+              <span data-name="importe" data-prop-bind-text="Precio" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">12.500 XAF</span>
+              <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+              <span data-name="impuestos" data-prop-bind-text="Impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 1.500 XAF impuestos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="component" data-name="HotelCard-unavailable" data-variant-state="unavailable" class="flex flex-col justify-start items-stretch w-[358px] bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+        <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+          <img data-name="foto-img" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22358%22%20height%3D%22201%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%232E3338%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%23A9AEB8%22%20font-family%3D%22Inter%2Csans-serif%22%20font-size%3D%2213%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3Ehotel%20facade%20with%20palm%20trees%3C%2Ftext%3E%3C%2Fsvg%3E" class="self-stretch h-[201px] object-cover" />
+          <div data-name="badge-sin-disponibilidad" class="absolute top-[12px] left-[12px] flex flex-row justify-start items-center gap-[5px] h-[24px] bg-[#2E3338] rounded-[8px] px-[9px]">
+            <i data-name="icono-agotado" class="fas fa-calendar-xmark text-[10px] text-[#A9AEB8]"></i>
+            <span data-name="badge-txt" class="text-[11px] leading-[14px] font-[800] text-[#A9AEB8] text-left">Sin disponibilidad</span>
+          </div>
+          <div data-name="favorite" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+            <i data-name="corazon" class="far fa-heart text-[16px] text-[#FFFFFF]"></i>
+          </div>
+        </div>
+        <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[8px]">
+          <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+            <p data-name="nombre" data-prop-bind-text="Nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[#F2F3F5] text-left">Hotel Mbini Resort</p>
+            <div data-name="sello" data-prop-bind-visible="Con sello" class="flex flex-row justify-center items-center">
+              <i data-name="icono-sello" class="fas fa-circle-check text-[14px] text-[#45B87A]"></i>
+            </div>
+          </div>
+          <p data-name="ubicacion" data-prop-bind-text="Ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Mbini · Litoral · a 24 km</p>
+          <div data-name="RatingBadge-apagado" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#FFFFFF]/[0.06] rounded-[10px] px-[8px]">
+            <i data-name="icono-estrella" class="fas fa-star text-[10px] text-[#A9AEB8]"></i>
+            <span data-name="nota" data-prop-bind-text="Nota" class="text-[10.5px] leading-[14px] font-[800] text-[#A9AEB8] text-left">Sin opiniones</span>
+          </div>
+          <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[8px]">
+            <div data-name="cta-disabled" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[#2E3338] rounded-[12px]">
+              <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[#A9AEB8] text-center">Ver habitaciones</span>
+            </div>
+            <div data-name="PriceTag-vacio" class="flex flex-col justify-start items-end flex-1">
+              <span data-name="sin-disponibilidad" class="text-[15px] leading-[20px] font-[700] text-[#A9AEB8] text-right">Sin disponibilidad</span>
+              <span data-name="para-fechas" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">para esas fechas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[10px] p-[20px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[16px]">
+  <div class="flex flex-row justify-start items-center self-stretch gap-[10px]">
+    <span class="text-[15px] leading-[20px] font-[800] text-[#F2F3F5] text-left">RatingBadge</span>
+    <span class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">docs/componentes/ratingbadge.html · 7 nodos · 2 variantes</span>
+  </div>
+  <p class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">state published/unpublished + Nota.</p>
+  <div class="flex flex-row justify-start items-start self-stretch gap-[16px] overflow-hidden">
+    <div data-type="component-set" data-name="RatingBadge" data-prop='[{"type":"text","name":"Nota","value":"4,6 (28)"}]' class="flex flex-col justify-start items-start gap-[12px] p-[16px]">
+      <div data-type="component" data-name="RatingBadge-publicado" data-variant-state="published" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#0066CC]/[0.14] rounded-[10px] px-[8px]">
+        <i data-name="icono-estrella" class="fas fa-star text-[10px] text-[#F5B942]"></i>
+        <span data-name="nota" data-prop-bind-text="Nota" class="text-[10.5px] leading-[14px] font-[800] text-[#F2F3F5] text-left">4,6 (28)</span>
+      </div>
+      <div data-type="component" data-name="RatingBadge-sin-nota" data-variant-state="unpublished" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[#FFFFFF]/[0.06] rounded-[10px] px-[8px]">
+        <i data-name="icono-estrella" class="fas fa-star text-[10px] text-[#A9AEB8]"></i>
+        <span data-name="nota" data-prop-bind-text="Nota" class="text-[10.5px] leading-[14px] font-[800] text-[#A9AEB8] text-left">Sin opiniones</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[10px] p-[20px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[16px]">
+  <div class="flex flex-row justify-start items-center self-stretch gap-[10px]">
+    <span class="text-[15px] leading-[20px] font-[800] text-[#F2F3F5] text-left">PriceTag</span>
+    <span class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">docs/componentes/pricetag.html · 13 nodos · 3 variantes</span>
+  </div>
+  <p class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">state default/promo/unavailable + Importe/Impuestos/PrecioAntes.</p>
+  <div class="flex flex-row justify-start items-start self-stretch gap-[16px] overflow-hidden">
+    <div data-type="component-set" data-name="PriceTag" data-prop='[{"type":"text","name":"Importe","value":"18.000 XAF"},{"type":"text","name":"Impuestos","value":"+ 2.000 XAF impuestos"},{"type":"text","name":"PrecioAntes","value":"15.600 XAF"}]' class="flex flex-col justify-start items-end gap-[12px] p-[16px]">
+      <div data-type="component" data-name="PriceTag-default" data-variant-state="default" class="flex flex-col justify-start items-end">
+        <span data-name="importe" data-prop-bind-text="Importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">18.000 XAF</span>
+        <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+        <span data-name="impuestos" data-prop-bind-text="Impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 2.000 XAF impuestos</span>
+      </div>
+      <div data-type="component" data-name="PriceTag-promo" data-variant-state="promo" class="flex flex-col justify-start items-end">
+        <span data-name="precio-antes" data-prop-bind-text="PrecioAntes" class="text-[12px] leading-[16px] font-[500] text-[#A9AEB8] text-right">15.600 XAF</span>
+        <span data-name="importe" data-prop-bind-text="Importe" class="text-[20px] leading-[24px] font-[800] text-[#F08A4B] text-right">12.500 XAF</span>
+        <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[#A9AEB8] text-right">por noche · desde</span>
+        <span data-name="impuestos" data-prop-bind-text="Impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">+ 1.500 XAF impuestos</span>
+      </div>
+      <div data-type="component" data-name="PriceTag-unavailable" data-variant-state="unavailable" class="flex flex-col justify-start items-end">
+        <span data-name="sin-disponibilidad" class="text-[15px] leading-[20px] font-[700] text-[#A9AEB8] text-right">Sin disponibilidad</span>
+        <span data-name="para-fechas" class="text-[10.5px] leading-[14px] font-[400] text-[#A9AEB8] text-right">para esas fechas</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[10px] p-[20px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[16px]">
+  <div class="flex flex-row justify-start items-center self-stretch gap-[10px]">
+    <span class="text-[15px] leading-[20px] font-[800] text-[#F2F3F5] text-left">FavoriteButton</span>
+    <span class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">docs/componentes/favoritebutton.html · 7 nodos · 3 variantes</span>
+  </div>
+  <p class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">state default/saved/disabled. Sin props: no hay texto.</p>
+  <div class="flex flex-row justify-start items-start self-stretch gap-[16px] overflow-hidden">
+    <div data-type="component-set" data-name="FavoriteButton" class="flex flex-col justify-start items-start gap-[12px] p-[16px]">
+      <div data-type="component" data-name="FavoriteButton-default" data-variant-state="default" class="flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+        <i data-name="corazon" class="far fa-heart text-[16px] text-[#FFFFFF]"></i>
+      </div>
+      <div data-type="component" data-name="FavoriteButton-saved" data-variant-state="saved" class="flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+        <i data-name="corazon" class="fas fa-heart text-[16px] text-[#FF2442]"></i>
+      </div>
+      <div data-type="component" data-name="FavoriteButton-disabled" data-variant-state="disabled" class="flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+        <i data-name="corazon" class="far fa-heart text-[16px] text-[#A9AEB8]"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[10px] p-[20px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[16px]">
+  <div class="flex flex-row justify-start items-center self-stretch gap-[10px]">
+    <span class="text-[15px] leading-[20px] font-[800] text-[#F2F3F5] text-left">EmptyState</span>
+    <span class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">docs/componentes/emptystate.html · 10 nodos · sin variantes</span>
+  </div>
+  <p class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Titulo + Explicacion + Accion.</p>
+  <div class="flex flex-row justify-start items-start self-stretch gap-[16px] overflow-hidden">
+    <div data-type="component" data-name="EmptyState" data-prop='[{"type":"text","name":"Titulo","value":"No hay hoteles con esos filtros"},{"type":"text","name":"Explicacion","value":"Prueba a subir el precio máximo o a ampliar la distancia. Ahora mismo hay 2 alojamientos publicados en Malabo."},{"type":"text","name":"Accion","value":"Limpiar filtros"}]' class="flex flex-col justify-center items-center w-[390px] px-[32px] py-[24px] gap-[14px]">
+      <div data-name="empty-icon" class="flex flex-row justify-center items-center w-[88px] h-[88px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[999px]">
+        <i data-name="icono-cama" class="fas fa-bed text-[34px] text-[#A9AEB8]"></i>
+      </div>
+      <p data-name="titulo" data-prop-bind-text="Titulo" class="self-stretch text-[18px] leading-[24px] font-[800] text-[#F2F3F5] text-center">No hay hoteles con esos filtros</p>
+      <p data-name="explicacion" data-prop-bind-text="Explicacion" class="self-stretch text-[14px] leading-[20px] font-[400] text-[#A9AEB8] text-center">Prueba a subir el precio máximo o a ampliar la distancia. Ahora mismo hay 2 alojamientos publicados en Malabo.</p>
+      <div data-name="cta-primario" class="flex flex-row justify-center items-center gap-[8px] w-[210px] h-[46px] bg-[#0066CC] rounded-[12px]">
+        <i data-name="icono-limpiar" class="fas fa-filter-circle-xmark text-[14px] text-[#FFFFFF]"></i>
+        <span data-name="cta-txt" data-prop-bind-text="Accion" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Limpiar filtros</span>
+      </div>
+      <div data-name="cta-secundario" class="flex flex-row justify-center items-center w-[210px] h-[46px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[12px]">
+        <span data-name="cta-sec-txt" class="text-[15px] leading-[20px] font-[700] text-[#F2F3F5] text-center">Ver todos los alojamientos</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[10px] p-[20px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[16px]">
+  <div class="flex flex-row justify-start items-center self-stretch gap-[10px]">
+    <span class="text-[15px] leading-[20px] font-[800] text-[#F2F3F5] text-left">ErrorState</span>
+    <span class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">docs/componentes/errorstate.html · 10 nodos · sin variantes</span>
+  </div>
+  <p class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Titulo + Explicacion + Accion.</p>
+  <div class="flex flex-row justify-start items-start self-stretch gap-[16px] overflow-hidden">
+    <div data-type="component" data-name="ErrorState" data-prop='[{"type":"text","name":"Titulo","value":"No se pudo conectar"},{"type":"text","name":"Explicacion","value":"Comprueba tu conexión e inténtalo de nuevo. Si estás en el móvil, prueba con datos móviles o Wi-Fi."},{"type":"text","name":"Accion","value":"Reintentar"}]' class="flex flex-col justify-center items-center w-[390px] px-[32px] py-[24px] gap-[14px]">
+      <div data-name="error-icon" class="flex flex-row justify-center items-center w-[88px] h-[88px] bg-[#C62828]/[0.14] border-[1px] border-[#C62828]/[0.33] rounded-[999px]">
+        <i data-name="icono-aviso" class="fas fa-triangle-exclamation text-[36px] text-[#F58585]"></i>
+      </div>
+      <p data-name="titulo" data-prop-bind-text="Titulo" class="self-stretch text-[18px] leading-[24px] font-[800] text-[#F2F3F5] text-center">No se pudo conectar</p>
+      <p data-name="explicacion" data-prop-bind-text="Explicacion" class="self-stretch text-[14px] leading-[20px] font-[400] text-[#A9AEB8] text-center">Comprueba tu conexión e inténtalo de nuevo. Si estás en el móvil, prueba con datos móviles o Wi-Fi.</p>
+      <div data-name="cta" class="flex flex-row justify-center items-center gap-[8px] w-[180px] h-[46px] bg-[#0066CC] rounded-[12px]">
+        <i data-name="icono-reintentar" class="fas fa-rotate-right text-[14px] text-[#FFFFFF]"></i>
+        <span data-name="cta-txt" data-prop-bind-text="Accion" class="text-[15px] leading-[20px] font-[700] text-[#FFFFFF] text-center">Reintentar</span>
+      </div>
+      <div data-name="aviso" class="flex flex-row justify-center items-center w-[280px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[12px] py-[8px]">
+        <p data-name="aviso-txt" class="flex-1 text-[11px] leading-[15px] font-[400] text-[#A9AEB8] text-center">No se ha cobrado nada. Tus reservas anteriores siguen guardadas.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col justify-start items-start self-stretch gap-[10px] p-[20px] bg-[#17171A] border-[1px] border-[#FFFFFF]/10 rounded-[16px]">
+  <div class="flex flex-row justify-start items-center self-stretch gap-[10px]">
+    <span class="text-[15px] leading-[20px] font-[800] text-[#F2F3F5] text-left">SkeletonCard</span>
+    <span class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">docs/componentes/skeletoncard.html · 9 nodos · sin variantes</span>
+  </div>
+  <p class="self-stretch text-[12px] leading-[16px] font-[400] text-[#A9AEB8] text-left">Sin props: es el estado de carga.</p>
+  <div class="flex flex-row justify-start items-start self-stretch gap-[16px] overflow-hidden">
+    <div data-type="component" data-name="SkeletonCard" class="flex flex-col justify-start items-stretch w-[358px] bg-[#232329] border-[1px] border-[#FFFFFF]/10 rounded-[12px] overflow-hidden">
+      <div data-name="sk-foto" class="flex flex-row justify-start items-stretch self-stretch h-[201px] bg-[linear-gradient(100deg,#1E1E23_0%,#2E3338_50%,#1E1E23_100%)]"></div>
+      <div data-name="sk-cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[12px] gap-[10px]">
+        <div data-name="sk-l1" class="flex flex-row justify-start items-stretch w-[228px] h-[16px] bg-[#2E3338] rounded-[4px]"></div>
+        <div data-name="sk-l2" class="flex flex-row justify-start items-stretch w-[168px] h-[12px] bg-[#2E3338] rounded-[4px]"></div>
+        <div data-name="sk-l3" class="flex flex-row justify-start items-stretch w-[104px] h-[22px] bg-[#2E3338] rounded-[10px]"></div>
+        <div data-name="sk-pie" class="flex flex-row justify-between items-center self-stretch">
+          <div data-name="sk-cta" class="flex flex-row justify-start items-stretch w-[150px] h-[44px] bg-[#2E3338] rounded-[12px]"></div>
+          <div data-name="sk-precio" class="flex flex-row justify-start items-stretch w-[92px] h-[22px] bg-[#2E3338] rounded-[4px]"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
