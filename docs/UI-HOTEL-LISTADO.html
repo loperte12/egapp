@@ -10,7 +10,11 @@
   · imágenes con clave en inglés: {{...}}  (sustituir por fotos reales al integrar)
 
   Los colores, tipografías, espaciados, radios, trazos y sombras NO son inventados:
-  salen de `packages/ui-kit/src/theme/colors.ts` y `.../escalas.ts`.
+  salen de `packages/ui-kit/src/theme/colors.ts` y `.../escalas.ts`, con UNA excepción
+  declarada a propósito: el fondo `#0F0F12` del artboard, que NO es interfaz de la app
+  —es el lienzo donde se apoyan los cuatro frames de 390 para que se lean como frames—.
+  El estado `disabled` no introduce ningún color: es un DELTA del encendido (borde más
+  tenue + texto en `textSecondary`), igual que los `*Soft` del kit son deltas del estado.
   Tokens en `docs/design.md` · especificaciones en `docs/UI-HOTEL-LISTADO-HANDOFF.md`.
 -->
 <main data-name="Hotel-Listado-390" class="flex flex-col justify-start items-start w-[1720px] min-h-[2600px] bg-[#0F0F12] p-[32px] gap-[32px]">
@@ -531,19 +535,19 @@
 
         <div data-name="FilterChip-row" class="flex flex-row justify-start items-center self-stretch overflow-hidden gap-[8px] px-[16px] py-[12px]">
           <div data-name="chip-precio-disabled" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/[0.04] rounded-[10px] px-[12px]">
-            <i class="fas fa-tag text-[11px] text-[#5A5F68]"></i>
-            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#5A5F68] text-left">Precio</span>
-            <i class="fas fa-chevron-down text-[10px] text-[#5A5F68]"></i>
+            <i class="fas fa-tag text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#A9AEB8] text-left">Precio</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
           </div>
           <div data-name="chip-distancia-disabled" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/[0.04] rounded-[10px] px-[12px]">
-            <i class="fas fa-route text-[11px] text-[#5A5F68]"></i>
-            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#5A5F68] text-left">Distancia</span>
-            <i class="fas fa-chevron-down text-[10px] text-[#5A5F68]"></i>
+            <i class="fas fa-route text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#A9AEB8] text-left">Distancia</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
           </div>
           <div data-name="chip-orden-disabled" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/[0.04] rounded-[10px] px-[12px]">
-            <i class="fas fa-arrow-down-short-wide text-[11px] text-[#5A5F68]"></i>
-            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#5A5F68] text-left">Orden</span>
-            <i class="fas fa-chevron-down text-[10px] text-[#5A5F68]"></i>
+            <i class="fas fa-arrow-down-short-wide text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#A9AEB8] text-left">Orden</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
           </div>
         </div>
 
@@ -604,9 +608,9 @@
         <div data-name="v-disabled" class="flex flex-col justify-start items-start gap-[6px]">
           <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">disabled</span>
           <div data-name="chip" class="flex flex-row justify-start items-center shrink-0 gap-[6px] h-[36px] bg-[#1E1E23] border-[1px] border-[#FFFFFF]/[0.04] rounded-[10px] px-[12px]">
-            <i class="fas fa-star text-[11px] text-[#5A5F68]"></i>
-            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#5A5F68] text-left">Estrellas</span>
-            <i class="fas fa-chevron-down text-[10px] text-[#5A5F68]"></i>
+            <i class="fas fa-star text-[11px] text-[#A9AEB8]"></i>
+            <span data-name="chip-txt" class="text-[13px] leading-[18px] font-[700] text-[#A9AEB8] text-left">Estrellas</span>
+            <i class="fas fa-chevron-down text-[10px] text-[#A9AEB8]"></i>
           </div>
         </div>
         <div data-name="v-loading" class="flex flex-col justify-start items-start gap-[6px]">
@@ -683,7 +687,7 @@
         <div data-name="v-disabled" class="flex flex-col justify-start items-start gap-[6px]">
           <span data-name="v-label" class="text-[11px] leading-[14px] font-[500] text-[#A9AEB8] text-left">disabled</span>
           <div data-name="fav" class="flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.25] border-[1px] border-[#FFFFFF]/[0.08] rounded-[999px]">
-            <i class="far fa-heart text-[16px] text-[#5A5F68]"></i>
+            <i class="far fa-heart text-[16px] text-[#A9AEB8]"></i>
           </div>
         </div>
         <div data-name="v-loading" class="flex flex-col justify-start items-start gap-[6px]">
