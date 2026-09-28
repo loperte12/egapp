@@ -75,7 +75,37 @@ auto-ancho y no pliega; el lienzo lo cumple, un navegador no.
 
 ## 4. Componentes y variantes
 
-Todos existen en el HTML como bloque con `data-name`, y la matriz del lienzo los dibuja uno por fila.
+**Estado en el lienzo (29/09): los diez están creados como COMPONENTES de MasterGo**, no solo dibujados,
+con sus variantes y sus propiedades. El tamaño y las propiedades de abajo **no son el diseño
+pretendido: son lo que devolvió el servidor** al leer `components/*.json` de su librería local.
+
+| Componente | id | tamaño | variantes · propiedades |
+|---|---|---|---|
+| `TopBar` | `3:9064` | 390×116 | `Ubicacion` (TEXT) |
+| `SearchField` | `3:8828` | 358×44 | `Marcador` (TEXT) |
+| `FilterChip` | `3:8810` | 98×36 | `state` default·pressed·disabled · `Etiqueta` · `Mostrar icono` |
+| `HotelCard` | `3:01085` | 358×390 | `state` default·promo·unavailable · 5 TEXT · `Con sello` |
+| `RatingBadge` | `3:9056` | 74×22 | `state` published·unpublished · `Nota` |
+| `PriceTag` | `3:9553` | 118×52 | `state` default·promo·unavailable · 3 TEXT |
+| `FavoriteButton` | `3:9256` | 36×36 | `state` default·saved·disabled |
+| `EmptyState` | `3:9578` | 390×368 | `Titulo` · `Explicacion` · `Accion` |
+| `ErrorState` | `3:9781` | 390×368 | `Titulo` · `Explicacion` · `Accion` |
+| `SkeletonCard` | `3:9745` | 358×349 | sin props (es el estado de carga) |
+
+El HTML de cada uno, listo para reenviar, vive en **`docs/componentes/<nombre>.html`** y lo valida
+**`pruebas/prepara-componente.cjs`** (falla en voz alta y no escribe nada).
+
+> **Al enviarlos: de uno en uno, o de dos en dos.** Tres `agent_create_component` en paralelo dan
+> **`请求超时 (120s)`** — y el que da timeout **se crea igual**. Reenviar a ciegas **duplica**. La
+> comprobación es `get_component_info` con `refresh` + `overwriteExisting` sobre
+> `local-<documentId>`, y de ahí se leen `name`, `size`, `props` y `text_node_name`.
+
+Los bordes son **alfa** (`border-[#FFFFFF]/10`) y los estados apagados son deltas, así que no se
+tokenizan: van con los **`#HEX` del kit**, los mismos que la pantalla.
+
+**Y lo que dibuja la matriz del prototipo**, para comparar de un vistazo:
+
+Todos existen también en el HTML como bloque con `data-name`, y la matriz del lienzo los dibuja uno por fila.
 
 | Componente | Variantes dibujadas |
 |---|---|
@@ -89,6 +119,20 @@ Todos existen en el HTML como bloque con `data-name`, y la matriz del lienzo los
 | `EmptyState` | completo en el frame 3 + versión mini en la matriz |
 | `ErrorState` | completo en el frame 4 + versión mini en la matriz |
 | `SkeletonCard` | aislado en la matriz + 3 en el frame 1 |
+
+**Diferencias entre lo dibujado y lo creado, dichas en vez de escondidas.** La variante es para
+diferencias de **forma, tamaño o color**; el estado de interacción y el de carga no siempre lo son:
+
+- `FavoriteButton`: **3 variantes** (`default`·`saved`·`disabled`), no cinco. `pressed` es
+  interacción, no forma; y un corazón en `loading` no comunica nada.
+- `FilterChip`: **3** (`default`·`pressed`·`disabled`). El «activo» de la matriz **es** `pressed` (el
+  chip con filtro puesto y su ✕). Falta `loading`: si se quiere, es otra variante a añadir.
+- `RatingBadge`: **2** (`published`·`unpublished`). «Apagado» y «sin nota» son **el mismo color**
+  (`#FFFFFF`/[0.06]), así que dibujarlos como dos variantes sería una mentira de la matriz.
+- `HotelCard`: **3** (`default`·`promo`·`unavailable`), que recogen lo que la matriz dibuja por
+  separado, más `Con sello` como propiedad booleana (elemento opcional, no variante).
+
+**Ningún estado se ha perdido:** los que no son variante siguen dibujados en la matriz del lienzo.
 
 ---
 
@@ -179,10 +223,24 @@ dentro**, como nodo **`3:166` «Hotel-Listado-390»**. Para reenviarla o regener
 > señal de que el envío está **aceptado de verdad** es otra: **`状态: accepted`** («画布仍在后台处理中»).
 > Y la prueba definitiva es leer el nodo: el bueno se llama como el `data-name` del `<main>`.
 
-Lo que **no** se ha hecho todavía: guardar los colores y los textos como **variables de MasterGo**
-(`agent_update_variables`) y convertir los diez componentes en **componentes con variantes**
-(`agent_create_component`). El HTML ya está preparado para ello: cada variante está aislada en su bloque
-con nombre propio.
+**Estado real de las dos cosas que quedaban:**
+
+- **Componentes: HECHOS.** Los diez están en el lienzo con sus variantes y propiedades (§4), y su HTML
+  fuente vive en **`docs/componentes/`**. Antes de reenviar uno, se valida con
+  `pruebas/prepara-componente.cjs`. Y se envían **de uno en uno, o de dos en dos**: tres en paralelo dan
+  **`请求超时 (120s)`**, y **el que da timeout se crea igual** → comprobar antes de reintentar.
+- **Variables: a medias, y bloqueadas a propósito.** Los **42 colores** básicos y los **7 tamaños**
+  están creados (`基础色板/…`, `规范尺寸/…`) y con los valores correctos. Pero la capa **no obedece**:
+  el fichero tiene **68 entradas con 13 nombres duplicados** (los reenvíos re-crearon en vez de
+  actualizar) y **borrar los 19 sobrantes devolvió `success: true` sin efecto alguno** — la relectura,
+  un minuto después, seguía devolviendo los 68. Falta la tanda `语义`, que **debe referenciar** un
+  `基础色板/…`; **no se empieza hasta que el panel esté limpio**, y esa limpieza es del panel, no del
+  MCP. Por eso los componentes van con los **`#HEX` del kit**.
+
+**Lo que el protocolo deja fuera, y conviene saber antes de prometerlo:** «los textos como estilos
+reutilizables» **no se puede** —el esquema de variables solo admite COLOR y NUMBER, no existe tipo de
+fuente ni estilo de texto, y `字号/…` está prohibido—; y los **bordes alfa** (`border-[#FFFFFF]/10`,
+`overlay`) tampoco entran en la capa semántica, que exige referencia a un color sólido.
 
 ### Cómo se ha medido el render (sin lienzo)
 
