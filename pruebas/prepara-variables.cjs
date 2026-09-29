@@ -93,6 +93,32 @@ for (const [nombre, fix] of Object.entries(ARREGLOS)) {
   oks.push("arreglado " + nombre + ": " + antes + " -> " + fix.valor + "  (" + fix.motivo + ")");
 }
 
+/* ------------------------------------------------------------------ *
+ * NORMALIZACION: UN solo modo por variable
+ * El volcado del servidor trae NUEVE entradas de `mode` por variable,
+ * pero su propio resumen dice `modes: 1`. Y las nueve NO son iguales: la
+ * mayoria tiene el valor bueno en la posicion 0 y `#ffffff` (o `0`, si
+ * es NUMBER) en las otras ocho; en `玫瑰/500` el valor bueno estaba en
+ * la ULTIMA. Es un artefacto del volcado, no del documento.
+ *
+ * Y no es inocuo: el coste de `agent_update_variables` es POR OPERACION.
+ * Medido: 1 variable entra, 6 entran, 12 dan `变量操作超时 (60s)`, 49 dan
+ * timeout. Con 9 modos por variable, 49 variables son 441 operaciones y
+ * el envio NO ENTRA (comprobado: relectura identica, cero cambios).
+ * Con UN modo, 49 variables son 49 operaciones: la forma que el
+ * documento dice tener (`modes: 1`) es tambien la mas barata.
+ * ------------------------------------------------------------------ */
+const sinModo = base.filter((v) => !Array.isArray(v.mode) || v.mode.length === 0);
+if (sinModo.length) fallos.push("variables sin ningun modo: " + sinModo.map((v) => v.name).join(", "));
+const dispares = base.filter((v) => Array.isArray(v.mode) && v.mode.some((m) => String(m.value) !== String(v.mode[0].value)));
+if (dispares.length) {
+  oks.push("normalizadas " + dispares.length + " de " + base.length + " con modos dispares -> " + dispares.map((v) => v.name).join(", "));
+} else oks.push("ninguna variable tenia modos dispares");
+for (const v of base) v.mode = [{ ...v.mode[0], value: v.mode[0].value }];
+const noUno = base.filter((v) => v.mode.length !== 1);
+if (noUno.length) fallos.push("variables con != 1 modo: " + noUno.map((v) => v.name).join(", "));
+else oks.push("las " + base.length + " variables llevan exactamente 1 modo (49 operaciones, no 441)");
+
 // --- puerta: cero valores repetidos en la tanda 1
 const porValor = {};
 for (const v of base) {
