@@ -1,0 +1,304 @@
+{
+  "variables": [
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/文本/主要",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/石板/1000"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/石板/100"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/文本/次要",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/石板/600"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/石板/400"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/文本/反色",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/中性/0"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/中性/0"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/背景",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/中性/0"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/石墨/950"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/表面",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/石板/50"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/石墨/900"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/卡片",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/中性/0"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/石墨/850"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/表单",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/中性/0"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/石墨/800"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/操作/主要",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/蓝色/600"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/蓝色/600"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/操作/按下",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/蓝色/700"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/蓝色/700"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/文本/操作/主要",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/蓝色/600"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/蓝色/400"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/状态/成功",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/绿色/700"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/绿色/700"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/文本/状态/成功",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/绿色/700"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/绿色/400"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/状态/危险",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/红色/600"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/红色/600"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/文本/状态/危险",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/红色/600"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/红色/400"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/状态/警告",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/琥珀/500"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/琥珀/500"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/文本/状态/警告",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/琥珀/700"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/琥珀/400"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/分类/次要",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/橙色/700"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/橙色/700"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/文本/分类/次要",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/橙色/700"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/橙色/400"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/文本/社交/喜欢",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/玫瑰/600"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/玫瑰/500"
+        }
+      ]
+    },
+    {
+      "collection": "语义",
+      "type": "PAINT",
+      "name": "颜色/填充/社交/喜欢",
+      "mode": [
+        {
+          "name": "亮色",
+          "reference": "基础色板/玫瑰/500"
+        },
+        {
+          "name": "暗色",
+          "reference": "基础色板/玫瑰/500"
+        }
+      ]
+    }
+  ]
+}

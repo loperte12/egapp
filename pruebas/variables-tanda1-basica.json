@@ -1,0 +1,2160 @@
+{
+  "variables": [
+    {
+      "collection": "基础",
+      "id": "3:70",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#5fa9ee"
+        },
+        {
+          "name": "默认",
+          "value": "#5fa9ee"
+        },
+        {
+          "name": "默认",
+          "value": "#5fa9ee"
+        },
+        {
+          "name": "默认",
+          "value": "#5fa9ee"
+        },
+        {
+          "name": "默认",
+          "value": "#5fa9ee"
+        },
+        {
+          "name": "默认",
+          "value": "#5fa9ee"
+        },
+        {
+          "name": "默认",
+          "value": "#5fa9ee"
+        },
+        {
+          "name": "默认",
+          "value": "#5fa9ee"
+        },
+        {
+          "name": "默认",
+          "value": "#5fa9ee"
+        }
+      ],
+      "name": "基础色板/蓝色/400",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:71",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#0066cc"
+        },
+        {
+          "name": "默认",
+          "value": "#0066cc"
+        },
+        {
+          "name": "默认",
+          "value": "#0066cc"
+        },
+        {
+          "name": "默认",
+          "value": "#0066cc"
+        },
+        {
+          "name": "默认",
+          "value": "#0066cc"
+        },
+        {
+          "name": "默认",
+          "value": "#0066cc"
+        },
+        {
+          "name": "默认",
+          "value": "#0066cc"
+        },
+        {
+          "name": "默认",
+          "value": "#0066cc"
+        },
+        {
+          "name": "默认",
+          "value": "#0066cc"
+        }
+      ],
+      "name": "基础色板/蓝色/600",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:72",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#00529e"
+        },
+        {
+          "name": "默认",
+          "value": "#00529e"
+        },
+        {
+          "name": "默认",
+          "value": "#00529e"
+        },
+        {
+          "name": "默认",
+          "value": "#00529e"
+        },
+        {
+          "name": "默认",
+          "value": "#00529e"
+        },
+        {
+          "name": "默认",
+          "value": "#00529e"
+        },
+        {
+          "name": "默认",
+          "value": "#00529e"
+        },
+        {
+          "name": "默认",
+          "value": "#00529e"
+        },
+        {
+          "name": "默认",
+          "value": "#00529e"
+        }
+      ],
+      "name": "基础色板/蓝色/700",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:73",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#f08a4b"
+        },
+        {
+          "name": "默认",
+          "value": "#f08a4b"
+        },
+        {
+          "name": "默认",
+          "value": "#f08a4b"
+        },
+        {
+          "name": "默认",
+          "value": "#f08a4b"
+        },
+        {
+          "name": "默认",
+          "value": "#f08a4b"
+        },
+        {
+          "name": "默认",
+          "value": "#f08a4b"
+        },
+        {
+          "name": "默认",
+          "value": "#f08a4b"
+        },
+        {
+          "name": "默认",
+          "value": "#f08a4b"
+        },
+        {
+          "name": "默认",
+          "value": "#f08a4b"
+        }
+      ],
+      "name": "基础色板/橙色/400",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:74",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#c2410c"
+        },
+        {
+          "name": "默认",
+          "value": "#c2410c"
+        },
+        {
+          "name": "默认",
+          "value": "#c2410c"
+        },
+        {
+          "name": "默认",
+          "value": "#c2410c"
+        },
+        {
+          "name": "默认",
+          "value": "#c2410c"
+        },
+        {
+          "name": "默认",
+          "value": "#c2410c"
+        },
+        {
+          "name": "默认",
+          "value": "#c2410c"
+        },
+        {
+          "name": "默认",
+          "value": "#c2410c"
+        },
+        {
+          "name": "默认",
+          "value": "#c2410c"
+        }
+      ],
+      "name": "基础色板/橙色/700",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:75",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#9a3412"
+        },
+        {
+          "name": "默认",
+          "value": "#9a3412"
+        },
+        {
+          "name": "默认",
+          "value": "#9a3412"
+        },
+        {
+          "name": "默认",
+          "value": "#9a3412"
+        },
+        {
+          "name": "默认",
+          "value": "#9a3412"
+        },
+        {
+          "name": "默认",
+          "value": "#9a3412"
+        },
+        {
+          "name": "默认",
+          "value": "#9a3412"
+        },
+        {
+          "name": "默认",
+          "value": "#9a3412"
+        },
+        {
+          "name": "默认",
+          "value": "#9a3412"
+        }
+      ],
+      "name": "基础色板/橙色/800",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:76",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#f5b942"
+        },
+        {
+          "name": "默认",
+          "value": "#f5b942"
+        },
+        {
+          "name": "默认",
+          "value": "#f5b942"
+        },
+        {
+          "name": "默认",
+          "value": "#f5b942"
+        },
+        {
+          "name": "默认",
+          "value": "#f5b942"
+        },
+        {
+          "name": "默认",
+          "value": "#f5b942"
+        },
+        {
+          "name": "默认",
+          "value": "#f5b942"
+        },
+        {
+          "name": "默认",
+          "value": "#f5b942"
+        },
+        {
+          "name": "默认",
+          "value": "#f5b942"
+        }
+      ],
+      "name": "基础色板/琥珀/400",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:82",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#f59e0b"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/琥珀/500",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:86",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#d97706"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/琥珀/600",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:95",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#b45309"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/琥珀/700",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:98",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#78350f"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/琥珀/900",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:001",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#451a03"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/琥珀/950",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:003",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#ff2442"
+        },
+        {
+          "name": "默认",
+          "value": "#ff2442"
+        },
+        {
+          "name": "默认",
+          "value": "#ff2442"
+        },
+        {
+          "name": "默认",
+          "value": "#ff2442"
+        },
+        {
+          "name": "默认",
+          "value": "#ff2442"
+        },
+        {
+          "name": "默认",
+          "value": "#ff2442"
+        },
+        {
+          "name": "默认",
+          "value": "#ff2442"
+        },
+        {
+          "name": "默认",
+          "value": "#ff2442"
+        },
+        {
+          "name": "默认",
+          "value": "#ff2442"
+        }
+      ],
+      "name": "基础色板/玫瑰/500",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:004",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#45b87a"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/绿色/400",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:006",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#1e7a45"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/绿色/700",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:008",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#176035"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/绿色/800",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:010",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#f58585"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/红色/400",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:012",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#c62828"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/红色/600",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:014",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#a31f1f"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/红色/700",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:015",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#991b1b"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/红色/800",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:017",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#e01e39"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/玫瑰/600",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:018",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/0",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:019",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#fafafa"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/100",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:020",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#f2f2f2"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/200",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:021",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#e5e5e6"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/300",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:022",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#d0d1d2"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/400",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:023",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#b1b2b4"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/500",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:024",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#898b8f"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/600",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:025",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#686a6f"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/700",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:026",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#4f5155"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/800",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:027",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#3b3c40"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/900",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:028",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#2c2d30"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/1000",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:029",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#18191b"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/中性/1100",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:030",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#f5f7fa"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/石板/50",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:031",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#f2f3f5"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/石板/100",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:032",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#a9aeb8"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/石板/400",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:033",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#6b7280"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/石板/600",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:034",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#1d2129"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/石板/1000",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:035",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#2e3338"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/石墨/800",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:036",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#232329"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/石墨/850",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:037",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#1e1e23"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/石墨/900",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:038",
+      "mode": [
+        {
+          "name": "默认",
+          "value": "#17171a"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        },
+        {
+          "name": "默认",
+          "value": "#ffffff"
+        }
+      ],
+      "name": "基础色板/石墨/950",
+      "type": "COLOR"
+    },
+    {
+      "collection": "基础",
+      "id": "3:039",
+      "mode": [
+        {
+          "name": "默认",
+          "value": 4
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        }
+      ],
+      "name": "规范尺寸/xs",
+      "type": "NUMBER"
+    },
+    {
+      "collection": "基础",
+      "id": "3:040",
+      "mode": [
+        {
+          "name": "默认",
+          "value": 8
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        }
+      ],
+      "name": "规范尺寸/sm",
+      "type": "NUMBER"
+    },
+    {
+      "collection": "基础",
+      "id": "3:041",
+      "mode": [
+        {
+          "name": "默认",
+          "value": 12
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        }
+      ],
+      "name": "规范尺寸/md",
+      "type": "NUMBER"
+    },
+    {
+      "collection": "基础",
+      "id": "3:042",
+      "mode": [
+        {
+          "name": "默认",
+          "value": 16
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        }
+      ],
+      "name": "规范尺寸/lg",
+      "type": "NUMBER"
+    },
+    {
+      "collection": "基础",
+      "id": "3:043",
+      "mode": [
+        {
+          "name": "默认",
+          "value": 20
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        }
+      ],
+      "name": "规范尺寸/xl",
+      "type": "NUMBER"
+    },
+    {
+      "collection": "基础",
+      "id": "3:044",
+      "mode": [
+        {
+          "name": "默认",
+          "value": 24
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        }
+      ],
+      "name": "规范尺寸/2xl",
+      "type": "NUMBER"
+    },
+    {
+      "collection": "基础",
+      "id": "3:045",
+      "mode": [
+        {
+          "name": "默认",
+          "value": 32
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "name": "默认",
+          "value": 0
+        }
+      ],
+      "name": "规范尺寸/3xl",
+      "type": "NUMBER"
+    }
+  ]
+}
