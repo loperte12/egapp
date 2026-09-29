@@ -1,0 +1,114 @@
+<div data-type="component-set" data-name="HotelCard" data-prop='[{"type":"text","name":"Nombre","value":"Hotel Bahía de Malabo"},{"type":"text","name":"Ubicacion","value":"Malabo Centro · Malabo · a 1,2 km"},{"type":"text","name":"Nota","value":"4,6 (28)"},{"type":"text","name":"Precio","value":"18.000 XAF"},{"type":"text","name":"Impuestos","value":"+ 2.000 XAF impuestos"},{"type":"boolean","name":"Con sello","value":true}]' class="flex flex-col justify-start items-start gap-[var(规范尺寸/lg)] p-[var(规范尺寸/lg)]">
+  <div data-type="component" data-name="HotelCard-default" data-variant-state="default" class="flex flex-col justify-start items-stretch w-[358px] bg-[var(颜色/填充/卡片)] border-[1px] border-[#FFFFFF]/10 rounded-[var(规范尺寸/md)] overflow-hidden">
+    <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+      <img data-name="foto-img" src="{{hotel facade with palm trees}}" class="self-stretch h-[201px] object-cover" />
+      <div data-name="favorite" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+        <i data-name="corazon" class="fas fa-heart text-[16px] text-[var(颜色/文本/社交/喜欢)]"></i>
+      </div>
+    </div>
+    <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[var(规范尺寸/md)] gap-[var(规范尺寸/sm)]">
+      <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+        <p data-name="nombre" data-prop-bind-text="Nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[var(颜色/文本/主要)] text-left">Hotel Bahía de Malabo</p>
+        <div data-name="sello" data-prop-bind-visible="Con sello" class="flex flex-row justify-center items-center">
+          <i data-name="icono-sello" class="fas fa-circle-check text-[14px] text-[var(颜色/文本/状态/成功)]"></i>
+        </div>
+      </div>
+      <p data-name="ubicacion" data-prop-bind-text="Ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[var(颜色/文本/次要)] text-left">Malabo Centro · Malabo · a 1,2 km</p>
+      <div data-name="RatingBadge" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#0066CC]/[0.14] rounded-[10px] px-[var(规范尺寸/sm)]">
+        <i data-name="icono-estrella" class="fas fa-star text-[10px] text-[var(颜色/文本/状态/警告)]"></i>
+        <span data-name="nota" data-prop-bind-text="Nota" class="text-[10.5px] leading-[14px] font-[800] text-[var(颜色/文本/主要)] text-left">4,6 (28)</span>
+      </div>
+      <div data-name="servicios" class="flex flex-row justify-start items-center self-stretch gap-[6px]">
+        <div data-name="servicio-wifi" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[var(颜色/填充/表面)] rounded-[var(规范尺寸/sm)] px-[var(规范尺寸/sm)]">
+          <i data-name="icono-wifi" class="fas fa-wifi text-[10px] text-[var(颜色/文本/次要)]"></i>
+          <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[var(颜色/文本/次要)] text-left">Wi-Fi</span>
+        </div>
+        <div data-name="servicio-desayuno" class="flex flex-row justify-start items-center gap-[5px] h-[22px] bg-[var(颜色/填充/表面)] rounded-[var(规范尺寸/sm)] px-[var(规范尺寸/sm)]">
+          <i data-name="icono-desayuno" class="fas fa-mug-hot text-[10px] text-[var(颜色/文本/次要)]"></i>
+          <span data-name="servicio-txt" class="text-[10.5px] leading-[14px] font-[500] text-[var(颜色/文本/次要)] text-left">Desayuno</span>
+        </div>
+        <span data-name="servicio-mas" class="text-[10.5px] leading-[14px] font-[700] text-[var(颜色/文本/次要)] text-left">+2</span>
+      </div>
+      <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[var(规范尺寸/sm)]">
+        <div data-name="cta" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[var(颜色/填充/操作/主要)] rounded-[var(规范尺寸/md)]">
+          <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[var(颜色/文本/反色)] text-center">Ver habitaciones</span>
+        </div>
+        <div data-name="PriceTag" class="flex flex-col justify-start items-end flex-1">
+          <span data-name="importe" data-prop-bind-text="Precio" class="text-[20px] leading-[24px] font-[800] text-[var(颜色/文本/分类/次要)] text-right">18.000 XAF</span>
+          <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[var(颜色/文本/次要)] text-right">por noche · desde</span>
+          <span data-name="impuestos" data-prop-bind-text="Impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[var(颜色/文本/次要)] text-right">+ 2.000 XAF impuestos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-type="component" data-name="HotelCard-promo" data-variant-state="promo" class="flex flex-col justify-start items-stretch w-[358px] bg-[var(颜色/填充/卡片)] border-[1px] border-[#FFFFFF]/10 rounded-[var(规范尺寸/md)] overflow-hidden">
+    <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+      <img data-name="foto-img" src="{{hotel facade with palm trees}}" class="self-stretch h-[201px] object-cover" />
+      <div data-name="badge-oferta" class="absolute top-[var(规范尺寸/md)] left-[var(规范尺寸/md)] flex flex-row justify-start items-center gap-[5px] h-[var(规范尺寸/2xl)] bg-[var(颜色/填充/分类/次要)] rounded-[var(规范尺寸/sm)] px-[9px]">
+        <i data-name="icono-oferta" class="fas fa-tag text-[10px] text-[var(颜色/文本/反色)]"></i>
+        <span data-name="oferta-txt" class="text-[11px] leading-[14px] font-[800] text-[var(颜色/文本/反色)] text-left">-20% · Oferta</span>
+      </div>
+      <div data-name="favorite" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+        <i data-name="corazon" class="far fa-heart text-[16px] text-[var(颜色/文本/反色)]"></i>
+      </div>
+    </div>
+    <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[var(规范尺寸/md)] gap-[var(规范尺寸/sm)]">
+      <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+        <p data-name="nombre" data-prop-bind-text="Nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[var(颜色/文本/主要)] text-left">Hotel Ureca Bata</p>
+        <div data-name="sello" data-prop-bind-visible="Con sello" class="flex flex-row justify-center items-center">
+          <i data-name="icono-sello" class="fas fa-circle-check text-[14px] text-[var(颜色/文本/状态/成功)]"></i>
+        </div>
+      </div>
+      <p data-name="ubicacion" data-prop-bind-text="Ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[var(颜色/文本/次要)] text-left">Centro · Bata · a 3,8 km</p>
+      <div data-name="RatingBadge" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#0066CC]/[0.14] rounded-[10px] px-[var(规范尺寸/sm)]">
+        <i data-name="icono-estrella" class="fas fa-star text-[10px] text-[var(颜色/文本/状态/警告)]"></i>
+        <span data-name="nota" data-prop-bind-text="Nota" class="text-[10.5px] leading-[14px] font-[800] text-[var(颜色/文本/主要)] text-left">4,2 (11)</span>
+      </div>
+      <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[var(规范尺寸/sm)]">
+        <div data-name="cta" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[var(颜色/填充/操作/主要)] rounded-[var(规范尺寸/md)]">
+          <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[var(颜色/文本/反色)] text-center">Ver habitaciones</span>
+        </div>
+        <div data-name="PriceTag" class="flex flex-col justify-start items-end flex-1">
+          <span data-name="precio-antes" class="text-[12px] leading-[16px] font-[500] text-[var(颜色/文本/次要)] text-right">15.600 XAF</span>
+          <span data-name="importe" data-prop-bind-text="Precio" class="text-[20px] leading-[24px] font-[800] text-[var(颜色/文本/分类/次要)] text-right">12.500 XAF</span>
+          <span data-name="por-noche" class="text-[10.5px] leading-[14px] font-[500] text-[var(颜色/文本/次要)] text-right">por noche · desde</span>
+          <span data-name="impuestos" data-prop-bind-text="Impuestos" class="text-[10.5px] leading-[14px] font-[400] text-[var(颜色/文本/次要)] text-right">+ 1.500 XAF impuestos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-type="component" data-name="HotelCard-unavailable" data-variant-state="unavailable" class="flex flex-col justify-start items-stretch w-[358px] bg-[var(颜色/填充/卡片)] border-[1px] border-[#FFFFFF]/10 rounded-[var(规范尺寸/md)] overflow-hidden">
+    <div data-name="foto" class="relative flex flex-row justify-start items-start self-stretch">
+      <img data-name="foto-img" src="{{hotel facade with palm trees}}" class="self-stretch h-[201px] object-cover" />
+      <div data-name="badge-sin-disponibilidad" class="absolute top-[var(规范尺寸/md)] left-[var(规范尺寸/md)] flex flex-row justify-start items-center gap-[5px] h-[var(规范尺寸/2xl)] bg-[var(颜色/填充/表单)] rounded-[var(规范尺寸/sm)] px-[9px]">
+        <i data-name="icono-agotado" class="fas fa-calendar-xmark text-[10px] text-[var(颜色/文本/次要)]"></i>
+        <span data-name="badge-txt" class="text-[11px] leading-[14px] font-[800] text-[var(颜色/文本/次要)] text-left">Sin disponibilidad</span>
+      </div>
+      <div data-name="favorite" class="absolute top-[10px] right-[10px] flex flex-row justify-center items-center w-[36px] h-[36px] bg-[#000000]/[0.45] border-[1px] border-[#FFFFFF]/20 rounded-[999px]">
+        <i data-name="corazon" class="far fa-heart text-[16px] text-[var(颜色/文本/反色)]"></i>
+      </div>
+    </div>
+    <div data-name="cuerpo" class="flex flex-col justify-start items-stretch self-stretch p-[var(规范尺寸/md)] gap-[var(规范尺寸/sm)]">
+      <div data-name="nombre-row" class="flex flex-row justify-start items-start self-stretch gap-[6px]">
+        <p data-name="nombre" data-prop-bind-text="Nombre" class="flex-1 text-[15.5px] leading-[21px] font-[800] text-[var(颜色/文本/主要)] text-left">Hotel Mbini Resort</p>
+        <div data-name="sello" data-prop-bind-visible="Con sello" class="flex flex-row justify-center items-center">
+          <i data-name="icono-sello" class="fas fa-circle-check text-[14px] text-[var(颜色/文本/状态/成功)]"></i>
+        </div>
+      </div>
+      <p data-name="ubicacion" data-prop-bind-text="Ubicacion" class="self-stretch text-[12px] leading-[16px] font-[400] text-[var(颜色/文本/次要)] text-left">Mbini · Litoral · a 24 km</p>
+      <div data-name="RatingBadge-apagado" class="flex flex-row justify-start items-center self-start gap-[5px] h-[22px] bg-[#FFFFFF]/[0.06] rounded-[10px] px-[var(规范尺寸/sm)]">
+        <i data-name="icono-estrella" class="fas fa-star text-[10px] text-[var(颜色/文本/次要)]"></i>
+        <span data-name="nota" data-prop-bind-text="Nota" class="text-[10.5px] leading-[14px] font-[800] text-[var(颜色/文本/次要)] text-left">Sin opiniones</span>
+      </div>
+      <div data-name="pie" class="flex flex-row justify-between items-end self-stretch gap-[var(规范尺寸/sm)]">
+        <div data-name="cta-disabled" class="flex flex-row justify-center items-center w-[150px] h-[44px] bg-[var(颜色/填充/表单)] rounded-[var(规范尺寸/md)]">
+          <span data-name="cta-txt" class="text-[15px] leading-[20px] font-[700] text-[var(颜色/文本/次要)] text-center">Ver habitaciones</span>
+        </div>
+        <div data-name="PriceTag-vacio" class="flex flex-col justify-start items-end flex-1">
+          <span data-name="sin-disponibilidad" class="text-[15px] leading-[20px] font-[700] text-[var(颜色/文本/次要)] text-right">Sin disponibilidad</span>
+          <span data-name="para-fechas" class="text-[10.5px] leading-[14px] font-[400] text-[var(颜色/文本/次要)] text-right">para esas fechas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

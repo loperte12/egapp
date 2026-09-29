@@ -1,0 +1,23 @@
+<div data-type="component-set" data-name="FilterChip" data-prop='[{"type":"text","name":"Etiqueta","value":"Precio"},{"type":"boolean","name":"Mostrar icono","value":true}]' class="flex flex-col justify-start items-start gap-[var(规范尺寸/lg)] p-[var(规范尺寸/lg)]">
+  <div data-type="component" data-name="FilterChip-default" data-variant-state="default" class="flex flex-row justify-start items-center gap-[6px] h-[36px] bg-[var(颜色/填充/表面)] border-[1px] border-[#FFFFFF]/10 rounded-[10px] px-[var(规范尺寸/md)]">
+    <div data-name="icono" data-prop-bind-visible="Mostrar icono" class="flex flex-row justify-center items-center">
+      <i data-name="icono-tag" class="fas fa-tag text-[11px] text-[var(颜色/文本/次要)]"></i>
+    </div>
+    <span data-name="etiqueta" data-prop-bind-text="Etiqueta" class="text-[13px] leading-[18px] font-[700] text-[var(颜色/文本/主要)] text-left">Precio</span>
+    <i data-name="indicador" class="fas fa-chevron-down text-[10px] text-[var(颜色/文本/次要)]"></i>
+  </div>
+  <div data-type="component" data-name="FilterChip-pressed" data-variant-state="pressed" class="flex flex-row justify-start items-center gap-[6px] h-[36px] bg-[#0066CC]/[0.16] border-[1px] border-[var(基础色板/蓝色/600)] rounded-[10px] px-[var(规范尺寸/md)]">
+    <div data-name="icono" data-prop-bind-visible="Mostrar icono" class="flex flex-row justify-center items-center">
+      <i data-name="icono-tag" class="fas fa-tag text-[11px] text-[var(颜色/文本/操作/主要)]"></i>
+    </div>
+    <span data-name="etiqueta" data-prop-bind-text="Etiqueta" class="text-[13px] leading-[18px] font-[700] text-[var(颜色/文本/主要)] text-left">hasta 25.000 XAF</span>
+    <i data-name="indicador" class="fas fa-xmark text-[10px] text-[var(颜色/文本/操作/主要)]"></i>
+  </div>
+  <div data-type="component" data-name="FilterChip-disabled" data-variant-state="disabled" class="flex flex-row justify-start items-center gap-[6px] h-[36px] bg-[var(颜色/填充/表面)] border-[1px] border-[#FFFFFF]/[0.04] rounded-[10px] px-[var(规范尺寸/md)]">
+    <div data-name="icono" data-prop-bind-visible="Mostrar icono" class="flex flex-row justify-center items-center">
+      <i data-name="icono-tag" class="fas fa-tag text-[11px] text-[var(颜色/文本/次要)]"></i>
+    </div>
+    <span data-name="etiqueta" data-prop-bind-text="Etiqueta" class="text-[13px] leading-[18px] font-[700] text-[var(颜色/文本/次要)] text-left">Precio</span>
+    <i data-name="indicador" class="fas fa-chevron-down text-[10px] text-[var(颜色/文本/次要)]"></i>
+  </div>
+</div>

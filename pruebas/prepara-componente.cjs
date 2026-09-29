@@ -151,7 +151,10 @@ for (const ruta of ficheros) {
       !/text-\[[^\]]*px\]/.test(t) ||
       !/leading-\[[^\]]*px\]/.test(t) ||
       !/font-\[[^\]]*\]/.test(t) ||
-      !/text-\[#[^\]]*\]/.test(t) ||
+      // El COLOR admite dos formas desde la migracion a variables: el `#HEX` del kit y la
+      // referencia `var(...)`. Antes solo se aceptaba el hex, asi que un componente migrado
+      // —que es lo correcto— salia RECHAZADO. La puerta tiene que aceptar las dos.
+      !(/text-\[#[^\]]*\]/.test(t) || /text-\[var\([^)]*\)\]/.test(t)) ||
       !/text-(left|center|right)/.test(t),
   );
   if (incompletos.length) fallos.push(incompletos.length + " span/p sin las 5 propiedades de texto: " + incompletos[0].slice(0, 120));

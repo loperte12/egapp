@@ -1,0 +1,15 @@
+{
+  "variables": [
+    {
+      "collection": "基础",
+      "name": "规范尺寸/4xl",
+      "type": "NUMBER",
+      "mode": [
+        {
+          "name": "默认",
+          "value": 40
+        }
+      ]
+    }
+  ]
+}
