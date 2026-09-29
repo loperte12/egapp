@@ -20,11 +20,19 @@
  * siempre se calculó de verdad: en `lifebook-hotel-reservar.tsx`, que pide el calendario del tipo
  * elegido y desglosa noches, limpieza, tasas, señal y resto. La ficha elige; la reserva cobra.
  *
- * LO QUE NO SE TOCA: las reseñas siguen **después** de las habitaciones (D1 de C-1) y siguen
- * gateadas por `publishesRating` del servidor (D2). El chip de la cabecera baja a la sección (D1).
- * Ninguna de esas tres decisiones se reabre aquí.
+ * ── D8 + D10 (27-sep-2026): PESTAÑAS Y GALERÍA POR ZONAS ──────────────────────────────────────────
+ *
+ * La ficha se parte en **tres pestañas** (`Habitaciones · Reseñas · El alojamiento`) en vez de un
+ * scroll largo de ~2.400 px sin decisión a la vista. La galería separa las fotos por origen
+ * (`Alojamiento` / `Habitaciones`) sin campo nuevo: el origen ya está en el dato.
+ *
+ * Consecuencias para la navegación interna:
+ *   · El chip de nota ya no baja con `scrollTo` → ahora cambia a la pestaña `resenas`.
+ *   · `yContenido`, `yResenas` y `bajarAResenas` se eliminan (la lógica de scroll-to-section ya
+ *     no aplica con pestañas).
+ *   · `scrollRef` se elimina (el ScrollView ya no necesita ref para el scrollTo programático).
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View,
 } from 'react-native';
@@ -45,10 +53,10 @@ import { ApiError } from '../api/httpClient';
 import { absUrl } from '../api/config';
 import { nightsBetween, shortDate, xaf } from '../utils/datetime';
 import { abrirMapa } from '../utils/maps';
-import { formatearMoneda, getPaisParaPrecios, setPaisElegido } from '../utils/region';
+import { getPaisParaPrecios, setPaisElegido } from '../utils/region';
 
 /** Acento del marketplace (naranja), como en el resto del flujo de servicios. */
-const ACCENT = brand.primary; // A1: la acción avanza en azul
+const ACCENT = brand.primary;
 
 const TIPOS: Record<string, string> = {
   hotel: 'Hotel', hostal: 'Hostal', guest_house: 'Casa de huéspedes',
@@ -92,6 +100,11 @@ export default function HotelDetalleScreen() {
   const [checkOut, setCheckOut] = useState<string | null>(p.checkOut ?? null);
   const [elegirQuien, setElegirQuien] = useState(false);
 
+  // ── D8: PESTAÑA ACTIVA ────────────────────────────────────────────────────────
+  // Tres pestañas: `reservar` (habitaciones + fechas), `resenas` (opiniones), `alojamiento`
+  // (datos informativos). La pestaña por defecto es `reservar` porque es lo que decide la compra.
+  const [tab, setTab] = useState<'reservar' | 'resenas' | 'alojamiento'>('reservar');
+
   // ── LAS RESEÑAS DE ESTE ALOJAMIENTO (C-1) ────────────────────────────────────
   /*
     Consulta PÚBLICA y SEPARADA de la ficha: son dos datos independientes y si una falla la otra
@@ -101,16 +114,6 @@ export default function HotelDetalleScreen() {
   */
   const [resenas, setResenas] = useState<HotelReviewsPage | null>(null);
   const [verTodas, setVerTodas] = useState(false);
-
-  // Para que la nota de la cabecera BAJE a la sección (D1): se suman las dos posiciones —la del
-  // contenedor dentro del scroll y la de la sección dentro del contenedor—, que es lo que `onLayout`
-  // sabe decir en cada nivel. Sin refs a componentes nativos ni `measure()`.
-  const scrollRef = useRef<ScrollView>(null);
-  const [yContenido, setYContenido] = useState(0);
-  const [yResenas, setYResenas] = useState(0);
-  const bajarAResenas = () => {
-    scrollRef.current?.scrollTo({ y: Math.max(0, yContenido + yResenas - espaciado.e10), animated: true });
-  };
 
   const cargar = useCallback(async () => {
     setCargando(true);
@@ -213,13 +216,18 @@ export default function HotelDetalleScreen() {
           </Pressable>
         </View>
       ) : (
-        <ScrollView ref={scrollRef} contentContainerStyle={{ paddingBottom: insets.bottom + 30, gap: espaciado.e14 }}>
-          {/* ── Galería del alojamiento (fotos reales subidas por el hotelero) ── */}
+        <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 30 }}>
+
+          {/* ── Galería (D10: fotos separadas en 2 pestañas por origen) ──────────────
+              `Alojamiento` = la portada que sube el hotelero; `Habitaciones` = las fotos
+              de cada tipo. Sin campo nuevo: el origen ya está en el dato. Si solo una
+              pestaña tiene fotos, la barra no se pinta y queda como galería plana. */}
           <PhotoGallery
-            photos={[
-              absUrl(hotel?.coverUrl),
-              ...rooms.flatMap((r) => (r.images ?? []).map((i) => absUrl((i as { url?: string })?.url))),
-            ].filter((u): u is string => !!u)}
+            photos={[]}
+            tabs={[
+              { label: 'Alojamiento', photos: [absUrl(hotel?.coverUrl)].filter((u): u is string => !!u) },
+              { label: 'Habitaciones', photos: rooms.flatMap((r) => (r.images ?? []).map((i) => absUrl((i as { url?: string })?.url))).filter((u): u is string => !!u) },
+            ]}
             height={230}
             emptyLabel="Este alojamiento todavía no tiene fotos"
             emptyIcon="🏨"
@@ -236,310 +244,365 @@ export default function HotelDetalleScreen() {
             }
           />
 
-          <View style={{ paddingHorizontal: espaciado.e14, gap: espaciado.e14 }} onLayout={(e) => setYContenido(e.nativeEvent.layout.y)}>
-          {/* ── Datos del alojamiento ── */}
-          <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
-            <Text style={[styles.nombre, { color: colors.textPrimary }]}>{hotel?.name}</Text>
-            {/*
-              EL ALOJAMIENTO VERIFICADO. `isVerified` / `verificationLevel` llevaban desde la
-              migración del módulo viajando en cada respuesta y **no se pintaban en ninguna pantalla**.
-              Es el equivalente real al distintivo de la referencia (优美会), y a diferencia de aquel
-              no hay que inventarlo ni contratarlo: el dato ya está.
-            */}
-            {hotel?.isVerified ? (
-              <View style={styles.verificadoFila}>
-                <BadgeCheck size={13} color={colors.text.success} strokeWidth={trazoIcono.acento} />
-                <Text style={[styles.verificadoTxt, { color: colors.text.success }]}>Alojamiento verificado</Text>
-              </View>
-            ) : null}
-            <Text style={[styles.sub, { color: colors.textSecondary }]}>
-              {[TIPOS[hotel?.propertyKind ?? ''] ?? null, hotel?.stars ? `${hotel.stars}★` : null,
-                hotel?.barrio, hotel?.city].filter(Boolean).join(' · ')}
-            </Text>
+          {/* ════════════════════════════════════════════════════════════════════════
+              D8: BARRA DE PESTAÑAS — Habitaciones · Reseñas · El alojamiento
 
-            {/*
-              ── LA NOTA DEL ALOJAMIENTO, EN LA CABECERA Y PULSABLE (D1/D2/D3) ──────────────
-              Va aquí, con el tipo y las estrellas —que son la categoría que DECLARA el hotelero,
-              no una valoración—, porque es el dato que dice si el sitio es bueno de verdad.
-              Y es el único sitio de la ficha donde la estrella se pinta RELLENA: el `★` de la
-              línea de arriba es `stars`.
-
-              El toque BAJA a la sección de reseñas en vez de abrir otra pantalla: la lista ya está
-              cargada, y salir y volver para leer dos opiniones es lo que hace que nadie las lea.
-            */}
-            {nota ? (
-              <Pressable
-                onPress={bajarAResenas}
-                accessibilityRole="button"
-                accessibilityLabel={
-                  nota.publica
-                    ? `Nota ${nota.media} de ${nota.total} reseñas. Ver las reseñas`
-                    : `${nota.total} reseña${nota.total === 1 ? '' : 's'} sin nota publicada. Ver las reseñas`
-                }
-                hitSlop={8}
-                style={[styles.notaChip, { borderColor: colors.border, backgroundColor: colors.surface }]}
-              >
-                {/* RELLENA solo si la nota se publica; apagada cuando aún no hay con qué (D3). */}
-                <Star
-                  size={13}
-                  color={nota.publica ? colors.text.warning : colors.textSecondary}
-                  fill={nota.publica ? colors.text.warning : 'transparent'}
-                  strokeWidth={trazoIcono.base}
-                />
-                <Text style={[styles.notaTxt, { color: colors.textPrimary }]}>
-                  {nota.publica
-                    ? `${nota.media} · ${nota.total} reseñas`
-                    : `${nota.total} reseña${nota.total === 1 ? '' : 's'}`}
-                </Text>
-                <Text style={[styles.notaFlecha, { color: colors.textSecondary }]}>›</Text>
-              </Pressable>
-            ) : null}
-            {/* Horario de llegada: es la primera pregunta del huésped al reservar. */}
-            <Text style={[styles.dato, { color: colors.textPrimary }]}>
-              🕐 Entrada de {hotel?.checkinFrom} a {hotel?.checkinUntil} · salida hasta {hotel?.checkoutUntil}
-              {hotel?.receptionOpen24h ? ' · recepción 24 h' : ''}
-            </Text>
-            {hotel?.addressReference ? (
-              <Text style={[styles.sub, { color: colors.textSecondary }]}>📍 {hotel.addressReference}</Text>
-            ) : null}
-
-            {/* ── CÓMO LLEGAR ────────────────────────────────────────────────────────
-                Una referencia («frente al mar») no lleva a ningún sitio. Con las coordenadas del
-                hotel, el botón abre el mapa EN EL PUNTO; sin ellas, cae a buscar el texto. */}
-            {arrival && (arrival.lat !== null || arrival.addressReference) ? (
-              <Pressable
-                onPress={() => abrirMapa(arrival.lat, arrival.lng, arrival.addressReference ?? hotel?.name ?? null)}
-                accessibilityRole="button"
-                accessibilityLabel={`Cómo llegar a ${hotel?.name ?? 'el alojamiento'}`}
-                style={[styles.botonLinea, { borderColor: colors.border, backgroundColor: colors.surface }]}
-              >
-                <Navigation size={14} color={colors.text.secondary} />
-                <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>
-                  Cómo llegar{arrival.lat !== null ? '' : ' (por la referencia escrita)'}
-                </Text>
-              </Pressable>
-            ) : null}
-
-            {/* ── AL LLEGAR ──────────────────────────────────────────────────────────
-                Lo que el huésped necesita cuando baja del taxi: dónde se entra y dónde está la
-                recepción. Lo escribe el hotel en su panel (si no lo ha escrito, no se inventa). */}
-            {arrival?.note ? (
-              <View style={[styles.aviso, { borderColor: alpha(colors.success, 0.45), backgroundColor: alpha(colors.success, 0.10) }]}>
-                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.success }}>🔑 Al llegar</Text>
-                <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, marginTop: espaciado.e3, lineHeight: 16 }}>{arrival.note}</Text>
-              </View>
-            ) : null}
-
-            {/* ── TAXI DESDE EL AEROPUERTO ───────────────────────────────────────────
-                Llegar al aeropuerto y poder ir al hotel sin escribir una sola dirección: el origen
-                (el aeropuerto de la ciudad) y el destino (el hotel) van puestos. El precio de
-                referencia de la zona se enseña ANTES de pedirlo, para que no haya sorpresas. */}
-            {airport ? (
-              <View style={[styles.aviso, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-                <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textPrimary }}>🛫 ¿Llegas al aeropuerto?</Text>
-                <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e3, lineHeight: 15 }}>
-                  Pide un taxi {airport.label} → {hotel?.name}
-                  {airport.priceFromXaf !== null && airport.priceToXaf !== null
-                    ? ` · desde ${xaf(airport.priceFromXaf)} hasta ${xaf(airport.priceToXaf)}`
-                    : ''}
-                </Text>
-                <Pressable
-                  onPress={() => router.push({
-                    pathname: '/taxi',
-                    params: {
-                      city: airport.city ?? hotel?.city ?? '',
-                      oLat: String(airport.lat), oLng: String(airport.lng), oLabel: airport.label,
-                      dLat: String(arrival?.lat ?? ''), dLng: String(arrival?.lng ?? ''),
-                      dLabel: hotel?.name ?? '',
-                    },
-                  } as never)}
-                  accessibilityRole="button"
-                  accessibilityLabel="Pedir un taxi desde el aeropuerto hasta el hotel"
-                  style={[styles.botonLinea, { borderColor: alpha(ACCENT, 0.5), backgroundColor: alpha(ACCENT, 0.10) }]}
-                >
-                  <Car size={14} color={ACCENT} />
-                  <Text style={[styles.botonLineaTxt, { color: colors.text.primary }]}>Pedir taxi al hotel</Text>
-                </Pressable>
-              </View>
-            ) : null}
-            {hotel?.description ? (
-              <Text style={[styles.dato, { color: colors.textPrimary }]}>{hotel.description}</Text>
-            ) : null}
-
-            {(hotel?.amenities ?? []).length ? (
-              <View style={styles.servicios}>
-                {(hotel?.amenities ?? []).map((a) => (
-                  <View key={a} style={[styles.servicio, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-                    <Text style={[styles.servicioTxt, { color: colors.textPrimary }]}>{nombreServicio(a)}</Text>
-                  </View>
-                ))}
-              </View>
-            ) : null}
-
-            {/*
-              ── CON QUÉ MONEDA SE VEN LOS PRECIOS ─────────────────────────────────────
-              El precio real, y el que se cobra, es en XAF (en efectivo, al llegar al hotel). Esto
-              solo cambia CÓMO SE ENSEÑA, para que quien reserva desde fuera sepa cuánto es.
-
-              Va al FINAL del bloque informativo y no en medio de la lista de habitaciones, que es
-              donde estaba: un selector de moneda partiendo la lista de precios obliga a leerlo antes
-              de ver el primer cuarto, y no es eso lo que se viene a mirar aquí.
-            */}
-            <View style={{ gap: espaciado.e6, marginTop: espaciado.e6 }}>
-              <Pressable
-                onPress={() => setElegirMoneda((v) => !v)}
-                accessibilityRole="button"
-                accessibilityLabel="Elegir el país para ver los precios en su moneda"
-                style={[styles.botonLinea, { borderColor: colors.border, backgroundColor: colors.surface, alignSelf: 'flex-start' }]}
-              >
-                <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>
-                  {fx && !fx.esMonedaDelCobro
-                    ? `${fx.countryLabel ?? fx.currency} · ${fx.symbol}`
-                    : '💱 Ver los precios en otra moneda'}
-                </Text>
-              </Pressable>
-              {fx && !fx.esMonedaDelCobro ? (
-                <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                  Equivalencia orientativa al cambio del {fx.updatedAt ? shortDate(String(fx.updatedAt).slice(0, 10)) : '—'}.
-                  El pago es en XAF (francos), en efectivo al llegar.
-                </Text>
-              ) : null}
-              {elegirMoneda ? (
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
-                  {paises.length === 0 ? (
-                    <Text style={[styles.sub, { color: colors.textSecondary }]}>Cargando países…</Text>
-                  ) : (
-                    paises.map((p) => (
-                      <Pressable
-                        key={p.code}
-                        onPress={() => { setElegirMoneda(false); setPais(p.code); void setPaisElegido(p.code); }}
-                        accessibilityRole="button"
-                        accessibilityLabel={`Ver los precios desde ${p.label} (${p.currency})`}
-                        style={[styles.botonLinea, {
-                          borderColor: pais === p.code ? colors.secondary : colors.border,
-                          backgroundColor: pais === p.code ? alpha(colors.secondary, 0.12) : colors.surface,
-                        }]}
-                      >
-                        <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>{p.label} · {p.currency}</Text>
-                      </Pressable>
-                    ))
-                  )}
-                </View>
-              ) : null}
-            </View>
-
-            {(hotel?.paymentMethods ?? []).length ? (
-              <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                Formas de pago:{' '}
-                {(hotel?.paymentMethods ?? [])
-                  .map((m) => (typeof m === 'string' ? m : m.method))
-                  .map((m) => ({ transfer: 'transferencia', in_store: 'en recepción', billing: 'facturación',
-                    deposit: 'señal', cash_on_delivery: 'contra entrega', likebook_wallet: 'monedero' }[m] ?? m))
-                  .join(' · ')}
+              La ficha se parte en tres pestañas. `reservar` es la que decide la compra
+              (habitaciones + fechas + precios), por eso es la pestaña por defecto.
+              `alojamiento` agrupa todo lo informativo (datos, horario, taxi, normas…).
+              `resenas` muestra las opiniones de quien ha dormido aquí.
+          ════════════════════════════════════════════════════════════════════════ */}
+          <View style={[styles.tabBar, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
+            <Pressable
+              onPress={() => setTab('reservar')}
+              accessibilityRole="button"
+              accessibilityState={{ selected: tab === 'reservar' }}
+              style={[styles.tabBtn, tab === 'reservar' ? { borderBottomColor: colors.primary, borderBottomWidth: trazo.fuerte } : null]}
+            >
+              <Text style={[styles.tabTxt, { color: tab === 'reservar' ? colors.textPrimary : colors.textSecondary, fontWeight: tab === 'reservar' ? peso.maximo : peso.medio }]}>
+                Habitaciones{rooms.length ? ` (${rooms.length})` : ''}
               </Text>
-            ) : null}
-            {hotel?.houseRules ? (
-              <Text style={[styles.sub, { color: colors.textSecondary }]}>Normas: {hotel.houseRules}</Text>
-            ) : null}
-            {hotel?.cancellationPolicy ? (
-              <Text style={[styles.sub, { color: colors.textSecondary }]}>Cancelación: {hotel.cancellationPolicy}</Text>
-            ) : null}
+            </Pressable>
+            <Pressable
+              onPress={() => setTab('resenas')}
+              accessibilityRole="button"
+              accessibilityState={{ selected: tab === 'resenas' }}
+              style={[styles.tabBtn, tab === 'resenas' ? { borderBottomColor: colors.primary, borderBottomWidth: trazo.fuerte } : null]}
+            >
+              <Text style={[styles.tabTxt, { color: tab === 'resenas' ? colors.textPrimary : colors.textSecondary, fontWeight: tab === 'resenas' ? peso.maximo : peso.medio }]}>
+                Reseñas{resenas && resenas.total > 0 ? ` (${resenas.total})` : ''}
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setTab('alojamiento')}
+              accessibilityRole="button"
+              accessibilityState={{ selected: tab === 'alojamiento' }}
+              style={[styles.tabBtn, tab === 'alojamiento' ? { borderBottomColor: colors.primary, borderBottomWidth: trazo.fuerte } : null]}
+            >
+              <Text style={[styles.tabTxt, { color: tab === 'alojamiento' ? colors.textPrimary : colors.textSecondary, fontWeight: tab === 'alojamiento' ? peso.maximo : peso.medio }]}>
+                El alojamiento
+              </Text>
+            </Pressable>
           </View>
 
-          {/* ── Habitaciones ── */}
-          <Text style={[styles.seccion, { color: colors.textPrimary }]}>
-            Habitaciones ({rooms.length})
-          </Text>
+          {/* ────────────────────────────────────────────────────────────────────────
+              TAB: RESERVAR — habitaciones, barra de fechas, tarjetas de tipo.
+              Es la pestaña por defecto porque es donde se decide la compra.
+          ──────────────────────────────────────────────────────────────────────── */}
+          {tab === 'reservar' && (
+            <View style={{ paddingHorizontal: espaciado.e14, gap: espaciado.e14, paddingTop: espaciado.e12 }}>
 
-          {/*
-            LA BARRA DE FECHAS, UNA VEZ Y PARA TODOS LOS TIPOS.
-
-            Va pegada a la lista porque es SU control: cambiar aquí las noches cambia el verbo del
-            botón de cada tarjeta, y el precio exacto de esas noches se calcula en la pantalla de
-            reservar. Antes esto era un calendario por habitación dentro del acordeón.
-          */}
-          {rooms.length > 0 ? (
-            <HotelDateBar
-              rooms={rooms}
-              checkIn={checkIn}
-              checkOut={checkOut}
-              huespedes={huespedes}
-              habitaciones={habitaciones}
-              onFechas={(a, b) => { setCheckIn(a); setCheckOut(b); }}
-              onOcupacion={() => setElegirQuien(true)}
-            />
-          ) : null}
-
-          {rooms.length === 0 ? (
-            <Text style={[styles.sub, { color: colors.textSecondary }]}>
-              Este alojamiento todavía no tiene habitaciones publicadas.
-            </Text>
-          ) : null}
-
-          {rooms.map((r) => (
-            <HotelRoomCard
-              key={r.id}
-              room={r}
-              noches={noches}
-              habitaciones={habitaciones}
-              onReservar={irAReservar}
-            />
-          ))}
-
-          {/* ── RESEÑAS ────────────────────────────────────────────────────────────────
-              VA DESPUÉS DE LAS HABITACIONES, y es una decisión, no un descuido (D1): una reserva se
-              decide primero por «¿hay cama y a cuánto?» —que es lo que responde esta pantalla con el
-              precio de cada tipo— y después por «¿qué dicen los que durmieron?». Con la lista
-              delante, el precio sale de la primera pantalla. */}
-          <View onLayout={(e) => setYResenas(e.nativeEvent.layout.y)} style={{ gap: espaciado.e10 }}>
-            <Text style={[styles.seccion, { color: colors.textPrimary }]}>
-              {resenas && resenas.total > 0 ? `Reseñas (${resenas.total})` : 'Reseñas'}
-            </Text>
-
-            {resenas === null ? (
-              <Text style={[styles.sub, { color: colors.textSecondary }]}>Cargando reseñas…</Text>
-            ) : resenas.total === 0 ? (
-              <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                Este alojamiento todavía no tiene reseñas. Las escribe quien ha dormido aquí, cuando
-                termina su estancia, y su nota aparecerá en esta ficha.
+              {/* ── Habitaciones ── */}
+              <Text style={[styles.seccion, { color: colors.textPrimary }]}>
+                Habitaciones ({rooms.length})
               </Text>
-            ) : (
-              <>
-                {/* POR QUÉ NO HAY CIFRA (D2): decirlo es la diferencia entre «no hay datos» y
-                    «hay dos y no se publican». Debajo del umbral el titular no enseña media. */}
-                {!resenas.publishesRating ? (
-                  <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                    La nota del alojamiento se publica a partir de 3 reseñas. Con {resenas.total}{' '}
-                    todavía no se enseña la media: una sola estancia no es una nota.
-                  </Text>
+
+              {/*
+                LA BARRA DE FECHAS, UNA VEZ Y PARA TODOS LOS TIPOS.
+
+                Va pegada a la lista porque es SU control: cambiar aquí las noches cambia el verbo del
+                botón de cada tarjeta, y el precio exacto de esas noches se calcula en la pantalla de
+                reservar. Antes esto era un calendario por habitación dentro del acordeón.
+              */}
+              {rooms.length > 0 ? (
+                <HotelDateBar
+                  rooms={rooms}
+                  checkIn={checkIn}
+                  checkOut={checkOut}
+                  huespedes={huespedes}
+                  habitaciones={habitaciones}
+                  onFechas={(a, b) => { setCheckIn(a); setCheckOut(b); }}
+                  onOcupacion={() => setElegirQuien(true)}
+                />
+              ) : null}
+
+              {rooms.length === 0 ? (
+                <Text style={[styles.sub, { color: colors.textSecondary }]}>
+                  Este alojamiento todavía no tiene habitaciones publicadas.
+                </Text>
+              ) : null}
+
+              {rooms.map((r) => (
+                <HotelRoomCard
+                  key={r.id}
+                  room={r}
+                  noches={noches}
+                  habitaciones={habitaciones}
+                  onReservar={irAReservar}
+                />
+              ))}
+            </View>
+          )}
+
+          {/* ────────────────────────────────────────────────────────────────────────
+              TAB: RESEÑAS — opiniones de quien ha dormido aquí.
+              Antes iba después de las habitaciones en un scroll largo (D1 de C-1).
+              Con pestañas, el chip de nota ya no baja con scrollTo → cambia a esta pestaña.
+          ──────────────────────────────────────────────────────────────────────── */}
+          {tab === 'resenas' && (
+            <View style={{ paddingHorizontal: espaciado.e14, gap: espaciado.e10, paddingTop: espaciado.e12 }}>
+              <Text style={[styles.seccion, { color: colors.textPrimary }]}>
+                {resenas && resenas.total > 0 ? `Reseñas (${resenas.total})` : 'Reseñas'}
+              </Text>
+
+              {resenas === null ? (
+                <Text style={[styles.sub, { color: colors.textSecondary }]}>Cargando reseñas…</Text>
+              ) : resenas.total === 0 ? (
+                <Text style={[styles.sub, { color: colors.textSecondary }]}>
+                  Este alojamiento todavía no tiene reseñas. Las escribe quien ha dormido aquí, cuando
+                  termina su estancia, y su nota aparecerá en esta ficha.
+                </Text>
+              ) : (
+                <>
+                  {/* POR QUÉ NO HAY CIFRA (D2): decirlo es la diferencia entre «no hay datos» y
+                      «hay dos y no se publican». Debajo del umbral el titular no enseña media. */}
+                  {!resenas.publishesRating ? (
+                    <Text style={[styles.sub, { color: colors.textSecondary }]}>
+                      La nota del alojamiento se publica a partir de 3 reseñas. Con {resenas.total}{' '}
+                      todavía no se enseña la media: una sola estancia no es una nota.
+                    </Text>
+                  ) : null}
+
+                  {(verTodas ? resenas.items : resenas.items.slice(0, 5)).map((r) => (
+                    <Resena key={r.id} r={r} />
+                  ))}
+
+                  {!verTodas && resenas.items.length > 5 ? (
+                    <Pressable
+                      onPress={() => setVerTodas(true)}
+                      accessibilityRole="button"
+                      accessibilityLabel="Ver todas las reseñas"
+                      style={[styles.botonLinea, { borderColor: colors.border, backgroundColor: colors.surface, alignSelf: 'flex-start' }]}
+                    >
+                      <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>Ver todas</Text>
+                    </Pressable>
+                  ) : null}
+
+                  {/* Se dice cuántas se enseñan cuando no son todas: un «(38)» con cinco tarjetas
+                      debajo parece un error de la app. */}
+                  {resenas.total > resenas.items.length ? (
+                    <Text style={[styles.sub, { color: colors.textSecondary }]}>
+                      Se enseñan las {resenas.items.length} más recientes de {resenas.total}.
+                    </Text>
+                  ) : null}
+                </>
+              )}
+            </View>
+          )}
+
+          {/* ────────────────────────────────────────────────────────────────────────
+              TAB: EL ALOJAMIENTO — datos informativos.
+              Todo lo que el huésped necesita saber pero que no decide la compra: horario,
+              dirección, cómo llegar, taxi al aeropuerto, descripción, servicios, moneda,
+              formas de pago, normas y política de cancelación.
+          ──────────────────────────────────────────────────────────────────────── */}
+          {tab === 'alojamiento' && (
+            <View style={{ paddingHorizontal: espaciado.e14, gap: espaciado.e14, paddingTop: espaciado.e12 }}>
+              {/* ── Datos del alojamiento ── */}
+              <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
+                <Text style={[styles.nombre, { color: colors.textPrimary }]}>{hotel?.name}</Text>
+                {/*
+                  EL ALOJAMIENTO VERIFICADO. `isVerified` / `verificationLevel` llevaban desde la
+                  migración del módulo viajando en cada respuesta y **no se pintaban en ninguna pantalla**.
+                  Es el equivalente real al distintivo de la referencia (优美会), y a diferencia de aquel
+                  no hay que inventarlo ni contratarlo: el dato ya está.
+                */}
+                {hotel?.isVerified ? (
+                  <View style={styles.verificadoFila}>
+                    <BadgeCheck size={13} color={colors.text.success} strokeWidth={trazoIcono.acento} />
+                    <Text style={[styles.verificadoTxt, { color: colors.text.success }]}>Alojamiento verificado</Text>
+                  </View>
+                ) : null}
+                <Text style={[styles.sub, { color: colors.textSecondary }]}>
+                  {[TIPOS[hotel?.propertyKind ?? ''] ?? null, hotel?.stars ? `${hotel.stars}★` : null,
+                    hotel?.barrio, hotel?.city].filter(Boolean).join(' · ')}
+                </Text>
+
+                {/*
+                  ── LA NOTA DEL ALOJAMIENTO, EN EL BLOQUE Y PULSABLE (D1/D2/D3) ──────────────
+                  D8: el toque ya no baja con scrollTo → cambia a la pestaña `resenas`.
+                */}
+                {nota ? (
+                  <Pressable
+                    onPress={() => setTab('resenas')}
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                      nota.publica
+                        ? `Nota ${nota.media} de ${nota.total} reseñas. Ver las reseñas`
+                        : `${nota.total} reseña${nota.total === 1 ? '' : 's'} sin nota publicada. Ver las reseñas`
+                    }
+                    hitSlop={8}
+                    style={[styles.notaChip, { borderColor: colors.border, backgroundColor: colors.surface }]}
+                  >
+                    {/* RELLENA solo si la nota se publica; apagada cuando aún no hay con qué (D3). */}
+                    <Star
+                      size={13}
+                      color={nota.publica ? colors.text.warning : colors.textSecondary}
+                      fill={nota.publica ? colors.text.warning : 'transparent'}
+                      strokeWidth={trazoIcono.base}
+                    />
+                    <Text style={[styles.notaTxt, { color: colors.textPrimary }]}>
+                      {nota.publica
+                        ? `${nota.media} · ${nota.total} reseñas`
+                        : `${nota.total} reseña${nota.total === 1 ? '' : 's'}`}
+                    </Text>
+                    <Text style={[styles.notaFlecha, { color: colors.textSecondary }]}>›</Text>
+                  </Pressable>
+                ) : null}
+                {/* Horario de llegada: es la primera pregunta del huésped al reservar. */}
+                <Text style={[styles.dato, { color: colors.textPrimary }]}>
+                  🕐 Entrada de {hotel?.checkinFrom} a {hotel?.checkinUntil} · salida hasta {hotel?.checkoutUntil}
+                  {hotel?.receptionOpen24h ? ' · recepción 24 h' : ''}
+                </Text>
+                {hotel?.addressReference ? (
+                  <Text style={[styles.sub, { color: colors.textSecondary }]}>📍 {hotel.addressReference}</Text>
                 ) : null}
 
-                {(verTodas ? resenas.items : resenas.items.slice(0, 5)).map((r) => (
-                  <Resena key={r.id} r={r} />
-                ))}
-
-                {!verTodas && resenas.items.length > 5 ? (
+                {/* ── CÓMO LLEGAR ────────────────────────────────────────────────────────
+                    Una referencia («frente al mar») no lleva a ningún sitio. Con las coordenadas del
+                    hotel, el botón abre el mapa EN EL PUNTO; sin ellas, cae a buscar el texto. */}
+                {arrival && (arrival.lat !== null || arrival.addressReference) ? (
                   <Pressable
-                    onPress={() => setVerTodas(true)}
+                    onPress={() => abrirMapa(arrival.lat, arrival.lng, arrival.addressReference ?? hotel?.name ?? null)}
                     accessibilityRole="button"
-                    accessibilityLabel="Ver todas las reseñas"
-                    style={[styles.botonLinea, { borderColor: colors.border, backgroundColor: colors.surface, alignSelf: 'flex-start' }]}
+                    accessibilityLabel={`Cómo llegar a ${hotel?.name ?? 'el alojamiento'}`}
+                    style={[styles.botonLinea, { borderColor: colors.border, backgroundColor: colors.surface }]}
                   >
-                    <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>Ver todas</Text>
+                    <Navigation size={14} color={colors.text.secondary} />
+                    <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>
+                      Cómo llegar{arrival.lat !== null ? '' : ' (por la referencia escrita)'}
+                    </Text>
                   </Pressable>
                 ) : null}
 
-                {/* Se dice cuántas se enseñan cuando no son todas: un «(38)» con cinco tarjetas
-                    debajo parece un error de la app. */}
-                {resenas.total > resenas.items.length ? (
+                {/* ── AL LLEGAR ──────────────────────────────────────────────────────────
+                    Lo que el huésped necesita cuando baja del taxi: dónde se entra y dónde está la
+                    recepción. Lo escribe el hotel en su panel (si no lo ha escrito, no se inventa). */}
+                {arrival?.note ? (
+                  <View style={[styles.aviso, { borderColor: alpha(colors.success, 0.45), backgroundColor: alpha(colors.success, 0.10) }]}>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.text.success }}>🔑 Al llegar</Text>
+                    <Text style={{ fontSize: tipografia.caption, color: colors.textPrimary, marginTop: espaciado.e3, lineHeight: 16 }}>{arrival.note}</Text>
+                  </View>
+                ) : null}
+
+                {/* ── TAXI DESDE EL AEROPUERTO ───────────────────────────────────────────
+                    Llegar al aeropuerto y poder ir al hotel sin escribir una sola dirección: el origen
+                    (el aeropuerto de la ciudad) y el destino (el hotel) van puestos. El precio de
+                    referencia de la zona se enseña ANTES de pedirlo, para que no haya sorpresas. */}
+                {airport ? (
+                  <View style={[styles.aviso, { borderColor: colors.border, backgroundColor: colors.surface }]}>
+                    <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: colors.textPrimary }}>🛫 ¿Llegas al aeropuerto?</Text>
+                    <Text style={{ fontSize: tipografia.micro, color: colors.textSecondary, marginTop: espaciado.e3, lineHeight: 15 }}>
+                      Pide un taxi {airport.label} → {hotel?.name}
+                      {airport.priceFromXaf !== null && airport.priceToXaf !== null
+                        ? ` · desde ${xaf(airport.priceFromXaf)} hasta ${xaf(airport.priceToXaf)}`
+                        : ''}
+                    </Text>
+                    <Pressable
+                      onPress={() => router.push({
+                        pathname: '/taxi',
+                        params: {
+                          city: airport.city ?? hotel?.city ?? '',
+                          oLat: String(airport.lat), oLng: String(airport.lng), oLabel: airport.label,
+                          dLat: String(arrival?.lat ?? ''), dLng: String(arrival?.lng ?? ''),
+                          dLabel: hotel?.name ?? '',
+                        },
+                      } as never)}
+                      accessibilityRole="button"
+                      accessibilityLabel="Pedir un taxi desde el aeropuerto hasta el hotel"
+                      style={[styles.botonLinea, { borderColor: alpha(ACCENT, 0.5), backgroundColor: alpha(ACCENT, 0.10) }]}
+                    >
+                      <Car size={14} color={ACCENT} />
+                      <Text style={[styles.botonLineaTxt, { color: colors.text.primary }]}>Pedir taxi al hotel</Text>
+                    </Pressable>
+                  </View>
+                ) : null}
+                {hotel?.description ? (
+                  <Text style={[styles.dato, { color: colors.textPrimary }]}>{hotel.description}</Text>
+                ) : null}
+
+                {(hotel?.amenities ?? []).length ? (
+                  <View style={styles.servicios}>
+                    {(hotel?.amenities ?? []).map((a) => (
+                      <View key={a} style={[styles.servicio, { borderColor: colors.border, backgroundColor: colors.surface }]}>
+                        <Text style={[styles.servicioTxt, { color: colors.textPrimary }]}>{nombreServicio(a)}</Text>
+                      </View>
+                    ))}
+                  </View>
+                ) : null}
+
+                {/*
+                  ── CON QUÉ MONEDA SE VEN LOS PRECIOS ─────────────────────────────────────
+                  El precio real, y el que se cobra, es en XAF (en efectivo, al llegar al hotel). Esto
+                  solo cambia CÓMO SE ENSEÑA, para que quien reserva desde fuera sepa cuánto es.
+
+                  Va al FINAL del bloque informativo y no en medio de la lista de habitaciones, que es
+                  donde estaba: un selector de moneda partiendo la lista de precios obliga a leerlo antes
+                  de ver el primer cuarto, y no es eso lo que se viene a mirar aquí.
+                */}
+                <View style={{ gap: espaciado.e6, marginTop: espaciado.e6 }}>
+                  <Pressable
+                    onPress={() => setElegirMoneda((v) => !v)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Elegir el país para ver los precios en su moneda"
+                    style={[styles.botonLinea, { borderColor: colors.border, backgroundColor: colors.surface, alignSelf: 'flex-start' }]}
+                  >
+                    <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>
+                      {fx && !fx.esMonedaDelCobro
+                        ? `${fx.countryLabel ?? fx.currency} · ${fx.symbol}`
+                        : '💱 Ver los precios en otra moneda'}
+                    </Text>
+                  </Pressable>
+                  {fx && !fx.esMonedaDelCobro ? (
+                    <Text style={[styles.sub, { color: colors.textSecondary }]}>
+                      Equivalencia orientativa al cambio del {fx.updatedAt ? shortDate(String(fx.updatedAt).slice(0, 10)) : '—'}.
+                      El pago es en XAF (francos), en efectivo al llegar.
+                    </Text>
+                  ) : null}
+                  {elegirMoneda ? (
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e6 }}>
+                      {paises.length === 0 ? (
+                        <Text style={[styles.sub, { color: colors.textSecondary }]}>Cargando países…</Text>
+                      ) : (
+                        paises.map((p) => (
+                          <Pressable
+                            key={p.code}
+                            onPress={() => { setElegirMoneda(false); setPais(p.code); void setPaisElegido(p.code); }}
+                            accessibilityRole="button"
+                            accessibilityLabel={`Ver los precios desde ${p.label} (${p.currency})`}
+                            style={[styles.botonLinea, {
+                              borderColor: pais === p.code ? colors.secondary : colors.border,
+                              backgroundColor: pais === p.code ? alpha(colors.secondary, 0.12) : colors.surface,
+                            }]}
+                          >
+                            <Text style={[styles.botonLineaTxt, { color: colors.textPrimary }]}>{p.label} · {p.currency}</Text>
+                          </Pressable>
+                        ))
+                      )}
+                    </View>
+                  ) : null}
+                </View>
+
+                {(hotel?.paymentMethods ?? []).length ? (
                   <Text style={[styles.sub, { color: colors.textSecondary }]}>
-                    Se enseñan las {resenas.items.length} más recientes de {resenas.total}.
+                    Formas de pago:{' '}
+                    {(hotel?.paymentMethods ?? [])
+                      .map((m) => (typeof m === 'string' ? m : m.method))
+                      .map((m) => ({ transfer: 'transferencia', in_store: 'en recepción', billing: 'facturación',
+                        deposit: 'señal', cash_on_delivery: 'contra entrega', likebook_wallet: 'monedero' }[m] ?? m))
+                      .join(' · ')}
                   </Text>
                 ) : null}
-              </>
-            )}
-          </View>
-          </View>
+                {hotel?.houseRules ? (
+                  <Text style={[styles.sub, { color: colors.textSecondary }]}>Normas: {hotel.houseRules}</Text>
+                ) : null}
+                {hotel?.cancellationPolicy ? (
+                  <Text style={[styles.sub, { color: colors.textSecondary }]}>Cancelación: {hotel.cancellationPolicy}</Text>
+                ) : null}
+              </View>
+            </View>
+          )}
+
         </ScrollView>
       )}
 
@@ -634,7 +697,7 @@ const styles = StyleSheet.create({
   botonLineaTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   /** Aviso con borde (Al llegar / taxi): información que el huésped necesita, sin gritar. */
   aviso: { borderWidth: trazo.fino, borderRadius: radios.chip, padding: espaciado.e10, marginTop: espaciado.e8 },
-  /** La nota del alojamiento en la cabecera: pastilla pulsable que baja a las reseñas. */
+  /** La nota del alojamiento: pastilla pulsable que cambia a la pestaña de reseñas. */
   notaChip: {
     flexDirection: 'row', alignItems: 'center', gap: espaciado.e6, alignSelf: 'flex-start',
     borderWidth: trazo.fino, borderRadius: radios.chip,
@@ -651,4 +714,8 @@ const styles = StyleSheet.create({
   resenaTexto: { fontSize: tipografia.body, lineHeight: 20 },
   respuesta: { borderWidth: trazo.fino, borderRadius: radios.chip, padding: espaciado.e10, marginTop: espaciado.e6, gap: espaciado.e3 },
   respuestaEtq: { fontSize: tipografia.micro, fontWeight: peso.maximo },
+  // ── D8: barra de pestañas de la ficha ──
+  tabBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e16, paddingHorizontal: espaciado.e14, paddingVertical: espaciado.e4, borderBottomWidth: trazo.fino },
+  tabBtn: { paddingVertical: espaciado.e8, borderBottomWidth: trazo.fuerte, borderBottomColor: 'transparent', minWidth: 80, alignItems: 'center' },
+  tabTxt: { fontSize: tipografia.body },
 });

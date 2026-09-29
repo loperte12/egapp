@@ -73,10 +73,18 @@ di(!/hotel\.rating\s*\?/.test(cardCod), 'y NO queda la condicion vieja por el va
 const det = fuentes['app/lifebook-hotel-detalle.tsx'];
 di(/resenas\.publishesRating === true/.test(det), 'la ficha respeta publishesRating del servidor (D2)');
 di(/Reseñas \(\$\{resenas\.total\}\)/.test(det), 'la seccion existe y lleva el total');
-di(/setYResenas|yContenido \+ yResenas/.test(det), 'la nota de la cabecera baja a la seccion (D1)');
-const iHab = det.indexOf('Habitaciones ({rooms.length})');
-const iRes = det.indexOf('onLayout={(e) => setYResenas');
-di(iHab > 0 && iRes > iHab, `la seccion de reseñas va DESPUES de las habitaciones (hab ${iHab} < res ${iRes})`);
+// D1 reescrita para D8 (28/09): con pestañas ya no hay scrollTo ni yResenas — el toque del chip
+// de nota cambia a la pestaña 'resenas'. El ancla es el Pressable del chip ({nota ? (...)}).
+di(/\{nota \? \(\s*<Pressable[\s\S]{0,60}setTab\('resenas'\)/.test(det),
+  'la nota de la cabecera cambia a la pestana de resenas (D1, reescrita para D8)');
+di(/Reseñas\{resenas && resenas\.total > 0/.test(det), 'el boton de la pestana lleva el total (D8)');
+di(/useState<'reservar' \| 'resenas' \| 'alojamiento'>\('reservar'\)/.test(det),
+  "tres pestanas y la por defecto es 'reservar', donde se decide la compra (D8)");
+const iReservar = det.indexOf("onPress={() => setTab('reservar')}");
+const iResenas = det.indexOf("onPress={() => setTab('resenas')}");
+const iAlojamiento = det.indexOf("onPress={() => setTab('alojamiento')}");
+di(iReservar > 0 && iResenas > iReservar && iAlojamiento > iResenas,
+  'las pestanas van en orden: Habitaciones -> Resenas -> El alojamiento (D8)');
 di(/colors\.text\.warning/.test(det) && /fill=\{nota\.publica \? colors\.text\.warning : 'transparent'\}/.test(det),
   'la estrella usa colors.text.warning y se rellena solo si la nota se publica (D3)');
 
