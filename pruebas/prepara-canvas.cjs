@@ -39,8 +39,13 @@ const fs = require('fs');
 const path = require('path');
 
 const RAIZ = path.resolve(__dirname, '..');
-const FUENTE = path.join(RAIZ, 'docs', 'UI-HOTEL-LISTADO.html');
-const SALIDA = path.join(RAIZ, 'docs', 'UI-HOTEL-LISTADO-canvas.html');
+// Uso: node pruebas/prepara-canvas.cjs [fuente] [salida]
+//      Sin argumentos: el listado (comportamiento historico).
+const NOMBRE = process.argv[2] || 'UI-HOTEL-LISTADO';
+const FUENTE = path.join(RAIZ, 'docs', NOMBRE + '.html');
+const SALIDA = process.argv[3]
+  ? path.resolve(RAIZ, process.argv[3])
+  : path.join(RAIZ, 'docs', NOMBRE + '-canvas.html');
 
 const fuente = fs.readFileSync(FUENTE, 'utf8');
 
