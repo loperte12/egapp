@@ -25,16 +25,18 @@
  *   · Scroll único con secciones etiquetadas + galería fija + barra inferior fija (72 px).
  *   · SELECCIÓN de habitación (toque en la tarjeta la marca; «Reservar ahora» usa la marcada).
  *   · Resumen de opiniones con la nota grande y avatar con inicial en cada reseña.
+ *   · «Contactar alojamiento» (01-oct): el detalle del hotel trae `ownerId` y el motor de chat de
+ *     Life Book es genérico (`POST /lifebook/chat/open { userId }` → `lifebook-chat/[id]`, el mismo
+ *     hilo que el hotelero ve en su bandeja). Sin ownerId el botón no se ofrece.
+ *   · «Escribir opinión» (01-oct): la ficha descubre las estancias terminadas de ESTE hotel con
+ *     `reservations/mine` (`status checked_out` + `reviewId null` — el servidor ya marca cuáles
+ *     tienen reseña) y abre `lifebook-hotel-resena` con la reserva elegida. El permiso sigue
+ *     siendo del SERVIDOR: la ficha solo deja de ofrecer lo imposible.
+ *   · Barras por dimensión (01-oct): el servidor con la migración `027` manda las medias
+ *     (limpieza/servicio/ubicación/instalaciones) en la página de reseñas. Se pintan SOLO si
+ *     vienen, con la misma regla de publicación que la nota global ([D-K]).
  *
  * QUÉ SE CAE DEL DISEÑO, Y POR QUÉ (sin controles que mienten):
- *   · «Contactar alojamiento»: NO existe chat huésped↔hotel en el backend (las rutas del módulo
- *     son search/hotel/rooms/calendar/reviews/reserve/…). Entra cuando se integre `chat.html`
- *     con su servidor. `lifebook-chat/[id]` es el hilo social de Life Book, no esto.
- *   · «Escribir opinión» + hoja con sliders por dimensión: la puerta la cierra el SERVIDOR
- *     (estancia terminada, se entra desde Mis reservas → `lifebook-hotel-resena`). Un botón aquí
- *     prometería escribir a quien no puede.
- *   · Barras por dimensión (Limpieza/Servicio/Ubicación/Instalaciones): `hotel_reviews` sólo
- *     trae rating y texto; pintar barras sería inventarlas.
  *   · Distancia «a X km»: sin punto de referencia en la ficha (el GPS es del huésped, no del hotel).
  *   · «Kit ›»: artefacto del prototipo.
  */
@@ -45,7 +47,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { alpha, brand, espaciado, peso, Precio, radios, tipografia, trazo, trazoIcono, useTheme } from '@egrouteplan/ui-kit';
-import { BadgeCheck, Car, MapPin, Navigation, Star } from 'lucide-react-native';
+import { BadgeCheck, Car, MapPin, MessageCircle, Navigation, PencilLine, Star } from 'lucide-react-native';
 import { PhotoGallery } from '../components/PhotoGallery';
 import { HotelGuestsSheet } from '../components/hotel/HotelGuestsSheet';
 import { HotelDateBar } from '../components/hotel/HotelDateRange';
@@ -53,16 +55,27 @@ import { HotelRoomCard } from '../components/hotel/HotelRoomCard';
 import { nombreServicio } from '../components/hotel/servicios';
 import {
   hotelApi, type HotelProfile, type HotelRoom, type HotelFx, type HotelArrival, type HotelAirport,
-  type HotelReview, type HotelReviewsPage,
+  type HotelReview, type HotelReviewsPage, type Reservation,
 } from '../api/hotel';
+import { lifebookChatApi } from '../api/lifebook';
 import { ApiError } from '../api/httpClient';
 import { absUrl } from '../api/config';
 import { nightsBetween, shortDate, xaf } from '../utils/datetime';
 import { abrirMapa } from '../utils/maps';
 import { getPaisParaPrecios, setPaisElegido } from '../utils/region';
+import { useSession } from '../state/session';
 
 /** Acento del marketplace (naranja), como en el resto del flujo de servicios. */
 const ACCENT = brand.primary;
+
+/** Las dimensiones del desglose (027), en el orden del servidor. Las barras de la ficha y las
+ *  estrellas de la pantalla de reseña comparten las MISMAS etiquetas: una sola nomenclatura. */
+const DIMENSIONES = [
+  { key: 'cleanliness', label: 'Limpieza' },
+  { key: 'service', label: 'Servicio' },
+  { key: 'location', label: 'Ubicación' },
+  { key: 'facilities', label: 'Instalaciones' },
+] as const;
 
 const TIPOS: Record<string, string> = {
   hotel: 'Hotel', hostal: 'Hostal', guest_house: 'Casa de huéspedes',
@@ -114,6 +127,16 @@ export default function HotelDetalleScreen() {
   const [resenas, setResenas] = useState<HotelReviewsPage | null>(null);
   const [verTodas, setVerTodas] = useState(false);
 
+  // ── CHAT Y OPINIÓN (los tres puntos del 快搭, con backend real) ───────────────
+  // `ownerId`: el dueño de la tienda (el detalle del hotel lo trae). Sin él no se ofrece
+  // «Contactar» — no hay a quién escribirle, y adivinarlo no es opción.
+  const [ownerId, setOwnerId] = useState<string | null>(null);
+  const [contactando, setContactando] = useState(false);
+  // Las estancias terminadas de ESTE hotel sin reseña escrita: la materia del «Escribir opinión».
+  // `null` = todavía sin saber (o sin sesión): el botón no se pinta hasta que el servidor diga.
+  const [elegibles, setElegibles] = useState<Reservation[] | null>(null);
+  const { isAuthenticated } = useSession();
+
   const scrollRef = useRef<ScrollView>(null);
   const yResenas = useRef(0);
 
@@ -127,6 +150,8 @@ export default function HotelDetalleScreen() {
       setFx(out.fx ?? null);
       setArrival(out.arrival ?? null);
       setAirport(out.airport ?? null);
+      // El dueño, para el chat. `null` en respuestas de un servidor sin el parche: sin botón.
+      setOwnerId(out.ownerId ?? null);
     } catch (e) {
       setError(e instanceof ApiError ? e.message : 'No se pudo cargar el alojamiento.');
     } finally {
@@ -135,6 +160,26 @@ export default function HotelDetalleScreen() {
   }, [shopId, pais]);
 
   useEffect(() => { void cargar(); }, [cargar]);
+
+  // Las estancias elegibles para opinar, cuando hay sesión. La regla no se duplica: el SERVIDOR
+  // marca cada reserva con `reviewId` (null = sin reseña) y `status checked_out`; aquí solo se
+  // filtra lo que él ya decidió. Si `mine()` falla (token caducado, red), el botón no sale —
+  // es un atajo, no un requisito de la ficha.
+  useEffect(() => {
+    if (!isAuthenticated || !shopId) { setElegibles(null); return; }
+    let vivo = true;
+    void hotelApi.mine('guest')
+      .then((r) => {
+        if (!vivo) return;
+        const sinResena = (r.reservations ?? [])
+          .filter((x) => x.hotel?.id === shopId && x.status === 'checked_out' && !x.reviewId)
+          // La más reciente primero: si hay varias sin reseñar, se propone la última salida.
+          .sort((a, b) => String(b.checkOut).localeCompare(String(a.checkOut)));
+        setElegibles(sinResena);
+      })
+      .catch(() => { if (vivo) setElegibles(null); });
+    return () => { vivo = false; };
+  }, [isAuthenticated, shopId]);
 
   // Las reseñas, una vez por alojamiento.
   useEffect(() => {
@@ -190,6 +235,49 @@ export default function HotelDetalleScreen() {
       },
     } as never);
   }, [router, shopId, hotel?.name, checkIn, checkOut, huespedes, habitaciones]);
+
+  // ── CONTACTAR (chat huésped↔hotel) ──────────────────────────────────────────
+  // Abre (o encuentra) el hilo direct con el dueño y entra en `lifebook-chat/[id]`: la MISMA
+  // pantalla que el chat del pedido, porque es el mismo motor y el mismo hilo que el hotelero
+  // ya tiene en su bandeja. El `draft` solo prellena el primer mensaje — se puede borrar.
+  const contactar = useCallback(async () => {
+    if (!ownerId || contactando) return;
+    setContactando(true);
+    try {
+      const conv = await lifebookChatApi.open(ownerId);
+      router.push({
+        pathname: '/lifebook-chat/[id]',
+        params: {
+          id: conv.id,
+          name: hotel?.name ?? 'Alojamiento',
+          peerId: ownerId,
+          draft: 'Hola, tengo una pregunta sobre este alojamiento…',
+        },
+      } as never);
+    } catch {
+      // Sin chat no se insiste ni se rompe la ficha: el botón vuelve a estar disponible.
+    } finally {
+      setContactando(false);
+    }
+  }, [ownerId, contactando, hotel?.name, router]);
+
+  // ── ESCRIBIR OPINIÓN (atajo desde la ficha) ─────────────────────────────────
+  // La puerta del servidor no cambia: estancia terminada, una reseña por estancia. La ficha solo
+  // lleva a `lifebook-hotel-resena` con la estancia ya elegida (la más reciente sin reseñar); el
+  // camino completo —revisar cada estancia desde Mis reservas— sigue siendo el camino principal.
+  const escribirResena = useCallback(() => {
+    const estancia = elegibles?.[0];
+    if (!estancia) return;
+    router.push({
+      pathname: '/lifebook-hotel-resena',
+      params: {
+        reservationId: estancia.id,
+        shopId,
+        shopName: hotel?.name ?? '',
+        ...(estancia.roomName ? { roomName: estancia.roomName } : {}),
+      },
+    } as never);
+  }, [elegibles, shopId, hotel?.name, router]);
 
   if (cargando) {
     return (
@@ -297,6 +385,45 @@ export default function HotelDetalleScreen() {
                   : `${nota.total} reseña${nota.total === 1 ? '' : 's'} · sin nota publicada aún`}
               </Text>
             </Pressable>
+          ) : null}
+
+          {/*
+            LOS TRES PUNTOS DEL DISEÑO (01-oct): cada botón SOLO cuando el backend lo sostiene.
+            · Contactar: el detalle trajo `ownerId`. Sin dueño no hay a quién escribirle.
+            · Escribir opinión: el servidor devolvió estancias terminadas sin reseña. Si no hay
+              (o no hay sesión, o aún no se sabe), no se pinta — un botón que promete escribir a
+              quien no puede miente.
+          */}
+          {ownerId || (elegibles?.length ?? 0) > 0 ? (
+            <View style={styles.filaAcciones}>
+              {ownerId ? (
+                <Pressable
+                  onPress={() => void contactar()}
+                  disabled={contactando}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Escribir al alojamiento ${hotel?.name ?? ''}`}
+                  style={[styles.accion, { borderColor: colors.border, backgroundColor: colors.surface, opacity: contactando ? 0.6 : 1 }]}
+                >
+                  <MessageCircle size={16} color={colors.text.primary} strokeWidth={trazoIcono.base} />
+                  <Text style={[styles.accionTxt, { color: colors.text.primary }]}>
+                    {contactando ? 'Abriendo…' : 'Contactar'}
+                  </Text>
+                </Pressable>
+              ) : null}
+              {(elegibles?.length ?? 0) > 0 ? (
+                <Pressable
+                  onPress={escribirResena}
+                  accessibilityRole="button"
+                  accessibilityLabel="Escribir tu opinión de tu estancia"
+                  style={[styles.accion, { borderColor: colors.border, backgroundColor: colors.surface }]}
+                >
+                  <PencilLine size={16} color={colors.text.primary} strokeWidth={trazoIcono.base} />
+                  <Text style={[styles.accionTxt, { color: colors.text.primary }]}>
+                    Escribir opinión{elegibles && elegibles.length > 1 ? ' (tu última estancia)' : ''}
+                  </Text>
+                </Pressable>
+              ) : null}
+            </View>
           ) : null}
 
           {hotel?.description ? (
@@ -551,6 +678,39 @@ export default function HotelDetalleScreen() {
                 ) : null}
               </View>
 
+              {/*
+                BARRAS POR DIMENSIÓN (027): sólo si el servidor las manda Y publica la nota
+                ([D-K], la misma regla que la media global — el desglose no es más fácil de
+                publicar que la nota). Una dimensión sin datos no dibuja una barra vacía
+                fingiendo ser un dato: sencillamente no sale.
+              */}
+              {resenas.publishesRating && resenas.dimensions ? (
+                <View style={[styles.dims, { borderColor: colors.border, backgroundColor: colors.card }]}>
+                  {DIMENSIONES.map((d) => {
+                    const dim = resenas.dimensions?.[d.key];
+                    if (!dim || dim.count === 0 || dim.average === null) return null;
+                    return (
+                      <View key={d.key} style={styles.dimFila}>
+                        <Text style={[styles.dimEtiqueta, { color: colors.textSecondary }]} numberOfLines={1}>
+                          {d.label}
+                        </Text>
+                        <View style={styles.dimBarra}>
+                          <View
+                            style={[styles.dimBarraLlena, {
+                              backgroundColor: colors.text.warning,
+                              width: `${Math.round((dim.average / 5) * 100)}%`,
+                            }]}
+                          />
+                        </View>
+                        <Text style={[styles.dimNota, { color: colors.textPrimary }]}>
+                          {dim.average.toFixed(1).replace('.', ',')}
+                        </Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              ) : null}
+
               {(verTodas ? resenas.items : resenas.items.slice(0, 5)).map((r) => (
                 <Resena key={r.id} r={r} />
               ))}
@@ -683,6 +843,14 @@ const styles = StyleSheet.create({
   filaPin: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 },
   filaNota: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e6 },
   notaMedia: { fontSize: tipografia.cuerpo, fontWeight: peso.maximo },
+  // Los dos atajos de la cabecera (chat + opinión): mitad y mitad, con borde, no primarios —
+  // la acción principal de esta pantalla es reservar y lo dice la barra de abajo.
+  filaAcciones: { flexDirection: 'row', gap: espaciado.e8, marginTop: espaciado.e10 },
+  accion: {
+    flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: espaciado.e6,
+    borderWidth: trazo.fino, borderRadius: radios.chip, paddingVertical: espaciado.e8,
+  },
+  accionTxt: { fontSize: tipografia.caption, fontWeight: peso.fuerte },
   sub: { fontSize: tipografia.caption },
   dato: { fontSize: tipografia.body, lineHeight: 21 },
   // Habitaciones seleccionables.
@@ -706,6 +874,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e10,
   },
   resumenNota: { fontSize: 40, fontWeight: peso.maximo, lineHeight: 44 },
+  // Barras por dimensión (027): etiqueta fija a la izquierda, barra elástica en medio, cifra a la
+  // derecha. La barra vacía nunca se dibuja: sin datos, la fila no sale.
+  dims: { borderWidth: trazo.fino, borderRadius: radios.panel, padding: espaciado.e12, gap: espaciado.e10, marginTop: espaciado.e8 },
+  dimFila: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e8 },
+  dimEtiqueta: { width: 92, fontSize: tipografia.caption },
+  dimBarra: { flex: 1, height: 6, borderRadius: 3, overflow: 'hidden' },
+  dimBarraLlena: { height: 6, borderRadius: 3 },
+  dimNota: { width: 30, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'right' },
   // Una reseña.
   resena: { borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e10, gap: espaciado.e6 },
   resenaCab: { flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e8 },

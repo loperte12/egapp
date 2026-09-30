@@ -409,6 +409,10 @@ export class LifebookHotelService {
         paymentMethods: pay.map((m) => m.method),
         roomCount: rooms.length,
       }),
+      // El dueño de la tienda, para que la ficha pueda abrir el chat huésped↔alojamiento con el
+      // motor existente (`POST /lifebook/chat/open { userId }`). Sin dueño (no debería pasar en
+      // un hotel activo) la app no ofrece el botón en vez de fallar al pulsarlo.
+      ownerId: shop.owner_id === null || shop.owner_id === undefined ? null : String(shop.owner_id),
       // Cada habitación con su precio REAL en XAF y, si se sabe el país del huésped, su equivalente
       // en la moneda de ese país. `pricePerNightLocal` en null = no hay tipo de cambio para ese país
       // (la app no pinta nada en vez de inventarse una cifra).
@@ -1459,11 +1463,32 @@ export class LifebookHotelService {
        ORDER BY r.created_at DESC
        LIMIT ${limit} OFFSET ${offset}`;
 
+    // Medias por dimensión (027), calculadas AL VUELO y sin espejo: el desglose solo se lee en la
+    // ficha (una petición por hotel), no en la búsqueda por tarjeta, así que el coste es barato y
+    // no se crea un segundo sitio donde el número se puede quedar viejo (cabecera de la 027).
+    // `avg()` ignora los NULL: nulo = nadie puntúó esa dimensión, no «cero».
+    const dim: any[] = await this.db.$queryRaw`
+      SELECT avg(cleanliness)::numeric(3,2) AS clean_avg, count(cleanliness) AS clean_n,
+             avg(service)::numeric(3,2)     AS serv_avg,  count(service)     AS serv_n,
+             avg(location)::numeric(3,2)    AS loc_avg,   count(location)    AS loc_n,
+             avg(facilities)::numeric(3,2)  AS fac_avg,   count(facilities)  AS fac_n
+        FROM lifebook.hotel_reviews
+       WHERE shop_id = ${shopId}::uuid`;
+    const d = dim[0] ?? {};
+
     return {
       total: Number(shops[0].hotel_rating_count ?? 0),
       average: Number(shops[0].hotel_rating ?? 0),
       /** [D-K]: por debajo de tres reseñas, la ficha las enseña SIN cifra. */
       publishesRating: notaPublicada(shops[0].hotel_rating_count),
+      // Cada dimensión lleva su `count`: la app distingue «nadie puntúó esto» de una media real,
+      // y decide enseñarla (regla del servicio, como la global).
+      dimensions: {
+        cleanliness: { average: d.clean_avg === null ? null : Number(d.clean_avg), count: Number(d.clean_n ?? 0) },
+        service: { average: d.serv_avg === null ? null : Number(d.serv_avg), count: Number(d.serv_n ?? 0) },
+        location: { average: d.loc_avg === null ? null : Number(d.loc_avg), count: Number(d.loc_n ?? 0) },
+        facilities: { average: d.fac_avg === null ? null : Number(d.fac_avg), count: Number(d.fac_n ?? 0) },
+      },
       limit,
       offset,
       items: items.map((r) => ({
@@ -1485,7 +1510,7 @@ export class LifebookHotelService {
    *   3. la estancia ya TERMINÓ (`checked_out`): valorar una estancia en curso es valorar una promesa.
    * Después, el `unique` de la base cierra la cuarta: una reseña por estancia, para siempre.
    */
-  async createReview(userId: string, shopIdRaw: string, dto: { reservationId?: unknown; rating?: unknown; body?: unknown }) {
+  async createReview(userId: string, shopIdRaw: string, dto: { reservationId?: unknown; rating?: unknown; body?: unknown; cleanliness?: unknown; service?: unknown; location?: unknown; facilities?: unknown }) {
     const shopId = this.uuid(shopIdRaw, 'Hotel');
     const reservationId = this.uuid(dto.reservationId, 'Reserva');
     const rating = this.int(dto.rating, 1, 5, 'Nota') as number;
@@ -1493,6 +1518,14 @@ export class LifebookHotelService {
     const texto = dto.body === undefined || dto.body === null || String(dto.body).trim() === ''
       ? null
       : this.clean(dto.body, 600);
+    // Las dimensiones (027) son OPCIONALES igual que el texto: el desglose amplía el juicio, no lo
+    // condiciona. Cada campo valida su escala y su nombre en el error — «Limpieza», no «campo».
+    const dimension = (v: unknown, etiqueta: string): number | null =>
+      v === undefined || v === null ? null : (this.int(v, 1, 5, etiqueta) as number);
+    const limpieza = dimension(dto.cleanliness, 'Limpieza');
+    const servicio = dimension(dto.service, 'Servicio');
+    const ubicacion = dimension(dto.location, 'Ubicación');
+    const instalaciones = dimension(dto.facilities, 'Instalaciones');
 
     const estancias: any[] = await this.db.$queryRaw`
       SELECT id, shop_id, status FROM lifebook.reservations
@@ -1511,15 +1544,22 @@ export class LifebookHotelService {
     try {
       return await this.db.$transaction(async (tx: any) => {
         const filas: any[] = await tx.$queryRaw`
-          INSERT INTO lifebook.hotel_reviews (reservation_id, shop_id, guest_id, rating, body)
-          VALUES (${reservationId}::uuid, ${shopId}::uuid, ${userId}::uuid, ${rating}, ${texto})
-          RETURNING id, rating, body, created_at`;
+          INSERT INTO lifebook.hotel_reviews (reservation_id, shop_id, guest_id, rating, body, cleanliness, service, location, facilities)
+          VALUES (${reservationId}::uuid, ${shopId}::uuid, ${userId}::uuid, ${rating}, ${texto},
+                  ${limpieza}, ${servicio}, ${ubicacion}, ${instalaciones})
+          RETURNING id, rating, body, cleanliness, service, location, facilities, created_at`;
         const espejo = await this.reflejarNotas(tx, shopId);
         return {
           review: {
             id: filas[0].id,
             rating: Number(filas[0].rating),
             body: filas[0].body ?? null,
+            // Lo escrito se devuelve tal cual: la pantalla de confirmación puede enseñar el
+            // desglose sin segunda petición. null = esa dimensión no se puntúó.
+            cleanliness: filas[0].cleanliness === null ? null : Number(filas[0].cleanliness),
+            service: filas[0].service === null ? null : Number(filas[0].service),
+            location: filas[0].location === null ? null : Number(filas[0].location),
+            facilities: filas[0].facilities === null ? null : Number(filas[0].facilities),
             reply: null,
             repliedAt: null,
             createdAt: filas[0].created_at,

@@ -5,6 +5,8 @@
  * El permiso de escribir una reseña no es la compra: es la ESTANCIA. Así que la puerta está donde
  * está la estancia —«Mis reservas»— y no en la ficha, que la ve cualquiera. El servidor lo impone
  * igual (tuya, de ese alojamiento, ya `checked_out`); esta pantalla solo no ofrece lo imposible.
+ * (La ficha SÍ lleva hoy un atajo: descubre las estancias terminadas y abre aquí con la reserva
+ * ya elegida — la puerta del servidor sigue siendo esta misma.)
  *
  * LAS TRES COSAS QUE DICE Y NO SE PUEDEN DEDUCIR SOLAS
  *   · el texto es OPCIONAL: una reseña de solo estrellas es una reseña (así lo decidió `026`);
@@ -12,6 +14,11 @@
  *     Se dice con el plazo real del servidor, no con uno inventado aquí (`REVIEWS_DELETE_DAYS`);
  *   · la nota del alojamiento no sale con la primera reseña: se publica a partir de la tercera
  *     ([D-K]). Sin eso, alguien escribe una estrella, no la ve publicada y cree que falló.
+ *
+ * EL DESGLOSE POR DIMENSIONES (027) ES UNA AMPLIACIÓN, NO UNA CONDICIÓN
+ * Limpieza/servicio/ubicación/instalaciones, cada una con sus estrellas y todas OPCIONALES: el
+ * servidor (migración `027`) las acepta a null y la ficha solo pinta las barras de las que tengan
+ * datos. Exigir las cuatro sería convertir «¿cómo fue?» en un formulario.
  *
  * EL CONTROL DE ESTRELLAS ES EL DEL KIT (`Estrellas`): la cascada al elegir y `role="radio"` por
  * estrella. Escribir aquí un quinto selector a mano sería volver a tener cinco.
@@ -35,6 +42,14 @@ const MAX_TEXTO = 600;
 /** La palabra de cada nota: el color y el relleno no son la única señal. */
 const ETIQUETA_NOTA = ['', 'Muy mal', 'Mal', 'Normal', 'Bien', 'Excelente'] as const;
 
+/** Las dimensiones del desglose (027), en el orden en que el servidor las lista. */
+const DIMENSIONES = [
+  { key: 'cleanliness', label: 'Limpieza' },
+  { key: 'service', label: 'Servicio' },
+  { key: 'location', label: 'Ubicación' },
+  { key: 'facilities', label: 'Instalaciones' },
+] as const;
+
 export default function HotelResenaScreen() {
   return (
     <AuthGate>
@@ -57,6 +72,8 @@ function Contenido() {
 
   const [nota, setNota] = useState(0);
   const [texto, setTexto] = useState('');
+  // El desglose (027): 0 = no puntúada. Solo las tocadas viajan al servidor; las demás van a null.
+  const [dims, setDims] = useState({ cleanliness: 0, service: 0, location: 0, facilities: 0 });
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -74,6 +91,12 @@ function Contenido() {
         // Se manda el texto solo si hay algo que mandar: el servidor lo trata como opcional, y
         // una cadena de espacios sería una reseña con «cuerpo» vacío.
         ...(texto.trim() ? { body: texto.trim() } : {}),
+        // Ídem el desglose: solo la dimensión que se tocó. Un 0 aquí significaría una estrella
+        // menos de las que la escala permite — el servidor recibiría un dato que no se eligió.
+        ...(dims.cleanliness > 0 ? { cleanliness: dims.cleanliness } : {}),
+        ...(dims.service > 0 ? { service: dims.service } : {}),
+        ...(dims.location > 0 ? { location: dims.location } : {}),
+        ...(dims.facilities > 0 ? { facilities: dims.facilities } : {}),
       });
       // Se vuelve a «Mis reservas», que ya refleja el cambio porque se refresca al recuperar el foco.
       router.back();
@@ -153,6 +176,24 @@ function Contenido() {
             </Text>
           </View>
 
+          {/* ── El desglose (027): amplía el juicio, no lo condiciona ── */}
+          <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.card }]}>
+            <Text style={[styles.pregunta, { color: colors.textPrimary }]}>
+              Desglosa tu nota (opcional)
+            </Text>
+            {DIMENSIONES.map((d) => (
+              <View key={d.key} style={styles.filaDim}>
+                <Text style={[styles.dimLabel, { color: colors.textSecondary }]}>{d.label}</Text>
+                <Estrellas
+                  valor={dims[d.key]}
+                  onElegir={(n) => setDims((prev) => ({ ...prev, [d.key]: n }))}
+                  tamano={26}
+                  queSeValora={`${d.label} de ${nombre}`}
+                />
+              </View>
+            ))}
+          </View>
+
           {/* ── Las reglas, antes de publicar y no después ── */}
           <View style={[styles.bloque, { borderColor: colors.border, backgroundColor: colors.surface }]}>
             <Text style={[styles.sub, { color: colors.textPrimary }]}>
@@ -197,6 +238,8 @@ const styles = StyleSheet.create({
   nombre: { fontSize: tipografia.anchoFuerte, fontWeight: peso.maximo },
   sub: { fontSize: tipografia.caption },
   pregunta: { fontSize: tipografia.cuerpo, fontWeight: peso.fuerte },
+  filaDim: { flexDirection: 'row', alignItems: 'center', marginTop: espaciado.e8 },
+  dimLabel: { width: 110, fontSize: tipografia.caption },
   input: {
     borderWidth: trazo.fino, borderRadius: radios.campo, padding: espaciado.e12,
     minHeight: 110, fontSize: tipografia.body, textAlignVertical: 'top',

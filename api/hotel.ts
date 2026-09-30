@@ -300,10 +300,23 @@ export interface HotelReview {
   id: string;
   rating: number;
   body: string | null;
+  /** El desglose opcional (027): limpieza/servicio/ubicación/instalaciones 1..5.
+   *  `null` = esa dimensión no se puntúó (reseñas viejas o escritas sin desglose). */
+  cleanliness?: number | null;
+  service?: number | null;
+  location?: number | null;
+  facilities?: number | null;
   reply: string | null;
   repliedAt: string | null;
   createdAt: string;
   guest: { id: string; name: string | null; avatarUrl: string | null };
+}
+
+/** La media de UNA dimensión. `count` distingue «nadie puntúó esto» de una media real:
+ *  la app no dibuja una barra vacía fingiendo que es un dato. */
+export interface HotelReviewDimension {
+  average: number | null;
+  count: number;
 }
 
 /**
@@ -320,6 +333,14 @@ export interface HotelReviewsPage {
   total: number;
   average: number;
   publishesRating: boolean;
+  /** Medias por dimensión (027). `dimensions?:` porque un servidor sin la migración no lo manda:
+   *  la ficha pinta las barras SOLO si viene. */
+  dimensions?: {
+    cleanliness: HotelReviewDimension;
+    service: HotelReviewDimension;
+    location: HotelReviewDimension;
+    facilities: HotelReviewDimension;
+  };
   limit: number;
   offset: number;
   items: HotelReview[];
@@ -429,6 +450,9 @@ export const hotelApi = {
     return http.get<{
       hotel: HotelProfile; rooms: HotelRoom[];
       fx: HotelFx | null; arrival: HotelArrival | null; airport: HotelAirport | null;
+      /** El dueño de la tienda, para abrir el chat con el alojamiento (`/lifebook/chat/open`).
+       *  `null` en respuestas de un servidor sin el parche: la app no ofrece el botón entonces. */
+      ownerId?: string | null;
     }>(`${BASE}/hotels/${shopId}${qs}`, false);
   },
 
@@ -491,7 +515,11 @@ export const hotelApi = {
    * `reservationId` dos veces no crea dos reseñas — el `unique` de la base responde 409
    * (`REVIEW_EXISTS`) y el mensaje ya lo explica.
    */
-  createReview(shopId: string, dto: { reservationId: string; rating: number; body?: string }) {
+  createReview(shopId: string, dto: {
+    reservationId: string; rating: number; body?: string;
+    /** Desglose opcional (027): el servidor las acepta todas a null. */
+    cleanliness?: number; service?: number; location?: number; facilities?: number;
+  }) {
     return http.post<HotelReviewMutation>(`${BASE}/hotels/${shopId}/reviews`, dto);
   },
 
