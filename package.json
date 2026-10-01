@@ -10,6 +10,7 @@
     "rutas": "node pruebas/auditar-rutas.cjs",
     "rutas:mapa": "node pruebas/generar-mapa-rutas.cjs",
     "diseno": "node pruebas/verifica-diseno.cjs",
+    "build": "expo export --platform web",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
