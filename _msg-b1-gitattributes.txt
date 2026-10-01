@@ -1,0 +1,17 @@
+B · B-1 (1/2): blindar los terminadores de las migraciones
+
+`backend/sql/**` no estaba sujeto a `.gitattributes`, y este repo tiene
+`core.autocrlf=true`. Medido el 27-sep-2026 en un repo desechable, con dos
+ficheros byte-identicos en LF (sha256 061e995a...):
+
+  - sin atributo, tras un checkout limpio -> CRLF, sha256 2674985e...
+  - con `-text`,                          -> LF,   sha256 061e995a...
+
+Una migracion se aplica al servidor y se verifica POR HUELLA. Sin esto, el
+fichero que entra al repo sale con otra huella que la que se aplico, y el acta
+afirmaria algo que un clon no reproduce: versionar de mentira.
+
+Es la misma solucion que ya se uso para `backend/server-src/**`.
+
+Linea base comprobada antes de escribir: los 20 ficheros .sql que ya estaban
+en el repo, 0 bytes CR y 0 con BOM.

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Banco de micro-interacciones — EG Route Plan</title>
+<style>
+:root{
+  --bg:#101014; --sup:#18181B; --sup2:#1F1F24; --borde:#2E2E34; --borde2:#4A4A52;
+  --txt:#F2F3F5; --txt2:#AAAEB7; --txt3:#7C828F;
+  --acento:#5FA9EE; --ok:#5DCAA5; --aviso:#EF9F27; --peligro:#F09595;
+  --curva:cubic-bezier(.33,1,.68,1); --muelle:cubic-bezier(.34,1.6,.64,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--txt);font:400 14px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:20px 16px 48px}
+h1{font-size:15px;font-weight:500;margin:0 0 4px}
+h2{font-size:13px;font-weight:500;margin:0 0 2px}
+.sub{font-size:12px;color:var(--txt2);margin:0}
+.pie{font-size:12px;color:var(--txt3);margin:12px 0 0;line-height:1.5}
+header.cab{max-width:760px;margin:0 auto 20px;display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+header.cab .txt{flex:1 1 320px;min-width:0}
+button{font:inherit;color:inherit;cursor:pointer}
+.grid{max-width:760px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:12px}
+.card{background:var(--sup);border:1px solid var(--borde);border-radius:16px;padding:14px;min-width:0}
+.row{display:flex;align-items:center;gap:10px;margin-top:12px}
+.aviso-rm{background:var(--sup);border:1px solid var(--borde);border-radius:12px;padding:8px 12px;font-size:12px;color:var(--txt2)}
+.aviso-rm[aria-pressed="true"]{border-color:var(--aviso);color:var(--aviso)}
+.switch{width:56px;height:32px;border-radius:999px;border:1px solid var(--borde2);background:var(--sup2);position:relative;padding:0;flex:0 0 auto;transition:background .18s var(--curva),transform .12s var(--curva)}
+.switch:active{transform:scale(.94)}
+.switch i{position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:var(--txt3);transition:transform .18s var(--curva),width .12s var(--curva),background .18s}
+.switch:active i{width:28px}
+.switch[aria-pressed="true"]{background:var(--acento);border-color:var(--acento)}
+.switch[aria-pressed="true"] i{transform:translateX(24px);background:#fff}
+.rails{margin-top:12px;display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--txt3)}
+.rail{display:flex;align-items:center;gap:8px}
+.rail i{width:44px;height:6px;border-radius:3px;flex:0 0 auto}
+.check{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--borde2);background:transparent;padding:0;display:grid;place-items:center;flex:0 0 auto;transition:background .18s var(--curva),border-color .18s var(--curva),transform .12s var(--muelle)}
+.check:active{transform:scale(.9)}
+.check svg{opacity:0;transform:scale(.5);transition:opacity .16s,transform .18s var(--muelle)}
+.check[aria-pressed="true"]{background:var(--acento);border-color:var(--acento)}
+.check[aria-pressed="true"] svg{opacity:1;transform:scale(1)}
+.jr{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.jrrow{width:100%;text-align:left;border:1.5px solid var(--borde);background:var(--sup2);border-radius:12px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;transition:border-color .18s var(--curva),background .18s var(--curva),transform .12s var(--muelle)}
+.jrrow:active{transform:scale(.97)}
+.jrrow[aria-pressed="true"]{border-color:var(--acento);background:#16203a}
+.jrrow span{font-size:12px;color:var(--txt2)}
+.gsb{width:100%;margin-top:12px;text-align:left;border:1.5px solid var(--borde);background:var(--sup2);border-radius:12px;padding:9px 11px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.gsb svg{transition:transform .18s var(--curva)}
+.gsb[aria-expanded="true"] svg{transform:rotate(180deg)}
+.gso{display:none;margin-top:6px;border:1px solid var(--borde);border-radius:12px;overflow:hidden}
+.gso.abierto{display:block}
+.gso button{width:100%;text-align:left;border:0;background:transparent;padding:9px 11px;font-size:13px;border-bottom:1px solid var(--borde)}
+.gso button:last-child{border-bottom:0}
+.gso button[aria-pressed="true"]{color:var(--acento)}
+.hb{position:relative;width:52px;height:52px;flex:0 0 auto;user-select:none;cursor:pointer}
+.hb svg{position:absolute;inset:0}
+.hb b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500}
+.hb b.tarde{color:var(--ok)}
+.sc{position:relative;height:48px;margin-top:12px;border-radius:999px;border:1px solid var(--borde);background:var(--sup2);overflow:hidden;user-select:none;touch-action:none}
+.sc u{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--txt3);text-decoration:none}
+.sc i{position:absolute;left:4px;top:4px;width:40px;height:38px;border-radius:999px;background:var(--acento);display:grid;place-items:center;touch-action:none}
+.sc.hecho{border-color:var(--ok)}
+.sc.hecho i{background:var(--ok)}
+.tst{position:relative;height:86px;margin-top:12px}
+.tst .aviso{position:absolute;left:0;right:0;bottom:0;display:none;align-items:center;gap:8px;background:var(--sup2);border:1px solid var(--borde);border-radius:12px;padding:9px 11px;font-size:13px;touch-action:pan-y}
+.tst .aviso.visible{display:flex}
+.tst .aviso span{flex:1;min-width:0}
+.tst .aviso button{border:0;background:transparent;color:var(--acento);font-size:13px;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{font-size:12px;border:1px solid var(--borde);background:var(--sup2);border-radius:999px;padding:5px 10px;opacity:0;transform:translateY(6px);transition:opacity .32s var(--curva),transform .32s var(--curva)}
+.vp{border:0;border-radius:999px;background:var(--sup2);border:1px solid var(--borde2);padding:8px 14px;display:flex;align-items:center;gap:8px;font-size:13px;margin-top:12px}
+.vp[aria-pressed="true"]{background:var(--peligro);border-color:var(--peligro);color:#3A0E0E}
+.vp .ondas{display:none;align-items:center;gap:2px;height:14px}
+.vp[aria-pressed="true"] .ondas{display:flex}
+.vp[aria-pressed="true"] .micro{display:none}
+.ondas i{display:block;width:2px;height:14px;border-radius:1px;background:currentColor;animation:onda .9s ease-in-out infinite}
+@keyframes onda{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+body.rm *{animation:none!important;transition:none!important}
+body.rm .chip{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<header class="cab">
+  <div class="txt">
+    <h1>Banco de micro-interacciones — lo que falta</h1>
+    <p class="sub">Los 9 efectos pendientes, con su pantalla de destino. Toca y mantén: el gesto es el objeto de la prueba.</p>
+  </div>
+  <button class="aviso-rm" id="rm" aria-pressed="false" onclick="rmT()">Movimiento reducido: apagado</button>
+</header>
+
+<main class="grid">
+
+  <section class="card">
+    <h2>Interruptor con rebote</h2>
+    <p class="sub">squish-switch · el más caro</p>
+    <div class="row">
+      <button class="switch" id="sw" aria-pressed="false" aria-label="Interruptor de ejemplo"><i></i></button>
+      <span class="sub" id="swl">Apagado</span>
+    </div>
+    <div class="rails">
+      <div class="rail"><i style="background:#7C828F"></i><span>riel nuevo · 3,0:1</span></div>
+      <div class="rail"><i style="background:#2A2A30"></i><span>riel de hoy · 1,17:1</span></div>
+    </div>
+    <p class="pie">alquiler.tsx:332 · settings.tsx:142,209,220 · 4 envoltorios a unificar</p>
+  </section>
+
+  <section class="card">
+    <h2>Casilla con muelle</h2>
+    <p class="sub">spring-check · 21×21, hoy sin transición</p>
+    <div class="row">
+      <button class="check" id="ck" aria-pressed="false" aria-label="Casilla de ejemplo">
+        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="sub" id="ckl">No marcado</span>
+    </div>
+    <p class="pie">lifebook-carrito.tsx:41-68 · la pantalla donde se comprueba qué se paga</p>
+  </section>
+
+  <section class="card">
+    <h2>Opción única</h2>
+    <p class="sub">jelly-radio · elección sobre dinero</p>
+    <div class="jr" id="jr">
+      <button class="jrrow" aria-pressed="true">Efectivo al recibir<span>disponible</span></button>
+      <button class="jrrow" aria-pressed="false">Monedero EG<span>saldo 12.400</span></button>
+      <button class="jrrow" aria-pressed="false">Transferencia<span>2-3 días</span></button>
+    </div>
+    <p class="pie">ecomerse-checkout.tsx:328,338,349 · food-checkout.tsx:493 · lifebook-carrito-checkout.tsx:439</p>
+  </section>
+
+  <section class="card">
+    <h2>Desplegable</h2>
+    <p class="sub">glide-select · hoy siempre abre una hoja</p>
+    <button class="gsb" id="gsb" aria-expanded="false" onclick="gsT()">
+      <span id="gsl">Ciudad de recogida</span>
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="gso" id="gso"></div>
+    <p class="pie">Sheet.tsx:47-87 · 24 ciudades en ecomerse-seller.tsx:1055</p>
+  </section>
+
+  <section class="card">
+    <h2>Pulsación larga</h2>
+    <p class="sub">hold-button · hacer visible lo que ya existe</p>
+    <div class="row">
+      <div class="hb" id="hb" role="button" tabindex="0" aria-label="Mantén pulsado para confirmar">
+        <svg viewBox="0 0 52 52" aria-hidden="true">
+          <circle cx="26" cy="26" r="22" fill="none" stroke="#2E2E34" stroke-width="3"/>
+          <circle id="hbr" cx="26" cy="26" r="22" fill="none" stroke="#5FA9EE" stroke-width="3" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="138.2" transform="rotate(-90 26 26)"/>
+        </svg>
+        <b id="hbl">Mantén</b>
+      </div>
+      <div style="min-width:0">
+        <p class="sub" id="hbs">0,00 s de 0,45</p>
+        <button id="hbb" style="font-size:12px;border:1px solid var(--borde2);background:transparent;border-radius:8px;padding:4px 10px;margin-top:6px">Confirmar</button>
+      </div>
+    </div>
+    <p class="pie">El botón de al lado no es opcional: WCAG 2.5.7. lifebook-videos.tsx:973 · ServiceGrid.tsx:100 · lifebook-carrito.tsx:477</p>
+  </section>
+
+  <section class="card">
+    <h2>Deslizar para confirmar</h2>
+    <p class="sub">slide-commit · umbral 70 px</p>
+    <div class="sc" id="sc">
+      <u id="scu">Desliza para confirmar</u>
+      <i id="sct">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+      </i>
+    </div>
+    <div style="margin-top:8px"><button onclick="scReset()" style="font-size:12px;border:1px solid var(--borde2);background:transparent;border-radius:8px;padding:4px 10px">Reiniciar</button></div>
+    <p class="pie">conductor.tsx:1431 · centro de pantalla, no scrollea. Fuera del borde inferior: ahí el sistema se queda los deslizamientos</p>
+  </section>
+
+  <section class="card">
+    <h2>Aviso deslizable</h2>
+    <p class="sub">swipe-toast · solo vale si gana una acción</p>
+    <div class="tst">
+      <button onclick="tstShow()" style="font-size:12px;border:1px solid var(--borde2);background:transparent;border-radius:8px;padding:4px 10px">Lanzar aviso</button>
+      <div class="aviso" id="tst">
+        <span>Pago de 4.500 XAF enviado</span>
+        <button onclick="tstHide()">Deshacer</button>
+      </div>
+    </div>
+    <p class="pie">Amplía Aviso.tsx:28-55 · 158 consumidores, hoy solo 1 pantalla usa el gesto</p>
+  </section>
+
+  <section class="card">
+    <h2>Barra de sugerencias</h2>
+    <p class="sub">prompt-bar · aquí la animación ES la semántica</p>
+    <div class="chips" id="pb">
+      <span class="chip">¿Cuánto cuesta un taxi al aeropuerto?</span>
+      <span class="chip">Hoteles en Malabo</span>
+      <span class="chip">Enviar dinero a Bata</span>
+      <span class="chip">Comida a domicilio</span>
+    </div>
+    <div style="margin-top:8px">
+      <button onclick="pbShow()" style="font-size:12px;border:1px solid var(--borde2);background:transparent;border-radius:8px;padding:4px 10px">Mostrar</button>
+      <button onclick="pbHide()" style="font-size:12px;border:1px solid var(--borde2);background:transparent;border-radius:8px;padding:4px 10px;margin-left:6px">Ocultar</button>
+    </div>
+    <p class="pie">lifebook-ai.tsx:568-579 · lifebook-videos.tsx:1319-1331. Entrada escalonada lee como sugerencia; un map estático lee como botones</p>
+  </section>
+
+  <section class="card">
+    <h2>Píldora de voz</h2>
+    <p class="sub">voice-pill · un micro encendido sin señal visual</p>
+    <button class="vp" id="vp" aria-pressed="false" onclick="vpT()">
+      <svg class="micro" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>
+      <span class="ondas" aria-hidden="true"><i style="animation-delay:0s"></i><i style="animation-delay:.15s"></i><i style="animation-delay:.3s"></i><i style="animation-delay:.45s"></i></span>
+      <span id="vpl">Dictar</span>
+    </button>
+    <p class="pie">lifebook-ai.tsx:638-648 · y el micrófono muerto de SearchHeader.tsx:76, que hoy no hace nada</p>
+  </section>
+
+</main>
+
+<script>
+function rmT(){
+  var b=document.getElementById('rm'),on=b.getAttribute('aria-pressed')==='true';
+  b.setAttribute('aria-pressed',on?'false':'true');
+  document.body.classList.toggle('rm',!on);
+  b.textContent='Movimiento reducido: '+(on?'apagado':'encendido');
+}
+(function(){
+  var s=document.getElementById('sw'),l=document.getElementById('swl');
+  s.addEventListener('click',function(){
+    var on=s.getAttribute('aria-pressed')==='true';
+    s.setAttribute('aria-pressed',on?'false':'true');
+    l.textContent=on?'Apagado':'Encendido';
+  });
+  var c=document.getElementById('ck'),cl=document.getElementById('ckl');
+  c.addEventListener('click',function(){
+    var on=c.getAttribute('aria-pressed')==='true';
+    c.setAttribute('aria-pressed',on?'false':'true');
+    cl.textContent=on?'No marcado':'Marcado';
+  });
+  document.querySelectorAll('#jr .jrrow').forEach(function(r){
+    r.addEventListener('click',function(){
+      document.querySelectorAll('#jr .jrrow').forEach(function(o){o.setAttribute('aria-pressed','false')});
+      r.setAttribute('aria-pressed','true');
+    });
+  });
+  var CIUDADES=['Malabo','Bata','Ebebiyín','Mongomo'];
+  var gso=document.getElementById('gso'),gsl=document.getElementById('gsl'),gsb=document.getElementById('gsb');
+  CIUDADES.forEach(function(n){
+    var b=document.createElement('button');
+    b.textContent=n;b.setAttribute('aria-pressed',n==='Malabo'?'true':'false');
+    b.addEventListener('click',function(){
+      gsl.textContent=n;
+      gso.querySelectorAll('button').forEach(function(o){o.setAttribute('aria-pressed','false')});
+      b.setAttribute('aria-pressed','true');
+      gso.classList.remove('abierto');gsb.setAttribute('aria-expanded','false');
+    });
+    gso.appendChild(b);
+  });
+  window.gsT=function(){
+    var ab=gso.classList.toggle('abierto');
+    gsb.setAttribute('aria-expanded',ab?'true':'false');
+  };
+  var hb=document.getElementById('hb'),hbr=document.getElementById('hbr'),hbl=document.getElementById('hbl'),hbs=document.getElementById('hbs');
+  var LIM=450,t0=0,raf=0,timer=0;
+  function pinta(p){
+    hbr.setAttribute('stroke-dashoffset',String(138.2*(1-p)));
+    hbs.textContent=(p*0.45).toFixed(2).replace('.',',')+' s de 0,45';
+  }
+  function fin(){
+    cancelAnimationFrame(raf);clearTimeout(timer);
+    hbl.textContent='Listo';hbl.classList.add('tarde');
+    hbr.setAttribute('stroke','#5DCAA5');hbs.textContent='Confirmado';
+  }
+  function suelta(){
+    cancelAnimationFrame(raf);clearTimeout(timer);
+    if(hbl.classList.contains('tarde'))return;
+    hbr.setAttribute('stroke-dashoffset','138.2');hbl.textContent='Mantén';pinta(0);
+  }
+  function empieza(){
+    if(hbl.classList.contains('tarde'))return;
+    t0=Date.now();
+    (function paso(){
+      var p=Math.min(1,(Date.now()-t0)/LIM);
+      pinta(p);
+      if(p>=1){fin();return}
+      raf=requestAnimationFrame(paso);
+    })();
+  }
+  hb.addEventListener('pointerdown',empieza);
+  hb.addEventListener('pointerup',suelta);
+  hb.addEventListener('pointercancel',suelta);
+  document.getElementById('hbb').addEventListener('click',fin);
+  var sc=document.getElementById('sc'),sct=document.getElementById('sct'),scu=document.getElementById('scu');
+  var arr=null,base=0;
+  function tope(){return sc.clientWidth-40-8}
+  sct.addEventListener('pointerdown',function(e){
+    if(sc.classList.contains('hecho'))return;
+    arr=e.clientX;base=parseFloat(sct.dataset.x||'0');
+    sct.setPointerCapture(e.pointerId);sct.style.transition='none';
+  });
+  sct.addEventListener('pointermove',function(e){
+    if(arr===null)return;
+    var d=Math.max(0,Math.min(tope(),base+(e.clientX-arr)));
+    sct.dataset.x=String(d);sct.style.transform='translateX('+d+'px)';
+    scu.style.opacity=String(Math.max(0,1-d/tope()));
+  });
+  sct.addEventListener('pointerup',function(e){
+    if(arr===null)return;
+    var d=parseFloat(sct.dataset.x||'0');arr=null;
+    sct.style.transition='transform .18s cubic-bezier(.33,1,.68,1)';
+    if(d>=70){
+      sct.style.transform='translateX('+tope()+'px)';
+      sc.classList.add('hecho');scu.textContent='Confirmado';scu.style.opacity='1';
+    }else{
+      sct.style.transform='translateX(0)';sct.dataset.x='0';scu.style.opacity='1';
+    }
+  });
+  window.scReset=function(){
+    sc.classList.remove('hecho');sct.style.transition='none';
+    sct.style.transform='translateX(0)';sct.dataset.x='0';
+    scu.textContent='Desliza para confirmar';scu.style.opacity='1';
+  };
+  var tst=document.getElementById('tst');
+  window.tstShow=function(){tst.classList.add('visible')};
+  window.tstHide=function(){tst.classList.remove('visible')};
+  var ta=null;
+  tst.addEventListener('pointerdown',function(e){ta=e.clientX;tst.style.transition='none';tst.setPointerCapture(e.pointerId)});
+  tst.addEventListener('pointermove',function(e){
+    if(ta===null)return;
+    var d=e.clientX-ta;
+    tst.style.transform='translateX('+d+'px)';
+    tst.style.opacity=String(Math.max(0,1-Math.abs(d)/140));
+  });
+  tst.addEventListener('pointerup',function(e){
+    if(ta===null)return;
+    var d=e.clientX-ta;ta=null;
+    tst.style.transition='transform .18s cubic-bezier(.33,1,.68,1),opacity .18s';
+    tst.style.transform='';tst.style.opacity='1';
+    if(Math.abs(d)>=70)tstHide();
+  });
+  window.pbShow=function(){
+    document.querySelectorAll('#pb .chip').forEach(function(el,i){
+      el.style.transitionDelay=(i*60)+'ms';el.style.opacity='1';el.style.transform='none';
+    });
+  };
+  window.pbHide=function(){
+    document.querySelectorAll('#pb .chip').forEach(function(el){
+      el.style.transitionDelay='0ms';el.style.opacity='0';el.style.transform='translateY(6px)';
+    });
+  };
+  var vp=document.getElementById('vp'),vpl=document.getElementById('vpl');
+  vp.addEventListener('click',function(){
+    var on=vp.getAttribute('aria-pressed')==='true';
+    vp.setAttribute('aria-pressed',on?'false':'true');
+    vpl.textContent=on?'Dictar':'Escuchando';
+  });
+})();
+</script>
+</body>
+</html>

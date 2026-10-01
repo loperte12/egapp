@@ -1,0 +1,123 @@
+==============================================================================
+(a) LOS 45 INDIRECTOS — resolución del identificador
+==============================================================================
+
+  TOTAL: 81 sitios · 19 identificadores distintos
+
+  ── ACCENT  (32 sitio(s)) ──
+      [DEUDA] x32   brand.primary
+         app/food-checkout.tsx:377  (jsx)
+         app/food-checkout.tsx:397  (jsx)
+         app/food-checkout.tsx:406  (jsx)
+         app/food-checkout.tsx:490  (jsx)
+         app/food-checkout.tsx:499  (jsx)
+         app/food-checkout.tsx:509  (jsx)
+         app/food-menu.tsx:298  (jsx)
+         app/food-menu.tsx:229  (estilo)
+
+  ── tint  (11 sitio(s)) ──
+      [DEUDA] x3   TYPE_TINT[post.type] ?? colors.textSecondary
+      [DEUDA] x2   dark ? brand.white : colors.textPrimary
+      [DEUDA] x2   isActive ? colors.primary : colors.textSecondary
+      [DEUDA] x2   isEmergency ? colors.danger : disabled ? colors.textSecondary : colors
+      [prop/param] x2   <<sin declaración en el fichero>>
+         app/lifebook-player.tsx:88  (jsx)
+         app/lifebook-player.tsx:90  (estilo)
+         app/lifebook-post/[id].tsx:569  (jsx)
+         app/lifebook-post/[id].tsx:705  (jsx)
+         app/lifebook-post/[id].tsx:568  (estilo)
+         components/FloatingFooter.tsx:100  (jsx)
+         components/FloatingFooter.tsx:108  (estilo)
+         components/ServiceGrid.tsx:136  (jsx)
+
+  ── string  (10 sitio(s)) ──
+      [prop/param] x10   <<sin declaración en el fichero>>
+         app/agente.tsx:44  (estilo)
+         app/billing-checkout.tsx:37  (estilo)
+         app/billing-status.tsx:31  (estilo)
+         app/conductor.tsx:199  (estilo)
+         app/ecomerse-orders.tsx:28  (estilo)
+         app/food-orders.tsx:38  (estilo)
+         app/lifebook-media.tsx:62  (estilo)
+         app/lifebook-user.tsx:47  (estilo)
+
+  ── color  (6 sitio(s)) ──
+      [DEUDA] x4   {colors.text.primary} style={{ marginVertical: espaciado.e24 }} />
+      [prop/param] x1   <<sin declaración en el fichero>>
+      [DEUDA] x1   aprobado ? colors.success : rechazado ? colors.danger : colors.textSec
+         app/buscar.tsx:251  (jsx)
+         app/ecomerse-detail.tsx:538  (jsx)
+         app/profile.tsx:567  (jsx)
+         app/profile.tsx:568  (jsx)
+         app/profile.tsx:569  (jsx)
+         app/profile.tsx:571  (jsx)
+
+  ── tinte  (4 sitio(s)) ──
+      [DEUDA] x2   activa ? colors.primary : colors.textSecondary
+      [DEUDA] x2   activo ? colors.primary : colors.textSecondary
+         components/ecomerse/BarraTienda.tsx:95  (jsx)
+         components/ecomerse/BarraTienda.tsx:96  (estilo)
+         components/ecomerse/PieDelMercado.tsx:105  (jsx)
+         components/ecomerse/PieDelMercado.tsx:114  (estilo)
+
+  ── ocColor  (2 sitio(s)) ──
+      [DEUDA] x2   oc === 'verified' ? colors.success : oc === 'pending' ? colors.seconda
+         app/edit-profile.tsx:564  (jsx)
+         app/edit-profile.tsx:573  (estilo)
+
+  ── priceColor  (2 sitio(s)) ──
+      [DEUDA] x2   colors.secondary ?? brand.secondary
+         app/intercity-publish.tsx:402  (estilo)
+         app/intercity-publish.tsx:582  (estilo)
+
+  ── colorEstado  (2 sitio(s)) ──
+      [?] x1   r.status === 'hold'
+      [?] x1   r.status === 'cancelled' || r.status === 'no_show'
+         app/lifebook-hotel-panel.tsx:358  (estilo)
+         app/lifebook-hotel-reservas.tsx:354  (estilo)
+
+  ── nameTint  (2 sitio(s)) ──
+      [DEUDA] x2   nameColor ?? (isDriver ? brand.white : brand.white)
+         components/SocialHomeHeader.tsx:167  (estilo)
+         components/SocialHomeHeader.tsx:171  (estilo)
+
+  ── planColor  (1 sitio(s)) ──
+      [DEUDA] x1   plan.color || colors.primary
+         app/alquiler-planes.tsx:271  (estilo)
+
+  ── titleColor  (1 sitio(s)) ──
+      [DEUDA] x1   tone === 'warn' ? brand.warningText : tone === 'danger' ? brand.danger
+         app/billing-status.tsx:443  (estilo)
+
+  ── bodyColor  (1 sitio(s)) ──
+      [DEUDA] x1   tone === 'danger' ? brand.dangerText : colors.textSecondary
+         app/billing-status.tsx:445  (estilo)
+
+  ── statusColor  (1 sitio(s)) ──
+      [DEUDA] x1   item.status === 'active' ? brand.success : item.status === 'rejected' 
+         app/food-owner.tsx:846  (estilo)
+
+  ── tone  (1 sitio(s)) ──
+      [?] x1   LB_TONE_COLOR[meta.tone]
+         app/lifebook-merchant-products.tsx:298  (estilo)
+
+  ── LIKE_RED  (1 sitio(s)) ──
+      [DEUDA] x1   brand.like
+         app/lifebook-videos.tsx:1123  (jsx)
+
+  ── active  (1 sitio(s)) ──
+      [?] x1   c === city
+         app/lifebook.tsx:1237  (estilo)
+
+  ── tono  (1 sitio(s)) ──
+      [DEUDA] x1   == 'peligro' ? colors.danger
+         app/tienda/anuncios.tsx:623  (estilo)
+
+  ── tonoEstado  (1 sitio(s)) ──
+      [?] x1   estado
+         app/tienda/perfil.tsx:203  (estilo)
+
+  ── texto  (1 sitio(s)) ──
+      [?] x1   esEntrada || esSalida
+         components/CalendarPicker.tsx:285  (estilo)
+

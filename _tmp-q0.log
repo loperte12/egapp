@@ -1,0 +1,247 @@
+====================================================================================================
+A) LAS 22 CLAVES EN HOJA DE MÓDULO
+====================================================================================================
+
+### app/conductor.tsx
+  ── clave `badgeGreenTxt` en hoja `PK`  (brand.success)  línea 2068
+     ENTRADA : badgeGreenTxt: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.maximo },
+     USO   1391: <Text style={PK.badgeGreenTxt}>Verificado</Text>
+
+### app/documents.tsx
+  ── clave `groupTitle` en hoja `styles`  (neutro.n600)  línea 199
+     ENTRADA : groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: neutro.n600, textTransform: 'upperca
+     USO    149: <Text style={styles.groupTitle}>{`Documentos · ${roleLabel}`}</Text>
+
+### app/ecomerse-detail.tsx
+  ── clave `tagFeatText` en hoja `styles`  (brand.secondary)  línea 670
+     ENTRADA : tagFeatText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  ── clave `tagProText` en hoja `styles`  (brand.primary)  línea 675
+     ENTRADA : tagProText: { color: brand.primary, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  ── clave `tagSoftText` en hoja `styles`  (brand.success)  línea 677
+     ENTRADA : tagSoftText: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.maximo },
+
+### app/ecomerse-planes.tsx
+  ── clave `tagCurrentText` en hoja `styles`  (brand.success)  línea 374
+     ENTRADA : tagCurrentText: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.titulo },
+  ── clave `tagRecText` en hoja `styles`  (brand.secondary)  línea 376
+     ENTRADA : tagRecText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo },
+
+### app/lifebook-compose.tsx
+  ── clave `label` en hoja `styles`  (neutro.n600)  línea 408
+     ENTRADA : label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: neutro.n600, letterSpacing: 0.8, margin
+     USO    174: <Text style={styles.label}>DESCRIPCIÓN *</Text>
+     USO    187: <Text style={styles.label}>TÍTULO (opcional)</Text>
+     USO    199: <Text style={styles.label}>FOTOS ({photos.length}/{LB_NOTE_MEDIA_MAX})</Text>
+     USO    271: <Text style={styles.label}>TEMAS ({topics.length}/{LB_NOTE_TOPICS_MAX})</Text>
+     USO    311: <Text style={styles.label}>TONO</Text>
+     USO    328: <Text style={styles.label}>CIUDAD *</Text>
+     USO    343: <Text style={styles.label}>BARRIO (opcional)</Text>
+     USO    354: <Text style={styles.label}>VISIBILIDAD</Text>
+
+### app/lifebook-media.tsx
+  ── clave `label` en hoja `styles`  (neutro.n600)  línea 648
+     ENTRADA : label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: neutro.n600, letterSpacing: 0.8, margin
+     USO    366: <Text style={styles.label}>TIPO DE VÍDEO</Text>
+     USO    404: <Text style={styles.label}>{fileLabel} *</Text>
+     USO    462: <Text style={styles.label}>DURACIÓN (minutos) *</Text>
+     USO    477: <Text style={styles.label}>
+     USO    514: <Text style={styles.label}>TÍTULO {titleRequired ? '*' : '(opcional)'}</Text>
+     USO    527: <Text style={styles.label}>DESCRIPCIÓN {kind === 'podcast' || kind === 'episode' ? '(opcional)' : '(opcional)'
+     USO    541: <Text style={styles.label}>CIUDAD *</Text>
+     USO    560: <Text style={styles.label}>PRODUCTOS DEL VÍDEO (opcional)</Text>
+
+### app/lifebook-messages.tsx
+  ── clave `inboxLabel` en hoja `styles`  (neutro.n600)  línea 439
+     ENTRADA : inboxLabel: { fontSize: tipografia.micro, fontWeight: peso.medio, color: neutro.n600 },
+     USO    188: <Text style={styles.inboxLabel}>Mi perfil</Text>
+     USO    331: <Text style={styles.inboxLabel} numberOfLines={1}>{label}</Text>
+
+### app/lifebook-player.tsx
+  ── clave `errTxt` en hoja `styles`  (brand.danger)  línea 387
+     ENTRADA : errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'center', pad
+     USO    273: {error ? <Text style={styles.errTxt}>No se pudo reproducir este episodio. Reintenta.</Text> : null}
+
+### app/settings.tsx
+  ── clave `groupTitle` en hoja `styles`  (neutro.n600)  línea 416
+     ENTRADA : groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: neutro.n600, textTransform: 'upperca
+     USO    138: <Text style={styles.groupTitle}>Apariencia</Text>
+     USO    151: <Text style={styles.groupTitle}>Idioma</Text>
+     USO    157: <Text style={styles.groupTitle}>{`Documentos · ${roleLabel}`}</Text>
+     USO    169: <Text style={styles.groupTitle}>Estado 24h</Text>
+     USO    183: <Text style={styles.groupTitle}>Life Book · Privacidad</Text>
+     USO    199: <Text style={styles.groupTitle}>Life Book · Notificaciones</Text>
+     USO    215: <Text style={styles.groupTitle}>Life Book · Contenido</Text>
+     USO    251: <Text style={styles.groupTitle}>Soporte</Text>
+  ── clave `rowHint` en hoja `styles`  (neutro.n600)  línea 421
+     ENTRADA : rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, color: neutro.n600, maxWidth: '52%' },
+     USO    402: {!centered && hint ? <Text style={styles.rowHint} numberOfLines={1}>{hint}</Text> : null}
+
+### app/status.tsx
+  ── clave `groupTitle` en hoja `styles`  (neutro.n600)  línea 197
+     ENTRADA : fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 1, color: neutro.n600,
+     USO     78: <Text style={styles.groupTitle}>ESTADO ACTUAL</Text>
+     USO    119: <Text style={styles.groupTitle}>AJUSTES DE ESTADO</Text>
+
+### components/ServiceGrid.tsx
+  ── clave `comingSoon` en hoja `styles`  (neutro.n600)  línea 247
+     ENTRADA : comingSoon: { fontSize: tipografia.sello, fontWeight: peso.maximo, color: neutro.n600, letterSpacing: 0.2, tex
+     USO    144: {disabled ? <Text style={styles.comingSoon}>Próximamente</Text> : null}
+
+### components/SocialHomeHeader.tsx
+  ── clave `cityTxt` en hoja `styles`  (brand.primary)  línea 309
+     ENTRADA : cityTxt: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: brand.primary, maxWidth: 180 },
+     USO    242: <Text style={styles.cityTxt} numberOfLines={1}>{cityName || 'Seleccionar ciudad'}</Text>
+
+### components/ecomerse/CabeceraTienda.tsx
+  ── clave `tagProText` en hoja `styles`  (brand.primary)  línea 142
+     ENTRADA : tagProText: { color: brand.primary, fontSize: tipografia.micro, fontWeight: peso.fuerte },
+
+### components/jobs.tsx
+  ── clave `salary` en hoja `s`  (brand.secondary)  línea 171
+     ENTRADA : salary: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: brand.secondary },
+     USO     44: <Text style={s.salary} numberOfLines={1}>{salaryShort(job)}</Text>
+
+### components/lifebook/OrderCardEnChat.tsx
+  ── clave `ticketEtiqueta` en hoja `styles`  (neutro.n600)  línea 200
+     ENTRADA : ticketEtiqueta: { color: neutro.n600, fontSize: tipografia.nota, fontWeight: peso.titulo },
+     USO    137: <Text style={styles.ticketEtiqueta}>Compra </Text>{pedido.buyerName}
+     USO    142: <Text style={styles.ticketEtiqueta}>Pago </Text>{lbPayLabel(pedido.paymentMethod)}
+     USO    148: <Text style={styles.ticketEtiqueta}>Cupón </Text>−{lbXaf(pedido.discountXaf ?? 0)}
+     USO    152: <Text style={styles.ticketEtiqueta}>Entrega </Text>{entrega}
+     USO    156: <Text style={styles.ticketEtiqueta}>Nota </Text>{pedido.note}
+
+### components/lifebook/PostCard.tsx
+  ── clave `socialN` en hoja `styles`  (neutro.n600)  línea 257
+     ENTRADA : socialN: { color: neutro.n600, fontSize: tipografia.micro, fontWeight: peso.medio, marginLeft: espaciado.e3 },
+     USO    224: <Text style={[styles.socialN, liked ? { color: brand.like } : null]}>{formatCount(likes)}</Text>
+
+### core/diagnostics.tsx
+  ── clave `title` en hoja `styles`  (brand.danger)  línea 77
+     ENTRADA : title: { color: brand.danger, fontSize: tipografia.title, fontWeight: peso.titulo, marginBottom: espaciado.e12
+     USO     61: <Text style={styles.title}>⚠️ Error al arrancar la app</Text>
+  ── clave `hint` en hoja `styles`  (neutro.n600)  línea 81
+     ENTRADA : hint: { color: neutro.n600, fontSize: tipografia.caption, marginTop: espaciado.e16, textAlign: 'center' },
+     USO     66: <Text style={styles.hint}>
+
+>>> total sitios de uso a retocar: 43
+
+====================================================================================================
+B) SUBCONTROLES SIN HOOK · C) MAPAS DE ICONOS DE MÓDULO
+====================================================================================================
+
+### app/lifebook-chat/[id].tsx   (Bubbles)
+   1955:           <Precio valor={ar.priceXaf} tamano="md" color={brand.secondary} style={{ marginTop: espaciado.e6 }} />
+
+### components/status/StatusDetailModal.tsx   (ServiceLink)
+    236:             {status.link && <ServiceLink status={status} colors={colors} onOpen={() => onClose()} />}
+    284: function ServiceLink({ status, colors, onOpen }: { status: UserStatus; colors: any; onOpen: () => void }) {
+    303:       <Text style={{ color: brand.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
+
+### components/status/StatusEditorModal.tsx   (PreviewPhoto)
+    192:                   <PreviewPhoto uri={photos[0]} />
+    362:  * PreviewPhoto — foto local del editor a tamaño REAL (sin recortar):
+    366: function PreviewPhoto({ uri }: { uri: string }) {
+    390:         <View style={styles.previewPhotoLoading}><ActivityIndicator color={neutro.n600} size="small" /></View>
+
+### app/taxi.tsx   (MODE_ICON)
+     66: const MODE_ICON: Record<string, React.ReactNode> = {
+   1607:                 const Icon = MODE_ICON[item.id] ?? <CarFront size={20} color={colors.textSecondary} />;
+
+### app/lifebook-checkout.tsx   (PAY_ICON)
+     35: const PAY_ICON: Record<string, React.ReactNode> = {
+    392:                   icon={PAY_ICON[pm.method]}
+
+====================================================================================================
+D) INDIRECTOS — la línea de DECLARACIÓN (ahí va el cambio)
+====================================================================================================
+
+### app/alquiler-planes.tsx
+    264:           const planColor = plan.color || colors.primary;
+
+### app/billing-status.tsx
+    437:   const titleColor = tone === 'warn' ? brand.warningText : tone === 'danger' ? brand.dangerText : colors.textPrimary;
+    438:   const bodyColor = tone === 'danger' ? brand.dangerText : colors.textSecondary;
+
+### app/ecomerse-mensajes-chat.tsx
+     95:     const texto = borrador.trim();
+
+### app/edit-profile.tsx
+    340:   const ocColor = oc === 'verified' ? colors.success : oc === 'pending' ? colors.secondary : colors.textSecondary;
+    870:   const texto = resumen();
+
+### app/food-checkout.tsx
+     53: const ACCENT = brand.primary; // A1: la acción avanza en azul
+
+### app/food-menu.tsx
+     34: const ACCENT = brand.primary; // A1: la acción avanza en azul
+
+### app/food-orders.tsx
+     36: const ACCENT = brand.primary; // A1: la acción avanza en azul
+
+### app/food-owner.tsx
+     42: const ACCENT = brand.primary; // A1: la acción avanza en azul
+    826:   const statusColor = item.status === 'active' ? brand.success : item.status === 'rejected' ? colors.danger : colors.s
+
+### app/food-rider.tsx
+     34: const ACCENT = brand.primary; // A1: la acción avanza en azul
+
+### app/intercity-publish.tsx
+    292:   const priceColor = colors.secondary ?? brand.secondary;
+
+### app/lifebook-hotel-detalle.tsx
+     28: const ACCENT = brand.primary; // A1: la acción avanza en azul
+
+### app/lifebook-hotel-panel.tsx
+    334:   const colorEstado = r.status === 'hold'
+
+### app/lifebook-hotel-reservas.tsx
+    307:   const colorEstado = r.status === 'cancelled' || r.status === 'no_show'
+
+### app/lifebook-player.tsx
+     84:   const tint = dark ? brand.white : colors.textPrimary;
+
+### app/lifebook-post/[id].tsx
+    408:   const tint = TYPE_TINT[post.type] ?? colors.textSecondary;
+
+### app/tienda/anuncios.tsx
+    578:   const tono = estado.tono === 'bien' ? colors.success
+
+### app/tienda/index.tsx
+    231:                 const tono = c.tono === 'peligro' ? colors.danger : c.tono === 'bien' ? colors.success : c.tono === 'a
+
+### app/tienda/perfil.tsx
+    153:   const tonoEstado = estado
+
+### components/CalendarPicker.tsx
+    263:           const texto = esEntrada || esSalida
+
+### components/FloatingFooter.tsx
+     83:         const tint = isActive ? colors.primary : colors.textSecondary;
+
+### components/ServiceGrid.tsx
+     97:     const tint = isEmergency ? colors.danger : disabled ? colors.textSecondary : colors.secondary;
+    173:             const tint = isEmergency ? colors.danger : disabled ? colors.textSecondary : colors.primary;
+
+### components/SocialHomeHeader.tsx
+    120:   const nameTint = nameColor ?? (isDriver ? brand.white : brand.white);
+
+### components/ecomerse/BarraTienda.tsx
+     84:         const tinte = activa ? colors.primary : colors.textSecondary;
+
+### components/ecomerse/PieDelMercado.tsx
+     90:         const tinte = activo ? colors.primary : colors.textSecondary;
+
+### utils/maps.ts
+     16:   const texto = (direccion ?? '').trim();
+
+### constants/errores.ts
+     40:     const texto = e.message ?? '';
+
+### packages/ui-kit/src/primitives/Aviso.tsx
+     44:   const texto = tono === 'aviso' ? colors.onWarning : colors.white;
+
+### packages/ui-kit/src/primitives/EstadoDinero.tsx
+     64:     const texto = activo === 'devuelto'
+
+### packages/ui-kit/src/primitives/KycStatusBanner.tsx
+     45:   const tint = colors[colorKey];

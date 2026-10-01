@@ -1,0 +1,40 @@
+tanda(hex): H1b — herramientas, acta y el cierre de la familia
+
+Cierre de `hex`, la ultima de las siete familias de tokens. `89 -> 0`.
+Commits en `egapp`: `36f7024` (el cierre) y `2b03b5a` (la correccion de la metrica).
+
+Herramientas (el ciclo completo, cada una contesta UNA pregunta):
+
+  _i1-inventario-h1b.py    inventario CIEGO: fichero, linea y linea COMPLETA, para clasificar a ojo
+  _i2-mide-alcance-h1b.py  cuanto baja el alcance si saco los ficheros cuyo hex es DATO
+  _i3-ciega-8digitos.py    MIDE EL PUNTO CIEGO: patron de la guardia vs longitudes validas de CSS
+  _i4-plan-h1b.py          plan SITIO A SITIO con el ambito real y el destino de cada literal
+  _i5-aplica-h1b.py        motor (ambito por ENVOLTURA, fallo 25). Simula / aplica / revierte
+  _i6-cuadre-h1b.py        cuadre de tokens + delta de color COMPUESTO sobre blanco
+
+Lo que hay que poder reconstruir de esta tanda, y el acta lo cuenta entero:
+
+  1. LA CIFRA ERA MENTIRA. La guardia media 126 y eran 144. Su patron no veia los hex de
+     ocho digitos (alfa), porque tras los seis primeros viene otro digito y el `\b` no casa.
+     Los 19 invisibles eran EXACTAMENTE los colores de estado translucidos. Y contaba de mas:
+     `url(#adFade)` es un id de degradado SVG, no un color.
+     -> `126 + 19 revelados - 1 falso positivo = 144 reales`. El trinquete SUBE a 144 antes de
+        bajar, y eso es correcto: sube la visibilidad, no la deuda. Commit propio (2b03b5a).
+
+  2. LA MITAD NO ERA DEUDA. 50 de los 144 son DATO, no deuda: 8 temas de gradiente, 7 paletas
+     de chat, y paletas de coche y avatar. El valor ES el dato. Tokenizarlos seria inventar
+     semantica. Salen del alcance por fichero, y la paleta que vive DENTRO de un fichero de
+     producto se exime por LINEA con el marcador `dato-color`, visible y greppable.
+
+  3. EL FALLO 25 DEL MOTOR. El ambito se preguntaba al bloque de funcion MAS INTERNO. Un
+     callback anidado dentro del componente no tiene el hook, pero el hook del componente
+     EXTERIOR sigue en el closure. La pregunta es por ENVOLTURA: ¿lo tiene algun bloque que
+     contenga el uso? Con eso, los 13 sitios «sin acceso al tema» resultaron ser todos del
+     segundo tipo: se cerraron moviendo las hojas `pps`/`cfm` dentro de sus componentes
+     (`useMemo`, `[colors]`, usos `pps.x` intactos) y anadiendo dos hooks.
+
+  4. Y DOS VECES LA TRAMPA VIEJA: un comentario citando el literal que retira. La guardia los
+     caza. Regla _c2 confirmada por tercera vez.
+
+Puertas: tsc limpio · verifica-diseno OK (hex 0) · auditar-rutas OK.
+Delta: 70 sustituciones, 41 identicas al pixel, 29 con dRGB <= 17 de 441, 0 VISIBLES.

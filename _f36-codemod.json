@@ -1,0 +1,150 @@
+escala leida de packages\ui-kit\src\theme\escalas.ts: 22 peldaños (e2, e3, e4, e5, e6, e7, e8, e9… )
+
+{
+  "ficheros": [
+    "app/reserva.tsx",
+    "app/status.tsx",
+    "app/agente.tsx",
+    "app/driver-onboarding.tsx",
+    "app/settings.tsx",
+    "app/trips-history.tsx",
+    "app/buscar.tsx",
+    "app/emergencia.tsx",
+    "app/my-tickets.tsx",
+    "app/documents.tsx",
+    "app/ruta-fallida.tsx",
+    "app/agente-escaner.tsx",
+    "app/scanner.tsx",
+    "app/index.tsx"
+  ],
+  "cambios": [
+    [
+      "app/reserva.tsx",
+      55
+    ],
+    [
+      "app/status.tsx",
+      28
+    ],
+    [
+      "app/agente.tsx",
+      27
+    ],
+    [
+      "app/driver-onboarding.tsx",
+      27
+    ],
+    [
+      "app/settings.tsx",
+      25
+    ],
+    [
+      "app/trips-history.tsx",
+      24
+    ],
+    [
+      "app/buscar.tsx",
+      18
+    ],
+    [
+      "app/emergencia.tsx",
+      18
+    ],
+    [
+      "app/my-tickets.tsx",
+      16
+    ],
+    [
+      "app/documents.tsx",
+      14
+    ],
+    [
+      "app/ruta-fallida.tsx",
+      9
+    ],
+    [
+      "app/agente-escaner.tsx",
+      8
+    ],
+    [
+      "app/scanner.tsx",
+      5
+    ],
+    [
+      "app/index.tsx",
+      3
+    ]
+  ],
+  "saltos": [
+    [
+      "app/reserva.tsx",
+      160,
+      "48",
+      "ancho de caja — es un TAMANO, no un hueco (plan §2)"
+    ],
+    [
+      "app/reserva.tsx",
+      470,
+      "0",
+      "nudo de alineacion / reinicio — no es un hueco (plan §2)"
+    ],
+    [
+      "app/reserva.tsx",
+      499,
+      "15",
+      "hueco sin peldaño — se revisa a mano (plan §2.1.2)"
+    ],
+    [
+      "app/status.tsx",
+      112,
+      "1",
+      "nudo de alineacion / reinicio — no es un hueco (plan §2)"
+    ],
+    [
+      "app/status.tsx",
+      179,
+      "1",
+      "nudo de alineacion / reinicio — no es un hueco (plan §2)"
+    ],
+    [
+      "app/status.tsx",
+      193,
+      "60",
+      "ancho de caja — es un TAMANO, no un hueco (plan §2)"
+    ],
+    [
+      "app/agente.tsx",
+      129,
+      "40",
+      "ancho de caja — es un TAMANO, no un hueco (plan §2)"
+    ],
+    [
+      "app/trips-history.tsx",
+      218,
+      "40",
+      "ancho de caja — es un TAMANO, no un hueco (plan §2)"
+    ],
+    [
+      "app/buscar.tsx",
+      315,
+      "40",
+      "ancho de caja — es un TAMANO, no un hueco (plan §2)"
+    ],
+    [
+      "app/buscar.tsx",
+      332,
+      "0",
+      "nudo de alineacion / reinicio — no es un hueco (plan §2)"
+    ],
+    [
+      "app/buscar.tsx",
+      342,
+      "1",
+      "nudo de alineacion / reinicio — no es un hueco (plan §2)"
+    ]
+  ],
+  "eols": {
+    "LF": 14
+  },
+  "aplicar": false
+}

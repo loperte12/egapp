@@ -1,0 +1,22 @@
+B · B-3: los 3 ficheros del hotel que faltaban, verificados CONTRA el servidor
+
+El repo llevaba 3 de los 6 ficheros del modulo del hotel (los tres service). Faltaban los dos
+controladores y el DTO de la Parte 42-a:
+
+  hotel.controller.ts            11887 B  9c812ca3f422ccad
+  hotel-merchant.controller.ts    6197 B  fee2272ab861e121
+  dto/hotel-reservation.dto.ts    5660 B  83505cb14d40c50e
+
+Los tres viajan desde el servidor en base64 con su sha256 al lado y se comprueban aqui: byte a
+byte, 0 bytes CR. Y los 3 que ya estaban se re-verificaron en la misma pasada (71421 / 64124 /
+29892 B) — lo versionado es lo desplegado, no una copia parecida.
+
+  · hotel.controller.ts monta `/v1/lifebook/commerce/hotel/*`, que en produccion cuelga de
+    .../wallet/api/... (el mismo prefijo del comercio: nginx no se toca).
+  · hotel-merchant.controller.ts monta el panel del hotel por SESION (la app no manda id).
+  · el DTO dice en su cabecera que el ValidationPipe global va con whitelist y
+    forbidNonWhitelisted: por eso un estado inventado o un guests=abc son un 400 explicado.
+
+NO se versionan los `*.bak-*` del servidor: hay 113 y pesan 12 MB. Son respaldos y se excluyen
+por patron, igual que los `_respaldo-*`. El servidor pasa de 22 ficheros de codigo en
+src/lifebook/ (914 KB) a 6 versionados de esos 22; los 6 del hotel quedan COMPLETOS.

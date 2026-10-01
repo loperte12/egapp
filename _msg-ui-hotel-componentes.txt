@@ -1,0 +1,27 @@
+docs(UI-HOTEL): los diez componentes con variantes, creados en el lienzo y verificados
+
+Se crean en el fichero de MasterGo los diez componentes del pliego, cada uno con
+sus variantes y sus propiedades de texto y de visibilidad. Se verifican leyendo
+el JSON que el servidor vuelca en su libreria local, no el mensaje de la
+herramienta: hoy ese mensaje fallo tres veces.
+
+Entran, con variante y tamano medidos en el lienzo:
+  TopBar 390x116 · SearchField 358x44 · FilterChip 98x36 (default/pressed/disabled)
+  HotelCard 358x390 (default/promo/unavailable) · RatingBadge 74x22
+  PriceTag 118x52 (default/promo/unavailable) · FavoriteButton 36x36
+  EmptyState 390x368 · ErrorState 390x368 · SkeletonCard 358x349
+
+Los estados salen de la pantalla ya entregada, no se inventan: el chip apagado
+es un delta del encendido y el precio sin disponibilidad es el de la ficha.
+
+Se anade pruebas/prepara-componente.cjs, la puerta que valida un fragmento antes
+de enviarlo: raiz unica con data-type, variantes hijas directas del conjunto con
+el mismo juego de claves, data-name en todos los nodos, cero comentarios HTML
+(que MasterGo convierte en capas de texto y ya costo tres entregas fantasma),
+cero margin y cero unidades relativas, etiquetas balanceadas y las cinco
+propiedades de texto en cada span y cada p.
+
+La puerta fallo tres veces antes que el codigo que vigila: contaba los div
+indentados como raices, casaba con nombres de FontAwesome como fa-map y tomaba
+por unidad relativa el porcentaje de las paradas de un gradiente. Corregido y
+anotado dentro del propio script.

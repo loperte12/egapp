@@ -1,0 +1,14 @@
+﻿=== dispositivos con pinta de movil / ADB ===
+
+Status  Class     FriendlyName    
+------  -----     ------------    
+Unknown USBDevice Xiaomi Pad 6 Pro
+OK      USBDevice PKK110          
+Unknown WPD       OPPO Reno13 Pro 
+Unknown WPD       Xiaomi Pad 6 Pro
+
+
+=== total dispositivos USB ===
+27
+=== puerto 5037 ===
+False

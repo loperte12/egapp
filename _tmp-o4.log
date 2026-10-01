@@ -1,0 +1,84 @@
+=== INDIRECTOS LIMPIOS: 71 sitios ===
+
+ident              n  veredicto  relleno  declaración / ficheros
+--------------------------------------------------------------------------------------------------------------
+ACCENT            32  DEUDA           30  brand.primary; // A1: la acción avanza en azul  ⚠ COMPARTIDO
+                      app/food-checkout.tsx:377 (jsx)
+                      app/food-checkout.tsx:397 (jsx)
+                      app/food-checkout.tsx:406 (jsx)
+                      app/food-checkout.tsx:490 (jsx)
+                      app/food-checkout.tsx:499 (jsx)
+                      app/food-checkout.tsx:509 (jsx)
+tint              11  DEUDA            0  dark ? brand.white : colors.textPrimary;
+                      app/lifebook-player.tsx:88 (jsx)
+                      app/lifebook-player.tsx:90 (estilo)
+                      app/lifebook-post/[id].tsx:569 (jsx)
+                      app/lifebook-post/[id].tsx:705 (jsx)
+                      app/lifebook-post/[id].tsx:568 (estilo)
+                      components/FloatingFooter.tsx:100 (jsx)
+color              6  PROP/PARAM       0  <<prop>>
+                      app/buscar.tsx:251 (jsx)
+                      app/ecomerse-detail.tsx:538 (jsx)
+                      app/profile.tsx:567 (jsx)
+                      app/profile.tsx:568 (jsx)
+                      app/profile.tsx:569 (jsx)
+                      app/profile.tsx:571 (jsx)
+tinte              4  DEUDA            0  activa ? colors.primary : colors.textSecondary;
+                      components/ecomerse/BarraTienda.tsx:95 (jsx)
+                      components/ecomerse/BarraTienda.tsx:96 (estilo)
+                      components/ecomerse/PieDelMercado.tsx:105 (jsx)
+                      components/ecomerse/PieDelMercado.tsx:114 (estilo)
+ocColor            2  DEUDA            0  oc === 'verified' ? colors.success : oc === 'pending
+                      app/edit-profile.tsx:564 (jsx)
+                      app/edit-profile.tsx:573 (estilo)
+priceColor         2  DEUDA            0  colors.secondary ?? brand.secondary;
+                      app/intercity-publish.tsx:402 (estilo)
+                      app/intercity-publish.tsx:582 (estilo)
+colorEstado        2  OTRO             2  r.status === 'hold'  ⚠ COMPARTIDO
+                      app/lifebook-hotel-panel.tsx:358 (estilo)
+                      app/lifebook-hotel-reservas.tsx:354 (estilo)
+nameTint           2  DEUDA            0  nameColor ?? (isDriver ? brand.white : brand.white);
+                      components/SocialHomeHeader.tsx:167 (estilo)
+                      components/SocialHomeHeader.tsx:171 (estilo)
+planColor          1  DEUDA            1  plan.color || colors.primary;  ⚠ COMPARTIDO
+                      app/alquiler-planes.tsx:271 (estilo)
+titleColor         1  DEUDA            0  tone === 'warn' ? brand.warningText : tone === 'dang
+                      app/billing-status.tsx:443 (estilo)
+bodyColor          1  DEUDA            0  tone === 'danger' ? brand.dangerText : colors.textSe
+                      app/billing-status.tsx:445 (estilo)
+statusColor        1  DEUDA            0  item.status === 'active' ? brand.success : item.stat
+                      app/food-owner.tsx:846 (estilo)
+tone               1  OTRO             0  LB_TONE_COLOR[meta.tone];
+                      app/lifebook-merchant-products.tsx:298 (estilo)
+LIKE_RED           1  DEUDA            1  brand.like;  ⚠ COMPARTIDO
+                      app/lifebook-videos.tsx:1123 (jsx)
+active             1  OTRO             1  c === city;  ⚠ COMPARTIDO
+                      app/lifebook.tsx:1237 (estilo)
+tono               1  DEUDA            0  estado.tono === 'bien' ? colors.success
+                      app/tienda/anuncios.tsx:623 (estilo)
+tonoEstado         1  OTRO             0  estado
+                      app/tienda/perfil.tsx:203 (estilo)
+texto              1  OTRO             0  esEntrada || esSalida
+                      components/CalendarPicker.tsx:285 (estilo)
+
+=== RESUMEN POR VEREDICTO ===
+    58  DEUDA
+     7  PROP/PARAM
+     6  OTRO
+
+  sitios cuyo identificador TAMBIÉN es relleno: 35  -> corrección EN EL SITIO
+      app/alquiler-planes.tsx:271  planColor (relleno x1, color x1)
+      app/food-checkout.tsx:377  ACCENT (relleno x1, color x6)
+      app/food-checkout.tsx:397  ACCENT (relleno x1, color x6)
+      app/food-checkout.tsx:406  ACCENT (relleno x1, color x6)
+      app/food-checkout.tsx:490  ACCENT (relleno x1, color x6)
+      app/food-checkout.tsx:499  ACCENT (relleno x1, color x6)
+      app/food-checkout.tsx:509  ACCENT (relleno x1, color x6)
+      app/food-menu.tsx:298  ACCENT (relleno x4, color x4)
+      app/food-menu.tsx:229  ACCENT (relleno x4, color x4)
+      app/food-menu.tsx:363  ACCENT (relleno x4, color x4)
+      app/food-menu.tsx:376  ACCENT (relleno x4, color x4)
+      app/food-orders.tsx:359  ACCENT (relleno x3, color x4)
+      app/food-orders.tsx:527  ACCENT (relleno x3, color x4)
+      app/food-orders.tsx:617  ACCENT (relleno x3, color x4)
+      app/food-orders.tsx:664  ACCENT (relleno x3, color x4)

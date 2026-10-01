@@ -1,0 +1,44 @@
+C · C-1: la migracion 026 aplicada y el backend desplegado; y el filtro de errores, versionado
+
+La base y el servidor ya tienen C-1. Cuatro ventanas al servidor, dos de ellas fallidas, y los
+dos fallos fueron del GUION, no del codigo. Quedan escritos para que no vuelvan.
+
+APLICAR 026 (ventanas 1-2). Un .sql escrito en /tmp del HOST no existe para el contenedor:
+psql corre DENTRO de mirror-postgres, asi que hace falta docker cp antes del psql -f. En la
+ventana 1 el psql fallo con exit=1 y NADA se aplico: los dos pg_dump salieron identicos, que es
+la prueba de que la base quedo intacta. En la ventana 2 si se aplico, y se probo en vivo con
+tres candados (23505 de uq_lb_reviews_reserva, 23514 de lb_hr_rating, 23503 de la FK). Tabla a
+cero y diff de esquema normalizado +81 / -0: solo lo que anade 026. El pg_dump crudo no es
+comparable entre ejecuciones por la semilla \restrict (fallo 58).
+
+DESPLEGAR (ventanas 3-4). La ventana 3 fallo y revirtio, y el servidor quedo intacto — las
+cinco huellas originales seguian ahi con sus .bak. Los dos fallos fueron del guion: el
+decodificador escribia los ficheros por ruta completa y el instalador los buscaba sin el src/,
+el cp fallo sin que nadie lo comprobara (el guion imprimio «instalado» con la huella vieja); y
+el grep sobre pm2 jlist no encuentra nada porque es un JSON anidado. La ventana 4 lo cierra por
+construccion: cada cp se compara con su sha256 esperado y la guarda de arranque usa pm2 pid
+(pid > 0 = online).
+
+VERIFICADO EN PRODUCCION, por HTTP y por nginx: ss -ltnp da *:3000 con pid=898111; el log de
+arranque de Nest mapea las cuatro rutas nuevas; y la ruta publica por nginx
+(https://hk.egrouteplan.com/wallet/api/v1/lifebook/commerce/hotel/hotels/<shopId>/reviews)
+responde 200 con {"total":0,"average":0,"publishesRating":false,"limit":20,"offset":0,
+"items":[]}. El codigo=000 que dio el curl en la ventana 4 no era el servicio caido, era la
+ruta probada sin el prefijo /api/v1: un 000 es «no conecte», no «no esta», y se comprueba con
+ss antes de revertir nada.
+
+EL FILTRO, VERSIONADO POR PRIMERA VEZ (backend/server-src/http/error.filter.ts). Hasta hoy solo
+existia en el servidor, y la copia local era un espejo de auditoria de agosto al que le
+faltaban treinta codigos que el modulo ya usa: no se podia parchear a ciegas desde el portatil.
+Se trajo VIVO en la ventana y se parcheo contado (fallo 55): copia byte-exacta del vivo (447
+lineas) mas los cuatro codigos de las resenas — REVIEW_NOT_FOUND (404), REVIEW_EXISTS (409),
+REVIEW_WINDOW_CLOSED (409) y STAY_NOT_FINISHED (409) — = 456 lineas y 334 entradas del mapa,
+con FEE_POLICY_MISSING conservada.
+
+DOC: §15 del dossier del hotel pasa a acta. §15.4 recoge las cuatro ventanas, las dos trampas
+nuevas (psql-en-contenedor y el docker exec -i de siempre, fallo 57), el fallo del guion que
+revirtio, y la verificacion por HTTP. §15.5 sigue siendo PROPUESTA: la decision de la app
+(D1-D6) no se implementa sin visto bueno.
+
+Del backend de C-1 solo queda §15.3: reviewId/hasReview en «mis reservas», que va con la app
+porque es lo que impide ofrecer «Valorar la estancia» a quien ya la escribio.

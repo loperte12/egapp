@@ -1,0 +1,142 @@
+SITIOS DE COLOR INDIRECTO (para la tabla del codemod)
+
+################################################################################
+### IDENT: ACCENT
+  app/food-checkout.tsx:377  prop=color    relleno_en_fichero=1
+      <Precio valor={total} tamano="lg" color={ACCENT} />
+  app/food-checkout.tsx:397  prop=color    relleno_en_fichero=1
+      <Store size={18} color={ACCENT} />
+  app/food-checkout.tsx:406  prop=color    relleno_en_fichero=1
+      <Bike size={18} color={ACCENT} />
+  app/food-checkout.tsx:490  prop=color    relleno_en_fichero=1
+      <Banknote size={18} color={ACCENT} />
+  app/food-checkout.tsx:499  prop=color    relleno_en_fichero=1
+      <CreditCard size={18} color={ACCENT} />
+  app/food-checkout.tsx:509  prop=color    relleno_en_fichero=1
+      <Wallet size={18} color={ACCENT} />
+  app/food-menu.tsx:229  prop=color    relleno_en_fichero=4
+      <Text style={[s_h.sub, { color: ACCENT, fontWeight: peso.fuerte, marginTop: espaciado.e2 }]}>🛵 Reparto hasta {km
+  app/food-menu.tsx:298  prop=color    relleno_en_fichero=4
+      <Precio valor={item.priceXaf} tamano="md" color={ACCENT} style={{ marginTop: espaciado.e2 }} />
+  app/food-menu.tsx:363  prop=color    relleno_en_fichero=4
+      price: { fontSize: tipografia.body, fontWeight: peso.titulo, color: ACCENT, marginTop: espaciado.e2 },
+  app/food-menu.tsx:376  prop=color    relleno_en_fichero=4
+      miniChipText: { fontSize: tipografia.nota, fontWeight: peso.fuerte, color: ACCENT },
+  app/food-orders.tsx:359  prop=color    relleno_en_fichero=3
+      <Text style={{ color: ACCENT, fontWeight: peso.maximo, fontSize: tipografia.body }}>Ver todos</Text>
+  app/food-orders.tsx:527  prop=color    relleno_en_fichero=3
+      <Text style={{ fontSize: tipografia.body, fontWeight: peso.titulo, color: ACCENT, marginTop: espaciado.e4 }}>
+  app/food-orders.tsx:617  prop=color    relleno_en_fichero=3
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>Ver en el mapa</Text>
+  app/food-orders.tsx:664  prop=color    relleno_en_fichero=3
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
+  app/food-owner.tsx:485  prop=color    relleno_en_fichero=2
+      ? <ActivityIndicator size="small" color={ACCENT} />
+  app/food-owner.tsx:486  prop=color    relleno_en_fichero=2
+      : <Text style={{ color: ACCENT, fontWeight: peso.maximo, fontSize: tipografia.body }}>📷 {photoUrl ? 'Cambiar fot
+  app/food-owner.tsx:575  prop=color    relleno_en_fichero=2
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT, marginTop: espaciado.e4, ma
+  app/food-owner.tsx:603  prop=color    relleno_en_fichero=2
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>Cambiar</Text>
+  app/food-owner.tsx:621  prop=color    relleno_en_fichero=2
+      <ActivityIndicator size="small" color={ACCENT} />
+  app/food-owner.tsx:624  prop=color    relleno_en_fichero=2
+      <Camera size={16} color={ACCENT} />
+  app/food-owner.tsx:625  prop=color    relleno_en_fichero=2
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>Hacer o elegir una foto</
+  app/food-owner.tsx:648  prop=color    relleno_en_fichero=2
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
+  app/food-owner.tsx:651  prop=color    relleno_en_fichero=2
+      <Text style={{ fontSize: tipografia.body, fontWeight: peso.maximo, color: ACCENT }}>{showDetails ? '−' : '+'}</T
+  app/food-owner.tsx:845  prop=color    relleno_en_fichero=2
+      <Precio valor={item.priceXaf} tamano="sm" color={ACCENT} />
+  app/food-rider.tsx:388  prop=color    relleno_en_fichero=4
+      <Text style={{ fontSize: tipografia.micro, fontWeight: peso.maximo, color: ACCENT }}>{stLabel}</Text>
+  app/food-rider.tsx:395  prop=color    relleno_en_fichero=4
+      <Precio valor={d.totalXaf} tamano="sm" color={ACCENT} style={{ marginTop: espaciado.e2 }} />
+  app/food-rider.tsx:407  prop=color    relleno_en_fichero=4
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.titulo, color: ACCENT }}>
+  app/food-rider.tsx:443  prop=color    relleno_en_fichero=4
+      <Navigation size={14} color={ACCENT} />
+  app/food-rider.tsx:444  prop=color    relleno_en_fichero=4
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.maximo, color: ACCENT }}>
+  app/food-rider.tsx:464  prop=color    relleno_en_fichero=4
+      <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: ACCENT }}>Cambiar</Text>
+  app/lifebook-hotel-detalle.tsx:274  prop=color    relleno_en_fichero=0
+      <Car size={14} color={ACCENT} />
+  app/lifebook-hotel-detalle.tsx:275  prop=color    relleno_en_fichero=0
+      <Text style={[styles.botonLineaTxt, { color: ACCENT }]}>Pedir taxi al hotel</Text>
+################################################################################
+### IDENT: tint
+  app/lifebook-player.tsx:88  prop=color    relleno_en_fichero=0
+      <ArrowLeft size={22} color={tint} />
+  app/lifebook-player.tsx:90  prop=color    relleno_en_fichero=0
+      <Text numberOfLines={1} style={[styles.closeTitle, { color: tint }]}>{title}</Text>
+  app/lifebook-post/[id].tsx:568  prop=color    relleno_en_fichero=0
+      <Text style={[styles.heroType, { color: tint }]}>{lbTypeLabel(post.type)}</Text>
+  app/lifebook-post/[id].tsx:569  prop=color    relleno_en_fichero=0
+      {price !== undefined && <Precio valor={price} tamano="md" color={tint} />}
+  app/lifebook-post/[id].tsx:705  prop=color    relleno_en_fichero=0
+      <Chip text={String(post.debate.category ?? '')} color={tint} bg={alpha(tint, 0.12)} />
+  components/FloatingFooter.tsx:100  prop=color    relleno_en_fichero=0
+      <Icon size={21} color={tint} strokeWidth={isActive ? trazoIcono.fuerte : trazoIcono.base} />
+  components/FloatingFooter.tsx:108  prop=color    relleno_en_fichero=0
+      style={[styles.label, { color: tint }, isActive && styles.labelStrong]}
+  components/ServiceGrid.tsx:136  prop=color    relleno_en_fichero=0
+      <Icon size={compact ? 20 : 26} color={tint} strokeWidth={trazoIcono.base} />
+  components/ServiceGrid.tsx:194  prop=color    relleno_en_fichero=0
+      <Icon size={16} color={tint} strokeWidth={trazoIcono.fuerte} />
+  components/lifebook/CommentsSheet.tsx:120  prop=color    relleno_en_fichero=0
+      <Text style={{ color: tint, fontWeight: peso.titulo, fontSize: isReply ? 12 : 13 }}>{initial}</Text>
+  components/lifebook/TarjetaAnuncio.tsx:85  prop=color    relleno_en_fichero=0
+      backgroundColor: alpha(ad.color?.startsWith('#') ? ad.color : tint, 0.10),
+################################################################################
+### IDENT: tinte
+  components/ecomerse/BarraTienda.tsx:95  prop=color    relleno_en_fichero=0
+      <Icon size={icono.md} color={tinte} strokeWidth={activa ? trazoIcono.acento : trazoIcono.base} />
+  components/ecomerse/BarraTienda.tsx:96  prop=color    relleno_en_fichero=0
+      <Text style={[styles.label, { color: tinte }, activa && styles.labelActiva]} numberOfLines={1}>
+  components/ecomerse/PieDelMercado.tsx:105  prop=color    relleno_en_fichero=0
+      color={tinte}
+  components/ecomerse/PieDelMercado.tsx:114  prop=color    relleno_en_fichero=0
+      <Text style={[styles.label, { color: tinte }, activo && styles.labelActivo]} numberOfLines={1}>
+################################################################################
+### IDENT: tono
+  app/lifebook-hotel-panel.tsx:461  prop=color    relleno_en_fichero=0
+      const color = tono === 'alerta' ? colors.danger : tono === 'aviso' ? colors.secondary : colors.textPrimary;
+  app/tienda/anuncios.tsx:623  prop=color    relleno_en_fichero=0
+      <Text style={[s.sello, { color: tono }]}>{estado.label}</Text>
+  app/tienda/anuncios.tsx:750  prop=color    relleno_en_fichero=0
+      <Icono size={icono.sm} color={tono ?? colors.textPrimary} />
+  app/tienda/anuncios.tsx:751  prop=color    relleno_en_fichero=0
+      <Text style={{ fontSize: tipografia.caption, fontWeight: peso.fuerte, color: tono ?? colors.textPrimary }}>{labe
+################################################################################
+### IDENT: ocColor
+  app/edit-profile.tsx:564  prop=color    relleno_en_fichero=0
+      <BadgeCheck size={18} color={ocColor} />
+  app/edit-profile.tsx:573  prop=color    relleno_en_fichero=0
+      <Text style={{ color: ocColor, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{ocLabel}</Text>
+################################################################################
+### IDENT: priceColor
+  app/intercity-publish.tsx:402  prop=color    relleno_en_fichero=0
+      <Text style={{ color: priceColor, fontWeight: peso.titulo, fontSize: tipografia.subtitle }}>{Number(t.price).toL
+  app/intercity-publish.tsx:582  prop=color    relleno_en_fichero=0
+      <Text style={{ color: priceColor, fontWeight: peso.titulo, fontSize: tipografia.subCabecera, marginTop: espaciad
+################################################################################
+### IDENT: statusColor
+  app/food-owner.tsx:846  prop=color    relleno_en_fichero=0
+      <Text style={{ fontSize: tipografia.micro, fontWeight: peso.fuerte, color: statusColor }}>{statusText}</Text>
+################################################################################
+### IDENT: planColor
+  app/alquiler-planes.tsx:271  prop=color    relleno_en_fichero=1
+      <Text style={[s.planName, { color: planColor }]}>{plan.name}</Text>
+################################################################################
+### IDENT: colorEstado
+  app/lifebook-hotel-panel.tsx:358  prop=color    relleno_en_fichero=1
+      <Text style={[styles.badgeTxt, { color: colorEstado }]}>{estado}</Text>
+  app/lifebook-hotel-reservas.tsx:354  prop=color    relleno_en_fichero=1
+      <Text style={[styles.badgeTxt, { color: colorEstado }]}>{RESERVA_ETIQUETA[r.status] ?? r.status}</Text>
+################################################################################
+### IDENT: tonoEstado
+  app/tienda/perfil.tsx:203  prop=color    relleno_en_fichero=0
+      <Text style={[s.etiqueta, { color: tonoEstado }]}>ESTADO DE TU TIENDA</Text>

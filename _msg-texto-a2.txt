@@ -1,0 +1,42 @@
+A2: adopcion del grupo `text` — 1322 sitios en 188 ficheros
+
+QUE CIERRA: el hallazgo H-1 de CONTRASTE-FASE4.md. Los acentos usados como TEXTO o ICONO pasan al
+grupo que resuelve por tema:
+
+  primary 791 · danger 273 · secondary 109 · success 94 · warning 49 · neutral 3 · social 2 · info 1
+
+EL MOTOR, y por que el censo anterior medía el 43 %. El patron de una sola expresion captura la
+PRIMERA expresion de la propiedad. En `color: active ? brand.white : colors.textPrimary` esa es la
+CONDICION (`active`), que no lleva punto; y en `color={colors.primary}` no hay `:` en absoluto. El
+motor nuevo extrae el VALOR ENTERO y busca dentro las ramas:
+  1215 color simple + 214 color ternario + 11 grafico simple + 8 grafico ternario = 1482 sitios.
+Se sustituyen 1322; los otros 160 van declarados (abajo).
+
+EL PIXEL, dicho sin adornos: en claro 1267 son identicos y 55 CAMBIAN de valor (warning 49 ·
+neutral 3 · social 2 · info 1 — justo los que ya fallaban en claro). En oscuro 1321 cambian: ese es
+el arreglo.
+
+DOS FALLOS DEL CODEMOD, cazados aqui:
+- CRLF. El alcance tiene 75 ficheros CRLF. Leer en modo universal los normalizaba a LF: el diff era
+  el FICHERO ENTERO por una sustitucion, y la comprobacion de `\r\r\n` no podia dispararse NUNCA
+  (leer convierte `\r\r\n` en `\n\n`). Los dos sintomas, una sola causa: se lee y se escribe con
+  `newline=''`. Y en CRLF el `\x00` del import no casaba — dejaba una linea en blanco.
+- `NOMBRES_TEMA` daba por tema CUALQUIER identificador llamado `colors`. No lo es en un parametro
+  (`estadoDe`) ni en un prop (`TarjetaProducto`) con contrato minimo. Lo cazo `tsc`: los dos se
+  arreglan en el TIPO, con el idioma que el fichero ya usaba
+  (`ReturnType<typeof useTheme>['colors']`).
+
+VERIFICACION: se invierte cada sustitucion sobre el texto del DISCO y se compara con el respaldo —
+332/332 ficheros reproducen el original, 0 problemas, 0 `\r\r\n`, 0 perdida de CRLF. Tres puertas:
+`tsc` 0 errores · guardia de diseno OK · guardia de rutas en orden.
+
+NO CIERRA LA FAMILIA, y por que: quedan 94 sitios que no pueden leer el tema (115 contando los 21
+de ficheros ya exentos por la guardia). Medidos y clasificados por el OBJETO que los contiene:
+  · 61 son DATO en 8 mapas de contenido — `STATUS_LABELS` de billing/ecomerse/food, `SERVICE_ROUTES`,
+    `VERIFIED_CHIPS`, `MODE_META`, `ACTIONS`. Ahi el color IDENTIFICA una categoria o un estado.
+  · 33 son hojas `StyleSheet.create` de modulo.
+Van a A3 con su medicion ya hecha.
+
+`text.lifebook` y `text.servicio` nacen con 0 usos: sus 6 consumidores son 2 de esos mapas de
+contenido. Se declaran en el acta con fichero y linea, en vez de recortar el grupo y tener que
+volver a tocar la paleta en A3.

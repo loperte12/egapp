@@ -1,0 +1,45 @@
+
+=== RUTAS REALES (ficheros de app/): 131 ===
+=== NAVEGACIONES ENCONTRADAS: 2709 (a 140 destinos distintos) ===
+
+=== ENLACES ROTOS: 0 (0 destinos distintos) ===
+
+=== PANTALLAS QUE NADIE ABRE: 0 ===
+
+=== NAVEGACIONES CON «as never» (el tipo no comprueba el destino): 1039 ===
+  · 14  app\lifebook-hotel-gestion.tsx
+  · 14  _respaldo-adopcion-a1\app\lifebook-hotel-gestion.tsx
+  · 14  _respaldo-espaciado\app\lifebook-hotel-gestion.tsx
+  · 14  _respaldo-fuente-t1\app\lifebook-hotel-gestion.tsx
+  · 14  _respaldo-peso-p2\app\lifebook-hotel-gestion.tsx
+  · 14  _respaldo-radios-r1\app\lifebook-hotel-gestion.tsx
+  · 14  _respaldo-texto-a2\app\lifebook-hotel-gestion.tsx
+  · 14  _respaldo-trazo-b1\app\lifebook-hotel-gestion.tsx
+  · 10  app\tienda\index.tsx
+  · 10  _respaldo-espaciado\app\tienda\index.tsx
+
+=== DESTINOS QUE PODRÍAN SER NULOS/VARIABLES: 20 ===
+  · app\ecomerse-perfil.tsx:386  <Bloque titulo="Entrega" accesos={entrega} onIr={(r) => router.push(r as never)} />
+  · app\ecomerse-perfil.tsx:389  <Bloque titulo="Reclamaciones" accesos={reembolsos} onIr={(r) => router.push(r as never)} />
+  · app\ecomerse-perfil.tsx:390  <Bloque titulo="Guardado" accesos={GUARDADO} onIr={(r) => router.push(r as never)} />
+  · app\ecomerse-perfil.tsx:393  <Bloque titulo="Tiendas" accesos={tiendasQueSigo} onIr={(r) => router.push(r as never)} />
+  · app\tienda\index.tsx:320  <Acceso Icono={PackagePlus} label="Publicar" ruta="/tienda/publicar" onIr={(r) => router.push(r as never)} />
+  · app\tienda\index.tsx:321  <Acceso Icono={Store} label="Ver mi tienda" ruta={seller ? `/ecomerse-tienda?id=${seller.id}` : '/tienda'} onIr={(r) => 
+  · app\tienda\index.tsx:322  <Acceso Icono={FileText} label="Documentos" ruta="/ecomerse-docs" onIr={(r) => router.push(r as never)} />
+  · app\tienda\index.tsx:323  <Acceso Icono={TrendingUp} label="Mi plan" ruta="/ecomerse-planes" onIr={(r) => router.push(r as never)} />
+  · _respaldo-espaciado\app\tienda\index.tsx:320  <Acceso Icono={PackagePlus} label="Publicar" ruta="/tienda/publicar" onIr={(r) => router.push(r as never)} />
+  · _respaldo-espaciado\app\tienda\index.tsx:321  <Acceso Icono={Store} label="Ver mi tienda" ruta={seller ? `/ecomerse-tienda?id=${seller.id}` : '/tienda'} onIr={(r) => 
+  · _respaldo-espaciado\app\tienda\index.tsx:322  <Acceso Icono={FileText} label="Documentos" ruta="/ecomerse-docs" onIr={(r) => router.push(r as never)} />
+  · _respaldo-espaciado\app\tienda\index.tsx:323  <Acceso Icono={TrendingUp} label="Mi plan" ruta="/ecomerse-planes" onIr={(r) => router.push(r as never)} />
+  … y 8 más
+
+=== SISTEMA DE NAVEGACIÓN (comprobaciones que FALLAN si algo se rompe) ===
+  · Mapa de rutas (constants/rutas.ts): completo y al día
+  · Pantalla de respaldo /ruta-fallida: existe
+  · +not-found.tsx (dirección desconocida): existe
+  · Enlaces rotos: ninguno
+  · Destinos que pueden quedar nulos sin avisar: 20
+  · Navegaciones que ya pasan por el ayudante: 1024 de 2709 (el resto siguen yendo directas; se migran por zonas)
+
+=== ✓ NAVEGACIÓN: todo en orden (sin enlaces rotos, con respaldo y mapa al día) ===
+

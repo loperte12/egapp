@@ -1,0 +1,51 @@
+docs(UI-HOTEL): la pantalla de listado de hoteles, y las herramientas para verla
+
+Peticion: disenar una pantalla mobile de listado de hoteles con su pliego completo
+(barra superior, chips con scroll, tarjetas, 10 componentes, 4 estados, 6 hoteles de
+ejemplo, prototipo y entrega de handoff).
+
+El lienzo de MasterGo seguia en "no online mg canvas", asi que la pantalla se entrega
+como FICHERO y no al lienzo. Las reglas del protocolo page-generate se respetaron
+igualmente, para que el fichero sea pegable en el lienzo en cuanto haya sesion.
+
+Entregado:
+- docs/UI-HOTEL-LISTADO.html       el payload: 4 estados + matriz de componentes.
+                                   901 lineas, 463 nodos con data-name, raiz unica,
+                                   Flex puro, cero margin, cero formularios nativos.
+- docs/UI-HOTEL-LISTADO-vista.html la misma pantalla DERIVADA, para poder verla en un
+                                   navegador (el payload no lleva Tailwind compilado).
+- docs/design.md                   el sistema de diseno en tabla: color, tipografia,
+                                   espaciado, radio, trazo, elevacion y las reglas de
+                                   contenido.
+- docs/UI-HOTEL-LISTADO-HANDOFF.md medidas exactas, matriz de variantes, contrato de
+                                   dato elemento a elemento y lo que no se puede pintar.
+- docs/INFORME-FLUJO-HOTEL.md      las 6 pantallas del flujo, las tarjetas existentes y
+                                   el informe de inconsistencias (peticion anterior).
+
+Herramientas nuevas en pruebas/:
+- prepara-vista-listado.cjs  deriva la vista y comprueba que conserva los 463 nodos.
+- recorta-frame.cjs          saca un frame al origen, para capturarlo a 1:1. Chrome
+                             headless fotografia siempre desde el origen: no hay
+                             bandera para capturar a partir de y=1400.
+- captura-vista.cjs          Chrome headless con las banderas correctas, y leyendo el
+                             tamano REAL del PNG en vez de creerle a Chrome.
+
+Decisiones tomadas con el usuario: dibujo libre / HTML ya / foto 16:9 a lo ancho / solo
+los 3 chips que tienen dato detras (Precio, Distancia, Orden). Estrellas, Servicios y
+Promociones se apagan porque no hay dato: hotel.stars llega undefined en la lista,
+amenities se acepta y se ignora, y no existe ningun campo de promocion. La variante
+disabled queda dibujada en la matriz.
+
+Dos defectos que solo aparecieron al MIRAR el render:
+- el comentario de cabecera de la fuente se colaba en la vista: se buscaba "<main" con
+  indexOf y la propia cabecera cita la etiqueta.
+- los chips se plegaban a dos lineas dentro de su pildora. El protocolo dice que un span
+  es auto-ancho y no pliega; el lienzo lo cumple y un navegador no. Arreglo doble:
+  shrink-0 en el chip y overflow-hidden en la fila. El corte del tercer chip ES la
+  invitacion a deslizar que pedia el pliego.
+
+NO se hizo, porque las dos cosas exigen lienzo: guardar colores y textos como variables
+de MasterGo, y convertir los 10 componentes en componentes con variantes.
+
+Las capturas pruebas/_ls-*.png se quedan fuera, igual que en las tandas anteriores: son
+evidencia local, no fuente.

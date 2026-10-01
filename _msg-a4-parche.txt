@@ -1,0 +1,110 @@
+HOTEL · A-4 (1/2): el dinero del hotel deja de caducar por el reloj que no es
+
+Los siete hallazgos de A-servidor que quedaban, en los tres servicios del modulo. Van
+juntos porque el `tsc` del servidor es la puerta y el reinicio es uno.
+
+Primero una decision que atraviesa toda la tanda: **no se inventan estados nuevos**. El
+esquema NO esta versionado y sus `CHECK` no se pueden leer desde aqui, asi que anadir
+`expired` o `release_pending` a una columna ya desplegada es una apuesta a ciegas. Se
+re-semantizan columnas que YA existen: `hold_expires_at` (cuando vence lo que se espera) y
+`paid_at` (que la ficha del hotel ya exponia como `paidAt` y que la entrada ya escribia).
+
+═══ 1) LH-07 (Media) — se esperaba con el reloj equivocado ═══
+
+El vencimiento se calculaba SIEMPRE con `hold_minutes` (20 min por defecto). Pero hay TRES
+relojes y no son intercambiables:
+
+  · `hold_minutes`      = lo que el HUESPED tarda en pagar la senal;
+  · `confirmation_hours` = lo que el HOTEL tarda en confirmar;
+  · `cancellation_hours` = hasta cuando se cancela gratis.
+
+Con el monedero no se espera dinero del huesped: se espera al hotel. Usar el reloj del
+huesped daba 20 minutos para que el hotel confirmara — y al vencer se liberaba una reserva
+que el hotel todavia estaba mirando. Ahora el plazo se elige por lo que de verdad falta:
+`confirmation_hours` cuando paga el monedero, y `hold_minutes` (o `TRANSFER_HOLD_HOURS`
+en la transferencia) cuando falta dinero.
+
+═══ 2) LH-08 (Media) — una retencion vencida ocupaba inventario para siempre ═══
+
+La regla «que ocupa inventario» estaba escrita SEIS veces en SQL y CINCO en JavaScript, y
+**media docena de las copias solo miraba el estado**: `status IN ('hold','pending')` sin
+mirar si el plazo ya habia vencido. Efecto: una reserva `pending` caducada seguia ocupando
+la habitacion — para siempre, porque nada la barria y nadie la miraba.
+
+  · nace `plazoVencido(status, holdExpiresAt)` y `ocupaInventario(...)` en `hotel.service`:
+    UNA definicion, con `ESTADOS_QUE_OCUPAN` como lista unica. Se borra la lista local que
+    cada servicio tenia.
+  · las consultas de ocupacion (2 en `hotel.service`, 2 en `reservations.service` y 1 en el
+    panel) pasan a `status NOT IN ('hold','pending') OR hold_expires_at IS NULL OR
+    hold_expires_at > now()`.
+  · `expireStale` deja de filtrar por `payment_status` (era el filtro que dejaba en el
+    limbo las que si tenian senal) y su motivo distingue QUE se esperaba: «Sin pagar la
+    senal a tiempo» o «El hotel no confirmo dentro de su plazo».
+  · y se barre solo: `@Cron('*/15 * * * *')` — `@nestjs/schedule` ya era dependencia y
+    `ScheduleModule.forRoot()` ya estaba registrado en `billing.module`, asi que basta con
+    exponer el metodo. Con `try/catch`: un barrido que revienta no puede tumbar el proceso.
+
+═══ 3) LH-02 (Alta) — se confirmaba sin haber cobrado la senal ═══
+
+`confirm` pasaba de `hold` a `confirmed` sin mirar el dinero. Si el hotel confirmaba sin
+que la senal estuviera pagada, la reserva quedaba en firme con `deposit_xaf` por cobrar y
+sin nada que la retuviera: la habitacion quedaba bloqueada gratis. Ahora `confirm` exige
+`payment_status IN ('deposit_paid','paid')` cuando la senal es mayor que cero, y **en las
+DOS puertas** — la app (`action`) y el panel (`updateReservationStatus`, mas
+`confirmDepositForShop`). Error propio: `DEPOSIT_NOT_CONFIRMED`.
+
+═══ 4) LH-09 (Media) — el mismo `Idempotency-Key` reutilizaba un cerrojo ya devuelto ═══
+
+La clave del cerrojo era `lb-hotel:<clave>`. `lockForCommerceOrder` **devuelve el cerrojo
+viejo en un reintento** (eso es lo correcto para no cobrar dos veces) — pero si el cerrojo
+anterior ya se habia liberado o devuelto, el reintento con la misma clave del cliente
+recibia un cerrojo MUERTO. Ahora la clave lleva un nonce por intento
+(`lb-hotel:<clave>:<nonce>`). Verificado antes de tocarlo: `lb-hotel:` es INTERNO — ni el
+servidor, ni la app, ni el movil leen su valor.
+
+═══ 5) LH-10 (Media) — una liberacion fallida solo dejaba una linea de `warn` ═══
+
+Si `releaseCommerceOrder` fallaba, el log era lo unico que quedaba: ni marca en la fila ni
+forma de reintentar. Ahora:
+
+  · al liberar BIEN se escribe `paid_at = COALESCE(paid_at, now())` — la marca de «esta
+    liquidada», en una columna que ya existia;
+  · el catch pasa a `LIQUIDACION_PENDIENTE ...` (greppable) en los dos servicios;
+  · nace `reconciliarMonedero(limit = 25)`, PUBLICO, que relee las dos formas de quedar
+    colgado — `paid_at IS NULL AND status IN ('checked_in','no_show')` y
+    `status IN ('cancelled','expired') AND payment_status IN ('deposit_paid','refunded')`
+    — acotado a `updated_at > now() - interval '48 hours'` y devuelto en el resultado del
+    barrido. Lo llama el propio cron.
+
+No cubre la causa raiz (el `ensureProvisioned` del monedero del vendedor vive en
+`wallet.service`/`kyc-gate.service`, compartidos y fuera de esta tanda): queda anotado.
+
+═══ 6) LH-12 (Baja) — un `images` mal formado borraba las fotos ═══
+
+`images()` hacia `Array.isArray(v) ? v : []` -> un cuerpo mal formado se leia como «lista
+vacia», o sea «borra las fotos», en silencio. Ahora lo que no es lista se RECHAZA
+(`IMAGE_INVALID`) y **ausente sigue significando «no se toca»**, que es lo que espera el
+panel al guardar solo el nombre. La otra mitad (Dtos del `controller`) NO entra: el
+`hotel.controller.ts` no esta versionado en el repo.
+
+═══ 7) LH-05 (Alta) — media ═══
+
+La consulta de metodos de pago no llevaba `ORDER BY`, asi que la preseleccion del panel
+podia cambiar de una carga a otra. Se cierra con `ORDER BY method`. La otra mitad (que la
+app mande `X-Payment-Token`) NO entra: es del cliente. El servidor YA lo acepta
+(`@PaymentToken() payTok -> createReservation(..., payTok)`), asi que el orden servidor
+primero / app despues se sostiene.
+
+═══ Verificacion ═══
+
+  · Puerta local (`_a4-verifica-local.cjs`): los 3 ficheros PARSEAN, 0 backticks en
+    comentarios SQL, y cada hallazgo se cuenta POR EFECTO — el censo se recalcula sin
+    comentarios, porque el censo se contaba a si mismo (los docblocks nombran las funciones
+    que se cuentan);
+  · `_a3-verifica-local.cjs` sigue verde: lo de A-3 no se movio;
+  · terminadores: los 3 en LF, como estaban (medido con `tr -cd '\r' | wc -c`, no con
+    `grep -c $'\r'`, que en Git Bash miente).
+
+Y la trampa que costo esta tanda, otra vez: **un backtick dentro de un comentario SQL de un
+`$queryRaw` cierra el template literal**. Lo cazo la puerta local — `tsc` solo lo habria
+dicho DESPUES de escribir.

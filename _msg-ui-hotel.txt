@@ -1,0 +1,31 @@
+UI hotel: el plan de mejora, con Meituan como referencia medida
+
+Nace de la peticion del usuario: "el hotel lleva la peor UI que he visto jamas,
+necesita un plan de mejora, pantalla por pantalla". Insumo: las 30 fotos de su propio
+recorrido en Meituan y 8 capturas en vivo hechas desde el movil.
+
+- docs/UI-HOTEL-PLAN-MEJORA.md (nuevo): el recorrido de Meituan por tramos, las once
+  palancas que son de FORMA y no de dato (por eso se pueden copiar ya), la tabla de lo
+  que depende de datos inexistentes (resenas, cupones, membresia, precios tachados), la
+  brecha medida con las capturas actuales y el plan P1..P10.
+- Corrige al DISENO-UX-MEITUAN-HOTELES.md (12-sep) alli donde ahora hay medida. No lo
+  sustituye: aquel se escribio sin dispositivo y sigue siendo la fuente buena para lo
+  que Meituan documenta por escrito.
+
+Los tres fallos medidos que explican "la peor UI":
+1. app/lifebook-hotel.tsx es buscador Y lista: el formulario entero vive en el
+   ListHeaderComponent (200-388), asi que los resultados empiezan tras el formulario.
+2. Las habitaciones van dentro de la tarjeta de cada hotel, cada una con su boton azul:
+   en _c1-01 hay cinco "Ver fechas" para dos hoteles, y el nombre se corta.
+3. La habitacion NO tiene pantalla: lifebook-hotel-detalle.tsx:465 la hace acordeon, y
+   al abrirse pinta dentro el CalendarPicker (504), el desglose (518) y el boton (548).
+
+Verificado al escribir el plan, no supuesto:
+- api/hotel.ts:403-419 manda minPrice/maxPrice/page, pero NO existe sort: ordenar exige
+  tocar el backend. Y searchHotels acepta amenities y no la usa; stars ni se acepta.
+- HotelRoom (117-160) NO tiene planta, ventana, desayuno ni bano. Si tiene images,
+  amenities, weekendPriceXaf y holdMinutes. La pantalla de la habitacion sale entera sin
+  campos nuevos; el precio de fin de semana esta hoy oculto.
+
+Decisiones abiertas: D1..D7 en el documento. D1/D2/D3 sin contestar a proposito: el
+usuario quiere ver antes el diseno de la habitacion.

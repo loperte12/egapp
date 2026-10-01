@@ -1,0 +1,32 @@
+docs(UI-HOTEL): fuera el color inventado #5A5F68, y la cabecera declara sus dos excepciones
+
+El censo de colores de la pantalla de listado destapo un hex que no existe en el
+kit: #5A5F68, en 13 sitios, todos en el estado disabled (los tres chips de filtro,
+el chip de la matriz de variantes y el corazon del favorito). Un sistema de tokens
+construido sobre un color inventado nace mintiendo, y este iba a ser la base de las
+variables de diseno; se corrige antes de crear nada, no despues.
+
+  #5A5F68  ->  #A9AEB8   (textSecondary del kit, 13 usos)
+
+Con eso el estado disabled deja de introducir un color propio: pasa a ser un DELTA
+del estado encendido (borde mas tenue + texto en textSecondary), que es exactamente
+como funcionan los *Soft del ui-kit. Es la misma decision, aplicada al reves.
+
+La cabecera del fichero ahora lo deja por escrito, en vez de callarlo:
+
+  - el fondo #0F0F12 del artboard NO es interfaz de la app: es el lienzo donde se
+    apoyan los cuatro frames de 390 para que se lean como frames. Es la unica
+    excepcion al kit, y va declarada a proposito.
+  - el estado disabled no añade color, es un delta (ver arriba).
+
+Censo resultante: 19 colores, todos del kit salvo ese #0F0F12 declarado.
+Cero #5A5F68.
+
+La vista del navegador no se edita a mano: es un derivado. Regenerada con
+pruebas/prepara-vista-listado.cjs y comprobada reproducible byte a byte
+(sha1 identico antes y despues, 463 nodos en fuente y vista, 6 imagenes
+sustituidas por marcador gris). Si divergiera, seria una foto vieja.
+
+Solo estos dos ficheros: docs/UI-HOTEL-LISTADO.html y su vista.
+No toca el trabajo de D8/D10 en el arbol (lifebook-hotel-detalle.tsx,
+PhotoGallery.tsx), que es de otra mano.

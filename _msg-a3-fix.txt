@@ -1,0 +1,14 @@
+HOTEL · A-3 (3/3): corregir el nombre del metodo en un comentario desplegado
+
+En el comentario de `liquidarMonedero` escribi «la app (`setStatus`)». El metodo se
+llama **`action`** (`reservations.service.ts:687`); `setStatus` no existe en este
+servicio. Un comentario que cita un metodo inexistente es una mentira en el artefacto:
+el siguiente que busque `setStatus` no lo encuentra y deja de fiarse del comentario.
+
+Se corrige en el fichero Y en el servidor (segundo despliegue, un solo fichero,
+`tsc OK`, `pm2` online con `unstable restarts 0`). Huella desplegada:
+3b240dc44ee4a942…
+
+Es la unica mencion: el resto de los metodos que citan los comentarios de A-3 se
+comprobaron contra el codigo (`action`, `liquidarMonedero`, `updateReservationStatus`,
+`hotelReservationShape`).

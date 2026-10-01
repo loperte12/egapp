@@ -1,0 +1,22 @@
+=== VERIFICACION SITIO A SITIO (inversion contra el respaldo) ===
+  ficheros del respaldo           : 332
+  ficheros que reproducen el viejo: 332
+  ficheros con problema           : 0
+  lineas que cambian              : 1255
+  sustituciones contadas en disco : 1322
+  ficheros con \r\r\n            : 0
+  ficheros que PIERDEN CRLF      : 0
+
+=== EL PIXEL, POR TOKEN ===
+  token       sitios  claro            oscuro
+  primary        791  #0066CC -> #0066CC  IGUAL      #0066CC -> #5FA9EE  CAMBIA
+  danger         273  #C62828 -> #C62828  IGUAL      #C62828 -> #F58585  CAMBIA
+  secondary      109  #C2410C -> #C2410C  IGUAL      #C2410C -> #F08A4B  CAMBIA
+  success         94  #1E7A45 -> #1E7A45  IGUAL      #1E7A45 -> #45B87A  CAMBIA
+  warning         49  #F59E0B -> #B45309  CAMBIA     #F59E0B -> #F5B942  CAMBIA
+  neutral          3  #64748B -> #475569  CAMBIA     #64748B -> #B0B8C4  CAMBIA
+  social           2  #E0439A -> #BE185D  CAMBIA     #E0439A -> #F472B6  CAMBIA
+  info             1  #0EA5E9 -> #0369A1  CAMBIA     #0EA5E9 -> #0EA5E9  IGUAL
+
+  EN CLARO: 1267 identicos · 55 cambian de valor
+  EN OSCURO: 1321 cambian de valor (el resto ya coincidia)

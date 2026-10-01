@@ -1,0 +1,17 @@
+docs(UI-HOTEL): la ficha medida en el movil y el fallo del calendario
+
+Anade §11.7 y §11.8 al plan de la UI del hotel.
+
+§11.7 — lo medido con el APK 1df321d6 (116.858.681 B, instalado en sitio,
+verificado por bytes). La ficha entera se recorre en 3 swipes; con el MISMO
+gesto de 1200 px que antes mostraba la cabecera de habitaciones y el
+calendario, ahora caben cuatro tarjetas completas con precio y boton.
+Alojamiento verificado aparece en y=1137: el dato existia y no se pintaba.
+
+§11.8 — el fallo preexistente que la medicion destapo. El calendario era una
+rejilla muerta: el servidor cuenta los dias INCLUSIVE y acepta 92, pero la
+ficha pedia hoy+92 = 93 dias, asi que siempre recibia 400 RANGE_TOO_LONG. El
+catch lo leia como sin datos y seleccionable devolvia false para todo dia. No
+se veia porque los numeros de la rejilla si se pintan sin datos. Arreglado en
+1ebd689: el rango se pide con MAX_NOCHES - 1 (que es lo que ya hacia el propio
+CalendarPicker) y la hoja, si no hay dias, lo dice en vez de dibujar rejilla.

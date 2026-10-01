@@ -1,0 +1,45 @@
+C · C-1: el acta de la app — lo medido en el pixel y lo que sigue sin poder medirse
+
+§16 del dossier. Separa a proposito lo MEDIDO de lo ESCRITO, porque un acta que no
+distingue las dos cosas deja creyendo que esta probado lo que solo esta escrito.
+
+LO MEDIDO, en el OPPO PKK110 (com.egrouteplan.app.prueba):
+
+  - El APK: BUILD SUCCESSFUL in 6m 42s, 116.848.885 B. Y la prueba que sirve cuando
+    la tanda solo mueve REFERENCIAS —C-1 no introduce ni retira un literal de
+    color—: el bundle difiere, 6.779.440 B / c827f62a contra 6.756.324 B / bd17ab1c.
+    Contar literales habria dado 0 y 0, y un 0 identico parece «no cambio nada».
+  - La instalacion por BYTES y no por el mensaje: 116848885 = 116848885, con
+    firstInstallTime distinto de lastUpdateTime -> actualiza en sitio, sesion
+    conservada.
+  - La ficha: seccion de resenas DESPUES de las habitaciones, estado vacio, y SIN
+    chip (nota exige total > 0: anunciar «0 resenas» no ayuda a nadie).
+  - La tarjeta de resultados sin cifra, y el servidor diciendo rating 0 / n 0 /
+    publicado false. La ruta publica responde {"total":0,...} con 200: el vacio es
+    la VERDAD del servidor, no una peticion fallida disfrazada de vacio.
+  - La puerta de valorar CERRADA con la reserva Confirmada (no Salida).
+  - El selector, medido POR DIFERENCIA en el mismo fotograma: estrellas 1-3 de
+    #343439 a #ECBB59, las 4-5 quietas, y los controles grises card #232329 y
+    background #17171A identicos en las dos capturas. Sin los controles, la
+    desviacion del ambar pareceria un fallo del codigo y es el P3 del panel.
+
+LO QUE NO ESTA MEDIDO, con el motivo: los estados CON resenas (el chip con cifra, la
+lista, «ya valoraste», el panel del hotelero) necesitan datos que la base no tiene, y
+plantarlos exige la ventana SSH — vetada hoy por fail2ban: cuatro intentos, todos
+Connection reset. Y §15.3, commiteado en 4dcd1db, sigue SIN desplegar: la app
+instalada hoy no distingue «ya valore» de «me falta valorar» y el segundo intento
+daria 409 REVIEW_EXISTS.
+
+LA CORRECCION que dejo el acta anterior: «la nota no se pintaba en ninguna pantalla»
+era CASI cierto — HotelResultCard SI la leia, con la condicion vieja (por el valor,
+no por si el servidor la publica). C-1 en la app fue anadir una confianza que el
+backend ya escribia y la interfaz callaba.
+
+SEIS TRAMPAS nuevas, medidas hoy, cada una con su cura: el aislamiento del proceso
+tapa el USB de adb (Windows si ve la interfaz ADB: Class_FF&SubClass_42&Prot_01 con
+Service WINUSB, o sea que el movil estaba bien); el daemon de adb muere entre
+invocaciones; el shell DEL MOVIL parte la URL en el primer &; el deep link no se
+sostiene (la app vuelve a su ruta inicial en minutos, asi que abrir, capturar y tocar
+van en la MISMA orden); exec-out screencap -p trunca el PNG en silencio (16.768 B de
+una pantalla que daba 877 KB, y lo unico que lo delata es el tamano); y la API del
+proyecto desde el host exige curl --noproxy '*'.

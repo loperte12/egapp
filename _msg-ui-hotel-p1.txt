@@ -1,0 +1,41 @@
+UI hotel P1: la home pasa a tres filas y un boton, y la tarjeta suelta los cinco botones
+
+EL BUSCADOR (app/lifebook-hotel.tsx, reescrito)
+Estaba partido en tres bloques con etiquetas DADO/CUANDO/QUIEN dentro del
+ListHeaderComponent de la propia lista: dos cajas de fecha, un contador de noches,
+un aviso, un boton de calendario y dos contadores. Medido en el movil, mas de mil
+px de formulario antes de la primera tarjeta. Ahora es una tarjeta con tres filas y
+un boton: destino (hoja con las ciudades reales), llegada/salida/noches/hab-huesped
+en UNA linea de cuatro celdas, y "Buscar alojamiento".
+
+La busqueda deja de dispararse sola al tocar cualquier criterio: se busca al entrar,
+al cambiar las FECHAS (que es lo que mueve el precio) y al pulsar el boton.
+
+Filtros: Cerca de mi (distancia en linea recta en el cliente) y Precio
+(minPrice/maxPrice, que la API ya aplicaba). NO hay control de orden porque `sort`
+no existe en el DTO de la busqueda.
+
+LA TARJETA (components/HotelResultCard.tsx)
+Dentro de cada hotel iban sus habitaciones, cada una con su precio y su boton azul:
+cinco botones "Ver fechas" para dos hoteles en la captura del movil, y el nombre
+recortado. Ahora la tarjeta ensena el alojamiento (foto de 104 px, nombre a dos
+lineas, barrio/ciudad, distancia y la nota solo si ratingPublished) y resume las
+habitaciones a UNA linea, sin boton. Se eligen en la ficha.
+
+La nota se extrae a una variable: la condicion y la cifra se leen juntas, que es
+como la guardia de C-1 comprueba que la puerta sigue puesta.
+
+FICHEROS NUEVOS
+- utils/distancia.ts: havKm + etiquetaDistancia. La formula ya estaba en taxi.tsx,
+  local y sin exportar; se escribe una vez. taxi conserva su copia (deuda declarada).
+- components/hotel/HotelCitySheet.tsx: la hoja de ciudades, leidas de
+  constants/lifebook.ts. La API filtra por nombre EXACTO: el campo de texto libre
+  de antes mandaba "Malab" y devolvia cero sin decir por que.
+- components/hotel/HotelGuestsSheet.tsx: la hoja de huespedes y habitaciones.
+- components/hotel/HotelPriceSheet.tsx: la hoja del filtro de precio.
+
+app/lifebook-hotel-resultados.tsx: se adapta a la tarjeta sin onReservar.
+
+Medido: tsc 0 errores; trinquete sin empeorar (hex 0, fontSize 0, borderRadius 0,
+fontWeight 0, borderWidth 5, espaciado 183, precioFigura 5, strokeWidth 0);
+guardia de C-1 TODO OK.

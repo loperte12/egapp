@@ -1,0 +1,14 @@
+HOTEL · A-3 (1/3): .gitattributes para que el codigo del servidor siga en LF
+
+`core.autocrlf=true` y el repo no tenia `.gitattributes`. Git avisaba al commitear el
+baseline: "LF will be replaced by CRLF the next time Git touches it". Para el codigo
+que se despliega eso rompe DOS cosas a la vez:
+
+  · la huella sha256 deja de cuadrar (el despliegue se verifica por huella), y
+  · el generador de despliegue ABORTA si el fichero trae CRLF.
+
+No se toca el resto del arbol: ahi los terminadores se mezclan a proposito y
+normalizarlos seria un diff de miles de lineas. Solo `backend/server-src/**`.
+
+PRUEBA (no basta con declararlo): se borra el fichero, se hace `git checkout --` y la
+huella vuelve igual, 3c38d2a1d8bf90ed..., la misma que tiene el servidor.

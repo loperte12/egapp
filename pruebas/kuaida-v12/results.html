@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Alojamiento · Resultados</title>
+
+  <!-- Tailwind CSS Play (runtime local, offline) -->
+  <script src="./tailwind.js"></script>
+  <!-- Lucide: única librería de iconos funcionales -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<!--
+qb:map
+app-shell -> 页面外壳（固定头、吸顶筛选、列表、地图抽屉、底栏、浮层）
+main-content -> 结果列表区
+map-drawer -> 地图半屏抽屉
+app-overlays -> 筛选/排序面板、Toast
+-->
+
+<body class="min-h-screen bg-[#1E1E23] text-[#F2F3F5] font-sans antialiased">
+
+  <!-- qb:region:app-shell:start -->
+  <div id="app" class="min-h-screen" data-qb-region="app-shell">
+
+    <!-- 固定头：TopBar 56 + SearchBar 52 = 108px -->
+    <header class="fixed inset-x-0 top-0 z-40">
+      <!-- TopBar (56px) -->
+      <div class="h-[56px] border-b border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pt-[env(safe-area-inset-top)]">
+        <div class="mx-auto flex h-[56px] max-w-[390px] items-center justify-between px-4">
+          <div class="flex min-w-0 items-center gap-2">
+            <button type="button" data-action="back" aria-label="Volver"
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#2A2A30] bg-[#1E1E23] text-[#F2F3F5] active:bg-[#222228]">
+              <i data-lucide="arrow-left" class="h-[18px] w-[18px]"></i>
+            </button>
+            <div class="min-w-0 leading-tight">
+              <p id="res-city-title" class="truncate text-[16px] font-semibold text-[#F2F3F5]">Malabo · 3 noches</p>
+              <p class="truncate text-[11px] text-[#9AA0A6]">Estadías · Guinea Ecuatorial</p>
+            </div>
+          </div>
+          <a href="./index.html" class="shrink-0 text-[12px] font-medium text-[#4D9FFF] active:opacity-70">Kit ›</a>
+        </div>
+      </div>
+
+      <!-- SearchBar (52px) -->
+      <div class="h-[52px] border-b border-[rgba(255,255,255,0.08)] bg-[#0F0F12]">
+        <div class="mx-auto flex h-full max-w-[390px] items-center px-4">
+          <div class="flex h-10 w-full items-center gap-2 rounded-lg border border-[#2A2A30] bg-[#111114] px-3 focus-within:border-[#4D9FFF]">
+            <i data-lucide="search" class="h-4 w-4 shrink-0 text-[#9AA0A6]"></i>
+            <input id="search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Buscar en Malabo…"
+              class="h-full w-full min-w-0 bg-transparent text-[14px] text-[#F2F3F5] placeholder:text-[#5A5F66] outline-none" />
+            <button type="button" id="search-clear" data-action="clear-search" aria-label="Limpiar búsqueda"
+              class="hidden h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#27272B] text-[#9AA0A6] active:bg-[#2A2A30]">
+              <i data-lucide="x" class="h-3.5 w-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- qb:section:main-content:start -->
+    <main id="main-content" class="mx-auto max-w-[390px] px-4" data-qb-section="main-content">
+
+      <!-- 吸顶筛选栏：sticky top-[108px] -->
+      <div class="sticky top-[108px] z-30 -mx-4 border-b border-[rgba(255,255,255,0.08)] bg-[#1E1E23] px-4">
+        <div class="mx-auto flex h-12 max-w-[390px] items-center gap-2">
+          <div class="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+
+            <button type="button" data-action="open-filter" data-group="precio"
+              class="filter-chip flex h-8 shrink-0 items-center gap-1 rounded-full border border-[#2A2A30] bg-transparent px-3 text-[12px] font-medium text-[#9AA0A6] active:bg-[#222228]">
+              <span class="whitespace-nowrap">Precio</span>
+              <span data-chip-value="precio" class="hidden whitespace-nowrap text-[#4D9FFF]"></span>
+              <i data-lucide="chevron-down" class="h-3.5 w-3.5"></i>
+              <span data-chip-x="precio" class="hidden"><i data-lucide="x" class="h-3 w-3"></i></span>
+            </button>
+
+            <button type="button" data-action="open-filter" data-group="estrellas"
+              class="filter-chip flex h-8 shrink-0 items-center gap-1 rounded-full border border-[#2A2A30] bg-transparent px-3 text-[12px] font-medium text-[#9AA0A6] active:bg-[#222228]">
+              <span class="whitespace-nowrap">Estrellas</span>
+              <span data-chip-value="estrellas" class="hidden whitespace-nowrap text-[#4D9FFF]"></span>
+              <i data-lucide="chevron-down" class="h-3.5 w-3.5"></i>
+              <span data-chip-x="estrellas" class="hidden"><i data-lucide="x" class="h-3 w-3"></i></span>
+            </button>
+
+            <button type="button" data-action="open-filter" data-group="distancia"
+              class="filter-chip flex h-8 shrink-0 items-center gap-1 rounded-full border border-[#2A2A30] bg-transparent px-3 text-[12px] font-medium text-[#9AA0A6] active:bg-[#222228]">
+              <span class="whitespace-nowrap">Distancia</span>
+              <span data-chip-value="distancia" class="hidden whitespace-nowrap text-[#4D9FFF]"></span>
+              <i data-lucide="chevron-down" class="h-3.5 w-3.5"></i>
+              <span data-chip-x="distancia" class="hidden"><i data-lucide="x" class="h-3 w-3"></i></span>
+            </button>
+
+            <button type="button" data-action="open-filter" data-group="amenities"
+              class="filter-chip flex h-8 shrink-0 items-center gap-1 rounded-full border border-[#2A2A30] bg-transparent px-3 text-[12px] font-medium text-[#9AA0A6] active:bg-[#222228]">
+              <span class="whitespace-nowrap">Amenities</span>
+              <span data-chip-value="amenities" class="hidden whitespace-nowrap text-[#4D9FFF]"></span>
+              <i data-lucide="chevron-down" class="h-3.5 w-3.5"></i>
+              <span data-chip-x="amenities" class="hidden"><i data-lucide="x" class="h-3 w-3"></i></span>
+            </button>
+
+            <button type="button" data-action="reset-all"
+              class="hidden h-8 shrink-0 items-center gap-1 rounded-full bg-[#14202F] px-3 text-[12px] font-semibold text-[#4D9FFF] active:opacity-80" id="reset-chip">
+              <i data-lucide="rotate-ccw" class="h-3.5 w-3.5"></i>
+              <span id="active-count">0</span>
+            </button>
+
+          </div>
+
+          <button type="button" data-action="toggle-sort"
+            class="flex h-8 shrink-0 items-center gap-1 rounded-full border border-[#4D9FFF] bg-[#222228] px-3 text-[12px] font-semibold text-[#4D9FFF] active:opacity-80">
+            <span id="sort-label">Ordenar</span>
+            <i data-lucide="arrow-down" class="h-3.5 w-3.5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 列表区：margin-top 156px（108 头 + 48 筛选栏） -->
+      <div id="feed" class="mt-[156px] pb-[calc(64px+env(safe-area-inset-bottom))]">
+
+        <div class="flex items-baseline justify-between">
+          <p id="res-city-sub" class="text-[13px] font-medium text-[#9AA0A6]">Malabo, Guinea Ecuatorial</p>
+          <p id="result-count" class="text-[13px] font-semibold text-[#F2F3F5]">12 alojamientos encontrados</p>
+        </div>
+
+        <!-- 结果列表（骨架 → 真实行卡） -->
+        <div id="result-list" class="mt-3 space-y-3">
+          <!-- s1 -->
+          <div class="skeleton-card flex gap-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-2.5">
+            <div class="h-[120px] w-[120px] shrink-0 animate-pulse rounded-lg border border-[#2A2A30] bg-[#1E1E23]"></div>
+            <div class="min-w-0 flex-1 space-y-2 py-1">
+              <div class="h-3 w-4/5 animate-pulse rounded bg-[#2A2A30]"></div>
+              <div class="h-2.5 w-1/2 animate-pulse rounded border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:120ms"></div>
+              <div class="h-2.5 w-2/3 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:240ms"></div>
+              <div class="h-4 w-1/3 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:360ms"></div>
+            </div>
+          </div>
+          <!-- s2 -->
+          <div class="skeleton-card flex gap-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-2.5">
+            <div class="h-[120px] w-[120px] shrink-0 animate-pulse rounded-lg border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:100ms"></div>
+            <div class="min-w-0 flex-1 space-y-2 py-1">
+              <div class="h-3 w-3/4 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:150ms"></div>
+              <div class="h-2.5 w-2/3 animate-pulse rounded border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:270ms"></div>
+              <div class="h-2.5 w-1/2 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:390ms"></div>
+              <div class="h-4 w-2/5 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:510ms"></div>
+            </div>
+          </div>
+          <!-- s3 -->
+          <div class="skeleton-card flex gap-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-2.5">
+            <div class="h-[120px] w-[120px] shrink-0 animate-pulse rounded-lg border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:200ms"></div>
+            <div class="min-w-0 flex-1 space-y-2 py-1">
+              <div class="h-3 w-4/5 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:250ms"></div>
+              <div class="h-2.5 w-1/2 animate-pulse rounded border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:370ms"></div>
+              <div class="h-2.5 w-2/3 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:490ms"></div>
+              <div class="h-4 w-1/2 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:610ms"></div>
+            </div>
+          </div>
+          <!-- s4 -->
+          <div class="skeleton-card flex gap-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-2.5">
+            <div class="h-[120px] w-[120px] shrink-0 animate-pulse rounded-lg border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:300ms"></div>
+            <div class="min-w-0 flex-1 space-y-2 py-1">
+              <div class="h-3 w-3/5 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:350ms"></div>
+              <div class="h-2.5 w-1/2 animate-pulse rounded border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:470ms"></div>
+              <div class="h-2.5 w-2/3 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:590ms"></div>
+              <div class="h-4 w-1/3 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:710ms"></div>
+            </div>
+          </div>
+          <!-- s5 -->
+          <div class="skeleton-card flex gap-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-2.5">
+            <div class="h-[120px] w-[120px] shrink-0 animate-pulse rounded-lg border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:400ms"></div>
+            <div class="min-w-0 flex-1 space-y-2 py-1">
+              <div class="h-3 w-4/5 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:450ms"></div>
+              <div class="h-2.5 w-1/2 animate-pulse rounded border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:570ms"></div>
+              <div class="h-2.5 w-2/3 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:690ms"></div>
+              <div class="h-4 w-2/5 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:810ms"></div>
+            </div>
+          </div>
+          <!-- s6 -->
+          <div class="skeleton-card flex gap-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-2.5">
+            <div class="h-[120px] w-[120px] shrink-0 animate-pulse rounded-lg border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:500ms"></div>
+            <div class="min-w-0 flex-1 space-y-2 py-1">
+              <div class="h-3 w-3/4 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:550ms"></div>
+              <div class="h-2.5 w-2/3 animate-pulse rounded border border-[#2A2A30] bg-[#1E1E23]" style="animation-delay:670ms"></div>
+              <div class="h-2.5 w-1/2 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:790ms"></div>
+              <div class="h-4 w-2/5 animate-pulse rounded bg-[#2A2A30]" style="animation-delay:910ms"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado vacío -->
+        <div id="empty-state" class="hidden mt-6 flex flex-col items-center rounded-xl border border-[#2A2A30] bg-[#17171A] px-6 py-10 text-center">
+          <span class="flex h-14 w-14 items-center justify-center rounded-full bg-[#27272B] text-[#9AA0A6]"><i data-lucide="search-x" class="h-7 w-7"></i></span>
+          <h3 class="mt-4 text-[16px] font-semibold text-[#F2F3F5]">Sin resultados</h3>
+          <p class="mt-1.5 max-w-[260px] text-[13px] leading-relaxed text-[#9AA0A6]">Ningún alojamiento cumple los filtros. Prueba con otras opciones.</p>
+          <button type="button" data-action="reset-all" class="mt-5 h-11 rounded-lg bg-[#0066CC] px-6 text-[14px] font-medium text-white active:bg-[#0052A3]">Limpiar filtros</button>
+        </div>
+
+        <!-- 悬浮按钮：Ver en mapa -->
+        <button type="button" data-action="open-map" aria-label="Ver en mapa"
+          class="fixed right-4 z-30 flex h-11 items-center gap-1.5 rounded-full border border-[#4D9FFF] bg-[#222228] px-4 text-[13px] font-semibold text-[#4D9FFF] active:opacity-80"
+          style="bottom: calc(64px + env(safe-area-inset-bottom) + 18px)">
+          <i data-lucide="map-pin" class="h-4 w-4"></i>
+          Ver en mapa
+        </button>
+
+      </div>
+    </main>
+    <!-- qb:section:main-content:end -->
+
+    <!-- 筛选面板（fixed，位于筛选栏下方） -->
+    <div id="filter-panel" class="fixed left-0 right-0 top-[156px] z-40 hidden">
+      <div class="mx-auto max-w-[390px] border-b border-[rgba(255,255,255,0.08)] bg-[#0F0F12] px-4 py-4">
+        <div id="panel-precio" class="hidden">
+          <p class="text-[13px] font-semibold text-[#F2F3F5]">Precio por noche</p>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <button type="button" data-action="pick" data-group="precio" data-value="low" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">Menos de 30 000</button>
+            <button type="button" data-action="pick" data-group="precio" data-value="mid" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">30 000 – 60 000</button>
+            <button type="button" data-action="pick" data-group="precio" data-value="high" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">Más de 60 000</button>
+          </div>
+        </div>
+        <div id="panel-estrellas" class="hidden">
+          <p class="text-[13px] font-semibold text-[#F2F3F5]">Valoración mínima</p>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <button type="button" data-action="pick" data-group="estrellas" data-value="3" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">★ 3.0 o más</button>
+            <button type="button" data-action="pick" data-group="estrellas" data-value="4" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">★ 4.0 o más</button>
+            <button type="button" data-action="pick" data-group="estrellas" data-value="45" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">★ 4.5 o más</button>
+          </div>
+        </div>
+        <div id="panel-distancia" class="hidden">
+          <p class="text-[13px] font-semibold text-[#F2F3F5]">Distancia al centro</p>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <button type="button" data-action="pick" data-group="distancia" data-value="2" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">Hasta 2 km</button>
+            <button type="button" data-action="pick" data-group="distancia" data-value="5" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">Hasta 5 km</button>
+          </div>
+        </div>
+        <div id="panel-amenities" class="hidden">
+          <p class="text-[13px] font-semibold text-[#F2F3F5]">Servicios (multiselección)</p>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <button type="button" data-action="pick" data-group="amenities" data-value="Desayuno incluido" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">Desayuno incluido</button>
+            <button type="button" data-action="pick" data-group="amenities" data-value="Cancelación gratuita" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">Cancelación gratuita</button>
+            <button type="button" data-action="pick" data-group="amenities" data-value="Confirmación inmediata" class="opt-chip h-9 rounded-lg border border-[#2A2A30] bg-[#17171A] px-3 text-[13px] font-medium text-[#F2F3F5] active:bg-[#222228]">Confirmación inmediata</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 排序面板 -->
+    <div id="sort-panel" class="fixed left-0 right-0 top-[156px] z-40 hidden">
+      <div class="mx-auto max-w-[390px] border-b border-[rgba(255,255,255,0.08)] bg-[#0F0F12] px-2 py-2">
+        <button type="button" data-action="pick-sort" data-sort="recom" class="sort-opt flex h-11 w-full items-center gap-2 rounded-lg px-3 text-left text-[14px] font-medium text-[#9AA0A6] active:bg-[#222228]"><i data-lucide="sparkles" class="h-4 w-4"></i>Recomendado</button>
+        <button type="button" data-action="pick-sort" data-sort="priceAsc" class="sort-opt flex h-11 w-full items-center gap-2 rounded-lg px-3 text-left text-[14px] font-medium text-[#9AA0A6] active:bg-[#222228]"><i data-lucide="arrow-up" class="h-4 w-4"></i>Precio: menor a mayor</button>
+        <button type="button" data-action="pick-sort" data-sort="priceDesc" class="sort-opt flex h-11 w-full items-center gap-2 rounded-lg px-3 text-left text-[14px] font-medium text-[#9AA0A6] active:bg-[#222228]"><i data-lucide="arrow-down" class="h-4 w-4"></i>Precio: mayor a menor</button>
+        <button type="button" data-action="pick-sort" data-sort="rating" class="sort-opt flex h-11 w-full items-center gap-2 rounded-lg px-3 text-left text-[14px] font-medium text-[#9AA0A6] active:bg-[#222228]"><i data-lucide="star" class="h-4 w-4"></i>Mejor valorados</button>
+        <button type="button" data-action="pick-sort" data-sort="distAsc" class="sort-opt flex h-11 w-full items-center gap-2 rounded-lg px-3 text-left text-[14px] font-medium text-[#9AA0A6] active:bg-[#222228]"><i data-lucide="map-pin" class="h-4 w-4"></i>Más cercanos</button>
+      </div>
+    </div>
+
+    <!-- 面板遮罩 -->
+    <div id="panel-backdrop" class="fixed inset-0 z-30 hidden bg-[#000000]/50" data-action="close-panels"></div>
+
+    <!-- qb:section:map-drawer:start -->
+    <!-- 地图半屏抽屉（70%，chrome，上圆角 16px，拖拽 handle） -->
+    <div id="map-backdrop" class="fixed inset-0 z-[45] hidden bg-[#000000]/50" data-action="close-map"></div>
+    <div id="map-drawer" class="fixed inset-x-0 bottom-0 z-50 flex h-[70%] flex-col rounded-t-[16px] border-t border-[rgba(255,255,255,0.08)] bg-[#0F0F12] transition-transform duration-300 ease-out" style="transform: translateY(100%)">
+      <div id="drawer-handle" class="flex h-8 shrink-0 touch-none flex-col items-center justify-center" aria-hidden="true">
+        <span class="h-1 w-10 rounded-full bg-[#2A2A30]"></span>
+      </div>
+      <div class="border-b border-[rgba(255,255,255,0.08)] px-4 py-3">
+        <div class="flex items-center justify-between">
+          <p class="text-[15px] font-semibold text-[#F2F3F5]">Mapa de Malabo</p>
+          <p id="map-count" class="text-[12px] text-[#9AA0A6]">12 precios</p>
+        </div>
+        <p class="mt-0.5 text-[11px] text-[#9AA0A6]">Arrastra la pestaña para cerrar</p>
+      </div>
+
+      <!-- 占位地图：网格线 + 价格气泡 -->
+      <div id="map-area" class="relative min-h-[240px] flex-1 bg-[#1E1E23] bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:28px_28px]">
+        <span class="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#4D9FFF]/20 text-[#4D9FFF]">
+          <i data-lucide="map-pin" class="h-5 w-5"></i>
+        </span>
+      </div>
+
+      <!-- mini-cards 横向缩略条 -->
+      <div id="map-strip" class="flex shrink-0 gap-3 overflow-x-auto px-4 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"></div>
+
+      <div class="shrink-0 border-t border-[rgba(255,255,255,0.08)] p-3 pb-[max(12px,env(safe-area-inset-bottom))]">
+        <button type="button" data-action="close-map" class="h-12 w-full rounded-lg bg-[#0066CC] text-[15px] font-medium text-white active:bg-[#0052A3]">Ver lista</button>
+      </div>
+    </div>
+    <!-- qb:section:map-drawer:end -->
+
+    <!-- qb:section:app-overlays:start -->
+    <div id="app-overlays" class="pointer-events-none fixed inset-0 z-[60]" data-qb-section="app-overlays" aria-live="polite">
+      <div id="toast" role="status"
+        class="pointer-events-auto fixed left-1/2 top-[calc(env(safe-area-inset-top)+76px)] z-[70] flex -translate-x-1/2 translate-y-[-8px] items-center gap-2 rounded-lg border bg-[#0F0F12] px-4 py-3 opacity-0 transition-all duration-300">
+        <i id="toast-icon" data-lucide="info" class="h-4 w-4 shrink-0 text-[#4D9FFF]"></i>
+        <span id="toast-text" class="text-[13px] font-medium text-[#F2F3F5]"></span>
+      </div>
+    </div>
+    <!-- qb:section:app-overlays:end -->
+
+    <!-- 底部 TabBar：当前高亮 Buscar -->
+    <nav aria-label="Navegación principal"
+      class="fixed inset-x-0 bottom-0 z-20 h-[calc(64px+env(safe-area-inset-bottom))] border-t border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pb-[env(safe-area-inset-bottom)]">
+      <div class="mx-auto flex h-[64px] max-w-[390px] items-stretch">
+        <button type="button" data-action="goto" data-goto="home.html" aria-label="Inicio"
+          class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#9AA0A6] active:opacity-70">
+          <i data-lucide="home" class="h-[22px] w-[22px]"></i>
+          <span class="text-[10px] font-medium">Inicio</span>
+        </button>
+        <button type="button" data-action="nav" data-nav="buscar" aria-label="Buscar"
+          class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#4D9FFF] active:opacity-70">
+          <i data-lucide="search" class="h-[22px] w-[22px]"></i>
+          <span class="text-[10px] font-semibold">Buscar</span>
+        </button>
+        <button type="button" data-action="nav" data-nav="reservas" aria-label="Reservas"
+          class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#9AA0A6] active:opacity-70">
+          <i data-lucide="calendar-check" class="h-[22px] w-[22px]"></i>
+          <span class="text-[10px] font-medium">Reservas</span>
+        </button>
+        <button type="button" data-action="nav" data-nav="perfil" aria-label="Perfil"
+          class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#9AA0A6] active:opacity-70">
+          <i data-lucide="user" class="h-[22px] w-[22px]"></i>
+          <span class="text-[10px] font-medium">Perfil</span>
+        </button>
+      </div>
+    </nav>
+
+  </div>
+  <!-- qb:region:app-shell:end -->
+
+  <!-- qb:data:seed:start -->
+  <script id="qb-seed-data" type="application/json">{}</script>
+  <!-- qb:data:seed:end -->
+
+  <script>
+    (function () {
+      var app = document.getElementById('app');
+      if (!app) return;
+
+      // Datos (textos y precios fijos, de Prompt 1); IMAGES pareados por nombre con home.html
+      var CARDS = [
+        { n: "Hotel Bahía de Malabo", b: "Centro", p: 45000, t: 60000, r: 4.8, v: 128, badge: "Foto real", tag: "Cancelación gratuita", ratio: "3:4" },
+        { n: "Punta Europa Suites", b: "Punta Europa", p: 72000, t: null, r: 4.9, v: 84, badge: "Superanfitrión", tag: "Desayuno incluido", ratio: "4:3" },
+        { n: "Casa Colonial Malabo", b: "Hipódromo", p: 30000, t: 38000, r: 4.6, v: 201, badge: "Casa completa", tag: "Cancelación gratuita", ratio: "1:1" },
+        { n: "Hotel Aeropuerto Santa Isabel", b: "Aeropuerto", p: 27000, t: null, r: 4.3, v: 56, badge: null, tag: "Confirmación inmediata", ratio: "3:4" },
+        { n: "Villa Monte Alén", b: "Afueras", p: 55000, t: 70000, r: 4.7, v: 93, badge: "Por horas·3h", tag: null, ratio: "4:3" },
+        { n: "Apartamento Vista Mar", b: "Playa", p: 40000, t: null, r: 4.5, v: 167, badge: "Foto real", tag: "Cancelación gratuita", ratio: "1:1" },
+        { n: "Hotel Ureca Beach", b: "Ureca", p: 63000, t: null, r: 4.9, v: 41, badge: null, tag: "Desayuno incluido", ratio: "3:4" },
+        { n: "Residencia Sala Wele-Nzas", b: "Sala Wele-Nzas", p: 18000, t: 24000, r: 4.1, v: 312, badge: null, tag: null, ratio: "4:3" },
+        { n: "Spa & Resort Malabo", b: "Centro", p: 90000, t: 110000, r: 4.8, v: 74, badge: "Lujo", tag: "Cancelación gratuita", ratio: "3:4" },
+        { n: "Hostal El Jardín", b: "Rebola", p: 15000, t: null, r: 4.4, v: 189, badge: null, tag: "Confirmación inmediata", ratio: "1:1" },
+        { n: "Bungalow Selva Verde", b: "Monte Alén", p: 48000, t: null, r: 4.7, v: 62, badge: "Casa completa", tag: "Desayuno incluido", ratio: "3:4" },
+        { n: "Torre Bahía Business", b: "Centro", p: 52000, t: 65000, r: 4.6, v: 145, badge: null, tag: "Cancelación gratuita", ratio: "4:3" }
+      ];
+      var IMAGES = [
+        "https://ai-public.mastergo.com/ai/img_res/generated-45d71696-6087-413c-9b05-20f4c0b5af09.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-989e6e76-b12e-468e-a6ee-5efd294b0e91.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-571dd495-20d7-4b3e-ab58-ffdea853ae48.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-f603cb4f-b874-4651-9a13-1da614971e0f.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-24d472a9-3473-47fa-8818-aaf06d34bcdb.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-c4813123-69e7-40af-bff3-3d8df185f00f.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-6b848a71-cda2-4871-a839-e52f5b81049c.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-51a16d38-c943-496f-8807-b88b87ffdcfc.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-b1a87f42-259e-4739-9b91-066cfc6823f1.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-118db9c6-9570-46a4-afd1-12cfe4bf53ad.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-be5a6a58-232c-4393-9288-4c334a5b9a28.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-866a484a-f6f3-49c2-9331-2a5b50b01eb2.jpg"
+      ];
+
+      var state = {
+        precio: null,        // 'low' | 'mid' | 'high' | null
+        estrellas: null,     // '3' | '4' | '45' | null
+        dist: null,          // '2' | '5' | null
+        amen: {},            // { 'Desayuno incluido': true, ... }
+        query: '',
+        sort: 'recom'        // recom | priceAsc | priceDesc | rating | distAsc
+      };
+      var panelOpen = null;  // grupo abierto
+      var sortOpen = false;
+      var drawerOpen = false;
+
+      var SORT_LABELS = {
+        recom: 'Recomendado', priceAsc: 'Precio ↑', priceDesc: 'Precio ↓', rating: 'Valoración', distAsc: 'Distancia'
+      };
+      var PRECIO_LABEL = { low: '<30 000', mid: '30–60 000', high: '>60 000' };
+      var ESTRELLAS_LABEL = { 3: '≥3', 4: '≥4', 45: '≥4.5' };
+      var DIST_LABEL = { 2: '≤2 km', 5: '≤5 km' };
+
+      var ALLOWED = { 'index.html': './index.html', 'home.html': './home.html' };
+      function go(key) {
+        var url = ALLOWED[key];
+        if (url) { try { window.location.assign(url); } catch (e) {} }
+      }
+
+      function icons() {
+        if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch (e) {} }
+      }
+      function norm(s) {
+        return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      }
+      function fmtXAF(p) {
+        var rates = { XAF: 1, EUR: 1 / 655, USD: 1 / 600 };
+        var c = 'XAF';
+        try { c = localStorage.getItem('currency') || 'XAF'; } catch (e) {}
+        var r = rates[c] || 1;
+        return c + ' ' + Math.round(p * r).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      }
+      window.addEventListener('storage', function () {
+        try { renderResults(); } catch (e) {}
+      });
+      function hash(s) {
+        var h = 0;
+        for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; }
+        return Math.abs(h);
+      }
+      // Distancia simulada y estable (0.4 – 6.3 km) a partir del barrio
+      function distOf(i) {
+        var c = CARDS[i];
+        return parseFloat((0.4 + (hash(c.b + i) % 60) / 10).toFixed(1));
+      }
+
+      function activeCount() {
+        var n = 0;
+        if (state.precio) n++;
+        if (state.estrellas) n++;
+        if (state.dist) n++;
+        n += Object.keys(state.amen).length;
+        if (state.query) n++;
+        return n;
+      }
+
+      function match(i) {
+        var c = CARDS[i];
+        if (state.precio === 'low' && !(c.p < 30000)) return false;
+        if (state.precio === 'mid' && !(c.p >= 30000 && c.p <= 60000)) return false;
+        if (state.precio === 'high' && !(c.p > 60000)) return false;
+        if (state.estrellas === '3' && c.r < 3) return false;
+        if (state.estrellas === '4' && c.r < 4) return false;
+        if (state.estrellas === '45' && c.r < 4.5) return false;
+        var d = distOf(i);
+        if (state.dist === '2' && d > 2) return false;
+        if (state.dist === '5' && d > 5) return false;
+        var aKeys = Object.keys(state.amen);
+        for (var k = 0; k < aKeys.length; k++) {
+          if (c.tag !== aKeys[k]) return false;
+        }
+        var q = norm(state.query);
+        if (q && !norm(c.n).includes(q) && !norm(c.b).includes(q)) return false;
+        return true;
+      }
+
+      function filtered() {
+        var out = [];
+        for (var i = 0; i < CARDS.length; i++) { if (match(i)) out.push(i); }
+        return out;
+      }
+
+      function sorted(list) {
+        var arr = list.slice();
+        var s = state.sort;
+        arr.sort(function (a, b) {
+          var ca = CARDS[a], cb = CARDS[b];
+          if (s === 'priceAsc') return ca.p - cb.p;
+          if (s === 'priceDesc') return cb.p - ca.p;
+          if (s === 'rating') return cb.r - ca.r || cb.v - ca.v;
+          if (s === 'distAsc') return distOf(a) - distOf(b);
+          return 0;
+        });
+        return arr;
+      }
+
+      // —— Layout helpers ——
+      function el(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text !== undefined && text !== null) e.textContent = text;
+        return e;
+      }
+
+      function buildRow(i) {
+        var c = CARDS[i];
+        var card = el('article', 'flex gap-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-2.5');
+        card.setAttribute('data-action', 'openDetail');
+        card.setAttribute('data-idx', String(i));
+
+        var imgWrap = el('div', 'relative h-[120px] w-[120px] shrink-0 overflow-hidden rounded-lg');
+        var img = document.createElement('img');
+        img.src = IMAGES[i];
+        img.alt = c.n;
+        img.loading = 'lazy';
+        img.className = 'h-full w-full object-cover';
+        img.style.aspectRatio = '1 / 1';
+        imgWrap.appendChild(img);
+        if (c.badge) {
+          var badge = el('span', 'absolute left-1.5 top-1.5 rounded-md bg-[#0F0F12]/90 px-1.5 py-0.5 text-[9px] font-semibold text-[#F2F3F5]', c.badge);
+          imgWrap.appendChild(badge);
+        }
+        card.appendChild(imgWrap);
+
+        var body = el('div', 'min-w-0 flex-1');
+        var title = el('h3', 'line-clamp-1 text-[14px] font-medium leading-snug text-[#F2F3F5]', c.n);
+        body.appendChild(title);
+        var barrio = el('p', 'mt-0.5 truncate text-[12px] text-[#9AA0A6]', c.b);
+        body.appendChild(barrio);
+
+        var meta = el('div', 'mt-1 flex items-center gap-1 text-[12px]');
+        var st = document.createElement('i');
+        st.setAttribute('data-lucide', 'star');
+        st.className = 'h-3 w-3 fill-[#F2F3F5] text-[#F2F3F5]';
+        meta.appendChild(st);
+        meta.appendChild(el('span', 'font-semibold text-[#F2F3F5]', c.r.toFixed(1)));
+        meta.appendChild(el('span', 'text-[#9AA0A6]', '(' + c.v + ')'));
+        meta.appendChild(el('span', 'ml-1 truncate text-[11px] text-[#9AA0A6]', 'a ' + distOf(i).toFixed(1) + ' km'));
+        body.appendChild(meta);
+
+        var priceRow = el('div', 'mt-1.5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5');
+        priceRow.appendChild(el('span', 'text-[14px] font-bold text-[#F08A4B]', fmtXAF(c.p)));
+        if (c.t) {
+          priceRow.appendChild(el('span', 'text-[11px] text-[#5A5F66] line-through', fmtXAF(c.t)));
+        }
+        body.appendChild(priceRow);
+
+        if (c.tag) {
+          var cls = 'bg-[#27272B] text-[#9AA0A6]';
+          if (c.tag === 'Cancelación gratuita') cls = 'bg-[#1D2A26] text-[#45B87A]';
+          else if (c.tag === 'Confirmación inmediata') cls = 'bg-[#14202F] text-[#4D9FFF]';
+          body.appendChild(el('span', 'mt-1.5 inline-block rounded-md px-1.5 py-0.5 text-[10px] font-medium ' + cls, c.tag));
+        }
+
+        card.appendChild(body);
+        return card;
+      }
+
+      // —— Render ——
+      function renderResults() {
+        var list = document.getElementById('result-list');
+        if (!list) return;
+        list.textContent = '';
+        var idxs = sorted(filtered());
+        idxs.forEach(function (i) { list.appendChild(buildRow(i)); });
+        icons();
+
+        var count = document.getElementById('result-count');
+        var n = idxs.length;
+        if (count) count.textContent = n + (n === 1 ? ' alojamiento encontrado' : ' alojamientos encontrados');
+        var empty = document.getElementById('empty-state');
+        if (empty) empty.classList.toggle('hidden', n !== 0);
+      }
+
+      function renderChips() {
+        var defs = {
+          precio: state.precio ? PRECIO_LABEL[state.precio] : null,
+          estrellas: state.estrellas ? ESTRELLAS_LABEL[state.estrellas] : null,
+          distancia: state.dist ? DIST_LABEL[state.dist] : null,
+          amenities: null
+        };
+        var aKeys = Object.keys(state.amen);
+        if (aKeys.length > 0) defs.amenities = aKeys.length + ' servicios';
+
+        ['precio', 'estrellas', 'distancia', 'amenities'].forEach(function (g) {
+          var chip = app.querySelector('[data-action="open-filter"][data-group="' + g + '"]');
+          if (!chip) return;
+          var on = defs[g] !== null;
+          chip.classList.toggle('border-[#4D9FFF]', on);
+          chip.classList.toggle('bg-[#14202F]', on);
+          chip.classList.toggle('text-[#4D9FFF]', on);
+          chip.classList.toggle('border-[#2A2A30]', !on);
+          chip.classList.toggle('bg-transparent', !on);
+          chip.classList.toggle('text-[#9AA0A6]', !on);
+          var v = chip.querySelector('[data-chip-value="' + g + '"]');
+          if (v) { v.textContent = defs[g] || ''; v.classList.toggle('hidden', !on); }
+          var x = chip.querySelector('[data-chip-x="' + g + '"]');
+          if (x) x.classList.toggle('hidden', !on);
+        });
+
+        var n = activeCount();
+        var reset = document.getElementById('reset-chip');
+        if (reset) {
+          reset.classList.toggle('hidden', n === 0);
+          reset.classList.toggle('flex', n > 0);
+          var ac = document.getElementById('active-count');
+          if (ac) ac.textContent = String(n);
+        }
+      }
+
+      function renderPanel() {
+        // panels
+        ['precio', 'estrellas', 'distancia', 'amenities'].forEach(function (g) {
+          var p = document.getElementById('panel-' + g);
+          if (p) p.classList.toggle('hidden', panelOpen !== g);
+        });
+        // opciones seleccionadas
+        app.querySelectorAll('.opt-chip').forEach(function (b) {
+          var g = b.getAttribute('data-group');
+          var v = b.getAttribute('data-value');
+          var on = g === 'amenities' ? state.amen[v] === true : state[g] === v;
+          b.classList.toggle('border-[#4D9FFF]', on);
+          b.classList.toggle('bg-[#14202F]', on);
+          b.classList.toggle('text-[#4D9FFF]', on);
+          b.classList.toggle('border-[#2A2A30]', !on);
+          b.classList.toggle('bg-[#17171A]', !on);
+          b.classList.toggle('text-[#F2F3F5]', !on);
+        });
+      }
+
+      function renderSort() {
+        var sortBtn = document.querySelector('[data-action="toggle-sort"]');
+        var lbl = document.getElementById('sort-label');
+        if (lbl) lbl.textContent = SORT_LABELS[state.sort];
+        app.querySelectorAll('.sort-opt').forEach(function (b) {
+          var on = b.getAttribute('data-sort') === state.sort;
+          b.classList.toggle('text-[#4D9FFF]', on);
+          b.classList.toggle('bg-[#14202F]', on);
+          b.classList.toggle('text-[#9AA0A6]', !on);
+        });
+      }
+
+      function closePanels() {
+        panelOpen = null;
+        sortOpen = false;
+        document.getElementById('filter-panel').classList.add('hidden');
+        document.getElementById('sort-panel').classList.add('hidden');
+        document.getElementById('panel-backdrop').classList.add('hidden');
+      }
+
+      function openPanel(g) {
+        closePanels();
+        panelOpen = g;
+        document.getElementById('filter-panel').classList.remove('hidden');
+        document.getElementById('panel-backdrop').classList.remove('hidden');
+        renderPanel();
+      }
+
+      function toggleSort() {
+        sortOpen = !sortOpen;
+        if (sortOpen) { closePanels(); sortOpen = true; }
+        document.getElementById('sort-panel').classList.toggle('hidden', !sortOpen);
+        document.getElementById('panel-backdrop').classList.toggle('hidden', !sortOpen);
+        renderSort();
+      }
+
+      // —— Mapa drawer ——
+      var drawer = document.getElementById('map-drawer');
+      var mapBackdrop = document.getElementById('map-backdrop');
+
+      function setHash(on) {
+        try {
+          if (on) window.history.replaceState(null, '', '#map');
+          else window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        } catch (e) {}
+      }
+
+      function openDrawer() {
+        drawerOpen = true;
+        mapBackdrop.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        drawer.classList.add('transition-transform', 'duration-300', 'ease-out');
+        drawer.style.transform = 'translateY(0)';
+        setHash(true);
+      }
+
+      function closeDrawer() {
+        drawerOpen = false;
+        drawer.classList.add('transition-transform', 'duration-300', 'ease-out');
+        drawer.style.transform = 'translateY(100%)';
+        mapBackdrop.classList.add('hidden');
+        document.body.style.overflow = '';
+        setHash(false);
+      }
+
+      // Drag handle
+      var handle = document.getElementById('drawer-handle');
+      var drag = { active: false, startY: 0, startTy: 0 };
+      handle.addEventListener('pointerdown', function (e) {
+        drag.active = true;
+        drag.startY = e.clientY;
+        drag.startTy = parseFloat(drawer.style.transform.replace(/[^\d.]/g, '')) || 0;
+        drawer.classList.remove('transition-transform', 'duration-300', 'ease-out');
+      });
+      window.addEventListener('pointermove', function (e) {
+        if (!drag.active) return;
+        var dy = e.clientY - drag.startY;
+        var max = drawer.offsetHeight;
+        var ty = Math.max(0, Math.min(max, drag.startTy + dy));
+        drawer.style.transform = 'translateY(' + ty + 'px)';
+      });
+      window.addEventListener('pointerup', function () {
+        if (!drag.active) return;
+        drag.active = false;
+        var m = drawer.style.transform.match(/-?[\d.]+/);
+        var ty = m ? parseFloat(m[0]) : 0;
+        if (ty > drawer.offsetHeight * 0.45) closeDrawer();
+        else { drawerOpen = true; drawer.classList.add('transition-transform', 'duration-300', 'ease-out'); drawer.style.transform = 'translateY(0)'; }
+      });
+
+      // Burbujas de precio (12, posiciones estables por hash)
+      function buildMap() {
+        var area = document.getElementById('map-area');
+        for (var i = 0; i < CARDS.length; i++) {
+          var c = CARDS[i];
+          var b = el('span', 'absolute rounded-full border border-[rgba(255,255,255,0.08)] bg-[#222228] px-2 py-1 text-[10px] font-semibold text-[#F08A4B]', fmtXAF(c.p));
+          var x = 5 + (hash(c.b + 'x' + i) % 68);
+          var y = 8 + (hash(c.b + 'y' + i) % 68);
+          b.style.left = x + '%';
+          b.style.top = y + '%';
+          area.appendChild(b);
+        }
+      }
+
+      function renderMapStrip() {
+        var strip = document.getElementById('map-strip');
+        var idxs = sorted(filtered());
+        var mc = document.getElementById('map-count');
+        if (mc) mc.textContent = idxs.length + (idxs.length === 1 ? ' precio' : ' precios');
+        strip.textContent = '';
+        if (idxs.length === 0) {
+          strip.appendChild(el('p', 'w-full py-6 text-center text-[12px] text-[#9AA0A6]', 'Sin coincidencias en el mapa'));
+          return;
+        }
+        idxs.forEach(function (i) {
+          var c = CARDS[i];
+          var mini = el('div', 'w-[132px] shrink-0 overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]');
+          var w = el('div', 'relative h-[74px] w-full overflow-hidden');
+          var img = document.createElement('img');
+          img.src = IMAGES[i];
+          img.alt = c.n;
+          img.loading = 'lazy';
+          img.className = 'h-full w-full object-cover';
+          img.style.aspectRatio = '16 / 10';
+          w.appendChild(img);
+          mini.appendChild(w);
+          var b2 = el('div', 'p-2');
+          b2.appendChild(el('p', 'truncate text-[11px] font-medium text-[#F2F3F5]', c.n));
+          b2.appendChild(el('p', 'text-[12px] font-bold text-[#F08A4B]', fmtXAF(c.p)));
+          mini.appendChild(b2);
+          strip.appendChild(mini);
+        });
+        icons();
+      }
+
+      // —— Toast ——
+      var toastTimer = null;
+      function showToast(msg, type) {
+        var toast = document.getElementById('toast');
+        var icon = document.getElementById('toast-icon');
+        var text = document.getElementById('toast-text');
+        if (!toast || !icon || !text) return;
+        var palette = {
+          info: { icon: 'info', color: 'text-[#4D9FFF]', border: 'border-[#4D9FFF]' },
+          success: { icon: 'check-circle', color: 'text-[#45B87A]', border: 'border-[#45B87A]' },
+          danger: { icon: 'alert-circle', color: 'text-[#FF6B6B]', border: 'border-[#FF6B6B]' }
+        };
+        var p = palette[type] || palette.info;
+        icon.dataset.lucide = p.icon;
+        icon.className = 'h-4 w-4 shrink-0 ' + p.color;
+        toast.className = 'pointer-events-auto fixed left-1/2 top-[calc(env(safe-area-inset-top)+76px)] z-[70] flex -translate-x-1/2 items-center gap-2 rounded-lg border bg-[#0F0F12] px-4 py-3 opacity-100 translate-y-0 transition-all duration-300 ' + p.border;
+        text.textContent = msg;
+        icons();
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toast.classList.add('opacity-0', 'translate-y-[-8px]');
+        }, 2400);
+      }
+
+      // —— búsqueda en vivo ——
+      var searchInput = document.getElementById('search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', function () {
+          state.query = searchInput.value.trim();
+          var clear = document.getElementById('search-clear');
+          if (clear) {
+            clear.classList.toggle('hidden', !state.query);
+            clear.classList.toggle('flex', Boolean(state.query));
+          }
+          renderChips();
+          renderResults();
+          if (drawerOpen) renderMapStrip();
+        });
+      }
+
+      // —— delegación de clics (data-action) ——
+      app.addEventListener('click', function (event) {
+        // 点击 chip 内的 × 优先清除该组
+        var x = event.target.closest('[data-chip-x]');
+        if (x) {
+          event.stopPropagation();
+          var g = x.getAttribute('data-chip-x');
+          if (g === 'amenities') state.amen = {};
+          else state[g] = null;
+          renderChips(); renderPanel(); renderResults();
+          if (drawerOpen) renderMapStrip();
+          return;
+        }
+
+        var t = event.target.closest('[data-action]');
+        if (!t) return;
+        var action = t.getAttribute('data-action');
+
+        if (action === 'back') {
+          if (window.history.length > 1) { try { window.history.back(); } catch (e) {} }
+          else go('index.html');
+        }
+
+        else if (action === 'open-filter') {
+          var g = t.getAttribute('data-group');
+          if (panelOpen === g) closePanels(); else openPanel(g);
+        }
+
+        else if (action === 'pick') {
+          var group = t.getAttribute('data-group');
+          var val = t.getAttribute('data-value');
+          if (group === 'amenities') {
+            state.amen[val] = !state.amen[val];
+            if (!state.amen[val]) delete state.amen[val];
+            renderPanel();
+          } else {
+            state[group] = state[group] === val ? null : val;
+          }
+          renderChips();
+          renderResults();
+          if (drawerOpen) renderMapStrip();
+        }
+
+        else if (action === 'pick-sort') {
+          state.sort = t.getAttribute('data-sort');
+          closePanels();
+          renderSort();
+          renderResults();
+          if (drawerOpen) renderMapStrip();
+        }
+
+        else if (action === 'toggle-sort') { toggleSort(); }
+        else if (action === 'close-panels') { closePanels(); }
+
+        else if (action === 'reset-all') {
+          state.precio = null; state.estrellas = null; state.dist = null;
+          state.amen = {}; state.query = ''; state.sort = 'recom';
+          if (searchInput) searchInput.value = '';
+          var clear = document.getElementById('search-clear');
+          if (clear) { clear.classList.add('hidden'); clear.classList.remove('flex'); }
+          closePanels();
+          renderChips(); renderSort(); renderResults();
+          if (drawerOpen) renderMapStrip();
+          showToast('Filtros restablecidos', 'success');
+        }
+
+        else if (action === 'clear-search') {
+          state.query = '';
+          if (searchInput) searchInput.value = '';
+          var clear = document.getElementById('search-clear');
+          if (clear) { clear.classList.add('hidden'); clear.classList.remove('flex'); }
+          renderChips();
+          renderResults();
+          if (drawerOpen) renderMapStrip();
+          searchInput && searchInput.focus();
+        }
+
+        else if (action === 'open-map') {
+          closePanels();
+          renderMapStrip();
+          openDrawer();
+        }
+
+        else if (action === 'close-map') { closeDrawer(); }
+
+        else if (action === 'openDetail') {
+          var idx = t.getAttribute('data-idx');
+          var name = CARDS[idx] ? CARDS[idx].n : 'Alojamiento';
+          showToast(name + ' · detalle en demo', 'info');
+        }
+
+        else if (action === 'nav') {
+          var nav = t.getAttribute('data-nav');
+          if (nav === 'buscar' && searchInput) {
+            searchInput.focus();
+            showToast('Buscar en Malabo', 'info');
+          } else if (nav === 'reservas') {
+            showToast('Aún no tienes reservas', 'danger');
+          } else if (nav === 'perfil') {
+            showToast('Perfil de huésped', 'info');
+          }
+        }
+
+        else if (action === 'goto') {
+          go(t.getAttribute('data-goto'));
+        }
+      });
+
+      // —— init: skeleton 1s → datos reales ——
+      icons();
+      renderChips();
+      renderSort();
+      renderPanel();
+      buildMap();
+      setTimeout(renderResults, 1000);
+      if (window.location.hash === '#map') { setTimeout(openDrawer, 1200); }
+    })();
+  </script>
+
+  <script>
+    (function () {
+      // deep link desde el banner: results.html?city=X&promo=1
+      // promo/hidePromo se toleran sin efectos sobre el listado
+      try {
+        var cp = new URLSearchParams(window.location.search).get('city');
+        if (cp) {
+          var t1 = document.getElementById('res-city-title');
+          if (t1) t1.textContent = cp + ' · 3 noches';
+          var t2 = document.getElementById('res-city-sub');
+          if (t2) t2.textContent = cp + ', Guinea Ecuatorial';
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>

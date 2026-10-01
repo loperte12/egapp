@@ -1,0 +1,14 @@
+docs(UI-HOTEL): el dato y lo que va detras, en fichero aparte para entregarlo
+
+Copia literal de las secciones 6 a 12 del encargo: contrato de la API, los campos
+del modelo de dato que existen y no se pintan, las trampas del servidor, lo que NO
+existe, las decisiones cerradas, las seis puertas, las diez trampas pagadas, el
+formato de devolucion, el material de referencia y su advertencia.
+
+Verificado con diff contra el original: 285 lineas, identicas.
+
+Motivo: el dueño del producto tiene que poder entregar el contrato de datos a otro
+agente sin arrastrar el encargo entero; y el encargo sigue siendo la fuente de
+verdad, asi que si alli cambia 6-12, esto queda obsoleto y hay que regenerarlo.
+
+No entra en git: pruebas/referencia-meituan (material de referencia, 20 MB).

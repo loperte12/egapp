@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Mensajes · Alojamiento</title>
+
+  <!-- Tailwind CSS Play (runtime local, offline) -->
+  <script src="./tailwind.js"></script>
+  <!-- Lucide: única librería de iconos funcionales -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="min-h-screen bg-[#1E1E23] text-[#F2F3F5] font-sans antialiased">
+
+  <div id="app" class="min-h-screen">
+
+    <!-- 顶部：返回 + 标题 -->
+    <header class="sticky top-0 z-40 border-b border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pt-[env(safe-area-inset-top)]">
+      <div class="mx-auto flex h-[56px] max-w-[390px] items-center gap-2 px-4">
+        <button type="button" data-action="back" aria-label="Volver"
+          class="flex h-9 w-9 items-center justify-center rounded-full border border-[#2A2A30] bg-[#1E1E23] text-[#9AA0A6] active:bg-[#222228]">
+          <i data-lucide="arrow-left" class="h-[18px] w-[18px]"></i>
+        </button>
+        <div class="flex-1 leading-tight">
+          <p class="text-[17px] font-semibold text-[#F2F3F5]">Mensajes</p>
+          <p class="text-[11px] text-[#9AA0A6]" id="msg-sub">Conversaciones con alojamientos</p>
+        </div>
+        <i data-lucide="message-circle" class="h-5 w-5 text-[#4D9FFF]"></i>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-[390px] px-4 pb-[calc(24px+env(safe-area-inset-bottom))]">
+      <!-- 搜索（demo） -->
+      <div class="mt-4">
+        <div class="flex h-11 items-center gap-2 rounded-xl border border-[#2A2A30] bg-[#111114] px-3">
+          <i data-lucide="search" class="h-4 w-4 text-[#5A5F66]"></i>
+          <input type="text" id="msg-search" placeholder="Buscar mensajes…"
+            class="min-w-0 flex-1 bg-transparent text-[14px] text-[#F2F3F5] placeholder:text-[#5A5F66] outline-none" />
+        </div>
+      </div>
+
+      <!-- 会话列表 -->
+      <div id="msg-list" class="mt-2"></div>
+
+      <!-- 空态 -->
+      <div id="msg-empty" class="mt-16 hidden flex-col items-center text-center">
+        <span class="flex h-14 w-14 items-center justify-center rounded-full border border-[#2A2A30] bg-[#17171A]">
+          <i data-lucide="inbox" class="h-6 w-6 text-[#9AA0A6]"></i>
+        </span>
+        <p class="mt-3 text-[15px] font-semibold text-[#F2F3F5]">No tienes conversaciones</p>
+        <p class="mt-1 text-[12px] text-[#9AA0A6]">Contacta con un alojamiento desde su ficha para empezar a chatear.</p>
+        <button type="button" data-action="explore"
+          class="mt-5 inline-flex h-11 items-center gap-2 rounded-xl border border-[#2A2A30] bg-[#17171A] px-5 text-[13px] font-semibold text-[#4D9FFF] active:bg-[#222228]">
+          Explorar alojamientos
+          <i data-lucide="arrow-right" class="h-4 w-4"></i>
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var app = document.getElementById('app');
+      if (!app) return;
+
+      // Super-app bridge: en la app nativa la bandeja vive fuera de la web
+      if (typeof window.SuperApp !== 'undefined' && window.SuperApp.openInbox) {
+        try { window.SuperApp.openInbox(); return; } catch (e) { /* continuar vista local */ }
+      }
+
+      var ALLOWED = { 'index.html': './index.html' };
+      function go(key) {
+        var url = ALLOWED[key];
+        if (url) { try { window.location.assign(url); } catch (e) {} }
+      }
+
+      var CDN = 'https://ai-public.mastergo.com/ai/img_res/';
+      var CONVS = [
+        { h: 'H1', n: 'Hotel Bahía de Malabo', av: CDN + 'generated-45d71696-6087-413c-9b05-20f4c0b5af09.jpg', last: 'Confirmamos tu check-in para el sábado a las 14:00.', at: 'hace 5 min', un: 2 },
+        { h: 'H7', n: 'Hotel Ureca', av: CDN + 'generated-6b848a71-cda2-4871-a839-e52f5b81049c.jpg', last: 'Tenemos disponible la suite con vista al mar.', at: 'hace 2 h', un: 1 },
+        { h: 'H9', n: 'Spa & Resort Malabo', av: CDN + 'generated-b1a87f42-259e-4739-9b91-066cfc6823f1.jpg', last: 'Gracias por tu reserva. ¡Te esperamos!', at: 'hace 1 día', un: 0 },
+        { h: 'H12', n: 'Torre Bahía Business', av: CDN + 'generated-866a484a-f6f3-49c2-9331-2a5b50b01eb2.jpg', last: 'Adjuntamos el mapa de acceso al hotel.', at: 'hace 3 días', un: 3 }
+      ];
+      var FACE = { H1: 'María', H7: 'Andrés', H9: 'Lucía', H12: 'Sofía' };
+
+      function readLeidos() {
+        try { return JSON.parse(localStorage.getItem('aloja_msgs_leidos')) || {}; } catch (e) { return {}; }
+      }
+      function saveLeidos(v) {
+        try { localStorage.setItem('aloja_msgs_leidos', JSON.stringify(v)); } catch (e) {}
+      }
+
+      function avatar(cw) {
+        return cw.n.charAt(0);
+      }
+
+      function renderRow(cw, i) {
+        var leidos = readLeidos();
+        var st = leidos[cw.h] || '';
+        if (st === 'cleared') return;
+        var est = st === 'read' ? 'read' : 'unread';
+        var row = document.createElement('button');
+        row.type = 'button';
+        row.dataset.action = 'open';
+        row.dataset.h = cw.h;
+        row.className = 'group flex w-full items-center gap-3 border-b border-[rgba(255,255,255,0.08)] px-1 py-3 text-left active:bg-[#222228]';
+
+        var av = document.createElement('span');
+        av.className = 'flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#2A2A30] bg-[#222228] text-[14px] font-bold text-[#F2F3F5] overflow-hidden';
+        if (cw.av) {
+          var im = document.createElement('img');
+          im.src = cw.av;
+          im.alt = cw.n;
+          im.className = 'h-10 w-10 object-cover';
+          av.textContent = '';
+          av.appendChild(im);
+        } else {
+          av.textContent = avatar(cw);
+        }
+        row.appendChild(av);
+
+        var mid = document.createElement('span');
+        mid.className = 'flex min-w-0 flex-1 flex-col gap-0.5';
+        var name = document.createElement('span');
+        name.className = 'flex items-center gap-2';
+        var nm = document.createElement('span');
+        nm.className = (est === 'unread' ? 'font-bold ' : '') + 'truncate text-[14px] ' + (est === 'unread' ? 'text-[#F2F3F5]' : 'text-[#9AA0A6]');
+        nm.textContent = cw.n;
+        name.appendChild(nm);
+        mid.appendChild(name);
+        var last = document.createElement('span');
+        last.className = 'truncate text-[12px] text-[#5A5F66]';
+        last.textContent = cw.last;
+        mid.appendChild(last);
+        row.appendChild(mid);
+
+        var right = document.createElement('span');
+        right.className = 'flex shrink-0 flex-col items-end gap-1.5';
+        var tm = document.createElement('span');
+        tm.className = 'text-[11px] text-[#5A5F66]';
+        tm.textContent = cw.at;
+        right.appendChild(tm);
+        if (est === 'unread' && cw.un > 0) {
+          var badge = document.createElement('span');
+          badge.className = 'flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#4D9FFF] px-1 text-[10px] font-bold text-white';
+          badge.textContent = cw.un > 9 ? '9+' : String(cw.un);
+          right.appendChild(badge);
+        }
+        row.appendChild(right);
+
+        var del = document.createElement('span');
+        del.dataset.action = 'clear';
+        del.dataset.h = cw.h;
+        del.className = 'ml-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[#5A5F66] opacity-0 group-hover:opacity-100 active:bg-[#222228]';
+        var x = document.createElement('i');
+        x.setAttribute('data-lucide', 'x');
+        x.className = 'h-4 w-4';
+        del.appendChild(x);
+        row.appendChild(del);
+
+        if (est === 'unread') {
+          var dot = document.createElement('i');
+          dot.setAttribute('data-lucide', 'circle');
+          dot.className = 'absolute h-2 w-2 fill-[#4D9FFF] text-[#4D9FFF]';
+        }
+        return row;
+      }
+
+      function render() {
+        var list = document.getElementById('msg-list');
+        var empty = document.getElementById('msg-empty');
+        if (!list || !empty) return;
+        var q = norm((document.getElementById('msg-search') ? document.getElementById('msg-search').value : '') || '');
+        list.textContent = '';
+        var any = false;
+        CONVS.forEach(function (cw, i) {
+          var leidos = readLeidos();
+          var st = leidos[cw.h] || '';
+          if (st === 'cleared') return;
+          if (q && norm(cw.n).indexOf(q) === -1 && norm(cw.last).indexOf(q) === -1) return;
+          var row = renderRow(cw, i);
+          if (row) { list.appendChild(row); any = true; }
+        });
+        if (any) {
+          empty.classList.add('hidden');
+          empty.classList.remove('flex');
+        } else {
+          empty.classList.remove('hidden');
+          empty.classList.add('flex');
+        }
+        icons();
+      }
+
+      function norm(s) {
+        return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      }
+
+      function icons() {
+        if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch (e) {} }
+      }
+
+      function showToast(msg, kind) {
+        var t = document.createElement('div');
+        t.className = 'fixed bottom-24 left-1/2 z-50 -translate-x-1/2 rounded-full border border-[#2A2A30] bg-[#0F0F12] px-4 py-2 text-[12px] text-[#F2F3F5]';
+        t.textContent = msg;
+        document.body.appendChild(t);
+        setTimeout(function () { try { document.body.removeChild(t); } catch (e) {} }, 2200);
+      }
+
+      app.addEventListener('click', function (ev) {
+        var t = ev.target;
+        while (t && t !== app && !t.getAttribute) t = t.parentNode;
+        while (t && t !== app && !t.dataset.action) t = t.parentNode;
+        if (!t || t === app) return;
+        var action = t.dataset.action;
+
+        if (action === 'back') {
+          if (window.history.length > 1) { try { window.history.back(); } catch (e) {} }
+          else go('index.html');
+        }
+        else if (action === 'open') {
+          var h = t.dataset.h;
+          var leidos = readLeidos();
+          leidos[h] = 'read';
+          saveLeidos(leidos);
+          var chatUrl = './chat.html?hotelId=' + h;
+          try { window.location.assign(chatUrl); } catch (e) {}
+        }
+        else if (action === 'clear') {
+          var ch = t.dataset.h;
+          var cl = readLeidos();
+          cl[ch] = 'cleared';
+          saveLeidos(cl);
+          render();
+        }
+        else if (action === 'explore') { go('index.html'); }
+      });
+
+      var search = document.getElementById('msg-search');
+      if (search) {
+        search.addEventListener('input', function () { render(); });
+      }
+
+      icons();
+      render();
+    })();
+  </script>
+</body>
+</html>

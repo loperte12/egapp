@@ -1,0 +1,37 @@
+﻿=== nodo PKK110 ===
+
+
+Status             : OK
+Class              : USBDevice
+InstanceId         : USB\VID_22D9&PID_2769\HEYDA6X4ONUWBISG
+ProblemDescription : This device is working properly.
+
+
+
+=== propiedades clave ===
+
+
+KeyName : DEVPKEY_Device_DeviceDesc
+Data    : WinUsb Device
+
+KeyName : DEVPKEY_Device_HardwareIds
+Data    : {USB\VID_22D9&PID_2769&REV_0223, USB\VID_22D9&PID_2769}
+
+KeyName : DEVPKEY_Device_CompatibleIds
+Data    : {USB\MS_COMP_WINUSB, USB\COMPAT_VID_22D9&Class_FF&SubClass_42&Prot_01, USB\COMPAT_VID_22D9&Class_FF&SubClass_42, USB\COMPAT_VID_22D9&Class_FF...}
+
+KeyName : DEVPKEY_Device_Service
+Data    : WINUSB
+
+KeyName : DEVPKEY_Device_BusReportedDeviceDesc
+Data    : PKK110
+
+
+
+=== algun nodo con la palabra ADB ===
+
+Status Class FriendlyName   
+------ ----- ------------   
+OK     USB   Generic USB Hub
+
+

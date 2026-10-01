@@ -1,0 +1,33 @@
+diseno(guardia): corrige dos ciegos del trinquete `hex` (126 -> 89 real de 144)
+
+La guardia medía 126 literales hex y no eran 126: eran 144. Dos errores opuestos.
+
+1. PUNTO CIEGO — LONGITUDES. El patrón era `#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b`. En un hex de
+   OCHO dígitos (`#F53F3F55`, rojo al 33 % de alfa) los 6 primeros van seguidos de otro dígito, así
+   que `\b` no casa y el literal era INVISIBLE. Eran 19, y son exactamente los colores de estado
+   translúcidos (`#F53F3F14`, `#27AE6018`, `#F6B1000F`…): la mitad del problema de color de la app
+   no la veía nadie. Ahora acepta las cuatro longitudes válidas de CSS (3, 4, 6, 8).
+
+2. FALSO POSITIVO — `url(#…)`. `fill="url(#adFade)"` en SocialHomeHeader.tsx es un id de degradado
+   SVG; `adFade` son seis caracteres que casualmente son hexadecimales. Contaba como color y no lo
+   es. Se excluye con retrospección.
+
+3. ALCANCE — FICHEROS DE CONTENIDO. Cinco ficheros cuyo hex es DATO, no deuda (el valor ES el dato,
+   no hay token detrás): constants/status.ts (8 temas de gradiente), constants/lifebook-chat.ts
+   (7 paletas de chat), constants/lifebook.ts (color de categoría), app/driver-onboarding.tsx
+   (paleta de coche) y app/edit-profile.tsx (paleta de avatar). 50 literales. Tokenizarlos sería
+   inventar semántica: no existe «el azul de marca» de un tema que elige el usuario.
+
+4. PALETA DENTRO DE PRODUCTO. app/taxi.tsx tiene 16 colores de interfaz (deuda) y 5 de paleta de
+   coche (dato). No se puede excluir el fichero. Se exime por LÍNEA con el marcador `dato-color`
+   en el comentario, que viaja con el código y es greppable:
+   `grep -rn 'dato-color' app components core constants`
+
+LADDER REAL, que el acta debe contar entero:
+  126 (patrón viejo)  +19 revelados  -1 falso positivo  = 144 colores reales
+  144  -50 contenido  -5 paleta de taxi                  =  89 deuda real de color
+
+Esto NO es una mejora: es una corrección de la métrica. El trinquete sube por fichero donde
+revela (conductor 8 -> 18, taxi 12 -> 16) y por eso la base se re-fija aquí, antes de trabajar.
+El mismo caso que PESO/ternarios el 25-sep: al cerrar una familia hay que preguntar qué FORMAS
+de escribir la deuda no se están contando, no solo cuánto queda.

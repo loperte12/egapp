@@ -1,0 +1,40 @@
+HOTEL · A-4 (2/2): acta de la tanda del servidor — los siete hallazgos que quedaban
+
+Doc-only. La §11 del dossier de reestructuracion: que se desplego, con que huellas, que se
+midio antes y despues, y que queda abierto de verdad.
+
+Lo que trae, en corto:
+
+· LH-07 CERRADA — se esperaba con el reloj del huesped lo que esperaba el hotel. Los TRES
+  relojes (`hold_minutes` / `confirmation_hours` / `cancellation_hours`) no son
+  intercambiables.
+· LH-08 CERRADA — la regla de que ocupa inventario estaba escrita 11 veces (6 en SQL, 5 en
+  JS) y media docena solo miraba el estado. Una sola definicion y barrido cada 15 min. El
+  dano medido: 2 retenciones por transferencia vencidas, una desde el 14-sep (12 dias
+  bloqueando habitacion).
+· LH-02 CERRADA — se confirmaba sin cobrar la senal, en las dos puertas. Dano hoy: 0 de 11.
+  Latente, no perdida.
+· LH-09 CERRADA — un reintento con la misma Idempotency-Key recibia un cerrojo ya devuelto.
+  La clave lleva nonce.
+· LH-10 CERRADA salvo la causa raiz — la liberacion deja marca (`paid_at`) y hay reintento
+  (`reconciliarMonedero`), que el barrido llama solo.
+· LH-12 y LH-05: media cada una, y se dice cual mitad falta y por que.
+
+Y la medicion que estaba pendiente desde A-3: **la escritura de `hold_expires_at` SI
+sobrevive** (2 de 2 con plazo) -> LH-07 y LH-08 no eran latentes, eran dano vivo.
+
+Verificacion: auditoria del paquete SIN conectarse (base64 == huella, 17 'esperado'
+re-medidos, nada destructivo), guarda de partida (3 de 3 en el A-3), preflight de lectura,
+`tsc OK`, huellas desplegadas identicas, **13 de 13 consultas ejecutadas con 0 errores**, y
+las rutas reales (200/401, ningun 500). `pm2 online`, `unstable restarts 0`.
+
+Cuatro trampas nuevas, todas nacidas hoy y todas anotadas: un nombre de variable con guion
+lo lee bash como COMANDO (y `bash -n` no lo caza: costo un intento, no un despliegue a
+medias, porque la guarda iba antes de la primera escritura); `\`` dentro de comillas
+simples no es un backtick y dio un 0 FALSO en una afirmacion; `mobility.shops` no existe
+(es `lifebook.shops`); y las rutas de la API llevan el prefijo `/wallet` — la web no esta
+racionada, el SSH si.
+
+Queda abierto: LH-05 (mitad del cliente: `X-Payment-Token`), LH-12 (mitad del controller:
+versionar `hotel.controller.ts`), LH-10 (causa raiz en `wallet.service`), LH-04, LH-03 y B
+(versionar el esquema y poder purgar los ejemplos).

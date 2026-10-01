@@ -1,0 +1,15 @@
+docs(UI-HOTEL): la home leida bloque a bloque (foto 1) y D1 corregida
+
+Anade §10 al plan: los 11 bloques de la home de Meituan leidos de la foto del
+dueno del producto, con el alcance que el fijo (solo alojamiento; vuelos, tren,
+entradas y vacaciones fuera). Lo que tiene dato y lo que no, verificado en el
+codigo: city si (exacta), fechas/ocupacion si, precio si (minPrice/maxPrice),
+lat/lng si (distancia en cliente), tipo de propiedad no en la lista, sort no
+existe, estrellas no viajan en HotelSummary.
+
+Corrige D1 y la tabla de brecha: la foto desmiente que Meituan separe buscador y
+lista — la home lleva las dos cosas. El defecto no es tener lista, es que hoy el
+formulario ocupa mil px delante de la primera tarjeta.
+
+Anade a §8 la trampa del GPS (api/locate.ts devuelve null fuera del bbox de
+Guinea Ecuatorial) y arregla un salto de linea roto en §9.

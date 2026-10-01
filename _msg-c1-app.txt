@@ -1,0 +1,85 @@
+C · C-1: la confianza del hotel en la app (ficha, valorar, mis reservas, panel del hotelero)
+
+Los seis puntos aprobados (D1-D6), implementados. La nota del hotel NO se pintaba
+en ninguna pantalla salvo la tarjeta de resultados, y ahi con la condicion vieja (por
+el valor de rating, no por si el servidor la publica). C-1 en la app es, sobre todo,
+ANADIR una confianza que ya estaba escrita en el backend y no se ensenaba.
+
+FICHA DEL HOTEL (lifebook-hotel-detalle.tsx) — D1/D2/D3
+
+  - Chip de la nota en la cabecera, con estrella rellena SOLO si el servidor publica
+    (resenas.publishesRating); debajo del umbral el chip se queda sin cifra. La
+    estrella va en colors.text.warning, el ambar que ya usaban los cinco sitios que
+    el kit sustituye.
+  - El chip es PULSABLE y baja a la seccion: onLayout en dos niveles (contenido +
+    seccion) y scrollTo, sin measure(). Bajar por suma de dos alturas es lo que
+    evita el salto cuando la ficha cambia de alto.
+  - Seccion de resenas DESPUES de las habitaciones: quien todavia no ha decidido
+    quiere ver habitaciones y precios; la confianza va despues de la oferta, no
+    antes. Tres estados (cargando, sin resenas, con resenas), «Ver todas» (20 + 20)
+    y el aviso de que la nota se publica a partir de 3.
+  - La respuesta del alojamiento se pinta debajo de la resena, marcada, para que no
+    se lea como otra resena.
+  - La carga de resenas va en su PROPIO efecto: si fallan, la ficha y la reserva
+    siguen funcionando. La confianza no puede tumbar la compra.
+
+VALORAR LA ESTANCIA (lifebook-hotel-resena.tsx, NUEVA) — D4
+
+  - El selector es el componente Estrellas del kit (tamano 40, role radio), no cinco
+    estrellas pintadas a mano: es la pieza que la cascada de A3.2 ya habia dejado
+    lista.
+  - Texto opcional, 600 caracteres como tope del cliente; el rango 1..5 lo cierra el
+    DTO del servidor.
+  - Las reglas van ESCRITAS EN PANTALLA antes de escribir: se puede borrar 7 dias,
+    no se edita, y la nota solo sale a partir de 3 resenas. Un usuario que no sabe
+    que su nota no se publica todavia cree que la app la perdio.
+
+MIS RESERVAS (lifebook-hotel-reservas.tsx) — D4
+
+  - Terminada la estancia (checked_out) y sin resena, el boton «Valorar la
+    estancia»; con resena, el aviso de que ya valoro y «Borrar mi resena».
+  - El refresco al volver de valorar es en SILENCIO y solo en el foco POSTERIOR al
+    montaje (useFocusEffect con useRef a la funcion): recargar entero en cada foco
+    haria parpadear la lista que el usuario acaba de dejar.
+  - La confirmacion del borrado usa window.confirm en web y Alert en movil, que son
+    las dos formas que este proyecto ya usa para confirmar.
+
+PANEL DEL HOTELERO (lifebook-hotel-valoraciones.tsx, NUEVA) — D5
+
+  - REUSA hotelApi.reviews (la ruta PUBLICA) en vez de estrenar una ruta de panel.
+    La nota de un hotel es publica por decision de C-1; una segunda ruta para el
+    dueno seria el mismo dato por dos puertas, y la de mas privilegio es la que se
+    olvida de cerrar.
+  - Sin responder primero, respondidas despues; se responde con replyReview.
+  - El enlace vive en GESTION y no en «Hoy»: una resena no caduca, no es del dia.
+
+D6 · LA TARJETA DE RESULTADOS (components/HotelResultCard.tsx)
+
+  - La cifra se gatea por ratingPublished y no por el valor. Es la linea que cierra
+    el fallo que se midio: la tarjeta si leia la nota, pero con la condicion vieja.
+
+CLIENTE (api/hotel.ts)
+
+  - Tipos nuevos: HotelReview, HotelReviewsPage, HotelReviewMutation.
+  - Metodos nuevos: reviews, createReview, deleteReview, replyReview.
+  - REVIEWS_DELETE_DAYS = 7 es una COPIA DECLARADA y solo se usa para el TEXTO de la
+    pantalla; quien borra de verdad es el servidor. El umbral de 3 no se copia en
+    ninguna forma, ni como numero ni como comentario.
+  - Reservation.reviewId documentado como «solo huesped».
+
+RUTAS: constants/rutas.ts regenerado con pruebas/generar-mapa-rutas.cjs — 133 rutas,
+antes 131. Las dos pantallas nuevas quedan declaradas y la auditoria pasa.
+
+CUATRO GUARDIAS EN VERDE:
+  - pruebas/c1-verifica-app.cjs — sintaxis de los siete ficheros, backticks y llaves
+    cuadrados, cero tokens a mano en el codigo nuevo, y D1-D6 comprobados EN EL
+    CODIGO con los comentarios quitados (la leccion de A-4: sin quitarlos, la
+    comprobacion de D6 daba falso positivo contra el propio comentario).
+  - pruebas/verifica-diseno.cjs — ninguna zona empeora. Total: hex 0 · fontSize 0 ·
+    borderRadius 0 · fontWeight 0 · borderWidth 5 · espaciado 183 · precioFigura 5 ·
+    strokeWidth 0.
+  - pruebas/auditar-rutas.cjs — navegacion en orden, sin enlaces rotos.
+  - tsc -p tsconfig.json — 0 errores.
+
+NO VERIFICADO EN EL MOVIL TODAVIA: todo cambio visual exige assembleRelease; el APK
+se compila y se instala en este mismo tramo, y la captura va cruzada con la base.

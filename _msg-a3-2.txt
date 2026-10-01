@@ -1,0 +1,50 @@
+A3.2 · los 57 sitios de TEXTO con acento base pasan al grupo `text` (paso 2 en CERO)
+
+Cierra el paso 2 de la Fase 4: contraste. Un acento BASE (`brand.primary`, `colors.danger`…) es
+INVARIANTE al tema —los dos temas hacen `...brand`—, así que como color de texto suspende AA en
+oscuro. El grupo `colors.text.X` existe para eso. Antes: 57 sitios. Ahora: 0.
+
+Medido con la guardia corregida (commit anterior de Routeplan), no estimado:
+  ANTES    TEXTO 57 · GRÁFICO 35 · DATO 65
+  DESPUÉS  TEXTO  0 · GRÁFICO 32 · DATO 65
+
+Los 3 de GRÁFICO que salen NO se han perdido, y se comprobó uno a uno: son los iconos de
+`tint`/`tinte` del dock y de las dos barras del mercado (`FloatingFooter`, `BarraTienda`,
+`PieDelMercado`), que dejan de ser acento base porque su DECLARACIÓN se tokenizó. La mejora
+alcanza al consumidor. DATO no se mueve: la exención se respeta.
+
+73 operaciones en 21 ficheros. El mecanismo de cada sitio se decidió con el CÓDIGO DELANTE, no
+deducido, y hay cuatro clases:
+
+  · 16 «directo»      el sitio ya escribía `colors.X` -> `colors.text.X`. Coste 0 de ámbito: si el
+                      sitio dice `colors.danger`, `colors` está en ámbito por construcción.
+  · 9 alias           solo pintan texto (`titleColor`, `bodyColor`, `statusColor`, `priceColor`,
+                      los tres `tono`, `tint`, los dos `tinte`) -> se mueve la DECLARACIÓN. Un
+                      cambio en vez de N.
+  · comparten relleno `planColor`, `ocColor`, `colorEstado`, `tonoEstado` y `ACCENT` pintan
+                      ADEMÁS relleno, borde o fondo. La declaración NO se toca (moverla cambiaría
+                      botones, bordes y tintes = rehacer el diseño, no adoptar un token): el
+                      cambio va al SITIO. Y los que son un TERNARIO DE ESTADO exigen una SEGUNDA
+                      variable (`ocColorTxt`, `colorEstadoTxt`, `tonoEstadoTxt`): duplicar el
+                      ternario es el precio de no mover el diseño, y se paga a gusto.
+                      `taxi.STATUS_UI` pasa a función del tema por lo mismo: `st.c` pinta el texto
+                      y su propio tinte al 8 %, así que el acento base no vale para ninguno de los
+                      dos y no hay nada que partir.
+  · 1 prop            `tienda/anuncios.tsx:404` — la deuda estaba en el PUNTO DE LLAMADA y el censo
+                      no la veía. Entra aunque no esté en la lista, y se dice.
+  · 1 clave muerta    `food-menu.s_row.price` (0 consumidores): un color que no se pinta no puede
+                      suspender AA. No es deuda de contraste: es código muerto y se retira.
+
+Verificación, y no es «parece bien»:
+  · Por INVERSIÓN: re-aplicar las mismas operaciones sobre el respaldo reproduce los 21 ficheros
+    byte a byte (`_q8c`, que llama a `_q8.aplica()` en vez de reimplementarlo).
+  · ÁMBITO comprobado antes de aplicar (`_q8b`): los 73 sitios estrenan `colors` con el hook en
+    ámbito, o ya lo usaban.
+  · Tres puertas: `tsc` 0 · `diseno` 0 · `rutas` 0. El trinquete NO se movió
+    (hex 0 · fontSize 0 · borderRadius 0 · fontWeight 0 · borderWidth 5 · espaciado 183 ·
+    precioFigura 5 · strokeWidth 0).
+
+Resultado en pantalla: los rótulos de acento pasan a la variante legible en los dos temas, y los
+tintes de los chips de estado de taxi siguen al texto (mismo color, resuelto por tema).
+
+Respaldo íntegro en `D:/egapp/_respaldo-a32/` (21 ficheros, no se pisa en una segunda pasada).

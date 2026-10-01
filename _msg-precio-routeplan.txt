@@ -1,0 +1,20 @@
+tanda(precio): la figura del precio pasa por `<Precio>` — herramientas y acta
+
+Cierra la septima y ultima familia de tokens. Herramientas:
+
+  _pf1-inventario-precio.py  inventario ciego: reproduce la regla de la guardia (12 exacto)
+                             y cuenta las formas que NO ve (las otras 3, 38 figuras mas)
+  _pf2-contexto-precio.py    contexto de cada figura: anidamiento con parser de rangos, talla, color
+  _pf3-aplica-precio.py      motor (respaldo ENTERO antes del primer byte; estilos nombrados por
+                             TITULAR; `color` preservado)
+  _pf4-audita-precio.py      auditor del texto resultante antes de escribir: seis invariantes
+  _pf5-cuadre-precio.py      fidelidad byte a byte, cuadre con la regla nueva, delta de tamano
+
+El acta registra los dos errores de metrica (una forma de cuatro; el `<Text>` anidado contado como
+figura), el fallo 28 del motor (un `X.y` cualquiera no es una referencia a la hoja) y el residuo de
+5 figuras declaradas una a una.
+
+Y la deuda que queda a la vista: ~6 COPIAS LOCALES del formateador (`xaf` en 4 ficheros, `fmtXaf` en
+3, `lbXaf`...), construidas sobre `toLocaleString('es-GQ')`, que depende del ICU del dispositivo,
+mientras `formateaXAF` —el del kit— tiene 0 usos. No se tocan aqui: son centrales y se usan tambien
+en frases. Queda anotado.

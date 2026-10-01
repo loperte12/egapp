@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Alojamiento · Kit de componentes</title>
+
+  <!-- Tailwind CSS Play (runtime local, offline) -->
+  <script src="./tailwind.js"></script>
+  <!-- Lucide: única librería de iconos funcionales -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<!--
+qb:map
+app-shell -> 页面外壳（头部、主内容、底部栏、浮层）
+main-content -> 组件平铺演示区
+app-overlays -> Toast 提示
+-->
+
+<body class="min-h-screen bg-[#1E1E23] text-[#F2F3F5] font-sans antialiased">
+
+  <!-- qb:region:app-shell:start -->
+  <div id="app" class="min-h-screen" data-qb-region="app-shell">
+
+    <!-- 固定头部 chrome -->
+    <header class="sticky top-0 z-40 bg-[#0F0F12] border-b border-[rgba(255,255,255,0.08)] pt-[env(safe-area-inset-top)]">
+      <div class="mx-auto flex h-[60px] max-w-md items-center justify-between px-4">
+        <div class="flex items-center gap-2.5">
+          <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0066CC]">
+            <i data-lucide="building-2" class="h-5 w-5 text-white"></i>
+          </span>
+          <div class="leading-tight">
+            <p class="text-[17px] font-semibold text-[#F2F3F5]">Alojamiento</p>
+            <p class="text-[11px] text-[#9AA0A6]">Kit de componentes</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" data-action="bell" aria-label="Notificaciones"
+            class="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#1E1E23] border border-[#2A2A30] text-[#9AA0A6] active:bg-[#222228]">
+            <i data-lucide="bell" class="h-[18px] w-[18px]"></i>
+            <span class="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-[#FF6B6B]"></span>
+          </button>
+          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#222228] border border-[#2A2A30] text-[13px] font-semibold text-[#F2F3F5]">AM</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- qb:section:main-content:start -->
+    <main id="main-content" class="mx-auto max-w-md px-4 pb-36 pt-6" data-qb-section="main-content">
+
+      <!-- Intro -->
+      <section class="mb-8">
+        <p class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#4D9FFF]">Demo · Móvil</p>
+        <h1 class="mt-2 text-[22px] font-semibold leading-snug text-[#F2F3F5]">Componentes base de Alojamiento</h1>
+        <p class="mt-2 text-[14px] leading-relaxed text-[#9AA0A6]">
+          Librería con modo oscuro propio, alta densidad tipo Meituan, moneda XAF con separador de miles y sin sombras: solo bordes de 1px.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <a href="./home.html"
+            class="inline-flex h-11 items-center gap-2 rounded-lg border border-[#2A2A30] bg-[#17171A] px-5 text-[14px] font-medium text-[#4D9FFF] active:bg-[#222228]">
+            Ver página de inicio
+            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          </a>
+          <a href="./results.html"
+            class="inline-flex h-11 items-center gap-2 rounded-lg border border-[#2A2A30] bg-[#17171A] px-5 text-[14px] font-medium text-[#4D9FFF] active:bg-[#222228]">
+            Ver resultados
+            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          </a>
+          <a href="./detail.html"
+            class="inline-flex h-11 items-center gap-2 rounded-lg border border-[#2A2A30] bg-[#17171A] px-5 text-[14px] font-medium text-[#4D9FFF] active:bg-[#222228]">
+            Ver detalle
+            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          </a>
+          <a href="./booking.html"
+            class="inline-flex h-11 items-center gap-2 rounded-lg border border-[#2A2A30] bg-[#17171A] px-5 text-[14px] font-medium text-[#4D9FFF] active:bg-[#222228]">
+            Ver reserva
+            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          </a>
+          <a href="./profile.html"
+            class="inline-flex h-11 items-center gap-2 rounded-lg border border-[#2A2A30] bg-[#17171A] px-5 text-[14px] font-medium text-[#4D9FFF] active:bg-[#222228]">
+            Ver perfil
+            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          </a>
+          <a href="./detail.html#opiniones"
+            class="inline-flex h-11 items-center gap-2 rounded-lg border border-[#2A2A30] bg-[#17171A] px-5 text-[14px] font-medium text-[#4D9FFF] active:bg-[#222228]">
+            Opiniones
+            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          </a>
+          <a href="./saved.html"
+            class="inline-flex h-11 items-center gap-2 rounded-lg border border-[#2A2A30] bg-[#17171A] px-5 text-[14px] font-medium text-[#4D9FFF] active:bg-[#222228]">
+            Ver favoritos
+            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          </a>
+          <a href="./messages.html"
+            class="inline-flex h-11 items-center gap-2 rounded-lg border border-[#2A2A30] bg-[#17171A] px-5 text-[14px] font-medium text-[#4D9FFF] active:bg-[#222228]">
+            Ver mensajes
+            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          </a>
+        </div>
+      </section>
+
+      <!-- 01 Botones -->
+      <section class="border-t border-[rgba(255,255,255,0.08)] pt-8">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">01 · Botones</h2>
+        <div class="mt-4 space-y-3">
+          <button type="button" data-action="toast" data-toast="Buscando alojamientos disponibles…"
+            class="flex w-full h-12 items-center justify-center gap-2 rounded-lg bg-[#0066CC] text-[16px] font-medium text-white active:bg-[#0052A3]">
+            Buscar alojamiento
+          </button>
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" data-action="toast" data-toast="Consultando disponibilidad…"
+              class="flex h-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.08)] bg-transparent text-[15px] font-medium text-[#F2F3F5] active:bg-[#222228]">
+              Ver precios
+            </button>
+            <button type="button" data-action="toast" data-toast="Abriendo calendario de reservas…"
+              class="flex h-12 items-center justify-center gap-1.5 rounded-lg bg-[#17171A] border border-[#2A2A30] text-[15px] font-medium text-[#4D9FFF] active:bg-[#222228]">
+              <i data-lucide="calendar" class="h-4 w-4"></i>
+              Reservar
+            </button>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <button type="button" disabled
+              class="h-11 rounded-lg bg-[#27272B] text-[14px] font-medium text-[#5A5F66]">Pago pendiente</button>
+            <button type="button" disabled
+              class="h-11 rounded-lg border border-[#2A2A30] text-[14px] font-medium text-[#5A5F66]">Sin stock</button>
+            <button type="button" disabled
+              class="h-11 rounded-lg text-[14px] font-medium text-[#5A5F66]">No disponible</button>
+          </div>
+          <p class="text-[12px] text-[#9AA0A6]">Primarios #0066CC · Fantasma borde subtle · Texto #4D9FFF · estados deshabilitados con #5A5F66.</p>
+        </div>
+      </section>
+
+      <!-- 02 Barra de búsqueda -->
+      <section class="border-t border-[rgba(255,255,255,0.08)] pt-8">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">02 · Barra de búsqueda</h2>
+        <div class="mt-4 flex h-12 items-center gap-2 rounded-lg border border-[#2A2A30] bg-[#111114] px-3 focus-within:border-[#4D9FFF]">
+          <i data-lucide="search" class="h-5 w-5 shrink-0 text-[#9AA0A6]"></i>
+          <input id="search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Busca hoteles, destinos…"
+            class="h-full w-full min-w-0 bg-transparent text-[15px] text-[#F2F3F5] placeholder:text-[#5A5F66] outline-none" />
+          <button type="button" id="search-clear" data-action="clear-search"
+            class="hidden shrink-0 h-7 w-7 items-center justify-center rounded-full bg-[#27272B] text-[#9AA0A6] active:bg-[#2A2A30]" aria-label="Limpiar búsqueda">
+            <i data-lucide="x" class="h-4 w-4"></i>
+          </button>
+        </div>
+        <p class="mt-2 text-[12px] text-[#9AA0A6]">Filtra las tarjetas en vivo. Prueba con «mar», «hostal» o «palmera».</p>
+      </section>
+
+      <!-- 03 Pestañas -->
+      <section class="border-t border-[rgba(255,255,255,0.08)] pt-8">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">03 · Pestañas</h2>
+        <div class="mt-4 -mx-4 flex gap-6 overflow-x-auto border-b border-[rgba(255,255,255,0.08)] px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label="Categorías de alojamiento">
+          <button type="button" role="tab" data-action="tab" data-tab="all"
+            class="relative shrink-0 pb-3 text-[15px] font-medium text-[#F2F3F5]">Todos<span data-tab-line class="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#4D9FFF]"></span></button>
+          <button type="button" role="tab" data-action="tab" data-tab="hotel"
+            class="relative shrink-0 pb-3 text-[15px] font-medium text-[#9AA0A6]">Hoteles<span data-tab-line class="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#4D9FFF] hidden"></span></button>
+          <button type="button" role="tab" data-action="tab" data-tab="apartamento"
+            class="relative shrink-0 pb-3 text-[15px] font-medium text-[#9AA0A6]">Apartamentos<span data-tab-line class="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#4D9FFF] hidden"></span></button>
+          <button type="button" role="tab" data-action="tab" data-tab="hostal"
+            class="relative shrink-0 pb-3 text-[15px] font-medium text-[#9AA0A6]">Hostales<span data-tab-line class="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#4D9FFF] hidden"></span></button>
+          <button type="button" role="tab" data-action="tab" data-tab="villa"
+            class="relative shrink-0 pb-3 text-[15px] font-medium text-[#9AA0A6]">Villas<span data-tab-line class="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#4D9FFF] hidden"></span></button>
+        </div>
+      </section>
+
+      <!-- 04 Chips y etiquetas -->
+      <section class="border-t border-[rgba(255,255,255,0.08)] pt-8">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">04 · Chips y etiquetas</h2>
+
+        <p class="mt-4 text-[13px] font-medium text-[#F2F3F5]">Con borde</p>
+        <div class="mt-2 flex flex-wrap gap-2">
+          <button type="button" data-action="chip-toggle" data-chip="info"
+            class="chip-chip h-9 rounded-lg border border-[#2A2A30] bg-[#14202F] px-3 text-[13px] font-medium text-[#4D9FFF] active:opacity-80">WiFi gratis</button>
+          <button type="button" data-action="chip-toggle" data-chip="success"
+            class="chip-chip h-9 rounded-lg border border-[#2A2A30] bg-[#1D2A26] px-3 text-[13px] font-medium text-[#45B87A] active:opacity-80">Cancelación gratuita</button>
+          <button type="button" data-action="chip-toggle" data-chip="danger"
+            class="chip-chip h-9 rounded-lg border border-[#2A2A30] bg-[#2C191C] px-3 text-[13px] font-medium text-[#FF6B6B] active:opacity-80">Quedan 2</button>
+          <button type="button" data-action="chip-toggle" data-chip="neutral"
+            class="chip-chip h-9 rounded-lg border border-[#2A2A30] bg-[#27272B] px-3 text-[13px] font-medium text-[#9AA0A6] active:opacity-80">Se admiten mascotas</button>
+        </div>
+
+        <p class="mt-5 text-[13px] font-medium text-[#F2F3F5]">Sin borde</p>
+        <div class="mt-2 flex flex-wrap gap-2">
+          <button type="button" data-action="chip-toggle" data-chip="info"
+            class="chip-chip h-9 rounded-lg bg-[#14202F] px-3 text-[13px] font-medium text-[#4D9FFF] active:opacity-80">Reserva flexible</button>
+          <button type="button" data-action="chip-toggle" data-chip="success"
+            class="chip-chip h-9 rounded-lg bg-[#1D2A26] px-3 text-[13px] font-medium text-[#45B87A] active:opacity-80">Desayuno incluido</button>
+          <button type="button" data-action="chip-toggle" data-chip="danger"
+            class="chip-chip h-9 rounded-lg bg-[#2C191C] px-3 text-[13px] font-medium text-[#FF6B6B] active:opacity-80">Precio sube pronto</button>
+          <button type="button" data-action="chip-toggle" data-chip="neutral"
+            class="chip-chip h-9 rounded-lg bg-[#27272B] px-3 text-[13px] font-medium text-[#9AA0A6] active:opacity-80">Sin valoraciones</button>
+        </div>
+        <p class="mt-2 text-[12px] text-[#9AA0A6]">Toca un chip para seleccionarlo (borde #4D9FFF).</p>
+      </section>
+
+      <!-- 05 Tarjeta de alojamiento -->
+      <section class="border-t border-[rgba(255,255,255,0.08)] pt-8">
+        <div class="flex items-baseline justify-between">
+          <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">05 · Tarjeta de alojamiento</h2>
+          <span id="result-count" class="text-[12px] font-medium text-[#4D9FFF]">8 resultados</span>
+        </div>
+
+        <div class="mt-4 space-y-5" id="hotel-list">
+
+          <!-- c1 hotel -->
+          <article data-card data-category="hotel" data-title="Hotel Boutique Casa del Lago" class="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+            <div class="relative aspect-video w-full bg-[#222228]">
+              <div class="flex h-full w-full items-center justify-center text-[#5A5F66]">
+                <i data-lucide="bed-double" class="h-9 w-9"></i>
+              </div>
+              <span class="absolute right-3 top-3 rounded-full bg-[#0F0F12]/90 px-2.5 py-1 text-[11px] font-semibold text-[#F08A4B]">Oferta</span>
+              <button type="button" data-action="fav" data-id="c1" aria-label="Favorito"
+                class="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#0F0F12]/90 text-[#F2F3F5] active:scale-95"><i data-lucide="heart" class="h-4 w-4"></i></button>
+            </div>
+            <div class="p-3">
+              <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-[#F2F3F5]">Hotel Boutique Casa del Lago con vistas al jardín y terraza privada</h3>
+              <div class="mt-1.5 flex items-center gap-1 text-[13px]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#F2F3F5] text-[#F2F3F5]"></i>
+                <span class="font-semibold text-[#F2F3F5]">4.8</span>
+                <span class="text-[#9AA0A6]">(128)</span>
+              </div>
+              <div class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span class="text-[17px] font-bold text-[#F08A4B]">XAF 45 000</span>
+                <span class="text-[13px] text-[#5A5F66] line-through">XAF 58 000</span>
+                <span class="text-[12px] text-[#9AA0A6]">/ noche</span>
+              </div>
+              <span class="mt-2.5 inline-block rounded-lg bg-[#1D2A26] px-2 py-1 text-[11px] font-medium text-[#45B87A]">Cancelación gratuita</span>
+            </div>
+          </article>
+
+        </div>
+        <!-- c2 hotel -->
+          <article data-card data-category="hotel" data-title="Gran Hotel Palace Central cerca de la avenida principal" class="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+            <div class="relative aspect-video w-full bg-[#222228]">
+              <div class="flex h-full w-full items-center justify-center text-[#5A5F66]"><i data-lucide="bed-double" class="h-9 w-9"></i></div>
+              <span class="absolute right-3 top-3 rounded-full bg-[#0F0F12]/90 px-2.5 py-1 text-[11px] font-semibold text-[#4D9FFF]">Recomendado</span>
+              <button type="button" data-action="fav" data-id="c2" aria-label="Favorito" class="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#0F0F12]/90 text-[#F2F3F5] active:scale-95"><i data-lucide="heart" class="h-4 w-4"></i></button>
+            </div>
+            <div class="p-3">
+              <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-[#F2F3F5]">Gran Hotel Palace Central cerca de la avenida principal</h3>
+              <div class="mt-1.5 flex items-center gap-1 text-[13px]"><i data-lucide="star" class="h-3.5 w-3.5 fill-[#F2F3F5] text-[#F2F3F5]"></i><span class="font-semibold text-[#F2F3F5]">4.9</span><span class="text-[#9AA0A6]">(214)</span></div>
+              <div class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span class="text-[17px] font-bold text-[#F08A4B]">XAF 78 000</span>
+                <span class="text-[13px] text-[#5A5F66] line-through">XAF 92 000</span>
+                <span class="text-[12px] text-[#9AA0A6]">/ noche</span>
+              </div>
+              <span class="mt-2.5 inline-block rounded-lg bg-[#1D2A26] px-2 py-1 text-[11px] font-medium text-[#45B87A]">Cancelación gratuita</span>
+            </div>
+          </article>
+
+          <!-- c3 apartamento -->
+          <article data-card data-category="apartamento" data-title="Apartamento céntrico con terraza y cocina equipada" class="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+            <div class="relative aspect-video w-full bg-[#222228]">
+              <div class="flex h-full w-full items-center justify-center text-[#5A5F66]"><i data-lucide="building-2" class="h-9 w-9"></i></div>
+              <span class="absolute right-3 top-3 rounded-full bg-[#0F0F12]/90 px-2.5 py-1 text-[11px] font-semibold text-[#45B87A]">Nuevo</span>
+              <button type="button" data-action="fav" data-id="c3" aria-label="Favorito" class="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#0F0F12]/90 text-[#F2F3F5] active:scale-95"><i data-lucide="heart" class="h-4 w-4"></i></button>
+            </div>
+            <div class="p-3">
+              <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-[#F2F3F5]">Apartamento céntrico con terraza y cocina equipada</h3>
+              <div class="mt-1.5 flex items-center gap-1 text-[13px]"><i data-lucide="star" class="h-3.5 w-3.5 fill-[#F2F3F5] text-[#F2F3F5]"></i><span class="font-semibold text-[#F2F3F5]">4.6</span><span class="text-[#9AA0A6]">(87)</span></div>
+              <div class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span class="text-[17px] font-bold text-[#F08A4B]">XAF 32 500</span>
+                <span class="text-[13px] text-[#5A5F66] line-through">XAF 40 000</span>
+                <span class="text-[12px] text-[#9AA0A6]">/ noche</span>
+              </div>
+              <span class="mt-2.5 inline-block rounded-lg bg-[#1D2A26] px-2 py-1 text-[11px] font-medium text-[#45B87A]">Cancelación gratuita</span>
+            </div>
+          </article>
+
+          <!-- c4 apartamento -->
+          <article data-card data-category="apartamento" data-title="Loft moderno frente al mar con balcón amplio" class="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+            <div class="relative aspect-video w-full bg-[#222228]">
+              <div class="flex h-full w-full items-center justify-center text-[#5A5F66]"><i data-lucide="building-2" class="h-9 w-9"></i></div>
+              <span class="absolute right-3 top-3 rounded-full bg-[#0F0F12]/90 px-2.5 py-1 text-[11px] font-semibold text-[#F58585]">Top ventas</span>
+              <button type="button" data-action="fav" data-id="c4" aria-label="Favorito" class="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#0F0F12]/90 text-[#F2F3F5] active:scale-95"><i data-lucide="heart" class="h-4 w-4"></i></button>
+            </div>
+            <div class="p-3">
+              <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-[#F2F3F5]">Loft moderno frente al mar con balcón amplio</h3>
+              <div class="mt-1.5 flex items-center gap-1 text-[13px]"><i data-lucide="star" class="h-3.5 w-3.5 fill-[#F2F3F5] text-[#F2F3F5]"></i><span class="font-semibold text-[#F2F3F5]">4.7</span><span class="text-[#9AA0A6]">(56)</span></div>
+              <div class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span class="text-[17px] font-bold text-[#F08A4B]">XAF 120 000</span>
+                <span class="text-[13px] text-[#5A5F66] line-through">XAF 150 000</span>
+                <span class="text-[12px] text-[#9AA0A6]">/ noche</span>
+              </div>
+              <span class="mt-2.5 inline-block rounded-lg bg-[#1D2A26] px-2 py-1 text-[11px] font-medium text-[#45B87A]">Cancelación gratuita</span>
+            </div>
+          </article>
+
+          <!-- c5 hostal -->
+          <article data-card data-category="hostal" data-title="Hostal La Palmera con desayuno casero" class="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+            <div class="relative aspect-video w-full bg-[#222228]">
+              <div class="flex h-full w-full items-center justify-center text-[#5A5F66]"><i data-lucide="bed" class="h-9 w-9"></i></div>
+              <span class="absolute right-3 top-3 rounded-full bg-[#0F0F12]/90 px-2.5 py-1 text-[11px] font-semibold text-[#F08A4B]">Oferta</span>
+              <button type="button" data-action="fav" data-id="c5" aria-label="Favorito" class="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#0F0F12]/90 text-[#F2F3F5] active:scale-95"><i data-lucide="heart" class="h-4 w-4"></i></button>
+            </div>
+            <div class="p-3">
+              <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-[#F2F3F5]">Hostal La Palmera con desayuno casero</h3>
+              <div class="mt-1.5 flex items-center gap-1 text-[13px]"><i data-lucide="star" class="h-3.5 w-3.5 fill-[#F2F3F5] text-[#F2F3F5]"></i><span class="font-semibold text-[#F2F3F5]">4.4</span><span class="text-[#9AA0A6]">(43)</span></div>
+              <div class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span class="text-[17px] font-bold text-[#F08A4B]">XAF 18 500</span>
+                <span class="text-[13px] text-[#5A5F66] line-through">XAF 22 000</span>
+                <span class="text-[12px] text-[#9AA0A6]">/ noche</span>
+              </div>
+              <span class="mt-2.5 inline-block rounded-lg bg-[#1D2A26] px-2 py-1 text-[11px] font-medium text-[#45B87A]">Cancelación gratuita</span>
+            </div>
+          </article>
+
+          <!-- c6 hostal -->
+          <article data-card data-category="hostal" data-title="Hostal Rincón Tranquilo a dos cuadras del mercado" class="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+            <div class="relative aspect-video w-full bg-[#222228]">
+              <div class="flex h-full w-full items-center justify-center text-[#5A5F66]"><i data-lucide="bed" class="h-9 w-9"></i></div>
+              <span class="absolute right-3 top-3 rounded-full bg-[#0F0F12]/90 px-2.5 py-1 text-[11px] font-semibold text-[#45B87A]">Nuevo</span>
+              <button type="button" data-action="fav" data-id="c6" aria-label="Favorito" class="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#0F0F12]/90 text-[#F2F3F5] active:scale-95"><i data-lucide="heart" class="h-4 w-4"></i></button>
+            </div>
+            <div class="p-3">
+              <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-[#F2F3F5]">Hostal Rincón Tranquilo a dos cuadras del mercado</h3>
+              <div class="mt-1.5 flex items-center gap-1 text-[13px]"><i data-lucide="star" class="h-3.5 w-3.5 fill-[#F2F3F5] text-[#F2F3F5]"></i><span class="font-semibold text-[#F2F3F5]">4.5</span><span class="text-[#9AA0A6]">(31)</span></div>
+              <div class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span class="text-[17px] font-bold text-[#F08A4B]">XAF 15 000</span>
+                <span class="text-[13px] text-[#5A5F66] line-through">XAF 18 000</span>
+                <span class="text-[12px] text-[#9AA0A6]">/ noche</span>
+              </div>
+              <span class="mt-2.5 inline-block rounded-lg bg-[#1D2A26] px-2 py-1 text-[11px] font-medium text-[#45B87A]">Cancelación gratuita</span>
+            </div>
+          </article>
+
+          <!-- c7 villa -->
+          <article data-card data-category="villa" data-title="Villa privada con piscina y jardín tropical" class="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+            <div class="relative aspect-video w-full bg-[#222228]">
+              <div class="flex h-full w-full items-center justify-center text-[#5A5F66]"><i data-lucide="tree-palm" class="h-9 w-9"></i></div>
+              <span class="absolute right-3 top-3 rounded-full bg-[#0F0F12]/90 px-2.5 py-1 text-[11px] font-semibold text-[#4D9FFF]">Recomendado</span>
+              <button type="button" data-action="fav" data-id="c7" aria-label="Favorito" class="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#0F0F12]/90 text-[#F2F3F5] active:scale-95"><i data-lucide="heart" class="h-4 w-4"></i></button>
+            </div>
+            <div class="p-3">
+              <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-[#F2F3F5]">Villa privada con piscina y jardín tropical</h3>
+              <div class="mt-1.5 flex items-center gap-1 text-[13px]"><i data-lucide="star" class="h-3.5 w-3.5 fill-[#F2F3F5] text-[#F2F3F5]"></i><span class="font-semibold text-[#F2F3F5]">4.9</span><span class="text-[#9AA0A6]">(95)</span></div>
+              <div class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span class="text-[17px] font-bold text-[#F08A4B]">XAF 250 000</span>
+                <span class="text-[13px] text-[#5A5F66] line-through">XAF 300 000</span>
+                <span class="text-[12px] text-[#9AA0A6]">/ noche</span>
+              </div>
+              <span class="mt-2.5 inline-block rounded-lg bg-[#1D2A26] px-2 py-1 text-[11px] font-medium text-[#45B87A]">Cancelación gratuita</span>
+            </div>
+          </article>
+
+          <!-- c8 villa -->
+          <article data-card data-category="villa" data-title="Casa rural Jardín de Fátima con chimenea" class="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+            <div class="relative aspect-video w-full bg-[#222228]">
+              <div class="flex h-full w-full items-center justify-center text-[#5A5F66]"><i data-lucide="tree-palm" class="h-9 w-9"></i></div>
+              <span class="absolute right-3 top-3 rounded-full bg-[#0F0F12]/90 px-2.5 py-1 text-[11px] font-semibold text-[#F08A4B]">Oferta</span>
+              <button type="button" data-action="fav" data-id="c8" aria-label="Favorito" class="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#0F0F12]/90 text-[#F2F3F5] active:scale-95"><i data-lucide="heart" class="h-4 w-4"></i></button>
+            </div>
+            <div class="p-3">
+              <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-[#F2F3F5]">Casa rural Jardín de Fátima con chimenea</h3>
+              <div class="mt-1.5 flex items-center gap-1 text-[13px]"><i data-lucide="star" class="h-3.5 w-3.5 fill-[#F2F3F5] text-[#F2F3F5]"></i><span class="font-semibold text-[#F2F3F5]">4.7</span><span class="text-[#9AA0A6]">(68)</span></div>
+              <div class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span class="text-[17px] font-bold text-[#F08A4B]">XAF 60 000</span>
+                <span class="text-[13px] text-[#5A5F66] line-through">XAF 75 000</span>
+                <span class="text-[12px] text-[#9AA0A6]">/ noche</span>
+              </div>
+              <span class="mt-2.5 inline-block rounded-lg bg-[#1D2A26] px-2 py-1 text-[11px] font-medium text-[#45B87A]">Cancelación gratuita</span>
+            </div>
+          </article>
+      </section>
+
+      <!-- 06 Esqueletos -->
+      <section class="border-t border-[rgba(255,255,255,0.08)] pt-8">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">06 · Esqueletos</h2>
+        <p class="mt-4 text-[13px] font-medium text-[#F2F3F5]">Líneas de texto</p>
+        <div class="mt-2 space-y-2.5 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-4">
+          <div class="h-3 w-3/4 rounded bg-[#2A2A30] animate-pulse"></div>
+          <div class="h-3 w-full rounded border border-[#2A2A30] bg-[#1E1E23] animate-pulse" style="animation-delay:150ms"></div>
+          <div class="h-3 w-2/3 rounded bg-[#2A2A30] animate-pulse" style="animation-delay:300ms"></div>
+          <div class="h-3 w-1/2 rounded border border-[#2A2A30] bg-[#1E1E23] animate-pulse" style="animation-delay:450ms"></div>
+        </div>
+
+        <p class="mt-5 text-[13px] font-medium text-[#F2F3F5]">Tarjeta en carga</p>
+        <div class="mt-2 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-3">
+          <div id="skeleton-demo">
+            <div id="skel-view" class="space-y-3">
+              <div class="aspect-video w-full rounded-xl border border-[#2A2A30] bg-[#1E1E23] animate-pulse"></div>
+              <div class="h-3 w-4/5 rounded bg-[#2A2A30] animate-pulse" style="animation-delay:100ms"></div>
+              <div class="h-3 w-3/5 rounded border border-[#2A2A30] bg-[#1E1E23] animate-pulse" style="animation-delay:200ms"></div>
+              <div class="h-4 w-24 rounded bg-[#2A2A30] animate-pulse" style="animation-delay:300ms"></div>
+            </div>
+            <div id="skel-result" class="hidden rounded-xl border border-[#2A2A30] bg-[#222228] p-3">
+              <div class="flex items-center gap-3">
+                <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-[#0066CC]"><i data-lucide="home" class="h-5 w-5 text-white"></i></span>
+                <div class="min-w-0 flex-1">
+                  <p class="truncate text-[14px] font-medium text-[#F2F3F5]">Villa privada en Kribi</p>
+                  <p class="text-[12px] text-[#45B87A]">Carga completada</p>
+                </div>
+                <span class="text-[14px] font-bold text-[#F08A4B]">XAF 25 000</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 grid grid-cols-2 gap-2">
+            <button type="button" data-action="skeleton-start"
+              class="h-10 rounded-lg bg-[#0066CC] text-[14px] font-medium text-white active:bg-[#0052A3]">Iniciar carga</button>
+            <button type="button" data-action="skeleton-stop"
+              class="h-10 rounded-lg border border-[rgba(255,255,255,0.08)] text-[14px] font-medium text-[#F2F3F5] active:bg-[#222228]">Cancelar</button>
+          </div>
+        </div>
+        <p class="mt-2 text-[12px] text-[#9AA0A6]">Alterna entre bg.page (#1E1E23) y border.default (#2A2A30) con parpadeo.</p>
+      </section>
+
+      <!-- 07 Barra inferior -->
+      <section class="border-t border-[rgba(255,255,255,0.08)] pt-8">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">07 · Barra inferior</h2>
+        <p class="mt-3 text-[14px] leading-relaxed text-[#9AA0A6]">
+          Fija en la parte inferior de la pantalla: 64 px + <code class="text-[#4D9FFF]">env(safe-area-inset-bottom)</code>, fondo chrome #0F0F12 y 4 accesos con icono y texto. Pruébala ahora mismo.
+        </p>
+      </section>
+
+      <!-- 08 Otros componentes -->
+      <section class="border-t border-[rgba(255,255,255,0.08)] pt-8">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">08 · Avatar, estado vacío y Toast</h2>
+
+        <!-- Avatar -->
+        <p class="mt-4 text-[13px] font-medium text-[#F2F3F5]">Avatar</p>
+        <div class="mt-2 flex items-end gap-4 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-4">
+          <div class="flex flex-col items-center gap-1.5">
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#222228] border border-[#2A2A30] text-[15px] font-semibold text-[#4D9FFF]">AM</span>
+            <span class="text-[11px] text-[#9AA0A6]">Anfitrión</span>
+          </div>
+          <div class="flex flex-col items-center gap-1.5">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-[#14202F] text-[13px] font-semibold text-[#4D9FFF]">JS</span>
+            <span class="text-[11px] text-[#9AA0A6]">Huésped</span>
+          </div>
+          <div class="flex flex-col items-center gap-1.5">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-[#1D2A26] text-[#45B87A]"><i data-lucide="user-check" class="h-5 w-5"></i></span>
+            <span class="text-[11px] text-[#9AA0A6]">Verificado</span>
+          </div>
+          <div class="flex flex-col items-center gap-1.5">
+            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-[#27272B] text-[#9AA0A6]"><i data-lucide="user" class="h-4 w-4"></i></span>
+            <span class="text-[11px] text-[#9AA0A6]">Invitado</span>
+          </div>
+        </div>
+
+        <!-- Estado vacío -->
+        <p class="mt-5 text-[13px] font-medium text-[#F2F3F5]">Estado vacío</p>
+        <div id="empty-state" class="hidden mt-2 flex flex-col items-center rounded-xl border border-[#2A2A30] bg-[#17171A] px-6 py-10 text-center">
+          <span class="flex h-14 w-14 items-center justify-center rounded-full bg-[#27272B] text-[#9AA0A6]"><i data-lucide="search-x" class="h-7 w-7"></i></span>
+          <h3 class="mt-4 text-[16px] font-semibold text-[#F2F3F5]">Sin resultados</h3>
+          <p class="mt-1.5 max-w-[260px] text-[13px] leading-relaxed text-[#9AA0A6]">No encontramos alojamientos para tu búsqueda. Prueba con otros términos o categorías.</p>
+          <button type="button" data-action="reset-filters"
+            class="mt-5 h-11 rounded-lg bg-[#0066CC] px-6 text-[14px] font-medium text-white active:bg-[#0052A3]">Limpiar filtros</button>
+        </div>
+        <div class="mt-2 flex items-center justify-center rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-4">
+          <button type="button" data-action="demo-empty"
+            class="h-10 rounded-lg border border-[#2A2A30] px-4 text-[13px] font-medium text-[#9AA0A6] active:bg-[#222228]">Probar estado vacío</button>
+        </div>
+
+        <!-- Toast -->
+        <p class="mt-5 text-[13px] font-medium text-[#F2F3F5]">Toast</p>
+        <p class="mt-1.5 text-[12px] text-[#9AA0A6]">Se muestran al tocar botones, chips, corazones y la barra inferior.</p>
+      </section>
+
+    </main>
+    <!-- qb:section:main-content:end -->
+
+    <!-- qb:section:app-overlays:start -->
+    <div id="app-overlays" class="pointer-events-none fixed inset-0 z-50" data-qb-section="app-overlays" aria-live="polite">
+      <div id="toast" role="status"
+        class="pointer-events-auto fixed left-1/2 top-[calc(env(safe-area-inset-top)+72px)] z-[60] flex -translate-x-1/2 translate-y-[-8px] items-center gap-2 rounded-lg border bg-[#0F0F12] px-4 py-3 opacity-0 transition-all duration-300">
+        <i id="toast-icon" data-lucide="info" class="h-4 w-4 shrink-0 text-[#4D9FFF]"></i>
+        <span id="toast-text" class="text-[13px] font-medium text-[#F2F3F5]"></span>
+      </div>
+    </div>
+    <!-- qb:section:app-overlays:end -->
+
+    <!-- 08b Barra inferior fija (chrome) -->
+    <nav aria-label="Navegación principal"
+      class="fixed inset-x-0 bottom-0 z-40 h-[calc(64px+env(safe-area-inset-bottom))] border-t border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pb-[env(safe-area-inset-bottom)]">
+      <div class="mx-auto flex h-[64px] max-w-md items-stretch">
+        <button type="button" data-action="nav" data-nav="inicio" aria-label="Inicio"
+          class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#4D9FFF] active:opacity-70">
+          <i data-lucide="home" class="h-[22px] w-[22px]"></i>
+          <span class="text-[10px] font-semibold">Inicio</span>
+        </button>
+        <button type="button" data-action="nav" data-nav="buscar" aria-label="Buscar"
+          class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#9AA0A6] active:opacity-70">
+          <i data-lucide="search" class="h-[22px] w-[22px]"></i>
+          <span class="text-[10px] font-medium">Buscar</span>
+        </button>
+        <button type="button" data-action="nav" data-nav="reservas" aria-label="Reservas"
+          class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#9AA0A6] active:opacity-70">
+          <i data-lucide="calendar-check" class="h-[22px] w-[22px]"></i>
+          <span class="text-[10px] font-medium">Reservas</span>
+        </button>
+        <button type="button" data-action="nav" data-nav="perfil" aria-label="Perfil"
+          class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#9AA0A6] active:opacity-70">
+          <i data-lucide="user" class="h-[22px] w-[22px]"></i>
+          <span class="text-[10px] font-medium">Perfil</span>
+        </button>
+      </div>
+    </nav>
+
+  </div>
+  <!-- qb:region:app-shell:end -->
+
+  <!-- qb:data:seed:start -->
+  <script id="qb-seed-data" type="application/json">{}</script>
+  <!-- qb:data:seed:end -->
+
+  <script>
+    // La vista previa vuelve a ejecutar este bloque al recrear el nodo <script>,
+    // pero no vuelve a disparar DOMContentLoaded: la inicialización va aquí, en una IIFE.
+    (function () {
+      var app = document.getElementById('app');
+      if (!app) return;
+
+      var state = { tab: 'all', query: '', favs: {}, skeletonTimer: null };
+
+      // —— ayuda de texto/iconos ——
+      function icons() {
+        if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch (e) {} }
+      }
+      function norm(s) {
+        return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      }
+      function cards() {
+        return Array.prototype.slice.call(document.querySelectorAll('[data-card]'));
+      }
+
+      // —— filtros combinados: búsqueda + pestañas ——
+      function applyFilters() {
+        var q = norm(state.query);
+        var visible = 0;
+        cards().forEach(function (c) {
+          var cat = c.getAttribute('data-category');
+          var title = norm(c.getAttribute('data-title'));
+          var show = (state.tab === 'all' || cat === state.tab) && (!q || title.includes(q));
+          c.classList.toggle('hidden', !show);
+          if (show) visible++;
+        });
+        var empty = document.getElementById('empty-state');
+        if (empty) empty.classList.toggle('hidden', visible !== 0);
+        var count = document.getElementById('result-count');
+        if (count) count.textContent = visible + (visible === 1 ? ' resultado' : ' resultados');
+      }
+
+      function renderTabs() {
+        document.querySelectorAll('[data-action="tab"]').forEach(function (t) {
+          var active = t.getAttribute('data-tab') === state.tab;
+          t.classList.toggle('text-[#F2F3F5]', active);
+          t.classList.toggle('text-[#9AA0A6]', !active);
+          var line = t.querySelector('[data-tab-line]');
+          if (line) line.classList.toggle('hidden', !active);
+        });
+      }
+
+      // —— Toast ——
+      var toastTimer = null;
+      function showToast(msg, type) {
+        var toast = document.getElementById('toast');
+        var icon = document.getElementById('toast-icon');
+        var text = document.getElementById('toast-text');
+        if (!toast || !icon || !text) return;
+        var palette = {
+          info: { icon: 'info', color: 'text-[#4D9FFF]', border: 'border-[#4D9FFF]' },
+          success: { icon: 'check-circle', color: 'text-[#45B87A]', border: 'border-[#45B87A]' },
+          danger: { icon: 'alert-circle', color: 'text-[#FF6B6B]', border: 'border-[#FF6B6B]' }
+        };
+        var p = palette[type] || palette.info;
+        icon.dataset.lucide = p.icon;
+        icon.className = 'h-4 w-4 shrink-0 ' + p.color;
+        toast.className = 'pointer-events-auto fixed left-1/2 top-[calc(env(safe-area-inset-top)+72px)] z-[60] flex -translate-x-1/2 items-center gap-2 rounded-lg border bg-[#0F0F12] px-4 py-3 opacity-100 translate-y-0 transition-all duration-300 ' + p.border;
+        text.textContent = msg;
+        icons();
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toast.classList.add('opacity-0', 'translate-y-[-8px]');
+        }, 2400);
+      }
+
+      // —— esqueleto demo ——
+      function skelShowLoad() {
+        document.getElementById('skel-view').classList.remove('hidden');
+        document.getElementById('skel-result').classList.add('hidden');
+        clearTimeout(state.skeletonTimer);
+        state.skeletonTimer = setTimeout(function () {
+          document.getElementById('skel-view').classList.add('hidden');
+          document.getElementById('skel-result').classList.remove('hidden');
+          icons();
+          showToast('Carga completada', 'success');
+        }, 1600);
+        showToast('Cargando tarjeta…', 'info');
+      }
+      function skelCancel() {
+        clearTimeout(state.skeletonTimer);
+        document.getElementById('skel-view').classList.add('hidden');
+        document.getElementById('skel-result').classList.remove('hidden');
+        icons();
+        showToast('Carga cancelada', 'danger');
+      }
+
+      // —— búsqueda en vivo ——
+      var searchInput = document.getElementById('search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', function () {
+          state.query = searchInput.value.trim();
+          var clear = document.getElementById('search-clear');
+          if (clear) {
+            clear.classList.toggle('hidden', !state.query);
+            clear.classList.toggle('flex', Boolean(state.query));
+          }
+          applyFilters();
+        });
+      }
+
+      // —— delegación de clics (data-action) ——
+      app.addEventListener('click', function (event) {
+        var t = event.target.closest('[data-action]');
+        if (!t) return;
+        var action = t.getAttribute('data-action');
+
+        if (action === 'toast') {
+          showToast(t.getAttribute('data-toast') || 'Acción realizada', 'info');
+        }
+
+        else if (action === 'tab') {
+          state.tab = t.getAttribute('data-tab');
+          renderTabs();
+          applyFilters();
+        }
+
+        else if (action === 'chip-toggle') {
+          var sel = t.classList.contains('border-[#4D9FFF]');
+          if (sel) {
+            t.classList.remove('border-[#4D9FFF]');
+            if (t.classList.contains('border')) t.classList.add('border-[#2A2A30]');
+            else t.classList.remove('border');
+            showToast('Chip deseleccionado', 'info');
+          } else {
+            if (t.classList.contains('border')) t.classList.remove('border-[#2A2A30]');
+            else t.classList.add('border');
+            t.classList.add('border-[#4D9FFF]');
+            showToast('Chip seleccionado', 'success');
+          }
+        }
+
+        else if (action === 'fav') {
+          var id = t.getAttribute('data-id');
+          state.favs[id] = !state.favs[id];
+          var on = state.favs[id];
+          t.classList.toggle('text-[#FF6B6B]', on);
+          t.classList.toggle('text-[#F2F3F5]', !on);
+          var svg = t.querySelector('svg');
+          if (svg) svg.classList.toggle('fill-[#FF6B6B]', on);
+          showToast(on ? 'Añadido a favoritos' : 'Eliminado de favoritos', on ? 'success' : 'info');
+        }
+
+        else if (action === 'clear-search') {
+          if (searchInput) { searchInput.value = ''; state.query = ''; }
+          var clear = document.getElementById('search-clear');
+          if (clear) { clear.classList.add('hidden'); clear.classList.remove('flex'); }
+          applyFilters();
+          searchInput && searchInput.focus();
+        }
+
+        else if (action === 'reset-filters') {
+          state.tab = 'all'; state.query = '';
+          if (searchInput) searchInput.value = '';
+          var clear = document.getElementById('search-clear');
+          if (clear) { clear.classList.add('hidden'); clear.classList.remove('flex'); }
+          renderTabs();
+          applyFilters();
+        }
+
+        else if (action === 'demo-empty') {
+          state.query = '__sin_resultados__';
+          if (searchInput) searchInput.value = '';
+          applyFilters();
+          showToast('Estado vacío: sin resultados', 'info');
+        }
+
+        else if (action === 'skeleton-start') { skelShowLoad(); }
+        else if (action === 'skeleton-stop') { skelCancel(); }
+
+        else if (action === 'nav') {
+          var nav = t.getAttribute('data-nav');
+          document.querySelectorAll('[data-action="nav"]').forEach(function (b) {
+            var active = b === t;
+            b.classList.toggle('text-[#4D9FFF]', active);
+            b.classList.toggle('text-[#9AA0A6]', !active);
+            var lbl = b.querySelector('span');
+            if (lbl) lbl.classList.toggle('font-semibold', active);
+          });
+          if (nav === 'buscar' && searchInput) {
+            searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            searchInput.focus();
+            showToast('Busca alojamientos', 'info');
+          } else if (nav === 'inicio') {
+            showToast('Estás en Inicio', 'info');
+          } else if (nav === 'reservas') {
+            showToast('Aún no tienes reservas', 'danger');
+          } else if (nav === 'perfil') {
+            showToast('Perfil de huésped', 'info');
+          }
+        }
+
+        else if (action === 'bell') {
+          showToast('3 notificaciones nuevas', 'success');
+        }
+      });
+
+      // —— init ——
+      icons();
+      renderTabs();
+      applyFilters();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+docs(UI-HOTEL): lo medido en el movil para P1 (la home)
+
+APK BUILD SUCCESSFUL in 2m 44s, 116852653 B, sha256 de6ac242; instalacion verificada
+por bytes (el base.apk del aparato da el mismo sha y el mismo tamano). Matiz que se
+deja escrito: firstInstallTime = lastUpdateTime, o sea instalacion fresca y no en
+sitio, aunque la sesion se conservo.
+
+Medido en el pixel: panel de busqueda y=360..800, controles y=936, primera tarjeta
+y=1413, CERO botones "Ver fechas" en el volcado, nombre entero, la tarjeta resume
+"7 tipos de habitacion", y el chip de nota no sale (correcto: ratingPublished falso).
+Hojas de ciudades y de precio abiertas y capturadas; tarjeta -> ficha sigue
+funcionando.
+
+Y la prediccion del bbox se cumplio medida: al tocar "Cerca de mi" desde Guilin sale
+el aviso "No he podido situarte. La ubicacion solo funciona dentro de Guinea
+Ecuatorial", sin encender el control y sin romper la lista. Se anade tambien lo que
+NO se ha medido y por que, y el candidato evidente a la proxima pasada: el boton
+"Ver la lista completa" se come 250 px delante de la lista que ya esta debajo.

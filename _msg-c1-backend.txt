@@ -1,0 +1,70 @@
+C · C-1: el backend de las resenas del hotel (servicio, rutas, DTO) y el desacople de shops.rating
+
+LA MIGRACION 026 TODAVIA NO ESTA APLICADA: este codigo se despliega DESPUES de
+aplicarla. El orden no es un detalle — el espejo (hotel_profiles.hotel_rating /
+hotel_rating_count) nace en 026, y hasta que exista estas consultas leen columnas
+que aun no estan y devuelven 0/0 (que es el «sin resenas» correcto, no un fallo).
+
+SERVICIO (hotel.service.ts), cuatro operaciones y una regla:
+
+  - reviewsOfHotel: las resenas de un hotel, PUBLICAS (son lo que el huesped lee
+    antes de reservar; pedirlas con cuenta seria esconder la confianza detras de
+    un registro). Devuelve total aunque la lista venga recortada.
+  - createReview: el permiso de escribir NO es la compra, es la ESTANCIA. Tres
+    puertas: la reserva es tuya, es de ESTE hotel, y ya termino (checked_out).
+    La cuarta la cierra la base: uq_lb_reviews_reserva (una resena por estancia),
+    y el 23505 se traduce a REVIEW_EXISTS. El texto es opcional: una resena de
+    solo estrellas es una resena.
+  - replyReview: responde el hotel (responde, no borra). Si la resena no es de una
+    tienda suya responde 404, no 403: entre vendedores no se confirma lo ajeno.
+  - deleteReview: el AUTOR dentro de 7 dias, el ADMINISTRADOR siempre. Borrado
+    FISICO, como decidio 026: uno logico dejaria el unique ocupado y el huesped no
+    podria reescribir su nota dentro del plazo.
+
+EL ESPEJO, en la MISMA transaccion del alta y del borrado (reflejarNotas). Se
+escribe con INSERT ... ON CONFLICT y no con UPDATE: marcar is_hotel al publicar la
+primera habitacion no crea hotel_profiles, y un UPDATE sobre cero filas dejaria el
+espejo sin escribir y sin avisar.
+
+[D-K] EN UN SOLO SITIO: REVIEWS_THRESHOLD = 3 y la funcion notaPublicada(). Cada
+sitio donde sale una nota de hotel emite ratingPublished, para que la app no copie
+el numero. Debajo del umbral la ficha ensena las resenas SIN cifra.
+
+RUTAS (hotel.controller.ts): GET hotels/:shopId/reviews (publica),
+POST hotels/:shopId/reviews, POST reviews/:id/reply, DELETE reviews/:id. Viven en
+el controlador del hotel y no en el del panel del hotelero a proposito: la tienda
+de la respuesta no viaja en la ruta (sale de la resena), asi que el ShopOwnerGuard
+del panel no tiene nada que guardar; la puerta real es la pertenencia que el
+servicio lleva dentro del WHERE.
+
+DTO (dto/hotel-reservation.dto.ts): la nota se cierra en 1..5 en la puerta — el
+mismo rango del CHECK lb_hr_rating de 026 — para que un 0 o un 6 den 400 en vez de
+un 23514 de la base.
+
+DESACOPLE DE shops.rating, en los sitios medidos (§14.1):
+
+  - hotel.service profileShape: la ficha del hotel ya no hereda la nota de la
+    TIENDA. La cabecera de 026 lo decia: shops.rating valora lo que se compra, no
+    como se duerme. Ahora sale el espejo.
+  - hotel.service searchHotels: la tarjeta del resultado tambien. El ORDER BY sigue
+    sobre s.rating A PROPOSITO — ordenar por el espejo es C-2 (§14.1), y hoy, sin
+    resenas, dejaria todos los hoteles empatados a cero. Queda anotado como el
+    unico sitio del modulo sin desacoplar.
+  - commerce.service shopShape: la decision por is_hotel, en un solo sitio del
+    mapper (rating/ratingCount/ratingPublished).
+  - commerce.service userShopCard (la tarjeta del perfil), shopPublic (la ficha de
+    la tienda), product (la ficha del producto) y updateShop: las cuatro consultas
+    traen el espejo con un LEFT JOIN, y updateShop relee la fila antes de mapear
+    porque el RETURNING * del UPDATE no trae las columnas de hotel_profiles.
+    shopOf tambien lo trae, y es inofensivo para una tienda de mercado: llega nulo
+    y shopShape decide por is_hotel, no por si el join encontro fila.
+
+CUATRO CODIGOS NUEVOS de DomainError, que obligan a anadir su bloque al mapa
+CODIGO -> status del filtro: REVIEW_NOT_FOUND (404), REVIEW_EXISTS (409),
+REVIEW_WINDOW_CLOSED (409) y STAY_NOT_FINISHED (409). Sin ese bloque caerian en el
+422 por defecto del filtro, que no es la convencion de la casa (400 peticion / 403
+quien / 404 no existe / 409 estado). El filtro no esta versionado: se trae vivo en
+la ventana y se parchea contado.
+
+PUERTA PASADA EN LOCAL: tsc --noEmit --noResolve sobre los cuatro ficheros, limpio;
+y la paridad de backticks de los cuatro, par.

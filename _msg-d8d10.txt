@@ -1,0 +1,12 @@
+hotel: D8 pestanas y D10 galeria por origen; la puerta c1 se reescribe para el nuevo diseno
+
+- lifebook-hotel-detalle: la ficha se parte en tres pestanas (reservar | resenas |
+  alojamiento), 'reservar' por defecto porque es donde se decide la compra; el chip
+  de nota ya no baja con scrollTo, cambia a la pestana resenas
+- PhotoGallery: prop opcional tabs para separar las fotos por origen (cover del
+  alojamiento frente a fotos de cada habitacion); 2+ pestanas con fotos pintan la
+  barra, 0-1 quedan como galeria plana
+- trinquete: los borderBottomWidth de tabBtn van con trazo.fuerte (borderWidth = 5,
+  "ninguna zona ha empeorado")
+- c1-verifica-app: D1 reescrita para D8 porque las pestanas eliminan yResenas/scrollTo;
+  las dos comprobaciones que caian ahora son cuatro y TODO OK

@@ -1,0 +1,70 @@
+design(tokens): H1b — `hex` llega a cero (89 -> 0, 70 sustituciones en 18 ficheros)
+
+Cierra la familia `hex`, la ultima de las siete. Con esto no queda un solo literal de
+color escrito a mano en app / components / core / constants: ni de los seis de antes ni
+de los dos que la guardia no veia.
+
+QUE ENTRA
+
+1. ESTADO TRANSLUCIDO — la parte que nadie veia. La guardia era CIEGA a los hex de 8
+   digitos (corregido en 2b03b5a), y eran 19: los colores de estado con alfa. Doce valores
+   a mano (`0C`, `0F`, `10`, `14`, `18` de fondo; `33`, `55`, `66` de borde) que
+   significaban solo TRES cosas, y ademas construidos sobre bases que no eran las del kit
+   (`#F53F3F`, `#27AE60`, `#F6B100`, `#F5A623`). Ahora son deltas de los tokens de estado,
+   a tres niveles: `Soft` 8 % · `SoftBorde` 20 % · `SoftFuerte` 33 %.
+   Un aviso translucido y el solido de al lado ya son el mismo color.
+
+2. LOS CUATRO TINTES OPACOS (`#FDECEC`, `#E9F7EF`, `#FFF4E5`, `#E8F1FF`) entran en la misma
+   familia: a ojos del usuario eran el mismo tinte que `Soft` ya produce.
+
+3. IDENTIDAD. El violeta (`#8B5CF6`), el rosa (`#E0439A`), el negro de visores y los
+   adornos ya tenian token desde H1a; ahora se USAN (estaban creados y sin usar).
+
+4. CINCO TOKENS NUEVOS, cada uno por un motivo medido, no por gusto:
+   · `servicio`  el verde de alquiler/paquete/delivery. A 46/441 de `success`: sobre un chip
+                 de categoria ese salto se ve (verde bosque vs verde menta vivo).
+   · `guardado`  la estrella y el marcador activos. NO es `warning` (a 11/441): una estrella
+                 guardada no avisa de nada. Es un estado con nombre, como `like`.
+   · `decoBrasa` / `decoBrasaClaro`  los dos fondos de la pantalla de diagnostico. Son NEGROS
+                 CALIDOS: no valia `shadow` ni `neutro.n900`, un negro calido no es un gris.
+   · `decoIndigo`  el aviso de «pedido programado». `info` esta a 85/441 y se leeria como otro
+                 color.
+
+5. LOS SITIOS SIN ACCESO AL TEMA, arreglados de raiz (no dejados atras como en H1a):
+   · `conductor.tsx`: las hojas `pps` y `cfm` eran constantes de MODULO, asi que sus colores
+     de texto no podian llegar a los tokens del kit y estaban escritos a mano. Se mueven
+     DENTRO de `PinPadModal` y `CashFlowModal` (`useMemo`, `[colors]`); los 22 usos
+     `pps.x` / `cfm.x` no cambian. Esos subcomponentes tampoco tenian el hook; ahora lo tienen.
+   · `lifebook-player.tsx`: `CloseBar` no tenia el hook y su tinta era un literal.
+   · `MapTools.tsx`: no era deuda de token, era que NO USABA `elevation` del kit. Ahora usa
+     `md`. Cambio medido y anotado en el propio fichero.
+
+MEDIDO
+
+  Cuadre: 0 tokens inexistentes. 65 pares (base, token) en uso, todos resuelven.
+  Delta:  70 sustituciones — 41 identicas al pixel, 29 con dRGB <= 17 de 441 (3,9 %),
+          0 VISIBLES. La mayor: `#27AE6055 -> successSoftFuerte` (17), que es a la vez el
+          cambio de base (#27AE60 -> #1E7A45) y el de alfa (66 -> 55).
+  Puertas: tsc limpio · verifica-diseno OK (hex 0) · auditar-rutas OK.
+
+CONTENIDO FUERA DEL ALCANCE
+
+Cinco ficheros cuyo hex es DATO, no deuda: constants/status.ts (8 temas de gradiente),
+constants/lifebook-chat.ts (7 paletas de chat), constants/lifebook.ts (color de categoria),
+app/driver-onboarding.tsx y app/edit-profile.tsx (paletas de coche y de avatar). 50
+literales. Tokenizarlos seria inventar semantica: no existe «el azul de marca» de un tema
+que elige el usuario. Y una paleta DENTRO de un fichero de producto (la de color de coche
+en taxi.tsx) se exime por LINEA con el marcador `dato-color`, que viaja con el codigo.
+
+FALLO 25 DEL MOTOR
+
+La deteccion de ambito tomaba el bloque de funcion MAS INTERNO. En `taxi.tsx:1544` el uso
+esta dentro de un callback anidado dentro de `TaxiScreen`, que SI tiene el hook: el sitio se
+declaraba «sin acceso al tema» y SI lo tenia, por closure. La pregunta correcta no es «¿este
+bloque tiene el hook?» sino «¿lo tiene ALGUN bloque que envuelva el uso?». Se siguen mirando
+solo los que CONTIENEN la posicion, asi que el caso del hermano (otro componente del mismo
+fichero) sigue detectandose.
+
+Y DOS VECES LA MISMA TRAMPA: un comentario no debe citar el literal que retira
+(`#17171A` en MapTools y `#111827`/`#6B7280` en conductor). La guardia los contaba y los
+caza. Regla `_c2` confirmada por segunda vez.

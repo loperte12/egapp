@@ -1,0 +1,38 @@
+A-2 · LH-11: el estado deja de afirmar dinero que no consta, y las etiquetas se unifican
+
+El defecto estaba contado TRES veces, y la decision de «senal cobrada» DOS.
+
+Etiquetas de estado (tres mapas con el mismo defecto):
+- RESERVATION_STATUS_LABELS (contracts): pending = «Senal pagada · por confirmar» SIEMPRE,
+  aunque no hubiera senal.
+- RESERVA_ETIQUETA (api/hotel.ts): un SEGUNDO mapa, con textos distintos para los mismos
+  estados («Dentro» vs «Huesped dentro», «Salida hecha» vs «Finalizada»).
+- PASOS (lifebook-hotel-reserva.tsx): la linea de tiempo decia «Senal pagada» sin condicion.
+
+Decision de «senal cobrada» (dos formulas que no coincidian):
+- panel.tsx contaba deposit_paid Y paid; reservas.tsx solo deposit_paid. Consecuencia
+  medida: una reserva PAGADA DEL TODO le salia «sin cobrar» al huesped.
+
+Hecho:
+- Contrato: senalCobrada(paymentStatus) y estadoRotulo(status, {senalCobrada}) como puertas
+  unicas. pending pasa a «Por confirmar», que es el hecho seguro; el matiz de dinero se
+  anade SOLO cuando consta.
+- RESERVA_ETIQUETA retirado; las tres pantallas usan el contrato.
+- PASOS: pending pasa a «Por confirmar».
+- Los dos sitios que preguntaban por el pago a mano usan senalCobrada().
+
+Verificado:
+- tsc --noEmit limpio.
+- guardia de diseno: trinquete intacto (hex 0 · fontSize 0 · borderRadius 0 · fontWeight 0 ·
+  borderWidth 5 · espaciado 183 · precioFigura 5 · strokeWidth 0).
+- auditoria de rutas: sin enlaces rotos.
+- rotulo estado por estado, antes contra despues: 1 de 7 cambia (pending) y los otros 6
+  salen identicos. pending sin senal -> «Por confirmar»; con senal -> «Senal pagada · por
+  confirmar» (el mismo texto de antes, ahora solo cuando es verdad).
+- senalCobrada sobre los 6 estados de pago: solo `paid` discrepaba entre las dos formulas
+  antiguas; ahora las dos dan «cobrada». Los otros 5, identicos.
+- terminadores: los 5 ficheros uniformes, sin mezcla dentro de ninguno.
+
+CAMBIO VISIBLE en la lista de reservas: checked_in pasa de «Dentro» a «Huesped dentro» y
+checked_out de «Salida hecha» a «Finalizada» — se adopta el texto del contrato, que es la
+fuente. Y pending deja de decir «Senal pagada» cuando no hay senal.

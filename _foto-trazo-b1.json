@@ -1,0 +1,1162 @@
+{
+ "app/agente-escaner.tsx": {
+  "bytes": 6917,
+  "md5": "e567721251bfb3ec5516da8f3461c3e0",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/agente.tsx": {
+  "bytes": 14827,
+  "md5": "c6e3dc4b45a27ce0813da0084381fb75",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/alquiler-detalle.tsx": {
+  "bytes": 31183,
+  "md5": "b2fbf5a0eb3e192c5e2074589237ebf6",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "app/alquiler-planes.tsx": {
+  "bytes": 16607,
+  "md5": "01f963470e1f0aa6486e4746978ad629",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/alquiler-publicar.tsx": {
+  "bytes": 39808,
+  "md5": "e6263297bc6c179e7ebf849317293be6",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "app/alquiler.tsx": {
+  "bytes": 22267,
+  "md5": "7254239471236584a12723e9a59fe67b",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/billing-checkout.tsx": {
+  "bytes": 23531,
+  "md5": "87912ddb27651dcd4e38c933b0c0294f",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "app/billing-status.tsx": {
+  "bytes": 23684,
+  "md5": "12f668f73e30f3ed25454b8828e6866e",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/buscar.tsx": {
+  "bytes": 15099,
+  "md5": "0a16b73d6d9ac6b71e3531c180b739c2",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "app/conductor-hub.tsx": {
+  "bytes": 15047,
+  "md5": "c5388a4328302270227d3d9b38fdc0fa",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "app/conductor.tsx": {
+  "bytes": 118975,
+  "md5": "3e55115a76c39cc4eaaf5fb40b143645",
+  "crcrlf": 0,
+  "total": 26,
+  "mapeables": 26,
+  "ceros": 0
+ },
+ "app/driver-onboarding.tsx": {
+  "bytes": 24153,
+  "md5": "3318b6332728ca3ecaeca731e20af53d",
+  "crcrlf": 0,
+  "total": 6,
+  "mapeables": 6,
+  "ceros": 0
+ },
+ "app/driver-profile.tsx": {
+  "bytes": 13920,
+  "md5": "306132b3b2535ad2defece04259b92e2",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/ecomerse-checkout.tsx": {
+  "bytes": 39689,
+  "md5": "d400a656941083c74e171a90b81bd631",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/ecomerse-detail.tsx": {
+  "bytes": 40229,
+  "md5": "ccc8159c357e773d96b497ccdf9a5730",
+  "crcrlf": 0,
+  "total": 8,
+  "mapeables": 8,
+  "ceros": 0
+ },
+ "app/ecomerse-docs.tsx": {
+  "bytes": 11744,
+  "md5": "a1b2f48a4f10312e5d169f78e84add02",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/ecomerse-favorites.tsx": {
+  "bytes": 15348,
+  "md5": "f00e69bfb3907f0402a3c0a79e0d5596",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "app/ecomerse-orders.tsx": {
+  "bytes": 45906,
+  "md5": "5cf9d624fe29150d31140e3a8fd57636",
+  "crcrlf": 0,
+  "total": 7,
+  "mapeables": 7,
+  "ceros": 0
+ },
+ "app/ecomerse-planes.tsx": {
+  "bytes": 21496,
+  "md5": "a248730262ee52c80067d5ae6922190d",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "app/edit-profile.tsx": {
+  "bytes": 70709,
+  "md5": "f731a8c3dc21c7997c10ca730a14d503",
+  "crcrlf": 0,
+  "total": 12,
+  "mapeables": 11,
+  "ceros": 1
+ },
+ "app/emergencia.tsx": {
+  "bytes": 6801,
+  "md5": "4585b22dff80ed0ac6c71d97094aa677",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/food-checkout.tsx": {
+  "bytes": 37635,
+  "md5": "0941a19701be65822c97dd6ab09a16c7",
+  "crcrlf": 0,
+  "total": 6,
+  "mapeables": 6,
+  "ceros": 0
+ },
+ "app/food-menu.tsx": {
+  "bytes": 20505,
+  "md5": "cece5dcc1ff45fe7cdb408f331822343",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/food-orders.tsx": {
+  "bytes": 42743,
+  "md5": "ac5f05948ca8c56af234b5807ba46d1d",
+  "crcrlf": 0,
+  "total": 9,
+  "mapeables": 9,
+  "ceros": 0
+ },
+ "app/food-owner.tsx": {
+  "bytes": 49949,
+  "md5": "c66d88caee04b12575a8bea87c1f508d",
+  "crcrlf": 0,
+  "total": 9,
+  "mapeables": 9,
+  "ceros": 0
+ },
+ "app/food-rider.tsx": {
+  "bytes": 43538,
+  "md5": "4efd8aa03d6a2aad9d7afddbe0cb8ef2",
+  "crcrlf": 0,
+  "total": 10,
+  "mapeables": 10,
+  "ceros": 0
+ },
+ "app/food.tsx": {
+  "bytes": 18239,
+  "md5": "30051eb5d3d392022c37e3c50a028ac4",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/intercity-planes.tsx": {
+  "bytes": 15696,
+  "md5": "e9232d437f74680877c4a93225ab8c7d",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/intercity-publish.tsx": {
+  "bytes": 38166,
+  "md5": "47367db7ffb7c2f08aa03479d15a0eed",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/intercity.tsx": {
+  "bytes": 31129,
+  "md5": "dd7ee217f78f742a747be08d696d6d1a",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/lifebook-ai.tsx": {
+  "bytes": 36639,
+  "md5": "d8eac0f4cc7a76d74abbab0d41acf9bb",
+  "crcrlf": 0,
+  "total": 6,
+  "mapeables": 6,
+  "ceros": 0
+ },
+ "app/lifebook-carrito-checkout.tsx": {
+  "bytes": 33815,
+  "md5": "6a0d6f4db6a930b73652ab5ab70418e2",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 4,
+  "ceros": 1
+ },
+ "app/lifebook-carrito.tsx": {
+  "bytes": 36250,
+  "md5": "d80c88a3cd8a14c418bbd99c36a2d9a8",
+  "crcrlf": 0,
+  "total": 6,
+  "mapeables": 6,
+  "ceros": 0
+ },
+ "app/lifebook-catalog.tsx": {
+  "bytes": 16023,
+  "md5": "36169d7565fea067db7e8dc68bfa3ade",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "app/lifebook-checkout.tsx": {
+  "bytes": 28524,
+  "md5": "8b0a357022784aeef652ae0380bb3d3f",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 1,
+  "ceros": 1
+ },
+ "app/lifebook-compose.tsx": {
+  "bytes": 23416,
+  "md5": "01ca87ac4338a500c21dd4baeff57071",
+  "crcrlf": 0,
+  "total": 7,
+  "mapeables": 7,
+  "ceros": 0
+ },
+ "app/lifebook-dinero.tsx": {
+  "bytes": 10211,
+  "md5": "f67ff46bc37cb4ea91ba0564dbca604c",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-group-create.tsx": {
+  "bytes": 33927,
+  "md5": "a407bf44f4984508afc890bcdd595fe7",
+  "crcrlf": 0,
+  "total": 6,
+  "mapeables": 6,
+  "ceros": 0
+ },
+ "app/lifebook-groups.tsx": {
+  "bytes": 20259,
+  "md5": "d7473a6cc0cd25ffcbeade4b59d5e8c3",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-guardados.tsx": {
+  "bytes": 8716,
+  "md5": "aa918f07430cccc54722b67141764083",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-calendario.tsx": {
+  "bytes": 23752,
+  "md5": "ab0c8bcfbafb50d84c0b364badab033e",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-detalle.tsx": {
+  "bytes": 30153,
+  "md5": "bf530e8268fb80f599c4fcb9b481de5a",
+  "crcrlf": 0,
+  "total": 7,
+  "mapeables": 7,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-fechas.tsx": {
+  "bytes": 14910,
+  "md5": "848373046cbc5c62c556432656e97ad0",
+  "crcrlf": 0,
+  "total": 6,
+  "mapeables": 6,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-gestion.tsx": {
+  "bytes": 15387,
+  "md5": "ce562b887e6dec9c953cb2df8bb2c7c5",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-habitacion.tsx": {
+  "bytes": 29513,
+  "md5": "275f684e070c1182ab648b32b3479963",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-habitaciones.tsx": {
+  "bytes": 25597,
+  "md5": "2f2ab8f04c43f965ba0df81e6f5cada6",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-panel.tsx": {
+  "bytes": 25559,
+  "md5": "e07d6f34e44befc3eba0c188b87a67f2",
+  "crcrlf": 0,
+  "total": 10,
+  "mapeables": 10,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-perfil.tsx": {
+  "bytes": 24427,
+  "md5": "e492a5fa42b027c1b665fb58baf58a67",
+  "crcrlf": 0,
+  "total": 6,
+  "mapeables": 6,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-reserva.tsx": {
+  "bytes": 23743,
+  "md5": "5abbacd6f8877d1d4d9bcbf9603ae443",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-reservar.tsx": {
+  "bytes": 35043,
+  "md5": "51dc7bfea9a601fb49e821292082c71b",
+  "crcrlf": 0,
+  "total": 7,
+  "mapeables": 7,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-reservas.tsx": {
+  "bytes": 22949,
+  "md5": "77bce9ef9cbdd7fee6abb462d34b1515",
+  "crcrlf": 0,
+  "total": 9,
+  "mapeables": 9,
+  "ceros": 0
+ },
+ "app/lifebook-hotel-resultados.tsx": {
+  "bytes": 17111,
+  "md5": "acb7113cc83203dc5b41e3b11ec46197",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "app/lifebook-hotel.tsx": {
+  "bytes": 26066,
+  "md5": "eed966c3b68ba81ac4168a9c95042d65",
+  "crcrlf": 0,
+  "total": 14,
+  "mapeables": 14,
+  "ceros": 0
+ },
+ "app/lifebook-inbox-comments.tsx": {
+  "bytes": 8138,
+  "md5": "69729590abdef9d0dc21ca14902623c5",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-inbox-followers.tsx": {
+  "bytes": 9894,
+  "md5": "c324a9682cc27f289f8979d290d3a865",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-inbox-likes.tsx": {
+  "bytes": 8692,
+  "md5": "283c14064c50afc21f480aa59f57455f",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-inbox.tsx": {
+  "bytes": 13344,
+  "md5": "487d400ef6ea5bc24038550d67783b60",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-media.tsx": {
+  "bytes": 37633,
+  "md5": "65e99fde54e615abb8805f08fc162a29",
+  "crcrlf": 0,
+  "total": 8,
+  "mapeables": 8,
+  "ceros": 0
+ },
+ "app/lifebook-merchant-gestion.tsx": {
+  "bytes": 15184,
+  "md5": "2f66a2ab6197b6a638e869fa0c2528fa",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/lifebook-merchant-products.tsx": {
+  "bytes": 27703,
+  "md5": "c554ef491054286c031815cc40e7431b",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-merchant-settings.tsx": {
+  "bytes": 15963,
+  "md5": "94bd6a5b985a24138db5cc0d42da7872",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-message-search.tsx": {
+  "bytes": 11492,
+  "md5": "03e4c9cad80fecf8377547a18d53f866",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-messages.tsx": {
+  "bytes": 21672,
+  "md5": "07d797042d0c34f25d1e8d80829cee1a",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-orders.tsx": {
+  "bytes": 13888,
+  "md5": "7029baf9e0ecac2105184d17f7d7b5cc",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "app/lifebook-player.tsx": {
+  "bytes": 21758,
+  "md5": "9e23c62660dee349f097906df2a59967",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/lifebook-scan.tsx": {
+  "bytes": 2351,
+  "md5": "cf145cad2ca6dc5c09b71781b08f77a3",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook-store.tsx": {
+  "bytes": 10295,
+  "md5": "633622adee5ac612d4237977c8a36383",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "app/lifebook-user.tsx": {
+  "bytes": 59558,
+  "md5": "93035f5ab1c55e1f218e95351d2cbcb7",
+  "crcrlf": 0,
+  "total": 7,
+  "mapeables": 7,
+  "ceros": 0
+ },
+ "app/lifebook-videos.tsx": {
+  "bytes": 77544,
+  "md5": "bfa55b677faffdccd126c212b896fca1",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/lifebook.tsx": {
+  "bytes": 59898,
+  "md5": "c5785d2018167529c4ec059847097d49",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/monedero-movimientos.tsx": {
+  "bytes": 8240,
+  "md5": "30c90c63c0b083d687a09a91b869dc85",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/monedero-pin.tsx": {
+  "bytes": 6320,
+  "md5": "f28fac7b50356b23966a38c2ef5e68bc",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "app/monedero-recargar.tsx": {
+  "bytes": 11586,
+  "md5": "bd65bc5f65de3a2a313e76c10c482a7d",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "app/monedero-retirar.tsx": {
+  "bytes": 12778,
+  "md5": "4dab1ce6f4c612a6ae8bd557b9481ebf",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/monedero.tsx": {
+  "bytes": 12501,
+  "md5": "aa69f5977df48784f9352cabac5422b1",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/my-tickets.tsx": {
+  "bytes": 8120,
+  "md5": "525025187adfba7b14bff5f4247681b0",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "app/profile.tsx": {
+  "bytes": 56666,
+  "md5": "bf5d6f096bcd5d975503678364252717",
+  "crcrlf": 0,
+  "total": 9,
+  "mapeables": 9,
+  "ceros": 0
+ },
+ "app/reserva.tsx": {
+  "bytes": 25226,
+  "md5": "d005d004487992fac8a811be63cc851c",
+  "crcrlf": 0,
+  "total": 6,
+  "mapeables": 6,
+  "ceros": 0
+ },
+ "app/ruta-fallida.tsx": {
+  "bytes": 4044,
+  "md5": "ed67e42c48517ef08dc76a050ca5167a",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/scanner.tsx": {
+  "bytes": 2028,
+  "md5": "0d44fc54014ac07aedd37f3ea9369a8a",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/status.tsx": {
+  "bytes": 12169,
+  "md5": "12d59432fad4aabdd8ee082579b7351e",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/taxi.tsx": {
+  "bytes": 115042,
+  "md5": "eb41e85356e740d0b14f4415fd37fbad",
+  "crcrlf": 0,
+  "total": 18,
+  "mapeables": 18,
+  "ceros": 0
+ },
+ "app/trips-history.tsx": {
+  "bytes": 11826,
+  "md5": "0628271ff30692b079d6104e7fac93e9",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/work-detail.tsx": {
+  "bytes": 27610,
+  "md5": "d46711320d473c6619fc49384e337a82",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/work-gestion.tsx": {
+  "bytes": 13578,
+  "md5": "605b57fdb11be56134dc5ffa005ff0cd",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/work-panel.tsx": {
+  "bytes": 18737,
+  "md5": "50d11d6f2bcff5a0624a94cfad9636f7",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "app/work-planes.tsx": {
+  "bytes": 14288,
+  "md5": "96e6057450bf282728bb384842f2c181",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "app/work-publish.tsx": {
+  "bytes": 32787,
+  "md5": "e3c2ba9c9fe64ab31c46a13a8362777c",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/work.tsx": {
+  "bytes": 17544,
+  "md5": "4116f90a6499d4d024c611bef63626f8",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "app/lifebook-chat/[id].tsx": {
+  "bytes": 103130,
+  "md5": "b6a7b36613d712c4c53aba391fedccc0",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/lifebook-order/[id].tsx": {
+  "bytes": 38008,
+  "md5": "0f020d44f1be24dd464c854fba6a1026",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "app/lifebook-post/[id].tsx": {
+  "bytes": 59819,
+  "md5": "50518ae905f7c274cb8ea8cc8e4aa931",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "app/lifebook-product/[id].tsx": {
+  "bytes": 45130,
+  "md5": "02061865d3f50703141667c14aa78065",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "app/lifebook-shop/[id].tsx": {
+  "bytes": 21743,
+  "md5": "f64616bd682bc6adc50af72fba5ae219",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/promo/[id].tsx": {
+  "bytes": 2420,
+  "md5": "03ef3b86d3f77bb5030f695a6e695898",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "app/service/[id].tsx": {
+  "bytes": 2337,
+  "md5": "281a4ecf2ce31803ffa1b6f674674051",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/CalendarPicker.tsx": {
+  "bytes": 17174,
+  "md5": "db9dec4e632c62724918bf4c8cb965a3",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 4,
+  "ceros": 1
+ },
+ "components/DriverHomeSheet.tsx": {
+  "bytes": 19601,
+  "md5": "4d8035acf684eee26a2ee4381876d19d",
+  "crcrlf": 0,
+  "total": 6,
+  "mapeables": 6,
+  "ceros": 0
+ },
+ "components/EditProfileModal.tsx": {
+  "bytes": 8090,
+  "md5": "cca96a26d5f365cfaf2383a02ad937b3",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/EmergencyModal.tsx": {
+  "bytes": 5188,
+  "md5": "109d5be86fa67d35b5dbfb1c2fc91f03",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/FareQuoteCard.tsx": {
+  "bytes": 3740,
+  "md5": "1ed96caac3ab62bcefcfce871bbf3882",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/FloatingFooter.tsx": {
+  "bytes": 5720,
+  "md5": "0dbdd25b24c5e39ee9a9d47ac4e34fc7",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/HotelResultCard.tsx": {
+  "bytes": 9710,
+  "md5": "342152e59730116db1e04f236c3c37c0",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "components/jobs.tsx": {
+  "bytes": 10044,
+  "md5": "59ab5244cbed56a84c19d677532f9a51",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/PromoCarousel.tsx": {
+  "bytes": 6250,
+  "md5": "1dc2cf3e8b733544253d147e036990d4",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/ServiceGrid.tsx": {
+  "bytes": 12837,
+  "md5": "a4343182bbd9cdb8fdfcecbd06a88b56",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/ServicesDrawer.tsx": {
+  "bytes": 24040,
+  "md5": "ff82f63f3d1a8deec37ec3447c30a8f0",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/SocialHomeHeader.tsx": {
+  "bytes": 13714,
+  "md5": "4bcfd6393625761f6b7863ffd8a6ac5e",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "components/lifebook/AdSheet.tsx": {
+  "bytes": 10946,
+  "md5": "d4d687529c97c1e727aea17a6a2c7632",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/AsistenteDeTalla.tsx": {
+  "bytes": 19429,
+  "md5": "35fbe51d75a56fd93c824d56df689306",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/lifebook/BotonCucucul.tsx": {
+  "bytes": 2274,
+  "md5": "3a2d846e6fb6f382d071cb612106c65a",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/ChallengePlazaSheet.tsx": {
+  "bytes": 20017,
+  "md5": "a5d32afa2de1e2a2206454f66893c8d9",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/ChatOptionsSheet.tsx": {
+  "bytes": 21122,
+  "md5": "d82189dc7fd68abc3ae6dfb1e291eae5",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/lifebook/CheckinSheet.tsx": {
+  "bytes": 8054,
+  "md5": "203dede388d100bd0c135bdbc238c9c7",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/Chip.tsx": {
+  "bytes": 2467,
+  "md5": "7b84a93226c802b3e81adc3f612b2c98",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/lifebook/CommentsSheet.tsx": {
+  "bytes": 40877,
+  "md5": "eb8693a9b283ccc7c187dcf88a634aad",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "components/lifebook/CreateGroupSheet.tsx": {
+  "bytes": 14892,
+  "md5": "d2587ab88f7c62d47026c7da69e43904",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/GroupCardSheet.tsx": {
+  "bytes": 16154,
+  "md5": "d9b595f7b3a56a319bb62598484eedc5",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/GroupManageSheet.tsx": {
+  "bytes": 60512,
+  "md5": "fc010a0cd7363dcb4657ef3a33407059",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "components/lifebook/LocationPickerSheet.tsx": {
+  "bytes": 10390,
+  "md5": "8033cb1e479926409e6dc533737cfe6c",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/messaging-sheets.tsx": {
+  "bytes": 11345,
+  "md5": "a34fd4007606a389d7a117298f318877",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/lifebook/OrderSheet.tsx": {
+  "bytes": 6421,
+  "md5": "b9f24f3ccb22a909c9f36462aa43106d",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/ProductoEnChatSheet.tsx": {
+  "bytes": 18489,
+  "md5": "2d598acd9d98da5232c185cce3437ec8",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "components/lifebook/PublicacionTarjeta.tsx": {
+  "bytes": 4367,
+  "md5": "618ccdfad13f750586a1725e88bf1371",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/RuletaVertical.tsx": {
+  "bytes": 5946,
+  "md5": "6098845cd132e0bdd7fb20dec771cd53",
+  "crcrlf": 0,
+  "total": 3,
+  "mapeables": 3,
+  "ceros": 0
+ },
+ "components/lifebook/SelectorDeCupon.tsx": {
+  "bytes": 4924,
+  "md5": "044e167dba0349d036f82b9d153cbdab",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/SelectorDeProductos.tsx": {
+  "bytes": 7297,
+  "md5": "dabf4ab6873c268bde34fd127b56e518",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/SelectorDeVariante.tsx": {
+  "bytes": 26955,
+  "md5": "fd2a138afa9cabb80b3e0eddc93cea24",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "components/lifebook/TarjetaAnuncio.tsx": {
+  "bytes": 5163,
+  "md5": "5520812d4ffd54b843e2492f2f0780c3",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/VideoCoverSheet.tsx": {
+  "bytes": 10376,
+  "md5": "639d6924f1e5d7168d9a2f6f0c2498c1",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/lifebook/VoteSheet.tsx": {
+  "bytes": 7007,
+  "md5": "722a4e5ebe6fe24ac7d1b66463c00beb",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/publish/OptionGroupsEditor.tsx": {
+  "bytes": 19868,
+  "md5": "3c9f51c33d681a2e527f18023833c7f5",
+  "crcrlf": 0,
+  "total": 5,
+  "mapeables": 5,
+  "ceros": 0
+ },
+ "components/lifebook/publish/PublishParts.tsx": {
+  "bytes": 3842,
+  "md5": "95952ecfdbfd0cc34f25cd6bd0c4eb24",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/publish/SizeChartEditor.tsx": {
+  "bytes": 16156,
+  "md5": "4bf25ffd78b3828cdb43f5e00f25c9f3",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/lifebook/publish/StepDetails.tsx": {
+  "bytes": 6456,
+  "md5": "2f5c0e91efe43fec378fdc3ee0a56494",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/publish/StepExtras.tsx": {
+  "bytes": 8708,
+  "md5": "649e66104af51ebc251872ca75ae9222",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/lifebook/publish/StepMedia.tsx": {
+  "bytes": 4977,
+  "md5": "3a9c06b832f91497484e2a3f019e18a1",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/lifebook/publish/StepShop.tsx": {
+  "bytes": 6603,
+  "md5": "f34df9d31a39bf1fa757c7eed3717caf",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/rental/LandlordCard.tsx": {
+  "bytes": 14085,
+  "md5": "383f55fbe3ccd35956f084af1be030be",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "components/rental/PriceCalculator.tsx": {
+  "bytes": 8908,
+  "md5": "799ad727b5870378ca558230aedd2d42",
+  "crcrlf": 0,
+  "total": 4,
+  "mapeables": 4,
+  "ceros": 0
+ },
+ "components/rental/PropertyCard.tsx": {
+  "bytes": 6284,
+  "md5": "7a7b9ae1ca9a90c9e9de43b4daeb445f",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/status/StatusChip.tsx": {
+  "bytes": 4114,
+  "md5": "794a9b7c82912609e91f600d8d4599df",
+  "crcrlf": 0,
+  "total": 1,
+  "mapeables": 1,
+  "ceros": 0
+ },
+ "components/status/StatusDetailModal.tsx": {
+  "bytes": 20072,
+  "md5": "6fcdf83b0beb3c0f4f192948285dc8ea",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 2,
+  "ceros": 0
+ },
+ "components/status/StatusEditorModal.tsx": {
+  "bytes": 24910,
+  "md5": "8665ce02e2aaa6f2c49ae0f9dd2d2a40",
+  "crcrlf": 0,
+  "total": 8,
+  "mapeables": 8,
+  "ceros": 0
+ },
+ "components/status/StatusRingAvatar.tsx": {
+  "bytes": 3484,
+  "md5": "838cc6eac6d569c474795b8a805fc7f9",
+  "crcrlf": 0,
+  "total": 2,
+  "mapeables": 1,
+  "ceros": 1
+ }
+}

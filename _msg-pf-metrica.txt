@@ -1,0 +1,22 @@
+diseno(guardia): la metrica de precioFigura ve las CUATRO formas, no una (12 -> 50)
+
+La guardia contaba `formatXAF(` a secas. El proyecto tiene cuatro formateadores
+distintos para el mismo trabajo y el patron veia uno solo:
+
+  formatXAF   utils/formatHelpers          12 figuras
+  lbXaf       constants/lifebook           20 figuras
+  xaf         copia local (4 ficheros)     13 figuras
+  fmtXaf      copia local (3 ficheros)      5 figuras
+
+Y `formateaXAF` --el formateador del KIT, escrito justo para esto-- tiene 0 usos
+en la app.
+
+El numero SUBE de 12 a 50, y sube porque gana VISIBILIDAD, no deuda: las 38
+figuras que aparecen ya estaban escritas en el codigo, solo que la metrica era
+ciega a tres de las cuatro formas de escribirlas. Mismo precedente que el hex de
+ocho digitos (2b03b5a, 25/09): la deuda deja de ser invisible y nace registrada.
+
+El `\b` de delante de `xaf` impide que case dentro de `formatXAF(` o `lbXaf(`.
+Limitacion declarada: una copia local con otro nombre seguiria siendo invisible.
+
+Sin cambios de codigo de producto: solo la metrica y la base.

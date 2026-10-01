@@ -1,0 +1,42 @@
+design(tokens): H1a — `hex` baja de 189 a 126 (los grises y el visor)
+
+Primera mitad de la familia `hex`. Solo lo mecánico: los colores que ya
+tenían destino exacto en el kit y los que son un escalón de la rampa de
+neutros. Los datos con nombre propio y la identidad de marca van en H1b.
+
+Reparto (55 sustituciones, 38 ficheros):
+
+  · neutro.*   34  los grises (n100..n900). NO viven en ThemeColors:
+                   son la rampa FIJA `neutro`, exportada aparte por el kit.
+  · colors.*   13  tokens de sistema dentro del componente, con el hook.
+  · brand.*     8  `visor` (el negro de visores) y los ámbitos sin tema.
+
+Ámbito de acceso (lo que costó tres intentos):
+
+  const styles = (c) => StyleSheet.create({...})   ->  c.X
+  const pps = StyleSheet.create({...})             ->  brand.X   (hoja plana)
+  componente con `const { colors } = useTheme()`   ->  colors.X
+  sin hook ni hoja                                 ->  brand.X
+  rampa de neutros, siempre                        ->  neutro.X
+
+Un fichero puede tener VARIOS componentes: el hook cuenta solo si está en
+el mismo bloque de función que el uso. Si no, el sitio queda literal.
+
+Se quedan literales 8 sitios que no tienen acceso al tema y que esperan a
+H1b: 5 en `conductor.tsx` y `lifebook-player.tsx` (subcomponentes sin hook)
+y 3 en hojas planas de módulo. `brand` no tiene textPrimary/textSecondary/
+surface/shadow/card/sheet: son exclusivos del tema.
+
+`#1A0A0A` y `#2A1010` (fondos de la pantalla de diagnóstico) salen del mapa:
+no son `shadow`, son fondos propios.
+
+Tokens nuevos en `brand` (para H1b): lifebook, lifebookFuerte, social,
+visor, decoRosa, decoRosaClaro, decoMenta, decoArena, decoAmbar, decoCielo,
+decoRosaFuerte, decoVioletaClaro.
+
+Cuadre: 79 hex antes -> 22 ahora en los 38 ficheros. 0 tokens inexistentes.
+50 sustituciones con color idéntico; 5 acercan un gris (dRGB 23-49),
+decisión de unificación «cerca» ya aprobada.
+
+Puertas: tsc limpio · verifica-diseno OK (hex 189 -> 126) · auditar-rutas OK.
+Trinquete re-fijado: hex 126.

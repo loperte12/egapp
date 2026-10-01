@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Chat · Alojamiento</title>
+
+  <!-- Tailwind CSS Play (runtime local, offline) -->
+  <script src="./tailwind.js"></script>
+  <!-- Lucide: única librería de iconos funcionales -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-[#1E1E23] text-[#F2F3F5] font-sans antialiased">
+
+  <!-- layout dvh: la barra de entrada es flex hijo, el teclado nunca la rompe -->
+  <div id="app" class="flex h-[100dvh] w-full max-w-[390px] mx-auto flex-col overflow-hidden">
+
+    <!-- 顶部：返回 + 酒店名 -->
+    <header class="z-40 shrink-0 border-b border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pt-[env(safe-area-inset-top)]">
+      <div class="flex h-[56px] items-center gap-2 px-3">
+        <button type="button" data-action="back" aria-label="Volver"
+          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#2A2A30] bg-[#1E1E23] text-[#9AA0A6] active:bg-[#222228]">
+          <i data-lucide="arrow-left" class="h-[18px] w-[18px]"></i>
+        </button>
+        <div class="flex min-w-0 flex-1 items-center gap-2.5">
+          <span id="chat-avatar" class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#2A2A30] bg-[#222228] text-[14px] font-bold text-[#F2F3F5]"></span>
+          <div class="min-w-0 flex-1 leading-tight">
+            <p id="chat-name" class="truncate text-[15px] font-semibold text-[#F2F3F5]">Hotel</p>
+            <p class="text-[11px] text-[#45B87A]">● En línea — responde en ~5 min</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 消息列表 -->
+    <main id="chat-scroll" class="flex-1 overflow-y-auto bg-[#1E1E23] px-3 py-3">
+      <div id="chat-list" class="flex flex-col gap-2.5"></div>
+    </main>
+
+    <!-- 输入栏：flex 子项，无固定高 -->
+    <footer class="shrink-0 border-t border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pb-[env(safe-area-inset-bottom)]">
+      <div id="attach-bar" class="hidden flex-wrap gap-2 px-3 pt-3"></div>
+      <div class="flex items-end gap-2 px-3 py-2.5">
+        <label class="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border border-[#2A2A30] bg-[#1E1E23] text-[#9AA0A6] active:bg-[#222228]">
+          <i data-lucide="paperclip" class="h-5 w-5"></i>
+          <input type="file" id="attach-input" class="hidden" accept="image/*" multiple />
+        </label>
+        <textarea id="chat-input" rows="1" placeholder="Escribe un mensaje…"
+          class="max-h-24 min-w-0 flex-1 resize-none rounded-2xl border border-[#2A2A30] bg-[#111114] px-4 py-2.5 text-[14px] text-[#F2F3F5] placeholder:text-[#5A5F66] outline-none"></textarea>
+        <button type="button" data-action="send" aria-label="Enviar"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#4D9FFF] text-white active:bg-[#0066CC] disabled:opacity-40" id="send-btn">
+          <i data-lucide="send" class="h-[18px] w-[18px]"></i>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var app = document.getElementById('app');
+      if (!app) return;
+
+      // Super-app bridge: el chat vive en la app nativa
+      if (typeof window.SuperApp !== 'undefined' && window.SuperApp.openChat) {
+        try {
+          var q0 = new URLSearchParams(window.location.search);
+          window.SuperApp.openChat(q0.get('hotelId') || 'H1');
+          return;
+        } catch (e) { /* continuar vista local */ }
+      }
+
+      var CDN = 'https://ai-public.mastergo.com/ai/img_res/';
+      var HOTELS = {
+        H1: { n: 'Hotel Bahía de Malabo', av: CDN + 'generated-45d71696-6087-413c-9b05-20f4c0b5af09.jpg' },
+        H7: { n: 'Hotel Ureca', av: CDN + 'generated-6b848a71-cda2-4871-a839-e52f5b81049c.jpg' },
+        H9: { n: 'Spa & Resort Malabo', av: CDN + 'generated-b1a87f42-259e-4739-9b91-066cfc6823f1.jpg' },
+        H12: { n: 'Torre Bahía Business', av: CDN + 'generated-866a484a-f6f3-49c2-9331-2a5b50b01eb2.jpg' }
+      };
+      var MSGS = {
+        H1: [
+          { m: 0, t: 'Hola, soy María del Hotel Bahía de Malabo. ¿En qué puedo ayudarte?', at: 'hace 10 min' },
+          { m: 1, t: 'Hola, quería confirmar la hora del check-in para el sábado.', at: 'hace 9 min' },
+          { m: 0, t: 'Confirmamos tu check-in para el sábado a las 14:00. Te esperamos en recepción.', at: 'hace 5 min' }
+        ],
+        H7: [
+          { m: 0, t: '¡Hola! Te informamos que tenemos disponible la suite con vista al mar.', at: 'hace 2 h' }
+        ],
+        H9: [
+          { m: 0, t: 'Gracias por tu reserva. ¡Te esperamos!', at: 'hace 1 día' }
+        ],
+        H12: [
+          { m: 0, t: 'Adjuntamos el mapa de acceso al hotel.', at: 'hace 3 días', im: [CDN + 'generated-866a484a-f6f3-49c2-9331-2a5b50b01eb2.jpg'] }
+        ]
+      };
+
+      var hid = 'H1';
+      try {
+        var q = new URLSearchParams(window.location.search);
+        hid = HOTELS[q.get('hotelId')] ? q.get('hotelId') : 'H1';
+      } catch (e) {}
+      var hotel = HOTELS[hid];
+
+      var attach = [];
+
+      function readLeidos() {
+        try { return JSON.parse(localStorage.getItem('aloja_msgs_leidos')) || {}; } catch (e) { return {}; }
+      }
+      function saveLeidos(v) {
+        try { localStorage.setItem('aloja_msgs_leidos', JSON.stringify(v)); } catch (e) {}
+      }
+
+      function icons() {
+        if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch (e) {} }
+      }
+
+      function setHeader() {
+        var name = document.getElementById('chat-name');
+        if (name) name.textContent = hotel.n;
+        var av = document.getElementById('chat-avatar');
+        if (av) {
+          if (hotel.av) {
+            var im = document.createElement('img');
+            im.src = hotel.av;
+            im.alt = hotel.n;
+            im.className = 'h-10 w-10 object-cover';
+            av.textContent = '';
+            av.appendChild(im);
+          } else {
+            av.textContent = hotel.n.charAt(0);
+          }
+        }
+      }
+
+      function bubble(m, append) {
+        var mine = m.m === 1;
+        var wrap = document.createElement('div');
+        wrap.className = 'flex w-full flex-col ' + (mine ? 'items-end' : 'items-start');
+        var b = document.createElement('div');
+        b.className = 'max-w-[78%] rounded-2xl px-3.5 py-2.5 text-[14px] leading-snug ' +
+          (mine
+            ? 'rounded-br-[4px] bg-[#4D9FFF] text-white'
+            : 'rounded-bl-[4px] border border-[rgba(255,255,255,0.08)] bg-[#1C1C1F] text-[#F2F3F5]');
+        if (m.im && m.im.length) {
+          var imw = document.createElement('div');
+          imw.className = 'flex flex-wrap gap-1.5 pb-2';
+          m.im.forEach(function (src) {
+            var im = document.createElement('img');
+            im.src = src;
+            im.className = 'h-24 w-24 rounded-lg object-cover';
+            imw.appendChild(im);
+          });
+          b.appendChild(imw);
+        }
+        var tx = document.createElement('p');
+        tx.className = 'whitespace-pre-wrap break-words';
+        tx.textContent = m.t || '';
+        b.appendChild(tx);
+        wrap.appendChild(b);
+        var ts = document.createElement('span');
+        ts.className = 'mt-1 px-1 text-[10px] text-[#9AA0A6]';
+        ts.textContent = m.at || 'ahora';
+        wrap.appendChild(ts);
+        if (append || true) return wrap;
+      }
+
+      function render() {
+        var list = document.getElementById('chat-list');
+        if (!list) return;
+        list.textContent = '';
+        (MSGS[hid] || []).forEach(function (m) {
+          list.appendChild(bubble(m));
+        });
+        var sc = document.getElementById('chat-scroll');
+        if (sc) sc.scrollTop = sc.scrollHeight;
+        icons();
+      }
+
+      function refreshSend() {
+        var sb = document.getElementById('send-btn');
+        var inp = document.getElementById('chat-input');
+        if (sb) sb.disabled = !(inp && inp.value.trim() !== '');
+      }
+
+      function renderAttach() {
+        var bar = document.getElementById('attach-bar');
+        if (!bar) return;
+        bar.textContent = '';
+        if (attach.length) {
+          bar.classList.remove('hidden');
+          bar.classList.add('flex');
+        } else {
+          bar.classList.add('hidden');
+          bar.classList.remove('flex');
+          return;
+        }
+        attach.forEach(function (a, i) {
+          var wrap = document.createElement('div');
+          wrap.className = 'relative h-14 w-14';
+          var im = document.createElement('img');
+          im.src = a.data;
+          im.className = 'h-14 w-14 rounded-lg border border-[#2A2A30] object-cover';
+          wrap.appendChild(im);
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.dataset.action = 'del-attach';
+          btn.dataset.i = String(i);
+          btn.className = 'absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#0F0F12] text-[#9AA0A6]';
+          var x = document.createElement('i');
+          x.setAttribute('data-lucide', 'x');
+          x.className = 'h-3 w-3';
+          btn.appendChild(x);
+          wrap.appendChild(btn);
+          bar.appendChild(wrap);
+        });
+        icons();
+      }
+
+      app.addEventListener('click', function (ev) {
+        var t = ev.target;
+        while (t && t !== app && !t.getAttribute) t = t.parentNode;
+        while (t && t !== app && !t.dataset.action) t = t.parentNode;
+        if (!t || t === app) return;
+        var action = t.dataset.action;
+
+        if (action === 'back') {
+          if (window.SuperApp && window.SuperApp.back) { try { window.SuperApp.back(); return; } catch (e) {} }
+          if (window.history.length > 1) { try { window.history.back(); } catch (e) {} }
+          else { try { window.location.assign('./messages.html'); } catch (e) {} }
+        }
+        else if (action === 'send') {
+          var inp = document.getElementById('chat-input');
+          if (!inp) return;
+          var txt = inp.value.trim();
+          if (txt === '' && attach.length === 0) return;
+          MSGS[hid] = MSGS[hid] || [];
+          MSGS[hid].push({ m: 1, t: txt, at: 'ahora', im: attach.slice() });
+          attach = [];
+          inp.value = '';
+          render();
+          renderAttach();
+          refreshSend();
+          inp.focus();
+        }
+        else if (action === 'del-attach') {
+          var idx = parseInt(t.dataset.i, 10);
+          if (idx >= 0 && idx < attach.length) attach.splice(idx, 1);
+          renderAttach();
+        }
+      });
+
+      var inp = document.getElementById('chat-input');
+      if (inp) {
+        inp.addEventListener('input', function () {
+          inp.style.height = 'auto';
+          inp.style.height = Math.min(inp.scrollHeight, 96) + 'px';
+          refreshSend();
+        });
+        inp.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            var sb = document.getElementById('send-btn');
+            var click = document.createEvent('HTMLEvents');
+            click.initEvent('click', true, true);
+            app.dispatchEvent(click);
+          }
+        });
+      }
+
+      var fileInput = document.getElementById('attach-input');
+      if (fileInput) {
+        fileInput.addEventListener('change', function () {
+          var fs = Array.prototype.slice.call(fileInput.files || []).slice(0, 4);
+          fs.forEach(function (f) {
+            if (attach.length >= 4) return;
+            var rd = new FileReader();
+            rd.onload = function (e) {
+              attach.push({ name: f.name, data: e.target.result });
+              renderAttach();
+            };
+            try { rd.readAsDataURL(f); } catch (e) {}
+          });
+          fileInput.value = '';
+        });
+      }
+
+      setHeader();
+      icons();
+      render();
+      renderAttach();
+      refreshSend();
+
+      // marcar como leído al abrir
+      var leidos = readLeidos();
+      if (leidos[hid] !== 'cleared') {
+        leidos[hid] = 'read';
+        saveLeidos(leidos);
+      }
+    })();
+  </script>
+</body>
+</html>

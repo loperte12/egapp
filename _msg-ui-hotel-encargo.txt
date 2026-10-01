@@ -1,0 +1,19 @@
+docs(UI-HOTEL): el encargo para construir la UI del hotel desde fuera
+
+Documento autosuficiente para que otro agente construya las pantallas del modulo
+de alojamiento sin haber visto nunca el proyecto.
+
+Incluye: el mensaje de arranque para copiar y pegar; las seis reglas que no se
+negocian; el mapa de ficheros; el sistema de diseno con los tokens verificados
+(colors, escalas, trazo vs trazoIcono, la regla del precio figura/frase) y las
+utilidades con su ruta; el contrato de la API con los campos que YA existen y no
+se pintan, las trampas del servidor (el rango INCLUSIVE de 92 dias,
+ratingPublished, el dinero lo calcula el servidor, la paginacion opcional) y lo
+que NO existe (sort, amenities ignorado, freeUnits null); las decisiones cerradas
+D1-D11 con su estado; las seis puertas de verificacion; las diez trampas ya
+pagadas; el formato de lo que hay que devolver; y el material de referencia con
+los cuatro tramos de fotos.
+
+Anade el material de referencia numerado en pruebas/referencia-meituan/: las 30
+fotos del recorrido (copia de los blobs, en orden de marca de tiempo, que es el
+orden en que se hicieron) y las 8 capturas en vivo.

@@ -1,0 +1,16 @@
+diseno(guardia): un `<Text>` anidado es FRASE, no figura (precioFigura 50 -> 47)
+
+Un `View` no se puede renderizar dentro de un `Text`, y `Precio` devuelve una `View`:
+luego un `<Text>` dentro de otro es una frase por construccion, nunca una figura.
+La guardia contaba 3 sitios que no lo son — food-checkout:329, OrderSheet:77 y
+ProductoCard:83 — y contarlos obligaba a reestructurar oraciones en filas, que es
+justo lo que la doctrina del propio `Precio.tsx` advierte que NO se haga: un importe
+dentro de una frase no debe envolverse en el componente.
+
+Es una CORRECCION de la metrica, no una mejora: el numero baja porque la regla medía
+de mas, no porque se haya arreglado nada. Mismo criterio que la correccion del hex de
+ocho digitos (2b03b5a).
+
+De paso, el comentario de `FORMATO_A_MANO`: `formatXAF` SI es el formateador del kit
+(reexportado por `utils/formatHelpers.ts`); las tres copias locales son `xaf`, `fmtXaf`
+y `lbXaf`, y usan `toLocaleString('es-GQ')`, que depende del ICU del dispositivo.

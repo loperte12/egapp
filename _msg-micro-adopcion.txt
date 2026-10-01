@@ -1,0 +1,10 @@
+micro · Estrellas pintaba con brand.warning y el informe del audit queda dentro
+
+- packages/ui-kit/src/micro/Estrellas.tsx: usaba brand.warning, que es INVARIANTE al
+  tema (los dos temas hacen ...brand), mientras los 5 sitios que lo consumen esperan
+  colors.text.warning. Retirado el import de brand.
+- design-audit-micro.md: el informe del audit de micro-interacciones, con las cifras
+  corregidas el 26-sep al censar POR ROL y no por nombre (52 sitios de rol radio en 19
+  ficheros, no 0; 3 microfonos, no 1; 25 usos de rol tab en 18 ficheros, no 9).
+
+Los dos iban sin commitear desde la sesion del 26-sep.

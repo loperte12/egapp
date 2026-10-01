@@ -1,0 +1,33 @@
+A3.1 · los 94 sitios sin acceso al tema (88 sustituciones en 28 ficheros)
+
+El residuo de adopción que `A2` no alcanzó: allí el token existe, pero el SITIO no tiene el tema a mano.
+
+Tres mecanismos, decididos por la FORMA del sitio (medida, no supuesta):
+· 6 claves en hojas que YA son función del tema -> `brand.X` pasa a `c.text.X`. Coste 0.
+· 14 claves en hojas PLANAS -> se retira el `color:` de la hoja y el override va al consumidor, con
+  las dos formas respetadas: `style={styles.k}` suelto y el array de PostCard, que va ANTES del
+  ternario del me-gusta o el rojo `liked` se pierde.
+· 3 subcontroles y 2 mapas de iconos (`MODE_ICON`, `PAY_ICON`) -> función del tema.
+Los 8 mapas de contenido y la pantalla de crash NO se tocan: se MARCAN en el código con `dato-color`,
+para que la exención se vea donde está el color y no solo en la guardia.
+
+La comprobación que faltaba (`_q2b`): retirar un `color:` de una hoja deja SIN color a cualquier
+consumidor que no reciba su override, y eso `tsc` NO lo caza — el estilo sigue existiendo, solo le
+falta una propiedad. Contadas las 14 claves antes de aplicar: 0 descuadres.
+Y lo que sí cazó `tsc`: `InboxShortcut` no tenía el tema. Contar consumidores no basta; hay que mirar
+el ÁMBITO de cada uno, porque el override se pone donde está el TEMA, no donde está el estilo.
+
+Verificación por inversión: re-aplicar la lista de operaciones sobre el respaldo reproduce los 28
+ficheros byte a byte. El respaldo (`_respaldo-a3/`, excluido por el patrón `respaldo` de la guardia,
+por `_respaldo-*` de tsconfig y por git) no se pisa en una segunda pasada.
+
+Los ficheros del árbol son LF y CRLF a la vez. El motor normaliza a LF, EXIGE que el fichero sea
+uniforme (si es mixto, aborta) y restaura el terminador original al escribir: escribir `\n` a pelo en
+un fichero CRLF deja una línea con otro terminador y el diff miente.
+
+Trinquete SIN MOVER: hex 0 · fontSize 0 · borderRadius 0 · fontWeight 0 · borderWidth 5 ·
+espaciado 183 · precioFigura 5 · strokeWidth 0 — «OK: ninguna zona ha empeorado».
+Puertas: tsc 0 · diseno 0 · rutas 0.
+
+Herramientas (en Routeplan, `auditoria-uiux/`): `_q2` (codemod), `_q2b` (consumidores),
+`_q2c` (inversión), `_q3` (censo acento texto/gráfico).

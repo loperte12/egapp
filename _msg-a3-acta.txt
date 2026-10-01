@@ -1,0 +1,19 @@
+HOTEL · §10: acta de A-3, la tanda del SERVIDOR (3 hallazgos cerrados y uno nuevo)
+
+La ventana se abrio y se uso. Acta de lo desplegado y verificado, con las cifras medidas —
+incluidas las que NO salieron como esperaba.
+
+  · §10.1  que se desplego, con huella antes/despues de los 3 ficheros;
+  · §10.2  el baseline al repositorio (el codigo del hotel no estaba versionado);
+  · §10.3  .gitattributes: git iba a convertir el baseline a CRLF y romper la huella;
+  · §10.4  el parche: las 4 listas de cancelacion a una, y el monedero por una sola puerta;
+  · §10.5  LH-14 (nueva): el rotulo de cancelacion gratuita NUNCA aparecia en las listas
+           porque las consultas no traian sus columnas;
+  · §10.6  LH-01: el dano medido hoy es CERO — y por que eso no lo hace menor;
+  · §10.7  la cadena de verificacion, seis puertas (la 5.a: las 9 consultas EJECUTADAS);
+  · §10.8  el comentario que citaba un metodo que no existe;
+  · §10.9  dos trampas nuevas (el backtick dentro de un $queryRaw, sobre todo);
+  · §10.10 estado de los 14 hallazgos;
+  · §10.11 la consecuencia de quitar `cancel` de checked_in, dicha en voz alta.
+
+Se actualizan tambien las fichas de LH-01 (cerrada) y LH-06 (cerrada entera) en §2.

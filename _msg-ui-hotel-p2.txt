@@ -1,0 +1,51 @@
+P2 UI hotel: la tarjeta de habitacion y la barra de fechas (el acordeon se va)
+
+Medido antes de tocar nada: la ficha abierta en el movil, volcada con uiautomator.
+Pantalla de 2374 px. En la primera pantalla ENTERA no habia ni una habitacion ni un
+precio: galeria, horario, direccion, mapa, taxi al aeropuerto, descripcion, dos
+servicios y la linea de formas de pago. Tras desplazar una pantalla aparecia
+'Habitaciones (8)' y el primer precio (18.000 XAF) en y=857; y el desplazamiento
+SIGUIENTE era el calendario, abierto dentro de la primera habitacion, comiendose la
+pantalla completa antes de ver el segundo precio.
+
+QUE CAMBIA (docs/UI-HOTEL-PLAN-MEJORA.md, seccion 11):
+
+- components/hotel/HotelRoomCard.tsx (NUEVO): la tarjeta de un tipo de habitacion.
+  Foto cuando la tiene (2 de las 8 reales la tienen; 6 no, asi que el caso sin foto
+  esta escrito, no es una excepcion), medidas, servicios con icono, condiciones,
+  el PRECIO DE FIN DE SEMANA -- que existe (22.000/32.000/32.000/34.000) y no se
+  ensenaba en ninguna pantalla -- y UN solo boton.
+
+  Precision que importa: cancellationHours son horas ANTES DE LA LLEGADA, no minutos
+  tras reservar, asi que NO se copia el aviso de la referencia; y
+  confirmationHours=24 dice que el hotel tarda un dia, no que confirme al instante
+  (eso solo se escribe con 0).
+
+- components/hotel/HotelDateRange.tsx (NUEVO): la barra de fechas y su hoja de
+  calendario. Se eligen las noches UNA vez y valen para todos los tipos. La
+  disponibilidad se AGREGA de los calendarios de los tipos activos, en paralelo y solo
+  al abrir la hoja (nunca al abrir la ficha): libre si le queda hueco a alguno, cerrada
+  solo si lo estan todos, y el precio mas bajo de los que quedan -- que es lo que
+  significa 'desde'. Tope de 12 tipos: sin el, un alojamiento de 40 dispara 40
+  peticiones.
+
+- components/hotel/servicios.ts (NUEVO): el diccionario de nombres sale de la ficha a
+  un modulo, porque ahora lo usan dos pantallas y duplicarlo las separa en cuanto se
+  anada una clave. Las claves son del servidor; aqui solo se traducen.
+
+- app/lifebook-hotel-detalle.tsx: se va el acordeon (setAbierta, el CalendarPicker
+  interno, la cuenta con Fila). Las fechas y la ocupacion pasan a ser de la pantalla y
+  no de una habitacion -- antes huespedes/habitaciones eran constantes de los
+  parametros y no se podian cambiar. El selector de moneda se mueve al final del bloque
+  informativo: partia la lista de precios por la mitad. Se pinta el sello
+  'Alojamiento verificado' (isVerified viajaba en cada respuesta y no se pintaba).
+  El dinero exacto de la estancia sigue calculandose donde siempre: en la pantalla de
+  reservar, que desglosa noches, limpieza, tasas, senal y resto. La ficha elige; la
+  reserva cobra.
+
+NO SE TOCA: las resenas siguen DESPUES de las habitaciones (D1 de C-1), siguen
+gateadas por publishesRating (D2) y el chip de la cabecera sigue bajando a la seccion.
+
+Medido: tsc 0 errores; verifica-diseno con el trinquete IDENTICO (hex 0, fontSize 0,
+borderRadius 0, fontWeight 0, borderWidth 5, espaciado 183, precioFigura 5,
+strokeWidth 0); c1-verifica-app TODO OK.

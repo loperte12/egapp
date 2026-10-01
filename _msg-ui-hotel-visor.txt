@@ -1,0 +1,14 @@
+docs(UI-HOTEL): un visor de los diez componentes, para revisar las variantes sin el lienzo
+
+El lienzo manda, pero mirarlo cuesta y no deja comparar las variantes de un tiron.
+Este documento junta los diez fragmentos de docs/componentes/ tal como se envian,
+con su nombre, su recuento de nodos y sus variantes, y la nota de que propiedades
+expone cada uno. Es para MIRAR: no es payload y no se envia.
+
+Se genera, no se edita a mano: pruebas/prepara-vista-componentes.cjs. Sustituye las
+imagenes por un marcador gris con la clave escrita —en un navegador las claves entre
+llaves salen rotas y ensucian la revision, que es exactamente el fallo que ya hubo que
+arreglar en la vista del listado— e informa de cuantas sustituye.
+
+Medido: 10 de 10 bloques, 3 imagenes sustituidas (una por variante de HotelCard),
+cero comentarios HTML en la salida.

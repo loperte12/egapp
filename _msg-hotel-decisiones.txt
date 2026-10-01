@@ -1,0 +1,33 @@
+HOTEL · §8: las dos decisiones delegadas (valoracion del hotel y cancelacion por N horas)
+
+Bernardo me delega las dos decisiones pendientes ("la valoracion te dejo como tu decision
+y la politica de cancelacion"). Resueltas con modelo concreto, no con opciones.
+
+VALORACION -> tabla lifebook.hotel_reviews (migracion 021). La nota es del HOTEL y sale de
+resenas propias; shops.rating NO se toca, que es la nota del MERCADO: un hotel que venda
+ademas tendra dos notas y las dos verdaderas. Mezclarlas es lo que pasa hoy.
+  - reservation_id UNIQUE: una resena por estancia y, a la vez, el PERMISO de escritura
+    (solo resena quien tiene una reserva checked_out suya; no_show y cancelled no valen).
+  - el hotelero RESPONDE, no borra; el autor borra en 7 dias; la nota no se edita; sin
+    moderacion previa.
+  - agregado en columnas espejo de hotel_profiles: la lista de tarjetas no puede agregar
+    por subconsulta. Mismo patron que el stock del anuncio (suma de variantes, comprobada).
+  - [criterio] la nota no se publica hasta tener 3 resenas: con una sola, un 5,0 no es
+    informacion. Es un numero, se cambia sin migracion.
+
+CANCELACION -> room_types.cancellation_hours, sin tramos. 0 = no reembolsable;
+1..719 = gratis hasta N h antes; 720 = 30 dias. El instante de referencia es la ENTRADA
+(fecha + hotel.checkin_from - h), no la medianoche. La penalizacion ES la senal: no se
+inventa tarifa de cancelacion, que seria una cuarta ruta del mismo dinero con LH-01,
+LH-02 y LH-10 abiertos. cancellation_policy (texto libre 600) se queda como nota del
+hotelero, rotulada aparte.
+  - cierra LH-06 por diseno: con el huesped dentro (checked_in) no existe la accion
+    cancelar. Hoy el contrato la ofrece (reservation-flow.ts:56) y el resultado medido es
+    "Devuelto" sin devolucion.
+
+Y el marco que las une: los TRES RELOJES (hold_minutes paga el huesped, confirmation_hours
+confirma el hotel, cancellation_hours cancela gratis). LH-07 es una confusion de relojes:
+la senal con monedero caduca en el reloj 1 mientras la reserva vive en el reloj 2.
+
+Solo documentacion: no se toca ni una linea de codigo. La migracion 021 queda DEFINIDA, no
+escrita, y es la primera pieza versionada de un esquema del hotel que hoy no esta en el repo.

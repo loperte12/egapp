@@ -1,0 +1,1410 @@
+{
+ "app/agente-escaner.tsx": {
+  "bytes": 6882,
+  "md5": "b3ceec5a9dc7c896f0ddd2280b9d93e0",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 153,
+  "peso_lit": 5
+ },
+ "app/agente.tsx": {
+  "bytes": 14750,
+  "md5": "89aed0e20afe4adfcee3265dbba215ec",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 284,
+  "peso_lit": 12
+ },
+ "app/alquiler-detalle.tsx": {
+  "bytes": 31123,
+  "md5": "63e01d74a032d1558e2bdd2cc6453e89",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 614,
+  "peso_lit": 10
+ },
+ "app/alquiler-planes.tsx": {
+  "bytes": 16565,
+  "md5": "851fa9be5c74d8cbe6d0f0b357271b38",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 344,
+  "peso_lit": 7
+ },
+ "app/alquiler-publicar.tsx": {
+  "bytes": 39701,
+  "md5": "b8ab8fd3a82aa34c80d95a9f6fd9eb7a",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 600,
+  "peso_lit": 16
+ },
+ "app/alquiler.tsx": {
+  "bytes": 22196,
+  "md5": "fa11894185b06aa67a3e837709235e03",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 348,
+  "peso_lit": 10
+ },
+ "app/auth.tsx": {
+  "bytes": 12570,
+  "md5": "6342f479f06b80b3d0b0ba9944669d3a",
+  "crcrlf": 0,
+  "crlf": 259,
+  "lf": 0,
+  "peso_lit": 3
+ },
+ "app/billing-checkout.tsx": {
+  "bytes": 23471,
+  "md5": "07b8792f11cf759a195566c7981bc40b",
+  "crcrlf": 0,
+  "crlf": 462,
+  "lf": 0,
+  "peso_lit": 10
+ },
+ "app/billing-status.tsx": {
+  "bytes": 23630,
+  "md5": "594d5446d478410cbc92f752c913bc5e",
+  "crcrlf": 0,
+  "crlf": 472,
+  "lf": 0,
+  "peso_lit": 9
+ },
+ "app/buscar.tsx": {
+  "bytes": 15081,
+  "md5": "bd01350e9a4598580acb58737f5e75d5",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 343,
+  "peso_lit": 3
+ },
+ "app/conductor-hub.tsx": {
+  "bytes": 14969,
+  "md5": "77ea009f1c2478f32029882d8a42572b",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 261,
+  "peso_lit": 13
+ },
+ "app/conductor.tsx": {
+  "bytes": 118627,
+  "md5": "a524735b83e240c721c95eaa1bfe5de5",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 2070,
+  "peso_lit": 58
+ },
+ "app/documents.tsx": {
+  "bytes": 9982,
+  "md5": "02b2c0dd000d2145e9a844fb6fb1ea5f",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 206,
+  "peso_lit": 4
+ },
+ "app/driver-onboarding.tsx": {
+  "bytes": 24075,
+  "md5": "9e879161ff2597120ba72219aca1f8b6",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 471,
+  "peso_lit": 13
+ },
+ "app/driver-profile.tsx": {
+  "bytes": 13806,
+  "md5": "13c40508151c0a26108e42d413d8cd22",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 240,
+  "peso_lit": 19
+ },
+ "app/ecomerse-checkout.tsx": {
+  "bytes": 39570,
+  "md5": "e5d0e823973251706ce2620dc8e33ceb",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 695,
+  "peso_lit": 18
+ },
+ "app/ecomerse-detail.tsx": {
+  "bytes": 40109,
+  "md5": "9bc8e9536902afc17836fea8370203be",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 696,
+  "peso_lit": 20
+ },
+ "app/ecomerse-docs.tsx": {
+  "bytes": 11703,
+  "md5": "d1c2473405c571a6ff3f185c64ed50fe",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 229,
+  "peso_lit": 6
+ },
+ "app/ecomerse-favorites.tsx": {
+  "bytes": 15319,
+  "md5": "61e04470dcd1c0c70d2d53c011be92b9",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 288,
+  "peso_lit": 4
+ },
+ "app/ecomerse-orders.tsx": {
+  "bytes": 45823,
+  "md5": "c9c718e4892e4383261955f2434c80e9",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 782,
+  "peso_lit": 13
+ },
+ "app/ecomerse-planes.tsx": {
+  "bytes": 21407,
+  "md5": "0f0a672bae1c52cdb22643da5b648495",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 382,
+  "peso_lit": 14
+ },
+ "app/edit-profile.tsx": {
+  "bytes": 70459,
+  "md5": "4edb28e8c07b0d732a792cc2094e9d97",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 1562,
+  "peso_lit": 36
+ },
+ "app/emergencia.tsx": {
+  "bytes": 6760,
+  "md5": "0ef33c86653b52759ec98bd0be16293f",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 127,
+  "peso_lit": 6
+ },
+ "app/food-checkout.tsx": {
+  "bytes": 37498,
+  "md5": "5c7acd83c9a68617cd184778904730bc",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 632,
+  "peso_lit": 22
+ },
+ "app/food-menu.tsx": {
+  "bytes": 20422,
+  "md5": "53a49f47b5b6c0b25fc31cd4c68d5043",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 398,
+  "peso_lit": 13
+ },
+ "app/food-orders.tsx": {
+  "bytes": 42565,
+  "md5": "e91dc8006e33ede10a8ef7e544599bc3",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 830,
+  "peso_lit": 27
+ },
+ "app/food-owner.tsx": {
+  "bytes": 49794,
+  "md5": "c489220e9bae3964d9104b3a99763a1d",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 933,
+  "peso_lit": 24
+ },
+ "app/food-rider.tsx": {
+  "bytes": 43346,
+  "md5": "b2968c171fc171f111239352ec7b20f6",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 685,
+  "peso_lit": 32
+ },
+ "app/food.tsx": {
+  "bytes": 18197,
+  "md5": "b38118c00609d4f6a5650d1fcda3fa2d",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 400,
+  "peso_lit": 7
+ },
+ "app/intercity-planes.tsx": {
+  "bytes": 15642,
+  "md5": "a91fe6a52c6fda18bfb722dfc4d4574d",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 303,
+  "peso_lit": 9
+ },
+ "app/intercity-publish.tsx": {
+  "bytes": 38046,
+  "md5": "6020824e87e8350673cf4a4de2f79efe",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 631,
+  "peso_lit": 20
+ },
+ "app/intercity.tsx": {
+  "bytes": 31021,
+  "md5": "04239f890cbf9ebf3b7d6a8db1ce1798",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 504,
+  "peso_lit": 16
+ },
+ "app/landlord-profile.tsx": {
+  "bytes": 5039,
+  "md5": "e2e03f1f34355647117d348aa7f1d448",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 114,
+  "peso_lit": 3
+ },
+ "app/lifebook-ai.tsx": {
+  "bytes": 36532,
+  "md5": "4fd49bda2a07468361c5e6ee35daf021",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 736,
+  "peso_lit": 17
+ },
+ "app/lifebook-blocks.tsx": {
+  "bytes": 5443,
+  "md5": "33cfcd253868ae95cfb56d06432e6ad3",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 106,
+  "peso_lit": 5
+ },
+ "app/lifebook-carrito-checkout.tsx": {
+  "bytes": 33684,
+  "md5": "7239d849bc18258bb976aa587789a366",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 654,
+  "peso_lit": 21
+ },
+ "app/lifebook-carrito.tsx": {
+  "bytes": 36077,
+  "md5": "7adbe12340e0c02b7aac0954235618af",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 666,
+  "peso_lit": 28
+ },
+ "app/lifebook-catalog.tsx": {
+  "bytes": 15958,
+  "md5": "be01b4b1038306451cce087071cf854e",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 322,
+  "peso_lit": 10
+ },
+ "app/lifebook-checkout.tsx": {
+  "bytes": 28429,
+  "md5": "05c2d4bd80d84c0c7a8e3d499df30d90",
+  "crcrlf": 0,
+  "crlf": 555,
+  "lf": 0,
+  "peso_lit": 11
+ },
+ "app/lifebook-compose.tsx": {
+  "bytes": 23321,
+  "md5": "ab7cfea0d856e2e06381fd440af0ea71",
+  "crcrlf": 0,
+  "crlf": 426,
+  "lf": 0,
+  "peso_lit": 15
+ },
+ "app/lifebook-dinero.tsx": {
+  "bytes": 10158,
+  "md5": "f95fa57ba68e0688ce1c0da06da736fe",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 198,
+  "peso_lit": 8
+ },
+ "app/lifebook-explore.tsx": {
+  "bytes": 15621,
+  "md5": "d735c42b0f3316732706fdce948d7e6f",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 359,
+  "peso_lit": 3
+ },
+ "app/lifebook-group-create.tsx": {
+  "bytes": 33843,
+  "md5": "2589a30eb3c29e20d071008f21889f04",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 712,
+  "peso_lit": 14
+ },
+ "app/lifebook-groups.tsx": {
+  "bytes": 20170,
+  "md5": "103b11af67000b1f0ae37d8dd762566a",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 390,
+  "peso_lit": 14
+ },
+ "app/lifebook-guardados.tsx": {
+  "bytes": 8680,
+  "md5": "baf6f5916ead8f78636c72e95826d748",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 184,
+  "peso_lit": 6
+ },
+ "app/lifebook-hotel-calendario.tsx": {
+  "bytes": 23639,
+  "md5": "b18a0b7f2badbc375b9943c4e84ff7bc",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 484,
+  "peso_lit": 16
+ },
+ "app/lifebook-hotel-detalle.tsx": {
+  "bytes": 30059,
+  "md5": "2ef77c4a7f59095601c2c919d35dda0b",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 547,
+  "peso_lit": 12
+ },
+ "app/lifebook-hotel-fechas.tsx": {
+  "bytes": 14856,
+  "md5": "a3644e291605400bab087b2908954ddd",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 311,
+  "peso_lit": 9
+ },
+ "app/lifebook-hotel-gestion.tsx": {
+  "bytes": 15340,
+  "md5": "75b926aa851f08236ed88eb10ca9c644",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 327,
+  "peso_lit": 7
+ },
+ "app/lifebook-hotel-habitacion.tsx": {
+  "bytes": 29424,
+  "md5": "922f18566c41a3769982fe96cb6722f9",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 540,
+  "peso_lit": 14
+ },
+ "app/lifebook-hotel-habitaciones.tsx": {
+  "bytes": 25507,
+  "md5": "f11ca16fd608073ced5f0c3c1925e6fb",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 483,
+  "peso_lit": 15
+ },
+ "app/lifebook-hotel-panel.tsx": {
+  "bytes": 25463,
+  "md5": "1ab90e5ad9e54e4af6534ac342e06e97",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 510,
+  "peso_lit": 16
+ },
+ "app/lifebook-hotel-perfil.tsx": {
+  "bytes": 24344,
+  "md5": "e8a25f4a23e579e71122636ffdd54e2f",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 466,
+  "peso_lit": 13
+ },
+ "app/lifebook-hotel-reserva.tsx": {
+  "bytes": 23649,
+  "md5": "91ec14c86377e33b1ad543c24c07283b",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 487,
+  "peso_lit": 12
+ },
+ "app/lifebook-hotel-reservar.tsx": {
+  "bytes": 34949,
+  "md5": "a17129f466930172368feb20c559d7bd",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 698,
+  "peso_lit": 12
+ },
+ "app/lifebook-hotel-reservas.tsx": {
+  "bytes": 22865,
+  "md5": "85a56f7a00e86cabf6a7b1f337fb58ae",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 489,
+  "peso_lit": 14
+ },
+ "app/lifebook-hotel-resultados.tsx": {
+  "bytes": 17063,
+  "md5": "74f3759a4e5a1c633c69940a9255bfb3",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 354,
+  "peso_lit": 8
+ },
+ "app/lifebook-hotel.tsx": {
+  "bytes": 25946,
+  "md5": "c2e34497fb3d95c18f6b7905bd0339dd",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 516,
+  "peso_lit": 20
+ },
+ "app/lifebook-inbox-comments.tsx": {
+  "bytes": 8097,
+  "md5": "00b4471387d8749dad7dfb498b126a6b",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 154,
+  "peso_lit": 4
+ },
+ "app/lifebook-inbox-followers.tsx": {
+  "bytes": 9841,
+  "md5": "6babef01dfcd3446f9e80e398140d6c7",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 175,
+  "peso_lit": 8
+ },
+ "app/lifebook-inbox-likes.tsx": {
+  "bytes": 8656,
+  "md5": "9cc6c2c103f0a7285d24644382a6d0e9",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 160,
+  "peso_lit": 4
+ },
+ "app/lifebook-inbox.tsx": {
+  "bytes": 13291,
+  "md5": "a7bde685a3bf95b5fea9fa92944a12a7",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 294,
+  "peso_lit": 8
+ },
+ "app/lifebook-media.tsx": {
+  "bytes": 37514,
+  "md5": "ced10a0e5805d6fa683d32a69ef9fc23",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 662,
+  "peso_lit": 19
+ },
+ "app/lifebook-merchant-gestion.tsx": {
+  "bytes": 15131,
+  "md5": "e075e3271dc5bf5c4362c4d7e8f0615f",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 306,
+  "peso_lit": 8
+ },
+ "app/lifebook-merchant-products.tsx": {
+  "bytes": 27608,
+  "md5": "c46734cd96bd6810992ad5ec91800aae",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 536,
+  "peso_lit": 15
+ },
+ "app/lifebook-merchant-settings.tsx": {
+  "bytes": 15934,
+  "md5": "a82daa86d651ebb0791c045f59513bcd",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 345,
+  "peso_lit": 4
+ },
+ "app/lifebook-merchant.tsx": {
+  "bytes": 24652,
+  "md5": "d06ac04ff113e751262639779dddb4d2",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 449,
+  "peso_lit": 12
+ },
+ "app/lifebook-message-search.tsx": {
+  "bytes": 11469,
+  "md5": "ae660eae459de8ce34d74d89f9cbb3bc",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 233,
+  "peso_lit": 3
+ },
+ "app/lifebook-messages.tsx": {
+  "bytes": 21590,
+  "md5": "c9b1b5e54b9f8d18e952444c04a7520f",
+  "crcrlf": 0,
+  "crlf": 453,
+  "lf": 0,
+  "peso_lit": 10
+ },
+ "app/lifebook-orders.tsx": {
+  "bytes": 13799,
+  "md5": "b6a631340a34ddc017235f91c17cc0b1",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 239,
+  "peso_lit": 14
+ },
+ "app/lifebook-player.tsx": {
+  "bytes": 21699,
+  "md5": "723ee53fb452613c3f7b4ef5e1ab0a22",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 400,
+  "peso_lit": 9
+ },
+ "app/lifebook-scan.tsx": {
+  "bytes": 2340,
+  "md5": "98082460d9ac61f363a765e8a137eb0b",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 53,
+  "peso_lit": 1
+ },
+ "app/lifebook-search.tsx": {
+  "bytes": 23500,
+  "md5": "9b70a5d91c0f168b46de342e238a7571",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 638,
+  "peso_lit": 4
+ },
+ "app/lifebook-sell.tsx": {
+  "bytes": 14034,
+  "md5": "c5d758c6d05bd3f563474d5333944caa",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 306,
+  "peso_lit": 2
+ },
+ "app/lifebook-store.tsx": {
+  "bytes": 10230,
+  "md5": "89bf772fa5a2171195ebc444db5de515",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 185,
+  "peso_lit": 10
+ },
+ "app/lifebook-user.tsx": {
+  "bytes": 59361,
+  "md5": "0317b80f63d81eba84fc6d6faa194b53",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 1050,
+  "peso_lit": 28
+ },
+ "app/lifebook-videos.tsx": {
+  "bytes": 77449,
+  "md5": "d7179f84cd8aa2397650fec4a9e0d45e",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 1408,
+  "peso_lit": 15
+ },
+ "app/lifebook-vistos.tsx": {
+  "bytes": 8651,
+  "md5": "86187feea0dbf68691f05a1e27268d5c",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 193,
+  "peso_lit": 3
+ },
+ "app/lifebook.tsx": {
+  "bytes": 59788,
+  "md5": "3aba68f0ed5322384fc99fd8f1909bb3",
+  "crcrlf": 0,
+  "crlf": 1464,
+  "lf": 0,
+  "peso_lit": 11
+ },
+ "app/monedero-movimientos.tsx": {
+  "bytes": 8199,
+  "md5": "b8cfce1a17175faca61b118b47b5098e",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 181,
+  "peso_lit": 6
+ },
+ "app/monedero-pin.tsx": {
+  "bytes": 6297,
+  "md5": "d858ab19250ecf2f462334cfd0588431",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 142,
+  "peso_lit": 3
+ },
+ "app/monedero-recargar.tsx": {
+  "bytes": 11545,
+  "md5": "561a93c26aee737c1b8bb79b5cdac33a",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 250,
+  "peso_lit": 6
+ },
+ "app/monedero-retirar.tsx": {
+  "bytes": 12737,
+  "md5": "f345f5e36a3bee307ee5b837354d5a33",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 272,
+  "peso_lit": 6
+ },
+ "app/monedero.tsx": {
+  "bytes": 12435,
+  "md5": "f458260a06f285dc80071ed916427e8a",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 241,
+  "peso_lit": 11
+ },
+ "app/my-tickets.tsx": {
+  "bytes": 8090,
+  "md5": "6396a4a20d68cca4ceb12b730f9484ff",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 149,
+  "peso_lit": 5
+ },
+ "app/profile.tsx": {
+  "bytes": 56435,
+  "md5": "8bd4ca7a42624a970bb2dc12c5a18d27",
+  "crcrlf": 0,
+  "crlf": 1000,
+  "lf": 0,
+  "peso_lit": 33
+ },
+ "app/reserva.tsx": {
+  "bytes": 25136,
+  "md5": "ec4431525d0ca76e7b92e080fc1b1a99",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 502,
+  "peso_lit": 15
+ },
+ "app/ruta-fallida.tsx": {
+  "bytes": 4021,
+  "md5": "3cd04dcd84ffae64a069d71717f55d42",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 80,
+  "peso_lit": 3
+ },
+ "app/scanner.tsx": {
+  "bytes": 2017,
+  "md5": "c6b3d106ec1b62d861120be871b3c0b4",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 43,
+  "peso_lit": 1
+ },
+ "app/settings.tsx": {
+  "bytes": 22988,
+  "md5": "2c4c234ed769e06e0a640917b63565fd",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 437,
+  "peso_lit": 11
+ },
+ "app/status.tsx": {
+  "bytes": 12104,
+  "md5": "ae800a4397fa57eef31daf1196c6e112",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 217,
+  "peso_lit": 10
+ },
+ "app/taxi.tsx": {
+  "bytes": 114664,
+  "md5": "43bf64564fb13b0d1ab1b6b6cf5fc4aa",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 2069,
+  "peso_lit": 63
+ },
+ "app/trips-history.tsx": {
+  "bytes": 11760,
+  "md5": "eb9fabd7606c8ec76af0005d936e1f70",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 220,
+  "peso_lit": 11
+ },
+ "app/work-detail.tsx": {
+  "bytes": 27520,
+  "md5": "cf8dc028b07c45d8264e4b015c635a54",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 502,
+  "peso_lit": 15
+ },
+ "app/work-gestion.tsx": {
+  "bytes": 13531,
+  "md5": "fcefa3633a339e8c3ec22994d766f641",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 285,
+  "peso_lit": 7
+ },
+ "app/work-panel.tsx": {
+  "bytes": 18672,
+  "md5": "55067bd7611403f4a7b059c01f931ff0",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 370,
+  "peso_lit": 10
+ },
+ "app/work-planes.tsx": {
+  "bytes": 14234,
+  "md5": "22fefcafc11d64cacf381a11e5ae4451",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 306,
+  "peso_lit": 9
+ },
+ "app/work-publish.tsx": {
+  "bytes": 32692,
+  "md5": "67e60cd4302c56c60f1b53663be2c19c",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 520,
+  "peso_lit": 14
+ },
+ "app/work.tsx": {
+  "bytes": 17479,
+  "md5": "cac1c2221cb8f61a2d931c92c33b4d6c",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 260,
+  "peso_lit": 9
+ },
+ "app/kyc/liveness.tsx": {
+  "bytes": 4917,
+  "md5": "0c4c1cf7c9bfd1b58d057db8043fea94",
+  "crcrlf": 0,
+  "crlf": 127,
+  "lf": 0,
+  "peso_lit": 1
+ },
+ "app/lifebook-chat/[id].tsx": {
+  "bytes": 102855,
+  "md5": "e7adb775e1a1f7ca1d2b3beff313ad03",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 2042,
+  "peso_lit": 44
+ },
+ "app/lifebook-order/[id].tsx": {
+  "bytes": 37889,
+  "md5": "791c540d28144283e0a17350d1819b26",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 745,
+  "peso_lit": 19
+ },
+ "app/lifebook-post/[id].tsx": {
+  "bytes": 59621,
+  "md5": "d661b5601f711e02d03fa9b35d3f5fe8",
+  "crcrlf": 0,
+  "crlf": 1200,
+  "lf": 0,
+  "peso_lit": 33
+ },
+ "app/lifebook-product/[id].tsx": {
+  "bytes": 45022,
+  "md5": "96346029e02d1621cc1c59ff1699dceb",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 897,
+  "peso_lit": 18
+ },
+ "app/lifebook-shop/[id].tsx": {
+  "bytes": 21673,
+  "md5": "349b98579b84c014befc5fbce22aaa9e",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 437,
+  "peso_lit": 9
+ },
+ "app/promo/[id].tsx": {
+  "bytes": 2409,
+  "md5": "17e0c97ffa13402767fa11cfd0c5c8c0",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 52,
+  "peso_lit": 1
+ },
+ "app/service/[id].tsx": {
+  "bytes": 2326,
+  "md5": "111db0b3f611a907e09dfcab8decdc98",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 51,
+  "peso_lit": 1
+ },
+ "components/CalendarPicker.tsx": {
+  "bytes": 17138,
+  "md5": "3f6c9e018860c1285c04e5fd71126996",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 380,
+  "peso_lit": 6
+ },
+ "components/DriverHomeSheet.tsx": {
+  "bytes": 19481,
+  "md5": "0d97c8b9e85324672d0a049ac03dd5df",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 301,
+  "peso_lit": 20
+ },
+ "components/DriverLiveMap.tsx": {
+  "bytes": 11285,
+  "md5": "e79203c0448ba6fde8f136a51b5f46e6",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 248,
+  "peso_lit": 1
+ },
+ "components/EditProfileModal.tsx": {
+  "bytes": 8048,
+  "md5": "be3c43e5ba0df5d3cf333f97fc948437",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 173,
+  "peso_lit": 7
+ },
+ "components/EmergencyModal.tsx": {
+  "bytes": 5159,
+  "md5": "8b412e923e143de37fef79ec9285183e",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 125,
+  "peso_lit": 4
+ },
+ "components/FareQuoteCard.tsx": {
+  "bytes": 3728,
+  "md5": "fb5a032805699b7be8ba51a8c0cdd4fc",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 86,
+  "peso_lit": 2
+ },
+ "components/FloatingFooter.tsx": {
+  "bytes": 5697,
+  "md5": "2eff53fbd1be54892ead55aa3459ca36",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 160,
+  "peso_lit": 3
+ },
+ "components/HotelResultCard.tsx": {
+  "bytes": 9669,
+  "md5": "b026ea127ce9522ecac21199b0622150",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 183,
+  "peso_lit": 6
+ },
+ "components/jobs.tsx": {
+  "bytes": 9979,
+  "md5": "ae56469a2f5448ccbf3f07dfce8b56a6",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 184,
+  "peso_lit": 9
+ },
+ "components/LocationBadge.tsx": {
+  "bytes": 2912,
+  "md5": "c454d40e7aaabe1ffd6b143f127cc774",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 84,
+  "peso_lit": 1
+ },
+ "components/LocationModal.tsx": {
+  "bytes": 6719,
+  "md5": "fb0f5de6bae23f7797f3bee73a902ae9",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 145,
+  "peso_lit": 2
+ },
+ "components/MapBackground.tsx": {
+  "bytes": 6231,
+  "md5": "90bc16e6ccd7abbaf6e0bf378b0580ee",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 147,
+  "peso_lit": 2
+ },
+ "components/PhotoGallery.tsx": {
+  "bytes": 5230,
+  "md5": "496a222879c6a947269e839993f4ebcf",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 133,
+  "peso_lit": 1
+ },
+ "components/PromoCarousel.tsx": {
+  "bytes": 6233,
+  "md5": "4b465eb4299fc2f289521de9d73d5079",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 171,
+  "peso_lit": 2
+ },
+ "components/SearchHeader.tsx": {
+  "bytes": 4877,
+  "md5": "616c3836ac3fbea6b77c347dec9b1b77",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 112,
+  "peso_lit": 2
+ },
+ "components/ServiceGrid.tsx": {
+  "bytes": 12790,
+  "md5": "498810af0f9b09dcfcf809b718216dd5",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 274,
+  "peso_lit": 7
+ },
+ "components/ServicesDrawer.tsx": {
+  "bytes": 23992,
+  "md5": "26773b7c626f056e63bf8d2699f582e7",
+  "crcrlf": 0,
+  "crlf": 450,
+  "lf": 0,
+  "peso_lit": 8
+ },
+ "components/SocialHomeHeader.tsx": {
+  "bytes": 13673,
+  "md5": "90713795591a46c56cce680d9f894027",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 310,
+  "peso_lit": 6
+ },
+ "components/ecomerse/TarjetaProducto.tsx": {
+  "bytes": 16617,
+  "md5": "f7ff86bf317d39981eb20c380321d137",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 291,
+  "peso_lit": 1
+ },
+ "components/lifebook/AdSheet.tsx": {
+  "bytes": 10911,
+  "md5": "f2af2f5853214096a30cbd26295a39b0",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 236,
+  "peso_lit": 5
+ },
+ "components/lifebook/AsistenteDeTalla.tsx": {
+  "bytes": 19364,
+  "md5": "c456c9c61d535de7e216d90192a50edb",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 383,
+  "peso_lit": 10
+ },
+ "components/lifebook/AvatarsSeguidos.tsx": {
+  "bytes": 3263,
+  "md5": "2fd7fb21ac107cc65fd5779cb444f7c7",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 80,
+  "peso_lit": 2
+ },
+ "components/lifebook/ChainSheet.tsx": {
+  "bytes": 6072,
+  "md5": "112f6f1a0c47cef09b6d5e88ccfe5fc6",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 139,
+  "peso_lit": 3
+ },
+ "components/lifebook/ChallengePlazaSheet.tsx": {
+  "bytes": 19898,
+  "md5": "30daab4a95fb8d0eb3c9620521755dc5",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 351,
+  "peso_lit": 19
+ },
+ "components/lifebook/ChatOptionsSheet.tsx": {
+  "bytes": 21064,
+  "md5": "80334dc84031034adbff338c94ed5501",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 440,
+  "peso_lit": 7
+ },
+ "components/lifebook/ChatPlusPanel.tsx": {
+  "bytes": 4476,
+  "md5": "1eb4f2586fdf84ce3e6e383688cbdff3",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 92,
+  "peso_lit": 1
+ },
+ "components/lifebook/CheckinSheet.tsx": {
+  "bytes": 8019,
+  "md5": "9a3b16a8f8c0ef7ae612bf31b00362cc",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 169,
+  "peso_lit": 5
+ },
+ "components/lifebook/Chip.tsx": {
+  "bytes": 2456,
+  "md5": "c9b3d2b3a674406db5a0a3ebef5c1ee4",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 68,
+  "peso_lit": 1
+ },
+ "components/lifebook/CommentsSheet.tsx": {
+  "bytes": 40758,
+  "md5": "cb694af970f464146b7a7c2eaa5e9fbd",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 821,
+  "peso_lit": 19
+ },
+ "components/lifebook/CreateGroupSheet.tsx": {
+  "bytes": 14874,
+  "md5": "931e911ca85a76544a474e43fb862e55",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 340,
+  "peso_lit": 3
+ },
+ "components/lifebook/GroupCardSheet.tsx": {
+  "bytes": 16071,
+  "md5": "b4049172e1e0006d604f1f52ea1c69f2",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 302,
+  "peso_lit": 13
+ },
+ "components/lifebook/GroupManageSheet.tsx": {
+  "bytes": 60273,
+  "md5": "a4ed498713ae8e1b55b5388ee1c23cee",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 1124,
+  "peso_lit": 39
+ },
+ "components/lifebook/LocationPickerSheet.tsx": {
+  "bytes": 10361,
+  "md5": "5a5b421ff97cef14025da550ffce9eac",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 235,
+  "peso_lit": 4
+ },
+ "components/lifebook/messaging-sheets.tsx": {
+  "bytes": 11316,
+  "md5": "ea953b05eb11de58788e79c907cd915f",
+  "crcrlf": 0,
+  "crlf": 221,
+  "lf": 0,
+  "peso_lit": 4
+ },
+ "components/lifebook/OrderCardEnChat.tsx": {
+  "bytes": 10245,
+  "md5": "2d9bab497409fe835c967e9fe8723d92",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 202,
+  "peso_lit": 6
+ },
+ "components/lifebook/OrderSheet.tsx": {
+  "bytes": 6398,
+  "md5": "18e49a0f938c96f5ffdb6de00b55029a",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 128,
+  "peso_lit": 3
+ },
+ "components/lifebook/PersonRow.tsx": {
+  "bytes": 1767,
+  "md5": "213d68ee6c1668dd668768e9495d3b74",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 36,
+  "peso_lit": 2
+ },
+ "components/lifebook/PostCard.tsx": {
+  "bytes": 12450,
+  "md5": "5f11a176f26e197d5441a46b024e8316",
+  "crcrlf": 0,
+  "crlf": 272,
+  "lf": 0,
+  "peso_lit": 5
+ },
+ "components/lifebook/ProductoCard.tsx": {
+  "bytes": 4820,
+  "md5": "5c85c7edd05f20ef40c8e0d16238af96",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 112,
+  "peso_lit": 4
+ },
+ "components/lifebook/ProductoEnChatSheet.tsx": {
+  "bytes": 18388,
+  "md5": "28a32c534acf169cc0c4c24fb4a9c666",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 331,
+  "peso_lit": 16
+ },
+ "components/lifebook/PublicacionTarjeta.tsx": {
+  "bytes": 4356,
+  "md5": "1121c94ba964fe6c8507fa93948442c2",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 106,
+  "peso_lit": 1
+ },
+ "components/lifebook/ReportSheet.tsx": {
+  "bytes": 5108,
+  "md5": "76da5b8a5e514de5bcbe1b5ca9d0e840",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 112,
+  "peso_lit": 2
+ },
+ "components/lifebook/RuletaVertical.tsx": {
+  "bytes": 5924,
+  "md5": "3999b37cb81778d2f19d6a66e4d79c8a",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 127,
+  "peso_lit": 1
+ },
+ "components/lifebook/SeguirViendo.tsx": {
+  "bytes": 4028,
+  "md5": "8c163b7b963623cfa9ca3ac8bb29f7e5",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 90,
+  "peso_lit": 2
+ },
+ "components/lifebook/SelectorDeCupon.tsx": {
+  "bytes": 4901,
+  "md5": "2b2770f2cd9e0c15cd1dbca92141ca38",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 119,
+  "peso_lit": 3
+ },
+ "components/lifebook/SelectorDeProductos.tsx": {
+  "bytes": 7262,
+  "md5": "8a675018f5a1d57fd61114e75bea4bbb",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 144,
+  "peso_lit": 5
+ },
+ "components/lifebook/SelectorDeVariante.tsx": {
+  "bytes": 26883,
+  "md5": "75835d321762bf2db23476662324d1b3",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 501,
+  "peso_lit": 12
+ },
+ "components/lifebook/TarjetaAnuncio.tsx": {
+  "bytes": 5146,
+  "md5": "15925144865436b3b3476c3abe988241",
+  "crcrlf": 0,
+  "crlf": 109,
+  "lf": 0,
+  "peso_lit": 2
+ },
+ "components/lifebook/VideoCoverSheet.tsx": {
+  "bytes": 10347,
+  "md5": "2e8e90d467af57112e563466f3c88afb",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 216,
+  "peso_lit": 4
+ },
+ "components/lifebook/VoteSheet.tsx": {
+  "bytes": 6984,
+  "md5": "f8f7c8a3143a80f84f1a6d8b771a9488",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 153,
+  "peso_lit": 3
+ },
+ "components/lifebook/publish/OptionGroupsEditor.tsx": {
+  "bytes": 19797,
+  "md5": "5c4a05786093a3c765c1856dd3a8a43b",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 375,
+  "peso_lit": 11
+ },
+ "components/lifebook/publish/PublishParts.tsx": {
+  "bytes": 3825,
+  "md5": "4e614359d94fd5bbc07f4c2dea9350f6",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 82,
+  "peso_lit": 2
+ },
+ "components/lifebook/publish/SizeChartEditor.tsx": {
+  "bytes": 16127,
+  "md5": "0c2204902a4012210607b4928310b3f3",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 290,
+  "peso_lit": 4
+ },
+ "components/lifebook/publish/StepExtras.tsx": {
+  "bytes": 8697,
+  "md5": "47b70836997be70b37b59d2fce326c13",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 190,
+  "peso_lit": 1
+ },
+ "components/lifebook/publish/StepPreview.tsx": {
+  "bytes": 5738,
+  "md5": "9a15cf2a9d87d78efcc2308b9f0c915f",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 108,
+  "peso_lit": 3
+ },
+ "components/lifebook/publish/StepShop.tsx": {
+  "bytes": 6592,
+  "md5": "2dbf05c76af6e5a7e9661e53ed6c25e5",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 165,
+  "peso_lit": 1
+ },
+ "components/lifebook/publish/StepType.tsx": {
+  "bytes": 4933,
+  "md5": "efad02b9a92b8352d0977682616382df",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 110,
+  "peso_lit": 3
+ },
+ "components/lifebook/ui/Sheet.tsx": {
+  "bytes": 4445,
+  "md5": "081dabe793a1346c437a8aaf38646bd2",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 96,
+  "peso_lit": 1
+ },
+ "components/rental/Badge.tsx": {
+  "bytes": 1687,
+  "md5": "3ce01a22f4000864c873562a07d5e346",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 65,
+  "peso_lit": 1
+ },
+ "components/rental/LandlordCard.tsx": {
+  "bytes": 14031,
+  "md5": "7370a1e63cf6c9216fbb4d06a3dd1cac",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 290,
+  "peso_lit": 9
+ },
+ "components/rental/LazyImage.tsx": {
+  "bytes": 5671,
+  "md5": "e5d06c264a8d743fbed70de622244845",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 154,
+  "peso_lit": 1
+ },
+ "components/rental/PriceCalculator.tsx": {
+  "bytes": 8890,
+  "md5": "f52bf8ebd4e90b8204e07a7df581b6fd",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 191,
+  "peso_lit": 3
+ },
+ "components/rental/PropertyCard.tsx": {
+  "bytes": 6272,
+  "md5": "588c5376c0a979900431a3fd80105571",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 116,
+  "peso_lit": 2
+ },
+ "components/status/StatusChip.tsx": {
+  "bytes": 4097,
+  "md5": "cc545e7e2fd0490828b1e9c2029968c0",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 105,
+  "peso_lit": 2
+ },
+ "components/status/StatusDetailModal.tsx": {
+  "bytes": 20024,
+  "md5": "6203442cbea8b66d4de74f46c2c0abf8",
+  "crcrlf": 0,
+  "crlf": 419,
+  "lf": 0,
+  "peso_lit": 8
+ },
+ "components/status/StatusEditorModal.tsx": {
+  "bytes": 24838,
+  "md5": "f044b8adba5b3146ad35372f89906a2e",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 470,
+  "peso_lit": 12
+ },
+ "components/status/StatusRingAvatar.tsx": {
+  "bytes": 3473,
+  "md5": "96c4ad7dabc7a406e0ee1b08d35fb568",
+  "crcrlf": 0,
+  "crlf": 0,
+  "lf": 90,
+  "peso_lit": 1
+ },
+ "core/diagnostics.tsx": {
+  "bytes": 3178,
+  "md5": "60fd6da512c2edc1fe56ca07059eb930",
+  "crcrlf": 0,
+  "crlf": 82,
+  "lf": 0,
+  "peso_lit": 2
+ },
+ "core/PanelGate.tsx": {
+  "bytes": 7499,
+  "md5": "b6306d4188b51f03efd347591da0bb4a",
+  "crcrlf": 0,
+  "crlf": 156,
+  "lf": 0,
+  "peso_lit": 3
+ }
+}

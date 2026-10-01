@@ -1,0 +1,24 @@
+HOTEL · B-2/B-3 (3/3): el acta — el esquema cierra la duda que A-4 dejo abierta
+
+Una ventana, de solo lectura, 42 segundos. Antes de traer nada comprobo que el servidor sigue
+siendo el del A-4 (las 3 huellas CUADRAN).
+
+§12.2 El esquema real cierra tres cosas que A-4 no pudo tener cuando lo escribio:
+  · lb_res_estado tiene SIETE estados y ninguno es "expired" -> re-semantizar hold_expires_at
+    era la unica opcion legal, no una preferencia.
+  · ix_lb_res_hold (indice parcial sobre status+hold_expires_at WHERE status='hold') y el
+    comentario de la columna demuestran que el esquema esta disenado para vencer por ahi.
+  · uq_lb_res_idem es UNIQUE (guest_id, idempotency_key): el nonce de LH-09 era obligatorio.
+
+§12.3 El modulo del hotel son 6 ficheros, no 9: el repo tenia 3 y ya estan los 6. Y src/lifebook/
+tiene 22 ficheros de codigo + 113 respaldos (12 MB). La cifra del dossier se RETIRA por escrito
+en las dos lecturas.
+
+§12.4 Un defecto de transporte: por el canal SSH el stdout va en bloque y el stderr de psql sin
+buffer, y se intercalaron. Un bloque llego corrupto y el extractor se nego a escribirlo. La
+aritmetica lo explica al byte (16372+72384 = 88756 = base64 de 66567 B) y la huella recomputada
+cuadra con la declarada: no se perdio nada.
+
+§12.5 Lo que NO queda cerrado, dicho: la consulta del censo de ejemplos (6b) murio entera porque
+lifebook.products no tiene columna `name`. Sin bandera de ejemplo (0 filas en 5 esquemas) y con
+un solo nombre que cuadra: "Hotel Demo Malabo". Purgar los ejemplos sigue abierto.

@@ -1,0 +1,138 @@
+=== SITIOS SIN TEMA: 94 ===
+
+    69  OBJETO
+    22  HOJA
+     3  COMPONENTE
+
+=== AGRUPADO POR ENVOLTURA ===
+
+  [HOJA] styles  — 20 sitio(s)
+     tokens: {'neutro.n600': 11, 'brand.secondary': 2, 'brand.primary': 3, 'brand.success': 2, 'brand.danger': 2}
+       app/documents.tsx:199  neutro.n600         clave=groupTitle
+       app/ecomerse-detail.tsx:670  brand.secondary     clave=tagFeatText
+       app/ecomerse-detail.tsx:675  brand.primary       clave=tagProText
+       app/ecomerse-detail.tsx:677  brand.success       clave=tagSoftText
+       app/ecomerse-planes.tsx:374  brand.success       clave=tagCurrentText
+       app/ecomerse-planes.tsx:376  brand.secondary     clave=tagRecText
+       app/lifebook-compose.tsx:408  neutro.n600         clave=label
+       app/lifebook-media.tsx:648  neutro.n600         clave=label
+       app/lifebook-messages.tsx:439  neutro.n600         clave=inboxLabel
+       app/lifebook-player.tsx:387  brand.danger        clave=errTxt
+       app/settings.tsx:416  neutro.n600         clave=groupTitle
+       app/settings.tsx:421  neutro.n600         clave=rowHint
+       app/status.tsx:197  neutro.n600         clave=groupTitle
+       components/ServiceGrid.tsx:247  neutro.n600         clave=comingSoon
+       … y 6 más
+
+  [OBJETO] STATUS_LABELS  — 18 sitio(s)
+     tokens: {'brand.warning': 3, 'brand.info': 6, 'brand.success': 2, 'brand.danger': 2, 'brand.neutral': 5}
+       app/billing-checkout.tsx:38  brand.warning       clave=pending_payment
+       app/billing-checkout.tsx:39  brand.info          clave=proof_submitted
+       app/billing-checkout.tsx:40  brand.info          clave=under_review
+       app/billing-checkout.tsx:41  brand.success       clave=approved
+       app/billing-checkout.tsx:42  brand.danger        clave=rejected
+       app/billing-checkout.tsx:43  brand.neutral       clave=cancelled
+       app/billing-checkout.tsx:44  brand.neutral       clave=expired
+       app/billing-checkout.tsx:45  brand.info          clave=refunded
+       app/billing-status.tsx:32  brand.warning       clave=pending_payment
+       app/billing-status.tsx:33  brand.info          clave=proof_submitted
+       app/billing-status.tsx:34  brand.info          clave=under_review
+       app/billing-status.tsx:35  brand.success       clave=approved
+       app/billing-status.tsx:36  brand.danger        clave=rejected
+       app/billing-status.tsx:37  brand.neutral       clave=cancelled
+       … y 4 más
+
+  [OBJETO] ACTIONS  — 12 sitio(s)
+     tokens: {'brand.primary': 4, 'brand.success': 2, 'brand.lifebook': 2, 'brand.secondary': 2, 'brand.social': 2}
+       components/lifebook/ChatPlusPanel.tsx:24  brand.primary       clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:25  brand.success       clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:26  brand.lifebook      clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:29  brand.primary       clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:30  brand.secondary     clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:31  brand.social        clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:32  brand.primary       clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:33  brand.success       clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:34  brand.secondary     clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:35  brand.lifebook      clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:37  brand.social        clave=ACTIONS
+       components/lifebook/ChatPlusPanel.tsx:38  brand.primary       clave=ACTIONS
+
+  [OBJETO] STATUS_LABEL  — 9 sitio(s)
+     tokens: {'brand.warning': 1, 'brand.info': 4, 'brand.success': 1, 'brand.neutral': 2, 'brand.danger': 1}
+       app/ecomerse-orders.tsx:29  brand.warning       clave=pending
+       app/ecomerse-orders.tsx:30  brand.info          clave=confirmed
+       app/ecomerse-orders.tsx:31  brand.info          clave=in_transit
+       app/ecomerse-orders.tsx:32  brand.success       clave=delivered
+       app/ecomerse-orders.tsx:33  brand.neutral       clave=cancelled
+       app/ecomerse-orders.tsx:34  brand.danger        clave=disputed
+       app/ecomerse-orders.tsx:35  brand.info          clave=assigned
+       app/ecomerse-orders.tsx:36  brand.info          clave=picked_up
+       app/ecomerse-orders.tsx:37  brand.neutral       clave=paused
+
+  [OBJETO] SERVICE_ROUTES  — 8 sitio(s)
+     tokens: {'brand.secondary': 1, 'brand.social': 1, 'brand.primary': 3, 'brand.servicio': 3}
+       app/lifebook-post/[id].tsx:89  brand.secondary     clave=taxi
+       app/lifebook-post/[id].tsx:90  brand.social        clave=food
+       app/lifebook-post/[id].tsx:91  brand.primary       clave=ecomerse
+       app/lifebook-post/[id].tsx:92  brand.primary       clave=shop
+       app/lifebook-post/[id].tsx:94  brand.servicio      clave=rental
+       app/lifebook-post/[id].tsx:95  brand.servicio      clave=paquete
+       app/lifebook-post/[id].tsx:96  brand.servicio      clave=delivery
+       app/lifebook-post/[id].tsx:97  brand.primary       clave=lifebook
+
+  [OBJETO] STATUS  — 6 sitio(s)
+     tokens: {'brand.warning': 1, 'brand.info': 2, 'brand.success': 2, 'brand.neutral': 1}
+       app/food-orders.tsx:39  brand.warning       clave=placed
+       app/food-orders.tsx:40  brand.info          clave=confirmed
+       app/food-orders.tsx:41  brand.info          clave=preparing
+       app/food-orders.tsx:42  brand.success       clave=ready
+       app/food-orders.tsx:43  brand.success       clave=delivered
+       app/food-orders.tsx:44  brand.neutral       clave=cancelled
+
+  [OBJETO] VERIFIED_CHIPS  — 5 sitio(s)
+     tokens: {'brand.primary': 1, 'brand.social': 1, 'brand.secondary': 1, 'brand.lifebook': 1, 'brand.success': 1}
+       app/lifebook-user.tsx:48  brand.primary       clave=-
+       app/lifebook-user.tsx:49  brand.social        clave=-
+       app/lifebook-user.tsx:50  brand.secondary     clave=-
+       app/lifebook-user.tsx:51  brand.lifebook      clave=-
+       app/lifebook-user.tsx:52  brand.success       clave=-
+
+  [OBJETO] MODE_ICON  — 5 sitio(s)
+     tokens: {'brand.primary': 2, 'brand.secondary': 2, 'brand.success': 1}
+       app/taxi.tsx:67  brand.primary       clave=-
+       app/taxi.tsx:68  brand.secondary     clave=-
+       app/taxi.tsx:69  brand.success       clave=-
+       app/taxi.tsx:70  brand.primary       clave=-
+       app/taxi.tsx:71  brand.secondary     clave=-
+
+  [OBJETO] PAY_ICON  — 3 sitio(s)
+     tokens: {'brand.success': 1, 'neutro.n600': 1, 'brand.primary': 1}
+       app/lifebook-checkout.tsx:36  brand.success       clave=-
+       app/lifebook-checkout.tsx:37  neutro.n600         clave=-
+       app/lifebook-checkout.tsx:38  brand.primary       clave=-
+
+  [OBJETO] MODE_META  — 3 sitio(s)
+     tokens: {'brand.social': 1, 'brand.secondary': 2}
+       app/lifebook-media.tsx:64  brand.social        clave=podcast
+       app/lifebook-media.tsx:65  brand.secondary     clave=serie
+       app/lifebook-media.tsx:66  brand.secondary     clave=episode
+
+  [COMPONENTE] Bubble  — 1 sitio(s)
+     tokens: {'brand.secondary': 1}
+       app/lifebook-chat/[id].tsx:1955  brand.secondary     clave=-
+
+  [COMPONENTE] ServiceLink  — 1 sitio(s)
+     tokens: {'brand.primary': 1}
+       components/status/StatusDetailModal.tsx:303  brand.primary       clave=-
+
+  [COMPONENTE] PreviewPhoto  — 1 sitio(s)
+     tokens: {'neutro.n600': 1}
+       components/status/StatusEditorModal.tsx:390  neutro.n600         clave=-
+
+  [HOJA] PK  — 1 sitio(s)
+     tokens: {'brand.success': 1}
+       app/conductor.tsx:2068  brand.success       clave=badgeGreenTxt
+
+  [HOJA] s  — 1 sitio(s)
+     tokens: {'brand.secondary': 1}
+       components/jobs.tsx:171  brand.secondary     clave=salary

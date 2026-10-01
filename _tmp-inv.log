@@ -1,0 +1,121 @@
+=== LAS CUATRO FORMAS (motor de valor completo) ===
+    150  color_simple
+     10  color_ternario
+
+  TOTAL: 160 sitios en 32 fichero(s)
+  exentos (DATO de la guardia): 66
+  SIN TEMA (fuera de un cuerpo con useTheme): 94
+
+=== POR TOKEN ===
+     53  primary    -> text.primary
+     23  success    -> text.success
+     20  secondary  -> text.secondary
+     15  danger     -> text.danger
+     13  n600       -> text.neutral
+     12  info       -> text.info
+      8  neutral    -> text.neutral
+      5  warning    -> text.warning
+      5  social     -> text.social
+      3  lifebook   -> text.lifebook
+      3  servicio   -> text.servicio
+
+=== POR PREFIJO ===
+    102  brand.
+     45  colors.
+     13  neutro.
+
+=== LOS 94 SIN TEMA (van a mano, no por codemod) ===
+  app/billing-checkout.tsx:38  brand.warning   <- nivel de modulo
+  app/billing-checkout.tsx:39  brand.info   <- nivel de modulo
+  app/billing-checkout.tsx:40  brand.info   <- nivel de modulo
+  app/billing-checkout.tsx:41  brand.success   <- nivel de modulo
+  app/billing-checkout.tsx:42  brand.danger   <- nivel de modulo
+  app/billing-checkout.tsx:43  brand.neutral   <- nivel de modulo
+  app/billing-checkout.tsx:44  brand.neutral   <- nivel de modulo
+  app/billing-checkout.tsx:45  brand.info   <- nivel de modulo
+  app/billing-status.tsx:32  brand.warning   <- nivel de modulo
+  app/billing-status.tsx:33  brand.info   <- nivel de modulo
+  app/billing-status.tsx:34  brand.info   <- nivel de modulo
+  app/billing-status.tsx:35  brand.success   <- nivel de modulo
+  app/billing-status.tsx:36  brand.danger   <- nivel de modulo
+  app/billing-status.tsx:37  brand.neutral   <- nivel de modulo
+  app/billing-status.tsx:38  brand.neutral   <- nivel de modulo
+  app/billing-status.tsx:39  brand.info   <- nivel de modulo
+  app/billing-status.tsx:40  brand.neutral   <- nivel de modulo
+  app/billing-status.tsx:41  brand.warning   <- nivel de modulo
+  app/conductor.tsx:2068  brand.success   <- nivel de modulo
+  app/documents.tsx:199  neutro.n600   <- nivel de modulo
+  app/ecomerse-detail.tsx:670  brand.secondary   <- nivel de modulo
+  app/ecomerse-detail.tsx:675  brand.primary   <- nivel de modulo
+  app/ecomerse-detail.tsx:677  brand.success   <- nivel de modulo
+  app/ecomerse-orders.tsx:29  brand.warning   <- nivel de modulo
+  app/ecomerse-orders.tsx:30  brand.info   <- nivel de modulo
+  app/ecomerse-orders.tsx:31  brand.info   <- nivel de modulo
+  app/ecomerse-orders.tsx:32  brand.success   <- nivel de modulo
+  app/ecomerse-orders.tsx:33  brand.neutral   <- nivel de modulo
+  app/ecomerse-orders.tsx:34  brand.danger   <- nivel de modulo
+  app/ecomerse-orders.tsx:35  brand.info   <- nivel de modulo
+  app/ecomerse-orders.tsx:36  brand.info   <- nivel de modulo
+  app/ecomerse-orders.tsx:37  brand.neutral   <- nivel de modulo
+  app/ecomerse-planes.tsx:374  brand.success   <- nivel de modulo
+  app/ecomerse-planes.tsx:376  brand.secondary   <- nivel de modulo
+  app/food-orders.tsx:39  brand.warning   <- nivel de modulo
+  app/food-orders.tsx:40  brand.info   <- nivel de modulo
+  app/food-orders.tsx:41  brand.info   <- nivel de modulo
+  app/food-orders.tsx:42  brand.success   <- nivel de modulo
+  app/food-orders.tsx:43  brand.success   <- nivel de modulo
+  app/food-orders.tsx:44  brand.neutral   <- nivel de modulo
+  app/lifebook-checkout.tsx:36  brand.success   <- nivel de modulo
+  app/lifebook-checkout.tsx:37  neutro.n600   <- nivel de modulo
+  app/lifebook-checkout.tsx:38  brand.primary   <- nivel de modulo
+  app/lifebook-compose.tsx:408  neutro.n600   <- nivel de modulo
+  app/lifebook-media.tsx:64  brand.social   <- nivel de modulo
+  app/lifebook-media.tsx:65  brand.secondary   <- nivel de modulo
+  app/lifebook-media.tsx:66  brand.secondary   <- nivel de modulo
+  app/lifebook-media.tsx:648  neutro.n600   <- nivel de modulo
+  app/lifebook-messages.tsx:439  neutro.n600   <- nivel de modulo
+  app/lifebook-player.tsx:387  brand.danger   <- nivel de modulo
+  app/lifebook-user.tsx:48  brand.primary   <- nivel de modulo
+  app/lifebook-user.tsx:49  brand.social   <- nivel de modulo
+  app/lifebook-user.tsx:50  brand.secondary   <- nivel de modulo
+  app/lifebook-user.tsx:51  brand.lifebook   <- nivel de modulo
+  app/lifebook-user.tsx:52  brand.success   <- nivel de modulo
+  app/settings.tsx:416  neutro.n600   <- nivel de modulo
+  app/settings.tsx:421  neutro.n600   <- nivel de modulo
+  app/status.tsx:197  neutro.n600   <- nivel de modulo
+  app/taxi.tsx:67  brand.primary   <- nivel de modulo
+  app/taxi.tsx:68  brand.secondary   <- nivel de modulo
+  app/taxi.tsx:69  brand.success   <- nivel de modulo
+  app/taxi.tsx:70  brand.primary   <- nivel de modulo
+  app/taxi.tsx:71  brand.secondary   <- nivel de modulo
+  app/lifebook-chat/[id].tsx:1955  brand.secondary   <- sin useTheme
+  app/lifebook-post/[id].tsx:89  brand.secondary   <- nivel de modulo
+  app/lifebook-post/[id].tsx:90  brand.social   <- nivel de modulo
+  app/lifebook-post/[id].tsx:91  brand.primary   <- nivel de modulo
+  app/lifebook-post/[id].tsx:92  brand.primary   <- nivel de modulo
+  app/lifebook-post/[id].tsx:94  brand.servicio   <- nivel de modulo
+  app/lifebook-post/[id].tsx:95  brand.servicio   <- nivel de modulo
+  app/lifebook-post/[id].tsx:96  brand.servicio   <- nivel de modulo
+  app/lifebook-post/[id].tsx:97  brand.primary   <- nivel de modulo
+  components/jobs.tsx:171  brand.secondary   <- nivel de modulo
+  components/ServiceGrid.tsx:247  neutro.n600   <- nivel de modulo
+  components/SocialHomeHeader.tsx:309  brand.primary   <- nivel de modulo
+  components/ecomerse/CabeceraTienda.tsx:142  brand.primary   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:24  brand.primary   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:25  brand.success   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:26  brand.lifebook   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:29  brand.primary   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:30  brand.secondary   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:31  brand.social   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:32  brand.primary   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:33  brand.success   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:34  brand.secondary   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:35  brand.lifebook   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:37  brand.social   <- nivel de modulo
+  components/lifebook/ChatPlusPanel.tsx:38  brand.primary   <- nivel de modulo
+  components/lifebook/OrderCardEnChat.tsx:200  neutro.n600   <- nivel de modulo
+  components/lifebook/PostCard.tsx:257  neutro.n600   <- nivel de modulo
+  components/status/StatusDetailModal.tsx:303  brand.primary   <- sin useTheme
+  components/status/StatusEditorModal.tsx:390  neutro.n600   <- sin useTheme
+  core/diagnostics.tsx:77  brand.danger   <- nivel de modulo
+  core/diagnostics.tsx:81  neutro.n600   <- nivel de modulo

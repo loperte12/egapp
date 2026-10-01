@@ -1,0 +1,75 @@
+HOTEL · A-3 (2/3): el panel del hotelero mueve el dinero, y la cancelacion deja de prometer
+
+Tres cosas decididas, en los tres servicios del modulo. Se despliegan juntas porque el
+`tsc` del servidor es la puerta y el reinicio es uno; los `.bak` van sellados, asi que
+la vuelta atras puede ser por fichero.
+
+═══ 1) LH-01 (CRITICA) — el panel del hotelero no tocaba el monedero ═══
+
+`updateReservationStatus` (el que usa el panel) cambiaba el estado y NO movia un franco;
+`setStatus` (el que usa la app) si lo movia. Dos caminos para el mismo hecho, con
+resultados opuestos:
+
+  · el hotel marcaba la ENTRADA desde su panel -> la senal se quedaba en garantia para
+    SIEMPRE: el hotel no cobraba nunca;
+  · el hotel CANCELABA -> `payment_status` quedaba en «refunded» sin devolver nada: el
+    huesped no recuperaba nunca.
+
+Ahora los dos llaman a `liquidarMonedero(reservationId, accion)`, PUBLICO a proposito y
+en `reservations.service` (donde viven los dos helpers). Se llama FUERA de la transaccion
+del estado, como en el mercado, la comida y ciudad-a-ciudad: si el monedero falla, la
+reserva queda en firme con el dinero retenido —direccion segura— en vez de deshacer un
+cambio de estado que ya ocurrio. `releaseCommerceOrder`/`refundCommerceOrder` son
+idempotentes por `idempotencyKey` (`lb-release:` / `lb-refund:`), asi que pasar por las
+dos puertas —o por la misma dos veces— NO cobra dos veces.
+
+No cubre LH-10 (si la liquidacion falla solo queda un `warn`: no hay reintento ni cola).
+
+═══ 2) LH-06 en el servidor — la regla estaba escrita en CUATRO sitios ═══
+
+El cliente ya se arreglo (`egapp 0d30e35`). En el servidor habia DOS listas mas, y las
+dos traian `checked_in`:
+
+  · `canCancel` (`shape`) — lo que el servidor CUENTA;
+  · `permitido.cancel` (`setStatus`) — lo que el servidor PERMITE. Esta es la que manda:
+    sin tocarla, quitar `checked_in` de la primera solo cambiaba el rotulo.
+
+Y una tercera en el panel: `DESDE.cancel`. Nace `CANCELABLES` en `reservations.service`,
+la importan los dos servicios y la leen `canCancel` y las dos guardas. De cuatro copias a
+una.
+
+Consecuencia, dicha en voz alta: con el huesped dentro, la salida es `checkout` (accion
+del hotel, sin devolucion). Una salida anticipada con acuerdo de devolucion NO tiene
+camino hoy — pero el que habia tampoco lo era: prometia la devolucion y no la hacia.
+
+═══ 3) LH-13 — el corte de la cancelacion gratuita ═══
+
+`new Date(`${fecha}T14:00:00Z`)` tenia dos errores que se sumaban:
+
+  · `14:00` FIJO, aunque el hotel declare otra hora de entrada en su ficha;
+  · en `Z` (UTC), cuando Malabo es UTC+1: el corte caia a las 15:00 locales, una hora
+    tarde. Esa hora decide si una cancelacion entra gratis o se come la senal.
+
+Ahora `hotel.service.freeCancellationUntil(r)` — una sola definicion, publica — usa
+`hotel_profiles.checkin_from` con desfase `+01:00`, normaliza `9:00`/`HH:MM:SS` y cae al
+mismo `14:00` que el formulario y el DTO. `reservations.service` delega en ella en vez de
+tener su copia.
+
+═══ 4) Y el hueco que LH-13 destapo (nuevo, LH-14) ═══
+
+La app SI pinta «Cancelacion gratuita hasta el X» en la LISTA (`reservas.tsx:413`), pero
+la consulta de esa lista no pedia `cancellation_hours` ni `checkin_from` -> el campo salia
+`null` y el rotulo NUNCA aparecia. Solo se veia en el detalle, que si las traia. Se
+completan las 5 consultas de `reservations.service` (lista del huesped, lista del hotel,
+y las 3 del cuaderno del dia) y las 2 del panel.
+
+═══ Verificacion ═══
+
+  · Puerta local (`_a3-verifica-local.cjs`): los 3 ficheros PARSEAN, 0 backticks en
+    comentarios SQL, 21 comprobaciones contadas — el parche es el que se decidio;
+  · `tsc` del servidor como puerta de despliegue, con vuelta atras automatica;
+  · terminadores: los 3 en LF, como estaban.
+
+Y una trampa que costo esta tanda: **un backtick dentro de un comentario SQL de un
+`$queryRaw` cierra el template literal** y deja el fichero sin parsear. Lo cazo la puerta
+local, no `tsc`.

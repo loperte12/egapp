@@ -1,0 +1,20 @@
+HOTEL · §9: acta de A-1 (LH-06 en el cliente) y las tres correcciones del 27-sep
+
+- §9 nueva: la regla de «quien puede cancelar» estaba escrita CUATRO veces (el
+  contrato, dos copias literales entre si en las pantallas del huesped, y el
+  canCancel del servidor) y el censo por funcion NO las veia: buscando
+  availableActions salian dos consumidores y las pantallas del huesped no estaban
+  entre ellos. Se localizaron censando por la ACCION sobre la API (hotelApi.cancel).
+  Incluye el acta de la mitad cliente (egapp 0d30e35) con la tabla de 21 filas.
+- §9.3: la puerta al servidor, medida. El TCP conecta y el banner no se completa
+  (fail2ban); con el aislamiento del entorno quitado pasa lo mismo. No se
+  reintenta en rafaga porque cada intento lo alarga.
+- §9.4: el inventario de A-servidor, ya localizado por fichero y por hallazgo.
+- LH-06 en §2: deja de ser «se puede cancelar despues del check-in» a secas. Ahora
+  declara las dos mitades: cliente HECHA, servidor ABIERTA.
+- CORREGIDO §8.2 y §4.1: la politica de cancelacion NO es «solo frontend», como
+  decian. El rotulo ya esta pintado en tres pantallas y el servidor ya calcula
+  freeCancellationUntil (el tipo del cliente ya lo declaraba y nadie lo usaba).
+  Lo que falta es backend: el instante y el efecto en el dinero.
+- LH-13, nueva: el instante de la cancelacion gratuita usa 14:00 UTC fijo en vez
+  del checkin_from que el propio fichero mapea unas lineas antes.

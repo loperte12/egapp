@@ -1,0 +1,31 @@
+HOTEL · A-4 (3/3): el barrido corrio solo, y lo que la ventana de 48 h NO alcanza
+
+§11.13 del dossier. Dos hechos medidos despues de escribir el acta, y el segundo corrige el
+alcance que el acta le daba a LH-10.
+
+1) El primer tick del `@Cron` (08:15) hizo lo suyo, y esta en el log:
+
+   [Nest] 887323 - 09/27/2026, 8:15:00 AM  LOG  barrido de hotel: 2 reserva(s) sin pagar liberadas
+
+   Las dos retenciones de §11.4 pasaron a `cancelled` con motivo «Sin pagar la senal a
+   tiempo», y `candidatas_que_quedan = 0`. LH-08 no es «el codigo lo hace»: es el barrido
+   haciendolo solo.
+
+2) PERO la estancia `LBH-260917-0003` (checked_in, `paid_at` vacio) NO quedo marcada. La
+   razon, medida: `updated_at` es del 17-sep (**9 dias 15 h**) y `reconciliarMonedero` acota a
+   `updated_at > now() - interval '48 hours'`. Dentro de la ventana: **0 y 0**. Fuera: 3 en la
+   red de «liberar» y 38 en la de «devolver».
+
+   Y esas cifras asustan sin motivo, asi que se separan: **de las 38, las 38 ya estaban
+   devueltas** (`refunded` es el estado que se escribe DESPUES de que el monedero contesta);
+   canceladas con `deposit_paid` -> **0**. En la red de «liberar», dos son de transferencia (el
+   `paid_at` de liberacion no aplica: solo el monedero retiene) y la tercera YA tiene su
+   `ESCROW_RELEASE`.
+
+   El resumen citable: **canceladas sin devolver 0 · estancias sin liberar 0 · solo falta la
+   marca 1**.
+
+   Consecuencia honesta: **fuera de la ventana no hay ni un franco varado**; lo que falta es una
+   marca en una fila vieja. LH-10 cubre de ahora en adelante y el pasado anterior a la ventana
+   **no lo repara nadie**: queda con nombre (un pase unico de `reconciliarMonedero` sin la
+   ventana) y es tarea de C / B, no de A.

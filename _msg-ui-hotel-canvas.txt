@@ -1,0 +1,43 @@
+docs(UI-HOTEL): la causa de las tres entregas fantasma era un comentario HTML; el payload limpio
+
+Sintoma: la pantalla se envio tres veces al lienzo, las tres respondieron
+«设计稿生成已成功完成», y en el lienzo no habia pantalla: habia TRES marcos de
+escritorio con el rotulo «AI Generating Page» y, dentro, el comentario de cabecera
+del fichero convertido en texto — hasta el `-->` final pintado como caracter.
+
+Causa: MasterGo NO ignora los comentarios HTML, los transcribe como capas de texto.
+El payload empezaba por ese comentario y el `<main>` no llegaba a pintarse nunca.
+Se comprobo leyendo el nodo del lienzo, no razonando:
+
+  data-node-id="3:0"  data-name="AI Generating Page"
+    span 3:01  -> "` · `data-name` en TODOS los nodos ... "
+    p    3:18  -> "` = una linea (no pliega) ... -->"
+
+Dos diagnosticos mios anteriores eran FALSOS y quedan corregidos en la memoria:
+  - «filePath no sirve para generar paginas» -> si sirve. El comentario que llego
+    al lienzo era la version antigua, previa a la edicion del mismo dia: solo pudo
+    salir del fichero, y los dos envios antiguos usaron filePath. Entregaba bien;
+    lo que entregaba era el comentario.
+  - «la sesion de design_page abierta con el lienzo caido» -> no era la causa
+    (habia tres marcos, uno por envio).
+Lo roto era el PRIMER CARACTER del fichero, no el parametro ni la sesion.
+
+Que entra:
+  · pruebas/prepara-canvas.cjs  (nuevo) — deriva el payload del fuente: quita todos
+    los comentarios y recorta a <main>...</main>. Falla en voz alta, sin escribir
+    nada, si el fragmento no empieza en <main>, no acaba en </main>, o contiene
+    `<!--`, `-->`, `<!DOCTYPE`, `<html`, `<head`, `<body` o `<script`.
+  · docs/UI-HOTEL-LISTADO-canvas.html (nuevo) — el payload: 77.678 B, 886 lineas,
+    463 nodos (los mismos que la fuente). Es ESTE el que se envia, no el fuente.
+  · docs/UI-HOTEL-LISTADO-HANDOFF.md — el paso a paso del envio y el aviso de la
+    trampa, para que no la vuelva a pagar quien recoja el relevo.
+
+Resultado medido leyendo el nodo 3:166 «Hotel-Listado-390»: 1720x4431 px, 580
+capas, los cuatro estados (frame-cargando/resultados/vacio/error) y la matriz,
+cero rastro del comentario, colores solo del kit.
+
+Nota: el comentario de cabecera del fuente SE QUEDA. Es documentacion y se lee a
+mano; el script lo quita solo al derivar. Tambien se corrige de paso la misma
+trampa en mi propio contador: el censo de `<main>` se mide sobre el texto ya
+limpio, porque el comentario CITA la etiqueta y contarla sobre el fuente da 2
+raices donde hay 1.

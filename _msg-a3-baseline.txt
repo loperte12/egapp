@@ -1,0 +1,17 @@
+HOTEL · A-3 (0/2): bajar el modulo de hotel al repo, como baseline
+
+El codigo del hotel NO estaba versionado: vivia solo en el servidor y en la copia
+congelada de `.auditoria-servicios/` (que esta ignorada por git). Sin este paso, el
+parche de A-3 no tendria diff revisable ni forma de volver atras en el repo.
+
+Este commit NO cambia una linea: es la foto de partida, y las huellas lo dicen.
+
+  backend/server-src/lifebook/hotel.service.ts            3c38d2a1d8bf90ed...
+  backend/server-src/lifebook/reservations.service.ts     989f5c0bbe6c2b82...
+  backend/server-src/lifebook/hotel-merchant.service.ts   77523f2ba6442c1d...
+
+Las tres coinciden AL BYTE con /opt/mirror/app/src/lifebook/ (recon del 27-sep,
+`_hotel-00-recon.log`), asi que lo que se revise aqui es lo que corre alli.
+
+Son 3 de los 9 ficheros del modulo: los que toca A-3. El resto sigue sin versionar
+(eso es el trabajo B, y no se da por hecho).

@@ -1,0 +1,17 @@
+docs(UI-HOTEL): el handoff dice la verdad de lo que hay en el lienzo, no la de ayer
+
+Tres cosas estaban desactualizadas o directamente falsas:
+
+- La seccion de componentes listaba solo lo que DIBUJA la matriz. Ahora lleva primero lo que hay
+  CREADO como componente de MasterGo, con id, tamano y propiedades leidos del propio servidor. Y
+  debajo, dichas en vez de escondidas, las diferencias entre lo dibujado y lo creado: el favorito
+  tiene tres variantes y no cinco, el chip no lleva carga, y el badge de nota se queda en dos porque
+  apagado y sin nota son el mismo color.
+- La seccion 8 decia que los componentes y las variables estaban sin hacer. Los componentes estan
+  hechos; las variables estan a medias y bloqueadas a proposito, con el motivo medido: 68 entradas,
+  13 nombres duplicados, y un borrado de 19 que devolvio exito sin efecto.
+- Se anade lo que el protocolo deja fuera del pliego, para no prometerlo: los textos no se pueden
+  guardar como estilo reutilizable y los bordes alfa no entran en la capa semantica.
+
+Se documenta tambien la trampa del envio de componentes: de uno en uno o de dos en dos, porque tres
+en paralelo dan timeout de 120 s y el que da timeout se crea igual.

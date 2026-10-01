@@ -1,0 +1,123 @@
+==============================================================================
+(a) INDIRECTOS — limpio de anotaciones de tipo
+==============================================================================
+
+  TOTAL LIMPIO: 71 sitios
+
+      49  ?
+      10  DEUDA(ternario)
+       7  PROP/PARAM
+       3  TERNARIO
+       2  DEUDA
+
+  --- DEUDA (referencia al tema en la variable): se arregla ----------
+    ocColor  (2): oc === 'verified' ? colors.success : oc === 'pending' ? colors.sec
+        app/edit-profile.tsx:564 (jsx)
+        app/edit-profile.tsx:573 (estilo)
+    priceColor  (2): colors.secondary ?? brand.secondary
+        app/intercity-publish.tsx:402 (estilo)
+        app/intercity-publish.tsx:582 (estilo)
+    ACCENT  (2): brand.primary
+        app/lifebook-hotel-detalle.tsx:274 (jsx)
+        app/lifebook-hotel-detalle.tsx:275 (estilo)
+    nameTint  (2): nameColor ?? (isDriver ? brand.white : brand.white)
+        components/SocialHomeHeader.tsx:167 (estilo)
+        components/SocialHomeHeader.tsx:171 (estilo)
+    titleColor  (1): == 'warn' ? brand.warningText : tone === 'danger' ? brand.dangerTe
+        app/billing-status.tsx:443 (estilo)
+    bodyColor  (1): == 'danger' ? brand.dangerText : colors.textSecondary
+        app/billing-status.tsx:445 (estilo)
+    statusColor  (1): item.status === 'active' ? brand.success : item.status === 'reject
+        app/food-owner.tsx:846 (estilo)
+    tono  (1): estado.tono === 'bien' ? colors.success
+        app/tienda/anuncios.tsx:623 (estilo)
+
+  --- NO DEUDA (hay que mirarlos: hex, prop o ternario raro) ---------
+    [?] app/alquiler-planes.tsx:271 (estilo) planColor = processingPlan === plan.key
+    [PROP/PARAM] app/buscar.tsx:251 (jsx) color = <<parámetro de flecha>> key: keyof typeof SAVED_KEYS, label:
+    [?] app/ecomerse-detail.tsx:538 (jsx) color = {d.id} style={{ flexDirection: 'row', alignItems: 'center', 
+    [?] app/food-checkout.tsx:377 (jsx) ACCENT = 99
+    [?] app/food-checkout.tsx:397 (jsx) ACCENT = 99
+    [?] app/food-checkout.tsx:406 (jsx) ACCENT = 99
+    [?] app/food-checkout.tsx:490 (jsx) ACCENT = 99
+    [?] app/food-checkout.tsx:499 (jsx) ACCENT = 99
+    [?] app/food-checkout.tsx:509 (jsx) ACCENT = 99
+    [?] app/food-menu.tsx:298 (jsx) ACCENT = useTheme()
+    [?] app/food-menu.tsx:229 (estilo) ACCENT = useTheme()
+    [?] app/food-menu.tsx:363 (estilo) ACCENT = useTheme()
+    [?] app/food-menu.tsx:376 (estilo) ACCENT = useTheme()
+    [?] app/food-orders.tsx:359 (estilo) ACCENT = 20
+    [?] app/food-orders.tsx:527 (estilo) ACCENT = 20
+    [?] app/food-orders.tsx:617 (estilo) ACCENT = 20
+    [?] app/food-orders.tsx:664 (estilo) ACCENT = 20
+    [?] app/food-owner.tsx:485 (jsx) ACCENT = 8
+    [?] app/food-owner.tsx:621 (jsx) ACCENT = 8
+    [?] app/food-owner.tsx:624 (jsx) ACCENT = 8
+    [?] app/food-owner.tsx:845 (jsx) ACCENT = 8
+    [?] app/food-owner.tsx:486 (estilo) ACCENT = 8
+    [?] app/food-owner.tsx:575 (estilo) ACCENT = 8
+    [?] app/food-owner.tsx:603 (estilo) ACCENT = 8
+    [?] app/food-owner.tsx:625 (estilo) ACCENT = 8
+    [?] app/food-owner.tsx:648 (estilo) ACCENT = 8
+    [?] app/food-owner.tsx:651 (estilo) ACCENT = 8
+    [?] app/food-rider.tsx:395 (jsx) ACCENT = { pending: 'En revisión', active: 'Activo', rejected: 'Recha
+    [?] app/food-rider.tsx:443 (jsx) ACCENT = { pending: 'En revisión', active: 'Activo', rejected: 'Recha
+    [?] app/food-rider.tsx:388 (estilo) ACCENT = { pending: 'En revisión', active: 'Activo', rejected: 'Recha
+    [?] app/food-rider.tsx:407 (estilo) ACCENT = { pending: 'En revisión', active: 'Activo', rejected: 'Recha
+    [?] app/food-rider.tsx:444 (estilo) ACCENT = { pending: 'En revisión', active: 'Activo', rejected: 'Recha
+    [?] app/food-rider.tsx:464 (estilo) ACCENT = { pending: 'En revisión', active: 'Activo', rejected: 'Recha
+    [?] app/lifebook-hotel-panel.tsx:358 (estilo) colorEstado = r.status === 'hold'
+    [?] app/lifebook-hotel-reservas.tsx:354 (estilo) colorEstado = == 'cancelled' || r.status === 'no_show'
+    [?] app/lifebook-merchant-products.tsx:298 (estilo) tone = LB_TONE_COLOR[meta.tone]
+    [?] app/lifebook-player.tsx:88 (jsx) tint = {[styles.closeBar, { paddingTop: insets.top + 8 }]}>
+    [?] app/lifebook-player.tsx:90 (estilo) tint = {[styles.closeBar, { paddingTop: insets.top + 8 }]}>
+    [?] app/lifebook-videos.tsx:1123 (jsx) LIKE_RED = 40
+    [?] app/lifebook.tsx:1237 (estilo) active = == channelId
+    [PROP/PARAM] app/profile.tsx:567 (jsx) color = <<parámetro de función>> vertical: VerticalNegocio, color: s
+    [PROP/PARAM] app/profile.tsx:568 (jsx) color = <<parámetro de función>> vertical: VerticalNegocio, color: s
+    [PROP/PARAM] app/profile.tsx:569 (jsx) color = <<parámetro de función>> vertical: VerticalNegocio, color: s
+    [PROP/PARAM] app/profile.tsx:571 (jsx) color = <<parámetro de función>> vertical: VerticalNegocio, color: s
+    [TERNARIO] app/lifebook-post/[id].tsx:569 (jsx) tint = post.payload ?? {}
+    [TERNARIO] app/lifebook-post/[id].tsx:705 (jsx) tint = post.payload ?? {}
+    [TERNARIO] app/lifebook-post/[id].tsx:568 (estilo) tint = post.payload ?? {}
+    [?] app/tienda/perfil.tsx:203 (estilo) tonoEstado = estado
+    [?] components/CalendarPicker.tsx:285 (estilo) texto = esEntrada || esSalida
+    [?] components/FloatingFooter.tsx:100 (jsx) tint = tab.icon
+    [?] components/FloatingFooter.tsx:108 (estilo) tint = tab.icon
+    [?] components/ServiceGrid.tsx:136 (jsx) tint = item.icon
+    [?] components/ServiceGrid.tsx:194 (jsx) tint = item.icon
+    [?] components/ecomerse/BarraTienda.tsx:95 (jsx) tinte = p.icon
+    [?] components/ecomerse/BarraTienda.tsx:96 (estilo) tinte = p.icon
+    [?] components/ecomerse/PieDelMercado.tsx:105 (jsx) tinte = destino.icon
+    [?] components/ecomerse/PieDelMercado.tsx:114 (estilo) tinte = destino.icon
+    [PROP/PARAM] components/lifebook/CommentsSheet.tsx:120 (estilo) tint = <<parámetro de función>> { c, tint, colors, meId, onLike, on
+    [PROP/PARAM] components/lifebook/TarjetaAnuncio.tsx:85 (estilo) tint = <<parámetro de función>> { ad, tint, colors }: { ad: HomeAd;
+
+==============================================================================
+(b) LAS CLAVES DENTRO DE HOJAS DE MÓDULO — usos y tema en el sitio de uso
+==============================================================================
+
+  22 sitio(s) en hoja de módulo
+
+  app/conductor.tsx                                    badgeGreenTxt    brand.success    usos= 1 (con tema 1, sin 0)  hoja=PK
+  app/documents.tsx                                    groupTitle       neutro.n600      usos= 1 (con tema 1, sin 0)  hoja=styles
+  app/ecomerse-detail.tsx                              tagFeatText      brand.secondary  usos= 0 (con tema 0, sin 0)  hoja=styles
+  app/ecomerse-detail.tsx                              tagProText       brand.primary    usos= 0 (con tema 0, sin 0)  hoja=styles
+  app/ecomerse-detail.tsx                              tagSoftText      brand.success    usos= 0 (con tema 0, sin 0)  hoja=styles
+  app/ecomerse-planes.tsx                              tagCurrentText   brand.success    usos= 0 (con tema 0, sin 0)  hoja=styles
+  app/ecomerse-planes.tsx                              tagRecText       brand.secondary  usos= 0 (con tema 0, sin 0)  hoja=styles
+  app/lifebook-compose.tsx                             label            neutro.n600      usos= 8 (con tema 8, sin 0)  hoja=styles
+  app/lifebook-media.tsx                               label            neutro.n600      usos= 8 (con tema 8, sin 0)  hoja=styles
+  app/lifebook-messages.tsx                            inboxLabel       neutro.n600      usos= 2 (con tema 1, sin 1)  hoja=styles
+  app/lifebook-player.tsx                              errTxt           brand.danger     usos= 1 (con tema 1, sin 0)  hoja=styles
+  app/settings.tsx                                     groupTitle       neutro.n600      usos= 8 (con tema 8, sin 0)  hoja=styles
+  app/settings.tsx                                     rowHint          neutro.n600      usos= 1 (con tema 1, sin 0)  hoja=styles
+  app/status.tsx                                       groupTitle       neutro.n600      usos= 2 (con tema 2, sin 0)  hoja=styles
+  components/ServiceGrid.tsx                           comingSoon       neutro.n600      usos= 1 (con tema 1, sin 0)  hoja=styles
+  components/SocialHomeHeader.tsx                      cityTxt          brand.primary    usos= 1 (con tema 1, sin 0)  hoja=styles
+  components/ecomerse/CabeceraTienda.tsx               tagProText       brand.primary    usos= 0 (con tema 0, sin 0)  hoja=styles
+  components/jobs.tsx                                  salary           brand.secondary  usos= 1 (con tema 1, sin 0)  hoja=s
+  components/lifebook/OrderCardEnChat.tsx              ticketEtiqueta   neutro.n600      usos= 5 (con tema 5, sin 0)  hoja=styles
+  components/lifebook/PostCard.tsx                     socialN          neutro.n600      usos= 1 (con tema 1, sin 0)  hoja=styles
+  core/diagnostics.tsx                                 hint             neutro.n600      usos= 1 (con tema 0, sin 1)  hoja=styles
+  core/diagnostics.tsx                                 title            brand.danger     usos= 1 (con tema 0, sin 1)  hoja=styles

@@ -1,7 +1,6 @@
 # EG Route Plan × Muni Dinero
 ## Propuesta de colaboración para el monedero virtual
 
-*Documento de trabajo — 18 de septiembre de 2026*
 
 ---
 
@@ -134,52 +133,4 @@ Eso significa que **no competimos con Muni Dinero: le llevamos clientes.** Nuest
 plataforma de servicios; el suyo, el dinero. La colaboración no reparte un pastel: **agranda el
 suyo**.
 
----
-
-## 8. Siguientes pasos
-
-| Cuándo | Qué |
-|---|---|
-| Esta semana | Reunión de presentación (60 min) y demo en vivo con un pago real |
-| + 2 semanas | Acordar modelo (A, B, C o D) y condiciones |
-| + 1 mes | Prueba piloto en una ciudad, con un número cerrado de comercios |
-| + 3 meses | Extensión a todas las ciudades cubiertas |
-
----
-
-## 9. Contacto
-
-**«Nombre»** — «cargo», EG Route Plan
-Teléfono / WhatsApp: **«teléfono»** · Correo: **«correo»**
-
----
-
-### Antes de enviar, rellenar
-
-- [ ] Las cifras de la sección 3 (usuarios, volumen mensual, agentes, comercios).
-- [ ] El contacto de la sección 9.
-- [ ] Confirmar el **nombre exacto de la entidad** a la que se envía y el de la persona destinataria.
-- [ ] Decidir si se menciona la opción preferida (se recomienda **B** como arranque y **A** como
-      objetivo: es lo que menos fricción tiene al principio).
-
----
-
-## Anexo — Versión corta para WhatsApp o correo
-
-> Buenos días «nombre». Soy «nombre», de **EG Route Plan**, la super-app de Guinea Ecuatorial:
-> taxi, comida a domicilio, mercado, hotel y billetes Ciudad a Ciudad en una sola aplicación.
->
-> Todo eso ya funciona y **todo se paga dentro de la app**, pero hoy el dinero se mueve en efectivo
-> y sin rastro: repartidores, comercios, hoteles y conductores cobran en mano, y las devoluciones se
-> resuelven por teléfono. Tenemos ya un **monedero con saldo real, PIN, verificación de identidad y
-> una red de agentes de efectivo** que funciona, pero **no queremos improvisar la parte regulada**:
-> custodia de fondos, liquidación y cumplimiento.
->
-> **Por eso queremos hablar con Muni Dinero.** No venimos a competir: venimos a llevarles clientes.
-> Nuestra plataforma aporta los usuarios y los comercios; ustedes, el riel del dinero. Podemos
-> empezar por lo sencillo (que su monedero sea un medio de pago dentro de nuestra app) y crecer
-> hacia un monedero alojado en ustedes, con su red de agentes sumada a la nuestra.
->
-> ¿Les encajaría una reunión de una hora esta semana? Les enseñamos la app funcionando con un pago
-> real y vemos qué modelo les encaja. Adjunto una propuesta de una página.
 

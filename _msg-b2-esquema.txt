@@ -1,0 +1,29 @@
+B · B-2: el esquema del hotel, versionado por primera vez (existia SOLO en la base)
+
+Las 5 tablas del hotel no estaban versionadas en ninguna parte: el esquema vivia unicamente
+en produccion. Esta foto las trae al repo, byte a byte y con su huella, para poder saber que
+hay de verdad sin gastar una ventana SSH.
+
+  sha256 31a5ce295221c225ef9b230a2c2b03a3e72c43ed47582bcfda1d4380af1b431a
+  17799 B · pg_dump --schema-only del 27-sep-2026 · PostgreSQL 16.15
+
+Va en backend/sql/esquema/ y NO es una migracion: es una foto, y su README explica el porque,
+el comando exacto, y sus dos limites (las claves ajenas apuntan a tablas que no van en el
+volcado, y lleva \restrict, que exige un psql moderno).
+
+Y trae lo que le faltaba a A-4 desde el primer dia, los CHECK reales:
+
+  · lb_res_estado acepta EXACTAMENTE siete estados (hold, pending, confirmed, checked_in,
+    checked_out, cancelled, no_show). No hay `expired` ni `release_pending`: re-semantizar
+    hold_expires_at no fue una preferencia, era la UNICA opcion legal del esquema.
+  · ix_lb_res_hold es un indice parcial sobre (status, hold_expires_at) WHERE status='hold',
+    y el comentario de la columna dice «al vencer, el calendario la libera aunque el barrido
+    no haya pasado»: el esquema esta disenado para vencer por ahi.
+  · uq_lb_res_idem es UNIQUE (guest_id, idempotency_key): el nonce de LH-09 no era cosmetico,
+    sin el un reintento viola el indice.
+  · lb_res_pago_est incluye `refunded` y lb_res_pago incluye `likebook_wallet`: lo que A-4
+    escribe es legal.
+
+Los tres relojes quedan confirmados en room_types: hold_minutes (5-120, def. 20) lo paga el
+huesped · confirmation_hours (1-168, def. 24) lo confirma el hotel, «una reserva SIN SENAL» ·
+cancellation_hours (0-720, def. 48) es el corte de cancelacion gratis.

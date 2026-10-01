@@ -1,0 +1,28 @@
+HOTEL · diagnostico de reestructuracion (dossier §7 = las decisiones del 26-sep)
+
+Mide los tres trabajos del sistema de hoteles ANTES de tocar nada, y concluye
+que no es una reestructuracion sino tres trabajos que no se pueden mezclar:
+
+  A) la deuda de dinero -- 12 hallazgos, 1 CRITICA: el panel del hotelero cambia
+     estados sin ESCROW_RELEASE/ESCROW_REFUND, asi que el hotel nunca cobra y el
+     huesped nunca recupera (la misma estancia se comporta distinto segun la
+     pantalla)
+  B) el esquema del hotel NO esta versionado: de las 20 migraciones de
+     backend/sql/ ninguna es del hotel y el seed no esta en el repo
+  C) la brecha frente a Meituan (31 capturas, 8 etapas)
+
+Inventario medido: 13 pantallas + 1 tarjeta = 6.412 lineas; 34 rutas de backend;
+5 tablas propias; AMENITIES como enum cerrado de 21 valores.
+
+§7 recoge las 5 decisiones de Bernardo del 26-sep: los hoteles de la base son
+EJEMPLOS y nunca deben tratarse como reales (igual que tiendas y usuarios); la
+busqueda sera por filtro o por la ubicacion del usuario; la valoracion es del
+HOTEL y no de la tienda (hoy sale de shops.rating); la cancelacion se modela por
+N horas, sin tramos; y el aparato de descubrimiento pesado de Meituan se
+construye DESPUES de publicar.
+
+§7.1 bloquea por escrito la lectura peligrosa: "como es de prueba, la deuda de
+dinero da igual". No: LH-01 es un fallo de codigo que se cobra el primer dia que
+haya un hotel real.
+
+Solo documentacion: no se toca ni una linea de codigo.

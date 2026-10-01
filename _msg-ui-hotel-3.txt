@@ -1,0 +1,13 @@
+docs(UI-HOTEL): las decisiones de la home, cerradas con la foto 1 delante
+
+D1 y D2 estaban abiertas desde la manana; D1 ademas estaba mal planteada. Con la
+foto 1 delante se cierran cinco: D1 (corregida, la home conserva la lista), D2=(b)
+(las habitaciones a una linea, sin boton), H1 (selector de ciudades), H2 (Cerca de
+mi + Precio) y H3 (home con lista; /resultados pasa a "ver la lista completa").
+
+Se anade 10.4 con lo implementado en 783ad75: los siete ficheros, las cuatro redes
+que se pasaron antes de tocar codigo (tsc 0 errores, trinquete identico, guardia de
+C-1 TODO OK, y los dos llamadores reales de la tarjeta censados), las dos decisiones
+de ejecucion (la busqueda deja de dispararse sola; havKm se escribe una vez y taxi
+conserva su copia como deuda declarada) y la correccion que exigio la guardia de C-1:
+la nota se extrae a una variable en vez de ablandar la comprobacion.

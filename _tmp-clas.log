@@ -1,0 +1,123 @@
+sin tema (fuera de un cuerpo con useTheme): 115
+  de esos, en fichero YA exento por la guardia: 21
+  PENDIENTES DE CLASIFICAR: 94
+    DATO  (mapa de contenido): 61
+    DEUDA:                     33
+
+=== DATO por mapa ===
+
+  app/billing-checkout.tsx  (8)
+       38  brand.warning         pending_payment: { label: 'Pendiente de pago', color: brand.warning },
+       39  brand.info            proof_submitted: { label: 'Comprobante recibido — en revisión (2–24 h)', color: brand.info },
+       40  brand.info            under_review: { label: 'En revisión', color: brand.info },
+       41  brand.success         approved: { label: 'Aprobado · derecho activo', color: brand.success },
+       42  brand.danger          rejected: { label: 'Rechazado', color: brand.danger },
+       43  brand.neutral         cancelled: { label: 'Cancelado', color: brand.neutral },
+       44  brand.neutral         expired: { label: 'Expirado', color: brand.neutral },
+       45  brand.info            refunded: { label: 'Reembolsado', color: brand.info },
+
+  app/billing-status.tsx  (10)
+       32  brand.warning         pending_payment: { label: 'Pendiente de pago', color: brand.warning },
+       33  brand.info            proof_submitted: { label: 'Comprobante en revisión', color: brand.info },
+       34  brand.info            under_review: { label: 'En revisión', color: brand.info },
+       35  brand.success         approved: { label: 'Aprobado', color: brand.success },
+       36  brand.danger          rejected: { label: 'Rechazado', color: brand.danger },
+       37  brand.neutral         cancelled: { label: 'Cancelada', color: brand.neutral },
+       38  brand.neutral         reversed: { label: 'Reversada', color: brand.neutral },
+       39  brand.info            refunded: { label: 'Reembolsada', color: brand.info },
+       40  brand.neutral         expired: { label: 'Expirado', color: brand.neutral },
+       41  brand.warning         refund_status_partial: { label: 'Aprobada · reembolso parcial', color: brand.warning },
+
+  app/ecomerse-orders.tsx  (9)
+       29  brand.warning         pending: { label: 'Pendiente', color: brand.warning },
+       30  brand.info            confirmed: { label: 'Confirmado', color: brand.info },
+       31  brand.info            in_transit: { label: 'En tránsito', color: brand.info },
+       32  brand.success         delivered: { label: 'Entregado', color: brand.success },
+       33  brand.neutral         cancelled: { label: 'Cancelado', color: brand.neutral },
+       34  brand.danger          disputed: { label: 'En disputa', color: brand.danger },
+       35  brand.info            assigned: { label: 'Asignado', color: brand.info },
+       36  brand.info            picked_up: { label: 'Recogido', color: brand.info },
+       37  brand.neutral         paused: { label: 'Pausado', color: brand.neutral },
+
+  app/food-orders.tsx  (6)
+       39  brand.warning         placed: { label: 'Recibido', color: brand.warning },
+       40  brand.info            confirmed: { label: 'Confirmado', color: brand.info },
+       41  brand.info            preparing: { label: 'Preparando', color: brand.info },
+       42  brand.success         ready: { label: 'Listo', color: brand.success },
+       43  brand.success         delivered: { label: 'Entregado', color: brand.success },
+       44  brand.neutral         cancelled: { label: 'Cancelado', color: brand.neutral },
+
+  app/lifebook-media.tsx  (3)
+       64  brand.social          podcast: { title: 'Publicar podcast', icon: Mic, color: brand.social },
+       65  brand.secondary       serie: { title: 'Crear serie', icon: Clapperboard, color: brand.secondary },
+       66  brand.secondary       episode: { title: 'Añadir episodio', icon: Clapperboard, color: brand.secondary },
+
+  app/lifebook-post/[id].tsx  (8)
+       89  brand.secondary       taxi: { route: '/taxi', label: 'Llamar Taxi', color: brand.secondary, icon: Car },
+       90  brand.social          food: { route: '/food', label: 'Pedir comida', color: brand.social, icon: Utensils },
+       91  brand.primary         ecomerse: { route: '/ecomerse', label: 'Ver tienda', color: brand.primary, icon: ShoppingBag },
+       92  brand.primary         shop: { route: '/ecomerse', label: 'Ver tienda', color: brand.primary, icon: ShoppingBag },
+       94  brand.servicio        rental: { route: '/alquiler', label: 'Ver alquiler', color: brand.servicio, icon: Home },
+       95  brand.servicio        paquete: { route: '/service/paquete', label: 'Enviar paquete', color: brand.servicio, icon: Package 
+       96  brand.servicio        delivery: { route: '/service/paquete', label: 'Enviar paquete', color: brand.servicio, icon: Package
+       97  brand.primary         lifebook: { route: '/lifebook-store', label: 'Ver su tienda', color: brand.primary, icon: Store },
+
+  app/lifebook-user.tsx  (5)
+       48  brand.primary         { key: 'driver', label: 'Conductor', icon: CarTaxiFront, color: brand.primary },
+       49  brand.social          { key: 'seller', label: 'Tienda', icon: Store, color: brand.social },
+       50  brand.secondary       { key: 'food', label: 'Restaurante', icon: Utensils, color: brand.secondary },
+       51  brand.lifebook        { key: 'work', label: 'Contratante', icon: Building2, color: brand.lifebook },
+       52  brand.success         { key: 'rental', label: 'Anfitrión', icon: Home, color: brand.success },
+
+  components/lifebook/ChatPlusPanel.tsx  (12)
+       24  brand.primary         { id: 'photos', label: 'Fotos', icon: ImageIcon, color: brand.primary },
+       25  brand.success         { id: 'camera', label: 'Cámara', icon: Camera, color: brand.success },
+       26  brand.lifebook        { id: 'shareNote', label: 'Compartir nota', icon: Share2, color: brand.lifebook },
+       29  brand.primary         { id: 'product', label: 'Producto', icon: ShoppingBag, color: brand.primary },
+       30  brand.secondary       { id: 'file', label: 'Archivo', icon: Paperclip, color: brand.secondary },
+       31  brand.social          { id: 'sale', label: 'Venta personal', icon: Tag, color: brand.social },
+       32  brand.primary         { id: 'topic', label: 'Tema', icon: Hash, color: brand.primary },
+       33  brand.success         { id: 'groupMap', label: 'Ubicación', icon: Map, color: brand.success },
+       34  brand.secondary       { id: 'checkin', label: 'Quedada', icon: CalendarCheck, color: brand.secondary },
+       35  brand.lifebook        { id: 'chain', label: 'Cadena', icon: ListOrdered, color: brand.lifebook },
+       37  brand.social          { id: 'groupAd', label: 'Anuncio del grupo', icon: Megaphone, color: brand.social },
+       38  brand.primary         { id: 'challengePlaza', label: 'Plaza de retos', icon: ScrollText, color: brand.primary },
+
+=== DEUDA (hay que resolverla: hook, hoja dentro, o dato marcado) ===
+  app/conductor.tsx:2068  brand.success         [estilo]  badgeGreenTxt: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  app/documents.tsx:199  neutro.n600           [estilo]  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: neutro.n600, textTransform
+  app/ecomerse-detail.tsx:670  brand.secondary       [estilo]  tagFeatText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  app/ecomerse-detail.tsx:675  brand.primary         [estilo]  tagProText: { color: brand.primary, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  app/ecomerse-detail.tsx:677  brand.success         [estilo]  tagSoftText: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.maximo },
+  app/ecomerse-planes.tsx:374  brand.success         [estilo]  tagCurrentText: { color: brand.success, fontSize: tipografia.micro, fontWeight: peso.titulo },
+  app/ecomerse-planes.tsx:376  brand.secondary       [estilo]  tagRecText: { color: brand.secondary, fontSize: tipografia.micro, fontWeight: peso.titulo },
+  app/lifebook-checkout.tsx:36  brand.success         [objeto:]  cash_on_delivery: <Banknote size={15} color={brand.success} />,
+  app/lifebook-checkout.tsx:37  neutro.n600           [objeto:]  likebook_wallet: <Wallet size={15} color={neutro.n600} />,
+  app/lifebook-checkout.tsx:38  brand.primary         [objeto:]  billing: <Building2 size={15} color={brand.primary} />,
+  app/lifebook-compose.tsx:408  neutro.n600           [estilo]  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: neutro.n600, letterSpacing: 0
+  app/lifebook-media.tsx:648  neutro.n600           [estilo]  label: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: neutro.n600, letterSpacing: 0
+  app/lifebook-messages.tsx:439  neutro.n600           [estilo]  inboxLabel: { fontSize: tipografia.micro, fontWeight: peso.medio, color: neutro.n600 },
+  app/lifebook-player.tsx:387  brand.danger          [estilo]  errTxt: { color: brand.danger, fontSize: tipografia.caption, fontWeight: peso.fuerte, textAlign: 'ce
+  app/settings.tsx:416  neutro.n600           [estilo]  groupTitle: { fontSize: tipografia.micro, fontWeight: peso.maximo, color: neutro.n600, textTransform
+  app/settings.tsx:421  neutro.n600           [estilo]  rowHint: { fontSize: tipografia.caption, fontWeight: peso.medio, color: neutro.n600, maxWidth: '52%'
+  app/status.tsx:197  neutro.n600           [estilo]  fontSize: tipografia.micro, fontWeight: peso.titulo, letterSpacing: 1, color: neutro.n600,
+  app/taxi.tsx:67  brand.primary         [objeto:]  recomendado: <Star size={22} color={brand.primary} />,
+  app/taxi.tsx:68  brand.secondary       [objeto:]  compartido: <Users size={22} color={brand.secondary} />,
+  app/taxi.tsx:69  brand.success         [objeto:]  no_compartido: <User size={22} color={brand.success} />,
+  app/taxi.tsx:70  brand.primary         [objeto:]  especial: <Tag size={22} color={brand.primary} />,
+  app/taxi.tsx:71  brand.secondary       [objeto:]  minibus: <Bus size={22} color={brand.secondary} />,
+  app/lifebook-chat/[id].tsx:1955  brand.secondary       [objeto:]  <Precio valor={ar.priceXaf} tamano="md" color={brand.secondary} style={{ marginTop: espaciado.e6 }} 
+  components/jobs.tsx:171  brand.secondary       [estilo]  salary: { fontSize: tipografia.subtitle, fontWeight: peso.titulo, color: brand.secondary },
+  components/ServiceGrid.tsx:247  neutro.n600           [estilo]  comingSoon: { fontSize: tipografia.sello, fontWeight: peso.maximo, color: neutro.n600, letterSpacing
+  components/SocialHomeHeader.tsx:309  brand.primary         [estilo]  cityTxt: { fontSize: tipografia.caption, fontWeight: peso.titulo, color: brand.primary, maxWidth: 18
+  components/ecomerse/CabeceraTienda.tsx:142  brand.primary         [estilo]  tagProText: { color: brand.primary, fontSize: tipografia.micro, fontWeight: peso.fuerte },
+  components/lifebook/OrderCardEnChat.tsx:200  neutro.n600           [estilo]  ticketEtiqueta: { color: neutro.n600, fontSize: tipografia.nota, fontWeight: peso.titulo },
+  components/lifebook/PostCard.tsx:257  neutro.n600           [estilo]  socialN: { color: neutro.n600, fontSize: tipografia.micro, fontWeight: peso.medio, marginLeft: espac
+  components/status/StatusDetailModal.tsx:303  brand.primary         [estilo]  <Text style={{ color: brand.primary, fontSize: tipografia.body, fontWeight: peso.titulo }}>
+  components/status/StatusEditorModal.tsx:390  neutro.n600           [objeto:]  <View style={styles.previewPhotoLoading}><ActivityIndicator color={neutro.n600} size="small" /></Vie
+  core/diagnostics.tsx:77  brand.danger          [estilo]  title: { color: brand.danger, fontSize: tipografia.title, fontWeight: peso.titulo, marginBottom: esp
+  core/diagnostics.tsx:81  neutro.n600           [estilo]  hint: { color: neutro.n600, fontSize: tipografia.caption, marginTop: espaciado.e16, textAlign: 'cent
+
+=== POR TOKEN ===
+  DATO : {'brand.warning': 5, 'brand.info': 12, 'brand.success': 8, 'brand.danger': 3, 'brand.neutral': 8, 'brand.social': 5, 'brand.secondary': 6, 'brand.primary': 8, 'brand.lifebook': 3, 'brand.servicio': 3}
+  DEUDA: {'brand.success': 5, 'neutro.n600': 13, 'brand.secondary': 6, 'brand.primary': 7, 'brand.danger': 2}

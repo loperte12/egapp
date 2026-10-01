@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Favoritos · Aloja</title>
+  <script src="./tailwind.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#1E1E23] text-[#F2F3F5] antialiased" style="font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+
+  <div id="app" class="mx-auto min-h-screen max-w-[390px]">
+
+    <!-- qb:section:header:start -->
+    <header class="fixed inset-x-0 top-0 z-40 border-b border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pt-[env(safe-area-inset-top)]">
+      <div class="mx-auto flex h-[56px] max-w-[390px] items-center justify-between px-4">
+        <button type="button" data-action="back" aria-label="Volver"
+          class="fixed left-4 top-[calc(env(safe-area-inset-top)+14px)] z-10 flex h-8 w-8 items-center justify-center rounded-full border border-[#2A2A30] bg-[#1E1E23] text-[#9AA0A6] active:bg-[#222228]">
+          <i data-lucide="arrow-left" class="h-4 w-4"></i>
+        </button>
+        <div class="ml-12 flex min-w-0 flex-col">
+          <p class="truncate text-[16px] font-semibold text-[#F2F3F5]">Tus favoritos</p>
+          <p class="text-[11px] text-[#9AA0A6]">Guardados en este dispositivo</p>
+        </div>
+        <span id="fav-count" class="flex h-6 min-w-[28px] items-center justify-center rounded-full border border-[#2A2A30] bg-[#1E1E23] px-2 text-[12px] font-semibold text-[#F08A4B]">0</span>
+      </div>
+    </header>
+    <!-- qb:section:header:end -->
+
+    <main class="px-4 pt-[calc(72px+env(safe-area-inset-top))] pb-[calc(24px+env(safe-area-inset-bottom))]">
+
+      <!-- Lista de favoritos (row-card como en resultados) -->
+      <div id="saved-list" class="space-y-3"></div>
+
+      <!-- Estado vacío: ilustración CSS + CTA → index.html -->
+      <div id="saved-empty" class="hidden mt-10 flex flex-col items-center rounded-xl border border-[#2A2A30] bg-[#17171A] px-6 py-12 text-center">
+        <span class="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#2A2A30] bg-[#222228] text-[#9AA0A6]">
+          <span class="absolute inset-0 -translate-y-1" style="box-shadow: 0 -10px 0 0 #1E1E23"></span>
+          <i data-lucide="heart-off" class="h-7 w-7"></i>
+        </span>
+        <h2 class="mt-5 text-[16px] font-semibold text-[#F2F3F5]">Aún no tienes favoritos</h2>
+        <p class="mt-1.5 max-w-[260px] text-[13px] leading-relaxed text-[#9AA0A6]">Toca el corazón en cualquier alojamiento de la página de inicio para guardarlo aquí.</p>
+        <button type="button" data-action="explore"
+          class="mt-6 h-12 w-full max-w-[240px] rounded-lg bg-[#0066CC] text-[15px] font-medium text-white active:bg-[#0052A3]">Explorar alojamientos</button>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script>
+    (function () {
+      var app = document.getElementById('saved-list');
+      if (!app) return;
+
+      // Copia controlada de datos: mismos alojamientos que home.html
+      var CARDS = [
+        { n: "Hotel Bahía de Malabo", b: "Centro", p: 45000, t: 60000, r: 4.8, v: 128, badge: "Foto real", tag: "Cancelación gratuita", ratio: "3:4", c: "Malabo" },
+        { n: "Punta Europa Suites", b: "Punta Europa", p: 72000, t: null, r: 4.9, v: 84, badge: "Superanfitrión", tag: "Desayuno incluido", ratio: "4:3", c: "Malabo" },
+        { n: "Casa Colonial Malabo", b: "Hipódromo", p: 30000, t: 38000, r: 4.6, v: 201, badge: "Casa completa", tag: "Cancelación gratuita", ratio: "1:1", c: "Malabo" },
+        { n: "Hotel Aeropuerto Santa Isabel", b: "Aeropuerto", p: 27000, t: null, r: 4.3, v: 56, badge: null, tag: "Confirmación inmediata", ratio: "3:4", c: "Bata" },
+        { n: "Villa Monte Alén", b: "Afueras", p: 55000, t: 70000, r: 4.7, v: 93, badge: "Por horas·3h", tag: null, ratio: "4:3", c: "Luba" },
+        { n: "Apartamento Vista Mar", b: "Playa", p: 40000, t: null, r: 4.5, v: 167, badge: "Foto real", tag: "Cancelación gratuita", ratio: "1:1", c: "Malabo" },
+        { n: "Hotel Ureca Beach", b: "Ureca", p: 63000, t: null, r: 4.9, v: 41, badge: null, tag: "Desayuno incluido", ratio: "3:4", c: "Malabo" },
+        { n: "Residencia Sala Wele-Nzas", b: "Sala Wele-Nzas", p: 18000, t: 24000, r: 4.1, v: 312, badge: null, tag: null, ratio: "4:3", c: "Bata" },
+        { n: "Spa & Resort Malabo", b: "Centro", p: 90000, t: 110000, r: 4.8, v: 74, badge: "Lujo", tag: "Cancelación gratuita", ratio: "3:4", c: "Malabo" },
+        { n: "Hostal El Jardín", b: "Rebola", p: 15000, t: null, r: 4.4, v: 189, badge: null, tag: "Confirmación inmediata", ratio: "1:1", c: "Mongomo" },
+        { n: "Bungalow Selva Verde", b: "Monte Alén", p: 48000, t: null, r: 4.7, v: 62, badge: "Casa completa", tag: "Desayuno incluido", ratio: "3:4", c: "Ebebiyín" },
+        { n: "Torre Bahía Business", b: "Centro", p: 52000, t: 65000, r: 4.6, v: 145, badge: null, tag: "Cancelación gratuita", ratio: "4:3", c: "Malabo" }
+      ];
+      var IMAGES = [
+        "https://ai-public.mastergo.com/ai/img_res/generated-45d71696-6087-413c-9b05-20f4c0b5af09.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-989e6e76-b12e-468e-a6ee-5efd294b0e91.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-571dd495-20d7-4b3e-ab58-ffdea853ae48.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-f603cb4f-b874-4651-9a13-1da614971e0f.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-24d472a9-3473-47fa-8818-aaf06d34bcdb.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-c4813123-69e7-40af-bff3-3d8df185f00f.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-6b848a71-cda2-4871-a839-e52f5b81049c.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-51a16d38-c943-496f-8807-b88b87ffdcfc.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-b1a87f42-259e-4739-9b91-066cfc6823f1.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-118db9c6-9570-46a4-afd1-12cfe4bf53ad.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-be5a6a58-232c-4393-9288-4c334a5b9a28.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-866a484a-f6f3-49c2-9331-2a5b50b01eb2.jpg"
+      ];
+      var ALLOWED = { 'index.html': './index.html', 'home.html': './home.html' };
+      function go(key) {
+        var url = ALLOWED[key];
+        if (!url) return;
+        try { window.location.assign(url); } catch (e) {}
+      }
+      function icons() {
+        if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch (e) {} }
+      }
+      function pv(tag, cls, txt) {
+        var e = document.createElement(tag);
+        e.className = cls;
+        e.textContent = txt || '';
+        return e;
+      }
+      // fmtXAF: misma implementación en home.html y saved.html (DUPLICADO CONTROLADO)
+      function fmtXAF(p) {
+        var rates = { XAF: 1, EUR: 1 / 655, USD: 1 / 600 };
+        var c = 'XAF';
+        try { c = localStorage.getItem('currency') || 'XAF'; } catch (e) {}
+        var r = rates[c] || 1;
+        return c + ' ' + Math.round(p * r).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      }
+      function readFavs() {
+        var o = {};
+        try {
+          var a = JSON.parse(localStorage.getItem('aloja_favs') || '[]');
+          if (a && a.forEach) a.forEach(function (i) { if (typeof i === 'number') o[i] = true; });
+        } catch (e) {}
+        return o;
+      }
+      function saveFavs(o) {
+        var a = [];
+        Object.keys(o).forEach(function (k) { if (o[k]) a.push(parseInt(k, 10)); });
+        try { localStorage.setItem('aloja_favs', JSON.stringify(a)); } catch (e) {}
+      }
+      window.addEventListener('storage', function () {
+        try { render(); } catch (e) {}
+      });
+
+      function starRow(s) {
+        var wrap = pv('span', 'flex items-center gap-0.5', '');
+        for (var i = 0; i < 5; i++) {
+          var ic = document.createElement('i');
+          ic.setAttribute('data-lucide', 'star');
+          ic.className = 'h-3 w-3' + (i < s ? ' fill-[#F2F3F5] text-[#F2F3F5]' : ' text-[#5A5F66]');
+          wrap.appendChild(ic);
+        }
+        return wrap;
+      }
+
+      function render() {
+        var favs = readFavs();
+        var idxs = [];
+        Object.keys(favs).forEach(function (k) { if (favs[k]) idxs.push(parseInt(k, 10)); });
+        idxs.sort(function (a, b) { return a - b; });
+        var count = document.getElementById('fav-count');
+        if (count) count.textContent = String(idxs.length);
+        var empty = document.getElementById('saved-empty');
+        if (!empty) return;
+        if (idxs.length === 0) {
+          app.textContent = '';
+          empty.classList.remove('hidden');
+          empty.classList.add('flex');
+          icons();
+          return;
+        }
+        empty.classList.add('hidden');
+        empty.classList.remove('flex');
+        app.textContent = '';
+        idxs.forEach(function (i) {
+          var c = CARDS[i];
+          if (!c) return;
+          var row = document.createElement('article');
+          row.className = 'flex overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]';
+          var img = document.createElement('img');
+          img.src = IMAGES[i];
+          img.alt = c.n;
+          img.loading = 'lazy';
+          img.className = 'h-[120px] w-[120px] shrink-0 object-cover';
+          row.appendChild(img);
+          var body = pv('div', 'relative min-w-0 flex-1 p-3', '');
+          body.appendChild(pv('h3', 'pr-7 line-clamp-2 text-[13px] font-semibold leading-snug text-[#F2F3F5]', c.n));
+          var meta = pv('div', 'mt-1 flex items-center gap-1 text-[12px]', '');
+          meta.appendChild(pv('span', 'font-semibold text-[#F2F3F5]', c.r.toFixed(1)));
+          meta.appendChild(pv('span', 'text-[#9AA0A6]', '(' + c.v + ')'));
+          meta.appendChild(pv('span', 'ml-1 truncate text-[11px] text-[#9AA0A6]', '· ' + c.b));
+          body.appendChild(meta);
+          var pr = pv('div', 'mt-1.5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5', '');
+          pr.appendChild(pv('span', 'text-[14px] font-bold text-[#F08A4B]', fmtXAF(c.p)));
+          if (c.t) pr.appendChild(pv('span', 'text-[11px] text-[#5A5F66] line-through', fmtXAF(c.t)));
+          if (c.tag) pr.appendChild(pv('span', 'ml-auto shrink-0 rounded-md bg-[#1E1E23] px-1.5 py-0.5 text-[10px] text-[#9AA0A6]', c.tag));
+          body.appendChild(pr);
+          var heart = document.createElement('button');
+          heart.type = 'button';
+          heart.setAttribute('data-action', 'unfav');
+          heart.setAttribute('data-i', String(i));
+          heart.setAttribute('aria-label', 'Quitar de favoritos');
+          heart.className = 'absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-[#0F0F12]/90 text-[#F08A4B] active:scale-95';
+          var h = document.createElement('i');
+          h.setAttribute('data-lucide', 'heart');
+          h.className = 'h-4 w-4 fill-[#F08A4B]';
+          heart.appendChild(h);
+          body.appendChild(heart);
+          row.appendChild(body);
+          app.appendChild(row);
+        });
+        icons();
+      }
+
+      document.getElementById('app').addEventListener('click', function (ev) {
+        var t = ev.target;
+        while (t && t !== document.getElementById('app') && !(t.getAttribute && t.getAttribute('data-action'))) {
+          t = t.parentNode;
+        }
+        if (!t || !t.getAttribute) return;
+        var action = t.getAttribute('data-action');
+        if (action === 'back') {
+          go('home.html');
+        } else if (action === 'explore') {
+          go('index.html');
+        } else if (action === 'unfav') {
+          var i = parseInt(t.getAttribute('data-i'), 10);
+          var favs = readFavs();
+          favs[i] = false;
+          saveFavs(favs);
+          render();
+        }
+      });
+
+      icons();
+      render();
+    })();
+  </script>
+</body>
+</html>

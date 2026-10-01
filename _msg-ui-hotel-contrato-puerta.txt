@@ -1,0 +1,23 @@
+docs(UI-HOTEL)+pruebas: la puerta del contrato de campos
+
+El documento del contrato pasa a tener puerta propia, porque se le entrega a quien va a
+escribir contra el dato y un nombre inventado ahi cuesta una tanda entera.
+
+pruebas/verifica-contrato-campos.cjs comprueba los bloques del documento contra
+api/hotel.ts interfaz por interfaz (campo, opcionalidad y tipo) y, cuando estan las
+muestras locales, cada clave JSON contra la respuesta medida del servidor.
+
+Dos decisiones de la puerta:
+
+  - Compara POR INTERFAZ, no en un mapa global de nombres: guests, lat y checkinFrom
+    existen en varias interfaces con formas distintas, asi que el mapa global daba
+    falsos positivos (la primera version de esta comprobacion los dio).
+  - Si falta cualquiera de las cuatro muestras, NO compara las claves y avisa: si
+    comparara, una clave que vive en la muestra que falta pareceria inventada y el fallo
+    seria de la puerta, no del documento. Los tipos se comprueban siempre.
+
+Resultado: 192 campos de tipo y 47 claves JSON, cero inventados. Exit 0. Probado tambien
+el camino degradado (quitando una muestra): avisa y sigue en verde.
+
+El documento gana el apartado 8 con el comando y los cuatro curl para regenerar las
+muestras.

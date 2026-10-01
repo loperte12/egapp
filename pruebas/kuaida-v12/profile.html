@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Mi cuenta</title>
+
+  <!-- Tailwind CSS Play (runtime local, offline) -->
+  <script src="./tailwind.js"></script>
+  <!-- Lucide: única librería de iconos funcionales -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<!--
+qb:profile-page
+profile-topbar -> 固定头 56px + segmented control sticky 44px
+profile-content -> 段 A (Perfil) / 段 B (Mis reservas)
+profile-sheet -> bottom sheet (Idioma / Moneda)
+profile-cancel-modal -> confirmación de cancelación
+profile-bottom-bar -> TabBar con Perfil activo
+profile-overlays -> Toast
+-->
+
+<body class="min-h-screen bg-[#1E1E23] text-[#F2F3F5] font-sans antialiased">
+
+  <!-- qb:region:profile-page:start -->
+  <div id="app" class="min-h-screen" data-qb-region="profile-page">
+
+    <!-- qb:section:profile-topbar:start -->
+    <!-- TopBar 56px -->
+    <header class="fixed inset-x-0 top-0 z-40" data-qb-section="profile-topbar">
+      <div class="h-[56px] border-b border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pt-[env(safe-area-inset-top)]">
+        <div class="mx-auto flex h-[56px] max-w-[390px] items-center justify-between px-4">
+          <button type="button" data-action="back" aria-label="Volver"
+            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#2A2A30] bg-[#1E1E23] text-[#F2F3F5] active:bg-[#222228]">
+            <i data-lucide="arrow-left" class="h-[18px] w-[18px]"></i>
+          </button>
+          <p class="min-w-0 truncate text-[16px] font-semibold text-[#F2F3F5]">Mi cuenta</p>
+          <a href="./index.html" class="shrink-0 text-[12px] font-medium text-[#4D9FFF] active:opacity-70">Kit ›</a>
+        </div>
+      </div>
+
+      <!-- Segmented control 44px sticky -->
+      <div class="sticky top-[56px] z-30 mx-auto max-w-[390px] bg-[#1E1E23] px-4 pb-2 pt-2">
+        <div class="grid grid-cols-2 gap-1 rounded-lg border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-1">
+          <button type="button" data-action="segment" data-seg="perfil"
+            class="seg-btn h-9 rounded-md text-[14px] font-medium text-[#F2F3F5] bg-[#222228]">Perfil</button>
+          <button type="button" data-action="segment" data-seg="reservas"
+            class="seg-btn h-9 rounded-md text-[14px] font-medium text-[#9AA0A6]">Mis reservas</button>
+        </div>
+      </div>
+    </header>
+    <!-- qb:section:profile-topbar:end -->
+
+    <!-- 内容区：margin-top 100px (56+44)，底部留白予 TabBar -->
+    <main class="mx-auto max-w-[390px] px-4 pt-[100px] pb-[calc(64px+env(safe-area-inset-bottom))]" data-qb-section="profile-content">
+
+      <!-- ===== 段 A · Perfil ===== -->
+      <section id="panel-perfil" class="segment-panel space-y-5">
+
+        <!-- Cabecera de usuario -->
+        <div class="flex items-center gap-4 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-4">
+          <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-[#2A2A30] bg-[#222228] text-[24px] font-bold text-[#4D9FFF]">A</div>
+          <div class="min-w-0 flex-1">
+            <h2 class="text-[18px] font-semibold text-[#F2F3F5]">Ana Ondo</h2>
+            <p class="mt-0.5 truncate text-[13px] text-[#9AA0A6]">ana.ondo@example.com</p>
+            <button type="button" data-action="edit-profile" class="mt-1.5 text-[13px] font-medium text-[#4D9FFF] active:opacity-70">Editar perfil</button>
+          </div>
+        </div>
+
+        <!-- Lista de opciones -->
+        <div class="rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+          <!-- Idioma -->
+          <button type="button" data-action="open-sheet" data-sheet="lang"
+            class="flex h-12 w-full items-center justify-between border-b border-[rgba(255,255,255,0.08)] px-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[14px] text-[#F2F3F5]">
+              <i data-lucide="globe" class="h-4 w-4 text-[#4D9FFF]"></i>Idioma
+            </span>
+            <span class="flex items-center gap-1 text-[13px] text-[#9AA0A6]">
+              <span id="lang-value">Español</span>
+              <i data-lucide="chevron-right" class="h-4 w-4"></i>
+            </span>
+          </button>
+          <!-- Moneda -->
+          <button type="button" data-action="open-sheet" data-sheet="currency"
+            class="flex h-12 w-full items-center justify-between border-b border-[rgba(255,255,255,0.08)] px-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[14px] text-[#F2F3F5]">
+              <i data-lucide="coins" class="h-4 w-4 text-[#4D9FFF]"></i>Moneda
+            </span>
+            <span class="flex items-center gap-1 text-[13px] text-[#9AA0A6]">
+              <span id="currency-value">XAF</span>
+              <i data-lucide="chevron-right" class="h-4 w-4"></i>
+            </span>
+          </button>
+          <!-- Notificaciones -->
+          <div class="flex h-12 items-center justify-between border-b border-[rgba(255,255,255,0.08)] px-4">
+            <span class="flex items-center gap-3 text-[14px] text-[#F2F3F5]">
+              <i data-lucide="bell" class="h-4 w-4 text-[#4D9FFF]"></i>Notificaciones
+            </span>
+            <button type="button" data-action="toggle-notif" aria-label="Notificaciones"
+              id="notif-switch" class="relative h-6 w-11 rounded-full border border-[#2A2A30] bg-[#1E1E23] transition-colors duration-200">
+              <span id="notif-knob" class="absolute left-0.5 top-0.5 h-[18px] w-[18px] rounded-full bg-[#5A5F66] transition-transform duration-200"></span>
+            </button>
+          </div>
+          <!-- Favoritos -->
+          <button type="button" data-action="favoritos"
+            class="flex h-12 w-full items-center justify-between border-b border-[rgba(255,255,255,0.08)] px-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[14px] text-[#F2F3F5]">
+              <i data-lucide="heart" class="h-4 w-4 text-[#4D9FFF]"></i>Favoritos
+            </span>
+            <i data-lucide="chevron-right" class="h-4 w-4 text-[#9AA0A6]"></i>
+          </button>
+          <!-- Mensajes: chat con alojamientos -->
+          <button type="button" data-action="mensajes"
+            class="flex h-12 w-full items-center justify-between border-b border-[rgba(255,255,255,0.08)] px-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[14px] text-[#F2F3F5]">
+              <i data-lucide="message-circle" class="h-4 w-4 text-[#4D9FFF]"></i>Mensajes
+            </span>
+            <i data-lucide="chevron-right" class="h-4 w-4 text-[#9AA0A6]"></i>
+          </button>
+          <!-- Ayuda -->
+          <button type="button" data-action="ayuda"
+            class="flex h-12 w-full items-center justify-between border-b border-[rgba(255,255,255,0.08)] px-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[14px] text-[#F2F3F5]">
+              <i data-lucide="life-buoy" class="h-4 w-4 text-[#4D9FFF]"></i>Ayuda
+            </span>
+            <i data-lucide="chevron-right" class="h-4 w-4 text-[#9AA0A6]"></i>
+          </button>
+          <!-- Acerca de -->
+          <button type="button" data-action="acerca"
+            class="flex h-12 w-full items-center justify-between px-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[14px] text-[#F2F3F5]">
+              <i data-lucide="info" class="h-4 w-4 text-[#4D9FFF]"></i>Acerca de
+            </span>
+            <span class="flex items-center gap-1 text-[12px] text-[#9AA0A6]">
+              v1.0.0
+              <i data-lucide="chevron-right" class="h-4 w-4"></i>
+            </span>
+          </button>
+        </div>
+
+        <!-- Cerrar sesión -->
+        <button type="button" data-action="logout"
+          class="h-12 w-full rounded-lg border border-[#E53935]/40 bg-transparent text-[15px] font-medium text-[#E53935] active:bg-[#2C191C]">
+          Cerrar sesión
+        </button>
+      </section>
+
+      <!-- ===== 段 B · Mis reservas ===== -->
+      <section id="panel-reservas" class="segment-panel hidden">
+        <!-- Chips de filtro -->
+        <div class="flex items-center gap-2">
+          <button type="button" data-action="resa-filter" data-chip="activas" class="resa-chip h-8 rounded-full border border-[#4D9FFF] bg-[#14202F] px-3 text-[12px] font-semibold text-[#4D9FFF]">Activas</button>
+          <button type="button" data-action="resa-filter" data-chip="pasadas" class="resa-chip h-8 rounded-full border border-[#2A2A30] bg-transparent px-3 text-[12px] font-medium text-[#9AA0A6]">Pasadas</button>
+          <button type="button" data-action="resa-filter" data-chip="canceladas" class="resa-chip h-8 rounded-full border border-[#2A2A30] bg-transparent px-3 text-[12px] font-medium text-[#9AA0A6]">Canceladas</button>
+        </div>
+
+        <!-- Lista -->
+        <div id="reserva-list" class="mt-3 space-y-3"></div>
+
+        <!-- Estado vacío -->
+        <div id="reserva-empty" class="hidden mt-6 flex flex-col items-center rounded-xl border border-[#2A2A30] bg-[#17171A] px-6 py-12 text-center">
+          <span class="flex h-16 w-16 items-center justify-center rounded-full bg-[#27272B] text-[#9AA0A6]"><i data-lucide="calendar-off" class="h-8 w-8"></i></span>
+          <h3 class="mt-4 text-[16px] font-semibold text-[#F2F3F5]">No tienes reservas aún</h3>
+          <p class="mt-1.5 max-w-[250px] text-[13px] leading-relaxed text-[#9AA0A6]">Descubre alojamientos en Malabo y planea tu próxima estadía.</p>
+          <button type="button" data-action="explore" class="mt-5 h-11 rounded-lg border border-[#2A2A30] bg-[#1E1E23] px-6 text-[14px] font-medium text-[#4D9FFF] active:bg-[#222228]">Explorar</button>
+        </div>
+      </section>
+
+    </main>
+    <!-- qb:section:profile-content:end -->
+
+    <!-- qb:section:profile-sheet:start -->
+    <!-- Bottom sheet: Idioma / Moneda -->
+    <div id="sheet-scrim" class="fixed inset-0 z-[45] hidden bg-[#000000]/60" data-action="close-sheet"></div>
+    <div id="sheet-panel" class="fixed inset-x-0 bottom-0 z-[50] mx-auto max-w-[390px] rounded-t-[16px] border-t border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pb-[max(16px,env(safe-area-inset-bottom))]">
+      <!-- Idioma -->
+      <div id="sheet-lang" class="hidden">
+        <div class="flex items-center justify-between border-b border-[rgba(255,255,255,0.08)] px-4 py-3.5">
+          <p class="text-[15px] font-semibold text-[#F2F3F5]">Idioma</p>
+          <button type="button" data-action="close-sheet" aria-label="Cerrar" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#27272B] text-[#9AA0A6] active:bg-[#2A2A30]"><i data-lucide="x" class="h-4 w-4"></i></button>
+        </div>
+        <div class="px-2 py-2">
+          <button type="button" data-action="pick-lang" data-lang="Español" class="sheet-opt flex h-12 w-full items-center justify-between rounded-lg px-3 text-left text-[14px] text-[#F2F3F5] active:bg-[#222228]">Español<i data-lucide="check" class="sheet-opt-check hidden h-4 w-4 text-[#4D9FFF]"></i></button>
+          <button type="button" data-action="pick-lang" data-lang="Français" class="sheet-opt flex h-12 w-full items-center justify-between rounded-lg px-3 text-left text-[14px] text-[#F2F3F5] active:bg-[#222228]">Français<i data-lucide="check" class="sheet-opt-check hidden h-4 w-4 text-[#4D9FFF]"></i></button>
+          <button type="button" data-action="pick-lang" data-lang="English" class="sheet-opt flex h-12 w-full items-center justify-between rounded-lg px-3 text-left text-[14px] text-[#F2F3F5] active:bg-[#222228]">English<i data-lucide="check" class="sheet-opt-check hidden h-4 w-4 text-[#4D9FFF]"></i></button>
+        </div>
+      </div>
+      <!-- Moneda -->
+      <div id="sheet-currency" class="hidden">
+        <div class="flex items-center justify-between border-b border-[rgba(255,255,255,0.08)] px-4 py-3.5">
+          <p class="text-[15px] font-semibold text-[#F2F3F5]">Moneda</p>
+          <button type="button" data-action="close-sheet" aria-label="Cerrar" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#27272B] text-[#9AA0A6] active:bg-[#2A2A30]"><i data-lucide="x" class="h-4 w-4"></i></button>
+        </div>
+        <p class="px-4 pt-2 text-[11px] text-[#9AA0A6]">Tasas fijas de demostración: 1 EUR = 655 XAF · 1 USD = 600 XAF</p>
+        <div class="px-2 py-2">
+          <button type="button" data-action="pick-currency" data-cur="XAF" class="sheet-opt flex h-12 w-full items-center justify-between rounded-lg px-3 text-left text-[14px] text-[#F2F3F5] active:bg-[#222228]">XAF · Franco CFA<i data-lucide="check" class="sheet-opt-check hidden h-4 w-4 text-[#4D9FFF]"></i></button>
+          <button type="button" data-action="pick-currency" data-cur="EUR" class="sheet-opt flex h-12 w-full items-center justify-between rounded-lg px-3 text-left text-[14px] text-[#F2F3F5] active:bg-[#222228]">EUR · Euro<i data-lucide="check" class="sheet-opt-check hidden h-4 w-4 text-[#4D9FFF]"></i></button>
+          <button type="button" data-action="pick-currency" data-cur="USD" class="sheet-opt flex h-12 w-full items-center justify-between rounded-lg px-3 text-left text-[14px] text-[#F2F3F5] active:bg-[#222228]">USD · Dólar<i data-lucide="check" class="sheet-opt-check hidden h-4 w-4 text-[#4D9FFF]"></i></button>
+        </div>
+      </div>
+    </div>
+    <!-- qb:section:profile-sheet:end -->
+
+    <!-- qb:section:profile-cancel-modal:start -->
+    <!-- Modal de cancelación -->
+    <div id="cancel-scrim" class="fixed inset-0 z-[45] hidden bg-[#000000]/60" data-action="cancel-no"></div>
+    <div id="cancel-modal" class="fixed left-1/2 top-1/2 z-[50] hidden w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#0F0F12] p-5">
+      <div class="flex items-start gap-3">
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2C191C] text-[#FF6B6B]"><i data-lucide="alert-circle" class="h-5 w-5"></i></span>
+        <div>
+          <h3 class="text-[16px] font-semibold text-[#F2F3F5]">¿Cancelar esta reserva?</h3>
+          <p id="cancel-hotel" class="mt-1 text-[12px] text-[#9AA0A6]"></p>
+        </div>
+      </div>
+      <div class="mt-5 flex gap-2.5">
+        <button type="button" data-action="cancel-no" class="h-11 flex-1 rounded-lg border border-[#2A2A30] bg-[#17171A] text-[14px] font-medium text-[#F2F3F5] active:bg-[#222228]">No</button>
+        <button type="button" data-action="cancel-yes" class="h-11 flex-1 rounded-lg bg-[#FF6B6B] text-[14px] font-semibold text-white active:bg-[#E55353]">Sí, cancelar</button>
+      </div>
+    </div>
+    <!-- qb:section:profile-cancel-modal:end -->
+
+    <!-- qb:section:profile-bottom-bar:start -->
+    <!-- TabBar 64px + safe-area, Perfil activo -->
+    <nav aria-label="Navegación principal" data-qb-section="profile-bottom-bar"
+      class="fixed inset-x-0 bottom-0 z-20 h-[calc(64px+env(safe-area-inset-bottom))] border-t border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pb-[env(safe-area-inset-bottom)]">
+      <div class="mx-auto flex h-[64px] max-w-[390px] items-stretch">
+        <button type="button" data-action="goto" data-goto="home.html" aria-label="Inicio" class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#9AA0A6] active:opacity-70">
+          <i data-lucide="home" class="h-[22px] w-[22px]"></i><span class="text-[10px] font-medium">Inicio</span>
+        </button>
+        <button type="button" data-action="goto" data-goto="results.html" aria-label="Buscar" class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#9AA0A6] active:opacity-70">
+          <i data-lucide="search" class="h-[22px] w-[22px]"></i><span class="text-[10px] font-medium">Buscar</span>
+        </button>
+        <button type="button" data-action="segment" data-seg="reservas" aria-label="Reservas" class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#9AA0A6] active:opacity-70">
+          <i data-lucide="calendar-check" class="h-[22px] w-[22px]"></i><span class="text-[10px] font-medium">Reservas</span>
+        </button>
+        <button type="button" data-action="segment" data-seg="perfil" aria-label="Perfil" class="nav-item flex flex-1 flex-col items-center justify-center gap-1 text-[#4D9FFF] active:opacity-70">
+          <i data-lucide="user" class="h-[22px] w-[22px]"></i><span class="text-[10px] font-semibold">Perfil</span>
+        </button>
+      </div>
+    </nav>
+    <!-- qb:section:profile-bottom-bar:end -->
+
+    <!-- qb:section:profile-overlays:start -->
+    <div id="profile-overlays" class="pointer-events-none fixed inset-0 z-[70]" data-qb-section="profile-overlays" aria-live="polite">
+      <div id="toast" role="status"
+        class="pointer-events-auto fixed left-1/2 top-[calc(env(safe-area-inset-top)+76px)] z-[80] flex -translate-x-1/2 translate-y-[-8px] items-center gap-2 rounded-lg border bg-[#0F0F12] px-4 py-3 opacity-0 transition-all duration-300">
+        <i id="toast-icon" data-lucide="info" class="h-4 w-4 shrink-0 text-[#4D9FFF]"></i>
+        <span id="toast-text" class="text-[13px] font-medium text-[#F2F3F5]"></span>
+      </div>
+    </div>
+    <!-- qb:section:profile-overlays:end -->
+
+  </div>
+  <!-- qb:region:profile-page:end -->
+
+  <!-- qb:data:seed:start -->
+  <script id="qb-seed-data" type="application/json">{}</script>
+  <!-- qb:data:seed:end -->
+
+  <script>
+    (function () {
+      var app = document.getElementById('app');
+      if (!app) return;
+
+      // —— Moneda (compartida vía localStorage + evento 'storage') ——
+      var RATES = { XAF: 1, EUR: 1 / 655, USD: 1 / 600 };
+      function readCur() {
+        try { return localStorage.getItem('currency') || 'XAF'; } catch (e) { return 'XAF'; }
+      }
+      function fmtXAF(px) {
+        var c = readCur();
+        var r = RATES[c] || 1;
+        return c + ' ' + Math.round(px * r).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      }
+
+      // —— Datos simulados: 4 reservas (una por estado) ——
+      var MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+      var IMG = {
+        0: "https://ai-public.mastergo.com/ai/img_res/generated-45d71696-6087-413c-9b05-20f4c0b5af09.jpg",
+        1: "https://ai-public.mastergo.com/ai/img_res/generated-989e6e76-b12e-468e-a6ee-5efd294b0e91.jpg",
+        4: "https://ai-public.mastergo.com/ai/img_res/generated-24d472a9-3473-47fa-8818-aaf06d34bcdb.jpg",
+        8: "https://ai-public.mastergo.com/ai/img_res/generated-b1a87f42-259e-4739-9b91-066cfc6823f1.jpg"
+      };
+
+      function today0() {
+        var d = new Date();
+        return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      }
+      function addDays(d, n) {
+        return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+      }
+      var T = today0();
+      function mk(base, noches) {
+        var ci = addDays(T, base);
+        return { ci: ci, co: addDays(ci, noches), noches: noches };
+      }
+      var D1 = mk(5, 3), D2 = mk(21, 4), D3 = mk(-31, 2), D4 = mk(-46, 3);
+
+      var RESERVAS = [
+        { id: 1, hotelId: 0, nombre: "Hotel Bahía de Malabo", barrio: "Centro", ci: D1.ci, co: D1.co, noches: 3, total: 142500, estado: "Confirmada" },
+        { id: 2, hotelId: 1, nombre: "Punta Europa Suites", barrio: "Punta Europa", ci: D2.ci, co: D2.co, noches: 4, total: 250000, estado: "Pendiente" },
+        { id: 3, hotelId: 4, nombre: "Villa Monte Alén", barrio: "Afueras", ci: D3.ci, co: D3.co, noches: 2, total: 112000, estado: "Confirmada" },
+        { id: 4, hotelId: 8, nombre: "Spa & Resort Malabo", barrio: "Centro", ci: D4.ci, co: D4.co, noches: 3, total: 260000, estado: "Cancelada" }
+      ];
+
+      var BADGE = {
+        Confirmada: 'bg-[#1D2A26] text-[#22C55E]',
+        Pendiente: 'bg-[#2A2418] text-[#F59E0B]',
+        Cancelada: 'bg-[#27272B] text-[#9CA3AF]'
+      };
+
+      var state = {
+        seg: 'perfil',
+        chip: 'activas',
+        lang: 'Español',
+        currency: readCur(),
+        notif: false,
+        cancelId: null
+      };
+
+      var ALLOWED = { 'index.html': './index.html', 'home.html': './home.html', 'results.html': './results.html', 'saved.html': './saved.html', 'messages.html': './messages.html' };
+      function go(key) {
+        var url = ALLOWED[key];
+        if (url) { try { window.location.assign(url); } catch (e) {} }
+      }
+
+      function icons() {
+        if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch (e) {} }
+      }
+      function el(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text !== undefined && text !== null) e.textContent = text;
+        return e;
+      }
+      function fmtRange(r) {
+        return r.ci.getDate() + '–' + r.co.getDate() + ' ' + MONTHS[r.ci.getMonth()] + ' · ' + r.noches + (r.noches === 1 ? ' noche' : ' noches');
+      }
+
+      // —— Segmentos ——
+      function renderSeg() {
+        document.querySelectorAll('[data-action="segment"]').forEach(function (b) {
+          var on = b.getAttribute('data-seg') === state.seg;
+          b.classList.toggle('bg-[#222228]', on);
+          b.classList.toggle('text-[#F2F3F5]', on);
+          b.classList.toggle('text-[#9AA0A6]', !on);
+        });
+        var p = document.getElementById('panel-perfil');
+        var r = document.getElementById('panel-reservas');
+        if (p) p.classList.toggle('hidden', state.seg !== 'perfil');
+        if (r) r.classList.toggle('hidden', state.seg !== 'reservas');
+      }
+
+      // —— Reservas: filtro + render ——
+      function visibleReservas() {
+        var today = today0();
+        return RESERVAS.filter(function (r) {
+          if (state.chip === 'canceladas') return r.estado === 'Cancelada';
+          if (state.chip === 'pasadas') return r.estado !== 'Cancelada' && r.co < today;
+          return r.estado !== 'Cancelada' && r.co >= today;
+        });
+      }
+
+      function renderChips() {
+        document.querySelectorAll('.resa-chip').forEach(function (b) {
+          var on = b.getAttribute('data-chip') === state.chip;
+          b.classList.toggle('border-[#4D9FFF]', on);
+          b.classList.toggle('bg-[#14202F]', on);
+          b.classList.toggle('text-[#4D9FFF]', on);
+          b.classList.toggle('border-[#2A2A30]', !on);
+          b.classList.toggle('bg-transparent', !on);
+          b.classList.toggle('text-[#9AA0A6]', !on);
+        });
+      }
+
+      function renderReservas() {
+        var list = document.getElementById('reserva-list');
+        if (!list) return;
+        list.textContent = '';
+        var items = visibleReservas();
+
+        items.forEach(function (r) {
+          var card = el('article', 'rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-3');
+          var top = el('div', 'flex gap-3');
+          var wrap = el('div', 'h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-[#2A2A30]');
+          var img = document.createElement('img');
+          img.src = IMG[r.hotelId];
+          img.alt = r.nombre;
+          img.loading = 'lazy';
+          img.className = 'h-full w-full object-cover';
+          img.style.aspectRatio = '1 / 1';
+          wrap.appendChild(img);
+          top.appendChild(wrap);
+
+          var body = el('div', 'min-w-0 flex-1');
+          body.appendChild(el('h3', 'truncate text-[14px] font-semibold text-[#F2F3F5]', r.nombre));
+          body.appendChild(el('p', 'mt-0.5 truncate text-[12px] text-[#9AA0A6]', r.barrio));
+          body.appendChild(el('p', 'mt-1 text-[12px] text-[#9AA0A6]', fmtRange(r)));
+          var row = el('div', 'mt-1.5 flex items-center justify-between gap-2');
+          row.appendChild(el('span', 'inline-block rounded-md px-1.5 py-0.5 text-[10px] font-medium ' + (BADGE[r.estado] || BADGE.Confirmada), r.estado));
+          row.appendChild(el('span', 'text-[14px] font-bold text-[#F08A4B]', fmtXAF(r.total)));
+          body.appendChild(row);
+          top.appendChild(body);
+          card.appendChild(top);
+
+          var actions = el('div', 'mt-3 flex gap-2 border-t border-[rgba(255,255,255,0.08)] pt-3');
+          var det = el('button', 'h-9 flex-1 rounded-lg border border-[#2A2A30] bg-[#1E1E23] text-[13px] font-medium text-[#4D9FFF] active:bg-[#222228]', 'Ver detalle');
+          det.type = 'button';
+          det.setAttribute('data-action', 'resa-detail');
+          det.setAttribute('data-id', String(r.id));
+          actions.appendChild(det);
+          if (r.estado !== 'Cancelada') {
+            var can = el('button', 'h-9 flex-1 rounded-lg border border-[rgba(255,255,255,0.08)] bg-transparent text-[13px] font-medium text-[#FF6B6B] active:bg-[#2C191C]', 'Cancelar');
+            can.type = 'button';
+            can.setAttribute('data-action', 'cancel-open');
+            can.setAttribute('data-id', String(r.id));
+            actions.appendChild(can);
+          }
+          card.appendChild(actions);
+          list.appendChild(card);
+        });
+        icons();
+
+        var empty = document.getElementById('reserva-empty');
+        if (empty) empty.classList.toggle('hidden', items.length !== 0);
+      }
+
+      // —— Sheets ——
+      function openSheet(name) {
+        document.getElementById('sheet-scrim').classList.remove('hidden');
+        document.getElementById('sheet-panel').classList.remove('hidden');
+        document.getElementById('sheet-lang').classList.toggle('hidden', name !== 'lang');
+        document.getElementById('sheet-currency').classList.toggle('hidden', name !== 'currency');
+        document.body.style.overflow = 'hidden';
+        renderSheetOpts();
+        icons();
+      }
+      function closeSheet() {
+        document.getElementById('sheet-scrim').classList.add('hidden');
+        document.getElementById('sheet-panel').classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+      function renderSheetOpts() {
+        document.querySelectorAll('.sheet-opt').forEach(function (b) {
+          var key = b.getAttribute('data-lang') ? 'lang' : 'cur';
+          var val = key === 'lang' ? state.lang : state.currency;
+          var mine = b.getAttribute(key === 'lang' ? 'data-lang' : 'data-cur') === val;
+          var ck = b.querySelector('.sheet-opt-check');
+          if (ck) ck.classList.toggle('hidden', !mine);
+          b.classList.toggle('text-[#4D9FFF]', mine);
+          b.classList.toggle('text-[#F2F3F5]', !mine);
+        });
+      }
+
+      // —— Modal cancelación ——
+      function openCancel(id) {
+        state.cancelId = id;
+        var r = null;
+        RESERVAS.forEach(function (x) { if (x.id === id) r = x; });
+        document.getElementById('cancel-hotel').textContent = r ? r.nombre : '';
+        document.getElementById('cancel-scrim').classList.remove('hidden');
+        document.getElementById('cancel-modal').classList.remove('hidden');
+      }
+      function closeCancel() {
+        state.cancelId = null;
+        document.getElementById('cancel-scrim').classList.add('hidden');
+        document.getElementById('cancel-modal').classList.add('hidden');
+      }
+
+      // —— Toast ——
+      var toastTimer = null;
+      function showToast(msg, type) {
+        var toast = document.getElementById('toast');
+        var icon = document.getElementById('toast-icon');
+        var text = document.getElementById('toast-text');
+        if (!toast || !icon || !text) return;
+        var palette = {
+          info: { icon: 'info', color: 'text-[#4D9FFF]', border: 'border-[#4D9FFF]' },
+          success: { icon: 'check-circle', color: 'text-[#45B87A]', border: 'border-[#45B87A]' },
+          danger: { icon: 'alert-circle', color: 'text-[#FF6B6B]', border: 'border-[#FF6B6B]' }
+        };
+        var p = palette[type] || palette.info;
+        icon.dataset.lucide = p.icon;
+        icon.className = 'h-4 w-4 shrink-0 ' + p.color;
+        toast.className = 'pointer-events-auto fixed left-1/2 top-[calc(env(safe-area-inset-top)+76px)] z-[80] flex -translate-x-1/2 items-center gap-2 rounded-lg border bg-[#0F0F12] px-4 py-3 opacity-100 translate-y-0 transition-all duration-300 ' + p.border;
+        text.textContent = msg;
+        icons();
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toast.classList.add('opacity-0', 'translate-y-[-8px]');
+        }, 2400);
+      }
+
+      function applyCurrency(c) {
+        state.currency = c;
+        try { localStorage.setItem('currency', c); } catch (e) {}
+        try { window.dispatchEvent(new Event('storage')); } catch (e) {}
+        var v = document.getElementById('currency-value');
+        if (v) v.textContent = c;
+        renderSheetOpts();
+        renderReservas();
+      }
+
+      // —— Delegación de clics (data-action) ——
+      app.addEventListener('click', function (event) {
+        var t = event.target.closest('[data-action]');
+        if (!t) return;
+        var action = t.getAttribute('data-action');
+
+        if (action === 'back') {
+          if (window.history.length > 1) { try { window.history.back(); } catch (e) {} }
+          else go('index.html');
+        }
+
+        else if (action === 'segment') {
+          state.seg = t.getAttribute('data-seg');
+          renderSeg();
+          if (state.seg === 'reservas') renderReservas();
+        }
+
+        else if (action === 'edit-profile') {
+          showToast('Edición de perfil · próximamente', 'info');
+        }
+
+        else if (action === 'open-sheet') {
+          openSheet(t.getAttribute('data-sheet'));
+        }
+        else if (action === 'close-sheet') { closeSheet(); }
+
+        else if (action === 'pick-lang') {
+          state.lang = t.getAttribute('data-lang');
+          try { localStorage.setItem('lang', state.lang); } catch (e) {}
+          var lv = document.getElementById('lang-value');
+          if (lv) lv.textContent = state.lang;
+          closeSheet();
+          renderSheetOpts();
+          showToast('Idioma: ' + state.lang, 'success');
+        }
+
+        else if (action === 'pick-currency') {
+          var c = t.getAttribute('data-cur');
+          applyCurrency(c);
+          closeSheet();
+          showToast('Moneda: ' + c, 'success');
+        }
+
+        else if (action === 'toggle-notif') {
+          state.notif = !state.notif;
+          var sw = document.getElementById('notif-switch');
+          var knob = document.getElementById('notif-knob');
+          if (sw) {
+            sw.classList.toggle('border-[#4D9FFF]', state.notif);
+            sw.classList.toggle('bg-[#14202F]', state.notif);
+          }
+          if (knob) {
+            knob.classList.toggle('bg-[#4D9FFF]', state.notif);
+            knob.classList.toggle('translate-x-5', state.notif);
+            knob.classList.toggle('bg-[#5A5F66]', !state.notif);
+          }
+        }
+
+        else if (action === 'favoritos') {
+          // Favoritos: página real con persistencia aloja_favs
+          go('saved.html');
+        }
+
+        else if (action === 'mensajes') {
+          // Mensajes: página real con persistencia aloja_msgs_leidos
+          go('messages.html');
+        }
+
+        else if (action === 'ayuda') {
+          showToast('Centro de ayuda · próximamente', 'info');
+        }
+
+        else if (action === 'acerca') {
+          showToast('Alojamiento · v1.0.0', 'info');
+        }
+
+        else if (action === 'logout') {
+          showToast('Sesión cerrada', 'danger');
+          setTimeout(function () { go('index.html'); }, 1500);
+        }
+
+        else if (action === 'resa-filter') {
+          state.chip = t.getAttribute('data-chip');
+          renderChips();
+          renderReservas();
+        }
+
+        else if (action === 'resa-detail') {
+          var rid = parseInt(t.getAttribute('data-id'), 10);
+          var rr = null;
+          RESERVAS.forEach(function (x) { if (x.id === rid) rr = x; });
+          showToast(rr ? rr.nombre + ' · detalle (demo)' : 'Detalle', 'info');
+        }
+
+        else if (action === 'cancel-open') {
+          openCancel(parseInt(t.getAttribute('data-id'), 10));
+        }
+        else if (action === 'cancel-no') { closeCancel(); }
+
+        else if (action === 'cancel-yes') {
+          RESERVAS.forEach(function (r) { if (r.id === state.cancelId) r.estado = 'Cancelada'; });
+          closeCancel();
+          renderReservas();
+          showToast('Reserva cancelada', 'success');
+        }
+
+        else if (action === 'explore') { go('index.html'); }
+
+        else if (action === 'goto') { go(t.getAttribute('data-goto')); }
+      });
+
+      // —— init ——
+      icons();
+      renderSeg();
+      renderChips();
+      renderReservas();
+      renderSheetOpts();
+    })();
+  </script>
+</body>
+</html>

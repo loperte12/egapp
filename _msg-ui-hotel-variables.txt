@@ -1,0 +1,30 @@
+variables(mastergo): prepara las dos tandas y corrige el basico que mentia
+
+Encontrado midiendo, con el volcado del servidor en la mano:
+
+- 基础色板/玫瑰/500 (3:003) valia #ffffff: un nombre que dice rosa con el valor
+  del blanco, y #FFFFFF ya estaba como 中性/0 - dos entradas con el mismo valor.
+  La familia 玫瑰 es el rosa de "me gusta" y el valor que faltaba es brand.like
+  (#FF2442), que es justo el corazon del favorito de la pantalla. Se corrige el
+  valor, no el nombre.
+
+- El volcado del servidor trae NUEVE modos por variable, no uno, y el reparto
+  esta danado: 蓝色/400 los tiene los nueve iguales, 琥珀/500 solo el primero y
+  ocho en blanco, y 玫瑰/500 los ocho primeros en blanco con el noveno en
+  #ff2442. Es un volcado escrito a medias.
+
+  LA CAUSA: el disco C: esta al 100% (199G de 199G, 908M libres) y el MCP exige
+  1 GiB libre antes de escribir. Lo dice el propio servidor: "resource quota
+  exceeded: disk free after staging=951784808 minimum=1073741824". Eso explica
+  de una vez el contador que bailaba (7 -> 29 -> 49) y el borrado de 19
+  duplicados que "no persistia": no es que la capa no obedezca, es que NO PODIA
+  ESCRIBIR.
+
+- pruebas/prepara-variables.cjs deriva las dos tandas que exige el esquema de
+  MasterGo (basica COLOR+NUMBER / semantica PAINT con reference) y las valida en
+  ocho puertas antes de escribir nada: cada valor existe en colors.ts, cero
+  valores repetidos, cero nombres de tamano semantico, cero duplicados por
+  tanda, y las 40 referencias de la tanda 2 apuntan a nombres reales de la 1.
+
+NO se ha enviado al lienzo: sin disco no hay escritura. Las dos tandas quedan
+derivadas y aptas, pendientes de un envio cuando C: tenga sitio.

@@ -1,0 +1,28 @@
+docs(UI-HOTEL): el contrato de campos, campo a campo y medido
+
+El otro agente aviso de que la documentacion no traia el mapeo de campos del backend y de
+que iba a adaptar su interfaz propia a la respuesta real, pasando de camelCase a guion
+bajo. Las tres cosas se contestan aqui:
+
+  1. El borde de la API es camelCase; lo que va en guion bajo son los VALORES de
+     enumeracion (agua_caliente, cash_on_delivery, no_show). La conversion que propone
+     iria al reves. La base de datos si es snake_case, pero eso no lo ve la app.
+  2. notes y estimatedTime NO son del hotel: son del modulo del MERCADO
+     (api/reserva.ts y shippingPolicy.estimatedTime). El mapeo real de esas dos ideas
+     esta en el documento, con los relojes que si existen (holdMinutes, holdExpiresAt,
+     freeCancellationUntil).
+  3. No se declara ninguna interfaz propia: las de api/hotel.ts se importan.
+
+Contenido: las interfaces literales, los parametros exactos de cada ruta, la muestra real
+de las cuatro respuestas (ficha, busqueda, calendario, resenas) capturadas hoy, los ocho
+tipos de habitacion del hotel de prueba y los 12 desajustes entre el TIPO y lo que el
+servidor manda de verdad. El mas peligroso: en la ficha no llega hotel.id sino
+hotel.shopId, y el tipo declara id obligatorio, asi que hotel.id es undefined sin error.
+
+Verificado con pruebas/_ct-verifica.cjs: 192 campos de tipo y 47 claves JSON comprobados
+uno a uno contra api/hotel.ts y contra los JSON medidos. Cero inventados. El verificador
+pago tres trampas propias antes de dar verde (export type sin llaves, varias
+declaraciones por linea, un bloque json de fragmento).
+
+Enlazado desde la seccion 6 del encargo y de su extracto, con el mismo texto en los dos
+para que sigan siendo identicos (comprobado con diff: 293 lineas, identicas).

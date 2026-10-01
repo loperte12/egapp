@@ -1,0 +1,23 @@
+B · B-1 (2/2): las cinco migraciones que solo existian en el portatil
+
+`backend/sql/` iba en 020. Las migraciones 021 a 025 se aplicaron al servidor
+pero nunca se versionaron: vivian sueltas en el workspace (la 021, dentro de
+`fase-4/`). Reconstruir la base desde el repo perdia entero el trabajo del
+Mercado de las Fases 1 a 6.
+
+Verificacion por huella, no por parecido: cada fichero se copio byte a byte y
+se comparo con el sha256 de su origen.
+
+  021_ecomerse_variantes         875eb0df...   8669 B   (SIN registro de huella)
+  022_ecomerse_direcciones       e085bf3d...   6623 B   (prefijo en PIE-FASE-2-CIERRE.md)
+  023_ecomerse_notices           12d69446...   7287 B   64/64 en _f3-09-aplicar.sh
+  024_ecomerse_disputes_outcome  4f434249...   6027 B   64/64 en _f5-05-aplicar-024.log
+  025_ecomerse_store_follows     ac57f364...   7146 B   64/64 en _f6-03-aplicar-025.log
+
+Cuatro de cinco cuadran con la huella anotada al aplicarlas (tres de ellas
+64 de 64 caracteres, contra la salida real de `sha256sum` en destino). La 021
+NO tiene registro: se versiona tal cual estaba y su huella queda anotada aqui
+como primera medicion, sin pretender que este verificada contra el servidor.
+
+Los cinco: LF, sin BOM, y con `backend/sql/** -text` ya en su sitio (commit
+anterior) para que la huella se reproduzca en cualquier clon.

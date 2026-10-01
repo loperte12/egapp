@@ -1,0 +1,21 @@
+design(precio): la figura del precio pasa por `<Precio>` (47 -> 5)
+
+`precioFigura` medía UNA forma de cuatro: `formatXAF(`, `lbXaf(`, `xaf(` y `fmtXaf(`
+pintaban el mismo precio con distinto nombre, y el formateador del kit
+(`formateaXAF`) tenía CERO usos en la app. Se sustituyen 42 figuras por el
+componente del kit, en 26 ficheros, CONSERVANDO el color de cada sitio (el verde de
+las comisiones, el ACCENT del Mercado, el blanco del precio sobre foto).
+
+Sin cambios de kit: `Precio` ya existía y ninguna figura necesito un token nuevo.
+
+Fidelidad: reproducir el motor sobre el respaldo da IDENTICO byte a byte en los 26
+ficheros — no se toco nada mas que lo declarado.
+
+Delta de tamano medido (42 sitios): 31 sin cambio, 9 encogen, 2 crecen. Peor caso
+`monedero.tsx:132` (34 -> 26 px, el saldo del monedero). Los tres sitios con
+`fontSize: 15` crudo pasan a `md` (14); de ahi que el trinquete `fontSize` baje de
+360 a 357 — efecto colateral legitimo, no una tanda de tipografia.
+
+Quedan 5 figuras a mano, declaradas: 3 precios TACHADOS (`Precio` no pinta
+`line-through`, y quitarlo cambia el significado, no el estilo) y 2 con el SIGNO
+pegado (`+{fmtXaf(...)}`: el signo es parte del dato, no decoracion).

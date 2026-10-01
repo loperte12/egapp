@@ -1,0 +1,32 @@
+Arreglo: el calendario de la ficha pedia 93 dias y el servidor acepta 92
+
+FALLO REAL, PREEXISTENTE, Y ESTABA ESCONDIDO DETRAS DE UN CATCH.
+
+Medido contra el servidor el 27-sep-2026 (endpoint /rooms/{id}/calendar):
+  2026-09-27 -> 2026-12-27  (91 de diferencia, 92 contando el primero)  HTTP 200, 92 dias
+  2026-09-27 -> 2026-12-28  (92 de diferencia, 93 contando el primero)  HTTP 400
+     {'code':'RANGE_TOO_LONG','message':'Como maximo 92 dias por consulta'}
+
+La ficha pedia `addDays(todayIso(), 92)` = 92 de diferencia = 93 dias, o sea SIEMPRE 400. Y el
+`catch` lo trataba como «este tipo no tiene datos» y dejaba la lista de dias vacia. Efecto en el
+pixel: el calendario se pintaba con sus numeros y NINGUN dia se podia tocar (el dato lo exige:
+`seleccionable` devuelve false cuando el dia no esta en la lista), asi que el resumen se quedaba
+clavado en 'Toca el dia de ENTRADA'. Lo vi al tocar el 28 de septiembre en el movil y volver a
+volcar la pantalla: nada cambio.
+
+Alcance: afectaba al calendario del acordeon que habia antes en esta misma ficha, asi que el
+calendario de la ficha llevaba tiempo sin funcionar. No se habia visto porque los numeros de la
+rejilla SI se pintan sin datos: parecia un calendario.
+
+Arreglo, en dos partes:
+
+1. components/hotel/HotelDateRange.tsx: el rango se pide con `addDaysIso(desde, MAX_NOCHES - 1)`.
+   El `CalendarPicker` ya lo hacia bien en su navegacion de mes (`addDaysIso(desde, 91)`): el dato
+   correcto estaba en el componente y la pantalla lo escribia mal.
+
+2. La hoja ya NO dibuja una rejilla muerta: si no hay dias, lo dice -- «No se ha podido comprobar
+   la disponibilidad de estos dias» -- y explica que al reservar se vuelve a preguntar. Un
+   calendario sin datos no es un calendario vacio: es una rejilla que no responde, y eso se lee
+   como «la app esta rota» sin decir por que.
+
+Medido: tsc 0 errores; trinquete IDENTICO; c1-verifica-app TODO OK.

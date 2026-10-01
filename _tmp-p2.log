@@ -1,0 +1,49 @@
+=== SITIOS EN EL RESPALDO: 1482 ===
+
+--- por CLASE y FORMA ---
+    864  clase=color    forma=estilo
+    599  clase=color    forma=jsx
+     19  clase=grafico  forma=estilo
+
+--- TEXTO (estilo `color:`) por token, con su ratio oscuro ---
+  total: 864
+      413  primary      ratio_oscuro=3.21  FALLA 4,5
+      216  danger       ratio_oscuro=3.18  FALLA 4,5
+       79  secondary    ratio_oscuro=3.45  FALLA 4,5
+       76  success      ratio_oscuro=3.34  FALLA 4,5
+       32  warning      ratio_oscuro=8.33  pasa
+       13  n600         ratio_oscuro=5.24  pasa
+       13  info         ratio_oscuro=6.45  pasa
+        9  neutral      ratio_oscuro=3.76  FALLA 4,5
+        7  social       ratio_oscuro=4.63  pasa
+        3  lifebook     ratio_oscuro=None  ?
+        3  servicio     ratio_oscuro=5.82  pasa
+
+--- GRÁFICO por atributo JSX `color={}` por token ---
+  total: 599
+      427  primary      ratio_oscuro=3.21  pasa 3,0
+       71  danger       ratio_oscuro=3.18  pasa 3,0
+       49  secondary    ratio_oscuro=3.45  pasa 3,0
+       41  success      ratio_oscuro=3.34  pasa 3,0
+        9  warning      ratio_oscuro=8.33  pasa 3,0
+        2  n600         ratio_oscuro=5.24  pasa 3,0
+
+--- GRÁFICO por stroke/fill ---
+  total: 19
+       13  warning
+        4  primary
+        1  danger
+        1  secondary
+
+=== LA CUENTA QUE IMPORTA (modo oscuro) ===
+  sitios de TEXTO (color: en hoja)          : 864
+  de ellos, fallan 4,5 en oscuro            : 793
+  sitios de GRÁFICO (color={} + stroke/fill): 618
+  de ellos, fallan 3,0 en oscuro            : 0
+
+  el acta dijo 560. Hoy, medido:
+    primary      acta    250   medido   413 (columna `color:`)
+    danger       acta    186   medido   216 (columna `color:`)
+    secondary    acta     61   medido    79 (columna `color:`)
+    success      acta     54   medido    76 (columna `color:`)
+    neutral      acta      9   medido     9 (columna `color:`)

@@ -1,0 +1,33 @@
+C · C-1 (bis): la resena del huesped entra en la reserva, detras de la puerta del huesped
+
+§15.3 del dossier, la ultima pieza del BACKEND de C-1. Los dos sitios donde una
+reserva se lee con los ojos del huesped traen ahora la resena que escribio:
+
+  - loadForViewer (la reserva suelta) y la rama de huesped de myReservations (la
+    lista de «Mis reservas»).
+  - LEFT JOIN lifebook.hotel_reviews rv ON rv.reservation_id = r.id, y rv.id como
+    review_id. La relacion es 1:1 por el unique uq_lb_reviews_reserva, asi que el
+    join NO duplica filas de reserva — que es la trampa clasica de este modulo.
+
+SOLO PARA EL HUESPED, en shape(): reviewId = roles.esHuesped ? r.review_id : null.
+El hotelero no necesita saber si le valoraron para pintar su propia reserva; y si
+lo necesitara, lo tiene en la ruta publica de resenas, que es donde el hotel ve su
+nota. La columna viaja en la consulta y se cierra en el mapper.
+
+POR QUE HACE FALTA: sin esto la app no puede distinguir «ya valore esta estancia»
+de «me falta valorarla». La puerta de valorar es la estancia (tuya, de ese hotel,
+ya terminada) y el unico que sabe si la resena ya existe es el servidor.
+
+LO QUE NO SE COPIA: el umbral de 3 resenas sigue siendo del servidor
+(REVIEWS_THRESHOLD / notaPublicada). El cliente pregunta por ratingPublished y
+publishesRating, nunca por el 3: copiarlo dejaria a la app publicando medias de una
+sola estancia el dia que el umbral cambie.
+
+VERIFICADO EN LOCAL: pruebas/c1-verifica-backend.cjs — paridad de backticks de los
+cuatro ficheros, el LEFT JOIN entra en las DOS consultas del huesped y en ninguna
+mas, reviewId detras de la puerta del huesped, y las cuatro operaciones de C-1 en su
+sitio: TODO OK. Y tsc --noEmit --noResolve limpio.
+
+NO DESPLEGADO TODAVIA: la ventana que lo sube no llego a abrir (el ssh devolvio
+Connection reset en los dos intentos, fail2ban). El fichero queda en el repo con el
+despliegue pendiente, y el acta no da por desplegado lo que no lo esta.

@@ -1,0 +1,28 @@
+A-1 · LH-06: la regla de «quien puede cancelar» pasa a vivir en el contrato
+
+El hallazgo tenia la regla escrita TRES veces, y ninguna de las tres excluia la
+estancia en curso: el contrato (checked_in: checkout,cancel) mas dos condiciones
+copiadas entre si, a mano, en las dos pantallas del huesped
+(lifebook-hotel-reservas.tsx:327 y lifebook-hotel-reserva.tsx:128), las dos con
+la misma lista !['checked_out','cancelled','no_show'].
+
+- reservation-flow.ts: checked_in pasa a ['checkout'] (decision §8.2 del dossier
+  del hotel: con el huesped DENTRO no existe «cancelar»; el hotel cierra con
+  checkout, o con noshow desde confirmed).
+- Las dos pantallas del huesped preguntan a availableActions() en vez de a su
+  lista copiada. Con esto el panel del hotelero, que ya usaba el contrato, y las
+  dos pantallas del huesped leen LA MISMA regla.
+
+Verificado:
+- tsc --noEmit: limpio.
+- guardia de diseno: trinquete intacto (hex 0 · fontSize 0 · borderRadius 0 ·
+  fontWeight 0 · borderWidth 5 · espaciado 183 · precioFigura 5 · strokeWidth 0).
+- auditoria de rutas: sin enlaces rotos.
+- tabla completa 7 estados x 3 roles x 2 modos, antes contra despues: 21 filas,
+  3 cambios, y los 3 son checked_in perdiendo «cancel» — hotel [checkout,cancel]
+  -> [checkout], huesped [cancel] -> [], admin [checkout,cancel] -> [checkout].
+  Las otras 18 filas salen identicas: no hay regresion en ningun otro estado.
+
+NO cierra LH-06. El servidor calcula su propio canCancel y su lista SI incluye
+checked_in, asi que sigue aceptando cancelar una estancia en curso. Esto endurece
+el cliente y deja la mitad del servidor abierta, anotada en el propio contrato.

@@ -1,0 +1,28 @@
+HOTEL · §9.3: la copia del 17-sep queda VERIFICADA contra el servidor (5 de 5 huellas) + acta de A-2
+
+- §9.3 reescrita. El reintento del SSH que pidio Bernardo conecto a los ~40 minutos, y el
+  recon de solo lectura trajo el dato que el documento marcaba [SIN MEDIR] como el mas
+  importante: las 5 huellas sha256 del codigo del hotel coinciden AL BYTE con el servidor,
+  y los mtime al segundo (17-sep 14:53:31 / 12-sep 03:16:55 / 17-sep 16:59:19).
+  La copia congelada ES el codigo desplegado. Consecuencias:
+    · la auditoria de los 13 hallazgos es valida;
+    · se puede editar en local y desplegar con confianza;
+    · se RETIRA el "hay arreglos posteriores al 17-sep" (se dedujo del comentario de
+      reservations.service.ts:399, y el fichero desplegado ES el del 17-sep, asi que ese
+      comentario ya estaba dentro);
+    · queda CONFIRMADO que el canCancel desplegado si incluye checked_in;
+    · y B cambia de motivo: ya no es "no poder auditar" —la auditoria vale—, es versionar
+      y poder purgar los ejemplos. La verificacion de huellas cubre el CODIGO; lo que
+      falta es el ESQUEMA de la base.
+- §9.5 nueva: acta de A-2 (LH-11). El defecto estaba contado TRES veces (el contrato, un
+  segundo mapa en api/hotel.ts, y PASOS en la linea de tiempo) y la decision de "senal
+  cobrada" DOS (el panel contaba paid y el huesped no, asi que una reserva pagada del todo
+  le salia "sin cobrar"). Verificado: 1 de 7 estados cambia y los otros 6 son identicos.
+- §9.4: LH-04 anadido con la medicion de hoy. El cliente reproduce A PROPOSITO el
+  Math.max(por noche) del servidor (reservar.tsx:197-200), asi que la discrepancia entre lo
+  que suma la ficha y lo que cobra el reservar es una decision de DINERO del servidor, y no
+  se arregla en el cliente: se empeora por los dos lados.
+- §9.6 nueva: lo que sigue del lado cliente (LH-03, que hay que medir antes de tocarlo, y la
+  mitad de cliente de LH-12: no mandar un images malformado).
+- §3 matizada: la foto esta viva, asi que se puede editar sobre ella; lo que sigue faltando
+  es el volcado del ESQUEMA, que es lo que habilita versionar y purgar.

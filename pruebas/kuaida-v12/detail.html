@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Detalle · Hotel Bahía de Malabo</title>
+
+  <!-- Tailwind CSS Play (runtime local, offline) -->
+  <script src="./tailwind.js"></script>
+  <!-- Lucide: única librería de iconos funcionales -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Sliders de valoración: track #2A2A2E, thumb #4D9FFF (estilo local, sin archivos nuevos) */
+    .qa-range { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 9999px; background: #2A2A2E; outline: none; }
+    .qa-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 9999px; background: #4D9FFF; border: 2px solid #0F0F12; cursor: pointer; }
+    .qa-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 9999px; background: #4D9FFF; border: 2px solid #0F0F12; cursor: pointer; }
+  </style>
+</head>
+
+<!--
+qb:detail-page
+detail-gallery -> 大图头部（fixed 260px 横向滚动画廊 + 悬浮返回）
+detail-content -> 基本信息、折叠面板、房型选择
+detail-bottom-bar -> 底部悬浮栏（总价 + Reservar）
+detail-overlays -> Toast
+-->
+
+<body class="min-h-screen bg-[#1E1E23] text-[#F2F3F5] font-sans antialiased">
+
+  <!-- qb:region:detail-page:start -->
+  <div id="app" class="min-h-screen" data-qb-region="detail-page">
+
+    <!-- qb:section:detail-gallery:start -->
+    <!-- 大图头部：fixed 260px，横向滚动，每张 85% 露出下一张 -->
+    <aside class="fixed inset-x-0 top-0 z-30" data-qb-section="detail-gallery">
+      <div id="gallery-scroll" class="mx-auto flex h-[260px] max-w-[390px] overflow-x-auto pr-[15%] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [scroll-snap-type:x_mandatory]">
+        <!-- 幻灯片由脚本渲染：1 主图 + 4 缩略图 -->
+      </div>
+      <!-- 底部渐变遮罩提升计数可读性 -->
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-16 max-w-[390px] bg-gradient-to-t from-[#0F0F12]/80 to-transparent"></div>
+      <!-- 计数器 -->
+      <span class="absolute bottom-3 right-3 mx-auto rounded-full bg-[#0F0F12]/70 px-2.5 py-1 text-[11px] font-medium text-[#F2F3F5]">1 / 5</span>
+
+      <!-- 悬浮操作行：返回 + Kit -->
+      <div class="pointer-events-none absolute inset-x-0 top-0 mx-auto max-w-[390px] px-4 pt-[calc(env(safe-area-inset-top)+16px)]">
+        <div class="flex items-center justify-between">
+          <button type="button" data-action="back" aria-label="Volver"
+            class="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full bg-[#0F0F12]/50 text-white active:bg-[#0F0F12]/80">
+            <i data-lucide="arrow-left" class="h-[18px] w-[18px]"></i>
+          </button>
+          <a href="./index.html"
+            class="pointer-events-auto rounded-full bg-[#0F0F12]/50 px-3 py-1.5 text-[12px] font-medium text-white active:bg-[#0F0F12]/80">Kit ›</a>
+        </div>
+      </div>
+    </aside>
+    <!-- qb:section:detail-gallery:end -->
+
+    <!-- 内容：margin-top 260px 让位于固定画廊；底部留白 88px 防遮挡 BottomBar -->
+    <main id="detail-content" class="relative mx-auto max-w-[390px] px-4 pt-[260px] pb-[calc(88px+env(safe-area-inset-bottom))]" data-qb-section="detail-content">
+
+      <!-- 基本信息 -->
+      <section>
+        <div class="flex items-start justify-between gap-3">
+          <h1 id="hotel-name" class="text-[24px] font-semibold leading-snug text-[#F2F3F5]"></h1>
+          <span class="mt-1 shrink-0 rounded-md bg-[#27272B] px-1.5 py-0.5 text-[10px] font-semibold text-[#9AA0A6]" id="hotel-badge"></span>
+        </div>
+        <p class="mt-1.5 flex items-center gap-1 text-[14px] text-[#9AA0A6]">
+          <i data-lucide="map-pin" class="h-4 w-4 shrink-0 text-[#4D9FFF]"></i>
+          <span id="hotel-location"></span>
+        </p>
+        <p class="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[13px]">
+          <i data-lucide="star" class="h-4 w-4 fill-[#F2F3F5] text-[#F2F3F5]"></i>
+          <span class="font-bold text-[#F2F3F5]" id="hotel-rating"></span>
+          <span class="text-[#9AA0A6]" id="hotel-votes"></span>
+          <span class="text-[#5A5F66]">·</span>
+          <span class="text-[#9AA0A6]" id="hotel-distance"></span>
+        </p>
+        <button type="button" data-action="contact"
+          class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-[#2A2A30] bg-[#17171A] text-[13px] font-semibold text-[#F2F3F5] active:bg-[#222228]">
+          <i data-lucide="message-circle" class="h-4 w-4 text-[#4D9FFF]"></i>
+          Contactar alojamiento
+        </button>
+      </section>
+
+      <!-- 折叠面板：Servicios -->
+      <section class="mt-6">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">Servicios</h2>
+        <div class="mt-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+
+          <button type="button" data-action="toggle-acc" data-target="acc-wifi"
+            class="flex w-full items-center justify-between px-4 py-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[15px] font-medium text-[#F2F3F5]">
+              <i data-lucide="wifi" class="h-[18px] w-[18px] text-[#4D9FFF]"></i>Wifi
+            </span>
+            <i data-lucide="chevron-down" class="acc-icon h-4 w-4 shrink-0 text-[#9AA0A6] transition-transform duration-200"></i>
+          </button>
+          <div id="acc-wifi" class="hidden border-t border-[rgba(255,255,255,0.08)] px-4 pb-4 pt-3 text-[13px] leading-relaxed text-[#9AA0A6]">
+            Wifi gratuito de alta velocidad disponible en todas las habitaciones y zonas comunes.
+          </div>
+
+          <button type="button" data-action="toggle-acc" data-target="acc-parking"
+            class="flex w-full items-center justify-between border-t border-[rgba(255,255,255,0.08)] px-4 py-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[15px] font-medium text-[#F2F3F5]">
+              <i data-lucide="car" class="h-[18px] w-[18px] text-[#4D9FFF]"></i>Parking
+            </span>
+            <i data-lucide="chevron-down" class="acc-icon h-4 w-4 shrink-0 text-[#9AA0A6] transition-transform duration-200"></i>
+          </button>
+          <div id="acc-parking" class="hidden border-t border-[rgba(255,255,255,0.08)] px-4 pb-4 pt-3 text-[13px] leading-relaxed text-[#9AA0A6]">
+            Estacionamiento privado y vigilado disponible sin costo adicional para huéspedes.
+          </div>
+
+          <button type="button" data-action="toggle-acc" data-target="acc-desayuno"
+            class="flex w-full items-center justify-between border-t border-[rgba(255,255,255,0.08)] px-4 py-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[15px] font-medium text-[#F2F3F5]">
+              <i data-lucide="coffee" class="h-[18px] w-[18px] text-[#4D9FFF]"></i>Desayuno
+            </span>
+            <i data-lucide="chevron-down" class="acc-icon h-4 w-4 shrink-0 text-[#9AA0A6] transition-transform duration-200"></i>
+          </button>
+          <div id="acc-desayuno" class="hidden border-t border-[rgba(255,255,255,0.08)] px-4 pb-4 pt-3 text-[13px] leading-relaxed text-[#9AA0A6]">
+            Desayuno buffet incluido en la tarifa, de 07:00 a 10:30 con opciones locales e internacionales.
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 折叠面板：Políticas -->
+      <section class="mt-6">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">Políticas</h2>
+        <div class="mt-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A]">
+
+          <button type="button" data-action="toggle-acc" data-target="acc-cancel"
+            class="flex w-full items-center justify-between px-4 py-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[15px] font-medium text-[#F2F3F5]">
+              <i data-lucide="shield-check" class="h-[18px] w-[18px] text-[#45B87A]"></i>Cancelación gratuita
+            </span>
+            <i data-lucide="chevron-down" class="acc-icon h-4 w-4 shrink-0 text-[#9AA0A6] transition-transform duration-200"></i>
+          </button>
+          <div id="acc-cancel" class="hidden border-t border-[rgba(255,255,255,0.08)] px-4 pb-4 pt-3 text-[13px] leading-relaxed text-[#9AA0A6]">
+            Cancelación sin cargo hasta 48 horas antes del check-in. Después se aplica la primera noche.
+          </div>
+
+          <button type="button" data-action="toggle-acc" data-target="acc-checkin"
+            class="flex w-full items-center justify-between border-t border-[rgba(255,255,255,0.08)] px-4 py-4 text-left active:bg-[#222228]">
+            <span class="flex items-center gap-3 text-[15px] font-medium text-[#F2F3F5]">
+              <i data-lucide="clock" class="h-[18px] w-[18px] text-[#4D9FFF]"></i>Check-in 14:00
+            </span>
+            <i data-lucide="chevron-down" class="acc-icon h-4 w-4 shrink-0 text-[#9AA0A6] transition-transform duration-200"></i>
+          </button>
+          <div id="acc-checkin" class="hidden border-t border-[rgba(255,255,255,0.08)] px-4 pb-4 pt-3 text-[13px] leading-relaxed text-[#9AA0A6]">
+            Registro desde las 14:00 · Salida hasta las 12:00. Check-in anticipado sujeto a disponibilidad.
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 房型选择器 -->
+      <section class="mt-6">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">Habitaciones</h2>
+        <div id="room-list" class="mt-3 space-y-3"></div>
+      </section>
+
+      <!-- Opiniones -->
+      <section id="opiniones" class="mt-6 scroll-mt-[260px]">
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5A5F66]">Opiniones</h2>
+        <div class="mt-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-4">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="flex items-center gap-2">
+                <i data-lucide="star" class="h-8 w-8 fill-[#F2F3F5] text-[#F2F3F5]"></i>
+                <span class="text-[48px] font-bold leading-none text-[#F2F3F5]">4.8</span>
+              </p>
+              <p class="mt-1.5 text-[13px] text-[#9AA0A6]">128 opiniones</p>
+            </div>
+            <button type="button" data-action="open-review"
+              class="h-10 shrink-0 rounded-lg border border-[#2A2A30] bg-[#1E1E23] px-3.5 text-[13px] font-medium text-[#4D9FFF] active:bg-[#222228]">Escribir opinión</button>
+          </div>
+          <div id="dims" class="mt-4 space-y-2.5"></div>
+        </div>
+        <div id="review-list" class="mt-3 max-h-[420px] space-y-3 overflow-y-auto pr-0.5"></div>
+        <button type="button" data-action="open-all"
+          class="mt-2 h-10 w-full rounded-lg border border-[#2A2A30] bg-[#17171A] text-[14px] font-medium text-[#4D9FFF] active:bg-[#222228]">Ver todas las opiniones</button>
+      </section>
+
+    </main>
+
+    <!-- qb:section:detail-review-sheet:start -->
+    <!-- Bottom sheet de opiniones: 85vh, handle arrastrable, snap 45% (mismo patrón que el mapa) -->
+    <div id="review-scrim" class="fixed inset-0 z-[45] hidden bg-[#000000]/60" data-action="close-sheet"></div>
+    <div id="review-sheet" class="fixed inset-x-0 bottom-0 z-[50] mx-auto hidden max-w-[390px] rounded-t-[16px] border-t border-[rgba(255,255,255,0.08)] bg-[#0F0F12]" style="height: 85vh; transform: translateY(100%);">
+      <div id="review-drag" class="flex h-10 touch-none items-start justify-center pt-3">
+        <span class="h-1 w-10 rounded-full bg-[#2A2A30]"></span>
+      </div>
+      <div class="flex items-center justify-between border-b border-[rgba(255,255,255,0.08)] px-4 pb-3 pt-1">
+        <p id="review-title" class="text-[15px] font-semibold text-[#F2F3F5]">Escribir opinión</p>
+        <button type="button" data-action="close-sheet" aria-label="Cerrar"
+          class="flex h-8 w-8 items-center justify-center rounded-full bg-[#27272B] text-[#9AA0A6] active:bg-[#2A2A30]"><i data-lucide="x" class="h-4 w-4"></i></button>
+      </div>
+
+      <!-- Vista escribir -->
+      <div id="write-view" class="h-[calc(85vh-84px)] overflow-y-auto px-4 pt-4 pb-[calc(24px+env(safe-area-inset-bottom))]">
+        <p class="text-[13px] text-[#9AA0A6]">Valoración global</p>
+        <div id="star-row" class="mt-2 flex items-center gap-1.5"></div>
+
+        <p class="mt-6 text-[13px] text-[#9AA0A6]">Valora cada aspecto</p>
+        <div id="slider-group" class="mt-2.5 space-y-4"></div>
+
+        <p class="mt-6 text-[13px] text-[#9AA0A6]">Tu opinión</p>
+        <div class="relative mt-2">
+          <textarea id="review-text" rows="4" maxlength="500" placeholder="Cuéntanos tu experiencia…"
+            class="w-full resize-none rounded-lg border border-[#2A2A30] bg-[#111114] p-3 text-[14px] leading-relaxed text-[#F2F3F5] placeholder:text-[#5A5F66] outline-none focus:border-[#4D9FFF]"></textarea>
+          <span id="char-count" class="pointer-events-none absolute bottom-2.5 right-3 text-[11px] text-[#5A5F66]">0/500</span>
+        </div>
+
+        <p class="mt-6 text-[13px] text-[#9AA0A6]">Fotos <span class="text-[#5A5F66]">(opcional, máx 9)</span></p>
+        <div id="photo-grid" class="mt-2.5 grid grid-cols-3 gap-1.5"></div>
+        <input id="photo-input" type="file" accept="image/*" multiple class="hidden">
+
+        <button type="button" data-action="submit-review" id="submit-review"
+          class="mt-6 h-12 w-full rounded-lg bg-[#0066CC] text-[15px] font-medium text-white opacity-50 pointer-events-none active:bg-[#0052A3]">Enviar</button>
+      </div>
+
+      <!-- Vista leer (todas las opiniones) -->
+      <div id="read-view" class="hidden h-[calc(85vh-84px)] space-y-3 overflow-y-auto px-4 pt-3 pb-[calc(24px+env(safe-area-inset-bottom))]"></div>
+    </div>
+    <!-- qb:section:detail-review-sheet:end -->
+
+    <!-- qb:section:detail-bottom-bar:start -->
+    <!-- 底部悬浮栏：72px + safe-area -->
+    <nav aria-label="Barra de reserva" data-qb-section="detail-bottom-bar"
+      class="fixed inset-x-0 bottom-0 z-40 h-[calc(72px+env(safe-area-inset-bottom))] border-t border-[rgba(255,255,255,0.08)] bg-[#0F0F12] pb-[env(safe-area-inset-bottom)]">
+      <div class="mx-auto flex h-[72px] max-w-[390px] items-center justify-between px-4">
+        <div class="min-w-0">
+          <p class="truncate text-[18px] font-bold text-[#F08A4B]" id="total-price"></p>
+          <p class="text-[11px] text-[#9AA0A6]">por noche</p>
+        </div>
+        <button type="button" data-action="reserve"
+          class="h-12 w-[140px] shrink-0 rounded-lg bg-[#0066CC] text-[15px] font-medium text-white active:bg-[#0052A3]">Reservar ahora</button>
+      </div>
+    </nav>
+    <!-- qb:section:detail-bottom-bar:end -->
+
+    <!-- qb:section:detail-overlays:start -->
+    <div id="detail-overlays" class="pointer-events-none fixed inset-0 z-[70]" data-qb-section="detail-overlays" aria-live="polite">
+      <div id="toast" role="status"
+        class="pointer-events-auto fixed left-1/2 top-[calc(env(safe-area-inset-top)+76px)] z-[80] flex -translate-x-1/2 translate-y-[-8px] items-center gap-2 rounded-lg border bg-[#0F0F12] px-4 py-3 opacity-0 transition-all duration-300">
+        <i id="toast-icon" data-lucide="info" class="h-4 w-4 shrink-0 text-[#4D9FFF]"></i>
+        <span id="toast-text" class="text-[13px] font-medium text-[#F2F3F5]"></span>
+      </div>
+    </div>
+    <!-- qb:section:detail-overlays:end -->
+
+  </div>
+  <!-- qb:region:detail-page:end -->
+
+  <!-- qb:data:seed:start -->
+  <script id="qb-seed-data" type="application/json">{}</script>
+  <!-- qb:data:seed:end -->
+
+  <script>
+    (function () {
+      var app = document.getElementById('app');
+      if (!app) return;
+
+      // Datos fijos de Prompt 1 (Hotel Bahía de Malabo, índice 0)
+      var HOTEL = {
+        n: "Hotel Bahía de Malabo", b: "Centro", p: 45000, t: 60000, r: 4.8, v: 128,
+        badge: "Foto real", tag: "Cancelación gratuita", ratio: "3:4"
+      };
+      // Galería: 1 imagen principal + 4 generadas ya existentes (sin generar nuevas)
+      var IMGS = [
+        "https://ai-public.mastergo.com/ai/img_res/generated-45d71696-6087-413c-9b05-20f4c0b5af09.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-989e6e76-b12e-468e-a6ee-5efd294b0e91.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-571dd495-20d7-4b3e-ab58-ffdea853ae48.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-f603cb4f-b874-4651-9a13-1da614971e0f.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-24d472a9-3473-47fa-8818-aaf06d34bcdb.jpg"
+      ];
+      var ROOMS = [
+        { name: "Habitación Doble", info: "22 m² · Cama doble", p: 45000, t: 60000 },
+        { name: "Suite con Vista", info: "35 m² · Cama King", p: 70000, t: null }
+      ];
+
+      var state = {
+        room: 0,
+        rv: 0,
+        dims: { l: 5, s: 5, u: 5, i: 5 },
+        pics: [],
+        sheet: null
+      };
+
+      // —— Opiniones (demo, sin backend) ——
+      var DIMS = [
+        { n: 'Limpieza', v: 4.9 },
+        { n: 'Servicio', v: 4.7 },
+        { n: 'Ubicación', v: 4.6 },
+        { n: 'Instalaciones', v: 4.8 }
+      ];
+      var RIMG = [
+        "https://ai-public.mastergo.com/ai/img_res/generated-c4813123-69e7-40af-bff3-3d8df185f00f.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-6b848a71-cda2-4871-a839-e52f5b81049c.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-51a16d38-c943-496f-8807-b88b87ffdcfc.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-118db9c6-9570-46a4-afd1-12cfe4bf53ad.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-be5a6a58-232c-4393-9288-4c334a5b9a28.jpg",
+        "https://ai-public.mastergo.com/ai/img_res/generated-24d472a9-3473-47fa-8818-aaf06d34bcdb.jpg"
+      ];
+      var REVIEWS = [
+        { a: 'María Nguema', d: 9, s: 5, t: 'Habitación impecable y desayuno buffet con platos locales. El personal nos ayudó con todo durante la estancia. Sin duda volveremos.', im: [RIMG[0], RIMG[1]], rep: null },
+        { a: 'Jean-Pierre Mba', d: 16, s: 4, t: 'Buena ubicación y cama muy cómoda. El wifi es estable y el check-in fue rápido. Solo mejoraría el aire acondicionado del baño.', im: [], rep: { d: 5, t: 'Gracias por tu visita. Revisamos el clima de la suite 210 y seguimos mejorando cada detalle. ¡Te esperamos pronto!' } },
+        { a: 'Lucía Obiang', d: 24, s: 5, t: 'Vistas increíbles desde la suite y room service muy atento. Las fotos coinciden exactamente con lo que encontramos al llegar.', im: [RIMG[3], RIMG[4], RIMG[5], RIMG[2]], rep: null },
+        { a: 'Emeka Nkrumah', d: 38, s: 4, t: 'Viaje de negocios impecable: salón de reuniones bien equipado y parking vigilado. El desayuno variado y la atención rápida.', im: [], rep: null },
+        { a: 'Sofía Andeme', d: 51, s: 5, t: 'Pequeño detalle de bienvenida y cama panorámica preciosa. La limpieza diaria fue excelente y muy silenciosa.', im: [RIMG[0]], rep: null },
+        { a: 'Pablo Ekua', d: 73, s: 4, t: 'Reserva rápida y cancelación sin problemas. La piscina necesita reponer toallas en horas punta, por lo demás todo correcto.', im: [], rep: null }
+      ];
+      function relDate(ago) {
+        var now = new Date();
+        var then = new Date(now.getFullYear(), now.getMonth(), now.getDate() - ago);
+        var diff = Math.round((now - then) / 86400000);
+        if (diff <= 0) return 'hoy';
+        if (diff === 1) return 'hace 1 día';
+        if (diff < 7) return 'hace ' + diff + ' días';
+        var w = Math.floor(diff / 7);
+        if (w === 1) return 'hace 1 semana';
+        if (w < 5) return 'hace ' + w + ' semanas';
+        var m = Math.floor(diff / 30);
+        if (m <= 1) return 'hace 1 mes';
+        return 'hace ' + m + ' meses';
+      }
+
+      var ALLOWED = { 'index.html': './index.html', 'chat.html': './chat.html?hotelId=H1' };
+      function go(key) {
+        var url = ALLOWED[key];
+        if (url) { try { window.location.assign(url); } catch (e) {} }
+      }
+
+      function icons() {
+        if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch (e) {} }
+      }
+      function fmtXAF(px) {
+        var rates = { XAF: 1, EUR: 1 / 655, USD: 1 / 600 };
+        var c = 'XAF';
+        try { c = localStorage.getItem('currency') || 'XAF'; } catch (e) {}
+        var r = rates[c] || 1;
+        return c + ' ' + Math.round(px * r).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      }
+      window.addEventListener('storage', function () {
+        try { renderRooms(); } catch (e) {}
+      });
+      function hash(s) {
+        var h = 0;
+        for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; }
+        return Math.abs(h);
+      }
+      // Misma fórmula que results.html: distancia estable por barrio (resulta 5.7 km)
+      function distOf() {
+        return parseFloat((0.4 + (hash(HOTEL.b + '0') % 60) / 10).toFixed(1));
+      }
+
+      function el(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text !== undefined && text !== null) e.textContent = text;
+        return e;
+      }
+
+      // Galería: 5 slides, cada una 85% de ancho, sin separación
+      function buildGallery() {
+        var host = document.getElementById('gallery-scroll');
+        if (!host) return;
+        var crops = ['object-center', 'object-top', 'object-bottom', 'object-left', 'object-right'];
+        IMGS.forEach(function (src, i) {
+          var slide = el('div', 'relative h-full w-[85%] shrink-0 snap-start overflow-hidden');
+          var img = document.createElement('img');
+          img.src = src;
+          img.alt = HOTEL.n + ' · foto ' + (i + 1);
+          img.loading = i === 0 ? 'eager' : 'lazy';
+          img.className = 'h-full w-full object-cover ' + crops[i];
+          slide.appendChild(img);
+          host.appendChild(slide);
+        });
+        // Contador 1 / 5
+        var badge = document.querySelector('#gallery-scroll ~ span');
+        host.addEventListener('scroll', function () {
+          var w = host.clientWidth * 0.85;
+          var idx = w > 0 ? Math.min(5, Math.max(1, Math.round(host.scrollLeft / w) + 1)) : 1;
+          if (badge) badge.textContent = idx + ' / 5';
+        });
+      }
+
+      // Información básica
+      function buildInfo() {
+        document.getElementById('hotel-name').textContent = HOTEL.n;
+        document.getElementById('hotel-badge').textContent = HOTEL.badge;
+        document.getElementById('hotel-location').textContent = HOTEL.b + ', Malabo';
+        document.getElementById('hotel-rating').textContent = HOTEL.r.toFixed(1);
+        document.getElementById('hotel-votes').textContent = '(' + HOTEL.v + ')';
+        document.getElementById('hotel-distance').textContent = 'a ' + distOf().toFixed(1) + ' km';
+      }
+
+      // Habitaciones
+      function buildRooms() {
+        var host = document.getElementById('room-list');
+        if (!host) return;
+        ROOMS.forEach(function (r, i) {
+          var card = el('div', 'room-card rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-3.5');
+          card.setAttribute('data-action', 'pick-room');
+          card.setAttribute('data-room', String(i));
+
+          var top = el('div', 'flex items-start justify-between gap-3');
+          var left = el('div', 'min-w-0');
+          left.appendChild(el('h3', 'text-[15px] font-semibold text-[#F2F3F5]', r.name));
+          left.appendChild(el('p', 'mt-0.5 text-[12px] text-[#9AA0A6]', r.info));
+          var priceRow = el('div', 'mt-1.5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5');
+          priceRow.appendChild(el('span', 'text-[16px] font-bold text-[#F08A4B]', fmtXAF(r.p)));
+          if (r.t) priceRow.appendChild(el('span', 'text-[11px] text-[#5A5F66] line-through', fmtXAF(r.t)));
+          priceRow.appendChild(el('span', 'text-[11px] text-[#9AA0A6]', '/noche'));
+          left.appendChild(priceRow);
+          top.appendChild(left);
+
+          var cta = el('span', 'room-cta flex h-10 shrink-0 items-center justify-center gap-1 rounded-lg px-4 text-[13px] font-medium text-white');
+          var ck = document.createElement('i');
+          ck.setAttribute('data-lucide', 'check');
+          ck.className = 'h-4 w-4';
+          cta.appendChild(ck);
+          cta.appendChild(el('span', 'room-cta-text', 'Elegir'));
+          top.appendChild(cta);
+
+          card.appendChild(top);
+          host.appendChild(card);
+        });
+        icons();
+      }
+
+      function renderRooms() {
+        app.querySelectorAll('.room-card').forEach(function (card, i) {
+          var on = state.room === i;
+          card.classList.toggle('border-[#4D9FFF]', on);
+          card.classList.toggle('bg-[#14202F]', on);
+          card.classList.toggle('border-[rgba(255,255,255,0.08)]', !on);
+          card.classList.toggle('bg-[#17171A]', !on);
+          var cta = card.querySelector('.room-cta');
+          if (cta) {
+            cta.classList.toggle('bg-[#1D2A26]', on);
+            cta.classList.toggle('text-[#45B87A]', on);
+            cta.classList.toggle('bg-[#0066CC]', !on);
+            cta.classList.toggle('text-white', !on);
+          }
+          var txt = card.querySelector('.room-cta-text');
+          if (txt) txt.textContent = on ? 'Elegida' : 'Elegir';
+        });
+        var total = document.getElementById('total-price');
+        if (total) total.textContent = fmtXAF(ROOMS[state.room].p);
+      }
+
+      // —— Opiniones: resumen, lista y sheet ——
+      function buildDims() {
+        var host = document.getElementById('dims');
+        if (!host) return;
+        DIMS.forEach(function (d) {
+          var row = el('div', 'flex items-center gap-2.5');
+          row.appendChild(el('span', 'w-[76px] shrink-0 text-[12px] text-[#9AA0A6]', d.n));
+          var track = el('div', 'h-3.5 flex-1 overflow-hidden rounded-full bg-[#2A2A2E]');
+          var fill = el('div', 'h-full rounded-full bg-[#4D9FFF]');
+          fill.style.width = ((d.v / 5) * 100).toFixed(0) + '%';
+          track.appendChild(fill);
+          row.appendChild(track);
+          row.appendChild(el('span', 'w-8 shrink-0 text-right text-[12px] font-semibold text-[#F2F3F5]', d.v.toFixed(1)));
+          host.appendChild(row);
+        });
+      }
+
+      function starRow(s, size) {
+        var wrap = el('div', 'flex items-center gap-0.5');
+        for (var i = 0; i < 5; i++) {
+          var ic = document.createElement('i');
+          ic.setAttribute('data-lucide', 'star');
+          ic.className = 'h-' + size + ' w-' + size + (i < s ? ' fill-[#F2F3F5] text-[#F2F3F5]' : ' text-[#5A5F66]');
+          wrap.appendChild(ic);
+        }
+        return wrap;
+      }
+
+      function photoCell(url) {
+        var wrap = el('div', 'relative aspect-square overflow-hidden rounded-lg border border-[rgba(255,255,255,0.08)]');
+        var img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Foto del huésped';
+        img.loading = 'lazy';
+        img.className = 'h-full w-full object-cover';
+        wrap.appendChild(img);
+        return wrap;
+      }
+
+      function buildReviewItem(r, full) {
+        var card = el('article', 'rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#17171A] p-3.5');
+        var head = el('div', 'flex items-start gap-3');
+        head.appendChild(el('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#2A2A30] bg-[#222228] text-[12px] font-semibold text-[#4D9FFF]', r.a.charAt(0)));
+        var right = el('div', 'min-w-0 flex-1');
+        right.appendChild(el('p', 'truncate text-[13px] font-semibold text-[#F2F3F5]', r.a));
+        right.appendChild(el('p', 'mt-0.5 text-[11px] text-[#5A5F66]', relDate(r.d)));
+        right.appendChild(starRow(r.s, 3));
+        head.appendChild(right);
+        card.appendChild(head);
+
+        var body = el('p', 'mt-2.5 text-[13px] leading-relaxed text-[#9AA0A6]', r.t);
+        if (!full) {
+          body.style.display = '-webkit-box';
+          body.style.webkitLineClamp = '3';
+          body.style.webkitBoxOrient = 'vertical';
+          body.style.overflow = 'hidden';
+        }
+        card.appendChild(body);
+
+        if (r.im && r.im.length > 0) {
+          var grid = el('div', 'mt-3 grid grid-cols-3 gap-1');
+          var shown = full ? r.im : r.im.slice(0, 3);
+          shown.forEach(function (u) { grid.appendChild(photoCell(u)); });
+          if (!full && r.im.length > 3) {
+            var more = el('button', 'flex aspect-square items-center justify-center rounded-lg border border-[#2A2A30] bg-[#27272B] text-[12px] font-medium text-[#9AA0A6] active:bg-[#2A2A30]', 'Ver todas');
+            more.type = 'button';
+            more.setAttribute('data-action', 'open-all');
+            grid.appendChild(more);
+          }
+          card.appendChild(grid);
+        }
+
+        if (r.rep) {
+          var rep = el('div', 'mt-3 rounded-r-lg border-l-2 border-[#4D9FFF] bg-[#141416] p-3');
+          rep.appendChild(el('p', 'text-[12px] font-semibold text-[#F2F3F5]', 'Hotel Bahía de Malabo · ' + relDate(r.rep.d)));
+          rep.appendChild(el('p', 'mt-1 text-[12px] leading-relaxed text-[#9AA0A6]', r.rep.t));
+          card.appendChild(rep);
+        }
+        return card;
+      }
+
+      function buildReviews() {
+        var host = document.getElementById('review-list');
+        if (!host) return;
+        host.textContent = '';
+        REVIEWS.forEach(function (r) { host.appendChild(buildReviewItem(r, false)); });
+        icons();
+      }
+
+      function renderStars() {
+        var host = document.getElementById('star-row');
+        if (!host) return;
+        host.textContent = '';
+        for (var i = 1; i <= 5; i++) {
+          var b = el('button', 'flex h-8 w-8 items-center justify-center ' + (i <= state.rv ? 'fill-[#F2F3F5] text-[#F2F3F5]' : 'text-[#5A5F66]'));
+          b.type = 'button';
+          b.setAttribute('data-action', 'rate-star');
+          b.setAttribute('data-v', String(i));
+          var ic = document.createElement('i');
+          ic.setAttribute('data-lucide', 'star');
+          ic.className = 'h-8 w-8';
+          b.appendChild(ic);
+          host.appendChild(b);
+        }
+        icons();
+        updateSubmit();
+      }
+
+      function buildSliders() {
+        var host = document.getElementById('slider-group');
+        if (!host) return;
+        host.textContent = '';
+        var keys = ['l', 's', 'u', 'i'];
+        var labels = ['Limpieza', 'Servicio', 'Ubicación', 'Instalaciones'];
+        keys.forEach(function (k, idx) {
+          var row = el('div', 'flex items-center gap-3');
+          row.appendChild(el('span', 'w-20 shrink-0 text-[12px] text-[#9AA0A6]', labels[idx]));
+          var r = document.createElement('input');
+          r.type = 'range';
+          r.min = '1';
+          r.max = '5';
+          r.step = '1';
+          r.value = String(state.dims[k]);
+          r.className = 'qa-range min-w-0 flex-1';
+          var val = el('span', 'w-6 shrink-0 text-right text-[12px] font-semibold text-[#F2F3F5]', String(state.dims[k]));
+          r.addEventListener('input', function () {
+            state.dims[k] = parseInt(r.value, 10) || 5;
+            val.textContent = r.value;
+          });
+          row.appendChild(r);
+          row.appendChild(val);
+          host.appendChild(row);
+        });
+      }
+
+      function renderPhotoCells() {
+        var host = document.getElementById('photo-grid');
+        if (!host) return;
+        host.textContent = '';
+        for (var i = 0; i < 9; i++) {
+          if (i < state.pics.length) {
+            var cell = el('div', 'relative aspect-square overflow-hidden rounded-lg border border-[rgba(255,255,255,0.08)]');
+            var img = document.createElement('img');
+            img.src = state.pics[i];
+            img.alt = 'Foto seleccionada';
+            img.className = 'h-full w-full object-cover';
+            cell.appendChild(img);
+            var del = el('button', 'absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#0F0F12]/80 text-white active:bg-[#0F0F12]', '');
+            del.type = 'button';
+            del.setAttribute('data-action', 'photo-del');
+            del.setAttribute('data-i', String(i));
+            var x = document.createElement('i');
+            x.setAttribute('data-lucide', 'x');
+            x.className = 'h-3 w-3';
+            del.appendChild(x);
+            cell.appendChild(del);
+            host.appendChild(cell);
+          } else {
+            var add = el('button', 'flex aspect-square items-center justify-center rounded-lg border border-[#2A2A30] bg-[#17171A] text-[#5A5F66] active:bg-[#222228]', '');
+            add.type = 'button';
+            add.setAttribute('data-action', 'photo-add');
+            var plus = document.createElement('i');
+            plus.setAttribute('data-lucide', 'plus');
+            plus.className = 'h-5 w-5';
+            add.appendChild(plus);
+            host.appendChild(add);
+          }
+        }
+        icons();
+      }
+
+      function updateSubmit() {
+        var btn = document.getElementById('submit-review');
+        var txt = document.getElementById('review-text');
+        if (!btn || !txt) return;
+        var ok = state.rv > 0 && txt.value.trim() !== '';
+        btn.classList.toggle('opacity-50', !ok);
+        btn.classList.toggle('pointer-events-none', !ok);
+      }
+
+      function refreshCount() {
+        var cnt = document.getElementById('char-count');
+        var txt = document.getElementById('review-text');
+        if (cnt && txt) cnt.textContent = txt.value.length + '/500';
+      }
+
+      function openSheet(mode) {
+        state.sheet = mode;
+        var scrim = document.getElementById('review-scrim');
+        var sheet = document.getElementById('review-sheet');
+        if (!scrim || !sheet) return;
+        document.getElementById('review-title').textContent = mode === 'read' ? '128 opiniones' : 'Escribir opinión';
+        document.getElementById('write-view').classList.toggle('hidden', mode !== 'write');
+        var rv = document.getElementById('read-view');
+        rv.classList.toggle('hidden', mode !== 'read');
+        if (mode === 'read') {
+          rv.textContent = '';
+          REVIEWS.forEach(function (r) { rv.appendChild(buildReviewItem(r, true)); });
+          icons();
+        }
+        scrim.classList.remove('hidden');
+        sheet.classList.remove('hidden');
+        sheet.style.transition = 'transform 0.28s ease';
+        requestAnimationFrame(function () { sheet.style.transform = 'translateY(0)'; });
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSheet() {
+        var scrim = document.getElementById('review-scrim');
+        var sheet = document.getElementById('review-sheet');
+        if (!scrim || !sheet) return;
+        state.sheet = null;
+        sheet.style.transition = 'transform 0.28s ease';
+        sheet.style.transform = 'translateY(100%)';
+        setTimeout(function () {
+          scrim.classList.add('hidden');
+          sheet.classList.add('hidden');
+        }, 260);
+        document.body.style.overflow = '';
+      }
+
+      function initReviews() {
+        buildDims();
+        buildReviews();
+        renderStars();
+        buildSliders();
+        renderPhotoCells();
+        var txt = document.getElementById('review-text');
+        if (txt) {
+          txt.addEventListener('input', function () { refreshCount(); updateSubmit(); });
+        }
+        var inp = document.getElementById('photo-input');
+        if (inp) {
+          inp.addEventListener('change', function () {
+            var files = Array.prototype.slice.call(inp.files || []);
+            files.forEach(function (f) {
+              if (state.pics.length >= 9) return;
+              var rd = new FileReader();
+              rd.onload = function () {
+                state.pics.push(rd.result);
+                renderPhotoCells();
+              };
+              rd.readAsDataURL(f);
+            });
+            inp.value = '';
+          });
+        }
+        var handle = document.getElementById('review-drag');
+        var sheet = document.getElementById('review-sheet');
+        var dragging = { on: false, y0: 0 };
+        if (handle && sheet) {
+          handle.addEventListener('pointerdown', function (ev) {
+            if (state.sheet === null) return;
+            dragging.on = true;
+            dragging.y0 = ev.clientY;
+            sheet.style.transition = 'none';
+            try { handle.setPointerCapture(ev.pointerId); } catch (e) {}
+          });
+          handle.addEventListener('pointermove', function (ev) {
+            if (!dragging.on) return;
+            var dy = ev.clientY - dragging.y0;
+            if (dy > 0) sheet.style.transform = 'translateY(' + dy + 'px)';
+          });
+          handle.addEventListener('pointerup', function () {
+            if (!dragging.on) return;
+            dragging.on = false;
+            var tr = sheet.style.transform || '';
+            var m = tr.match(/translateY\(([\d.]+)px\)/);
+            var ty = m ? parseFloat(m[1]) : 0;
+            if (ty > sheet.offsetHeight * 0.45) closeSheet();
+            else {
+              sheet.style.transition = 'transform 0.28s ease';
+              sheet.style.transform = 'translateY(0)';
+            }
+          });
+        }
+      }
+
+      // —— Toast ——
+      var toastTimer = null;
+      function showToast(msg, type) {
+        var toast = document.getElementById('toast');
+        var icon = document.getElementById('toast-icon');
+        var text = document.getElementById('toast-text');
+        if (!toast || !icon || !text) return;
+        var palette = {
+          info: { icon: 'info', color: 'text-[#4D9FFF]', border: 'border-[#4D9FFF]' },
+          success: { icon: 'check-circle', color: 'text-[#45B87A]', border: 'border-[#45B87A]' },
+          danger: { icon: 'alert-circle', color: 'text-[#FF6B6B]', border: 'border-[#FF6B6B]' }
+        };
+        var p = palette[type] || palette.info;
+        icon.dataset.lucide = p.icon;
+        icon.className = 'h-4 w-4 shrink-0 ' + p.color;
+        toast.className = 'pointer-events-auto fixed left-1/2 top-[calc(env(safe-area-inset-top)+76px)] z-[80] flex -translate-x-1/2 items-center gap-2 rounded-lg border bg-[#0F0F12] px-4 py-3 opacity-100 translate-y-0 transition-all duration-300 ' + p.border;
+        text.textContent = msg;
+        icons();
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toast.classList.add('opacity-0', 'translate-y-[-8px]');
+        }, 2400);
+      }
+
+      // —— Delegación de clics (data-action) ——
+      app.addEventListener('click', function (event) {
+        var t = event.target.closest('[data-action]');
+        if (!t) return;
+        var action = t.getAttribute('data-action');
+
+        if (action === 'back') {
+          if (window.history.length > 1) { try { window.history.back(); } catch (e) {} }
+          else go('index.html');
+        }
+
+        else if (action === 'toggle-acc') {
+          var body = document.getElementById(t.getAttribute('data-target'));
+          if (!body) return;
+          var open = body.classList.toggle('hidden');
+          var icon = t.querySelector('.acc-icon');
+          if (icon) icon.classList.toggle('rotate-180', !open);
+        }
+
+        else if (action === 'pick-room') {
+          state.room = parseInt(t.getAttribute('data-room'), 10) || 0;
+          renderRooms();
+          showToast(ROOMS[state.room].name + ' seleccionada', 'success');
+        }
+
+        else if (action === 'reserve') {
+          showToast('Solicitud de reserva en proceso (demo)', 'info');
+        }
+
+        else if (action === 'contact') {
+          // Contactar alojamiento: chat real con persistencia aloja_msgs_leidos
+          go('chat.html');
+        }
+
+        else if (action === 'open-review') {
+          state.rv = 0;
+          state.dims = { l: 5, s: 5, u: 5, i: 5 };
+          state.pics = [];
+          var pt = document.getElementById('review-text');
+          if (pt) pt.value = '';
+          refreshCount();
+          renderStars();
+          buildSliders();
+          renderPhotoCells();
+          openSheet('write');
+        }
+
+        else if (action === 'open-all') { openSheet('read'); }
+
+        else if (action === 'close-sheet') { closeSheet(); }
+
+        else if (action === 'rate-star') {
+          state.rv = parseInt(t.getAttribute('data-v'), 10) || 0;
+          renderStars();
+        }
+
+        else if (action === 'photo-add') {
+          var pi = document.getElementById('photo-input');
+          if (pi) pi.click();
+        }
+
+        else if (action === 'photo-del') {
+          var idx = parseInt(t.getAttribute('data-i'), 10);
+          if (idx >= 0 && idx < state.pics.length) {
+            state.pics.splice(idx, 1);
+            renderPhotoCells();
+          }
+        }
+
+        else if (action === 'submit-review') {
+          var txt = document.getElementById('review-text');
+          if (!txt || state.rv === 0 || txt.value.trim() === '') return;
+          // demo: sin backend, se pierde al recargar
+          REVIEWS.unshift({ a: 'Tú', d: 0, s: state.rv, t: txt.value.trim(), im: state.pics.slice(), rep: null });
+          state.pics = [];
+          state.rv = 0;
+          state.dims = { l: 5, s: 5, u: 5, i: 5 };
+          txt.value = '';
+          refreshCount();
+          closeSheet();
+          buildReviews();
+          icons();
+          showToast('Opinión enviada', 'success');
+        }
+      });
+
+      // —— init ——
+      icons();
+      buildGallery();
+      buildInfo();
+      buildRooms();
+      renderRooms();
+      initReviews();
+    })();
+  </script>
+</body>
+</html>
