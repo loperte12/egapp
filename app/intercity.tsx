@@ -25,6 +25,7 @@ import { useSession } from '../state/session';
 import { intercityApi, type IcBooking, type IcLocation, type IcTrip, IC_VEHICLE_TYPES, IC_VEHICLE_LABELS } from '../api/intercity';
 import { LazyImage } from '../components/rental/LazyImage';
 import { brand } from '@egrouteplan/ui-kit';
+import { absUrl } from '../api/config';
 
 type Step = 'search' | 'trips' | 'passenger' | 'confirm' | 'ticket';
 
@@ -40,7 +41,7 @@ const gqPhone = (raw: string): string | null => {
   if (d.length === 12 && d.startsWith('240')) return `+${d}`;
   return null;
 };
-const absUrl = (p: string) => (p.startsWith('http') ? p : `https://hk.egrouteplan.com${p}`);
+// absUrl importada de api/config: normaliza rutas internas contra API_HOST (CloudBase).
 
 export default function IntercityScreen() {
   const { colors } = useTheme();
