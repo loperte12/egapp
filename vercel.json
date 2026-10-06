@@ -1,19 +1,8 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
-    }
-  ],
-  "routes": [
-    { "src": "/wallet/api/(.*)", "dest": "https://egapp-api.vercel.app/wallet/api/$1" },
-    { "src": "/lb-images/(.*)", "dest": "https://egapp-api.vercel.app/wallet/api/v1/media-legacy/lb-images/$1" },
-    { "src": "/storage/(.*)", "dest": "https://egapp-api.vercel.app/wallet/api/v1/media-legacy/storage/$1" },
-    { "src": "/maps/(.*)", "dest": "https://hk.egrouteplan.com/maps/$1" },
-    { "src": "/routing/(.*)", "dest": "https://hk.egrouteplan.com/routing/$1" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "buildCommand": "npx expo export --platform web",
+  "outputDirectory": "dist",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
