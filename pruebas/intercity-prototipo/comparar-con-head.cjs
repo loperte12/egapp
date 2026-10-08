@@ -37,13 +37,26 @@ const TMP = path.join(os.tmpdir(), "comparar-con-head");
 
 const [id = "IC-2", w = "390", h = "1100", esc = "2"] = process.argv.slice(2);
 
-// 1. plantilla de HEAD, en binario (sin tocar codificaciones)
+// 1. plantilla e IMÁGENES de HEAD, en binario (sin tocar codificaciones)
 fs.mkdirSync(TMP, { recursive: true });
 const rel = path.relative(REPO, path.join(DIR, "index.tpl.html")).split(path.sep).join("/");
+const relDir = path.dirname(rel);
 const tpl = execFileSync("git", ["show", "HEAD:" + rel], { cwd: REPO, maxBuffer: 64 * 1024 * 1024 });
 fs.writeFileSync(path.join(TMP, "index.tpl.html"), tpl);
 fs.copyFileSync(path.join(DIR, "build-prototipo.cjs"), path.join(TMP, "build-prototipo.cjs"));
-fs.cpSync(path.join(DIR, "img"), path.join(TMP, "img"), { recursive: true });
+// Las imágenes se traen TAMBIÉN de HEAD: copiar las del árbol de trabajo dejaría la
+// comparación ciega a cualquier cambio de assets (daría 0 diferencias siempre).
+fs.mkdirSync(path.join(TMP, "img"), { recursive: true });
+const imgsHead = execFileSync("git", ["ls-tree", "--name-only", `HEAD:${relDir}/img`], {
+  cwd: REPO, encoding: "utf8",
+}).trim().split("\n").filter(Boolean);
+for (const f of imgsHead) {
+  const buf = execFileSync("git", ["show", `HEAD:${relDir}/img/${f}`], {
+    cwd: REPO, maxBuffer: 128 * 1024 * 1024,
+  });
+  fs.writeFileSync(path.join(TMP, "img", f), buf);
+}
+console.log(`(imágenes de HEAD: ${imgsHead.length})`);
 
 // 2. construir esa versión
 execFileSync(process.execPath, [path.join(TMP, "build-prototipo.cjs")], { stdio: "ignore" });

@@ -1,5 +1,6 @@
 # Copias de seguridad manuales de la plantilla (red de seguridad local, no versionar)
 *.bak-*
 *.tmp
+*.bak-fondo
 
 # index.html SÍ se versiona: es el prototipo que se abre en el navegador sin compilar.
