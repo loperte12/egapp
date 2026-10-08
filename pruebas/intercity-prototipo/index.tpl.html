@@ -153,10 +153,7 @@
   .sello.pend{color:var(--warn)}
   .resumen{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
   .resumen b{color:var(--text)}
-  .driver-tag{display:flex;align-items:center;gap:6px;padding:6px 10px}
-  .driver-tag .foto{width:24px;height:24px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--muted);object-fit:cover}
-  .driver-tag .nombre{font-size:11.5px;font-weight:600}
-  .driver-tag .rating{font-size:10px;color:var(--warn)}
+  /* (.driver-tag se retiró: es la variante compacta de .persona, en las piezas compartidas) */
   .amens{display:flex;gap:5px;flex-wrap:wrap;min-height:45px;align-content:flex-start}
   .amen{display:inline-flex;align-items:center;gap:3px;height:20px;padding:0 7px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:10px;color:var(--muted)}
 
@@ -189,6 +186,12 @@
   .persona{display:flex;align-items:center;gap:10px}
   .persona .avatar-40{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--muted);object-fit:cover;flex:none}
   .persona .rol{font-size:11.5px;color:var(--warn)}
+  /* variante compacta (IC-2, IC-8): avatar de 24 y nombre con nota en la misma línea.
+     Antes era .driver-tag, con su propio juego de clases duplicado. */
+  .persona.compacta{gap:6px;padding:6px 10px}
+  .persona .avatar-24{width:24px;height:24px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--muted);object-fit:cover;flex:none}
+  .persona .nombre{font-size:11.5px;font-weight:600}
+  .persona .rating{font-size:10px;color:var(--warn)}
   /* par de acciones: mismo patrón repetido en 5 pantallas (antes, estilos en línea) */
   .acciones{display:flex;gap:8px}
   .acciones .btn{flex:1}
@@ -480,7 +483,7 @@
         <div class="masonry">
           <div class="mcard">
             <div class="foto-tile"><img src="{{IMG_MINIBUS}}" alt="Minibús"><span class="sello ok">Verificado</span></div>
-            <div class="driver-tag"><img class="foto" src="{{IMG_CONDUCTOR}}" alt="" style="width:24px;height:24px"><span class="nombre">Anastasio M.</span><span class="rating">★ 4,8</span></div>
+            <div class="persona compacta"><img class="avatar-24" src="{{IMG_CONDUCTOR}}" alt=""><span class="nombre">Anastasio M.</span><span class="rating">★ 4,8</span></div>
             <div class="cuerpo">
               <div class="ruta">Bata → Cogo</div>
               <div class="meta">vie 9 oct · 06:30 · ~2 h 30</div>
@@ -491,7 +494,7 @@
           </div>
           <div class="mcard">
             <div class="foto-tile"><img src="{{IMG_COCHE}}" alt="Coche"></div>
-            <div class="driver-tag"><span class="foto">PE</span><span class="nombre">Pedro E.</span><span class="rating">★ 4,5</span></div>
+            <div class="persona compacta"><span class="avatar-24">PE</span><span class="nombre">Pedro E.</span><span class="rating">★ 4,5</span></div>
             <div class="cuerpo">
               <div class="ruta">Bata → Cogo</div>
               <div class="meta">vie 9 oct · 09:00 · ~2 h</div>
@@ -502,7 +505,7 @@
           </div>
           <div class="mcard">
             <div class="foto-tile"><img src="{{IMG_VAN}}" alt="Van"><span class="sello pend">Nuevo</span></div>
-            <div class="driver-tag"><span class="foto">JN</span><span class="nombre">Jacoba N.</span><span class="rating">★ 4,9</span></div>
+            <div class="persona compacta"><span class="avatar-24">JN</span><span class="nombre">Jacoba N.</span><span class="rating">★ 4,9</span></div>
             <div class="cuerpo">
               <div class="ruta">Bata → Cogo · puerta a puerta</div>
               <div class="meta">vie 9 oct · 11:30 · ~2 h 45</div>
@@ -922,7 +925,7 @@
         <div class="masonry">
           <div class="mcard">
             <div class="foto-tile"><img src="{{IMG_MINIBUS}}" alt=""></div>
-            <div class="driver-tag"><img class="foto" src="{{IMG_CONDUCTOR}}" alt="" style="width:24px;height:24px"><span class="nombre">Anastasio M.</span><span class="rating">★ 4,8</span></div>
+            <div class="persona compacta"><img class="avatar-24" src="{{IMG_CONDUCTOR}}" alt=""><span class="nombre">Anastasio M.</span><span class="rating">★ 4,8</span></div>
             <div class="cuerpo">
               <span class="tag-pub cond" style="align-self:flex-start">VIAJE · CONDUCTOR</span>
               <div class="ruta">Bata → Ebebiyín</div>
@@ -964,7 +967,7 @@
           </div>
           <div class="mcard">
             <div class="foto-tile"><img src="{{IMG_COCHE}}" alt=""></div>
-            <div class="driver-tag"><span class="foto">PE</span><span class="nombre">Pedro E.</span><span class="rating">★ 4,5</span></div>
+            <div class="persona compacta"><span class="avatar-24">PE</span><span class="nombre">Pedro E.</span><span class="rating">★ 4,5</span></div>
             <div class="cuerpo">
               <span class="tag-pub cond" style="align-self:flex-start">VIAJE · CONDUCTOR</span>
               <div class="ruta">Bata → Mbini</div>
