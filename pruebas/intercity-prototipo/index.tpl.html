@@ -181,6 +181,7 @@
 
   /* piezas compartidas del flujo de publicación (IC-1c / IC-1d).
      Antes eran estilos en línea repetidos: al cambiar una fila había que acordarse de la otra. */
+  .crece{flex:1}
   .fuerte{font-size:14px;font-weight:600}
   .tile-fantasma{height:110px;border-radius:12px;background:var(--field);border:1.5px dashed var(--faint);display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:13px}
   .persona{display:flex;align-items:center;gap:10px}
@@ -553,7 +554,7 @@
           <span class="rotulo">CONDUCTOR</span>
           <div class="fila">
             <img src="{{IMG_CONDUCTOR}}" alt="Anastasio M." style="width:64px;height:64px;border-radius:14px;object-fit:cover">
-            <div style="flex:1">
+            <div class="crece">
               <div style="font-size:15px;font-weight:600">Anastasio M.</div>
               <div style="font-size:12px;color:var(--warn)">★ 4,8 · 32 viajes · DNI verificado</div>
               <div class="nota">👁 2 314 visualizaciones · 214 seguidores</div>
@@ -603,7 +604,7 @@
         <div class="tarjeta">
           <div class="fila">
             <img src="{{IMG_CONDUCTOR}}" alt="Anastasio M." style="width:76px;height:76px;border-radius:18px;object-fit:cover">
-            <div style="flex:1">
+            <div class="crece">
               <div style="font-size:16px;font-weight:600">Anastasio M.</div>
               <div style="font-size:12px;color:var(--warn)">★ 4,8 · 32 viajes · DNI verificado</div>
               <div class="nota">Bata · Litoral · en la app desde mar 2026</div>
@@ -1185,27 +1186,27 @@
         <div class="tarjeta">
           <div class="pas">
             <span class="pf">MG</span>
-            <div style="flex:1">
+            <div class="crece">
               <div class="fila"><span class="nom">María G. · 2 plazas</span><span class="estado ok">Validada</span></div>
               <div class="det">Aceptó 8 000 XAF · pagará en efectivo 16 000 XAF · 🤰 embarazada — asiento delantero · recogida a casa (Km 5) · DIP verificado ✓</div>
             </div>
           </div>
           <div class="pas">
             <span class="pf">FE</span>
-            <div style="flex:1">
+            <div class="crece">
               <div class="fila"><span class="nom">Familia Ekomo · 4 plazas</span><span class="estado pend">Por confirmar</span></div>
               <div class="det">Aplicó a 7 000 XAF (ofreciste 7 500) · 2 adultos + 2 niños · 🐾 perrito pequeño en jaula · agencia, 06:15 · esperan tu confirmación</div>
             </div>
-            <div class="fila" style="gap:6px;align-items:flex-end">
-              <div class="btn mini">Confirmar</div>
-              <div class="btn mini sec">Rechazar</div>
-            </div>
+          </div>
+          <div class="acciones">
+            <div class="btn mini">Confirmar</div>
+            <div class="btn mini sec">Rechazar</div>
           </div>
         </div>
         <div class="tarjeta aviso">
           <div class="pas">
             <span class="pf" style="border-radius:10px">BL</span>
-            <div style="flex:1">
+            <div class="crece">
               <div class="fila"><span class="nom">Solicitud #8412 · Bernardo L. · 5 plazas</span><span class="estado pend">Contraoferta enviada</span></div>
               <div class="det">Pidió 6 000 · ofreciste 7 500 con puerta a puerta · nota de voz de 0:08 escuchada · <b>esperando su decisión</b></div>
             </div>

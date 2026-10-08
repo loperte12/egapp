@@ -63,16 +63,18 @@ const SONDA = `<pre id="ui-audit"></pre>
     });
     // objetivos táctiles: WCAG 2.5.8 (AA) exige >= 24x24 CSS px
     const objetivos = m.querySelectorAll('button, a[href], [role="button"], .btn');
-    let bajo24 = [], bajo44 = 0;
+    let bajo24 = [], bajo44 = 0, bajo44lista = [];
     objetivos.forEach(function(el){
       const b = el.getBoundingClientRect();
       if (b.width === 0 && b.height === 0) return;
       const w = Math.round(b.width), h = Math.round(b.height);
-      if (w < 24 || h < 24) bajo24.push(clase(el) + ' ' + w + 'x' + h + ' «' + (el.textContent || '').trim().slice(0, 20) + '»');
-      else if (w < 44 || h < 44) bajo44++;
+      const desc = w + 'x' + h + ' «' + (el.textContent || '').trim().slice(0, 22) + '»';
+      if (w < 24 || h < 24) bajo24.push(clase(el) + ' ' + desc);
+      else if (w < 44 || h < 44) { bajo44++; if (bajo44lista.length < 4) bajo44lista.push(desc); }
     });
     res[res.length - 1].bajo24 = bajo24;
     res[res.length - 1].bajo44 = bajo44;
+    res[res.length - 1].bajo44lista = bajo44lista;
     // navegación inferior: todas las pantallas la llevan, salvo los escalones del
     // funnel de reserva, que la omiten a propósito y lo declaran con .sin-nav
     const ft = m.querySelector('.footer');
@@ -142,6 +144,11 @@ const totalBajo44 = pantallas.reduce((a, p) => a + (p.bajo44 || 0), 0);
 console.log(
   "INFO: " + totalBajo44 + " objetivos entre 24 y 44 px (pasan AA; por debajo del ideal táctil de 44)"
 );
+for (const p of pantallas) {
+  if (p.bajo44) {
+    console.log("        " + p.id.padEnd(7) + p.bajo44 + ": " + (p.bajo44lista || []).join(" · "));
+  }
+}
 
 // --- contraste ----------------------------------------------------------------
 console.log("");
