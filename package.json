@@ -9,7 +9,11 @@
   "scripts": {
     "rutas": "node pruebas/auditar-rutas.cjs",
     "rutas:mapa": "node pruebas/generar-mapa-rutas.cjs",
-    "diseno": "node pruebas/verifica-diseno.cjs",
+    "diseno": "node pruebas/verificar-diseno-todo.cjs",
+    "diseno:app": "node pruebas/verifica-diseno.cjs",
+    "diseno:ui": "node pruebas/intercity-prototipo/verificar-ui.cjs",
+    "diseno:ui:render": "node pruebas/intercity-prototipo/render-pantalla.cjs",
+    "prototipo": "node pruebas/intercity-prototipo/build-prototipo.cjs",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",

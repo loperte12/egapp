@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EG Route Plan · Intercity — Prototipo flujo del pasajero (v4)</title>
+<style>
+  :root{
+    --bg:#1E1E23; --card:#26262C; --card2:#2D2D34; --field:#2A2A31;
+    --line:#33343A; --text:#F2F3F5; --muted:#9AA0A8; --faint:#8C9299;
+    --primary:#0066CC; --price:#C2410C; --price-text:#ED4F0F; --link:#4C9BE8;
+    --ok:#2E9E5B; --ok-text:#31A860; --warn:#B98A2B; --danger:#C0392B;
+    --r-card:16px; --r-btn:14px; --r-chip:18px; --r-field:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",system-ui,-apple-system,sans-serif}
+  body{background:#141417;color:var(--text);padding:28px 32px 64px}
+  h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:28px;max-width:900px;line-height:1.55}
+  .sub b{color:var(--text)}
+  .flujo{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start}
+  .pantalla{display:flex;flex-direction:column;gap:10px}
+  .etiqueta{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .etiqueta em{font-style:normal;color:var(--price)}
+  .movil{width:390px;height:844px;background:var(--bg);border:1px solid #000;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,.5);position:relative}
+  .movil.larga{height:auto;min-height:844px}
+
+  /* piezas comunes */
+  .topbar{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 16px;border-bottom:1px solid var(--line);flex:none}
+  .topbar .back{font-size:24px;color:var(--text);width:32px}
+  .topbar .titulo{font-size:17px;font-weight:600}
+  .topbar .avatar{width:32px;height:32px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff}
+  .contenido{padding:16px;display:flex;flex-direction:column;gap:16px;flex:1}
+  .tarjeta{background:var(--card);border-radius:var(--r-card);padding:16px;display:flex;flex-direction:column;gap:12px}
+  .rotulo{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em}
+  .campo{display:flex;align-items:center;gap:10px;height:50px;padding:0 14px;background:var(--field);border-radius:var(--r-field)}
+  .campo .ico{color:var(--muted);font-size:15px}
+  .campo .valor{font-size:15px;font-weight:500}
+  .campo.secundario .valor{color:var(--faint);font-weight:400}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{display:flex;align-items:center;height:36px;padding:0 14px;border-radius:var(--r-chip);background:var(--field);border:1px solid var(--line);font-size:13px;font-weight:500}
+  .chip.sel{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600}
+  .chip.off{color:var(--faint)}
+  .chip.mini{height:26px;padding:0 10px;font-size:11.5px;border-radius:13px}
+  .nota{font-size:12px;line-height:1.45;color:var(--muted)}
+  .nota.legal{padding:10px 12px;background:var(--card);border-radius:10px;border-left:3px solid var(--warn);color:var(--muted)}
+  .btn{display:flex;align-items:center;justify-content:center;height:52px;border-radius:var(--r-btn);background:var(--primary);color:#fff;font-size:16px;font-weight:600;margin-top:auto}
+  .btn.sec{background:var(--card2);color:var(--text);margin-top:0}
+  .btn.mini{height:34px;font-size:12px;border-radius:10px;padding:0 12px;margin-top:0;font-weight:600}
+  .precio{color:var(--price-text);font-weight:700}
+  .tachado{color:var(--faint);text-decoration:line-through;font-weight:400}
+  .divisor{height:1px;background:var(--line)}
+  .fila{display:flex;align-items:center;justify-content:space-between}
+  .estado{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;font-size:11px;font-weight:600;white-space:nowrap}
+  .estado.ok{background:rgba(46,158,91,.15);color:var(--ok-text)}
+  .estado.pend{background:rgba(185,138,43,.15);color:var(--warn)}
+  .estado.viaje{background:rgba(0,102,204,.18);color:var(--link)}
+  .badge-desc{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;background:rgba(194,65,12,.18);color:#E08A5C;font-size:11px;font-weight:700}
+
+  /* footer */
+  .footer{display:flex;border-top:1px solid var(--line);background:var(--card);flex:none}
+  .footer .ftab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0 12px;font-size:10px;color:var(--faint)}
+  .footer .ftab .fic{font-size:17px}
+  .footer .ftab.sel{color:var(--link)}
+  .footer .ftab.sel .fic{color:var(--link)}
+
+  /* INICIO: mapa + ticker + panel */
+  .portada-mapa{flex:1;position:relative;overflow:hidden;background:#232328;min-height:0}
+  .portada-mapa svg{position:absolute;inset:0;width:100%;height:100%}
+  .mapa-tag{position:absolute;top:10px;left:12px;display:flex;align-items:center;gap:6px;background:rgba(20,20,23,.85);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:11px;color:var(--muted)}
+  .ticker{height:104px;flex:none;background:var(--bg);border-bottom:1px solid var(--line);overflow:hidden;padding:8px 0 6px}
+  .ticker .track{display:flex;gap:8px;width:max-content;animation:ticker 22s linear infinite}
+  @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .promo{flex:none;width:128px;border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;justify-content:space-between;font-size:10.5px;line-height:1.3;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+  .promo b{font-size:12.5px}
+  .promo .tirar{font-size:9px;opacity:.85}
+  .promo .p-azul{background:linear-gradient(135deg,#0A4E96,#0066CC)}
+  .promo .p-naranja{background:linear-gradient(135deg,#7A2A0B,#C2410C)}
+  .promo .p-verde{background:linear-gradient(135deg,#1E5E3A,#2E9E5B)}
+  .promo .p-gris{background:linear-gradient(135deg,#33343A,#4A4B52)}
+  .ticker .pista{font-size:9.5px;color:var(--faint);text-align:center;padding-top:4px}
+  .sheet{background:var(--bg);border-radius:20px 20px 0 0;border-top:1px solid var(--line);flex:none;display:flex;flex-direction:column}
+  .sheet .asa{width:44px;height:4px;border-radius:2px;background:#4A4B52;margin:8px auto 0}
+  .sheet .cuerpo{padding:12px 16px 14px;display:flex;flex-direction:column;gap:10px}
+  .ruta-compacta{display:flex;flex-direction:column;gap:6px}
+  .tramo{display:flex;align-items:center;gap:10px;height:44px;background:var(--field);border-radius:12px;padding:0 12px}
+  .tramo .punto{width:8px;height:8px;border-radius:50%;flex:none}
+  .tramo .v{font-size:14px;font-weight:500}
+  .tramo .cambiar{margin-left:auto;font-size:11px;color:var(--link)}
+  .cal-card{display:flex;align-items:center;gap:10px;height:48px;padding:0 14px;background:var(--field);border-radius:12px}
+  .cal-card .v{font-size:14px;font-weight:500;flex:1}
+  .cal-card .chev{color:var(--faint)}
+  .tabsp{display:flex;background:var(--card);border-radius:12px;padding:4px;gap:4px}
+  .tabsp .t{flex:1;text-align:center;padding:9px 0;border-radius:9px;font-size:13px;color:var(--muted)}
+  .tabsp .t.sel{background:var(--primary);color:#fff;font-weight:600}
+
+  /* hoja de calendario DENTRO del sheet: un mes completo, con scroll si no cabe.
+     (antes: .cal-inline a 40 % fijo, que cortaba la segunda rejilla a media fila) */
+  .cal-drawer{display:flex;flex-direction:column;gap:8px;max-height:264px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#4A4B52 transparent}
+  .cal-drawer::-webkit-scrollbar{width:6px}
+  .cal-drawer::-webkit-scrollbar-thumb{background:#4A4B52;border-radius:3px}
+  .mes-nav{display:flex;gap:14px;color:var(--faint)}
+  .mes-sig{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+  .cta-fijo{display:flex;flex-direction:column;gap:8px;flex:none}
+  .cta-fijo .btn{margin-top:0}
+  .cal{display:flex;flex-direction:column;gap:6px}
+  .cal .mes{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600}
+  .cal .dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .cal .d{height:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:9px;font-size:12px;color:var(--muted)}
+  .cal .d.vacio{visibility:hidden}
+  .cal .d.hoy{color:var(--text);border:1px solid var(--line)}
+  .cal .d.sel{background:var(--primary);color:#fff;font-weight:700}
+  .cal .d.desc{position:relative;color:#E08A5C;font-weight:600}
+  .cal .d.desc::after{content:"↓";position:absolute;bottom:0;font-size:8px}
+  .cal .d.otro{opacity:.45}
+  .cal .cab{font-size:10.5px;color:var(--faint);text-align:center;height:18px}
+
+  /* audio, amenidades, badges de publicación */
+  .audio-row{display:flex;align-items:center;gap:8px;background:var(--field);border:1px solid var(--line);border-radius:20px;padding:6px 10px}
+  .audio-row .play{width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;flex:none}
+  .wave{display:flex;align-items:center;gap:2px;flex:1;height:16px}
+  .wave span{width:3px;border-radius:2px;background:#4C9BE8}
+  .audio-row .dur{font-size:10px;color:var(--muted)}
+  .tag-pub{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:10px;font-size:9.5px;font-weight:700;letter-spacing:.05em}
+  .tag-pub.cond{background:rgba(0,102,204,.18);color:var(--link)}
+  .tag-pub.user{background:rgba(46,158,91,.16);color:var(--ok)}
+  .tag-pub.upd{background:rgba(185,138,43,.16);color:var(--warn)}
+  .video-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .video-play .circ{width:40px;height:40px;border-radius:50%;background:rgba(20,20,23,.75);border:1.5px solid #F2F3F5;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+  /* vehículos 3D */
+  .vtiles{display:flex;gap:8px}
+  .vtile{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px 8px;background:var(--field);border:1px solid var(--line);border-radius:12px}
+  .vtile.sel{border-color:var(--primary);background:rgba(0,102,204,.10)}
+  .vtile img{width:56px;height:44px;object-fit:contain}
+  .vtile span{font-size:11px;color:var(--muted)}
+  .vtile.sel span{color:var(--text);font-weight:600}
+  .foto-tile{background:var(--card2);border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/3}
+  .foto-tile img{width:100%;height:100%;display:block;object-fit:cover}
+
+  /* resultados/panel masonry */
+  /* Rejilla de 2 columnas con tarjetas de alto comparable: `columns` dejaba un
+     hueco de ~375 px en la columna izquierda cuando sólo hay 3 resultados. */
+  .masonry{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
+  .mcard{background:var(--card);border-radius:var(--r-card);overflow:hidden;display:flex;flex-direction:column}
+  .mcard .cuerpo{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px}
+  .mcard .ruta{font-size:14px;font-weight:600;line-height:1.25}
+  .mcard .meta{font-size:11.5px;color:var(--muted)}
+  .mcard .pie{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:2px;min-height:34px}
+  .precio-bloque{display:flex;flex-direction:column;gap:1px;line-height:1.15}
+  /* el sello va sobre la foto: en una tarjeta de 174 px no cabe junto al precio */
+  .sello{position:absolute;top:8px;right:8px;display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;font-size:10px;font-weight:700;background:#141417}
+  .sello.ok{color:var(--ok-text)}
+  .sello.pend{color:var(--warn)}
+  .resumen{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+  .resumen b{color:var(--text)}
+  .driver-tag{display:flex;align-items:center;gap:6px;padding:6px 10px}
+  .driver-tag .foto{width:24px;height:24px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--muted);object-fit:cover}
+  .driver-tag .nombre{font-size:11.5px;font-weight:600}
+  .driver-tag .rating{font-size:10px;color:var(--warn)}
+  .amens{display:flex;gap:5px;flex-wrap:wrap;min-height:45px;align-content:flex-start}
+  .amen{display:inline-flex;align-items:center;gap:3px;height:20px;padding:0 7px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:10px;color:var(--muted)}
+
+  /* detalle / perfil */
+  .acciones-contacto{display:flex;gap:8px}
+  .accion{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:12px;background:var(--field);border:1px solid var(--line);font-size:11px;color:var(--muted)}
+  .accion .aic{font-size:17px}
+  .accion.wa .aic{color:#3AAE5C}
+  .accion.tel .aic{color:#4C9BE8}
+  .check-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field);font-size:13px}
+  .check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--faint);flex:none}
+  .check-row.marcado .check{background:var(--primary);border-color:var(--primary);position:relative}
+  .check-row.marcado .check::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px}
+  .radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--faint);flex:none}
+  .recogida-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--field)}
+  .recogida-opt.sel{border-color:var(--primary)}
+  .recogida-opt.sel .radio{border-color:var(--primary);background:radial-gradient(circle at center,var(--primary) 0 5px,transparent 6px)}
+  .recogida-opt .nombre{font-size:14px;font-weight:600}
+  .recogida-opt .detalle{font-size:12px;color:var(--muted);margin-top:2px}
+  .resumen-fila{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:4px 0}
+  .resumen-fila.total{color:var(--text);font-weight:600;font-size:15px;border-top:1px solid var(--line);padding-top:10px;margin-top:6px}
+  .contador{display:flex;align-items:center;gap:16px}
+  .contador button{width:32px;height:32px;border-radius:50%;background:var(--card2);border:1px solid var(--line);color:var(--text);font-size:16px}
+  .contador .num{font-size:16px;font-weight:600;width:20px;text-align:center}
+
+  /* piezas compartidas del flujo de publicación (IC-1c / IC-1d).
+     Antes eran estilos en línea repetidos: al cambiar una fila había que acordarse de la otra. */
+  .fuerte{font-size:14px;font-weight:600}
+  .tile-fantasma{height:110px;border-radius:12px;background:var(--field);border:1.5px dashed var(--faint);display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:13px}
+  .persona{display:flex;align-items:center;gap:10px}
+  .persona .avatar-40{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--muted);object-fit:cover;flex:none}
+  .persona .rol{font-size:11.5px;color:var(--warn)}
+  /* par de acciones: mismo patrón repetido en 5 pantallas (antes, estilos en línea) */
+  .acciones{display:flex;gap:8px}
+  .acciones .btn{flex:1}
+  /* estado semántico en vez de color en línea (3 tarjetas) y énfasis dentro de .nota (5 veces) */
+  .tarjeta.aviso{border-color:rgba(185,138,43,.4)}
+  .nota b{color:var(--text)}
+  /* el nombre abre el perfil del conductor: así no hace falta un botón «Ver perfil» */
+  /* Escalones del funnel de reserva (IC-3 → IC-4): sin navegación inferior A PROPÓSITO,
+     para no ofrecer salidas a mitad de la compra. Lo exige verificar-ui.cjs: si falta el
+     pie y la pantalla no lleva .sin-nav, es un fallo; y al no haber pie, se le da más aire. */
+  .sin-nav .contenido{padding-bottom:28px}
+  .enlace-perfil{color:var(--link)}
+  .stats{display:flex;background:var(--card);border-radius:12px;overflow:hidden}
+  .stats .st{flex:1;text-align:center;padding:10px 4px;border-right:1px solid var(--line)}
+  .stats .st:last-child{border-right:none}
+  .stats .st b{display:block;font-size:15px}
+  .stats .st span{font-size:10px;color:var(--muted)}
+  .btn-seguir{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:38px;padding:0 18px;border-radius:12px;background:var(--primary);color:#fff;font-size:13px;font-weight:700}
+  .sms{background:var(--card);border:1px solid var(--line);border-radius:14px 14px 14px 4px;padding:10px 12px;font-size:12px;line-height:1.45;color:var(--text)}
+  .sms .cab{font-size:10px;color:var(--faint);margin-bottom:4px}
+
+  /* ticket */
+  .ticket{background:var(--card);border-radius:var(--r-card);overflow:hidden}
+  .ticket .cab-t{background:var(--primary);padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+  .ticket .cab-t .marca{font-size:15px;font-weight:700;color:#fff}
+  .ticket .cab-t .tipo{font-size:10px;color:rgba(255,255,255,.8);letter-spacing:.1em}
+  .ticket .cuerpo-t{padding:16px;display:flex;flex-direction:column;gap:8px}
+  .ticket .perfo{height:8px;background:radial-gradient(circle 6px at 8px 4px,var(--bg) 98%,transparent),radial-gradient(circle 6px at calc(100% - 8px) 4px,var(--bg) 98%,transparent);border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
+  .fila-t{display:flex;justify-content:space-between;font-size:12.5px;padding:2px 0}
+  .fila-t .k{color:var(--muted)}
+  .fila-t .v{color:var(--text);font-weight:500;text-align:right;max-width:60%}
+  .qr-box{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 0 4px}
+  .qr-box svg{background:#fff;border-radius:8px;padding:8px}
+  .cod-t{font-size:19px;font-weight:700;letter-spacing:.09em}
+
+  /* mi viaje */
+  .traj{border-radius:12px;overflow:hidden;position:relative}
+  .traj svg{display:block;width:100%}
+  .timeline{display:flex;flex-direction:column}
+  .parada{display:flex;gap:12px}
+  .parada .rail{display:flex;flex-direction:column;align-items:center;width:14px}
+  .parada .punto{width:10px;height:10px;border-radius:50%;flex:none;margin-top:4px}
+  .parada .punto.done{background:var(--ok)}
+  .parada .punto.ahora{background:var(--primary);box-shadow:0 0 0 4px rgba(0,102,204,.25)}
+  .parada .punto.futura{background:var(--card2);border:1.5px solid var(--faint)}
+  .parada .linea{width:2px;flex:1;background:var(--line);min-height:22px}
+  .parada .linea.done{background:var(--ok)}
+  .parada .datos{padding-bottom:14px;flex:1}
+  .parada .lugar{font-size:13.5px;font-weight:600}
+  .parada .hora{font-size:11.5px;color:var(--muted)}
+  .parada .tag{font-size:10px;font-weight:700;letter-spacing:.03em}
+  .parada .tag.done{color:var(--ok)}
+  .parada .tag.ahora{color:#4C9BE8}
+  /* conductor */
+  .pas{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .pas:last-child{border-bottom:none;padding-bottom:0}
+  .pas .pf{width:36px;height:36px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--muted);flex:none;object-fit:cover}
+  .pas .nom{font-size:13.5px;font-weight:600}
+  .pas .det{font-size:11.5px;color:var(--muted);line-height:1.45}
+  .plazas{display:flex;gap:6px;flex-wrap:wrap}
+  .plaza{width:42px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;border:1px solid var(--line);color:var(--faint);background:var(--field)}
+  .plaza.ocu{background:rgba(0,102,204,.16);border-color:rgba(0,102,204,.5);color:#4C9BE8}
+  .plaza.val{background:rgba(46,158,91,.16);border-color:rgba(46,158,91,.5);color:var(--ok)}
+  .escaner{background:#141417;border:1.5px dashed #4C9BE8;border-radius:14px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .escaner svg{background:#fff;border-radius:8px;padding:8px}
+  .aviso-sms{display:flex;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+  .aviso-sms .ic{width:36px;height:36px;border-radius:10px;background:rgba(0,102,204,.15);color:#4C9BE8;display:flex;align-items:center;justify-content:center;font-size:16px;flex:none}
+  .aviso-sms .t{font-size:13.5px;font-weight:600}
+  .aviso-sms .d{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:2px}
+</style>
+</head>
+<body>
+
+<h1>EG Route Plan · Ciudad a Ciudad — Prototipo del flujo del pasajero + conductor (v5)</h1>
+<p class="sub">
+  <b>v5 · 08-oct-2026 · flujo del CONDUCTOR añadido</b>. Responde a «¿cómo serán las pantallas del conductor cuando es seleccionado, con sus pasajeros aplicados, tanto en un viaje programado a fecha futura como el día de la salida?» · <b>CD-1 Avisos</b>: SMS de alerta con enlace a la solicitud y notificación de nuevos aplicados · <b>CD-2 Detalle de la solicitud</b>: el conductor ve todo lo publicado por el pasajero (audio, recogida, precio sugerido) y elige <b>aceptar el precio o hacer contraoferta</b> · <b>CD-3 Mi viaje programado (16 oct)</b>: pasajeros aplicados con estado (validados / pendientes / especial), mapa de plazas, orden de recogidas y opción de <b>bajar el precio</b> para llenar · <b>CD-4 Día de la salida</b>: escáner de <b>QR del ticket</b>, plazas validadas, checklist de recogidas y botón de iniciar viaje.
+</p>
+<p class="sub">
+  <b>v4 · 08-oct-2026 · fuente de diseño</b>. Cambios de Bernardo sobre v3: <b>carrusel automático</b> tipo cinta en el header (tarjetas que se desplazan solas, arrastrables hacia abajo para ver detalle) · calendario que <b>se despliega en la misma Home al 40 %</b> (sin ir a otra pantalla) · <b>solicitudes de viaje de usuarios</b> en el Panel casi iguales a las de conductores, con <b>audio de voz</b> que se escucha al tocar sin abrir detalles · Panel con <b>buscador</b> y <b>filtros</b> (ruta, precio, días, semanas, meses) · <b>actualizaciones del conductor</b> (fotos y vídeos) en el Panel · <b>botón Seguir</b> y perfil del conductor con viajes, estados (masonry) y reseñas con fotos · <b>detalles editables del viaje</b> (💧 agua gratis, ❄️ A/C…) visibles en Panel y Detalle · <b>foto del conductor</b> en el Detalle · formulario completo de <b>publicación de solicitud</b> (foto, nombre, provincia/ciudad, pasajeros, precio sugerido por asiento, teléfono) con <b>alertas SMS al conductor</b>, <b>aceptación o contraoferta</b> y avisos al usuario.
+</p>
+
+<div class="flujo">
+
+  <!-- ══════════ IC-1a · INICIO · TICKER + MAPA + PANEL ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-1a · Inicio — ticker automático + mapa 80 % + panel</div>
+    <div class="movil">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Ciudad a Ciudad</span><span class="avatar">BL</span></div>
+      <div class="ticker">
+        <div class="track">
+          <div class="promo p-naranja"><b>−19% · Bata → Cogo</b><span>Los conductores han bajado el precio esta semana</span><span class="tirar">▾ arrastra la tarjeta hacia abajo</span></div>
+          <div class="promo p-azul"><b>Publica tu solicitud</b><span>Los conductores de tu zona la reciben por SMS</span><span class="tirar">▾ detalle al arrastrar</span></div>
+          <div class="promo p-verde"><b>🐾 Mascotas a bordo</b><span>Filtra conductores que las aceptan</span><span class="tirar">▾ detalle al arrastrar</span></div>
+          <div class="promo p-gris"><b>🚐 Alquiler con conductor</b><span>Dice cuántos pasajeros sois y propón precio</span><span class="tirar">▾ detalle al arrastrar</span></div>
+          <div class="promo p-naranja"><b>−19% · Bata → Cogo</b><span>Los conductores han bajado el precio esta semana</span><span class="tirar">▾ arrastra la tarjeta hacia abajo</span></div>
+          <div class="promo p-azul"><b>Publica tu solicitud</b><span>Los conductores de tu zona la reciben por SMS</span><span class="tirar">▾ detalle al arrastrar</span></div>
+          <div class="promo p-verde"><b>🐾 Mascotas a bordo</b><span>Filtra conductores que las aceptan</span><span class="tirar">▾ detalle al arrastrar</span></div>
+          <div class="promo p-gris"><b>🚐 Alquiler con conductor</b><span>Dice cuántos pasajeros sois y propón precio</span><span class="tirar">▾ detalle al arrastrar</span></div>
+        </div>
+        <div class="pista">Las tarjetas se desplazan solas · arrastra una hacia abajo para ver el detalle</div>
+      </div>
+      <div class="portada-mapa">
+{{MAPA}}
+        <div class="mapa-tag">🗺️ Zona jurídica: Litoral · requisito legal, no filtra</div>
+      </div>
+      <div class="sheet">
+        <div class="asa"></div>
+        <div class="cuerpo">
+          <div class="ruta-compacta">
+            <div class="tramo"><span class="punto" style="background:var(--primary)"></span><span class="v">Litoral · Bata</span><span class="cambiar">Cambiar</span></div>
+            <div class="tramo"><span class="punto" style="background:var(--price)"></span><span class="v">Litoral · Cogo</span><span class="cambiar">Cambiar</span></div>
+          </div>
+          <div class="cal-card"><span>📅</span><span class="v">vie 9 oct · ver calendario de salidas</span><span class="chev">⌄</span></div>
+          <div class="btn">Buscar viaje</div>
+          <div class="btn sec">Publicar solicitud · alquiler o viaje grupal</div>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="ftab sel"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-1b · MISMA PANTALLA · HOJA DE CALENDARIO ABIERTA ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-1b · Inicio — <b>la misma pantalla</b> con la hoja del calendario abierta <em>(mismo topbar, mismo mapa y mismo sheet; el ticker se retira mientras se elige fecha)</em></div>
+    <div class="movil">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Ciudad a Ciudad</span><span class="avatar">BL</span></div>
+      <div class="portada-mapa">
+{{MAPA}}
+        <div class="mapa-tag">🗺️ Zona jurídica: Litoral · requisito legal, no filtra</div>
+      </div>
+      <div class="sheet abierto">
+        <div class="asa"></div>
+        <div class="cuerpo">
+          <div class="ruta-compacta">
+            <div class="tramo"><span class="punto" style="background:var(--primary)"></span><span class="v">Litoral · Bata</span><span class="cambiar">Cambiar</span></div>
+            <div class="tramo"><span class="punto" style="background:var(--price)"></span><span class="v">Litoral · Cogo</span><span class="cambiar">Cambiar</span></div>
+          </div>
+          <div class="cal-drawer">
+            <div class="cal">
+              <div class="mes"><span>Octubre 2026</span><span class="mes-nav"><span>‹</span><span>›</span></span></div>
+              <div class="dias">
+                <span class="cab">L</span><span class="cab">M</span><span class="cab">X</span><span class="cab">J</span><span class="cab">V</span><span class="cab">S</span><span class="cab">D</span>
+                <span class="d vacio">·</span><span class="d vacio">·</span><span class="d vacio">·</span><span class="d">1</span><span class="d">2</span><span class="d">3</span><span class="d">4</span>
+                <span class="d">5</span><span class="d">6</span><span class="d">7</span><span class="d hoy">8</span><span class="d sel">9</span><span class="d">10</span><span class="d">11</span>
+                <span class="d desc">12</span><span class="d">13</span><span class="d">14</span><span class="d">15</span><span class="d desc">16</span><span class="d">17</span><span class="d">18</span>
+                <span class="d">19</span><span class="d">20</span><span class="d desc">21</span><span class="d">22</span><span class="d">23</span><span class="d">24</span><span class="d">25</span>
+                <span class="d">26</span><span class="d">27</span><span class="d">28</span><span class="d">29</span><span class="d">30</span><span class="d">31</span><span class="d vacio">·</span>
+              </div>
+            </div>
+            <div class="mes-sig"><span>Noviembre 2026</span><span>6 salidas publicadas ›</span></div>
+          </div>
+          <div class="cta-fijo">
+            <div class="btn">Buscar viaje · vie 9 oct</div>
+            <div class="btn sec">Publicar solicitud · alquiler o viaje grupal</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="ftab sel"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-1c · PUBLICAR SOLICITUD DE VIAJE ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-1c · Publicar solicitud <em>(alquiler o grupal · SMS a conductores)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Publicar solicitud de viaje</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="tarjeta">
+          <span class="rotulo">TU SOLICITUD</span>
+          <div class="tile-fantasma">📷 Añade una foto (la que quieras)</div>
+          <div class="campo"><span class="valor">Tu nombre: Bernardo Loperte</span></div>
+          <div class="chips">
+            <span class="chip mini sel">Provincia: Litoral</span><span class="chip mini">Centro Sur</span><span class="chip mini">Kié-Ntem</span><span class="chip mini">Wele-Nzas</span>
+          </div>
+          <div class="campo"><span class="ico">📍</span><span class="valor">Ciudad o pueblo: Bata</span></div>
+          <div class="campo secundario"><span class="ico">📍</span><span class="valor">Destino: Cogo</span></div>
+        </div>
+        <div class="tarjeta">
+          <div class="fila">
+            <span class="rotulo">PASAJEROS SOLICITADOS</span>
+            <div class="contador"><button>−</button><span class="num">5</span><button>+</button></div>
+          </div>
+          <div class="vtiles">
+            <div class="vtile sel"><img src="{{IMG_COCHE}}" alt=""><span>Coche</span></div>
+            <div class="vtile"><img src="{{IMG_VAN}}" alt=""><span>Van</span></div>
+            <div class="vtile"><img src="{{IMG_MINIBUS}}" alt=""><span>Minibús</span></div>
+            <div class="vtile"><img src="{{IMG_CAMION}}" alt=""><span>Camión</span></div>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">PRECIO SUGERIDO POR ASIENTO</span>
+          <div class="cal-card"><span>💰</span><span class="v">6 000 XAF / asiento</span><span class="chip mini sel" style="height:24px">Negociable</span></div>
+          <div class="campo"><span class="ico">📞</span><span class="valor">+240 555 123 456</span></div>
+          <div class="cal-card"><span>📅</span><span class="v">Fecha deseada: vie 9 oct (o flexible)</span><span class="chev">›</span></div>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">CÓMO LLEGA A LOS CONDUCTORES</span>
+          <div class="sms">
+            <div class="cab">SMS · al conductor de la zona</div>
+            EG Route Plan: Nueva solicitud de viaje Bata→Cogo · 5 pasajeros · 6 000 XAF/pl · vie 9 oct. Ver detalles y responder: egrouteplan.com/s/8412
+          </div>
+          <p class="nota">Los conductores reciben una <b>alerta SMS con enlace</b>. Pueden <b>aceptar tu precio y condiciones</b> o hacer una <b>contraoferta</b> y esperar a que los selecciones. Tú recibes un aviso por cada conductor que se aplique.</p>
+        </div>
+        <div class="btn">Publicar solicitud</div>
+      </div>
+      <div class="footer">
+        <span class="ftab sel"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-1d · MI SOLICITUD PUBLICADA · APLICANTES ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-1d · Mi solicitud <em>(aplicaciones · contraofertas · selección)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Mi solicitud · Bata → Cogo</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="tarjeta">
+          <div class="fila">
+            <span class="fuerte">Bata → Cogo · 5 pasajeros</span>
+            <span class="estado pend">● Publicada</span>
+          </div>
+          <p class="nota">vie 9 oct (flexible) · 6 000 XAF/pl sugeridos · recogida a casa · foto y audio añadidos</p>
+        </div>
+        <span class="rotulo">CONDUCTORES QUE SE HAN APLICADO · 2</span>
+        <div class="tarjeta">
+          <div class="fila">
+            <div class="persona">
+              <img class="avatar-40" src="{{IMG_CONDUCTOR}}" alt="">
+              <div><div class="fuerte enlace-perfil">Anastasio M.</div><div class="rol">★ 4,8 · 32 viajes</div></div>
+            </div>
+            <span class="estado ok">Acepta 6 000 XAF</span>
+          </div>
+          <p class="nota">Toyota Hiace blanca · 💧 agua gratis · ❄️ A/C · sale 06:30 · recoge a casa</p>
+          <div class="btn mini" style="align-self:flex-start">Seleccionar conductor</div>
+        </div>
+        <div class="tarjeta aviso">
+          <div class="fila">
+            <div class="persona">
+              <span class="avatar-40">PE</span>
+              <div><div class="fuerte enlace-perfil">Pedro E.</div><div class="rol">★ 4,5 · 11 viajes</div></div>
+            </div>
+            <span class="estado pend">Contraoferta · 7 500 XAF</span>
+          </div>
+          <p class="nota">Hilux · ❄️ A/C · 🐾 mascotas · «7 500 e incluyo la puerta a puerta y parada en el mercado»</p>
+          <div class="acciones">
+            <div class="btn mini">Aceptar 7 500 XAF</div>
+            <div class="btn mini sec">Contrarrestar</div>
+          </div>
+        </div>
+        <p class="nota legal">Avisos: recibes una notificación cada vez que un conductor se aplica o hace contraoferta. La última palabra sobre quién lleva el viaje es tuya.</p>
+      </div>
+      <div class="footer">
+        <span class="ftab sel"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-2 · RESULTADOS (MASONRY) ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-2 · Resultados — Masonry <em>(amenidades visibles)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Bata → Cogo</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="chips">
+          <span class="chip sel">vie 9 oct</span><span class="chip">sáb 10</span><span class="chip">↓ Con descuento</span>
+        </div>
+        <div class="resumen"><span><b>3 viajes</b> · vie 9 oct</span><span>1 con descuento</span></div>
+        <div class="masonry">
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_MINIBUS}}" alt="Minibús"><span class="sello ok">Verificado</span></div>
+            <div class="driver-tag"><img class="foto" src="{{IMG_CONDUCTOR}}" alt="" style="width:24px;height:24px"><span class="nombre">Anastasio M.</span><span class="rating">★ 4,8</span></div>
+            <div class="cuerpo">
+              <div class="ruta">Bata → Cogo</div>
+              <div class="meta">vie 9 oct · 06:30 · ~2 h 30</div>
+              <div class="amens"><span class="amen">💧 Agua gratis</span><span class="amen">❄️ A/C</span><span class="amen">🐾 Mascotas</span></div>
+              <div class="meta">Hiace 12 plazas · 6 libres</div>
+              <div class="pie"><span class="precio" style="font-size:16px">7 000 XAF</span></div>
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_COCHE}}" alt="Coche"></div>
+            <div class="driver-tag"><span class="foto">PE</span><span class="nombre">Pedro E.</span><span class="rating">★ 4,5</span></div>
+            <div class="cuerpo">
+              <div class="ruta">Bata → Cogo</div>
+              <div class="meta">vie 9 oct · 09:00 · ~2 h</div>
+              <div class="amens"><span class="amen">❄️ A/C</span><span class="amen">📶 WiFi</span></div>
+              <div class="meta">Hilux · 3 libres</div>
+              <div class="pie"><span class="precio-bloque"><span class="tachado" style="font-size:11px">9 000 XAF</span><span class="precio" style="font-size:16px">7 500 XAF</span></span><span class="badge-desc">−17%</span></div>
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_VAN}}" alt="Van"><span class="sello pend">Nuevo</span></div>
+            <div class="driver-tag"><span class="foto">JN</span><span class="nombre">Jacoba N.</span><span class="rating">★ 4,9</span></div>
+            <div class="cuerpo">
+              <div class="ruta">Bata → Cogo · puerta a puerta</div>
+              <div class="meta">vie 9 oct · 11:30 · ~2 h 45</div>
+              <div class="amens"><span class="amen">💧 Agua gratis</span></div>
+              <div class="meta">Van 8 plazas · 4 libres</div>
+              <div class="pie"><span class="precio" style="font-size:16px">9 000 XAF</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="btn sec">Filtrar y ordenar</div>
+      </div>
+      <div class="footer">
+        <span class="ftab sel"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-3 · DETALLE DEL VIAJE ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-3 · Detalle <em>(foto del conductor · amenidades editables · seguir)</em></div>
+    <div class="movil larga sin-nav">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Detalle del viaje</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="foto-tile"><img src="{{IMG_MINIBUS}}" alt="Vehículo" style="height:120px"></div>
+        <div class="tarjeta">
+          <div class="fila">
+            <span class="rotulo">EL COCHE</span>
+            <span class="precio" style="font-size:17px">7 000 XAF <span style="color:var(--muted);font-weight:400;font-size:12px">/ plaza</span></span>
+          </div>
+          <p class="nota">Toyota Hiace · Minibús 12 plazas · <b>Color blanco</b> · Matrícula <b>GE-421-BCA</b></p>
+          <span class="rotulo">LO QUE INCLUYE · editable por el conductor</span>
+          <div class="amens" style="gap:6px">
+            <span class="amen" style="height:28px;font-size:12px">💧 Agua gratis</span>
+            <span class="amen" style="height:28px;font-size:12px">❄️ Aire acondicionado</span>
+            <span class="amen" style="height:28px;font-size:12px">🐾 Acepta mascotas</span>
+            <span class="amen" style="height:28px;font-size:12px">📶 WiFi</span>
+            <span class="amen" style="height:28px;font-size:12px;border-style:dashed">＋ añadir</span>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">CONDUCTOR</span>
+          <div class="fila">
+            <img src="{{IMG_CONDUCTOR}}" alt="Anastasio M." style="width:64px;height:64px;border-radius:14px;object-fit:cover">
+            <div style="flex:1">
+              <div style="font-size:15px;font-weight:600">Anastasio M.</div>
+              <div style="font-size:12px;color:var(--warn)">★ 4,8 · 32 viajes · DNI verificado</div>
+              <div class="nota">👁 2 314 visualizaciones · 214 seguidores</div>
+            </div>
+            <span class="btn-seguir">＋ Seguir</span>
+          </div>
+          <div class="acciones-contacto">
+            <div class="accion"><span class="aic">💬</span>Mensaje</div>
+            <div class="accion wa"><span class="aic">🟢</span>WhatsApp</div>
+            <div class="accion tel"><span class="aic">📞</span>Llamada</div>
+            <div class="accion"><span class="aic">👤</span>Perfil</div>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <div class="fila">
+            <span class="rotulo">EL TRAYECTO</span>
+            <span class="nota">3 paradas</span>
+          </div>
+          <p class="nota">Mbini · Cogo centro · Mercado de Cogo. Tiempo total ~2 h 30. Recogida en agencia o puerta a puerta.</p>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">RECOGIDA · IMPORTES DEL CONDUCTOR</span>
+          <div class="recogida-opt sel">
+            <div><div class="nombre">En la agencia</div><div class="detalle">Bata · Agencia Litoral · 06:15</div></div>
+            <span class="precio" style="font-size:14px">+ 2 000 XAF</span>
+          </div>
+          <div class="recogida-opt">
+            <div><div class="nombre">Puerta a puerta</div><div class="detalle">El conductor pasa por tu dirección</div></div>
+            <span class="precio" style="font-size:14px">+ 5 000 XAF</span>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">POLÍTICA</span>
+          <p class="nota">Cancelación gratuita hasta 12 h antes de la salida. Pago <b>en efectivo al conductor</b> al subir.</p>
+        </div>
+        <div class="btn">Reservar plaza</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-3b · PERFIL DEL CONDUCTOR ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-3b · Perfil del conductor <em>(seguir · viajes · estados · reseñas con fotos)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Perfil del conductor</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="tarjeta">
+          <div class="fila">
+            <img src="{{IMG_CONDUCTOR}}" alt="Anastasio M." style="width:76px;height:76px;border-radius:18px;object-fit:cover">
+            <div style="flex:1">
+              <div style="font-size:16px;font-weight:600">Anastasio M.</div>
+              <div style="font-size:12px;color:var(--warn)">★ 4,8 · 32 viajes · DNI verificado</div>
+              <div class="nota">Bata · Litoral · en la app desde mar 2026</div>
+            </div>
+            <span class="btn-seguir">＋ Seguir</span>
+          </div>
+          <div class="stats">
+            <div class="st"><b>32</b><span>viajes</span></div>
+            <div class="st"><b>214</b><span>seguidores</span></div>
+            <div class="st"><b>2 314</b><span>visualizaciones</span></div>
+          </div>
+        </div>
+        <div class="tabsp"><span class="t sel">Viajes</span><span class="t">Estados</span><span class="t">Reseñas</span></div>
+        <div class="masonry">
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_MINIBUS}}" alt=""></div>
+            <div class="cuerpo">
+              <span class="tag-pub cond" style="align-self:flex-start">VIAJE PUBLICADO</span>
+              <div class="ruta">Bata → Ebebiyín</div>
+              <div class="meta">jue 15 oct · 06:30 · 6 libres</div>
+              <div class="amens"><span class="amen">💧 Agua gratis</span><span class="amen">❄️ A/C</span></div>
+              <div class="pie"><span class="precio" style="font-size:15px">15 000 XAF</span><span class="estado ok">Verificado</span></div>
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_VAN}}" alt="" style="filter:brightness(.9)"></div>
+            <div class="cuerpo">
+              <span class="tag-pub upd" style="align-self:flex-start">ESTADO · FOTO</span>
+              <div class="meta">«La van ya está lista para la ruta del viernes»</div>
+              <div class="pie"><span class="nota">👁 342 · ♡ 28</span><span class="nota">hace 2 h</span></div>
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_COCHE}}" alt="" style="filter:brightness(.85)"><div class="video-play"><span class="circ">▶</span></div></div>
+            <div class="cuerpo">
+              <span class="tag-pub upd" style="align-self:flex-start">ESTADO · VÍDEO 0:14</span>
+              <div class="meta">«Salida de la agencia esta mañana»</div>
+              <div class="pie"><span class="nota">👁 508 · ♡ 41</span><span class="nota">ayer</span></div>
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="cuerpo">
+              <span class="tag-pub cond" style="align-self:flex-start">VIAJE · IDA Y VUELTA</span>
+              <div class="ruta">Bata → Mbini → Bata</div>
+              <div class="meta">sáb 18 oct · 07:00 · 8 libres</div>
+              <div class="pie"><span class="precio" style="font-size:15px">5 000 XAF</span><span class="estado pend">Nuevo</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">RESEÑAS CON FOTO · 12</span>
+          <div class="masonry" style="columns:2">
+            <div class="mcard" style="margin-bottom:8px">
+              <div class="cuerpo" style="gap:4px">
+                <div class="meta" style="color:var(--warn)">★ 5,0 · Modesta A.</div>
+                <div class="meta">«Puntual y el agua fría, un detalle»</div>
+                <div class="foto-tile" style="height:64px"><img src="{{IMG_MINIBUS}}" alt=""></div>
+              </div>
+            </div>
+            <div class="mcard" style="margin-bottom:8px">
+              <div class="cuerpo" style="gap:4px">
+                <div class="meta" style="color:var(--warn)">★ 4,0 · Rubén D.</div>
+                <div class="meta">«Buen viaje, tardó 15 min en Mbini»</div>
+                <div class="foto-tile" style="height:64px"><img src="{{IMG_COCHE}}" alt=""></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="ftab"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab sel"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-4 · RESERVAR ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-4 · Reservar <em>(documento · condiciones especiales)</em></div>
+    <div class="movil larga sin-nav">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Solicitar ticket</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="tarjeta">
+          <div class="fila"><span style="font-size:14px;font-weight:600">Bata → Cogo</span><span class="precio">7 000 XAF</span></div>
+          <p class="nota">vie 9 oct · 06:30 · Anastasio M. · Toyota Hiace blanca · GE-421-BCA</p>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">DATOS DEL PASAJERO</span>
+          <div class="campo"><span class="valor">Nombre y apellidos</span></div>
+          <div class="campo"><span class="valor">+240 555 123 456</span></div>
+          <span class="rotulo">DOCUMENTO DE IDENTIDAD</span>
+          <div class="chips">
+            <span class="chip sel">Ecuatoguineano</span><span class="chip">Extranjero</span>
+          </div>
+          <div class="campo secundario"><span class="valor">DIP o Pasaporte · opcional</span></div>
+          <p class="nota">Si viaja un extranjero, el pasaporte y el documento que acredite su situación son <b>obligatorios</b> antes de emitir el ticket.</p>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">RECOGIDA · IMPORTES</span>
+          <div class="recogida-opt">
+            <div><div class="nombre">En la agencia</div><div class="detalle">06:15 · Agencia Litoral</div></div>
+            <div style="display:flex;align-items:center;gap:8px"><span class="precio" style="font-size:14px">+ 2 000 XAF</span><span class="radio"></span></div>
+          </div>
+          <div class="recogida-opt sel">
+            <div><div class="nombre">A casa</div><div class="detalle">El conductor pasa por tu dirección · 05:45</div></div>
+            <div style="display:flex;align-items:center;gap:8px"><span class="precio" style="font-size:14px">+ 5 000 XAF</span><span class="radio"></span></div>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">¿QUIÉN VIAJA? · CONDICIONES ESPECIALES</span>
+          <div class="check-row marcado"><span class="check"></span>Reservo para otra persona (por encargo)</div>
+          <div class="check-row"><span class="check"></span>Niño/a menor de 12 años</div>
+          <div class="check-row"><span class="check"></span>Embarazada</div>
+          <div class="check-row"><span class="check"></span>Persona con discapacidad o movilidad reducida</div>
+          <div class="check-row"><span class="check"></span>Persona enferma o que necesita asistencia</div>
+          <p class="nota">Estas condiciones llegan al <b>panel del conductor</b>, que revisa la solicitud y tiene la <b>última palabra</b> para aceptarla.</p>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">PAGO · EFECTIVO AL CONDUCTOR</span>
+          <div class="resumen-fila"><span>Viaje · 2 × 7 000 XAF</span><span class="precio">14 000 XAF</span></div>
+          <div class="resumen-fila"><span>Recogida a casa</span><span class="precio">5 000 XAF</span></div>
+          <div class="resumen-fila total"><span>Total a pagar en efectivo</span><span class="precio">19 000 XAF</span></div>
+        </div>
+        <div class="btn">Solicitar ticket</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-5 · TICKET ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-5 · Ticket <em>(QR + validación del conductor)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Tu ticket</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="ticket">
+          <div class="cab-t"><span class="marca">EG · Ciudad a Ciudad</span><span class="tipo">TICKET DE VIAJE</span></div>
+          <div class="cuerpo-t">
+            <div class="qr-box">
+              {{QR}}
+              <span class="cod-t">IC-261009-0042</span>
+              <span class="nota">El conductor escanea este QR (o introduce el código) para validar tu subida</span>
+            </div>
+            <span class="estado pend" style="align-self:center">● Pendiente de confirmación del conductor</span>
+            <div class="perfo"></div>
+            <div class="fila-t"><span class="k">Pasajero</span><span class="v">Bernardo Loperte</span></div>
+            <div class="fila-t"><span class="k">Por encargo de</span><span class="v">Mamá Eduvigis (2 plazas)</span></div>
+            <div class="fila-t"><span class="k">Documento</span><span class="v">DIP · opcional</span></div>
+            <div class="fila-t"><span class="k">Ruta</span><span class="v">Bata → Cogo</span></div>
+            <div class="fila-t"><span class="k">Fecha y hora</span><span class="v">vie 9 oct · 06:30</span></div>
+            <div class="fila-t"><span class="k">Plazas</span><span class="v">2</span></div>
+            <div class="fila-t"><span class="k">Conductor</span><span class="v">Anastasio M.</span></div>
+            <div class="fila-t"><span class="k">Vehículo</span><span class="v">Toyota Hiace · blanco</span></div>
+            <div class="fila-t"><span class="k">Matrícula</span><span class="v">GE-421-BCA</span></div>
+            <div class="fila-t"><span class="k">Recogida</span><span class="v">A casa · 05:45</span></div>
+            <div class="fila-t"><span class="k">Condiciones</span><span class="v">Por encargo · adulto mayor</span></div>
+            <div class="divisor"></div>
+            <div class="fila-t"><span class="k">Viaje · 2 × 7 000 XAF</span><span class="v precio">14 000 XAF</span></div>
+            <div class="fila-t"><span class="k">Recogida a casa</span><span class="v precio">5 000 XAF</span></div>
+            <div class="fila-t"><span class="k">Total en efectivo</span><span class="v precio">19 000 XAF</span></div>
+            <div class="divisor"></div>
+            <p class="nota">Emitido el 08-10-2026 · IC-261009-0042 · EG Route Plan.<br>Válido solo para la fecha, hora y plazas indicadas. Preséntalo junto con tu documento de identidad al subir. Cambios y cancelación gratuita hasta 12 h antes de la salida. Pago en efectivo al conductor; el ticket no es un título de transporte oficial hasta su validación.</p>
+          </div>
+        </div>
+        <div class="btn sec">Compartir ticket</div>
+        <div class="btn">Ver mis reservas</div>
+      </div>
+      <div class="footer">
+        <span class="ftab"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab sel"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-6 · MI VIAJE (TAB) ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-6 · Mi viaje <em>(asiento validado · trayectoria · paradas)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="titulo">Mi viaje</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="tarjeta">
+          <div class="fila">
+            <span style="font-size:15px;font-weight:600">Bata → Cogo</span>
+            <span class="estado ok">✓ Asiento confirmado</span>
+          </div>
+          <p class="nota">hoy · 06:30 · Anastasio M. · Toyota Hiace blanca · GE-421-BCA</p>
+          <div class="fila" style="background:rgba(46,158,91,.10);border:1px solid rgba(46,158,91,.3);border-radius:10px;padding:10px 12px">
+            <span style="font-size:12.5px;color:var(--ok);font-weight:600">✓ QR escaneado por el conductor · 06:24</span>
+            <span class="nota" style="color:var(--muted)">2 plazas validadas</span>
+          </div>
+          <div class="divisor"></div>
+          <div class="qr-box" style="padding:6px 0 0">
+            {{QR}}
+            <span class="cod-t" style="font-size:16px">IC-261009-0042</span>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">TRAYECTORIA EN VIVO</span>
+          <div class="traj">
+            <svg viewBox="0 0 326 150" xmlns="http://www.w3.org/2000/svg">
+              <rect width="326" height="150" fill="#232328"/>
+              <g stroke="#3A3A42" stroke-width="4" fill="none"><path d="M-10 80 C 70 60 180 100 340 70"/><path d="M90 -10 C 100 50 80 110 110 160"/></g>
+              <path d="M24 60 C 110 78 190 88 300 78" stroke="#33343A" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <path d="M24 60 C 110 78 175 87 200 88" stroke="#0066CC" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <circle cx="24" cy="60" r="7" fill="#0066CC" stroke="#F2F3F5" stroke-width="2"/>
+              <circle cx="200" cy="88" r="9" fill="#F2F3F5" stroke="#0066CC" stroke-width="4"/>
+              <circle cx="200" cy="88" r="18" fill="rgba(0,102,204,.18)"/>
+              <circle cx="300" cy="78" r="7" fill="#C2410C" stroke="#F2F3F5" stroke-width="2"/>
+              <text x="36" y="52" fill="#9AA0A8" font-size="11" font-family="Segoe UI">Bata 06:30</text>
+              <text x="214" y="112" fill="#9AA0A8" font-size="11" font-family="Segoe UI">aquí · Mbini</text>
+              <text x="252" y="66" fill="#9AA0A8" font-size="11" font-family="Segoe UI">Cogo</text>
+            </svg>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">PARADAS DEL CONDUCTOR</span>
+          <div class="timeline">
+            <div class="parada">
+              <div class="rail"><span class="punto done"></span><span class="linea done"></span></div>
+              <div class="datos"><div class="lugar">Bata · recogida a casa</div><div class="hora">05:45 · <span class="tag done">HECHA</span></div></div>
+            </div>
+            <div class="parada">
+              <div class="rail"><span class="punto done"></span><span class="linea done"></span></div>
+              <div class="datos"><div class="lugar">Agencia Litoral · subida de pasajeros</div><div class="hora">06:15 · <span class="tag done">HECHA</span></div></div>
+            </div>
+            <div class="parada">
+              <div class="rail"><span class="punto ahora"></span><span class="linea"></span></div>
+              <div class="datos"><div class="lugar">Mbini · cruce</div><div class="hora">llegada estimada 07:40 · <span class="tag ahora">EN CURSO</span></div></div>
+            </div>
+            <div class="parada">
+              <div class="rail"><span class="punto futura"></span><span class="linea"></span></div>
+              <div class="datos"><div class="lugar">Cogo centro</div><div class="hora">estimada 09:10 · <span class="tag" style="color:var(--faint)">PRÓXIMA</span></div></div>
+            </div>
+            <div class="parada">
+              <div class="rail"><span class="punto futura"></span></div>
+              <div class="datos"><div class="lugar">Mercado de Cogo · destino</div><div class="hora">estimada 09:35</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">CONTACTO DEL CONDUCTOR</span>
+          <div class="acciones-contacto">
+            <div class="accion"><span class="aic">💬</span>Mensaje</div>
+            <div class="accion wa"><span class="aic">🟢</span>WhatsApp</div>
+            <div class="accion tel"><span class="aic">📞</span>Llamada</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="ftab"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab sel"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-7 · RESERVAS (TAB) ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-7 · Reservas <em>(tab)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="titulo">Mis reservas</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="chips">
+          <span class="chip sel">Próximas</span><span class="chip">Historial</span>
+        </div>
+        <div class="tarjeta">
+          <div class="fila">
+            <span style="font-size:12px;color:var(--muted)">IC-261009-0042</span>
+            <span class="estado viaje">En viaje</span>
+          </div>
+          <div class="fila" style="margin-top:6px"><span style="font-size:14px;font-weight:600">Bata → Cogo</span><span class="precio">19 000 XAF</span></div>
+          <p class="nota">hoy · 06:30 · Anastasio M. · 2 plazas · recogida a casa</p>
+        </div>
+        <div class="tarjeta">
+          <div class="fila">
+            <span style="font-size:12px;color:var(--muted)">IC-261020-0051</span>
+            <span class="estado ok">Confirmado</span>
+          </div>
+          <div class="fila" style="margin-top:6px"><span style="font-size:14px;font-weight:600">Cogo → Bata</span><span class="precio">9 000 XAF</span></div>
+          <p class="nota">lun 20 oct · 07:00 · Pedro E. · 1 plaza · agencia</p>
+        </div>
+        <div class="tarjeta">
+          <div class="fila">
+            <span style="font-size:12px;color:var(--muted)">IC-261012-0039</span>
+            <span class="estado pend">Pendiente</span>
+          </div>
+          <div class="fila" style="margin-top:6px"><span style="font-size:14px;font-weight:600">Bata → Mbini</span><span class="precio">6 500 XAF</span></div>
+          <p class="nota">lun 12 oct · 09:00 · 1 plaza · el conductor tiene 4 h para responder</p>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="ftab"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab sel"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-8 · PANEL DE VIAJES (MIXTO) ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-8 · Panel de viajes <em>(buscador · filtros · viajes + solicitudes + estados)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="titulo">Panel de viajes</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="campo"><span class="ico">⌕</span><span class="valor" style="color:var(--faint);font-weight:400">Buscar ruta, conductor o palabra clave…</span></div>
+        <div class="chips">
+          <span class="chip sel">Ruta: Bata ⇄ Cogo ✎</span><span class="chip">Precio ≤ 10 000</span><span class="chip sel">Esta semana</span><span class="chip">Octubre</span><span class="chip">Solo solicitudes</span><span class="chip">↓ Descuentos</span>
+        </div>
+        <p class="nota" style="margin-top:-6px">Filtros por ruta que tú defines, precio máximo, días, semanas y meses.</p>
+        <div class="masonry">
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_MINIBUS}}" alt=""></div>
+            <div class="driver-tag"><img class="foto" src="{{IMG_CONDUCTOR}}" alt="" style="width:24px;height:24px"><span class="nombre">Anastasio M.</span><span class="rating">★ 4,8</span></div>
+            <div class="cuerpo">
+              <span class="tag-pub cond" style="align-self:flex-start">VIAJE · CONDUCTOR</span>
+              <div class="ruta">Bata → Ebebiyín</div>
+              <div class="meta">jue 15 oct · 06:30 · 6 libres</div>
+              <div class="amens"><span class="amen">💧 Agua gratis</span><span class="amen">❄️ A/C</span></div>
+              <div class="pie"><span class="precio" style="font-size:15px">15 000 XAF</span><span class="estado ok">Verificado</span></div>
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_COCHE}}" alt="" style="filter:saturate(.8)"></div>
+            <div class="cuerpo">
+              <span class="tag-pub user" style="align-self:flex-start">SOLICITUD DE PASAJERO</span>
+              <div class="ruta">Bernardo L. · Bata → Cogo</div>
+              <div class="meta">5 pasajeros · vie 9 oct (flexible)</div>
+              <div class="audio-row">
+                <span class="play">▶</span>
+                <span class="wave"><span style="height:5px"></span><span style="height:11px"></span><span style="height:7px"></span><span style="height:14px"></span><span style="height:9px"></span><span style="height:15px"></span><span style="height:6px"></span><span style="height:12px"></span><span style="height:8px"></span><span style="height:13px"></span><span style="height:5px"></span><span style="height:10px"></span></span>
+                <span class="dur">0:08</span>
+              </div>
+              <p class="nota" style="font-size:11px">Toca el audio para escuchar la propuesta sin abrir los detalles</p>
+              <div class="pie"><span class="precio" style="font-size:15px">6 000 XAF/pl</span><span class="estado pend">2 aplicaron</span></div>
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_VAN}}" alt="" style="filter:brightness(.9)"></div>
+            <div class="cuerpo">
+              <span class="tag-pub upd" style="align-self:flex-start">ACTUALIZACIÓN · FOTO</span>
+              <div class="meta">Jacoba N.: «La van ya está lista para la ruta del viernes»</div>
+              <div class="pie"><span class="nota">👁 342</span><span class="nota">hace 2 h</span></div>
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_CAMION}}" alt="" style="filter:brightness(.85)"><div class="video-play"><span class="circ">▶</span></div></div>
+            <div class="cuerpo">
+              <span class="tag-pub upd" style="align-self:flex-start">ACTUALIZACIÓN · VÍDEO 0:12</span>
+              <div class="meta">RT Carga: cargando encomiendas para Mongomo</div>
+              <div class="pie"><span class="nota">👁 187</span><span class="nota">hoy</span></div>
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="foto-tile"><img src="{{IMG_COCHE}}" alt=""></div>
+            <div class="driver-tag"><span class="foto">PE</span><span class="nombre">Pedro E.</span><span class="rating">★ 4,5</span></div>
+            <div class="cuerpo">
+              <span class="tag-pub cond" style="align-self:flex-start">VIAJE · CONDUCTOR</span>
+              <div class="ruta">Bata → Mbini</div>
+              <div class="meta">lun 12 oct · 09:00 · 3 libres</div>
+              <div class="amens"><span class="amen">❄️ A/C</span><span class="amen">🐾 Mascotas</span></div>
+              <div class="pie"><span><span class="tachado" style="font-size:11px">8 000</span> <span class="precio" style="font-size:15px">6 500 XAF</span></span><span class="badge-desc">−19%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="ftab"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab sel"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ IC-9 · PERFIL (TAB) ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">IC-9 · Perfil <em>(ayuda y soporte integrados)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="titulo">Perfil</span><span class="avatar">BL</span></div>
+      <div class="contenido">
+        <div class="tarjeta">
+          <div class="fila">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="width:48px;height:48px;font-size:16px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600">BL</span>
+              <div><div style="font-size:15px;font-weight:600">Bernardo Loperte</div><div class="nota">+240 555 123 456 · Bata</div></div>
+            </div>
+            <span style="font-size:12px;color:#4C9BE8">Editar ›</span>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <div class="fila"><span style="font-size:14px">🪪 Mis documentos</span><span class="nota">DIP · guardado ›</span></div>
+          <div class="divisor"></div>
+          <div class="fila"><span style="font-size:14px">💵 Método de pago</span><span class="nota">Efectivo ›</span></div>
+          <div class="divisor"></div>
+          <div class="fila"><span style="font-size:14px">⭐ Conductores que sigo</span><span class="nota">3 ›</span></div>
+          <div class="divisor"></div>
+          <div class="fila"><span style="font-size:14px">🛡️ Cuenta verificada</span><span class="estado ok">Verificado</span></div>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">AYUDA Y SOPORTE</span>
+          <div class="fila"><span style="font-size:14px">💬 Chat de soporte</span><span class="nota">›</span></div>
+          <div class="divisor"></div>
+          <div class="fila"><span style="font-size:14px">🟢 WhatsApp de soporte</span><span class="nota">›</span></div>
+          <div class="divisor"></div>
+          <div class="fila"><span style="font-size:14px">❓ Preguntas frecuentes</span><span class="nota">›</span></div>
+          <div class="divisor"></div>
+          <div class="fila"><span style="font-size:14px">⚠️ Reportar un problema</span><span class="nota">›</span></div>
+        </div>
+        <div class="tarjeta">
+          <div class="fila"><span style="font-size:14px">📄 Términos y privacidad</span><span class="nota">›</span></div>
+          <div class="divisor"></div>
+          <div class="fila"><span style="font-size:14px" >🌐 Idioma</span><span class="nota">Español ›</span></div>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="ftab"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab"><span class="fic">▦</span>Panel</span>
+        <span class="ftab sel"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CD-1 · CONDUCTOR · AVISOS RECIBIDOS ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">CD-1 · Conductor — Avisos <em>(SMS de alerta + aplicados a mi viaje)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Avisos</span><span class="avatar">AM</span></div>
+      <div class="contenido">
+        <div class="tarjeta">
+          <div class="fila">
+            <span class="rotulo">SOLICITUD DE PASAJERO · NUEVA</span>
+            <span class="estado pend">hace 4 min</span>
+          </div>
+          <div class="aviso-sms">
+            <span class="ic">✉️</span>
+            <div>
+              <div class="t">EG Route Plan · SMS</div>
+              <div class="d">Nueva solicitud Bata → Cogo · <b>5 pasajeros</b> · <b>6 000 XAF/pl</b> sugeridos · recogida a casa · con nota de voz 0:08.<br>Ver y aplicar: <span style="color:#4C9BE8">egrouteplan.com/s/8412</span></div>
+            </div>
+          </div>
+          <div class="acciones">
+            <div class="btn mini">Ver solicitud</div>
+            <div class="btn mini sec">No me interesa</div>
+          </div>
+          <p class="nota">Los avisos SMS llegan solo a conductores verificados de la ruta; el enlace abre la solicitud dentro de la app.</p>
+        </div>
+        <div class="tarjeta">
+          <div class="fila">
+            <span class="rotulo">MI VIAJE PROGRAMADO · vie 16 oct</span>
+            <span class="estado viaje">2 nuevos aplicados</span>
+          </div>
+          <div class="aviso-sms" style="border:none;padding:0;background:transparent">
+            <span class="ic">🚐</span>
+            <div>
+              <div class="t">Bata → Cogo · 06:30 · Hiace</div>
+              <div class="d">María G. aplicó con <b>2 plazas</b> (acepta 8 000 XAF) y el grupo «Familia Ekomo» aplicó con <b>4 plazas</b> a 7 000 XAF. Tienes 24 h para responderles.</div>
+            </div>
+          </div>
+          <div class="acciones">
+            <div class="btn mini">Revisar aplicados</div>
+            <div class="btn mini sec">Más tarde</div>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <div class="fila">
+            <span class="rotulo">AVISO DEL SISTEMA</span>
+            <span class="estado ok">ayer 19:02</span>
+          </div>
+          <div class="aviso-sms" style="border:none;padding:0;background:transparent">
+            <span class="ic">📉</span>
+            <div>
+              <div class="t">Tu viaje del sáb 17 oct va al 40 %</div>
+              <div class="d">Solo 4 de 14 plazas reservadas. Si bajas el precio a 7 200 XAF aparecerás con insignia de descuento en el Panel de los pasajeros.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="ftab"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab sel"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CD-2 · CONDUCTOR · DETALLE DE LA SOLICITUD ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">CD-2 · Conductor — Detalle de la solicitud <em>(aceptar precio · contraoferta)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Solicitud #8412</span><span class="avatar">AM</span></div>
+      <div class="contenido">
+        <div class="tarjeta">
+          <div class="fila">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="width:44px;height:44px;font-size:15px;background:var(--card2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--muted)">BL</span>
+              <div><div style="font-size:15px;font-weight:600">Bernardo Loperte</div><div style="font-size:11.5px;color:var(--warn)">★ 4,9 como pasajero · 21 viajes</div></div>
+            </div>
+            <span class="estado pend">● Publicada</span>
+          </div>
+          <div class="divisor"></div>
+          <div class="fila"><span class="rotulo">RUTA</span><span style="font-size:14px;font-weight:600">Bata (Litoral) → Cogo</span></div>
+          <div class="fila"><span class="rotulo">PASAJEROS</span><span style="font-size:14px;font-weight:600">5 personas</span></div>
+          <div class="fila"><span class="rotulo">FECHA</span><span style="font-size:14px">vie 9 oct · flexible ±1 día</span></div>
+          <div class="fila"><span class="rotulo">RECOGIDA</span><span style="font-size:14px">A casa · barrio Km 5</span></div>
+          <div class="fila"><span class="rotulo">PRECIO SUGERIDO</span><span><span class="precio" style="font-size:16px">6 000 XAF/pl</span> <span class="chip mini" style="margin-left:6px">Negociable</span></span></div>
+          <div class="audio-row"><span class="play">▶</span><div class="wave"><span style="height:6px"></span><span style="height:12px"></span><span style="height:8px"></span><span style="height:14px"></span><span style="height:10px"></span><span style="height:5px"></span><span style="height:13px"></span><span style="height:9px"></span><span style="height:6px"></span><span style="height:11px"></span></div><span class="dur">0:08</span></div>
+          <p class="nota">Nota de voz: «Somos cinco para el viernes, podemos salir desde las 06:00 y una compañera va embarazada, necesitamos parada tranquila».</p>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">CONDICIONES QUE DECLARA EL PASAJERO</span>
+          <div class="chips">
+            <span class="chip mini">🤰 Embarazada · 6 meses</span>
+            <span class="chip mini"> Equipaje mediano ×2</span>
+            <span class="chip mini">💵 Pago en efectivo</span>
+          </div>
+          <p class="nota">Estas condiciones y los documentos quedan registrados; si lo seleccionas, verás su DIP o pasaporte antes del viaje.</p>
+        </div>
+        <div class="acciones-contacto">
+          <div class="accion"><span class="aic">💬</span>Mensaje</div>
+          <div class="accion wa"><span class="aic">🟢</span>WhatsApp</div>
+          <div class="accion tel"><span class="aic">📞</span>Llamar</div>
+        </div>
+        <div class="tarjeta aviso">
+          <span class="rotulo">TU RESPUESTA</span>
+          <div class="check-row"><span class="check"></span><span>Acepto <b>6 000 XAF/pl</b> · 5 plazas · sale 06:00-06:30</span></div>
+          <div class="check-row marcado"><span class="check"></span><span>Hago <b>contraoferta</b>: <span class="precio">7 500 XAF/pl</span> · incluyo puerta a puerta y parada en el mercado</span></div>
+          <p class="nota">Al aplicar, el pasajero recibe el aviso al instante y decide: puede seleccionarte, contrarrestar de nuevo o descartarte. Hasta que te seleccione, tus plazas siguen libres para otros pasajeros.</p>
+        </div>
+        <div class="btn">Aplicar con contraoferta · 7 500 XAF/pl</div>
+        <div class="btn sec">Aplicar aceptando 6 000 XAF/pl</div>
+      </div>
+      <div class="footer">
+        <span class="ftab"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab sel"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CD-3 · CONDUCTOR · MI VIAJE PROGRAMADO (FECHA FUTURA) ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">CD-3 · Conductor — Mi viaje programado <em>(16 oct · pasajeros aplicados · 8 días antes)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Mi viaje · vie 16 oct</span><span class="avatar">AM</span></div>
+      <div class="contenido">
+        <div class="tarjeta">
+          <div class="fila">
+            <span style="font-size:14px;font-weight:600">Bata → Cogo · 06:30 · Toyota Hiace</span>
+            <span class="estado viaje">● Programado</span>
+          </div>
+          <p class="nota">En 8 días · GE-421-BCA · blanca · 💧 agua gratis · ❄️ A/C · 🐾 mascotas · <b>editables ›</b></p>
+          <span class="rotulo">PLAZAS · 6 DE 14 OCUPADAS</span>
+          <div class="plazas">
+            <span class="plaza val">P1</span><span class="plaza val">P2</span><span class="plaza val">P3</span><span class="plaza val">P4</span><span class="plaza val">P5</span><span class="plaza val">P6</span><span class="plaza">P7</span><span class="plaza">P8</span><span class="plaza">P9</span><span class="plaza">P10</span><span class="plaza">P11</span><span class="plaza">P12</span><span class="plaza">P13</span><span class="plaza">P14</span>
+          </div>
+          <div class="acciones">
+            <div class="btn mini sec">📉 Bajar precio (−10 %)</div>
+            <div class="btn mini sec">📣 Publicar actualización</div>
+          </div>
+          <p class="nota">Bajar el precio lo publica con insignia de descuento en el Panel de los pasajeros y avisa a quien ya te sigue.</p>
+        </div>
+        <span class="rotulo">PASAJEROS APLICADOS · 6 PLAZAS · 3 GRUPOS</span>
+        <div class="tarjeta">
+          <div class="pas">
+            <span class="pf">MG</span>
+            <div style="flex:1">
+              <div class="fila"><span class="nom">María G. · 2 plazas</span><span class="estado ok">Validada</span></div>
+              <div class="det">Aceptó 8 000 XAF · pagará en efectivo 16 000 XAF · 🤰 embarazada — asiento delantero · recogida a casa (Km 5) · DIP verificado ✓</div>
+            </div>
+          </div>
+          <div class="pas">
+            <span class="pf">FE</span>
+            <div style="flex:1">
+              <div class="fila"><span class="nom">Familia Ekomo · 4 plazas</span><span class="estado pend">Por confirmar</span></div>
+              <div class="det">Aplicó a 7 000 XAF (ofreciste 7 500) · 2 adultos + 2 niños · 🐾 perrito pequeño en jaula · agencia, 06:15 · esperan tu confirmación</div>
+            </div>
+            <div class="fila" style="gap:6px;align-items:flex-end">
+              <div class="btn mini">Confirmar</div>
+              <div class="btn mini sec">Rechazar</div>
+            </div>
+          </div>
+        </div>
+        <div class="tarjeta aviso">
+          <div class="pas">
+            <span class="pf" style="border-radius:10px">BL</span>
+            <div style="flex:1">
+              <div class="fila"><span class="nom">Solicitud #8412 · Bernardo L. · 5 plazas</span><span class="estado pend">Contraoferta enviada</span></div>
+              <div class="det">Pidió 6 000 · ofreciste 7 500 con puerta a puerta · nota de voz de 0:08 escuchada · <b>esperando su decisión</b></div>
+            </div>
+          </div>
+          <div class="acciones">
+            <div class="btn mini sec">Abrir chat</div>
+            <div class="btn mini sec">Retirar aplicación</div>
+          </div>
+          <p class="nota">Mientras la solicitud siga abierta, esas 5 plazas no se bloquean: si otro pasajero las reserva, tu aplicación caduca sola.</p>
+        </div>
+        <div class="tarjeta">
+          <span class="rotulo">ORDEN DE RECOGIDAS · PROPUESTO POR TI</span>
+          <div class="timeline">
+            <div class="parada"><div class="rail"><span class="punto done"></span><span class="linea done"></span></div><div class="datos"><div class="lugar">1 · Agencia Bata</div><div class="hora">06:15 · Familia Ekomo (4)</div></div></div>
+            <div class="parada"><div class="rail"><span class="punto done"></span><span class="linea"></span></div><div class="datos"><div class="lugar">2 · Casa Km 5</div><div class="hora">06:25 · María G. (2)</div></div></div>
+            <div class="parada"><div class="rail"><span class="punto futura"></span></div><div class="datos"><div class="lugar">3 · Mercado de Bata</div><div class="hora">06:40 · parada libre (la pide #8412)</div></div></div>
+          </div>
+          <p class="nota">El orden se comparte con los pasajeros confirmados; puedes reordenarlo arrastrando y se les avisa.</p>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="ftab"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab sel"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CD-4 · CONDUCTOR · DÍA DE LA SALIDA ══════════ -->
+  <div class="pantalla">
+    <div class="etiqueta">CD-4 · Conductor — Día de la salida <em>(escáner QR · embarque · iniciar viaje)</em></div>
+    <div class="movil larga">
+      <div class="topbar"><span class="back">‹</span><span class="titulo">Hoy · 16 oct · 06:30</span><span class="avatar">AM</span></div>
+      <div class="contenido">
+        <div class="escaner">
+          <span style="font-size:11px;color:#4C9BE8;font-weight:700;letter-spacing:.06em">CÁMARA ABIERTA · ESCANEA EL TICKET</span>
+          {{QR}}
+          <span style="font-size:11.5px;color:var(--muted);text-align:center;line-height:1.4">Pide al pasajero su ticket o su código.<br>También puedes teclear el código: IC-…</span>
+        </div>
+        <div class="tarjeta" style="border-color:rgba(46,158,91,.5)">
+          <div class="fila">
+            <span class="estado ok">✓ Ticket válido</span>
+            <span class="nota">06:22</span>
+          </div>
+          <div class="fila"><span style="font-size:14px;font-weight:600">IC-261016-0042 · María G.</span><span style="font-size:13px;font-weight:600;color:#4C9BE8">2 plazas (P1·P2)</span></div>
+          <p class="nota">🤰 embarazada · asiento delantero · pago en efectivo <b>16 000 XAF al subir</b> · DIP verificado ✓</p>
+          <div class="acciones">
+            <div class="btn mini">Cobrar 16 000 XAF ✓</div>
+            <div class="btn mini sec">Ver documento</div>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <div class="fila"><span class="rotulo">EMBARQUE</span><span style="font-size:13px;font-weight:600"><span style="color:var(--ok)">2 validadas</span> · 4 reservadas · 8 libres</span></div>
+          <div class="plazas">
+            <span class="plaza val">P1</span><span class="plaza val">P2</span><span class="plaza ocu">P3</span><span class="plaza ocu">P4</span><span class="plaza ocu">P5</span><span class="plaza ocu">P6</span><span class="plaza">P7</span><span class="plaza">P8</span><span class="plaza">P9</span><span class="plaza">P10</span><span class="plaza">P11</span><span class="plaza">P12</span><span class="plaza">P13</span><span class="plaza">P14</span>
+          </div>
+          <p class="nota">Azul = reservado pendiente de escanear · verde = validado y cobrado. La Familia Ekomo llega a la agencia a las 06:15.</p>
+        </div>
+        <div class="btn">Iniciar viaje · 2 de 6 pasajeros a bordo</div>
+        <p class="nota" style="text-align:center;margin-top:-6px">Al iniciar, los pasajeros ven la trayectoria y tus paradas en vivo, como en «Mi viaje».</p>
+      </div>
+      <div class="footer">
+        <span class="ftab"><span class="fic">🏠</span>Inicio</span>
+        <span class="ftab"><span class="fic">🎫</span>Reservas</span>
+        <span class="ftab sel"><span class="fic">🧭</span>Mi viaje</span>
+        <span class="ftab"><span class="fic">▦</span>Panel</span>
+        <span class="ftab"><span class="fic">👤</span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
