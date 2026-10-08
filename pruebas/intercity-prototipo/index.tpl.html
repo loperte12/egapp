@@ -183,16 +183,28 @@
      Antes eran estilos en línea repetidos: al cambiar una fila había que acordarse de la otra. */
   .crece{flex:1}
   .fuerte{font-size:14px;font-weight:600}
+  .fuerte.grande{font-size:16px}
   .tile-fantasma{height:110px;border-radius:12px;background:var(--field);border:1.5px dashed var(--faint);display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:13px}
   .persona{display:flex;align-items:center;gap:10px}
-  .persona .avatar-40{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--muted);object-fit:cover;flex:none}
-  .persona .rol{font-size:11.5px;color:var(--warn)}
+  /* avatares por tamaño, sin ámbito: los usan .persona y la cabecera de conductor */
+  .avatar-24{width:24px;height:24px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--muted);object-fit:cover;flex:none}
+  .avatar-40{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--muted);object-fit:cover;flex:none}
+  .avatar-64{width:64px;height:64px;border-radius:14px;object-fit:cover;flex:none}
+  .avatar-76{width:76px;height:76px;border-radius:18px;object-fit:cover;flex:none}
+  .rol{font-size:11.5px;color:var(--warn)}
   /* variante compacta (IC-2, IC-8): avatar de 24 y nombre con nota en la misma línea.
      Antes era .driver-tag, con su propio juego de clases duplicado. */
   .persona.compacta{gap:6px;padding:6px 10px}
-  .persona .avatar-24{width:24px;height:24px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--muted);object-fit:cover;flex:none}
   .persona .nombre{font-size:11.5px;font-weight:600}
   .persona .rating{font-size:10px;color:var(--warn)}
+  /* muro de reseñas con foto (IC-3b): aquí SÍ conviene el flujo en columnas, no la
+     rejilla de resultados. Antes se conseguía con 7 estilos en línea que anulaban
+     .masonry y .mcard; ahora es una variante con nombre. */
+  .masonry.fotos{display:block;columns:2;column-gap:10px}
+  .masonry.fotos .mcard{margin-bottom:8px;break-inside:avoid}
+  .masonry.fotos .cuerpo{gap:4px}
+  .masonry.fotos .foto-tile{height:64px;aspect-ratio:auto}
+  .meta.destacada{color:var(--warn)}
   /* par de acciones: mismo patrón repetido en 5 pantallas (antes, estilos en línea) */
   .acciones{display:flex;gap:8px}
   .acciones .btn{flex:1}
@@ -553,10 +565,10 @@
         <div class="tarjeta">
           <span class="rotulo">CONDUCTOR</span>
           <div class="fila">
-            <img src="{{IMG_CONDUCTOR}}" alt="Anastasio M." style="width:64px;height:64px;border-radius:14px;object-fit:cover">
+            <img class="avatar-64" src="{{IMG_CONDUCTOR}}" alt="Anastasio M.">
             <div class="crece">
-              <div style="font-size:15px;font-weight:600">Anastasio M.</div>
-              <div style="font-size:12px;color:var(--warn)">★ 4,8 · 32 viajes · DNI verificado</div>
+              <div class="fuerte">Anastasio M.</div>
+              <div class="rol">★ 4,8 · 32 viajes · DNI verificado</div>
               <div class="nota">👁 2 314 visualizaciones · 214 seguidores</div>
             </div>
             <span class="btn-seguir">＋ Seguir</span>
@@ -603,10 +615,10 @@
       <div class="contenido">
         <div class="tarjeta">
           <div class="fila">
-            <img src="{{IMG_CONDUCTOR}}" alt="Anastasio M." style="width:76px;height:76px;border-radius:18px;object-fit:cover">
+            <img class="avatar-76" src="{{IMG_CONDUCTOR}}" alt="Anastasio M.">
             <div class="crece">
-              <div style="font-size:16px;font-weight:600">Anastasio M.</div>
-              <div style="font-size:12px;color:var(--warn)">★ 4,8 · 32 viajes · DNI verificado</div>
+              <div class="fuerte grande">Anastasio M.</div>
+              <div class="rol">★ 4,8 · 32 viajes · DNI verificado</div>
               <div class="nota">Bata · Litoral · en la app desde mar 2026</div>
             </div>
             <span class="btn-seguir">＋ Seguir</span>
@@ -656,19 +668,19 @@
         </div>
         <div class="tarjeta">
           <span class="rotulo">RESEÑAS CON FOTO · 12</span>
-          <div class="masonry" style="columns:2">
-            <div class="mcard" style="margin-bottom:8px">
-              <div class="cuerpo" style="gap:4px">
-                <div class="meta" style="color:var(--warn)">★ 5,0 · Modesta A.</div>
+          <div class="masonry fotos">
+            <div class="mcard">
+              <div class="cuerpo">
+                <div class="meta destacada">★ 5,0 · Modesta A.</div>
                 <div class="meta">«Puntual y el agua fría, un detalle»</div>
-                <div class="foto-tile" style="height:64px"><img src="{{IMG_MINIBUS}}" alt=""></div>
+                <div class="foto-tile"><img src="{{IMG_MINIBUS}}" alt=""></div>
               </div>
             </div>
-            <div class="mcard" style="margin-bottom:8px">
-              <div class="cuerpo" style="gap:4px">
-                <div class="meta" style="color:var(--warn)">★ 4,0 · Rubén D.</div>
+            <div class="mcard">
+              <div class="cuerpo">
+                <div class="meta destacada">★ 4,0 · Rubén D.</div>
                 <div class="meta">«Buen viaje, tardó 15 min en Mbini»</div>
-                <div class="foto-tile" style="height:64px"><img src="{{IMG_COCHE}}" alt=""></div>
+                <div class="foto-tile"><img src="{{IMG_COCHE}}" alt=""></div>
               </div>
             </div>
           </div>
