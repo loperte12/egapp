@@ -24,7 +24,8 @@ function cargarSharp() {
 const sharp = cargarSharp();
 
 const DIR = __dirname;
-const tpl = fs.readFileSync(path.join(DIR, "index.tpl.html"), "utf8");
+const plantilla = (process.argv.find((a) => a.startsWith("--plantilla=")) || "").split("=")[1] || "index.tpl.html";
+const tpl = fs.readFileSync(path.join(DIR, plantilla), "utf8");
 
 const IMGS = {
   IMG_COCHE: "coche.png",
