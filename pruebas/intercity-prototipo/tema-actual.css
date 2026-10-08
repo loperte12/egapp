@@ -1,0 +1,278 @@
+  :root{
+    --bg:#1E1E23; --card:#26262C; --card2:#2D2D34; --field:#2A2A31;
+    --line:#33343A; --text:#F2F3F5; --muted:#9AA0A8; --faint:#8C9299;
+    --primary:#0066CC; --price:#C2410C; --price-text:#ED4F0F; --desc:#E08A5C; --link:#4C9BE8;
+    --ok:#2E9E5B; --ok-text:#31A860; --warn:#B98A2B; --danger:#C0392B;
+    --r-card:16px; --r-btn:14px; --r-chip:18px; --r-field:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",system-ui,-apple-system,sans-serif}
+  body{background:#141417;color:var(--text);padding:28px 32px 64px}
+  h1{font-size:20px;font-weight:700;margin-bottom:4px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:28px;max-width:900px;line-height:1.55}
+  .sub b{color:var(--text)}
+  .flujo{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start}
+  .pantalla{display:flex;flex-direction:column;gap:10px}
+  .etiqueta{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .etiqueta em{font-style:normal;color:var(--price)}
+  .movil{width:390px;height:844px;background:var(--bg);border:1px solid #000;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,.5);position:relative}
+  .movil.larga{height:auto;min-height:844px}
+
+  /* piezas comunes */
+  .topbar{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 16px;border-bottom:1px solid var(--line);flex:none}
+  .topbar .back{font-size:24px;color:var(--text);width:32px}
+  .topbar .titulo{font-size:17px;font-weight:600}
+  .topbar .avatar{width:32px;height:32px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff}
+  .contenido{padding:16px;display:flex;flex-direction:column;gap:16px;flex:1}
+  .tarjeta{background:var(--card);border-radius:var(--r-card);padding:16px;display:flex;flex-direction:column;gap:12px}
+  .rotulo{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em}
+  .campo{display:flex;align-items:center;gap:10px;height:50px;padding:0 14px;background:var(--field);border-radius:var(--r-field)}
+  .campo .ico{color:var(--muted);font-size:15px}
+  .campo .valor{font-size:15px;font-weight:500}
+  .campo.secundario .valor{color:var(--faint);font-weight:400}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{display:flex;align-items:center;height:36px;padding:0 14px;border-radius:var(--r-chip);background:var(--field);border:1px solid var(--line);font-size:13px;font-weight:500}
+  .chip.sel{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600}
+  .chip.off{color:var(--faint)}
+  .chip.mini{height:26px;padding:0 10px;font-size:11.5px;border-radius:13px}
+  .nota{font-size:12px;line-height:1.45;color:var(--muted)}
+  .nota.legal{padding:10px 12px;background:var(--card);border-radius:10px;border-left:3px solid var(--warn);color:var(--muted)}
+  .btn{display:flex;align-items:center;justify-content:center;height:52px;border-radius:var(--r-btn);background:var(--primary);color:#fff;font-size:16px;font-weight:600;margin-top:auto}
+  .btn.sec{background:var(--card2);color:var(--text);margin-top:0}
+  .btn.mini{height:44px;font-size:13px;border-radius:12px;padding:0 12px;margin-top:0;font-weight:600}
+  .precio{color:var(--price-text);font-weight:700}
+  .tachado{color:var(--faint);text-decoration:line-through;font-weight:400}
+  .divisor{height:1px;background:var(--line)}
+  .fila{display:flex;align-items:center;justify-content:space-between}
+  .estado{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;font-size:11px;font-weight:600;white-space:nowrap}
+  .estado.ok{background:rgba(46,158,91,.15);color:var(--ok-text)}
+  .estado.pend{background:rgba(185,138,43,.15);color:var(--warn)}
+  .estado.viaje{background:rgba(0,102,204,.18);color:var(--link)}
+  /* «estado» es una categoría; «cuándo» es otra. El tiempo y los recuentos no llevan
+     color de estado: una hora en verde lee como «correcto». */
+  .estado.cuando{background:rgba(255,255,255,.06);color:var(--muted)}
+  .badge-desc{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;background:rgba(194,65,12,.18);color:#E08A5C;font-size:11px;font-weight:700}
+
+  /* footer */
+  .footer{display:flex;border-top:1px solid var(--line);background:var(--card);flex:none}
+  .footer .ftab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0 12px;font-size:10px;color:var(--faint)}
+  .footer .ftab .fic{font-size:17px}
+  .footer .ftab.sel{color:var(--link)}
+  .footer .ftab.sel .fic{color:var(--link)}
+
+  /* INICIO: mapa + ticker + panel */
+  .portada-mapa{flex:1;position:relative;overflow:hidden;background:#232328;min-height:0}
+  .portada-mapa svg{position:absolute;inset:0;width:100%;height:100%}
+  .mapa-tag{position:absolute;top:10px;left:12px;display:flex;align-items:center;gap:6px;background:rgba(20,20,23,.85);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:11px;color:var(--muted)}
+  .ticker{height:148px;flex:none;background:var(--bg);border-bottom:1px solid var(--line);overflow:hidden;padding:8px 0 6px} /* 104 -> 148: el contenido medía 145 px y se recortaba 41 (lo cazó verificar-ui.cjs) */
+  .ticker .track{display:flex;gap:8px;width:max-content;animation:ticker 22s linear infinite}
+  @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .promo{flex:none;width:128px;border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;justify-content:space-between;font-size:10.5px;line-height:1.3;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+  .promo b{font-size:12.5px}
+  .promo .tirar{font-size:9px;opacity:.85}
+  .promo .p-azul{background:linear-gradient(135deg,#0A4E96,#0066CC)}
+  .promo .p-naranja{background:linear-gradient(135deg,#7A2A0B,#C2410C)}
+  .promo .p-verde{background:linear-gradient(135deg,#1E5E3A,#2E9E5B)}
+  .promo .p-gris{background:linear-gradient(135deg,#33343A,#4A4B52)}
+  .ticker .pista{font-size:9.5px;color:var(--faint);text-align:center;padding-top:4px}
+  .sheet{background:var(--bg);border-radius:20px 20px 0 0;border-top:1px solid var(--line);flex:none;display:flex;flex-direction:column}
+  .sheet .asa{width:44px;height:4px;border-radius:2px;background:#4A4B52;margin:8px auto 0}
+  .sheet .cuerpo{padding:12px 16px 14px;display:flex;flex-direction:column;gap:10px}
+  .ruta-compacta{display:flex;flex-direction:column;gap:6px}
+  .tramo{display:flex;align-items:center;gap:10px;height:44px;background:var(--field);border-radius:12px;padding:0 12px}
+  .tramo .punto{width:8px;height:8px;border-radius:50%;flex:none}
+  .tramo .v{font-size:14px;font-weight:500}
+  .tramo .cambiar{margin-left:auto;font-size:11px;color:var(--link)}
+  .cal-card{display:flex;align-items:center;gap:10px;height:48px;padding:0 14px;background:var(--field);border-radius:12px}
+  .cal-card .v{font-size:14px;font-weight:500;flex:1}
+  .cal-card .chev{color:var(--faint)}
+  .tabsp{display:flex;background:var(--card);border-radius:12px;padding:4px;gap:4px}
+  .tabsp .t{flex:1;text-align:center;padding:9px 0;border-radius:9px;font-size:13px;color:var(--muted)}
+  .tabsp .t.sel{background:var(--primary);color:#fff;font-weight:600}
+
+  /* hoja de calendario DENTRO del sheet: un mes completo, con scroll si no cabe.
+     (antes: .cal-inline a 40 % fijo, que cortaba la segunda rejilla a media fila) */
+  .cal-drawer{display:flex;flex-direction:column;gap:8px;max-height:264px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#4A4B52 transparent}
+  .cal-drawer::-webkit-scrollbar{width:6px}
+  .cal-drawer::-webkit-scrollbar-thumb{background:#4A4B52;border-radius:3px}
+  .mes-nav{display:flex;gap:14px;color:var(--faint)}
+  .mes-sig{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+  .cta-fijo{display:flex;flex-direction:column;gap:8px;flex:none}
+  .cta-fijo .btn{margin-top:0}
+  .cal{display:flex;flex-direction:column;gap:6px}
+  .cal .mes{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600}
+  .cal .dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .cal .d{height:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:9px;font-size:12px;color:var(--muted)}
+  .cal .d.vacio{visibility:hidden}
+  .cal .d.hoy{color:var(--text);border:1px solid var(--line)}
+  .cal .d.sel{background:var(--primary);color:#fff;font-weight:700}
+  .cal .d.desc{position:relative;color:#E08A5C;font-weight:600}
+  .cal .d.desc::after{content:"↓";position:absolute;bottom:0;font-size:8px}
+  .cal .d.otro{opacity:.45}
+  .cal .cab{font-size:10.5px;color:var(--faint);text-align:center;height:18px}
+
+  /* audio, amenidades, badges de publicación */
+  .audio-row{display:flex;align-items:center;gap:8px;background:var(--field);border:1px solid var(--line);border-radius:20px;padding:6px 10px}
+  .audio-row .play{width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;flex:none}
+  .wave{display:flex;align-items:center;gap:2px;flex:1;height:16px}
+  .wave span{width:3px;border-radius:2px;background:#4C9BE8}
+  .audio-row .dur{font-size:10px;color:var(--muted)}
+  .tag-pub{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:10px;font-size:9.5px;font-weight:700;letter-spacing:.05em}
+  .tag-pub.cond{background:rgba(0,102,204,.18);color:var(--link)}
+  .tag-pub.user{background:rgba(46,158,91,.16);color:var(--ok)}
+  .tag-pub.upd{background:rgba(185,138,43,.16);color:var(--warn)}
+  .video-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .video-play .circ{width:40px;height:40px;border-radius:50%;background:rgba(20,20,23,.75);border:1.5px solid #F2F3F5;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+  /* vehículos 3D */
+  .vtiles{display:flex;gap:8px}
+  .vtile{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px 8px;background:var(--field);border:1px solid var(--line);border-radius:12px}
+  .vtile.sel{border-color:var(--primary);background:rgba(0,102,204,.10)}
+  .vtile img{width:56px;height:44px;object-fit:contain}
+  .vtile span{font-size:11px;color:var(--muted)}
+  .vtile.sel span{color:var(--text);font-weight:600}
+  .foto-tile{background:var(--card2);border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/3}
+  .foto-tile img{width:100%;height:100%;display:block;object-fit:cover}
+
+  /* resultados/panel masonry */
+  /* Rejilla de 2 columnas con tarjetas de alto comparable: `columns` dejaba un
+     hueco de ~375 px en la columna izquierda cuando sólo hay 3 resultados. */
+  .masonry{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
+  .mcard{background:var(--card);border-radius:var(--r-card);overflow:hidden;display:flex;flex-direction:column}
+  .mcard .cuerpo{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px}
+  .mcard .ruta{font-size:14px;font-weight:600;line-height:1.25}
+  .mcard .meta{font-size:11.5px;color:var(--muted)}
+  .mcard .pie{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:2px;min-height:34px}
+  .precio-bloque{display:flex;flex-direction:column;gap:1px;line-height:1.15}
+  /* el sello va sobre la foto: en una tarjeta de 174 px no cabe junto al precio */
+  .sello{position:absolute;top:8px;right:8px;display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;font-size:10px;font-weight:700;background:#141417}
+  .sello.ok{color:var(--ok-text)}
+  .sello.pend{color:var(--warn)}
+  .resumen{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+  .resumen b{color:var(--text)}
+  /* (.driver-tag se retiró: es la variante compacta de .persona, en las piezas compartidas) */
+  .amens{display:flex;gap:5px;flex-wrap:wrap;min-height:45px;align-content:flex-start}
+  .amen{display:inline-flex;align-items:center;gap:3px;height:20px;padding:0 7px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:10px;color:var(--muted)}
+
+  /* detalle / perfil */
+  /* (.acciones-contacto era la MISMA declaración que .acciones con otro nombre: consolidada) */
+  .accion{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:12px;background:var(--field);border:1px solid var(--line);font-size:11px;color:var(--muted)}
+  .accion .aic{font-size:17px}
+  .accion.wa .aic{color:#3AAE5C}
+  .accion.tel .aic{color:#4C9BE8}
+  .check-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field);font-size:13px}
+  .check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--faint);flex:none}
+  .check-row.marcado .check{background:var(--primary);border-color:var(--primary);position:relative}
+  .check-row.marcado .check::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px}
+  /* La forma sigue a la cardinalidad: elección excluyente = redonda (con punto),
+     elección múltiple = cuadrada (con marca). Solo el marcado cambia, no el color.
+     OJO: el modificador NO puede llamarse «radio» — .radio ya existe (18x18) y la
+     fila entera colapsaba a 18 px. Por eso es .unica. */
+  .check-row.unica .check{border-radius:50%}
+  .check-row.unica.marcado .check::after{content:"";inset:auto;left:50%;top:50%;width:8px;height:8px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;display:block}
+  .radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--faint);flex:none}
+  .recogida-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--field)}
+  .recogida-opt.sel{border-color:var(--primary)}
+  .recogida-opt.sel .radio{border-color:var(--primary);background:radial-gradient(circle at center,var(--primary) 0 5px,transparent 6px)}
+  .recogida-opt .nombre{font-size:14px;font-weight:600}
+  .recogida-opt .detalle{font-size:12px;color:var(--muted);margin-top:2px}
+  .resumen-fila{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:4px 0}
+  .resumen-fila.total{color:var(--text);font-weight:600;font-size:15px;border-top:1px solid var(--line);padding-top:10px;margin-top:6px}
+  .contador{display:flex;align-items:center;gap:16px}
+  .contador button{width:44px;height:44px;border-radius:50%;background:var(--card2);border:1px solid var(--line);color:var(--text);font-size:18px}
+  .contador .num{font-size:16px;font-weight:600;width:20px;text-align:center}
+
+  /* piezas compartidas del flujo de publicación (IC-1c / IC-1d).
+     Antes eran estilos en línea repetidos: al cambiar una fila había que acordarse de la otra. */
+  .crece{flex:1}
+  .fuerte{font-size:14px;font-weight:600}
+  .fuerte.grande{font-size:16px}
+  .tile-fantasma{height:110px;border-radius:12px;background:var(--field);border:1.5px dashed var(--faint);display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:13px}
+  .persona{display:flex;align-items:center;gap:10px}
+  /* avatares por tamaño, sin ámbito: los usan .persona y la cabecera de conductor */
+  .avatar-24{width:24px;height:24px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--muted);object-fit:cover;flex:none}
+  .avatar-40{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--muted);object-fit:cover;flex:none}
+  .avatar-64{width:64px;height:64px;border-radius:14px;object-fit:cover;flex:none}
+  .avatar-76{width:76px;height:76px;border-radius:18px;object-fit:cover;flex:none}
+  .rol{font-size:11.5px;color:var(--warn)}
+  /* variante compacta (IC-2, IC-8): avatar de 24 y nombre con nota en la misma línea.
+     Antes era .driver-tag, con su propio juego de clases duplicado. */
+  .persona.compacta{gap:6px;padding:6px 10px}
+  .persona .nombre{font-size:11.5px;font-weight:600}
+  .persona .rating{font-size:10px;color:var(--warn)}
+  /* muro de reseñas con foto (IC-3b): aquí SÍ conviene el flujo en columnas, no la
+     rejilla de resultados. Antes se conseguía con 7 estilos en línea que anulaban
+     .masonry y .mcard; ahora es una variante con nombre. */
+  .masonry.fotos{display:block;columns:2;column-gap:10px}
+  .masonry.fotos .mcard{margin-bottom:8px;break-inside:avoid}
+  .masonry.fotos .cuerpo{gap:4px}
+  .masonry.fotos .foto-tile{height:64px;aspect-ratio:auto}
+  .meta.destacada{color:var(--warn)}
+  /* par de acciones: mismo patrón repetido en 5 pantallas (antes, estilos en línea) */
+  .acciones{display:flex;gap:8px}
+  .acciones .btn{flex:1}
+  /* estado semántico en vez de color en línea (3 tarjetas) y énfasis dentro de .nota (5 veces) */
+  .tarjeta.aviso{border-color:rgba(185,138,43,.4)}
+  .nota b{color:var(--text)}
+  /* el nombre abre el perfil del conductor: así no hace falta un botón «Ver perfil» */
+  /* Escalones del funnel de reserva (IC-3 → IC-4): sin navegación inferior A PROPÓSITO,
+     para no ofrecer salidas a mitad de la compra. Lo exige verificar-ui.cjs: si falta el
+     pie y la pantalla no lleva .sin-nav, es un fallo; y al no haber pie, se le da más aire. */
+  .sin-nav .contenido{padding-bottom:28px}
+  .enlace-perfil{color:var(--link)}
+  .stats{display:flex;background:var(--card);border-radius:12px;overflow:hidden}
+  .stats .st{flex:1;text-align:center;padding:10px 4px;border-right:1px solid var(--line)}
+  .stats .st:last-child{border-right:none}
+  .stats .st b{display:block;font-size:15px}
+  .stats .st span{font-size:10px;color:var(--muted)}
+  .btn-seguir{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:38px;padding:0 18px;border-radius:12px;background:var(--primary);color:#fff;font-size:13px;font-weight:700}
+  .sms{background:var(--card);border:1px solid var(--line);border-radius:14px 14px 14px 4px;padding:10px 12px;font-size:12px;line-height:1.45;color:var(--text)}
+  .sms .cab{font-size:10px;color:var(--faint);margin-bottom:4px}
+
+  /* ticket */
+  .ticket{background:var(--card);border-radius:var(--r-card);overflow:hidden}
+  .ticket .cab-t{background:var(--primary);padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+  .ticket .cab-t .marca{font-size:15px;font-weight:700;color:#fff}
+  .ticket .cab-t .tipo{font-size:10px;color:rgba(255,255,255,.8);letter-spacing:.1em}
+  .ticket .cuerpo-t{padding:16px;display:flex;flex-direction:column;gap:8px}
+  .ticket .perfo{height:8px;background:radial-gradient(circle 6px at 8px 4px,var(--bg) 98%,transparent),radial-gradient(circle 6px at calc(100% - 8px) 4px,var(--bg) 98%,transparent);border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
+  .fila-t{display:flex;justify-content:space-between;font-size:12.5px;padding:2px 0}
+  .fila-t .k{color:var(--muted)}
+  .fila-t .v{color:var(--text);font-weight:500;text-align:right;max-width:60%}
+  .qr-box{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 0 4px}
+  .qr-box svg{background:#fff;border-radius:8px;padding:8px}
+  .cod-t{font-size:19px;font-weight:700;letter-spacing:.09em}
+
+  /* mi viaje */
+  .traj{border-radius:12px;overflow:hidden;position:relative}
+  .traj svg{display:block;width:100%}
+  .timeline{display:flex;flex-direction:column}
+  .parada{display:flex;gap:12px}
+  .parada .rail{display:flex;flex-direction:column;align-items:center;width:14px}
+  .parada .punto{width:10px;height:10px;border-radius:50%;flex:none;margin-top:4px}
+  .parada .punto.done{background:var(--ok)}
+  .parada .punto.ahora{background:var(--primary);box-shadow:0 0 0 4px rgba(0,102,204,.25)}
+  .parada .punto.futura{background:var(--card2);border:1.5px solid var(--faint)}
+  .parada .linea{width:2px;flex:1;background:var(--line);min-height:22px}
+  .parada .linea.done{background:var(--ok)}
+  .parada .datos{padding-bottom:14px;flex:1}
+  .parada .lugar{font-size:13.5px;font-weight:600}
+  .parada .hora{font-size:11.5px;color:var(--muted)}
+  .parada .tag{font-size:10px;font-weight:700;letter-spacing:.03em}
+  .parada .tag.done{color:var(--ok)}
+  .parada .tag.ahora{color:#4C9BE8}
+  /* conductor */
+  .pas{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .pas:last-child{border-bottom:none;padding-bottom:0}
+  .pas .pf{width:36px;height:36px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--muted);flex:none;object-fit:cover}
+  .pas .nom{font-size:13.5px;font-weight:600}
+  .pas .det{font-size:11.5px;color:var(--muted);line-height:1.45}
+  .plazas{display:flex;gap:6px;flex-wrap:wrap}
+  .plaza{width:42px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;border:1px solid var(--line);color:var(--faint);background:var(--field)}
+  .plaza.ocu{background:rgba(0,102,204,.16);border-color:rgba(0,102,204,.5);color:#4C9BE8}
+  .plaza.val{background:rgba(46,158,91,.16);border-color:rgba(46,158,91,.5);color:var(--ok)}
+  .escaner{background:#141417;border:1.5px dashed #4C9BE8;border-radius:14px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .escaner svg{background:#fff;border-radius:8px;padding:8px}
+  .aviso-sms{display:flex;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+  .aviso-sms .ic{width:36px;height:36px;border-radius:10px;background:rgba(0,102,204,.15);color:#4C9BE8;display:flex;align-items:center;justify-content:center;font-size:16px;flex:none}
+  .aviso-sms .t{font-size:13.5px;font-weight:600}
+  .aviso-sms .d{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:2px}

@@ -21,7 +21,8 @@ const ALTO_MOVIL = 844;
 
 // --- frescura del build -------------------------------------------------------
 const tTpl = fs.statSync(path.join(DIR, "index.tpl.html")).mtimeMs;
-const tIdx = fs.statSync(path.join(DIR, "index.html")).mtimeMs;
+const FICHERO = process.env.INDEX || "index.html";
+const tIdx = fs.statSync(path.join(DIR, FICHERO)).mtimeMs;
 const avisos = [];
 if (tIdx < tTpl) {
   avisos.push(
@@ -30,7 +31,7 @@ if (tIdx < tTpl) {
 }
 
 // --- sonda de layout ----------------------------------------------------------
-const html = fs.readFileSync(path.join(DIR, "index.html"), "utf8");
+const html = fs.readFileSync(path.join(DIR, FICHERO), "utf8");
 
 const SONDA = `<pre id="ui-audit"></pre>
 <script>
@@ -46,7 +47,7 @@ const SONDA = `<pre id="ui-audit"></pre>
     const recortes = [];
     m.querySelectorAll('*').forEach(function(el){
       if (el === m) return;
-      if (el.closest('.ticker') || el.closest('.cal-drawer')) return; // recortan a propósito
+      if (el.closest('.ticker .track') || el.closest('.cal-drawer')) return; // el carril del marquee y la hoja de calendario recortan a propósito
       const cs = getComputedStyle(el);
       if (cs.overflowY !== 'hidden') return;
       const d = el.scrollHeight - el.clientHeight;
@@ -152,7 +153,7 @@ for (const p of pantallas) {
 
 // --- contraste ----------------------------------------------------------------
 console.log("");
-const { filas, fallos: fallosContraste } = auditar(DIR);
+const { filas, fallos: fallosContraste } = auditar(DIR, FICHERO);
 console.log("CONTRASTE WCAG AA");
 console.log("-".repeat(64));
 for (const f of filas) {

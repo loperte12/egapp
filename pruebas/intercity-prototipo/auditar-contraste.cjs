@@ -31,15 +31,15 @@ const PARES = [
   ["--field", "--link", 11, "enlace «Cambiar»"],
   ["--primary", "#FFFFFF", 16, "botón primario"],
   ["--bg", "--text", 15, "texto principal"],
-  ["--bg", "#E08A5C", 12, "día con descuento"],
+  ["--bg", "--desc", 13, "día con descuento"],
   ["--field", "--muted", 11, ".mapa-tag"],
   ["--card", "--ok-text", 11, "sello «Verificado» sobre foto"],
-  ["--card", "#E08A5C", 11, "badge de descuento"],
+  ["--card", "--desc", 12, "badge de descuento"],
   ["--bg", "--ok-text", 12, "verde sobre fondo"],
 ];
 
-function auditar(raiz) {
-  const html = fs.readFileSync(path.join(raiz || __dirname, "index.html"), "utf8");
+function auditar(raiz, fichero) {
+  const html = fs.readFileSync(path.join(raiz || __dirname, fichero || process.env.INDEX || "index.html"), "utf8");
   const root = (html.match(/:root\{([\s\S]*?)\}/) || [])[1] || "";
   const vars = {};
   for (const m of root.matchAll(/--([\w-]+)\s*:\s*(#[0-9A-Fa-f]{6})/g)) {

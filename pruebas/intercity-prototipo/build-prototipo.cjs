@@ -102,13 +102,23 @@ function qrSvg() {
 }
 
 (async () => {
+  // --tema=fichero.css (por defecto tema-actual.css) · --salida=fichero.html (index.html)
+  const arg = (n, def) => (process.argv.find((a) => a.startsWith("--" + n + "=")) || "").split("=")[1] || def;
+  const temaFichero = arg("tema", "tema-actual.css");
+  const salida = arg("salida", "index.html");
+
   let html = tpl;
   for (const [k, f] of Object.entries(IMGS)) {
     html = html.replaceAll("{{" + k + "}}", await imgDataUri(f));
   }
   html = html.replace(/\{\{QR\}\}/g, qrSvg());
   html = html.replace(/\{\{MAPA\}\}/g, MAPA);
-  if (/\{\{(IMG|QR|MAPA)/.test(html)) throw new Error("quedan placeholders sin sustituir");
-  fs.writeFileSync(path.join(DIR, "index.html"), html);
-  console.log("OK index.html", (fs.statSync(path.join(DIR, "index.html")).size / 1024).toFixed(0) + " KB");
+  const tema = fs.readFileSync(path.join(DIR, temaFichero), "utf8");
+  html = html.replace(/\{\{TEMA\}\}/g, tema);
+  if (/\{\{(IMG|QR|MAPA|TEMA)/.test(html)) throw new Error("quedan placeholders sin sustituir");
+  fs.writeFileSync(path.join(DIR, salida), html);
+  console.log(
+    `OK ${salida} · tema ${temaFichero} · ` +
+      (fs.statSync(path.join(DIR, salida)).size / 1024).toFixed(0) + " KB"
+  );
 })();

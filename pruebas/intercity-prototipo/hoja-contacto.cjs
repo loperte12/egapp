@@ -17,7 +17,8 @@ const sharp = cargarSharp();
 
 const DIR = __dirname;
 const RENDER = path.join(DIR, "render-pantalla.cjs");
-const SALIDA = path.join(DIR, "salida");
+const FICHERO = process.env.INDEX || "index.html";
+const SALIDA = process.env.SALIDA_DIR ? path.resolve(process.env.SALIDA_DIR) : path.join(DIR, "salida");
 const TMP = path.join(os.tmpdir(), "hoja-contacto");
 const FUERA = "#0b0b0d"; // fondo del envoltorio del render
 
@@ -31,7 +32,7 @@ fs.mkdirSync(TMP, { recursive: true });
 // IDs y etiquetas en orden de documento (coinciden con --list)
 const ids = execFileSync(process.execPath, [RENDER, "--list"], { encoding: "utf8" })
   .split("\n").slice(1).map((l) => l.replace(/^\s*\d+\.\s*/, "").trim()).filter(Boolean);
-const html = fs.readFileSync(path.join(DIR, "index.html"), "utf8");
+const html = fs.readFileSync(path.join(DIR, FICHERO), "utf8");
 const etiquetas = [...html.matchAll(/class="etiqueta">([\s\S]*?)<\/div>/g)]
   .map((m) => m[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim());
 
