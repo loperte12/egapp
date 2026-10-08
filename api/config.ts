@@ -6,7 +6,8 @@
 
 // --- Host del backend NestJS (CloudBase, Singapur) ---
 // Dominio propio atado a la Web Function vía HTTP gateway (ruta /api).
-// Requiere DNS: api → egrouteplan-d0gpkwbe7ce86f609.tcbaccess-in.tencentcloudbase.com
+// DNS en ALIYUN: CNAME api → api.egrouteplan.com.tcbaccess-sg.tencentcloudbase.com
+// Cert TrustAsia DV bPwiXAN5 (vence 2027-01-06, renovación manual).
 export const API_HOST = 'https://api.egrouteplan.com';
 
 // ⚠️ Mapas siguen en el espejo HK (Alibaba 8.218.88.237): mbtiles-server + OSRM
