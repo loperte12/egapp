@@ -54,6 +54,9 @@
   .estado.ok{background:rgba(46,158,91,.15);color:var(--ok-text)}
   .estado.pend{background:rgba(185,138,43,.15);color:var(--warn)}
   .estado.viaje{background:rgba(0,102,204,.18);color:var(--link)}
+  /* «estado» es una categoría; «cuándo» es otra. El tiempo y los recuentos no llevan
+     color de estado: una hora en verde lee como «correcto». */
+  .estado.cuando{background:rgba(255,255,255,.06);color:var(--muted)}
   .badge-desc{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;background:rgba(194,65,12,.18);color:#E08A5C;font-size:11px;font-weight:700}
 
   /* footer */
@@ -167,6 +170,12 @@
   .check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--faint);flex:none}
   .check-row.marcado .check{background:var(--primary);border-color:var(--primary);position:relative}
   .check-row.marcado .check::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px}
+  /* La forma sigue a la cardinalidad: elección excluyente = redonda (con punto),
+     elección múltiple = cuadrada (con marca). Solo el marcado cambia, no el color.
+     OJO: el modificador NO puede llamarse «radio» — .radio ya existe (18x18) y la
+     fila entera colapsaba a 18 px. Por eso es .unica. */
+  .check-row.unica .check{border-radius:50%}
+  .check-row.unica.marcado .check::after{content:"";inset:auto;left:50%;top:50%;width:8px;height:8px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;display:block}
   .radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--faint);flex:none}
   .recogida-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--field)}
   .recogida-opt.sel{border-color:var(--primary)}
@@ -1060,7 +1069,7 @@
         <div class="tarjeta">
           <div class="fila">
             <span class="rotulo">SOLICITUD DE PASAJERO · NUEVA</span>
-            <span class="estado pend">hace 4 min</span>
+            <span class="estado cuando">hace 4 min</span>
           </div>
           <div class="aviso-sms">
             <span class="ic">✉️</span>
@@ -1078,7 +1087,7 @@
         <div class="tarjeta">
           <div class="fila">
             <span class="rotulo">MI VIAJE PROGRAMADO · vie 16 oct</span>
-            <span class="estado viaje">2 nuevos aplicados</span>
+            <span class="estado cuando">2 nuevos aplicados</span>
           </div>
           <div class="aviso-sms" style="border:none;padding:0;background:transparent">
             <span class="ic">🚐</span>
@@ -1095,7 +1104,7 @@
         <div class="tarjeta">
           <div class="fila">
             <span class="rotulo">AVISO DEL SISTEMA</span>
-            <span class="estado ok">ayer 19:02</span>
+            <span class="estado cuando">ayer 19:02</span>
           </div>
           <div class="aviso-sms" style="border:none;padding:0;background:transparent">
             <span class="ic">📉</span>
@@ -1155,8 +1164,8 @@
         </div>
         <div class="tarjeta aviso">
           <span class="rotulo">TU RESPUESTA</span>
-          <div class="check-row"><span class="check"></span><span>Acepto <b>6 000 XAF/pl</b> · 5 plazas · sale 06:00-06:30</span></div>
-          <div class="check-row marcado"><span class="check"></span><span>Hago <b>contraoferta</b>: <span class="precio">7 500 XAF/pl</span> · incluyo puerta a puerta y parada en el mercado</span></div>
+          <div class="check-row unica"><span class="check"></span><span>Acepto <b>6 000 XAF/pl</b> · 5 plazas · sale 06:00-06:30</span></div>
+          <div class="check-row unica marcado"><span class="check"></span><span>Hago <b>contraoferta</b>: <span class="precio">7 500 XAF/pl</span> · incluyo puerta a puerta y parada en el mercado</span></div>
           <p class="nota">Al aplicar, el pasajero recibe el aviso al instante y decide: puede seleccionarte, contrarrestar de nuevo o descartarte. Hasta que te seleccione, tus plazas siguen libres para otros pasajeros.</p>
         </div>
         <div class="btn">Aplicar con contraoferta · 7 500 XAF/pl</div>
@@ -1183,11 +1192,12 @@
             <span style="font-size:14px;font-weight:600">Bata → Cogo · 06:30 · Toyota Hiace</span>
             <span class="estado viaje">● Programado</span>
           </div>
-          <p class="nota">En 8 días · GE-421-BCA · blanca · 💧 agua gratis · ❄️ A/C · 🐾 mascotas · <b>editables ›</b></p>
+          <p class="nota">En 8 días · GE-421-BCA · blanca · 💧 agua gratis · ❄️ A/C · 🐾 mascotas · editables</p>
           <span class="rotulo">PLAZAS · 6 DE 14 OCUPADAS</span>
           <div class="plazas">
             <span class="plaza val">P1</span><span class="plaza val">P2</span><span class="plaza val">P3</span><span class="plaza val">P4</span><span class="plaza val">P5</span><span class="plaza val">P6</span><span class="plaza">P7</span><span class="plaza">P8</span><span class="plaza">P9</span><span class="plaza">P10</span><span class="plaza">P11</span><span class="plaza">P12</span><span class="plaza">P13</span><span class="plaza">P14</span>
           </div>
+          <p class="nota">Verde = validada y cobrada · azul = reservada sin validar · gris = libre.</p>
           <div class="acciones">
             <div class="btn mini sec">📉 Bajar precio (−10 %)</div>
             <div class="btn mini sec">📣 Publicar actualización</div>
