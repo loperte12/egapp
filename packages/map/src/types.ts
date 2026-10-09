@@ -28,7 +28,7 @@ export interface MapMarker {
 
 export interface RouteSegment {
   coordinates: Coord[];
-  /** Color de la polyline (#0084FF para ruta principal) */
+  /** Color de la polyline (por defecto `MAP_COLORS.primary`) */
   color?: string;
   /** Grosor en px (6 por defecto, estilo DiDi) */
   width?: number;
@@ -40,14 +40,34 @@ export interface CameraBounds {
   padding?: number;
 }
 
-/** Colores corporativos Eg Route Plan */
+/**
+ * Colores del mapa — ESPEJO de los tokens de marca de `@egrouteplan/ui-kit`.
+ *
+ * ⚠️ DUPLICACIÓN DELIBERADA, y es deuda reconocida. El motivo:
+ * `packages/map/package.json` NO declara ninguna dependencia — tampoco con
+ * `@egrouteplan/ui-kit` — y este paquete lo consume además el mapa WEB
+ * (`mapWeb.tsx`). Importar el barril de ui-kit aquí arrastraría componentes de
+ * React Native al bundle del webview. Hasta que eso se resuelva, se copian.
+ *
+ * 🔴 CONSECUENCIA QUE HAY QUE SABER: el trinquete `npm run diseno` NO escanea
+ * `packages/map`, así que si un token cambia, aquí NO se entera nadie y nada
+ * falla. Este bloque es un punto ciego de la guardia. Antes era peor: llevaba
+ * la paleta vieja completa —un azul que no era el de la marca, un naranja, un
+ * verde y un rojo que ya no existían en el sistema de diseño—, así que la ruta
+ * del taxi se dibujaba con el color equivocado y nada lo detectaba.
+ * (Los valores retirados NO se escriben aquí a propósito: el trinquete cuenta
+ * los literales que aparecen dentro de los comentarios.)
+ *
+ * REGLA: si tocas un color de marca, TOCA TAMBIÉN ESTE BLOQUE.
+ * Corregido el 07-oct-2026 contra `packages/ui-kit/src/theme/colors.ts`.
+ */
 export const MAP_COLORS = {
-  primary: '#0084FF',      // polyline ruta, pin origen, botones
-  secondary: '#FF7D00',    // pin destino, taxis disponibles
-  success: '#27AE60',      // conductor asignado
-  danger: '#F53F3F',       // errores
-  cardBg: '#F5F7FA',       // fondo tarjetas flotantes
-  sheetBg: '#FFFFFF',      // fondo bottom-sheet
-  textPrimary: '#1D2129',
-  textSecondary: '#86909C',
+  primary: '#0066CC',      // polyline ruta, pin origen, botones   ← brand.primary
+  secondary: '#C2410C',    // pin destino, taxis disponibles       ← brand.secondary
+  success: '#1E7A45',      // conductor asignado                   ← brand.success
+  danger: '#C62828',       // errores                              ← brand.danger
+  cardBg: '#F5F7FA',       // fondo tarjetas flotantes             ← lightColors.surface
+  sheetBg: '#FFFFFF',      // fondo bottom-sheet                   ← lightColors.sheet
+  textPrimary: '#1D2129',  //                                      ← lightColors.textPrimary
+  textSecondary: '#6B7280',//                                      ← lightColors.textSecondary
 } as const;

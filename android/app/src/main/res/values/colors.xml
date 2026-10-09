@@ -5,7 +5,7 @@
     «superficie»), que en modo oscuro daba el fogonazo blanco medido — ver `values-night/colors.xml`.
   -->
   <color name="splashscreen_background">#FFFFFF</color>
-  <color name="colorPrimary">#0084FF</color>
+  <color name="colorPrimary">#0066CC</color>
   <color name="colorPrimaryDark">#FFFFFF</color>
   <color name="activityBackground">#FFFFFF</color>
 </resources>

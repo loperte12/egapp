@@ -16,7 +16,7 @@
     oscuro del tema de la app está en `packages/ui-kit/src/theme/colors.ts` (`darkColors.background`).
   -->
   <color name="splashscreen_background">#17171A</color>
-  <color name="colorPrimary">#0084FF</color>
+  <color name="colorPrimary">#0066CC</color>
   <color name="colorPrimaryDark">#17171A</color>
   <color name="activityBackground">#17171A</color>
 </resources>

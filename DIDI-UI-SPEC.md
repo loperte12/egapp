@@ -106,7 +106,7 @@ Actualmente: una sola pantalla con origen+destino+calendario completo+fecha
 ## 4. COLOR / TOKENS
 
 Ya definidos en `packages/ui-kit/src/theme/colors.ts` y correctos:
-primary #0084FF (acción), secondary #FF7D00 (servicios), verde éxito,
+primary `#0066CC` (acción), secondary `#C2410C` (servicios), verde éxito,
 rojo SOLO emergencia. Se mantienen. DiDi usa su naranja en CTA de taxi;
 nosotros usamos `primary`/`secondary` según servicio (no cambiar marcas).
 

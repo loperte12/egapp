@@ -198,7 +198,7 @@ Rate limiting: 5/min en uploads y biometría; 3/día en recuperación; contador 
 
 | Componente | Spec clave |
 |---|---|
-| `KycProgressBar` | 4–5 segmentos, azul `#0084FF` el completado/activo; visible en TODAS las pantallas del flujo |
+| `KycProgressBar` | 4–5 segmentos, azul `primary` (`#0066CC`) el completado/activo; visible en TODAS las pantallas del flujo |
 | `StepHeader` | Título corto (máx. 5 palabras) + subtítulo de 1 línea; nada de párrafos |
 | `FormField` | Borde redondeado 14 px, foco azul primario, error rojo con mensaje de 1 línea; fondo `#F5F7FA` |
 | `DocumentChoiceTree` | Renderiza las opciones que devuelve el servidor (tarjetas con icono + 1 línea); nunca opciones inválidas atenuadas: se ocultan |

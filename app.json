@@ -7,7 +7,7 @@
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "backgroundColor": "#FFFFFF",
-    "primaryColor": "#0084FF",
+    "primaryColor": "#0066CC",
     "plugins": [
       "expo-router",
       "expo-camera",

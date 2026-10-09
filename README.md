@@ -45,10 +45,10 @@ egrouteplan-app/
 
 | Token | Hex | Uso permitido |
 |---|---|---|
-| `primary` | `#0084FF` | acciones principales, bordes, énfasis |
-| `secondary` | `#FF7D00` | servicios, estados activos, promos, avisos no críticos |
-| `success` | `#27AE60` | confirmaciones / pagos OK |
-| `danger` | `#F53F3F` | SOLO emergencia/errores críticos |
+| `primary` | `#0066CC` | acciones principales, bordes, énfasis |
+| `secondary` | `#C2410C` | servicios, estados activos, promos, avisos no críticos |
+| `success` | `#1E7A45` | confirmaciones / pagos OK |
+| `danger` | `#C62828` | SOLO emergencia/errores críticos |
 
 Ningún componente hardcodea hexadecimales: todo se importa de
 `constants/colors.ts` vía `useTheme()`. El modo oscuro NO usa negro puro
