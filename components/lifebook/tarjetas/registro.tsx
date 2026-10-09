@@ -35,6 +35,7 @@ import { TarjetaCuponCompacto, type DatosCuponCompacto } from './TarjetaCuponCom
 import { TarjetaReclamarCupon, type DatosReclamarCupon } from './TarjetaReclamarCupon';
 import { TarjetaBienvenida } from './TarjetaBienvenida';
 import { TarjetaEvidencias } from './TarjetaEvidencias';
+import { TarjetaAlertaPrecio } from './TarjetaAlertaPrecio';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -137,6 +138,25 @@ const REGISTRO: Record<string, Entrada> = {
           titulo={x?.title}
           estado={x?.statusDesc}
           onAbrir={a.onEnlace ? (url) => a.onEnlace?.(url) : undefined}
+        />
+      );
+    },
+  },
+  'alerta-precio': {
+    descripcion: 'Aviso de que un producto está en su precio más bajo de N días',
+    render: (d, a) => {
+      const x = d as {
+        image?: string | null; nowPrice?: number; originalPrice?: number | null;
+        agioPrice?: number | null; lowPriceDay?: number | null;
+      };
+      return (
+        <TarjetaAlertaPrecio
+          imagen={x?.image}
+          precioAhora={Number(x?.nowPrice ?? 0)}
+          precioAntes={x?.originalPrice ?? null}
+          ahorroXaf={x?.agioPrice ?? null}
+          dias={x?.lowPriceDay ?? null}
+          onAbrir={a.onAbrir ? () => a.onAbrir?.('') : undefined}
         />
       );
     },

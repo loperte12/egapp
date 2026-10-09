@@ -34,6 +34,7 @@ export { TarjetaReclamarCupon, type DatosReclamarCupon } from './TarjetaReclamar
 export { ImporteCupon, SelloTipoCupon } from './piezas-cupon';
 export { TarjetaBienvenida } from './TarjetaBienvenida';
 export { TarjetaEvidencias } from './TarjetaEvidencias';
+export { TarjetaAlertaPrecio } from './TarjetaAlertaPrecio';
 export {
   TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
 } from './registro';
@@ -98,4 +99,11 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
       + 'mínimo 10, nombre 14, fechas 10, separador y fila de acción. Solo cambian los nombres de '
       + 'los campos del servidor (couponName por name, btnText por el botón)',
   },
+  {
+    n: 18, ref: 'file_17', componente: null, estado: 'cubierta', contrato: true,
+    donde: 'el chat ya pinta `file` (L1636) con nombre y tamaño, que es lo que hace la referencia '
+      + '(nombre a 14 y clic para abrir). OBSERVACIÓN: la referencia hace abrir el archivo a toda '
+      + 'la burbuja y la de LifeBook todavía no tiene ese toque; falta decidir a dónde abre',
+  },
+  { n: 19, ref: 'goodsshoppingguide_93', componente: 'TarjetaAlertaPrecio', estado: 'implementada', contrato: true },
 ];
