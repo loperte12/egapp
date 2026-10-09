@@ -41,7 +41,14 @@ export interface DatosEstadoPostventa {
   statusText?: string | null;
   statusValue?: string | null;
   cardHeader?: { mainTitle: string; subTitle?: string | null } | null;
-  orderDetail?: { image?: string | null; name: string; quantity?: number; price?: string | null } | null;
+  /** `packageId` lo añade la tarjeta 15 (`damage_111`), que por lo demás es esta misma forma. */
+  orderDetail?: {
+    image?: string | null;
+    name: string;
+    quantity?: number;
+    price?: string | null;
+    packageId?: string | null;
+  } | null;
   buttons?: Array<{ label: string; buttonStyle?: string | null; status?: string | null }>;
 }
 
@@ -95,6 +102,7 @@ export function TarjetaEstadoPostventa({ datos, banner, pista, tonoEstado, onAbr
             subtitulo={[
               articulo.quantity && articulo.quantity > 1 ? `${articulo.quantity} unidades` : null,
               articulo.price,
+              articulo.packageId ? `Nº ${articulo.packageId}` : null,
             ].filter(Boolean).join(' · ') || null}
             onPress={onAbrirPedido}
             etiquetaAccesible={`Ver el pedido de ${articulo.name}`}

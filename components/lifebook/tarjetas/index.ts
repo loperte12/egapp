@@ -32,6 +32,7 @@ export { TarjetaCupon, type DatosCupon } from './TarjetaCupon';
 export { TarjetaCuponCompacto, type DatosCuponCompacto } from './TarjetaCuponCompacto';
 export { TarjetaReclamarCupon, type DatosReclamarCupon } from './TarjetaReclamarCupon';
 export { ImporteCupon, SelloTipoCupon } from './piezas-cupon';
+export { TarjetaBienvenida } from './TarjetaBienvenida';
 
 /**
  * `estado`:
@@ -78,4 +79,10 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
   { n: 11, ref: 'coupon_19', componente: 'TarjetaCupon', estado: 'implementada', contrato: true },
   { n: 12, ref: 'couponcardv2_222', componente: 'TarjetaCuponCompacto', estado: 'implementada', contrato: true },
   { n: 13, ref: 'couponclaim_112', componente: 'TarjetaReclamarCupon', estado: 'implementada', contrato: true },
+  { n: 14, ref: 'cswelcomemsg_209', componente: 'TarjetaBienvenida', estado: 'implementada', contrato: false },
+  {
+    n: 15, ref: 'damage_111', componente: 'TarjetaEstadoPostventa', estado: 'cubierta', contrato: true,
+    donde: 'misma forma que la tarjeta 2: título, contenido, cardHeader, orderDetail y botones. '
+      + 'La 15 solo es la 2 sin banner, sin estado y sin pista de pie, y las tres son opcionales',
+  },
 ];
