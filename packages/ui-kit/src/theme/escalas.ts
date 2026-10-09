@@ -45,6 +45,21 @@ export const tipografia = {
   rotulo: 9,
   /** Etiquetas y notas al pie. */
   caption: 12,
+  /**
+   * DETALLE — el peldaño entre `caption` y `body` (añadido el 09/10/2026).
+   *
+   * POR QUÉ: la referencia de tarjetas de chat de Xiaohongshu (las 54 `bcim_chat_*` del
+   * APK 9.49.1, descompilado) usa **cinco** tamaños —16, 14, 13, 12 y 10—, con `14` como
+   * dominante (106 usos). El `13` aparece **20 veces**, sobre todo en rótulos de botón y
+   * texto secundario de fila densa. La escala saltaba de 12 a 14 y no tenía dónde ponerlo.
+   *
+   * Encaja con la regla de la casa —nombrar lo que ya se escribe—: hay **3 literales de
+   * `fontSize: 13`** esperando nombre.
+   *
+   * Quedan sin casa `11,5` (16 literales) y `13,5` (10). No se tocan aquí: meterlos sería
+   * mover píxeles, y eso va en su propia limpieza si se decide.
+   */
+  detalle: 13,
   /** Cuerpo de texto: el tamaño por defecto de la app. */
   body: 14,
   /**
@@ -133,6 +148,51 @@ export const tipografia = {
    * Este es el mismo criterio que `e3/e5/e7` en espaciado: agrupar lo que el ojo ya ve igual.
    */
   sello: 8,
+} as const;
+
+/**
+ * INTERLINEADO — la escala que faltaba (añadida el 09/10/2026).
+ *
+ * POR QUÉ: el proyecto escribe **242 literales de `lineHeight` a mano**, con 14 valores
+ * distintos, y no existía ni un token. Es el mayor hueco que quedaba en la escala: el
+ * interlineado decide si un párrafo se lee, y hasta ahora se ajustaba pantalla por pantalla.
+ *
+ * CÓMO SE ELIGIERON LOS PELDAÑOS. No es una progresión inventada: son los valores que el
+ * código **ya escribe**, contados sobre 377 ficheros.
+ *
+ *   18 → 63 literales · 17 → 55 · 16 → 34 · 19 → 21 · 20 → 21 · 15 → 15 · 22 → 5
+ *
+ * Los siete peldaños de abajo cubren **214 de esos 242** (88 %) **sin mover un solo píxel**,
+ * que es la misma regla que se siguió con los 21 tamaños añadidos el 25/09.
+ *
+ * POR QUÉ SIETE Y NO CUATRO, aunque `19` viva a un píxel de `20`: aquí el interlineado no
+ * es jerarquía sino **aire**, y depende del ancho real de la línea (una fila densa de
+ * tarjeta y un párrafo del mismo tamaño piden cosas distintas). Si se prefiere una escala
+ * corta, las fusiones naturales son `19→20` y `15→16`, y esas sí mueven píxeles visibles:
+ * es una decisión de producto, no de token.
+ *
+ * CÓMO SE COMPROBÓ EL COCIENTE: midiendo los pares `fontSize → lineHeight` del propio
+ * código el resultado da **1,36–1,48** (≈1,4), y la referencia de tarjetas de Xiaohongshu
+ * usa los mismos: 14→20, 12→18, 16→22, 10→16.
+ *
+ * Los nombres emparejan con `tipografia` a propósito: `interlineado.body` es el que
+ * acompaña a `tipografia.body`.
+ */
+export const interlineado = {
+  /** Con `micro` y `nota` (10–11). 15 literales. */
+  micro: 15,
+  /** Con `caption` (12). 34 literales. */
+  caption: 16,
+  /** Con `detalle` (13). 55 literales. */
+  detalle: 17,
+  /** Con `body` y `fino` (14). **63 literales: el más escrito del proyecto.** */
+  body: 18,
+  /** Texto de 14–15 con más aire. 21 literales. */
+  holgado: 19,
+  /** Con `cuerpo` y `subtitle` (15–16). 21 literales. */
+  amplio: 20,
+  /** Con `subCabecera` (17–18) y párrafos largos. 5 literales. */
+  suelto: 22,
 } as const;
 
 /**
@@ -309,6 +369,8 @@ export const radios = {
 } as const;
 
 export type TamanoTexto = keyof typeof tipografia;
+/** Peldaños de interlineado. Emparejan con `TamanoTexto` por nombre, no por índice. */
+export type Interlineado = keyof typeof interlineado;
 export type Espaciado = keyof typeof espaciado;
 export type Radio = keyof typeof radios;
 

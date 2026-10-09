@@ -19,6 +19,7 @@ export {
 export { ThemeProvider, useTheme, type ThemeMode } from './theme/ThemeContext';
 export {
   tipografia,
+  interlineado,
   peso,
   espaciado,
   radios,
@@ -28,6 +29,7 @@ export {
   icono,
   ilustracion,
   type TamanoTexto,
+  type Interlineado,
   type Espaciado,
   type Radio,
   type Trazo,
