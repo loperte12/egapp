@@ -9,8 +9,7 @@
  * la tarjeta y sus datos, y que el cliente elija el componente en un registro. Es exactamente lo
  * que hace la referencia: un motor y 54 fichas.
  *
- * PENDIENTE: el registro se rellena a medida que se implementan las tarjetas. Las que necesitan
- * ampliar el contrato quedan marcadas aquí y en su propio fichero.
+ * PENDIENTE: el registro se rellena a medida que se implementan las tarjetas.
  */
 export {
   TarjetaEnChat, CabeceraTarjeta, EtiquetaEstado, BloquePedido, FilaDato,
@@ -19,13 +18,15 @@ export {
 } from './piezas';
 
 export { TarjetaPostventa, type DatosPostventa } from './TarjetaPostventa';
+export { TarjetaEstadoPostventa, type DatosEstadoPostventa } from './TarjetaEstadoPostventa';
 
 /**
- * Estado de la campaña: 1 de 54 implementadas.
+ * Estado de la campaña.
  *
  * `contrato: true` = necesita un tipo nuevo en `LbMessageKind` (o el genérico propuesto) antes de
  * poder recibir datos del servidor. Se construye igual, pero no se cablea hasta que haya contrato.
  */
 export const TARJETAS_CAMPANA = [
   { n: 1, ref: 'aftersalecard_123', componente: 'TarjetaPostventa', contrato: true },
+  { n: 2, ref: 'aftersalestatus_128', componente: 'TarjetaEstadoPostventa', contrato: true },
 ] as const;

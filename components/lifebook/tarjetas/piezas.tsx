@@ -78,10 +78,11 @@ export function EtiquetaEstado({ texto, tono = 'neutro' }: { texto: string; tono
   );
 }
 
-/** Cabecera del patrón: título a la izquierda (flex) y estado a la derecha. */
+/** Cabecera del patrón: título a la izquierda (flex) y estado a la derecha.
+ *  `estado` acepta `null` a propósito: viene del servidor y puede no haber llegado. */
 export function CabeceraTarjeta({ titulo, estado, tono }: {
   titulo: string;
-  estado?: string;
+  estado?: string | null;
   tono?: Tono;
 }) {
   const { colors } = useTheme();
