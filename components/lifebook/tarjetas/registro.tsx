@@ -44,6 +44,7 @@ import { TarjetaAviso } from './TarjetaAviso';
 import { TarjetaServicio } from './TarjetaServicio';
 import { TarjetaPedidoLogistico } from './TarjetaPedidoLogistico';
 import { TarjetaEntregaNegociada } from './TarjetaEntregaNegociada';
+import { TarjetaCancelacion } from './TarjetaCancelacion';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -273,6 +274,23 @@ const REGISTRO: Record<string, Entrada> = {
         onBoton={a.onBoton}
       />
     ),
+  },
+  cancelacion: {
+    descripcion: 'Se ha pedido cancelar un pedido: tienda e identificador',
+    render: (d, a) => {
+      const x = d as {
+        package_id?: string | null; packageId?: string | null;
+        sellerPkgData?: { shopName?: string | null; newSkuList?: Array<{ image?: string | null }> } | null;
+      };
+      return (
+        <TarjetaCancelacion
+          imagen={x?.sellerPkgData?.newSkuList?.[0]?.image}
+          tienda={x?.sellerPkgData?.shopName}
+          pedido={x?.package_id ?? x?.packageId}
+          onCopiar={a.onCopiar}
+        />
+      );
+    },
   },
 };
 

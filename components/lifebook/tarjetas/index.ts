@@ -43,6 +43,7 @@ export { TarjetaAviso } from './TarjetaAviso';
 export { TarjetaServicio } from './TarjetaServicio';
 export { TarjetaPedidoLogistico } from './TarjetaPedidoLogistico';
 export { TarjetaEntregaNegociada } from './TarjetaEntregaNegociada';
+export { TarjetaCancelacion } from './TarjetaCancelacion';
 export {
   TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
 } from './registro';
@@ -133,4 +134,13 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
   { n: 28, ref: 'logisticqueuetips_218', componente: 'TarjetaAviso', estado: 'implementada', contrato: true },
   { n: 29, ref: 'minorrefund_214', componente: 'TarjetaTextoAcciones', estado: 'implementada', contrato: true },
   { n: 30, ref: 'negotiatedelivery_104', componente: 'TarjetaEntregaNegociada', estado: 'implementada', contrato: true },
+  {
+    n: 31, ref: 'note_92', componente: null, estado: 'cubierta', contrato: true,
+    donde: 'el chat ya pinta `post`/`sale` (L1716) con portada, título y precio, que es el cuerpo de '
+      + 'esta tarjeta. DOS HUECOS ANOTADOS, sin tocar: la referencia añade la fila del AUTOR '
+      + '(avatar de 20 + nombre) y un bloque de producto con precios original y rebajado. Se '
+      + 'deciden al tocar la tarjeta de nota del chat, que hoy vive dentro del fichero de 2.000 líneas',
+  },
+  { n: 32, ref: 'order_3', componente: 'OrderCardEnChat', estado: 'implementada', contrato: false },
+  { n: 33, ref: 'packagecancel_61', componente: 'TarjetaCancelacion', estado: 'implementada', contrato: true },
 ];
