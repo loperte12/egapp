@@ -29,6 +29,9 @@ export {
   TarjetaCompuesta, type ParrafoCompuesto, type ElementoCompuesto,
 } from './TarjetaCompuesta';
 export { TarjetaCupon, type DatosCupon } from './TarjetaCupon';
+export { TarjetaCuponCompacto, type DatosCuponCompacto } from './TarjetaCuponCompacto';
+export { TarjetaReclamarCupon, type DatosReclamarCupon } from './TarjetaReclamarCupon';
+export { ImporteCupon, SelloTipoCupon } from './piezas-cupon';
 
 /**
  * `estado`:
@@ -73,4 +76,6 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
     donde: 'píldora centrada de `system`/`topic`: la referencia es una línea centrada a 13',
   },
   { n: 11, ref: 'coupon_19', componente: 'TarjetaCupon', estado: 'implementada', contrato: true },
+  { n: 12, ref: 'couponcardv2_222', componente: 'TarjetaCuponCompacto', estado: 'implementada', contrato: true },
+  { n: 13, ref: 'couponclaim_112', componente: 'TarjetaReclamarCupon', estado: 'implementada', contrato: true },
 ];
