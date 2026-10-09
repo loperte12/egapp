@@ -36,6 +36,9 @@ import { TarjetaReclamarCupon, type DatosReclamarCupon } from './TarjetaReclamar
 import { TarjetaBienvenida } from './TarjetaBienvenida';
 import { TarjetaEvidencias } from './TarjetaEvidencias';
 import { TarjetaAlertaPrecio } from './TarjetaAlertaPrecio';
+import { TarjetaInvitacionResena } from './TarjetaInvitacionResena';
+import { TarjetaEnlace } from './TarjetaEnlace';
+import { TarjetaEnlaceBoton } from './TarjetaEnlaceBoton';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -157,6 +160,47 @@ const REGISTRO: Record<string, Entrada> = {
           ahorroXaf={x?.agioPrice ?? null}
           dias={x?.lowPriceDay ?? null}
           onAbrir={a.onAbrir ? () => a.onAbrir?.('') : undefined}
+        />
+      );
+    },
+  },
+  'invitacion-resena': {
+    descripcion: 'Invitación a valorar un producto comprado',
+    render: (d, a) => {
+      const x = d as { goods_image?: string | null; goods_name?: string; reviewable?: boolean };
+      return (
+        <TarjetaInvitacionResena
+          imagen={x?.goods_image}
+          producto={x?.goods_name ?? ''}
+          sePuedeValorar={x?.reviewable}
+          onValorar={a.onBoton ? () => a.onBoton?.('Escribir una reseña') : undefined}
+        />
+      );
+    },
+  },
+  enlace: {
+    descripcion: 'Vista previa de un enlace compartido',
+    render: (d, a) => {
+      const x = d as { shareUrl?: string | null; title?: string; pageDesc?: string | null; pageUrl?: string };
+      return (
+        <TarjetaEnlace
+          imagen={x?.shareUrl}
+          titulo={x?.title ?? ''}
+          descripcion={x?.pageDesc}
+          onAbrir={a.onEnlace && x?.pageUrl ? () => a.onEnlace?.(x.pageUrl as string) : undefined}
+        />
+      );
+    },
+  },
+  'enlace-boton': {
+    descripcion: 'Texto con un botón que lleva a algún sitio',
+    render: (d, a) => {
+      const x = d as { card_content?: string; button_content?: string; button_url?: string };
+      return (
+        <TarjetaEnlaceBoton
+          texto={x?.card_content ?? ''}
+          etiquetaBoton={x?.button_content ?? 'Abrir'}
+          onAbrir={a.onEnlace && x?.button_url ? () => a.onEnlace?.(x.button_url as string) : undefined}
         />
       );
     },

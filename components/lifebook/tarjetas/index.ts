@@ -35,6 +35,9 @@ export { ImporteCupon, SelloTipoCupon } from './piezas-cupon';
 export { TarjetaBienvenida } from './TarjetaBienvenida';
 export { TarjetaEvidencias } from './TarjetaEvidencias';
 export { TarjetaAlertaPrecio } from './TarjetaAlertaPrecio';
+export { TarjetaInvitacionResena } from './TarjetaInvitacionResena';
+export { TarjetaEnlace } from './TarjetaEnlace';
+export { TarjetaEnlaceBoton } from './TarjetaEnlaceBoton';
 export {
   TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
 } from './registro';
@@ -106,4 +109,17 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
       + 'la burbuja y la de LifeBook todavía no tiene ese toque; falta decidir a dónde abre',
   },
   { n: 19, ref: 'goodsshoppingguide_93', componente: 'TarjetaAlertaPrecio', estado: 'implementada', contrato: true },
+  {
+    n: 20, ref: 'intention_23', componente: null, estado: 'cubierta', contrato: false,
+    donde: 'burbuja de texto del chat: la referencia es una burbuja de 16/20 con radio 12 y color '
+      + 'según si el mensaje es mío',
+  },
+  { n: 21, ref: 'inviterating_16', componente: 'TarjetaInvitacionResena', estado: 'implementada', contrato: true },
+  {
+    n: 22, ref: 'isvoption_107', componente: null, estado: 'cubierta', contrato: false,
+    donde: 'burbuja de texto del chat con el color de «enviado por mí»: la referencia es una '
+      + 'burbuja de 16/20 rellena, que es exactamente lo que el chat ya pinta para un texto mío',
+  },
+  { n: 23, ref: 'landingpage_103', componente: 'TarjetaEnlace', estado: 'implementada', contrato: true },
+  { n: 24, ref: 'linkcard_100', componente: 'TarjetaEnlaceBoton', estado: 'implementada', contrato: true },
 ];
