@@ -42,6 +42,8 @@ import { TarjetaEnlaceBoton } from './TarjetaEnlaceBoton';
 import { TarjetaTextoAcciones } from './TarjetaTextoAcciones';
 import { TarjetaAviso } from './TarjetaAviso';
 import { TarjetaServicio } from './TarjetaServicio';
+import { TarjetaPedidoLogistico } from './TarjetaPedidoLogistico';
+import { TarjetaEntregaNegociada } from './TarjetaEntregaNegociada';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -251,6 +253,26 @@ const REGISTRO: Record<string, Entrada> = {
         />
       );
     },
+  },
+  'pedido-logistico': {
+    descripcion: 'El pedido visto desde logística, con su último movimiento',
+    render: (d, a) => (
+      <TarjetaPedidoLogistico
+        datos={d as Parameters<typeof TarjetaPedidoLogistico>[0]['datos']}
+        onAbrirPedido={a.onAbrir ? () => a.onAbrir?.('') : undefined}
+        onBoton={a.onBoton}
+      />
+    ),
+  },
+  'entrega-negociada': {
+    descripcion: 'La fecha de entrega ha cambiado: prometida y nueva',
+    render: (d, a) => (
+      <TarjetaEntregaNegociada
+        datos={d as Parameters<typeof TarjetaEntregaNegociada>[0]['datos']}
+        onAbrirPedido={a.onAbrir ? () => a.onAbrir?.('') : undefined}
+        onBoton={a.onBoton}
+      />
+    ),
   },
 };
 
