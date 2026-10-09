@@ -51,6 +51,9 @@ import { TarjetaSobre } from './TarjetaSobre';
 import { TarjetaSolicitudPostventa } from './TarjetaSolicitudPostventa';
 import { TarjetaCobro } from './TarjetaCobro';
 import { TarjetaCola } from './TarjetaCola';
+import { TarjetaRecordatorioPago } from './TarjetaRecordatorioPago';
+import { TarjetaVideo } from './TarjetaVideo';
+import { TarjetaInfraccion } from './TarjetaInfraccion';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -393,6 +396,60 @@ const REGISTRO: Record<string, Entrada> = {
           mensaje={x?.content}
           etiquetaSalir={x?.enableCancel === false ? null : (x?.cancel ?? 'Salir de la cola')}
           onSalir={a.onBoton ? () => a.onBoton?.('Salir de la cola') : undefined}
+        />
+      );
+    },
+  },
+  'recordatorio-pago': {
+    descripcion: 'Recordatorio de que hay que pagar un pedido',
+    render: (d, a) => {
+      const x = d as {
+        title?: string; content?: string | null; name?: string | null;
+        image?: string | null; totalPrice?: string | null; price?: string | null;
+        buttons?: Array<Record<string, string>>;
+      };
+      return (
+        <TarjetaRecordatorioPago
+          titulo={x?.title ?? 'Tienes un pago pendiente'}
+          contenido={x?.content}
+          producto={x?.name}
+          imagen={x?.image}
+          importe={x?.totalPrice ?? x?.price}
+          botones={(x?.buttons ?? []).map((b) => ({ etiqueta: b.buttonValue ?? b.text ?? b.label ?? '' }))
+            .filter((b) => b.etiqueta)}
+          onAbrirPedido={a.onAbrir ? () => a.onAbrir?.('') : undefined}
+          onBoton={a.onBoton}
+        />
+      );
+    },
+  },
+  video: {
+    descripcion: 'Vídeo dentro del chat: portada, duración y reproducir',
+    render: (d, a) => {
+      const x = d as {
+        coverPicture?: string | null; dimension?: string | null; duration?: string | number | null;
+      };
+      return (
+        <TarjetaVideo
+          portada={x?.coverPicture}
+          dimension={x?.dimension}
+          duracion={x?.duration ?? null}
+          onReproducir={a.onEnlace ? () => a.onEnlace?.('') : undefined}
+        />
+      );
+    },
+  },
+  infraccion: {
+    descripcion: 'Aviso de que algo ha sido marcado como infractor',
+    render: (d) => {
+      const x = d as {
+        violationEntityName?: string; violationStatus?: string | null; image?: string | null;
+      };
+      return (
+        <TarjetaInfraccion
+          objeto={x?.violationEntityName ?? 'Contenido'}
+          estado={x?.violationStatus}
+          imagen={x?.image}
         />
       );
     },

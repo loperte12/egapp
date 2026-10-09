@@ -50,6 +50,9 @@ export { TarjetaSobre } from './TarjetaSobre';
 export { TarjetaSolicitudPostventa } from './TarjetaSolicitudPostventa';
 export { TarjetaCobro } from './TarjetaCobro';
 export { TarjetaCola } from './TarjetaCola';
+export { TarjetaRecordatorioPago } from './TarjetaRecordatorioPago';
+export { TarjetaVideo } from './TarjetaVideo';
+export { TarjetaInfraccion } from './TarjetaInfraccion';
 export {
   TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
 } from './registro';
@@ -182,4 +185,23 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
       + 'enlace en línea, la misma forma que la tarjeta 5 (`buttonhint_120`)',
   },
   { n: 48, ref: 'transferseller_81', componente: 'TarjetaTextoAcciones', estado: 'implementada', contrato: true },
+  { n: 49, ref: 'urgepay_121', componente: 'TarjetaRecordatorioPago', estado: 'implementada', contrato: true },
+  {
+    n: 50, ref: 'urgingdelivery_109', componente: 'TarjetaEstadoPostventa', estado: 'cubierta', contrato: true,
+    donde: 'misma forma que las tarjetas 2 y 15: título, contenido, cardHeader, orderDetail y botones. '
+      + 'Con la 15 ya son TRES tarjetas de la referencia resueltas por el mismo componente',
+  },
+  {
+    n: 51, ref: 'usebeforepaidcard_211', componente: 'TarjetaTextoAcciones', estado: 'cubierta', contrato: true,
+    donde: 'título a 16, cuerpo a 14/20 y un botón: exactamente la forma de la pieza, que ya cubre la 25, '
+      + 'la 29, la 37 y la 48',
+  },
+  {
+    n: 52, ref: 'userconfirmcancelorder_62', componente: null, estado: 'cubierta', contrato: true,
+    donde: 'NO HAY NADA QUE CONSTRUIR: su `dsl.json` es un único LinearLayout sin hijos, sin texto y sin '
+      + 'eventos. La referencia no define contenido para esta tarjeta — el motor lo rellena en tiempo de '
+      + 'ejecución o quedó sin usar. Se anota para no volver a mirarla',
+  },
+  { n: 53, ref: 'video_73', componente: 'TarjetaVideo', estado: 'implementada', contrato: true },
+  { n: 54, ref: 'violateitem_219', componente: 'TarjetaInfraccion', estado: 'implementada', contrato: true },
 ];
