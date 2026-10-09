@@ -2181,6 +2181,36 @@ export class LifebookService {
           lineTotalXaf: Number(i?.lineTotalXaf ?? 0) || 0,
         })),
       };
+    } else if (kind === 'card') {
+      /**
+       * TARJETA GENÉRICA — el tipo que sostiene las 54 tarjetas de comercio del chat.
+       *
+       * POR QUÉ UNO Y NO 38: la referencia (小红书 9.49.1) tiene 54 tarjetas dentro de la
+       * conversación —postventa, cupones, logística, devoluciones, regateo, colas, sobres rojos— y
+       * **no tiene 54 tipos de mensaje**: tiene un motor y 54 fichas de datos. Aquí se copia igual:
+       * el mensaje viaja con el NOMBRE de la tarjeta y sus DATOS, y el cliente busca cómo pintarla
+       * en su registro (`components/lifebook/tarjetas/registro.tsx`).
+       *
+       * `version` y `minAppVersion` son el `min_android_version` del DSL de la referencia, y sirven
+       * para lo mismo: que un cliente viejo no intente pintar una tarjeta cuya forma de datos ha
+       * cambiado. Si no sabe pintarla, el cliente enseña el aviso de mensaje no soportado y **la
+       * conversación sigue funcionando** — el respaldo es parte del diseño, no un extra.
+       *
+       * `data` se devuelve TAL CUAL, sin tipar ni filtrar: su forma la declara el componente que la
+       * pinta, y validarla aquí obligaría a tocar este fichero cada vez que se añade una tarjeta,
+       * que es justo lo que el tipo genérico viene a evitar. Lo que sí se garantiza es que **el
+       * cliente nunca puede inventarse una tarjeta**: `card` NO está en `CHAT_KINDS`, así que solo
+       * el servidor puede emitirlas (ver `cardMessage`).
+       */
+      const datos = payload.data;
+      out.cardRef = {
+        cardType: String(payload.cardType ?? ''),
+        version: payload.cardVersion ? String(payload.cardVersion) : undefined,
+        minAppVersion: payload.minAppVersion ? String(payload.minAppVersion) : undefined,
+        payload: datos && typeof datos === 'object' && !Array.isArray(datos)
+          ? datos as Record<string, unknown>
+          : {},
+      };
     } else if (kind === 'image') {
       out.imageUrl = typeof payload.url === 'string' ? payload.url : '';
     } else if (kind === 'file') {
@@ -2624,6 +2654,96 @@ export class LifebookService {
           unread_b = unread_b + CASE WHEN ${meIsA} THEN 1 ELSE 0 END
       WHERE id=${c.id}::uuid`;
     return c.id;
+  }
+
+  /**
+   * TARJETA GENÉRICA en la conversación — el lado que la EMITE.
+   *
+   * POR QUÉ ES UN MÉTODO PRIVADO Y `card` NO ESTÁ EN `CHAT_KINDS`:
+   * las tarjetas de comercio las emite el SERVIDOR cuando ocurre algo —se paga un pedido, se cancela,
+   * se abre una postventa, se reclama un cupón—. Si `card` estuviera en `CHAT_KINDS`, cualquier
+   * cliente podría mandar un mensaje con el `cardType` que quisiera y los datos que quisiera: una
+   * tarjeta de «pedido entregado» que nadie ha entregado, o un «cobro pendiente» inventado. Eso no es
+   * un problema de validación, es **una tarjeta que miente dentro de una conversación**.
+   *
+   * Por eso la emisión vive aquí, y quien la llama es código del servidor que sabe lo que ha pasado.
+   */
+  private async cardMessage(entrada: {
+    /** Conversación exacta, si se conoce. */
+    convId?: string;
+    /** Si no se conoce, se busca la conversación 1 a 1 entre estos dos. */
+    fromId?: string;
+    toId?: string;
+    cardType: string;
+    data?: Record<string, unknown>;
+    /** Versión de la tarjeta y versión mínima de app que la entiende. */
+    version?: string;
+    minAppVersion?: string;
+    /** Texto corto para la lista de conversaciones (nunca se pinta como burbuja). */
+    preview?: string;
+  }) {
+    if (!entrada?.cardType) throw new DomainError('CARD_TYPE_REQUIRED', 'La tarjeta necesita un tipo');
+
+    let convId = entrada.convId ?? null;
+    let userA: string | null = null;
+    let userB: string | null = null;
+
+    if (!convId) {
+      if (!entrada.fromId || !entrada.toId) {
+        throw new DomainError('CARD_CONV_REQUIRED', 'Hace falta la conversación o las dos personas');
+      }
+      const conv: any[] = await this.db.$queryRaw`
+        SELECT id, user_a, user_b FROM lifebook.conversations
+        WHERE (user_a=${entrada.fromId}::uuid AND user_b=${entrada.toId}::uuid)
+           OR (user_a=${entrada.toId}::uuid AND user_b=${entrada.fromId}::uuid)
+        LIMIT 1`;
+      if (!conv[0]) return null;
+      convId = String(conv[0].id);
+      userA = conv[0].user_a;
+      userB = conv[0].user_b;
+    }
+
+    const preview = String(entrada.preview ?? '').slice(0, 300);
+    const payload = {
+      cardType: entrada.cardType,
+      ...(entrada.version ? { cardVersion: entrada.version } : {}),
+      ...(entrada.minAppVersion ? { minAppVersion: entrada.minAppVersion } : {}),
+      data: entrada.data ?? {},
+    };
+
+    /**
+     * El `sender_id` es quien emite: en una tarjeta de pedido, la tienda; en un aviso de sistema, el
+     * propio servicio. Se toma de `fromId` cuando se conoce la pareja; si se pasó la conversación
+     * directamente, se usa su primer miembro (`user_a`), que es lo que hace `systemMessage`.
+     */
+    let emisor = entrada.fromId ?? null;
+    if (!emisor) {
+      const c: any[] = await this.db.$queryRaw`
+        SELECT user_a FROM lifebook.conversations WHERE id=${convId}::uuid LIMIT 1`;
+      emisor = c[0]?.user_a ? String(c[0].user_a) : null;
+    }
+    if (!emisor) throw new DomainError('CARD_SENDER_REQUIRED', 'No se pudo determinar quién emite la tarjeta');
+
+    const filas: any[] = await this.db.$queryRaw`
+      INSERT INTO lifebook.messages (conversation_id, sender_id, body, kind, payload)
+      VALUES (${convId}::uuid, ${emisor}::uuid, ${preview}, 'card', ${JSON.stringify(payload)}::jsonb)
+      RETURNING id`;
+
+    /**
+     * La lista de conversaciones se actualiza con el `preview`: si no llega, se deja el mismo texto
+     * que ya había, para no dejar la conversación sin vista previa.
+     */
+    if (preview) {
+      const meIsA = userA && userB ? userA === emisor : true;
+      await this.db.$queryRaw`
+        UPDATE lifebook.conversations
+        SET last_message=${preview}, last_message_at=now(),
+            unread_a = unread_a + CASE WHEN ${!meIsA} THEN 1 ELSE 0 END,
+            unread_b = unread_b + CASE WHEN ${meIsA} THEN 1 ELSE 0 END
+        WHERE id=${convId}::uuid`;
+    }
+
+    return { id: filas[0]?.id ?? null, conversationId: convId };
   }
 
   /** Marca la conversación como leída por mí (mensajes del otro). */
