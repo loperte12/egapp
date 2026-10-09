@@ -44,6 +44,9 @@ export { TarjetaServicio } from './TarjetaServicio';
 export { TarjetaPedidoLogistico } from './TarjetaPedidoLogistico';
 export { TarjetaEntregaNegociada } from './TarjetaEntregaNegociada';
 export { TarjetaCancelacion } from './TarjetaCancelacion';
+export { TarjetaAvisoProducto } from './TarjetaAvisoProducto';
+export { TarjetaConsulta } from './TarjetaConsulta';
+export { TarjetaSobre } from './TarjetaSobre';
 export {
   TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
 } from './registro';
@@ -143,4 +146,15 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
   },
   { n: 32, ref: 'order_3', componente: 'OrderCardEnChat', estado: 'implementada', contrato: false },
   { n: 33, ref: 'packagecancel_61', componente: 'TarjetaCancelacion', estado: 'implementada', contrato: true },
+  { n: 34, ref: 'preorderchecksuccess_96', componente: 'TarjetaAvisoProducto', estado: 'implementada', contrato: true },
+  { n: 35, ref: 'preorderpaid_94', componente: 'TarjetaAvisoProducto', estado: 'implementada', contrato: true },
+  { n: 36, ref: 'promptorder_108', componente: 'TarjetaAvisoProducto', estado: 'implementada', contrato: true },
+  { n: 37, ref: 'queueguideleave_114', componente: 'TarjetaTextoAcciones', estado: 'implementada', contrato: true },
+  { n: 38, ref: 'queueleave_115', componente: 'TarjetaConsulta', estado: 'implementada', contrato: true },
+  {
+    n: 39, ref: 'queueleavereply_116', componente: null, estado: 'cubierta', contrato: true,
+    donde: 'burbuja de texto del chat: la referencia es texto a 16/24 separado por una línea de '
+      + 'guiones, o sea un mensaje de texto con un separador — ya se pinta',
+  },
+  { n: 40, ref: 'redpacket_124', componente: 'TarjetaSobre', estado: 'implementada', contrato: true },
 ];

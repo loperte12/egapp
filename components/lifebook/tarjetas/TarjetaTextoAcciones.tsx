@@ -31,7 +31,8 @@ import { BotonPildora, TarjetaEnChat } from './piezas';
 export function TarjetaTextoAcciones({ titulo, texto, botones, destacado, onBoton }: {
   /** Si viene, la tarjeta se pinta en su variante destacada (título a 16 en negrita). */
   titulo?: string | null;
-  texto: string;
+  /** Opcional: la tarjeta 37 (`queueguideleave_114`) es título y botones, sin cuerpo. */
+  texto?: string | null;
   botones?: Array<{ etiqueta: string }>;
   /** Fuerza la variante destacada aunque no haya título. */
   destacado?: boolean;
@@ -47,16 +48,18 @@ export function TarjetaTextoAcciones({ titulo, texto, botones, destacado, onBoto
         <Text style={[estilos.titulo, { color: colors.textPrimary }]} numberOfLines={3}>{titulo}</Text>
       ) : null}
 
-      <Text
-        style={[
-          esDestacado ? estilos.textoDestacado : estilos.texto,
-          { color: colors.textPrimary },
-          titulo ? { marginTop: espaciado.e4 } : null,
-        ]}
-        numberOfLines={6}
-      >
-        {texto}
-      </Text>
+      {texto ? (
+        <Text
+          style={[
+            esDestacado ? estilos.textoDestacado : estilos.texto,
+            { color: colors.textPrimary },
+            titulo ? { marginTop: espaciado.e4 } : null,
+          ]}
+          numberOfLines={6}
+        >
+          {texto}
+        </Text>
+      ) : null}
 
       {acciones.length ? (
         <View style={estilos.acciones}>

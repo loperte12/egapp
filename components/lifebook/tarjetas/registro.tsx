@@ -45,6 +45,9 @@ import { TarjetaServicio } from './TarjetaServicio';
 import { TarjetaPedidoLogistico } from './TarjetaPedidoLogistico';
 import { TarjetaEntregaNegociada } from './TarjetaEntregaNegociada';
 import { TarjetaCancelacion } from './TarjetaCancelacion';
+import { TarjetaAvisoProducto } from './TarjetaAvisoProducto';
+import { TarjetaConsulta } from './TarjetaConsulta';
+import { TarjetaSobre } from './TarjetaSobre';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -288,6 +291,59 @@ const REGISTRO: Record<string, Entrada> = {
           tienda={x?.sellerPkgData?.shopName}
           pedido={x?.package_id ?? x?.packageId}
           onCopiar={a.onCopiar}
+        />
+      );
+    },
+  },
+  /** Cubre las tarjetas 34 (`preorderchecksuccess_96`), 35 (`preorderpaid_94`) y 36 (`promptorder_108`). */
+  'aviso-producto': {
+    descripcion: 'Un aviso sobre un producto, con el artículo debajo',
+    render: (d, a) => {
+      const x = d as {
+        image?: string | null; noteImage?: string | null; name?: string | null;
+        noteTitle?: string | null; price?: string | null; state?: string | null;
+      };
+      const producto = x?.name ?? x?.noteTitle ?? '';
+      return (
+        <TarjetaAvisoProducto
+          texto={x?.state ? 'El pedido que consultas' : 'Tu pedido'}
+          estado={x?.state}
+          imagen={x?.image ?? x?.noteImage}
+          producto={producto}
+          precio={x?.price}
+          onAbrir={a.onAbrir ? () => a.onAbrir?.('') : undefined}
+        />
+      );
+    },
+  },
+  consulta: {
+    descripcion: 'Resumen de una consulta dejada en la cola de atención',
+    render: (d, a) => {
+      const x = d as {
+        content?: string; questionName?: string | null; orderId?: string | null;
+        leaveMessageTime?: string | null;
+      };
+      return (
+        <TarjetaConsulta
+          contenido={x?.content ?? ''}
+          tipoProblema={x?.questionName}
+          pedido={x?.orderId}
+          fecha={x?.leaveMessageTime}
+          onCopiar={a.onCopiar}
+        />
+      );
+    },
+  },
+  sobre: {
+    descripcion: 'Sobre de dinero recibido',
+    render: (d, a) => {
+      const x = d as { title?: string; subTitle?: string | null; description?: string | null };
+      return (
+        <TarjetaSobre
+          titulo={x?.title ?? 'Un sobre para ti'}
+          subtitulo={x?.subTitle}
+          descripcion={x?.description}
+          onAbrir={a.onBoton ? () => a.onBoton?.('Abrir') : undefined}
         />
       );
     },
