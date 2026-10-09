@@ -24,6 +24,10 @@ export { TarjetaPostventa, type DatosPostventa } from './TarjetaPostventa';
 export { TarjetaEstadoPostventa, type DatosEstadoPostventa } from './TarjetaEstadoPostventa';
 export { TarjetaNoSoportada } from './TarjetaNoSoportada';
 export { TarjetaConfirmarPedido, type DatosConfirmarPedido } from './TarjetaConfirmarPedido';
+export { TarjetaCertificado, type DatosCertificado } from './TarjetaCertificado';
+export {
+  TarjetaCompuesta, type ParrafoCompuesto, type ElementoCompuesto,
+} from './TarjetaCompuesta';
 
 /**
  * `estado`:
@@ -53,12 +57,12 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
     n: 5, ref: 'buttonhint_120', componente: null, estado: 'cubierta', contrato: true,
     donde: 'píldora centrada de `system`/`topic` en el chat (texto 13 centrado con padding lateral)',
   },
-  { n: 6, ref: 'certitem_212', componente: null, estado: 'pendiente', contrato: true },
+  { n: 6, ref: 'certitem_212', componente: 'TarjetaCertificado', estado: 'implementada', contrato: true },
   {
     n: 7, ref: 'commonhint_131', componente: null, estado: 'cubierta', contrato: true,
     donde: 'píldora centrada de `system`/`topic`: la referencia también es una línea centrada a 13',
   },
-  { n: 8, ref: 'composite_44', componente: null, estado: 'pendiente', contrato: true },
+  { n: 8, ref: 'composite_44', componente: 'TarjetaCompuesta', estado: 'implementada', contrato: true },
   {
     n: 9, ref: 'compositeoption_45', componente: null, estado: 'cubierta', contrato: true,
     donde: 'burbuja de texto del chat: la referencia es una burbuja de 16/20 con radio 12',
