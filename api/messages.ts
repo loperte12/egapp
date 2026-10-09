@@ -156,6 +156,27 @@ export interface LbMessagePostRef {
   title: string;
   coverUrl?: string;
   priceXaf?: number;
+  /**
+   * PRODUCTO DENTRO DE LA NOTA — el hueco que faltaba frente a la referencia.
+   *
+   * La tarjeta de nota de 小红书 (`bcim_chat_note_92`) no enseña solo la portada y el título: debajo
+   * lleva **la fila del autor** y, separado por una línea, **el producto con su precio original y el
+   * rebajado**. Sin eso, una nota compartida en el chat no dice quién la escribió ni qué se vende.
+   *
+   * Va como **foto del momento**, no como producto vivo (igual que `LbMessageOrderItem`): si la
+   * tienda cambia el precio después, la nota sigue contando lo que decía el día que se compartió.
+   * El precio vigente es cosa de la tarjeta de producto (`productRef`), no de esta.
+   */
+  product?: {
+    title?: string | null;
+    imageUrl?: string | null;
+    /** Precio de venta en el momento de compartir. */
+    priceXaf?: number | null;
+    /** Precio antes de la rebaja. Si viene y es mayor, se enseña tachado. */
+    originalPriceXaf?: number | null;
+    /** Línea corta del servidor («últimas unidades», «envío gratis»…). */
+    note?: string | null;
+  } | null;
 }
 
 export interface LbMessageFileRef {
@@ -415,7 +436,24 @@ export function toMessage(m: LbMessageRaw): LbMessage {
     author: m.sender
       ? { id: m.sender.id, fullName: m.sender.fullName, name: m.sender.fullName, avatarUrl: m.sender.avatarUrl ? absUrl(m.sender.avatarUrl) : null }
       : undefined,
-    postRef: m.postRef && m.postRef.coverUrl ? { ...m.postRef, coverUrl: absUrl(m.postRef.coverUrl) } : m.postRef,
+    /*
+     * La nota compartida. La foto del PRODUCTO DE LA NOTA también se resuelve aquí: el servidor manda
+     * la clave relativa, y sin esta línea la miniatura del producto saldría en blanco — el mismo
+     * fallo que tuvo la tarjeta de producto en la tanda D, que ya se ha repetido tres veces en este
+     * fichero. Cada vez que se añade una foto a un tipo, hay que acordarse de esto.
+     */
+    postRef: m.postRef
+      ? {
+        ...m.postRef,
+        coverUrl: m.postRef.coverUrl ? absUrl(m.postRef.coverUrl) : m.postRef.coverUrl,
+        product: m.postRef.product
+          ? {
+            ...m.postRef.product,
+            imageUrl: m.postRef.product.imageUrl ? absUrl(m.postRef.product.imageUrl) : m.postRef.product.imageUrl,
+          }
+          : m.postRef.product,
+      }
+      : m.postRef,
     /* TANDA D: la tarjeta de producto. Sin esta línea el mensaje llegaba como TEXTO
        («🛍 Producto …») y no como tarjeta: comprobado en el teléfono antes de arreglarlo. */
     productRef: m.productRef && m.productRef.coverUrl

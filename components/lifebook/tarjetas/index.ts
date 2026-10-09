@@ -53,6 +53,7 @@ export { TarjetaCola } from './TarjetaCola';
 export { TarjetaRecordatorioPago } from './TarjetaRecordatorioPago';
 export { TarjetaVideo } from './TarjetaVideo';
 export { TarjetaInfraccion } from './TarjetaInfraccion';
+export { TarjetaNota } from './TarjetaNota';
 export {
   TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
 } from './registro';
@@ -144,11 +145,9 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
   { n: 29, ref: 'minorrefund_214', componente: 'TarjetaTextoAcciones', estado: 'implementada', contrato: true },
   { n: 30, ref: 'negotiatedelivery_104', componente: 'TarjetaEntregaNegociada', estado: 'implementada', contrato: true },
   {
-    n: 31, ref: 'note_92', componente: null, estado: 'cubierta', contrato: true,
-    donde: 'el chat ya pinta `post`/`sale` (L1716) con portada, título y precio, que es el cuerpo de '
-      + 'esta tarjeta. DOS HUECOS ANOTADOS, sin tocar: la referencia añade la fila del AUTOR '
-      + '(avatar de 20 + nombre) y un bloque de producto con precios original y rebajado. Se '
-      + 'deciden al tocar la tarjeta de nota del chat, que hoy vive dentro del fichero de 2.000 líneas',
+    n: 31, ref: 'note_92', componente: 'TarjetaNota', estado: 'implementada', contrato: true,
+    donde: 'los DOS HUECOS ya estan cerrados: fila del autor y bloque del producto con precio '
+      + 'original tachado y rebajado. Ademas sale del fichero del chat, donde vivia en linea',
   },
   { n: 32, ref: 'order_3', componente: 'OrderCardEnChat', estado: 'implementada', contrato: false },
   { n: 33, ref: 'packagecancel_61', componente: 'TarjetaCancelacion', estado: 'implementada', contrato: true },

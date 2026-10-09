@@ -54,6 +54,7 @@ import { TarjetaCola } from './TarjetaCola';
 import { TarjetaRecordatorioPago } from './TarjetaRecordatorioPago';
 import { TarjetaVideo } from './TarjetaVideo';
 import { TarjetaInfraccion } from './TarjetaInfraccion';
+import { TarjetaNota } from './TarjetaNota';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -450,6 +451,32 @@ const REGISTRO: Record<string, Entrada> = {
           objeto={x?.violationEntityName ?? 'Contenido'}
           estado={x?.violationStatus}
           imagen={x?.image}
+        />
+      );
+    },
+  },
+  /**
+   * La nota compartida. Es la misma que el chat despacha por `kind: 'post'`/`'sale'`: aquí queda
+   * registrada para que el camino genérico pueda pintarla igual cuando el servidor la mande como
+   * tarjeta. Los dos caminos usan EL MISMO componente, así que no pueden separarse con el tiempo.
+   */
+  nota: {
+    descripcion: 'Nota compartida: portada, título, autor y producto',
+    render: (d, a) => {
+      const x = d as {
+        postRef?: Parameters<typeof TarjetaNota>[0]['nota'];
+        title?: string; coverUrl?: string; priceXaf?: number;
+        author?: { name?: string | null; fullName?: string | null; avatarUrl?: string | null } | null;
+        sale?: boolean;
+      };
+      // Acepta tanto `postRef` (como lo manda el chat) como los campos sueltos.
+      const nota = x?.postRef ?? { id: '', title: x?.title ?? '', coverUrl: x?.coverUrl, priceXaf: x?.priceXaf };
+      return (
+        <TarjetaNota
+          nota={nota}
+          autor={x?.author ? { nombre: x.author.name ?? x.author.fullName, avatarUrl: x.author.avatarUrl } : null}
+          esVenta={x?.sale}
+          onAbrir={a.onAbrir ? () => a.onAbrir?.(nota.id) : undefined}
         />
       );
     },

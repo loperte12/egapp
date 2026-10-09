@@ -26,6 +26,7 @@ import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
 import { OrderCardEnChat } from '../../components/lifebook/OrderCardEnChat';
 import { TarjetaDeChat } from '../../components/lifebook/tarjetas/registro';
+import { TarjetaNota } from '../../components/lifebook/tarjetas/TarjetaNota';
 import type { LbProductCard } from '../../api/commerce';
 import * as ImagePicker from 'expo-image-picker';
 // Parte 32: expo-image (caché memoria+disco) — las fotos del chat no destellan.
@@ -1745,19 +1746,27 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
     );
   }
 
+  /**
+   * LA NOTA COMPARTIDA — sale de este fichero y pasa a `TarjetaNota`.
+   *
+   * Aquí vivía un bloque en línea que pintaba portada, título y precio. Se ha movido a su componente
+   * por dos razones, y las dos estaban anotadas en el registro de la campaña de las 54:
+   *
+   *   1. **le faltaban dos cosas de la referencia** —la fila del autor y el producto de la nota con
+   *      el precio original y el rebajado— y añadirlas aquí habría engordado un fichero de 2.000
+   *      líneas que ya cuesta leer;
+   *   2. **este fichero es donde vive todo**, y cada tarjeta que sigue dentro es una razón más para
+   *      no poder partirlo. Sacar la nota es la primera mudanza de esa deuda.
+   */
   if ((msg.kind === 'post' || msg.kind === 'sale') && msg.postRef) {
     return wrap(
-      <View style={[styles.cardBubble, { backgroundColor: colors.card, width: 210, flexDirection: 'column' }]}>
-        {msg.postRef.coverUrl ? (
-          <ExpoImage source={absUrl(msg.postRef.coverUrl)} style={styles.postCover} contentFit="cover" cachePolicy="memory-disk" transition={0} />
-        ) : null}
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.fuerte, marginTop: espaciado.e6 }} numberOfLines={2}>
-          {msg.kind === 'sale' ? '🏷️ ' : ''}{msg.postRef.title}
-        </Text>
-        {msg.postRef.priceXaf !== undefined ? (
-          <Precio valor={msg.postRef.priceXaf} tamano="sm" color={colors.text.primary} style={{ marginTop: espaciado.e2 }} />
-        ) : null}
-      </View>,
+      <TarjetaNota
+        nota={msg.postRef}
+        autor={msg.author
+          ? { nombre: msg.author.name ?? msg.author.fullName, avatarUrl: msg.author.avatarUrl }
+          : null}
+        esVenta={msg.kind === 'sale'}
+      />,
     );
   }
 
