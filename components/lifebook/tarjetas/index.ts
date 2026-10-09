@@ -38,6 +38,9 @@ export { TarjetaAlertaPrecio } from './TarjetaAlertaPrecio';
 export { TarjetaInvitacionResena } from './TarjetaInvitacionResena';
 export { TarjetaEnlace } from './TarjetaEnlace';
 export { TarjetaEnlaceBoton } from './TarjetaEnlaceBoton';
+export { TarjetaTextoAcciones } from './TarjetaTextoAcciones';
+export { TarjetaAviso } from './TarjetaAviso';
+export { TarjetaServicio } from './TarjetaServicio';
 export {
   TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
 } from './registro';
@@ -122,4 +125,9 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
   },
   { n: 23, ref: 'landingpage_103', componente: 'TarjetaEnlace', estado: 'implementada', contrato: true },
   { n: 24, ref: 'linkcard_100', componente: 'TarjetaEnlaceBoton', estado: 'implementada', contrato: true },
+  { n: 25, ref: 'logisticagent_223', componente: 'TarjetaTextoAcciones', estado: 'implementada', contrato: true },
+  { n: 26, ref: 'logisticcustomserviceunhandle_216', componente: 'TarjetaServicio', estado: 'implementada', contrato: true },
+  { n: 27, ref: 'logisticorder_215', componente: null, estado: 'pendiente', contrato: true },
+  { n: 28, ref: 'logisticqueuetips_218', componente: 'TarjetaAviso', estado: 'implementada', contrato: true },
+  { n: 29, ref: 'minorrefund_214', componente: 'TarjetaTextoAcciones', estado: 'implementada', contrato: true },
 ];

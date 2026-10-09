@@ -39,6 +39,9 @@ import { TarjetaAlertaPrecio } from './TarjetaAlertaPrecio';
 import { TarjetaInvitacionResena } from './TarjetaInvitacionResena';
 import { TarjetaEnlace } from './TarjetaEnlace';
 import { TarjetaEnlaceBoton } from './TarjetaEnlaceBoton';
+import { TarjetaTextoAcciones } from './TarjetaTextoAcciones';
+import { TarjetaAviso } from './TarjetaAviso';
+import { TarjetaServicio } from './TarjetaServicio';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -201,6 +204,50 @@ const REGISTRO: Record<string, Entrada> = {
           texto={x?.card_content ?? ''}
           etiquetaBoton={x?.button_content ?? 'Abrir'}
           onAbrir={a.onEnlace && x?.button_url ? () => a.onEnlace?.(x.button_url as string) : undefined}
+        />
+      );
+    },
+  },
+  /** Cubre las tarjetas 25 (`logisticagent_223`) y 29 (`minorrefund_214`). */
+  'texto-acciones': {
+    descripcion: 'Texto con botones: aviso del servicio al cliente',
+    render: (d, a) => {
+      const x = d as {
+        title?: string | null; content?: string | null; body?: string | null;
+        buttons?: Array<Record<string, string>>;
+      };
+      const botones = (x?.buttons ?? []).map((b) => ({
+        etiqueta: b.buttonValue ?? b.text ?? b.label ?? '',
+      })).filter((b) => b.etiqueta);
+      return (
+        <TarjetaTextoAcciones
+          titulo={x?.title}
+          texto={x?.body ?? x?.content ?? ''}
+          botones={botones}
+          onBoton={a.onBoton}
+        />
+      );
+    },
+  },
+  aviso: {
+    descripcion: 'Aviso con titular, explicación y consejo',
+    render: (d) => {
+      const x = d as { top?: string | null; content?: string | null; tip?: string | null };
+      return <TarjetaAviso titular={x?.top} explicacion={x?.content} consejo={x?.tip} />;
+    },
+  },
+  servicio: {
+    descripcion: 'Mensaje de un servicio, con su logotipo y quién escribe',
+    render: (d) => {
+      const x = d as {
+        titleLogo?: string | null; title?: string; subTitle?: string | null; content?: string | null;
+      };
+      return (
+        <TarjetaServicio
+          logo={x?.titleLogo}
+          servicio={x?.title ?? ''}
+          persona={x?.subTitle}
+          contenido={x?.content}
         />
       );
     },
