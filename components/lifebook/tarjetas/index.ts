@@ -23,6 +23,7 @@ export {
 export { TarjetaPostventa, type DatosPostventa } from './TarjetaPostventa';
 export { TarjetaEstadoPostventa, type DatosEstadoPostventa } from './TarjetaEstadoPostventa';
 export { TarjetaNoSoportada } from './TarjetaNoSoportada';
+export { TarjetaConfirmarPedido, type DatosConfirmarPedido } from './TarjetaConfirmarPedido';
 
 /**
  * `estado`:
@@ -47,7 +48,7 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
   { n: 1, ref: 'aftersalecard_123', componente: 'TarjetaPostventa', estado: 'implementada', contrato: true },
   { n: 2, ref: 'aftersalestatus_128', componente: 'TarjetaEstadoPostventa', estado: 'implementada', contrato: true },
   { n: 3, ref: 'agentstreamreply_302', componente: 'TarjetaNoSoportada', estado: 'implementada', contrato: false },
-  { n: 4, ref: 'askconfirmorder_71', componente: null, estado: 'pendiente', contrato: true },
+  { n: 4, ref: 'askconfirmorder_71', componente: 'TarjetaConfirmarPedido', estado: 'implementada', contrato: true },
   {
     n: 5, ref: 'buttonhint_120', componente: null, estado: 'cubierta', contrato: true,
     donde: 'píldora centrada de `system`/`topic` en el chat (texto 13 centrado con padding lateral)',
