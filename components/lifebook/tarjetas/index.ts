@@ -33,6 +33,7 @@ export { TarjetaCuponCompacto, type DatosCuponCompacto } from './TarjetaCuponCom
 export { TarjetaReclamarCupon, type DatosReclamarCupon } from './TarjetaReclamarCupon';
 export { ImporteCupon, SelloTipoCupon } from './piezas-cupon';
 export { TarjetaBienvenida } from './TarjetaBienvenida';
+export { TarjetaEvidencias } from './TarjetaEvidencias';
 export {
   TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
 } from './registro';
@@ -43,8 +44,10 @@ export {
  *   · `cubierta`     — el chat ya la pinta con lo que tiene; construir otra sería duplicar.
  *   · `pendiente`    — auditada, aún sin componente.
  *
- * `contrato: true` = necesita un tipo nuevo en `LbMessageKind` (o el genérico propuesto) antes de
- * poder recibir datos del servidor. Se construye igual, pero no se cablea hasta que haya contrato.
+ * `contrato: true` = **necesitaba** un tipo nuevo en `LbMessageKind` antes de la decisión del
+ * 09/10/2026. Ya no se necesita ninguno: el tipo genérico `card` cubre las 54. El campo se conserva
+ * porque es el registro del problema que justificó la decisión — 13 de las 15 primeras tarjetas lo
+ * pedían, y con 54 habrían sido unas 38.
  */
 export interface FichaCampana {
   n: number;
@@ -87,5 +90,12 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
     n: 15, ref: 'damage_111', componente: 'TarjetaEstadoPostventa', estado: 'cubierta', contrato: true,
     donde: 'misma forma que la tarjeta 2: título, contenido, cardHeader, orderDetail y botones. '
       + 'La 15 solo es la 2 sin banner, sin estado y sin pista de pie, y las tres son opcionales',
+  },
+  { n: 16, ref: 'evidence_220', componente: 'TarjetaEvidencias', estado: 'implementada', contrato: true },
+  {
+    n: 17, ref: 'fan_club_136', componente: 'TarjetaCupon', estado: 'cubierta', contrato: true,
+    donde: 'anatomía idéntica a la tarjeta 11: 108 de alto, radio 8, importe 24 con símbolo 14, '
+      + 'mínimo 10, nombre 14, fechas 10, separador y fila de acción. Solo cambian los nombres de '
+      + 'los campos del servidor (couponName por name, btnText por el botón)',
   },
 ];

@@ -34,6 +34,7 @@ import { TarjetaCupon, type DatosCupon } from './TarjetaCupon';
 import { TarjetaCuponCompacto, type DatosCuponCompacto } from './TarjetaCuponCompacto';
 import { TarjetaReclamarCupon, type DatosReclamarCupon } from './TarjetaReclamarCupon';
 import { TarjetaBienvenida } from './TarjetaBienvenida';
+import { TarjetaEvidencias } from './TarjetaEvidencias';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -124,6 +125,20 @@ const REGISTRO: Record<string, Entrada> = {
     render: (d) => {
       const x = d as { avatarUrl?: string | null; welcomeMessage?: string; name?: string | null };
       return <TarjetaBienvenida avatarUrl={x?.avatarUrl} mensaje={x?.welcomeMessage ?? ''} nombre={x?.name} />;
+    },
+  },
+  evidencias: {
+    descripcion: 'Pruebas subidas a un caso, en tira horizontal',
+    render: (d, a) => {
+      const x = d as { evidenceUrlList?: string[]; title?: string | null; statusDesc?: string | null };
+      return (
+        <TarjetaEvidencias
+          imagenes={x?.evidenceUrlList ?? []}
+          titulo={x?.title}
+          estado={x?.statusDesc}
+          onAbrir={a.onEnlace ? (url) => a.onEnlace?.(url) : undefined}
+        />
+      );
     },
   },
 };
