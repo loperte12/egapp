@@ -28,6 +28,7 @@ export { TarjetaCertificado, type DatosCertificado } from './TarjetaCertificado'
 export {
   TarjetaCompuesta, type ParrafoCompuesto, type ElementoCompuesto,
 } from './TarjetaCompuesta';
+export { TarjetaCupon, type DatosCupon } from './TarjetaCupon';
 
 /**
  * `estado`:
@@ -71,4 +72,5 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
     n: 10, ref: 'confirmorder_72', componente: null, estado: 'cubierta', contrato: true,
     donde: 'píldora centrada de `system`/`topic`: la referencia es una línea centrada a 13',
   },
+  { n: 11, ref: 'coupon_19', componente: 'TarjetaCupon', estado: 'implementada', contrato: true },
 ];
