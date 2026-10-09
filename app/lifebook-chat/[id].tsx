@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alpha, espaciado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
+import { alpha, espaciado, interlineado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
 import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, ShoppingBag, ShoppingCart, X } from 'lucide-react-native';
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
@@ -1974,7 +1974,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
     return (
       <View style={{ alignItems: 'center' }}>
         <View style={[styles.pillBubble, { backgroundColor: alpha(colors.primary, 0.12) }]}>
-          <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, textAlign: 'center' }}>{msg.text}</Text>
+          <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, lineHeight: interlineado.caption, textAlign: 'center' }}>{msg.text}</Text>
         </View>
       </View>
     );
@@ -1989,7 +1989,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           : { backgroundColor: colors.surface, borderBottomLeftRadius: radios.punta },
       ]}
     >
-      <Text style={{ color: mine ? brand.white : colors.textPrimary, fontSize: tipografia.body, lineHeight: 19 }}>{msg.text}</Text>
+      <Text style={{ color: mine ? brand.white : colors.textPrimary, fontSize: tipografia.body, lineHeight: interlineado.holgado }}>{msg.text}</Text>
     </View>,
   );
 }
