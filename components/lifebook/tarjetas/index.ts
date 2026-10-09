@@ -33,6 +33,9 @@ export { TarjetaCuponCompacto, type DatosCuponCompacto } from './TarjetaCuponCom
 export { TarjetaReclamarCupon, type DatosReclamarCupon } from './TarjetaReclamarCupon';
 export { ImporteCupon, SelloTipoCupon } from './piezas-cupon';
 export { TarjetaBienvenida } from './TarjetaBienvenida';
+export {
+  TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
+} from './registro';
 
 /**
  * `estado`:

@@ -25,6 +25,7 @@ import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, Shoppin
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
 import { OrderCardEnChat } from '../../components/lifebook/OrderCardEnChat';
+import { TarjetaDeChat } from '../../components/lifebook/tarjetas/registro';
 import type { LbProductCard } from '../../api/commerce';
 import * as ImagePicker from 'expo-image-picker';
 // Parte 32: expo-image (caché memoria+disco) — las fotos del chat no destellan.
@@ -1711,6 +1712,37 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
    */
   if (msg.kind === 'order' && msg.orderRef) {
     return wrap(<OrderCardEnChat pedido={msg.orderRef} onOpen={onOpenOrder} />);
+  }
+
+  /**
+   * TARJETA GENÉRICA — un solo tipo para las 54 tarjetas de comercio del chat.
+   *
+   * Esta rama sustituye a lo que habrían sido **38 ramas más** en esta cadena: una por cada tarjeta
+   * de postventa, cupón, logística, devolución, regateo o cola de la referencia. El motor está en
+   * `components/lifebook/tarjetas/registro.tsx`, y aquí solo se le pasa la tarjeta y las acciones
+   * que el chat presta.
+   *
+   * NO PUEDE FALLAR: si el `cardType` no está en el registro, o si la tarjeta pide una versión de
+   * app más nueva que la instalada, el motor devuelve el aviso de mensaje no soportado y la
+   * conversación sigue. Por eso esta rama es segura aunque el servidor mande algo que no existe.
+   */
+  if (msg.kind === 'card' && msg.cardRef) {
+    return wrap(
+      <TarjetaDeChat
+        tarjeta={msg.cardRef}
+        acciones={{
+          /*
+           * Los BOTONES de las tarjetas quedan sin cablear a propósito: en la referencia cada
+           * botón lleva su propio destino (`nav` con un enlace, o una función del servidor), y esa
+           * decisión pertenece al contrato del servidor que aún no existe. Cablearlos ahora sería
+           * inventarse a dónde van. Lo que sí se cablea es lo que el chat ya sabe hacer: copiar un
+           * dato y abrir el pedido.
+           */
+          onCopiar: (valor) => { void Clipboard.setStringAsync(valor); },
+          onAbrir: onOpenOrder,
+        }}
+      />,
+    );
   }
 
   if ((msg.kind === 'post' || msg.kind === 'sale') && msg.postRef) {

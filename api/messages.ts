@@ -133,6 +133,22 @@ export type LbMessageKind =
   | 'chain'      // cadena del grupo (relevo)
   | 'vote'       // votación del grupo
   | 'ad'         // anuncio del grupo
+  /**
+   * TARJETA GENÉRICA — un solo tipo para todas las tarjetas de comercio del chat.
+   *
+   * POR QUÉ UNO Y NO 38. La referencia (小红书 9.49.1) tiene **54 tarjetas** dentro de la
+   * conversación —postventa, cupones, logística, devoluciones, regateo, colas, sobres rojos— y sin
+   * embargo **no tiene 54 tipos de mensaje**: tiene un motor y 54 fichas de datos. La tarjeta viaja
+   * con su nombre y sus datos, y el cliente busca cómo pintarla en un registro.
+   *
+   * Eso convierte lo que serían 38 tipos nuevos (con 38 migraciones y 38 despliegues) en **uno**.
+   * Y una tarjeta nueva pasa a ser un fichero de cliente, no un cambio de servidor.
+   *
+   * EL RESPALDO ES PARTE DEL DISEÑO, no un extra: si llega un `cardType` que esta versión no
+   * conoce, se pinta el aviso de mensaje no soportado y **la conversación sigue funcionando**. Por
+   * eso `minAppVersion` viaja en cada tarjeta, como el `min_android_version` de la referencia.
+   */
+  | 'card'
   | 'system';
 
 export interface LbMessagePostRef {
@@ -306,6 +322,40 @@ export interface LbMessage {
   checkinRef?: LbMessageCheckinRef;
   /** Parte 26: anuncio de grupo. */
   adRef?: LbMessageAdRef;
+  /** Tarjeta genérica de comercio (`kind='card'`). Sostiene las 54 tarjetas del chat. */
+  cardRef?: LbMessageCardRef;
+}
+
+/**
+ * LA TARJETA GENÉRICA — `kind='card'`.
+ *
+ * Cómo lo hace la referencia, y por qué se copia así:
+ *
+ *  · **La tarjeta se identifica por su nombre** (`cardType`). En 小红书 cada tarjeta es un paquete
+ *    con nombre (`bcim_chat_coupon_19`) y el cliente la resuelve por ese nombre, igual que un
+ *    registro de componentes. Aquí `cardType` usa el nombre corto del negocio: `'cupon'`,
+ *    `'postventa'`, `'logistica'`…
+ *
+ *  · **Cada tarjeta declara su versión** (`version`) y **la versión mínima de app** que la entiende
+ *    (`minAppVersion`). Es el `min_android_version` / `min_ios_version` del DSL de la referencia.
+ *    Sirve para lo mismo: que un cliente viejo no intente pintar algo que no conoce y se rompa.
+ *    Si `minAppVersion` es mayor que la app instalada, se pinta el respaldo aunque el `cardType`
+ *    sí se conozca — porque puede haber cambiado la forma de los datos.
+ *
+ *  · **Los datos van en `payload`**, sin tipar aquí a propósito. El tipo de `payload` lo declara
+ *    cada componente de tarjeta (`DatosCupon`, `DatosPostventa`…) y el registro es el que une
+ *    `cardType` con su tipo. Tiparlo aquí obligaría a tocar este fichero cada vez que se añade una
+ *    tarjeta: exactamente lo que el tipo genérico viene a evitar.
+ */
+export interface LbMessageCardRef {
+  /** Nombre corto de la tarjeta: `'cupon'`, `'postventa'`, `'logistica'`… */
+  cardType: string;
+  /** Versión de la tarjeta, por si cambia la forma de los datos. */
+  version?: string;
+  /** Versión mínima de app que sabe pintarla. Si es mayor que la instalada, sale el respaldo. */
+  minAppVersion?: string;
+  /** Los datos de la tarjeta. Su forma la declara el componente que la pinta. */
+  payload?: unknown;
 }
 
 /** Acciones del botón "+" del chat (hoja de acciones). */
@@ -342,6 +392,12 @@ export interface LbMessageRaw {
   checkinRef?: LbMessageCheckinRef;
   /** Parte 26: anuncio de grupo. */
   adRef?: LbMessageAdRef;
+  /**
+   * TARJETA GENÉRICA: el servidor manda el nombre de la tarjeta, su versión y sus datos, y el
+   * cliente decide cómo pintarla con el registro de `components/lifebook/tarjetas/registro.tsx`.
+   * El `payload` va sin tipar: su forma la declara el componente de cada tarjeta.
+   */
+  cardRef?: LbMessageCardRef;
   payload?: Record<string, unknown>;
   sender?: { id: string; fullName: string | null; avatarUrl: string | null };
 }
@@ -384,6 +440,13 @@ export function toMessage(m: LbMessageRaw): LbMessage {
     chainRef: m.chainRef,
     checkinRef: m.checkinRef,
     adRef: m.adRef,
+    /*
+     * TARJETA GENÉRICA. Este mapeo NO es opcional: sin él, el mensaje llegaría como TEXTO plano,
+     * que es exactamente el fallo que tuvo la tarjeta de producto en la tanda D —lo dice el
+     * comentario de arriba— y el de la tarjeta de pedido en la tanda E. La trampa se repite cada
+     * vez que se añade un tipo con datos propios, así que se deja escrito.
+     */
+    cardRef: m.cardRef,
   };
 }
 
