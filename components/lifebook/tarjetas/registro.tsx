@@ -48,6 +48,9 @@ import { TarjetaCancelacion } from './TarjetaCancelacion';
 import { TarjetaAvisoProducto } from './TarjetaAvisoProducto';
 import { TarjetaConsulta } from './TarjetaConsulta';
 import { TarjetaSobre } from './TarjetaSobre';
+import { TarjetaSolicitudPostventa } from './TarjetaSolicitudPostventa';
+import { TarjetaCobro } from './TarjetaCobro';
+import { TarjetaCola } from './TarjetaCola';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -344,6 +347,52 @@ const REGISTRO: Record<string, Entrada> = {
           subtitulo={x?.subTitle}
           descripcion={x?.description}
           onAbrir={a.onBoton ? () => a.onBoton?.('Abrir') : undefined}
+        />
+      );
+    },
+  },
+  'solicitud-postventa': {
+    descripcion: 'Entrada a una solicitud de postventa sobre un artículo',
+    render: (d, a) => {
+      const x = d as { image?: string | null; name?: string; price?: string | null };
+      return (
+        <TarjetaSolicitudPostventa
+          imagen={x?.image}
+          producto={x?.name ?? ''}
+          precio={x?.price}
+          onSolicitar={a.onBoton ? () => a.onBoton?.('Solicitar') : undefined}
+        />
+      );
+    },
+  },
+  cobro: {
+    descripcion: 'Aviso de un cobro pendiente, con importe y motivo',
+    render: (d, a) => {
+      const x = d as { amount?: string | number; reason?: string | null; status?: string | null };
+      const importe = typeof x?.amount === 'number' ? `${x.amount} XAF` : (x?.amount ?? '—');
+      return (
+        <TarjetaCobro
+          importe={importe}
+          motivo={x?.reason}
+          estado={x?.status}
+          onPagar={a.onBoton ? () => a.onBoton?.(x?.status ?? 'Pagar') : undefined}
+        />
+      );
+    },
+  },
+  cola: {
+    descripcion: 'Estado de la cola de atención humana',
+    render: (d, a) => {
+      const x = d as {
+        queueCount?: number | string | null; content?: string | null;
+        enableCancel?: boolean | null; cancel?: string | null;
+      };
+      return (
+        <TarjetaCola
+          delante={x?.queueCount != null ? Number(x.queueCount) : null}
+          mensaje={x?.content}
+          etiquetaSalir={x?.enableCancel === false ? null : (x?.cancel ?? 'Salir de la cola')}
+          onSalir={a.onBoton ? () => a.onBoton?.('Salir de la cola') : undefined}
         />
       );
     },

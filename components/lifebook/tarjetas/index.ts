@@ -47,6 +47,9 @@ export { TarjetaCancelacion } from './TarjetaCancelacion';
 export { TarjetaAvisoProducto } from './TarjetaAvisoProducto';
 export { TarjetaConsulta } from './TarjetaConsulta';
 export { TarjetaSobre } from './TarjetaSobre';
+export { TarjetaSolicitudPostventa } from './TarjetaSolicitudPostventa';
+export { TarjetaCobro } from './TarjetaCobro';
+export { TarjetaCola } from './TarjetaCola';
 export {
   TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
 } from './registro';
@@ -157,4 +160,26 @@ export const TARJETAS_CAMPANA: readonly FichaCampana[] = [
       + 'guiones, o sea un mensaje de texto con un separador — ya se pinta',
   },
   { n: 40, ref: 'redpacket_124', componente: 'TarjetaSobre', estado: 'implementada', contrato: true },
+  { n: 41, ref: 'returnapply_74', componente: 'TarjetaSolicitudPostventa', estado: 'implementada', contrato: true },
+  {
+    n: 42, ref: 'richhinttoc_126', componente: null, estado: 'cubierta', contrato: true,
+    donde: 'píldora centrada de `system`/`topic`: la referencia es una línea centrada a 13, igual que '
+      + 'las tarjetas 5, 7 y 10',
+  },
+  { n: 43, ref: 'smallpayment_50', componente: 'TarjetaCobro', estado: 'implementada', contrato: true },
+  {
+    n: 44, ref: 'syscanceledqueue_85', componente: null, estado: 'cubierta', contrato: true,
+    donde: 'píldora centrada de `system`/`topic`: la referencia es UN solo nodo de texto centrado a 13',
+  },
+  {
+    n: 45, ref: 'sysopenchat_38', componente: null, estado: 'cubierta', contrato: true,
+    donde: 'píldora centrada de `system`/`topic`: un único texto centrado a 13',
+  },
+  { n: 46, ref: 'sysqueueinfo_82', componente: 'TarjetaCola', estado: 'implementada', contrato: true },
+  {
+    n: 47, ref: 'sysratingtip_105', componente: null, estado: 'cubierta', contrato: true,
+    donde: 'píldora centrada de `system`/`topic`: la referencia es una pista centrada a 13 con un '
+      + 'enlace en línea, la misma forma que la tarjeta 5 (`buttonhint_120`)',
+  },
+  { n: 48, ref: 'transferseller_81', componente: 'TarjetaTextoAcciones', estado: 'implementada', contrato: true },
 ];
