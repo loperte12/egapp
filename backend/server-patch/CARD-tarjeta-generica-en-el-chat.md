@@ -142,17 +142,97 @@ Insertar **antes** de `async chatMarkRead(...)`, dentro de la misma clase.
 ## Cómo se emite una tarjeta desde otro servicio
 
 `cardMessage` es privado: se llama desde dentro de `LifebookService`, en el punto donde ocurre el
-hecho. Ejemplos de dónde va cada una — **ninguno está en este parche**, porque cada uno pertenece al
-flujo que lo provoca:
+hecho. **Los flujos de abajo NO están en este parche**, porque cada uno pertenece a su servicio; lo
+que sigue es el mapa medido sobre el código para decidir cuáles se convierten.
 
-| Cuándo | `cardType` | Desde |
-|---|---|---|
-| Se cancela un pedido | `cancelacion` | `orders.service.ts` |
-| Se acuerda otra fecha de entrega | `entrega-negociada` | `orders.service.ts` |
-| Se abre una postventa | `postventa` | `commerce.service.ts` |
-| Se reclama un cupón | `cupon-reclamar` | `commerce.service.ts` |
-| Se acredita un cobro | `cobro` | `payments.service.ts` |
-| Cambia el estado de un envío | `pedido-logistico` | logística |
+### Los 8 sitios que hoy escriben en el chat
+
+| # | Sitio | Qué escribe hoy | `kind` |
+|---|---|---|---|
+| 1 | `lifebook.service.ts:2486` | lo que manda el usuario (`chatSend`) | los 11 de `CHAT_KINDS` |
+| 2 | `lifebook.service.ts:2648` | `systemMessage` — aviso 1 a 1 por pareja | `system` |
+| 3 | `lifebook.service.ts:2728` | **`cardMessage`** — el método de este parche | `card` |
+| 4 | `lifebook.service.ts:4700` | `pushSystemMessage` — gestión de grupo | `system` |
+| 5 | `orders.service.ts:1098` | `publicarEnChat` — el publicador de pedidos | `system` y `order` |
+| 6 | `commerce.service.ts:2812` | `avisarEnChat` — vendedor → comprador | `system` **con payload** |
+| 7 | `hotel-merchant.service.ts:561` | aviso de gestión del hotel | `system` |
+| 8 | `reservations.service.ts:1114` | aviso de gestión de reservas | `system` |
+
+**Todo menos la tarjeta de pedido sale hoy como `system`: texto plano.** Las tarjetas de comercio no
+son un sistema nuevo que haya que construir: son **lo que ya se manda, con forma**.
+
+### Y ya viajan payloads que nadie lee
+
+`avisarEnChat` (commerce:2812) **acepta un `payload` y lo guarda** — dentro de un mensaje `system`.
+El aviso de reposición de stock manda `{ productId: … }` y el cliente no lo mira: solo pinta el
+texto. Convertir ese flujo en tarjeta es cambiar `'system'` por `'card'` y añadir el `cardType`: el
+dato ya está viajando.
+
+### Flujo por flujo, y qué tarjeta le tocaría
+
+**PEDIDOS — `orders.service.ts`** (todos pasan por `notify`, que hoy escribe `system`)
+
+| # | Cuándo | Hoy | `cardType` propuesto | Componente |
+|---|---|---|---|---|
+| 1 | Se crea la compra (`createOrder` → `publicarPedido`) | `kind='order'` | *(ya es tarjeta)* | `OrderCardEnChat` |
+| 2 | `accept` → `confirmed` | «La tienda aceptó tu pedido» | `aviso-producto` | 34/35/36 |
+| 3 | `decline` → `cancelled` | «La tienda rechazó el pedido» | `cancelacion` | 33 |
+| 4 | `prepare` → `preparing` | «Tu pedido está en preparación» | `aviso-producto` | 34/35/36 |
+| 5 | `send` → `in_transit` | «Tu pedido va en camino» | `pedido-logistico` | 27 |
+| 6 | `ready` → `ready_pickup` | «Listo para recoger» | `aviso-producto` | 34/35/36 |
+| 7 | `deliver` → `delivered` | «Pedido entregado» | `pedido-logistico` | 27 |
+| 8 | `cancel` (comprador) → `cancelled` | «El comprador canceló el pedido» | `cancelacion` | 33 |
+| 9 | `dispute` con motivo → `disputed` | «Abrió una reclamación: «…»» | `texto-acciones` | 29 |
+| 10 | `confirmDeliveryCode` → `delivered` | aviso de entrega | `pedido-logistico` | 27 |
+| 11 | `markPaid` | *(sin aviso hoy)* | `cobro` | 43 |
+| 12 | `setDeliveryCost` | *(sin aviso hoy)* | `cobro` | 43 |
+| 13 | `reviewOrder` | *(sin aviso hoy)* | `aviso` | 28 |
+| 14 | **Invitación a valorar** | **no existe el flujo** | `invitacion-resena` | 21 |
+
+**COMERCIO — `commerce.service.ts`**
+
+| # | Cuándo | Hoy | `cardType` propuesto | Componente |
+|---|---|---|---|---|
+| 15 | Reposición de stock (`avisarEnChat`, payload `{productId}`) | `system` **con payload** | `alerta-reposicion` | **FALTA** |
+| 16 | `claimCoupon` — se reclama un cupón | *(sin aviso hoy)* | `cupon` o `cupon-reclamar` | 11 / 13 |
+| 17 | Aviso del vendedor al comprador | `system` | `texto-acciones` o `servicio` | 29 / 26 |
+
+**PAGOS — `payments.service.ts`**
+
+| # | Cuándo | Hoy | `cardType` propuesto | Componente |
+|---|---|---|---|---|
+| 18 | `abrirCobro` — se abre un cobro | *(sin aviso hoy)* | `cobro` | 43 |
+| 19 | `avisoDePago` — webhook del proveedor | *(sin aviso hoy)* | `cobro` | 43 |
+
+**HOTEL Y RESERVAS**
+
+| # | Cuándo | Hoy | `cardType` propuesto | Componente |
+|---|---|---|---|---|
+| 20 | Gestión del hotel (`hotel-merchant:561`) | `system` | `servicio` o `texto-acciones` | 26 / 29 |
+| 21 | Gestión de reservas (`reservations:1114`) | `system` | `servicio` o `texto-acciones` | 26 / 29 |
+
+### Lo que falta antes de poder convertirlo todo
+
+**Dos componentes que el cliente todavía no tiene:**
+
+1. **`alerta-reposicion`** — ««X» vuelve a estar disponible». Es el más barato de todos: el `payload`
+   con el `productId` **ya se está mandando** y hoy se tira. Se parece a la alerta de precio (19) pero
+   no es lo mismo: una avisa de un precio y la otra de que hay existencias.
+2. **`confirmacion-entrega`** — el código de entrega para el pago contra reembolso
+   (`confirmDeliveryCode`). Hoy el código viaja por otro camino y no está en una tarjeta.
+
+**Y una decisión de producto, no técnica:** la invitación a valorar (14) **no tiene flujo**. El
+componente existe (21) y la referencia lo manda al entregar, pero en LifeBook nadie lo dispara.
+Crearlo es decidir **cuándo** se invita a valorar.
+
+### Las decisiones que hay que tomar, en orden
+
+1. **¿Se convierten los 8 avisos de pedido** (2-10) o solo algunos? Son los que más se ven.
+2. **¿Se emiten los tres que hoy no avisan nada** (11, 12, 13)? Avisar más es más ruido en el chat.
+3. **`alerta-reposicion`**: ¿se construye? Es una hora de trabajo y el dato ya viaja.
+4. **La invitación a valorar**: ¿existe el flujo, y cuándo se dispara?
+5. **Hotel y reservas** (20, 21): tienen su propio servicio y su propio ritmo; se pueden dejar para el
+   final sin bloquear nada.
 
 **Si el flujo vive en otro servicio**, hay dos caminos y el que hay que preferir es el primero:
 llamar a un método público de `LifebookService` que envuelva `cardMessage` (una línea), o mover la
