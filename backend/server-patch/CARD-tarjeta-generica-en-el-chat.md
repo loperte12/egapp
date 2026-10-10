@@ -234,10 +234,17 @@ Crearlo es decidir **cuándo** se invita a valorar.
 5. **Hotel y reservas** (20, 21): tienen su propio servicio y su propio ritmo; se pueden dejar para el
    final sin bloquear nada.
 
-**Si el flujo vive en otro servicio**, hay dos caminos y el que hay que preferir es el primero:
-llamar a un método público de `LifebookService` que envuelva `cardMessage` (una línea), o mover la
-emisión allí. Lo que **no** hay que hacer es duplicar el INSERT en cada servicio: la conversación
-tiene reglas de no-leídos y de vista previa, y dos sitios que las escriban acaban discrepando.
+**Si el flujo vive en otro servicio, NO hay que crear una puerta entre servicios.** La regla que sale
+de esta auditoría es la contraria a la que había escrito antes aquí:
+
+> **Cada servicio usa el publicador de chat que YA tiene.** `orders.service.ts` tiene
+> `publicarEnChat` y `commerce.service.ts` tiene `avisarEnChat`, y los dos aceptan `kind` y `payload`.
+> Cambiar el `kind` que escriben es todo el trabajo. Lo que **no** hay que hacer es duplicar el INSERT
+> —y tampoco inyectar `LifebookService` para no duplicarlo—: la conversación tiene reglas de no-leídos
+> y de vista previa, y **cada copia de esas reglas es una copia que se va a quedar atrás**.
+
+Solo si un servicio **no tuviera** publicador propio habría que plantearse algo, y entonces la
+pregunta correcta es **por qué escribe en el chat sin tener uno**, no cómo darle acceso al de otro.
 
 **Ningún `cardType` se valida aquí a propósito.** El registro del cliente es el que decide qué sabe
 pintar; si el servidor manda uno que el cliente no conoce, sale el respaldo. Validar contra una lista
@@ -245,98 +252,77 @@ en el servidor volvería a atar las dos mitades, que es exactamente lo que este 
 
 ---
 
-## PRERREQUISITO · inyectar `LifebookService` en los dos servicios
+## LO QUE APARECIÓ AL IR A APLICARLO — y que QUITA trabajo en vez de añadirlo
 
-**Ni `orders.service.ts` ni `commerce.service.ts` lo tienen hoy** (verificado: cero menciones a
-`LifebookService` en los dos). Sus constructores son:
+### 1 · No hay que inyectar nada: los dos servicios YA tienen su publicador de chat
 
-```ts
-// orders.service.ts:71
-constructor(
-  private readonly db: MobilityPrismaService,
-  private readonly wallets: WalletService,
-) {}
+El plan era inyectar `LifebookService` en `orders.service.ts` y `commerce.service.ts`, y eso obligaba
+a comprobar el módulo. **No hace falta, y por tanto la comprobación del módulo ya no bloquea nada.**
 
-// commerce.service.ts:137
-constructor(private readonly db: MobilityPrismaService) {}
-```
+Los dos **ya escriben en el chat por su cuenta**:
 
-Hay que añadirles la dependencia:
+- `orders.service.ts:1095` → `publicarEnChat(conv, autorId, cuerpo, kind, payload)`
+- `commerce.service.ts:2806` → `avisarEnChat(comprador, vendedor, texto, payload)`
 
-```ts
-import { LifebookService } from './lifebook.service';
+Y los dos hacen el INSERT **completo**, con las reglas de no-leídos y de vista previa.
 
-// orders.service.ts
-constructor(
-  private readonly db: MobilityPrismaService,
-  private readonly wallets: WalletService,
-  private readonly lb: LifebookService,
-) {}
+**`publicarEnChat` ya acepta `kind` y `payload`.** Pasarle `'card'` y `{ cardType, data }` escribe
+exactamente la forma que lee `serializeMessage`. O sea: **ni método nuevo, ni INSERT duplicado, ni
+inyección, ni tocar un constructor.** El riesgo de dependencia circular desaparece porque no se crea
+ninguna dependencia.
 
-// commerce.service.ts
-constructor(
-  private readonly db: MobilityPrismaService,
-  private readonly lb: LifebookService,
-) {}
-```
+> Esto es un cambio de diseño sobre lo que había escrito antes en este mismo parche (un
+> `emitirTarjeta` público más la inyección). Se deja escrito el porqué: la solución buena no era
+> añadir una puerta entre servicios, sino **usar la que cada servicio ya tenía**.
 
-### No hay dependencia circular, y está comprobado
+### 2 · La tabla de valoraciones: `lifebook.order_reviews` — confirmada
 
-Es la primera cosa que hay que mirar antes de inyectar un servicio en otro, porque un ciclo en NestJS
-no falla al compilar: **falla al arrancar**, y con un mensaje que no dice por dónde va el ciclo.
+No en una migración (**no está en este repo**), sino en **los dos sitios que la leen y la escriben**:
+`orders.service.ts:1043` (el INSERT) y `orders.service.ts:559` (el SELECT), más el SELECT de
+`orderDetail`.
 
-El constructor de `LifebookService` es:
+Columnas: **`order_id` · `shop_id` · `buyer_id` · `rating` · `comment`**.
 
-```ts
-constructor(
-  private readonly db: MobilityPrismaService,
-  private readonly ads: AdsService,
-) {}
-```
+Y el INSERT lleva **`ON CONFLICT (order_id) DO NOTHING`**, o sea que **`order_id` es único**: la propia
+base impide valorar dos veces. Eso hace que la invitación «solo si no ha valorado» sea exacta y no una
+aproximación.
 
-**No inyecta `OrdersService` ni `CommerceService`.** La dirección es de un solo sentido
-(`Orders` → `Lifebook`, `Commerce` → `Lifebook`), así que NestJS lo resuelve sin `forwardRef` y sin
-tocar el orden de los `providers`.
+### 3 · `o.title` y `o.media_url` NO existen en `orders` — y la versión anterior de este parche los usaba
 
-### Lo que NO se ha podido verificar
+`publicOrder` devuelve `o.*` (la fila entera) más `shop_name`, `shop_logo`, `shop_owner`, `buyer_name`,
+`buyer_avatar` e `items_count`. Las columnas **reales** de `orders`, contadas sobre su uso en el código:
 
-**El fichero de módulo no está en esta copia.** `backend/server-src` no tiene ningún `*.module.ts`,
-así que no se puede confirmar aquí que `OrdersService`, `CommerceService` y `LifebookService` estén
-declarados **en el mismo módulo**. Si no lo están, el módulo de los dos primeros necesita
-`LifebookModule` en sus `imports` — y si `LifebookModule` ya importa el de ellos, entonces sí aparece
-un ciclo y hay que romperlo con `forwardRef` en los dos lados.
+`id` · `shop_id` · `buyer_id` · `seller_id` · `status` · `order_no` · `total_xaf` · `subtotal_xaf` ·
+`delivery_cost_xaf` · `discount_xaf` · `coupon_id` · `delivery_mode` · `delivery_code` ·
+`payment_method` · `payment_status` · `payment_proof_url` · `payment_note` · `delivered_at` ·
+`created_at` · `delivery_code_locked_until`
 
-**Comprobarlo antes de aplicar**: buscar en el servidor real el módulo que declara los tres.
+**`total_xaf` sí existe** — el aviso de `cobro` estaba bien. Pero tres cosas estaban mal:
+
+| Lo que puse | La verdad |
+|---|---|
+| `o.media_url` | **no está en `orders`**: está en `order_items` (`media_url`), verificado en el SELECT de `orderDetail` |
+| `o.title` | **no es una columna de `orders`**: el código saca el título de `o.first_title ?? o.title ?? 'Pedido'`, y `first_title` viene de las líneas |
+| `order.code` | la columna real es **`order_no`** (con índice único `orders_order_no_key`) |
+
+Así que **la invitación a valorar coge el artículo de `order_items`**, que es el dato verificado, y no
+del pedido. Corregido en el bloque 4d.
 
 ---
 
-## BLOQUE 3 · el puente para emitir desde otro servicio · `lifebook.service.ts`
+---
 
-`cardMessage` es privado. Los servicios de pedidos y comercio necesitan uno público; sin él tendrían
-que duplicar el INSERT, y ya sabemos cómo acaba eso.
+## BLOQUE 3 · NO HACE FALTA — se deja escrito para que no se vuelva a intentar
 
-```ts
-  /**
-   * Emite una tarjeta desde OTRO servicio. Es `cardMessage`, con nombre público y nada más: un
-   * envoltorio de una línea.
-   *
-   * POR QUÉ NO SE HACE PÚBLICO `cardMessage` DIRECTAMENTE: porque su firma es la interna (admite
-   * `fromId`/`toId` sueltos y busca la conversación por pareja). Esta puerta deja claro que es un
-   * contrato entre servicios y permite cambiar la de dentro sin tocar a los que llaman.
-   */
-  async emitirTarjeta(entrada: {
-    convId?: string;
-    fromId?: string;
-    toId?: string;
-    cardType: string;
-    data?: Record<string, unknown>;
-    version?: string;
-    minAppVersion?: string;
-    preview?: string;
-  }) {
-    return this.cardMessage(entrada);
-  }
-```
+Este bloque iba a ser un método público `emitirTarjeta` en `LifebookService` para que los otros
+servicios pudieran emitir. **Se descarta**: los dos servicios que emiten **ya tienen su propio
+publicador de chat** (`publicarEnChat` y `avisarEnChat`), y ambos aceptan `kind` y `payload`. Añadir
+una puerta entre servicios habría creado una dependencia —y un riesgo de ciclo— para escribir algo que
+cada uno ya sabe escribir.
+
+**`cardMessage` sigue siendo privado**, que es lo correcto: es la emisión **desde dentro** de
+`LifebookService` (avisos de grupo, gestión, y lo que venga). Los flujos de pedidos y comercio no
+pasan por ahí.
 
 ---
 
@@ -365,7 +351,7 @@ método** y que lo usen tanto la tarjeta de pedido como los avisos de estado:
     }));
     return {
       orderId: String(order.id),
-      code: String(order.code ?? ''),
+      code: String(order.code ?? order.order_no ?? ''),
       shopName: order.shop?.name ? String(order.shop.name) : null,
       items,
       totalXaf: Number(order.totalXaf ?? 0) || 0,
@@ -408,25 +394,33 @@ Y `notify` pasa a emitir tarjeta en vez de texto. **El texto se queda**: sirve d
 lista de conversaciones, y una tarjeta sin vista previa deja la conversación en blanco.
 
 ```ts
-  private async notify(o: any, autorId: string, texto: string, accion?: string) {
+  /**
+   * El aviso de un pedido. Con `cardType` sale como TARJETA; sin él, como el `system` de siempre.
+   *
+   * SE PASA POR `publicarEnChat`, QUE YA EXISTE: acepta `kind` y `payload` y hace el INSERT con las
+   * reglas de no-leídos y de vista previa. No hay método nuevo, ni inyección, ni INSERT duplicado.
+   *
+   * EL TEXTO VA SIEMPRE EN EL `body`: es la vista previa de la lista de conversaciones, y una tarjeta
+   * sin vista previa deja la conversación en blanco.
+   */
+  private async notify(o: any, autorId: string, texto: string, cardType?: string, data?: Record<string, unknown>) {
     try {
       const otro = o.shop_owner === autorId ? o.buyer_id : o.shop_owner;
       if (!otro) return;
-      const cardType = accion ? TARJETA_DEL_AVISO[accion] : undefined;
-      // Sin tarjeta conocida, se manda el aviso de siempre: nunca se pierde un aviso por no tener
-      // una tarjeta que lo pinte.
+      const conv = await this.conversacionDirecta(autorId, otro);
+      if (!conv) return;
+
+      // Sin tarjeta conocida se manda el aviso de siempre: NINGÚN aviso se pierde por no tener una
+      // tarjeta que lo pinte. `system` sigue existiendo y se sigue usando.
       if (!cardType) {
-        const conv = await this.conversacionDirecta(autorId, otro);
-        if (!conv) return;
         await this.publicarEnChat(conv, autorId, texto, 'system', {});
         return;
       }
-      await this.lb.emitirTarjeta({
-        fromId: autorId,
-        toId: otro,
+
+      await this.publicarEnChat(conv, autorId, texto, 'card', {
         cardType,
-        data: { ...(await this.fotoDelPedido(o)), title: texto },
-        preview: texto,
+        // Si el aviso trae sus propios datos, mandan; si no, la foto del pedido.
+        data: data ?? await this.fotoDelPedido(o),
       });
     } catch (e) {
       this.log.warn(`no se pudo avisar del pedido: ${(e as Error).message}`);
@@ -434,49 +428,53 @@ lista de conversaciones, y una tarjeta sin vista previa deja la conversación en
   }
 ```
 
-Las llamadas de `orderAction` (líneas 845 y 861) pasan a llevar la acción:
+Las llamadas de `orderAction` (líneas 845 y 861) pasan a resolver la tarjeta de la acción:
 
 ```ts
     if (a === 'dispute' && motivo) {
-      await this.notify(o, userId, `El comprador abrió una reclamación: «${motivo}»`, a);
+      await this.notify(o, userId, `El comprador abrió una reclamación: «${motivo}»`, TARJETA_DEL_AVISO[a]);
       return this.orderDetail(orderId, userId);
     }
     ...
-    await this.notify(o, userId, aviso ?? 'El pedido cambió de estado', a);
+    await this.notify(o, userId, aviso ?? 'El pedido cambió de estado', TARJETA_DEL_AVISO[a]);
 ```
 
-`confirmDeliveryCode` (línea ~903) también avisa con `deliver`.
+`confirmDeliveryCode` (línea ~903) también avisa con `TARJETA_DEL_AVISO.deliver`.
 
 ### 4c · Los tres avisos que hoy no existen
 
-Los tres se emiten en el mismo sitio donde ocurre el hecho, con los datos que ya están cargados. **No
-se inventa ningún dato**: si el importe no está en la fila que se acaba de leer, no se manda el aviso.
+Los tres se emiten en el mismo sitio donde ocurre el hecho, **con los datos que ya están cargados**.
+No se inventa ninguno: si el importe no está en la fila que se acaba de leer, no se manda el aviso.
 
 ```ts
   // En markPaid, DESPUÉS de que el UPDATE confirme que se marcó (no antes):
-  await this.lb.emitirTarjeta({
-    fromId: o.seller_id, toId: o.buyer_id,
-    cardType: 'cobro',
-    data: { importe: `${Number(o.total_xaf)} XAF`, motivo: 'Pedido marcado como cobrado', estado: 'Cobrado' },
-    preview: 'Tu pedido se ha marcado como cobrado',
+  //   `total_xaf` SÍ es una columna de `orders` (verificado: se usa en este mismo fichero).
+  await this.notify(o, o.seller_id, 'Tu pedido se ha marcado como cobrado', 'cobro', {
+    importe: `${Number(o.total_xaf)} XAF`,
+    motivo: 'Pedido marcado como cobrado',
+    estado: 'Cobrado',
   });
 
   // En setDeliveryCost, después del UPDATE:
-  await this.lb.emitirTarjeta({
-    fromId: o.seller_id, toId: o.buyer_id,
-    cardType: 'cobro',
-    data: { importe: `${cost} XAF`, motivo: 'Coste de envío acordado', estado: 'Aceptar' },
-    preview: 'La tienda ha fijado el coste de envío',
+  await this.notify(o, o.seller_id, 'La tienda ha fijado el coste de envío', 'cobro', {
+    importe: `${Number(o.delivery_cost_xaf ?? cost)} XAF`,
+    motivo: 'Coste de envío acordado',
+    estado: 'Aceptar',
   });
 
   // En reviewOrder, después de guardar la reseña:
-  await this.lb.emitirTarjeta({
-    fromId: userId, toId: o.seller_id,
-    cardType: 'aviso',
-    data: { top: 'Gracias por tu valoración', content: `Has valorado «${o.title}» con ${rating} de 5` },
-    preview: 'El comprador ha dejado una valoración',
+  //   El título del artículo sale de la PRIMERA LÍNEA del pedido (`title_snapshot`), que es donde
+  //   está de verdad: `orders` NO tiene columna de título.
+  const linea: any[] = await this.db.$queryRaw`
+    SELECT title_snapshot FROM lifebook.order_items WHERE order_id = ${orderId}::uuid ORDER BY created_at LIMIT 1`;
+  await this.notify(o, userId, 'El comprador ha dejado una valoración', 'aviso', {
+    top: 'Gracias por tu valoración',
+    content: `Has valorado «${String(linea[0]?.title_snapshot ?? 'tu pedido')}» con ${rating} de 5`,
   });
 ```
+
+`o.delivery_cost_xaf` y `o.total_xaf` son columnas reales de `orders`; `title_snapshot` lo es de
+`order_items`. **Los tres están verificados sobre el código que ya los lee.**
 
 ### 4d · La invitación a valorar — CUÁNDO se dispara
 
@@ -491,29 +489,42 @@ Decisión: **se invita al entregar, una sola vez, y solo si no se ha valorado ya
    *   · `reviewOrder` ya existe y se puede comprobar si ya valoró — sin esa comprobación, cada
    *     cambio de estado volvería a pedirle la reseña;
    *   · si el pedido se cancela o se reclama, no se invita: no hay nada que valorar.
+   *
+   * LA TABLA Y SUS COLUMNAS ESTÁN VERIFICADAS: `lifebook.order_reviews` la lee y la escribe este
+   * mismo fichero (líneas 559 y 1043), con las columnas `order_id · shop_id · buyer_id · rating ·
+   * comment`. Y su INSERT lleva `ON CONFLICT (order_id) DO NOTHING`, o sea que `order_id` es ÚNICO:
+   * la propia base impide valorar dos veces, así que esta comprobación es exacta y no una
+   * aproximación.
    */
   if (cfg.to === 'delivered') {
     const yaValorada: any[] = await this.db.$queryRaw`
       SELECT 1 FROM lifebook.order_reviews WHERE order_id = ${orderId}::uuid LIMIT 1`;
+
     if (!yaValorada[0]) {
-      await this.lb.emitirTarjeta({
-        fromId: o.seller_id, toId: o.buyer_id,
-        cardType: 'invitacion-resena',
-        data: {
-          goods_name: String(o.title ?? ''),
-          goods_image: o.media_url ? String(o.media_url) : null,
-          reviewable: true,
-        },
-        preview: '¿Nos cuentas qué tal?',
+      /**
+       * EL ARTÍCULO SALE DE `order_items`, NO DEL PEDIDO.
+       *
+       * `orders` NO tiene columna de título ni de imagen: el título del pedido lo saca el código de
+       * `o.first_title ?? o.title ?? 'Pedido'` (línea 662), y `first_title` viene de las líneas. Las
+       * columnas reales de `order_items` están verificadas en el SELECT de `orderDetail`:
+       * `title_snapshot · variant_snapshot · media_url · quantity · unit_price_xaf · line_total_xaf`.
+       */
+      const linea: any[] = await this.db.$queryRaw`
+        SELECT title_snapshot, media_url FROM lifebook.order_items
+         WHERE order_id = ${orderId}::uuid ORDER BY created_at LIMIT 1`;
+
+      await this.notify(o, o.seller_id, '¿Nos cuentas qué tal?', 'invitacion-resena', {
+        goods_name: String(linea[0]?.title_snapshot ?? 'Tu pedido'),
+        goods_image: linea[0]?.media_url ? String(linea[0].media_url) : null,
+        reviewable: true,
       });
     }
   }
 ```
 
-> **Comprobar el nombre real de la tabla y las columnas antes de aplicar**: aquí se ha escrito
-> `lifebook.order_reviews` a partir de `reviewOrder`, y `o.title` / `o.media_url` a partir de lo que
-> devuelve `publicOrder`. **No se ha podido verificar contra la base de datos**, solo contra el
-> código que las lee.
+> **Cambio sobre la versión anterior de este parche**: la invitación usaba `o.title` y `o.media_url`,
+> que **no son columnas de `orders`**. Ahora el artículo sale de `order_items`, que es donde está de
+> verdad y donde está verificado.
 
 ---
 
@@ -531,24 +542,20 @@ el cliente no lee. Es el cambio más barato de todos: el dato ya viaja.
      * ANTES: esto se guardaba como `system` con el payload dentro, y el cliente solo miraba el
      * texto. El aviso de reposición mandaba `{ productId }` y ese dato se TIRABA.
      *
-     * AHORA: si el que llama dice qué tarjeta es, se emite como tarjeta y el dato se ve. Si no,
-     * sigue saliendo el texto de siempre — ningún aviso se pierde por no tener tarjeta.
+     * AHORA: si el que llama dice qué tarjeta es, se guarda como `card` y el dato se ve.
+     *
+     * SE CAMBIA EL `kind` DEL INSERT QUE YA ESTÁ AQUÍ, no se añade otro. Este método ya hace el
+     * INSERT completo con las reglas de no-leídos y de vista previa; lo único que hacía falta era
+     * dejar de escribir `'system'`. Cero código nuevo de conversación.
      */
-    if (tarjeta) {
-      await this.lb.emitirTarjeta({
-        convId: String(conv[0].id),
-        fromId: vendedor,
-        cardType: tarjeta,
-        data: payload,
-        preview: cuerpo,
-      });
-      return;
-    }
+    const kind = tarjeta ? 'card' : 'system';
+    const guardado = tarjeta ? { cardType: tarjeta, data: payload } : payload;
 
     await this.db.$executeRaw`
       INSERT INTO lifebook.messages (conversation_id, sender_id, body, kind, payload)
-      VALUES (${conv[0].id}::uuid, ${vendedor}::uuid, ${cuerpo}, 'system', ${JSON.stringify(payload)}::jsonb)`;
-    // … el UPDATE de la conversación se queda igual …
+      VALUES (${conv[0].id}::uuid, ${vendedor}::uuid, ${cuerpo}, ${kind}, ${JSON.stringify(guardado)}::jsonb)`;
+    // … el UPDATE de la conversación se queda igual: el `body` sigue llevando el texto, que es la
+    // vista previa de la lista de conversaciones …
   }
 ```
 
