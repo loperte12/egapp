@@ -245,6 +245,335 @@ en el servidor volvería a atar las dos mitades, que es exactamente lo que este 
 
 ---
 
+## PRERREQUISITO · inyectar `LifebookService` en los dos servicios
+
+**Ni `orders.service.ts` ni `commerce.service.ts` lo tienen hoy** (verificado: cero menciones a
+`LifebookService` en los dos). Sus constructores son:
+
+```ts
+// orders.service.ts:71
+constructor(
+  private readonly db: MobilityPrismaService,
+  private readonly wallets: WalletService,
+) {}
+
+// commerce.service.ts:137
+constructor(private readonly db: MobilityPrismaService) {}
+```
+
+Hay que añadirles la dependencia:
+
+```ts
+import { LifebookService } from './lifebook.service';
+
+// orders.service.ts
+constructor(
+  private readonly db: MobilityPrismaService,
+  private readonly wallets: WalletService,
+  private readonly lb: LifebookService,
+) {}
+
+// commerce.service.ts
+constructor(
+  private readonly db: MobilityPrismaService,
+  private readonly lb: LifebookService,
+) {}
+```
+
+### No hay dependencia circular, y está comprobado
+
+Es la primera cosa que hay que mirar antes de inyectar un servicio en otro, porque un ciclo en NestJS
+no falla al compilar: **falla al arrancar**, y con un mensaje que no dice por dónde va el ciclo.
+
+El constructor de `LifebookService` es:
+
+```ts
+constructor(
+  private readonly db: MobilityPrismaService,
+  private readonly ads: AdsService,
+) {}
+```
+
+**No inyecta `OrdersService` ni `CommerceService`.** La dirección es de un solo sentido
+(`Orders` → `Lifebook`, `Commerce` → `Lifebook`), así que NestJS lo resuelve sin `forwardRef` y sin
+tocar el orden de los `providers`.
+
+### Lo que NO se ha podido verificar
+
+**El fichero de módulo no está en esta copia.** `backend/server-src` no tiene ningún `*.module.ts`,
+así que no se puede confirmar aquí que `OrdersService`, `CommerceService` y `LifebookService` estén
+declarados **en el mismo módulo**. Si no lo están, el módulo de los dos primeros necesita
+`LifebookModule` en sus `imports` — y si `LifebookModule` ya importa el de ellos, entonces sí aparece
+un ciclo y hay que romperlo con `forwardRef` en los dos lados.
+
+**Comprobarlo antes de aplicar**: buscar en el servidor real el módulo que declara los tres.
+
+---
+
+## BLOQUE 3 · el puente para emitir desde otro servicio · `lifebook.service.ts`
+
+`cardMessage` es privado. Los servicios de pedidos y comercio necesitan uno público; sin él tendrían
+que duplicar el INSERT, y ya sabemos cómo acaba eso.
+
+```ts
+  /**
+   * Emite una tarjeta desde OTRO servicio. Es `cardMessage`, con nombre público y nada más: un
+   * envoltorio de una línea.
+   *
+   * POR QUÉ NO SE HACE PÚBLICO `cardMessage` DIRECTAMENTE: porque su firma es la interna (admite
+   * `fromId`/`toId` sueltos y busca la conversación por pareja). Esta puerta deja claro que es un
+   * contrato entre servicios y permite cambiar la de dentro sin tocar a los que llaman.
+   */
+  async emitirTarjeta(entrada: {
+    convId?: string;
+    fromId?: string;
+    toId?: string;
+    cardType: string;
+    data?: Record<string, unknown>;
+    version?: string;
+    minAppVersion?: string;
+    preview?: string;
+  }) {
+    return this.cardMessage(entrada);
+  }
+```
+
+---
+
+## BLOQUE 4 · los avisos de pedido pasan a tarjeta · `orders.service.ts`
+
+### 4a · La foto del pedido, en un solo sitio
+
+`publicarPedido` ya arma el objeto con la foto del momento (líneas 1130-1146). **Extráelo a un
+método** y que lo usen tanto la tarjeta de pedido como los avisos de estado:
+
+```ts
+  /**
+   * LA FOTO DEL PEDIDO. La usan la tarjeta de pedido y TODOS los avisos de estado.
+   *
+   * POR QUÉ ESTÁ AQUÍ Y NO DENTRO DE `publicarPedido`: si cada aviso armara su propio objeto, el día
+   * que se añada un campo a uno el otro seguiría sin él, y el mismo pedido se vería distinto según
+   * de qué aviso vengas. Un solo sitio, una sola verdad.
+   */
+  private async fotoDelPedido(order: any) {
+    const items = (Array.isArray(order.items) ? order.items : []).slice(0, MAX_LINES).map((i: any) => ({
+      title: String(i?.titleSnapshot ?? '').slice(0, 200),
+      variant: i?.variantSnapshot ? String(i.variantSnapshot).slice(0, 140) : null,
+      mediaUrl: i?.mediaUrl ? String(i.mediaUrl) : null,
+      quantity: Number(i?.quantity ?? 1) || 1,
+      lineTotalXaf: Number(i?.lineTotalXaf ?? 0) || 0,
+    }));
+    return {
+      orderId: String(order.id),
+      code: String(order.code ?? ''),
+      shopName: order.shop?.name ? String(order.shop.name) : null,
+      items,
+      totalXaf: Number(order.totalXaf ?? 0) || 0,
+      deliveryMode: order.deliveryMode ? String(order.deliveryMode) : null,
+      status: String(order.status ?? 'created'),
+    };
+  }
+```
+
+`publicarPedido` pasa a usar `const base = await this.fotoDelPedido(order);` y sigue igual.
+
+### 4b · El aviso de estado, con su tarjeta
+
+Al lado de `ACTIONS` y `FROM` (línea ~1 del fichero), el mapa de qué tarjeta lleva cada acción:
+
+```ts
+  /**
+   * QUÉ TARJETA LLEVA CADA AVISO DE ESTADO.
+   *
+   * Antes los ocho avisos eran una frase (`notify` escribe `system`): «Tu pedido está en
+   * preparación» sin el pedido. El comprador tenía que ir a «Mis pedidos» para saber QUÉ pedido.
+   *
+   * `deliver` y `send` llevan la tarjeta logística porque son los dos momentos en que se mira el
+   * envío; los demás llevan el aviso con el artículo, que es lo que se quiere confirmar de un
+   * vistazo.
+   */
+  const TARJETA_DEL_AVISO: Record<string, string> = {
+    accept: 'aviso-producto',
+    decline: 'cancelacion',
+    prepare: 'aviso-producto',
+    send: 'pedido-logistico',
+    ready: 'aviso-producto',
+    deliver: 'pedido-logistico',
+    cancel: 'cancelacion',
+    dispute: 'texto-acciones',
+  };
+```
+
+Y `notify` pasa a emitir tarjeta en vez de texto. **El texto se queda**: sirve de vista previa en la
+lista de conversaciones, y una tarjeta sin vista previa deja la conversación en blanco.
+
+```ts
+  private async notify(o: any, autorId: string, texto: string, accion?: string) {
+    try {
+      const otro = o.shop_owner === autorId ? o.buyer_id : o.shop_owner;
+      if (!otro) return;
+      const cardType = accion ? TARJETA_DEL_AVISO[accion] : undefined;
+      // Sin tarjeta conocida, se manda el aviso de siempre: nunca se pierde un aviso por no tener
+      // una tarjeta que lo pinte.
+      if (!cardType) {
+        const conv = await this.conversacionDirecta(autorId, otro);
+        if (!conv) return;
+        await this.publicarEnChat(conv, autorId, texto, 'system', {});
+        return;
+      }
+      await this.lb.emitirTarjeta({
+        fromId: autorId,
+        toId: otro,
+        cardType,
+        data: { ...(await this.fotoDelPedido(o)), title: texto },
+        preview: texto,
+      });
+    } catch (e) {
+      this.log.warn(`no se pudo avisar del pedido: ${(e as Error).message}`);
+    }
+  }
+```
+
+Las llamadas de `orderAction` (líneas 845 y 861) pasan a llevar la acción:
+
+```ts
+    if (a === 'dispute' && motivo) {
+      await this.notify(o, userId, `El comprador abrió una reclamación: «${motivo}»`, a);
+      return this.orderDetail(orderId, userId);
+    }
+    ...
+    await this.notify(o, userId, aviso ?? 'El pedido cambió de estado', a);
+```
+
+`confirmDeliveryCode` (línea ~903) también avisa con `deliver`.
+
+### 4c · Los tres avisos que hoy no existen
+
+Los tres se emiten en el mismo sitio donde ocurre el hecho, con los datos que ya están cargados. **No
+se inventa ningún dato**: si el importe no está en la fila que se acaba de leer, no se manda el aviso.
+
+```ts
+  // En markPaid, DESPUÉS de que el UPDATE confirme que se marcó (no antes):
+  await this.lb.emitirTarjeta({
+    fromId: o.seller_id, toId: o.buyer_id,
+    cardType: 'cobro',
+    data: { importe: `${Number(o.total_xaf)} XAF`, motivo: 'Pedido marcado como cobrado', estado: 'Cobrado' },
+    preview: 'Tu pedido se ha marcado como cobrado',
+  });
+
+  // En setDeliveryCost, después del UPDATE:
+  await this.lb.emitirTarjeta({
+    fromId: o.seller_id, toId: o.buyer_id,
+    cardType: 'cobro',
+    data: { importe: `${cost} XAF`, motivo: 'Coste de envío acordado', estado: 'Aceptar' },
+    preview: 'La tienda ha fijado el coste de envío',
+  });
+
+  // En reviewOrder, después de guardar la reseña:
+  await this.lb.emitirTarjeta({
+    fromId: userId, toId: o.seller_id,
+    cardType: 'aviso',
+    data: { top: 'Gracias por tu valoración', content: `Has valorado «${o.title}» con ${rating} de 5` },
+    preview: 'El comprador ha dejado una valoración',
+  });
+```
+
+### 4d · La invitación a valorar — CUÁNDO se dispara
+
+**No existía el flujo.** El componente está hecho (tarjeta 21) y la referencia lo manda al entregar.
+Decisión: **se invita al entregar, una sola vez, y solo si no se ha valorado ya.**
+
+```ts
+  // En orderAction, dentro del caso `deliver` y DESPUÉS de que el UPDATE confirme la entrega:
+  /**
+   * LA INVITACIÓN A VALORAR. Va aquí, al entregar, por tres razones:
+   *   · es el único momento en que el comprador tiene el producto en la mano;
+   *   · `reviewOrder` ya existe y se puede comprobar si ya valoró — sin esa comprobación, cada
+   *     cambio de estado volvería a pedirle la reseña;
+   *   · si el pedido se cancela o se reclama, no se invita: no hay nada que valorar.
+   */
+  if (cfg.to === 'delivered') {
+    const yaValorada: any[] = await this.db.$queryRaw`
+      SELECT 1 FROM lifebook.order_reviews WHERE order_id = ${orderId}::uuid LIMIT 1`;
+    if (!yaValorada[0]) {
+      await this.lb.emitirTarjeta({
+        fromId: o.seller_id, toId: o.buyer_id,
+        cardType: 'invitacion-resena',
+        data: {
+          goods_name: String(o.title ?? ''),
+          goods_image: o.media_url ? String(o.media_url) : null,
+          reviewable: true,
+        },
+        preview: '¿Nos cuentas qué tal?',
+      });
+    }
+  }
+```
+
+> **Comprobar el nombre real de la tabla y las columnas antes de aplicar**: aquí se ha escrito
+> `lifebook.order_reviews` a partir de `reviewOrder`, y `o.title` / `o.media_url` a partir de lo que
+> devuelve `publicOrder`. **No se ha podido verificar contra la base de datos**, solo contra el
+> código que las lee.
+
+---
+
+## BLOQUE 5 · la reposición de stock · `commerce.service.ts`
+
+`avisarEnChat` (línea 2806) **ya recibe un `payload`** y lo guarda dentro de un mensaje `system` que
+el cliente no lee. Es el cambio más barato de todos: el dato ya viaja.
+
+```ts
+  private async avisarEnChat(comprador: string, vendedor: string, texto: string, payload: Record<string, unknown>, tarjeta?: string) {
+    // … la búsqueda/creación de la conversación se queda igual …
+    const cuerpo = texto.slice(0, 300);
+
+    /**
+     * ANTES: esto se guardaba como `system` con el payload dentro, y el cliente solo miraba el
+     * texto. El aviso de reposición mandaba `{ productId }` y ese dato se TIRABA.
+     *
+     * AHORA: si el que llama dice qué tarjeta es, se emite como tarjeta y el dato se ve. Si no,
+     * sigue saliendo el texto de siempre — ningún aviso se pierde por no tener tarjeta.
+     */
+    if (tarjeta) {
+      await this.lb.emitirTarjeta({
+        convId: String(conv[0].id),
+        fromId: vendedor,
+        cardType: tarjeta,
+        data: payload,
+        preview: cuerpo,
+      });
+      return;
+    }
+
+    await this.db.$executeRaw`
+      INSERT INTO lifebook.messages (conversation_id, sender_id, body, kind, payload)
+      VALUES (${conv[0].id}::uuid, ${vendedor}::uuid, ${cuerpo}, 'system', ${JSON.stringify(payload)}::jsonb)`;
+    // … el UPDATE de la conversación se queda igual …
+  }
+```
+
+Y la llamada de la reposición (línea ~2784) pasa a decir su tarjeta y a mandar los datos que la
+tarjeta necesita —**hoy solo manda el `productId`**, así que hay que añadir título, imagen y
+variante a la consulta que ya se está haciendo:
+
+```ts
+    await this.avisarEnChat(
+      String(it.user_id),
+      String(it.vendedor),
+      texto,
+      {
+        productId: String(it.product_id),
+        productTitle: String(it.title ?? ''),
+        variantName: it.variant_name ? String(it.variant_name) : null,
+        imageUrl: it.media_url ? String(it.media_url) : null,
+        price: `${Number(it.price_xaf ?? 0)} XAF`,
+      },
+      'alerta-reposicion',
+    );
+```
+
+---
+
 ## Después de aplicar
 
 1. **Nada de migración**: `lifebook.messages.kind` es texto y `payload` es `jsonb`, así que un

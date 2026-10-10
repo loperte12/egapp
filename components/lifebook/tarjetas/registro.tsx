@@ -55,6 +55,7 @@ import { TarjetaRecordatorioPago } from './TarjetaRecordatorioPago';
 import { TarjetaVideo } from './TarjetaVideo';
 import { TarjetaInfraccion } from './TarjetaInfraccion';
 import { TarjetaNota } from './TarjetaNota';
+import { TarjetaReposicion } from './TarjetaReposicion';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
@@ -477,6 +478,29 @@ const REGISTRO: Record<string, Entrada> = {
           autor={x?.author ? { nombre: x.author.name ?? x.author.fullName, avatarUrl: x.author.avatarUrl } : null}
           esVenta={x?.sale}
           onAbrir={a.onAbrir ? () => a.onAbrir?.(nota.id) : undefined}
+        />
+      );
+    },
+  },
+  /**
+   * La primera tarjeta de LifeBook que NO viene de la referencia. Nace de un hallazgo del servidor:
+   * el aviso de reposición ya mandaba un `payload` con el `productId` dentro de un mensaje `system`
+   * que el cliente no leía. El dato viajaba y se tiraba.
+   */
+  'alerta-reposicion': {
+    descripcion: 'Vuelve a estar disponible un producto que se había agotado',
+    render: (d, a) => {
+      const x = d as {
+        title?: string | null; productTitle?: string | null; variantName?: string | null;
+        imageUrl?: string | null; price?: string | null; productId?: string | null;
+      };
+      return (
+        <TarjetaReposicion
+          producto={x?.productTitle ?? x?.title ?? ''}
+          variante={x?.variantName}
+          imagen={x?.imageUrl}
+          precio={x?.price}
+          onVer={a.onAbrir ? () => a.onAbrir?.(x?.productId ?? '') : undefined}
         />
       );
     },
