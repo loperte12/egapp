@@ -134,6 +134,56 @@ const CATALOGO = 'https://api.egrouteplan.com/api/ecomerse/catalog';
 const CATEGORIAS = 'https://api.egrouteplan.com/api/ecomerse/categories';
 
 /**
+ * LAS PESTAÑAS DEL FEED — el otro carril de Taobao, el de arriba.
+ *
+ * En la portada de Taobao hay **dos** carriles de pestañas y no son lo mismo:
+ *
+ *   · el del **feed** (`推荐` · `关注` · …) — elige QUÉ feed se ve, y es el que se queda pegado arriba;
+ *   · el de **categorías** (`categoryTab`, los 12 departamentos) — filtra DENTRO del feed.
+ *
+ * Hasta el 16/10/2026 aquí solo estaba el segundo, así que **«Siguiendo» no existía**: no era un
+ * descuido de estilo, era que la pantalla no tenía dónde ponerlo.
+ *
+ * **El mecanismo es el mismo que el de las categorías** (`Pestanas`, medido en Taobao): el árbol dice
+ * qué pestañas hay y cuál está activa, y la activa sale del índice de los datos.
+ */
+const FEEDS = [
+  { id: 'recomendado', etiqueta: 'Recomendado' },
+  { id: 'siguiendo', etiqueta: 'Siguiendo' },
+];
+
+/** El árbol del carril de feed: mismas `Pestanas` que las categorías, con las dos del feed. */
+function arbolDeFeeds(tema, activo = 0) {
+  const C = coloresDe(tema);
+  return {
+    tipo: 'Pestanas',
+    valor: '$feeds',
+    atributos: {
+      [K.PADDING_LEFT]: 16,
+      [K.PADDING_RIGHT]: 16,
+      [PESTANAS.COLOR_SELECCIONADO]: C.texto,
+      [PESTANAS.TAMANO_SELECCIONADO]: TAMANO_PESTANA_ACTIVA,
+      [PESTANAS.INDICADOR]: true,
+      [PESTANAS.INDICADOR_COLOR]: C.naranja,
+      [PESTANAS.INDICADOR_TIPO]: 'smile',
+      [PESTANAS.NEGRITA_SELECCIONADA]: true,
+      [PESTANAS.ESPACIO]: ESPACIO_PESTANAS,
+      /** El índice de la pestaña elegida, como en el carril de categorías. */
+      [PESTANAS.SELECCIONADA]: Math.max(0, Math.trunc(activo)),
+    },
+  };
+}
+
+/** Los datos del carril de feed: dos pestañas, y **cuál está activa sale de ellos**. */
+function datosDeFeeds(activoId) {
+  const indice = Math.max(0, FEEDS.findIndex((f) => f.id === (activoId ?? 'recomendado')));
+  return {
+    feeds: FEEDS.map((f, i) => ({ id: f.id, etiqueta: f.etiqueta, activa: i === indice })),
+    activo: FEEDS[indice].id,
+  };
+}
+
+/**
  * LAS TIENDAS QUE SIGUE EL USUARIO. Es el `GET /ecomerse/sellers/following` de la app, y por eso
  * **necesita el token**: sin él el servicio no sabe de quién son los seguidos.
  */
@@ -504,6 +554,16 @@ const REJILLA = {
   /** El radio de las tarjetas del feed es **6** en todo el corpus (`DXIMAGESPAN_CORNERRADIUS`, 864
    *  usos; la nuestra usaba 10). */
   RADIO: 6,
+  /**
+   * **Lo que respira la rejilla por arriba: 4.** No es una medida de Taobao —el corpus no trae una
+   * clave para «separación entre el carril y el feed»— sino una **decisión declarada**, tomada al ver
+   * en el móvil que entre el carril y la primera tarjeta quedaba un hueco que no separaba nada (el
+   * contador aportaba 26 y esto 8). Lo que separa de verdad es el contador.
+   *
+   * Va aparte de `MARGEN` (el lateral, que sí es 8) porque son dos decisiones distintas: el lateral
+   * alinea con el resto de la pantalla; el de arriba, no.
+   */
+  MARGEN_SUPERIOR: 4,
 };
 
 /**
@@ -641,7 +701,7 @@ function arbolDeRejilla(tema) {
       [LISTA.ROW_SPACING]: REJILLA.HUECO,
       [K.PADDING_LEFT]: REJILLA.MARGEN,
       [K.PADDING_RIGHT]: REJILLA.MARGEN,
-      [K.PADDING_TOP]: REJILLA.MARGEN,
+      [K.PADDING_TOP]: REJILLA.MARGEN_SUPERIOR,
     },
     hijos: [
       tarjetaDeRejilla(C, { nombre: PLANTILLA_ESTRECHA, span: 1, tamanoTitulo: 12 }),
@@ -834,6 +894,17 @@ const servidor = createServer((req, res) => {
       arbol: arbolDeSiguiendo(p.get('tema')),
       buscarDatos: () => datosDeSiguiendo(req?.headers?.authorization),
     }),
+    // **EL CARRIL DE FEED** (`Recomendado` · `Siguiendo`): el de arriba, el que elige qué feed se ve.
+    // El árbol se monta con los datos porque **la pestaña activa sale de ellos** (mismo mecanismo que
+    // el carril de categorías).
+    '/api/ecomerse/ui/feeds': (p) => ({
+      arbol: null,
+      buscarDatos: async () => {
+        const datos = datosDeFeeds(p.get('activo'));
+        const indice = Math.max(0, datos.feeds.findIndex((f) => f.activa));
+        return { datos, arbol: arbolDeFeeds(p.get('tema'), indice) };
+      },
+    }),
   };
 
   if (RUTAS[url.pathname]) {
@@ -943,7 +1014,7 @@ function arbolDeSiguiendo(tema) {
       [LISTA.ROW_SPACING]: 10,
       [K.PADDING_LEFT]: REJILLA.MARGEN,
       [K.PADDING_RIGHT]: REJILLA.MARGEN,
-      [K.PADDING_TOP]: REJILLA.MARGEN,
+      [K.PADDING_TOP]: REJILLA.MARGEN_SUPERIOR,
     },
     hijos: [
       {
@@ -998,4 +1069,4 @@ function arbolDeSiguiendo(tema) {
 
 // Se exporta para poder PROBAR el arbol sin arrancar el servidor: el oráculo comprueba que todas
 // las claves que manda el servidor son claves que el cliente conoce.
-export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, arbolDeSiguiendo, datosDeSiguiendo, PLANTILLA_TIENDA, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, CLAVE_ASPECTO, ASPECTO_TARJETA, REJILLA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, SORT_POR_DEFECTO, consultaDeCatalogo, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };
+export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, arbolDeSiguiendo, datosDeSiguiendo, PLANTILLA_TIENDA, FEEDS, arbolDeFeeds, datosDeFeeds, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, CLAVE_ASPECTO, ASPECTO_TARJETA, REJILLA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, SORT_POR_DEFECTO, consultaDeCatalogo, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };

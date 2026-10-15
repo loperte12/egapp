@@ -1419,3 +1419,74 @@ Su prueba encontró **un fallo real antes que el móvil**: con cero plazas, `sli
 2×5 con sus casos raros, que el catálogo son quince y cada uno con id/rótulo/icono/ruta, que **la
 rejilla de la Home no cita ningún id que no exista** —una plaza vacía en silencio—, y que la Home y el
 Mercado usan **el mismo** hook y el mismo selector, sin decidir perfiles ni urgencia por su cuenta).
+
+---
+
+## 26 · 关注: el carril de feed, y los dos defectos visuales (16/10)
+
+### 1 · 关注 estaba sin sitio, y eso ya tiene arreglo
+
+Lo pedido: **«sigue con 关注»**. Y lo primero que hizo falta no fue una lista: fue **el carril que
+elige el feed**. En Taobao hay **dos** carriles de pestañas y no son lo mismo:
+
+| carril | qué hace |
+|---|---|
+| **feed** (`推荐` · `关注`) | elige **qué feed** se ve. Va arriba y se queda pegado. |
+| **categorías** (`categoryTab`, 12) | filtra **dentro** del feed. |
+
+Aquí solo existía el segundo. Así que **«Siguiendo» no tenía dónde ponerse** — no era un descuido de
+estilo. Ya está: `ui/feeds` sirve el carril (mismas `Pestanas`, la activa sale de los datos) y la
+pantalla monta **los dos pegados**, el de feed arriba, como Taobao (`stickyHeaderIndices={[1, 2]}`).
+
+**Y el feed de Siguiendo se sirve**: `ui/siguiendo`, con **la sesión del usuario** y con
+**`Cache-Control: private, no-store`**. Las dos cosas, comprobadas **en producción**:
+
+```
+GET /api/ecomerse/ui/feeds?activo=siguiendo  → 200 · public, max-age=60 · activa: 1 (Siguiendo)
+GET /api/ecomerse/ui/siguiendo               → 200 · private, no-store · arbol: null
+GET /api/ecomerse/ui/siguiendo (con token)   → 200 · private, no-store · arbol: null
+```
+
+**Ese `null` es la verdad, no un fallo**: el endpoint de seguidos **no existe** en el backend de
+ecomerse (§24). La pestaña enseña su vacío —«Aquí verás las tiendas que sigues»— y **no rellena con
+nada inventado**. El día que el endpoint exista, esto se llena **sin tocar una línea del cliente**: la
+llamada ya va con la cabecera reenviada.
+
+### 2 · Los iconos, «más vivos»: el guardián de diseño tenía razón
+
+Lo pedido: los servicios «deberían tomar el aspecto que Taobao lleva, más vivos». El rasgo que se clona
+es que **Taobao no los pinta monocromos**: su rejilla de accesos es un mosaico de colores.
+
+**La primera versión que escribí traía quince colores a mano —y el guardián de diseño la puso en rojo
+en el acto** (`components/servicios/colorServicio.ts → hex: 0 → 15`). Y tenía razón: un color suelto en
+una pantalla no cambia con el tema, no pasa el contraste que el kit ya calculó y nadie puede reajustarlo
+en un sitio. Quedó así: se declara **el token** de cada servicio (`info`, `warning`, `success`…) y el
+color lo resuelve el tema. Con quince servicios y diez tokens, algunos repiten — lo que se busca es el
+mosaico, no quince tonos únicos. **La urgencia manda**: `emergencia` va con el `danger` del tema.
+
+### 3 · El hueco entre el carril y las tarjetas
+
+Lo pedido: «todavía hay mucho espacio de separación entre las categorías y las tarjetas». Medido dónde
+estaba: el contador aportaba **16 arriba + 10 abajo** y la rejilla **8 más** → **unos 47 dp** entre el
+carril y la primera tarjeta. Se veía como un hueco que no separaba nada.
+
+Queda en **4 + 4 + 4 ≈ 25 dp**. Los 4 del contador son **decisión declarada** (el corpus no trae una
+medida para «separación entre las pestañas y el feed»); los 4 de la rejilla van por su propio camino
+(`MARGEN_SUPERIOR`, aparte del lateral, que sí es 8 y alinea con la pantalla). Lo que separa de verdad
+es la línea del contador. **Comprobado en producción**: `rejilla` sirve `db779dc86d8bd514: 4`.
+
+### 4 · Lo que queda
+
+1. **El endpoint de seguidos** (tabla + 3 rutas) es **lo único** que falta para que 关注 enseñe datos.
+2. ⚠️ **La comprobación en el móvil de este cambio está PENDIENTE**: el teléfono se desconectó a mitad
+   (`adb devices` vacío). Los iconos con color y el hueco nuevo **no se han visto en pantalla**; lo que
+   hay es la geometría servida (arriba) y 148 pruebas. Es lo primero al volver a enchufarlo.
+3. El **feed entre tarjetas** sigue esperando contenido real que intercalar.
+4. La pantalla vieja de seguidos se borra **en el mismo commit** que la sustituya.
+
+### Verificación
+
+`tsc` **5** · `logica` **0** · `diseño` **en verde** (con el fichero de color, que empezó en rojo) ·
+oráculo **148/148** · producción: `feeds` 200 con la activa, `siguiendo` **private/no-store** y «nada»,
+`rejilla` con el margen 4 · la paridad de los dos servidores comprobada en **tres** árboles (rejilla,
+feeds y siguiendo), no solo en uno.

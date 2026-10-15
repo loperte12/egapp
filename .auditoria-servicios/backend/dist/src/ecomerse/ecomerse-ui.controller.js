@@ -271,7 +271,7 @@ const CLAVE_ACCION = 'ext:accion';
 exports.CLAVE_ACCION = CLAVE_ACCION;
 
 /** Las dos acciones de una tarjeta. **Son las que hoy impiden que la rejilla sustituya a la lista.** */
-const ACCIONES = { FAVORITO: 'ext:favorito', CARRITO: 'ext:carrito' };
+const ACCIONES = { FAVORITO: 'ext:favorito', CARRITO: 'ext:carrito', DEJAR_DE_SEGUIR: 'ext:dejardeseguir' };
 exports.ACCIONES = ACCIONES;
 
 /**
@@ -419,7 +419,7 @@ exports.ASPECTO_TARJETA = ASPECTO_TARJETA;
  *     `leftGap`/`rightGap` son de otra tabla). **Se usa el mismo 8 y se declara como decisión.**
  *   · `RADIO = 6` — el radio de las tarjetas del feed (`DXIMAGESPAN_CORNERRADIUS`, 864 usos).
  */
-const REJILLA = { COLUMNAS: 2, HUECO: 8, MARGEN: 8, RADIO: 6 };
+const REJILLA = { COLUMNAS: 2, HUECO: 8, MARGEN: 8, MARGEN_SUPERIOR: 4, RADIO: 6 };
 exports.REJILLA = REJILLA;
 
 /**
@@ -445,8 +445,156 @@ exports.TEMPLATE_NAME = TEMPLATE_NAME;
 /** Los nombres de NUESTRAS dos plantillas, al estilo de los de Taobao (espacio de nombres propio). */
 const PLANTILLA_ESTRECHA = 'mercado_tarjeta_estrecha';
 const PLANTILLA_ANCHA = 'mercado_tarjeta_ancha';
+/** La tarjeta de una TIENDA (el feed de seguidos): otra pantalla, otra tarjeta, mismo mecanismo. */
+const PLANTILLA_TIENDA = 'mercado_tarjeta_tienda';
+exports.PLANTILLA_TIENDA = PLANTILLA_TIENDA;
 exports.PLANTILLA_ESTRECHA = PLANTILLA_ESTRECHA;
 exports.PLANTILLA_ANCHA = PLANTILLA_ANCHA;
+
+/**
+ * **LAS PESTAÑAS DEL FEED** — el carril de arriba de Taobao (`推荐` · `关注`).
+ *
+ * No es lo mismo que el carril de categorías: este elige **qué feed** se ve; aquel filtra **dentro**
+ * del feed. Hasta el 16/10/2026 aquí solo estaba el segundo, así que «Siguiendo» no tenía dónde
+ * ponerse.
+ */
+const FEEDS = [
+    { id: 'recomendado', etiqueta: 'Recomendado' },
+    { id: 'siguiendo', etiqueta: 'Siguiendo' },
+];
+exports.FEEDS = FEEDS;
+
+function datosDeFeeds(activoId) {
+    const indice = Math.max(0, FEEDS.findIndex((f) => f.id === (activoId ?? 'recomendado')));
+    return {
+        feeds: FEEDS.map((f, i) => ({ id: f.id, etiqueta: f.etiqueta, activa: i === indice })),
+        activo: FEEDS[indice].id,
+    };
+}
+exports.datosDeFeeds = datosDeFeeds;
+
+/** El árbol del carril de feed: las mismas `Pestanas` que las categorías. */
+function arbolDeFeeds(tema, activo = 0) {
+    const C = coloresDe(tema);
+    return {
+        tipo: 'Pestanas',
+        valor: '$feeds',
+        atributos: {
+            [K.PADDING_LEFT]: 16,
+            [K.PADDING_RIGHT]: 16,
+            [PESTANAS.COLOR_SELECCIONADO]: C.texto,
+            [PESTANAS.TAMANO_SELECCIONADO]: TAMANO_PESTANA_ACTIVA,
+            [PESTANAS.INDICADOR]: true,
+            [PESTANAS.INDICADOR_COLOR]: C.naranja,
+            [PESTANAS.INDICADOR_TIPO]: 'smile',
+            [PESTANAS.NEGRITA_SELECCIONADA]: true,
+            [PESTANAS.ESPACIO]: ESPACIO_PESTANAS,
+            [PESTANAS.SELECCIONADA]: Math.max(0, Math.trunc(activo)),
+        },
+    };
+}
+exports.arbolDeFeeds = arbolDeFeeds;
+
+/** El árbol de SIGUIENDO: la lista de tiendas seguidas, con los widgets que ya existen. */
+function arbolDeSiguiendo(tema) {
+    const C = coloresDe(tema);
+    return {
+        tipo: 'Lista',
+        valor: '$tiendas',
+        atributos: {
+            [LISTA.COLUMN_COUNT]: 1,
+            [LISTA.ROW_SPACING]: 10,
+            [K.PADDING_LEFT]: REJILLA.MARGEN,
+            [K.PADDING_RIGHT]: REJILLA.MARGEN,
+            [K.PADDING_TOP]: REJILLA.MARGEN_SUPERIOR,
+        },
+        hijos: [
+            {
+                tipo: 'Contenedor',
+                atributos: {
+                    [TEMPLATE_NAME]: PLANTILLA_TIENDA,
+                    [SPAN_TARJETA]: 1,
+                    [K.ORIENTATION]: 0,
+                    [K.BACKGROUNDCOLOR]: C.tarjeta,
+                    [K.CORNERRADIUS]: REJILLA.RADIO,
+                    [K.PADDING_LEFT]: 10,
+                    [K.PADDING_RIGHT]: 10,
+                    [K.PADDING_TOP]: 10,
+                    [K.PADDING_BOTTOM]: 10,
+                    [K.ONPRESS]: '$item.id',
+                },
+                hijos: [
+                    {
+                        tipo: 'Imagen',
+                        valor: '$item.foto',
+                        atributos: { [K.LAYOUT_WIDTH]: 52, [CLAVE_ASPECTO]: ASPECTO_TARJETA, [K.CORNERRADIUS]: REJILLA.RADIO },
+                    },
+                    {
+                        tipo: 'Contenedor',
+                        atributos: { [K.ORIENTATION]: 1, [K.WEIGHT]: 1, [K.PADDING_LEFT]: 10 },
+                        hijos: [
+                            texto('$item.nombre', 14, C.texto, {}),
+                            texto('$item.seguidores', 11, C.secundario, { [K.PADDING_TOP]: 2 }),
+                            {
+                                tipo: 'Icono',
+                                valor: 'HeartOff',
+                                atributos: {
+                                    [K.ONPRESS]: '$item.id',
+                                    [CLAVE_ACCION]: ACCIONES.DEJAR_DE_SEGUIR,
+                                    [K.TEXTCOLOR]: C.secundario,
+                                    [K.TEXTSIZE]: 18,
+                                    [K.LAYOUT_WIDTH]: 26,
+                                    [K.LAYOUT_HEIGHT]: 26,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+}
+exports.arbolDeSiguiendo = arbolDeSiguiendo;
+
+/**
+ * LOS DATOS DE SIGUIENDO — **de quien pregunta**.
+ *
+ * Se reenvía la cabecera `Authorization` al API, que es el único que sabe de quién son. **Si el
+ * servicio no contesta, esto devuelve «nada» y no rellena con inventos**: hoy, medido, el endpoint
+ * `GET /ecomerse/sellers/following` **no existe** en el backend de ecomerse (`sellers/:id` se come la
+ * ruta y responde 400), así que esta sección sale vacía — y ese vacío es la verdad.
+ *
+ * ⚠️ **Cuando exista el endpoint, esta ruta funciona sin cambios de cliente**: la llamada ya va con la
+ * cabecera reenviada y con plazo.
+ */
+async function datosDeSiguiendo(authorization) {
+    if (!authorization) return null;
+    try {
+        const r = await fetch(SIGUIENDO_API, {
+            headers: { authorization: String(authorization) },
+            signal: typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(3000) : undefined,
+        });
+        if (!r.ok) return null;
+        const cuerpo = await r.json();
+        const tiendas = Array.isArray(cuerpo?.sellers) ? cuerpo.sellers : null;
+        if (!tiendas) return null;
+        return {
+            tiendas: tiendas.map((s) => ({
+                id: String(s.id ?? ''),
+                nombre: String(s.businessName ?? s.name ?? 'Tienda'),
+                seguidores: Number(s.followersCount ?? s.followers ?? 0),
+                anuncios: Number(s.anuncios ?? 0),
+                ciudad: String(s.city ?? ''),
+                ...(typeof s.photoKey === 'string' && /^https?:\/\//.test(s.photoKey) ? { foto: s.photoKey } : {}),
+                ...(s.badge ? { sello: String(s.badge) } : {}),
+            })),
+            total: Number(cuerpo?.total ?? tiendas.length),
+        };
+    } catch {
+        return null;
+    }
+}
+exports.datosDeSiguiendo = datosDeSiguiendo;
 
 /**
  * EL ORDEN POR DEFECTO del catálogo, **el mismo que manda la pantalla** (`SORT_CATALOGO` en
@@ -454,6 +602,9 @@ exports.PLANTILLA_ANCHA = PLANTILLA_ANCHA;
  * pidieran órdenes distintos, enseñarían **listas distintas del mismo catálogo** sin que nadie sepa
  * por qué.
  */
+/** El endpoint de seguidos del API (el que la app llama y que HOY NO EXISTE en el backend: ver abajo). */
+const SIGUIENDO_API = 'https://api.egrouteplan.com/api/ecomerse/sellers/following';
+
 const SORT_POR_DEFECTO = 'recommended';
 exports.SORT_POR_DEFECTO = SORT_POR_DEFECTO;
 
@@ -564,7 +715,7 @@ function arbolDeRejilla(tema) {
             [LISTA.ROW_SPACING]: REJILLA.HUECO,
             [K.PADDING_LEFT]: REJILLA.MARGEN,
             [K.PADDING_RIGHT]: REJILLA.MARGEN,
-            [K.PADDING_TOP]: REJILLA.MARGEN,
+            [K.PADDING_TOP]: REJILLA.MARGEN_SUPERIOR,
         },
         hijos: [
             tarjetaDeRejilla(C, { nombre: PLANTILLA_ESTRECHA, span: 1, tamanoTitulo: 12 }),
@@ -737,6 +888,39 @@ let EcomerseUiController = class EcomerseUiController {
             return { esquema: ESQUEMA_UI, arbol: null };
         }
     }
+
+    /**
+     * EL CARRIL DE FEED (`Recomendado` · `Siguiendo`).
+     *
+     * El árbol se monta con los datos porque **la pestaña activa sale de ellos**, igual que en el
+     * carril de categorías. No necesita sesión: qué feeds existen no es de nadie.
+     */
+    async feeds(tema, activo) {
+        const datos = datosDeFeeds(activo);
+        const indice = Math.max(0, datos.feeds.findIndex((f) => f.activa));
+        return { esquema: ESQUEMA_UI, arbol: arbolDeFeeds(tema, indice), datos };
+    }
+
+    /**
+     * EL FEED DE SIGUIENDO: las tiendas que sigue el usuario. **Datos de quien pregunta.**
+     *
+     * Reenvía la cabecera `Authorization` al API, que es el único que sabe de quién son. Si no hay
+     * cabecera, o el servicio no contesta, devuelve **«nada»** (`arbol: null`): la pantalla enseña su
+     * vacío, que hoy es la verdad — el endpoint de seguidos todavía no existe en el backend.
+     *
+     * **Y por eso esta ruta NO se cachea en público** (ver el `Cache-Control: private, no-store` de su
+     * decorador): una respuesta con las tiendas de alguien, en una caché compartida, la ve el siguiente.
+     */
+    async siguiendo(tema, authorization) {
+        try {
+            const datos = await datosDeSiguiendo(authorization);
+            if (!datos) return { esquema: ESQUEMA_UI, arbol: null };
+            return { esquema: ESQUEMA_UI, arbol: arbolDeSiguiendo(tema), datos };
+        } catch (e) {
+            this.log.warn(`no se pudo montar el feed de seguidos: ${(e && e.message) || e}`);
+            return { esquema: ESQUEMA_UI, arbol: null };
+        }
+    }
 };
 exports.EcomerseUiController = EcomerseUiController;
 __decorate([
@@ -788,6 +972,32 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], EcomerseUiController.prototype, "categorias", null);
+__decorate([
+    (0, common_1.Get)('feeds'),
+    // Qué feeds existen y cuál está activo no cambia casi nunca: la misma caché corta y pública que
+    // el carril de categorías. **El tema viaja en la URL**, así que cada modo es una respuesta.
+    (0, common_1.Header)('Cache-Control', 'public, max-age=60'),
+    __param(0, (0, common_1.Query)('tema')),
+    __param(1, (0, common_1.Query)('activo')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], EcomerseUiController.prototype, "feeds", null);
+__decorate([
+    (0, common_1.Get)('siguiendo'),
+    /**
+     * **`private, no-store`, y no es rendimiento.** Esta respuesta es de QUIEN PREGUNTA: las tiendas que
+     * sigue. En una caché compartida —aunque fuera de un segundo— se le servirían al siguiente que
+     * preguntara, y eso no se arregla con un `max-age` corto: se arregla no guardándola.
+     */
+    (0, common_1.Header)('Cache-Control', 'private, no-store'),
+    __param(0, (0, common_1.Query)('tema')),
+    // La cabecera del usuario, tal cual: el API es el único que sabe de quién son los seguidos.
+    __param(1, (0, common_1.Headers)('authorization')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], EcomerseUiController.prototype, "siguiendo", null);
 exports.EcomerseUiController = EcomerseUiController = __decorate([
     (0, common_1.Controller)('ecomerse/ui'),
     __metadata("design:paramtypes", [ecomerse_service_1.EcomerseService])

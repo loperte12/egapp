@@ -28,8 +28,9 @@
 import React, { useMemo, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { LayoutGrid } from 'lucide-react-native';
-import { espaciado, peso, radios, tipografia, useTheme } from '@egrouteplan/ui-kit';
+import { espaciado, peso, radios, tipografia, useTheme, alpha } from '@egrouteplan/ui-kit';
 
+import { colorDeServicio } from './colorServicio';
 import { reparteServicios } from './repartoServicios';
 import { SelectorDePerfil } from './SelectorDePerfil';
 import { useServicios } from './useServicios';
@@ -69,12 +70,17 @@ export function FilaServicios({ alAbrirEmergencia, filas = 2, columnas = 5, test
     textSecondary: colors.textSecondary,
   };
 
-  /** Una celda de servicio: círculo con su icono y su rótulo. */
+  /** Una celda de servicio: círculo con su icono y su rótulo. **Con el color de su servicio**: Taobao
+   *  pinta su rejilla de accesos como un mosaico de colores, no monocroma (ver `colorServicio`). */
   const celdaServicio = (item: typeof servicios[number], compacta = true) => {
     const Icon = item.icon;
     const apagado = !!item.comingSoon;
     const urgente = item.tone === 'emergency';
     const ancho = compacta ? { width: `${100 / columnas}%` as const } : { width: 64 };
+    // **La urgencia manda**: el rojo crítico del tema no compite con la paleta de los servicios.
+    // Y el color del servicio sale del TEMA (`colorDeServicio`), no de un hex escrito aquí: así cambia
+    // con el modo claro/oscuro y pasa el contraste que el kit ya calculó.
+    const color = urgente ? colors.danger : colorDeServicio(item.id, colors, colors.textSecondary);
     return (
       <Pressable
         key={item.id}
@@ -88,10 +94,12 @@ export function FilaServicios({ alAbrirEmergencia, filas = 2, columnas = 5, test
         style={({ pressed }) => [s.celda, ancho, { opacity: apagado ? 0.45 : pressed ? 0.6 : 1 }]}
       >
         <View style={[s.circulo, {
-          backgroundColor: colors.surface,
-          borderColor: urgente ? colors.danger : colors.border,
+          // El círculo lleva el color del servicio **rebajado**, y el icono a color entero: así la
+          // celda tiene color sin convertirse en un bloque que compite con la foto de al lado.
+          backgroundColor: alpha(color, 0.14),
+          borderColor: alpha(color, 0.28),
         }]}>
-          <Icon size={compacta ? 20 : 24} color={urgente ? colors.danger : colors.textPrimary} />
+          <Icon size={compacta ? 20 : 24} color={color} />
         </View>
         <Text numberOfLines={2} style={[s.rotulo, { color: colors.textPrimary }]}>{item.label}</Text>
       </Pressable>

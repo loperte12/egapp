@@ -231,6 +231,13 @@ export default function EcomerseScreen() {
    * avisa. Repetir aquí el modal sería tener dos emergencias distintas.
    */
   const [emergencia, setEmergencia] = useState(false);
+  /**
+   * **Qué feed se está viendo** (`Recomendado` · `Siguiendo`): el carril de arriba de Taobao. Antes de
+   * esto no existía, y por eso «Siguiendo» no tenía dónde ponerse — no era un descuido de estilo.
+   */
+  const [feedActivo, setFeedActivo] = useState<'recomendado' | 'siguiendo'>('recomendado');
+  /** El estado de la sección de seguidos, para su vacío y su error (mismo contrato que la rejilla). */
+  const [estadoSiguiendo, setEstadoSiguiendo] = useState<'cargando' | 'lista' | 'vacia' | 'error'>('cargando');
 
   /**
    * **La búsqueda con retardo.** La rejilla se pide por RUTA (`?buscar=…`), así que sin retardo habría
@@ -563,7 +570,7 @@ export default function EcomerseScreen() {
           testID="mercado-servidor"
           // **La barra de departamentos (el hijo 1) se queda pegada arriba**: es lo que hace Taobao con
           // sus pestañas, y es lo que se pidió. El índice apunta a un hijo DIRECTO del scroll.
-          stickyHeaderIndices={[1]}
+          stickyHeaderIndices={[1, 2]}
           contentContainerStyle={[s.listContent, { paddingBottom: PIE_MERCADO_H + insets.bottom + espaciado.e32 }]}
           keyboardShouldPersistTaps="handled"
           refreshControl={
@@ -577,6 +584,8 @@ export default function EcomerseScreen() {
           }
         >
           <View>
+            {feedActivo === 'recomendado' ? (
+            <>
             {/*
               ── LOS SERVICIOS, EN LA CABECERA (15/10/2026) ──────────────────────────────────────────
 
@@ -604,25 +613,49 @@ export default function EcomerseScreen() {
               desplazable={false}
               alTocar={(id) => router.push({ pathname: '/ecomerse-detail', params: { id } } as never)}
             />
+            </>
+            ) : null}
+          </View>
+
+          {/*
+            ── EL CARRIL DE FEED, PEGADO: `Recomendado` · `Siguiendo` (16/10/2026) ──────────────────
+
+            **Es el carril de arriba de Taobao** (`推荐` · `关注`), y no es lo mismo que el de
+            departamentos: este elige **qué feed** se ve; aquel filtra **dentro** del feed. Hasta hoy
+            aquí solo estaba el segundo, así que «Siguiendo» **no tenía dónde ponerse**: no era un
+            descuido de estilo, era que faltaba la estructura.
+
+            Va el primero de los pegados (índice 1) porque es el que manda: al cambiar de feed, el de
+            departamentos desaparece —filtrar un feed que no estás viendo no significa nada—.
+          */}
+          <View style={[s.barraPegada, { backgroundColor: colors.background }]} testID="feeds-carril">
+            <FranjaServidor
+              ruta={`feeds?activo=${encodeURIComponent(feedActivo)}`}
+              testID="feeds-servidor"
+              desplazable={false}
+              alTocar={(id) => setFeedActivo(id === 'siguiendo' ? 'siguiendo' : 'recomendado')}
+            />
           </View>
 
           {/*
             ── LA BARRA DE DEPARTAMENTOS, **PEGADA** (15/10/2026) ──────────────────────────────────
 
-            Es el segundo hijo DIRECTO del `ScrollView` y por eso es el que se queda: `stickyHeaderIndices={[1]}`
-            la ancla arriba en cuanto su sitio pasa por debajo de la cabecera. **Es lo que hace Taobao** —sus
-            pestañas `categoryTab` no se van con el contenido— y es lo que se pidió: con 18 departamentos,
-            perderlos al bajar obligaba a subir para cambiar de categoría, que es justo lo que se hace
-            mientras se mira el catálogo.
+            Es el segundo de los pegados: `stickyHeaderIndices={[1, 2]}` los apila —el de feed arriba,
+            este debajo—, que es como se ve en Taobao. **Es lo que hace Taobao** con `categoryTab`: con
+            18 departamentos, perderlos al bajar obligaba a subir para cambiar de categoría, que es
+            justo lo que se hace mientras se mira el catálogo.
 
             **El `backgroundColor` no es decoración**: sin él, el catálogo se ve pasar POR DEBAJO de los
-            rótulos al desplazar y la barra parece rota. Y va pegado también el hueco de abajo, para que el
-            contenido no asome por la línea de la barra.
+            rótulos al desplazar y la barra parece rota.
 
             El envoltorio `<View>` hace falta aunque solo tenga un hijo: `stickyHeaderIndices` señala a un
             hijo DIRECTO, y la sección servida no puede ocupar ese sitio (necesita su propio contenedor).
+            **Y el envoltorio está SIEMPRE** aunque dentro no haya nada: si el hijo desapareciera, los
+            índices de los pegados se correrían y se pegaría la barra equivocada.
           */}
           <View style={[s.barraPegada, { backgroundColor: colors.background }]}>
+            {feedActivo === 'recomendado' ? (
+            <>
             {/* PESTAÑAS DE DEPARTAMENTOS — lo primero bajo la barra de búsqueda.
                 Es la estructura de la referencia: el primer nivel son pestañas, la activa se marca
                 con color y subrayado, y la fila **desliza** en vez de aplastarse (18 departamentos
@@ -656,10 +689,14 @@ export default function EcomerseScreen() {
               desplazable={false}
               alTocar={(id) => chooseCat(id)}
             />
+            </>
+            ) : null}
           </View>
 
           {/* Y AQUÍ EMPIEZA LO QUE SÍ SE VA CON EL CONTENIDO: familias, contador y rejilla. */}
           <View>
+            {feedActivo === 'recomendado' ? (
+            <>
 
             {/* LA REJILLA — las familias del departamento activo, con la imagen del servidor.
                 La imagen **no es de la familia**: la familia no tiene ninguna (0 de 110 tienen
@@ -796,6 +833,47 @@ export default function EcomerseScreen() {
                   onReintentar={recargar}
                 />
               </View>
+            )}
+            </>
+            ) : (
+            <>
+              {/*
+                ── EL FEED DE SIGUIENDO ────────────────────────────────────────────────────────────
+
+                Las tiendas que sigue el usuario, **servidas** (`ui/siguiendo`) y **con su sesión**:
+                son datos de quien pregunta, y un árbol público no puede servirlos (ver el
+                `Cache-Control: private, no-store` de esa ruta).
+
+                ⚠️ **HOY ESTO SALE VACÍO, Y ES LA VERDAD**: el backend de ecomerse **no tiene el
+                endpoint de seguidos** (medido: `GET /sellers/following` → 400 porque `sellers/:id` se
+                come la ruta; `/following/ids` → 404). El árbol, la sección con sesión y el carril de
+                feed están hechos y probados; **lo que falta es el dato**, y no se rellena con nada
+                inventado. El día que exista el endpoint, esto se llena sin tocar una línea del cliente.
+              */}
+              <FranjaServidor
+                ruta="siguiendo"
+                testID="siguiendo-servidor"
+                desplazable={false}
+                conSesion
+                recarga={recarga}
+                alTocar={(id) => router.push({ pathname: '/ecomerse-tienda', params: { id } } as never)}
+                alEstado={setEstadoSiguiendo}
+              />
+              {estadoSiguiendo === 'cargando' && (
+                <View style={{ paddingTop: espaciado.e24, alignItems: 'center' }}>
+                  <ActivityIndicator color={colors.textPrimary} />
+                </View>
+              )}
+              {(estadoSiguiendo === 'vacia' || estadoSiguiendo === 'error') && (
+                <EmptyState
+                  emoji="🏬"
+                  titulo="Aquí verás las tiendas que sigues"
+                  texto="Este es el feed de Siguiendo: cuando sigas una tienda, sus novedades aparecen aquí, en orden."
+                  accionLabel="Ver el directorio de tiendas"
+                  onAccion={() => router.push('/ecomerse-tiendas' as any)}
+                />
+              )}
+            </>
             )}
           </View>
         </ScrollView>
@@ -998,7 +1076,16 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
      carril entero: las clases de una familia se eligen en la hoja (`<Sheet>`), no en una fila de
      chips. Dejarla habría sido una hoja de estilo que nadie aplica —el patrón del archivo es que una
      pieza que se va se lleva sus estilos—. */
-  resultsLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, paddingHorizontal: espaciado.e16, marginTop: espaciado.e16, marginBottom: espaciado.e10 },
+  /**
+   * El contador de resultados: «9 productos».
+   *
+   * **Va pegado al carril de arriba y a las tarjetas de abajo** (4 y 4). Antes tenía 16 arriba y 10
+   * abajo, y con los 8 del margen de la rejilla sumaban **unos 47 dp entre el carril y la primera
+   * tarjeta**: se veía como un hueco que no separaba nada. Los 4 dp de cada lado son una decisión
+   * declarada —el corpus no trae una medida para «separación entre las pestañas y el feed»— y lo que
+   * separa de verdad es la línea del propio contador.
+   */
+  resultsLabel: { fontSize: tipografia.caption, fontWeight: peso.fuerte, color: c.textSecondary, paddingHorizontal: espaciado.e16, marginTop: espaciado.e4, marginBottom: espaciado.e4 },
   colWrap: { gap: espaciado.e10, paddingHorizontal: espaciado.e16 },
   listContent: { paddingBottom: espaciado.e32 },
   /* `modalWrap`/`modalCard`/`modalHead`/`modalTitle` murieron con los dos modales de la home
