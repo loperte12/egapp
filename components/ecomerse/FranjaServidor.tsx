@@ -34,6 +34,7 @@ import { View, useColorScheme } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 
 import { pedirUi, type NodoRemoto } from '../../api/ecomerseUi';
+import { CLAVES_VALOR } from './valorAtributos';
 import { Renderizador } from './Renderizador';
 
 export interface FranjaServidorProps {
@@ -54,6 +55,15 @@ export interface FranjaServidorProps {
    */
   alTocar: (id: string) => void;
   /**
+   * **La acción que pide el árbol** (`ext:accion`): `ext:favorito`, `ext:carrito`…
+   *
+   * Si no se pasa, un toque con acción se trata como un toque normal — **nunca se pierde el toque
+   * en silencio**, que es lo que dejaría un corazón que no hace nada.
+   *
+   * Los `datos` de la sección van también: la acción es sobre un producto, y el producto está ahí.
+   */
+  alAccion?: (accion: string, id: string, datos: unknown, nodo: unknown) => void;
+  /**
    * Estilo del contenedor de la franja. **Hace falta cuando la sección lleva una lista**: un
    * `FlatList` sin altura dentro de un contenedor flexible mide cero, y la sección sale vacía sin
    * ningún error. Quien la usa decide cuánto ocupa.
@@ -62,7 +72,7 @@ export interface FranjaServidorProps {
   testID?: string;
 }
 
-export function FranjaServidor({ ruta, alTocar, style, testID }: FranjaServidorProps) {
+export function FranjaServidor({ ruta, alTocar, alAccion, style, testID }: FranjaServidorProps) {
   const [arbol, setArbol] = useState<NodoRemoto | null>(null);
   const [datos, setDatos] = useState<unknown>(undefined);
 
@@ -91,7 +101,17 @@ export function FranjaServidor({ ruta, alTocar, style, testID }: FranjaServidorP
         testID={testID ?? 'franja-servidor'}
         arbol={arbol as never}
         datos={datos}
-        alEvento={(id) => alTocar(id)}
+        // **El nombre del evento lleva el ID del producto** (es como la tarjeta navega a la ficha).
+        // La ACCIÓN —corazón, carrito— viaja aparte, en `ext:accion`, y el `Renderizador` no tiene
+        // que saber nada: la resuelve él, porque es un atributo resuelto como cualquier otro.
+        alEvento={(id, nodo) => {
+          const accion = (nodo?.atributos as Record<string, unknown> | undefined)?.[CLAVES_VALOR.ACCION];
+          if (typeof accion === 'string' && alAccion) {
+            alAccion(accion, String(id), datos, nodo);
+            return;
+          }
+          alTocar(String(id));
+        }}
       />
     </View>
   );

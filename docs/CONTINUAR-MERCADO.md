@@ -639,3 +639,73 @@ nada**; y nunca escribe credenciales en ningún fichero.
   del `module.js` vivo, que es con la que se comprobó que el árbol extraído era el desplegado).
 - Como la receta ya vive en `pruebas/`, los temporales **no hacen falta para volver a desplegar**: se
   parte siempre del código vivo.
+
+---
+
+## 16 · Favorito y carrito AL CONTRATO (15/10) — y el análisis de las categorías de Taobao
+
+### Las dos acciones: lo que impedía que la rejilla sustituyera a la lista
+
+```
+{ "tipo": "Icono", "valor": "Heart",
+  "atributos": { "47d68a4bafe73f71": "$item.id",      // ONPRESS → el id (la navegación sigue igual)
+                 "ext:accion": "ext:favorito" } }      // y la ACCIÓN, en su propio atributo
+```
+
+| pieza | dónde | por qué así |
+|---|---|---|
+| **La clave** | `valorAtributos.ts` → `CLAVES_VALOR.ACCION = 'ext:accion'` | `ext:` no es estilo: **es imposible confundirla con una clave de Taobao** (16 hex). Es el sitio donde ya viven las extensiones (`ext:tabla`, `ext:defecto`, `ext:separador`) |
+| **Los valores** | `ACCIONES = { FAVORITO: 'ext:favorito', CARRITO: 'ext:carrito' }` | declarados por el **cliente**; el servidor los usa, no los inventa |
+| **El id** | sigue en `ONPRESS` | **la navegación no se rompe**: un id no dice qué hacer, pero sí a quién |
+| **El puente** | `FranjaServidor` lee `ext:accion` del nodo y llama a `alAccion(accion, id, datos)` | **el `Renderizador` no se toca**: la acción es un atributo resuelto como cualquier otro. Sin `alAccion`, el toque se trata como toque normal — **nunca se pierde en silencio** |
+| **La ejecución** | `app/ecomerse-ui.tsx` → `useAccionesProducto` | **las acciones REALES de la app** (puerta de sesión, vuelta atrás si la API falla, guarda de combinaciones), no una copia |
+
+Y un arreglo que salió al hacerlo: **el `Icono` ignoraba el vocabulario de TEXTO.** Su propia
+documentación dice que `X_ICON_FONT_VIEW` **es un `TextView`** y que hereda `TEXT`/`TEXTCOLOR`/
+`TEXTSIZE`; el componente leía `dx` solo para los márgenes, así que **un icono con `TEXTCOLOR` salía
+negro sobre la tarjeta oscura** — invisible. Ahora resuelve color y tamaño con `resolverTexto`, el
+mismo que usa el `Texto`. *(El formato de Taobao `#AARRGGBB` se canoniza a `#RRGGBBAA`, que es lo que
+entiende React Native.)*
+
+**Verificado en producción** (`codeSha256 bacae0a6…`, Active, 89.285.117 B): el árbol sirve **4 nodos
+de acción** (2 columnas × [corazón, carrito]) con `Heart` / `ShoppingCart`, y
+`verificar-produccion.mjs` sigue en EXIT=0. Oráculo **107/107** (6 nuevos).
+
+### El análisis de las categorías: `mercado-fase1/re-e-categorias/`
+
+**Informe completo**: `INFORME-CATEGORIAS-TAOBAO.md` (+ `analizar.mjs`, `hallazgos.mjs`,
+`pestanas.mjs`, `lista-tabs.mjs` y sus `out/*.txt`, reproducibles).
+
+Lo esencial, medido sobre el APK:
+
+- **Las páginas son CONTENEDORES de secciones**: `awesome/container_*.json` traen
+  `sections[]` con `sectionBizCode` + `item` + **`template { name, url, version, columnType }`**
+  (plantilla **remota** y versionada) + `style.styleData.*`. La portada son 2 secciones
+  (`categoryTab` + `DXSearchBar`) y la portada de contenido está en `container_newface_home_sub.json`
+  (99 KB, 10 secciones).
+- **Las categorías son PESTAÑAS, y son dato**: `sections[0].content.tabs[]` con `text` (闪购, 国补,
+  年货节…), `tabId`, `pageUrl`, `searchParams`, y por pestaña `labelImg/labelSelectImg/labelDarkImg`,
+  `aspectRatio`, fatiga de GIF… El **tema** son **31 tokens** claro/oscuro
+  (`textColor #31192D` / `darkTextColor #FFFFFF`, `textSelectColor #FF5500`, `tabIndicatorColor
+  #FF5000`, `tabIndicatorType: smile`, arcos, `tabBgColor`…) y **cuatro tipos de pestaña**
+  (`argsTypeMap: text|img|gif|bubble`).
+- **La barra de pestañas también es dato**: `tabmenu_cache.json` trae las pestañas inferior y superior
+  con `channelType`, `jumpUrl`, `spm` y **colores claro/oscuro por estado**.
+- **La pantalla de 关注 sí agrupa varios estilos**: la página es `cardList` por áreas
+  (`headArea` → `tabArea` → `feedArea`), las **8 pestañas** son categorías por `subChannelType`
+  (**listas de IDs reales de Taobao**), y 关注 tiene **9 tarjetas/estados** con su `span`
+  (título, directo, visitas frecuentes, menú, recomendación, «ver más», **estado vacío**, push).
+  Catálogo: 41 plantillas, **span 1 → 10 y span 2 → 31**.
+- **Lo que NO hay, y es el hallazgo**: ni una clase de categorías en las 4.525 clases decompiladas, ni
+  la página 分类 en la caché. **「汽车」 aparece 3 veces y las tres son títulos de producto**; «分类»
+  13 veces, todas nombres de experimentos o escenas. **La taxonomía llega de `mtop` en tiempo de
+  ejecución**: el APK guarda el molde y una muestra, no el árbol de categorías.
+
+**Y la conclusión de alcance, que confirma lo que decías**: replicar la portada de Taobao entera exige
+decodificar `homepage/*` y su lenguaje de expresiones — **RE de varios turnos**. Este informe deja el
+molde medido, el plan por pasos y los huecos dichos.
+
+**Siguiente, en orden** (del §8 del informe): (1) **widget de pestañas** con los tokens medidos;
+(2) **`span` por tarjeta** en `Lista` (span 1 y 2 mezclados, como Taobao); (3) **tarjetas
+heterogéneas** (un árbol distinto por elemento, no uno por lista); (4) la pantalla de categorías con
+**la taxonomía del Mercado** (`department/family/leaf`), no con IDs de Taobao.

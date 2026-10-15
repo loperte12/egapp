@@ -35,6 +35,7 @@ import React from 'react';
 import * as Lucide from 'lucide-react-native';
 import { GLOSARIO, nombreDeIcono, lucideDeIcono } from './iconoGlosario';
 import { estiloDeCaja, type AtributosDxLayout } from './layoutAtributos';
+import { resolverTexto } from './textoAtributos';
 
 /** Los nombres semánticos que el glosario cubre. */
 export type NombreIcono = (typeof GLOSARIO)[keyof typeof GLOSARIO]['nombre'];
@@ -44,7 +45,9 @@ export interface IconoProps {
   dx?: AtributosDxLayout;
   /** Nombre semántico: `cart_light`, `right`, `nd_logistics`… */
   nombre: NombreIcono | string;
+  /** Tamaño en puntos. **Si no se dice, sale del vocabulario de texto** (`TEXTSIZE`), y si tampoco, 20. */
   tamano?: number;
+  /** Color. **Si no se dice, sale del vocabulario de texto** (`TEXTCOLOR`) — es lo que hace Taobao. */
   color?: string;
   /** Grosor del trazo. lucide lo usa; Taobao no tiene equivalente. */
   trazo?: number;
@@ -65,7 +68,18 @@ function componenteLucide(nombre: string): React.ComponentType<any> | null {
  * <Icono nombre="right" tamano={16} color="#888" />
  * ```
  */
-export function Icono({ nombre, tamano = 20, color, trazo = 2, dx, style, testID }: IconoProps) {
+export function Icono({ nombre, tamano, color, trazo = 2, dx, style, testID }: IconoProps) {
+  // ── EL VOCABULARIO DE TEXTO, QUE ES SUYO ─────────────────────────────────────────────────────
+  // `X_ICON_FONT_VIEW` **es un TextView**: en Taobao el icono se pinta como texto, así que hereda
+  // `TEXT` / `TEXTCOLOR` / `TEXTSIZE` de la clase de texto. **Este componente no lo hacía**: leía
+  // `dx` solo para los márgenes, así que un icono con `TEXTCOLOR` en el árbol salía **negro sobre
+  // una tarjeta oscura**, invisible, y con el tamaño por defecto.
+  //
+  // Se resuelve una vez y sin inventar: `resolverTexto` es el mismo que usa el `Texto`.
+  const tx = resolverTexto(dx as Record<string, number | string | boolean | null | undefined>);
+  const tamanoFinal = tamano ?? tx.tamano ?? 20;
+  const colorFinal = color ?? tx.color;
+
   // Si el nombre es en realidad un codepoint de Taobao, se traduce. Si no está en el glosario,
   // `lucideDeIcono` devuelve null y **no se pinta un icono equivocado**.
   const elegido = componenteLucide(nombre) ? nombre : (lucideDeIcono(nombre) ?? nombre);
@@ -77,7 +91,7 @@ export function Icono({ nombre, tamano = 20, color, trazo = 2, dx, style, testID
     if (__DEV__) {
       const { Text } = require('react-native') as typeof import('react-native');
       return (
-        <Text testID={testID} style={[estiloDeCaja(dx), { fontSize: tamano, color: color ?? '#999' }, style]}>
+        <Text testID={testID} style={[estiloDeCaja(dx), { fontSize: tamanoFinal, color: colorFinal ?? '#999' }, style]}>
           {`⟨${nombre}⟩`}
         </Text>
       );
@@ -85,7 +99,7 @@ export function Icono({ nombre, tamano = 20, color, trazo = 2, dx, style, testID
     return null;
   }
 
-  return <C testID={testID} size={tamano} color={color} strokeWidth={trazo} style={style} />;
+  return <C testID={testID} size={tamanoFinal} color={colorFinal} strokeWidth={trazo} style={style} />;
 }
 
 export default Icono;

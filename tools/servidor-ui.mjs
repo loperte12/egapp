@@ -280,6 +280,41 @@ const ARBOL_DESTACADOS = arbolDeFranja('Del servidor');
 const ARBOL_RELACIONADOS = arbolDeFranja('También te puede interesar');
 
 /**
+ * LA CLAVE DE ACCIÓN del contrato. **La declara el cliente** en
+ * `components/ecomerse/valorAtributos.ts` (`CLAVES_VALOR.ACCION`); aquí solo se usa. Es una
+ * extensión con prefijo `ext:` porque **Taobao no tiene esto como atributo**: lo resuelve con su
+ * lenguaje de expresiones, que este cliente no implementa a propósito.
+ */
+const CLAVE_ACCION = 'ext:accion';
+
+/** Las dos acciones de una tarjeta. **Son las que hoy impiden que la rejilla sustituya a la lista.** */
+const ACCIONES = { FAVORITO: 'ext:favorito', CARRITO: 'ext:carrito' };
+
+/**
+ * Un BOTÓN DE ACCIÓN dentro de la tarjeta (corazón, carrito).
+ *
+ * `ONPRESS` lleva **el id del producto**, igual que el toque de la tarjeta: así navegar sigue
+ * funcionando sin tocar nada. La acción va en **`ext:accion`**, que es donde el cliente la busca.
+ *
+ * **El árbol no guarda estado**: si el corazón está puesto o no es un DATO (`$item.esFavorito`), no
+ * una variable del árbol.
+ */
+function accionDeTarjeta(icono, color, accion) {
+  return {
+    tipo: 'Icono',
+    valor: icono,
+    atributos: {
+      [K.ONPRESS]: '$item.id',
+      [CLAVE_ACCION]: accion,
+      [K.TEXTCOLOR]: color,
+      [K.TEXTSIZE]: 18,
+      [K.LAYOUT_WIDTH]: 26,
+      [K.LAYOUT_HEIGHT]: 26,
+    },
+  };
+}
+
+/**
  * LA TARJETA de la rejilla: la misma pieza que la de la franja, **pero sin ancho fijo**.
  *
  * En la franja la tarjeta mide 132 porque el ancho lo fija la densidad de un carrusel. En una
@@ -316,6 +351,16 @@ function tarjetaDeRejilla(C) {
           [K.PADDING_LEFT]: 8,
           [K.PADDING_BOTTOM]: 8,
         },
+      },
+      {
+        // Las dos acciones, en una fila al pie de la tarjeta. **Con ellas, la rejilla servida puede
+        // sustituir a la lista sin perder el corazón ni el carrito.**
+        tipo: 'Contenedor',
+        atributos: { [K.ORIENTATION]: 0, [K.PADDING_LEFT]: 8, [K.PADDING_RIGHT]: 8, [K.PADDING_BOTTOM]: 8 },
+        hijos: [
+          accionDeTarjeta('Heart', C.naranja, ACCIONES.FAVORITO),
+          accionDeTarjeta('ShoppingCart', C.secundario, ACCIONES.CARRITO),
+        ],
       },
     ],
   };
@@ -478,4 +523,4 @@ if (esEjecucionDirecta) {
 
 // Se exporta para poder PROBAR el arbol sin arrancar el servidor: el oráculo comprueba que todas
 // las claves que manda el servidor son claves que el cliente conoce.
-export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };
+export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };

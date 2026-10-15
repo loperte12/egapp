@@ -47,7 +47,7 @@
  * segundo de prueba en vez de dos minutos de compilación.
  */
 
-/** Las tres claves. **`ext:` = extensión nuestra, no de Taobao.** */
+/** Las cuatro claves. **`ext:` = extensión nuestra, no de Taobao.** */
 export const CLAVES_VALOR = {
   /**
    * Qué poner cuando el valor no resuelve o viene vacío.
@@ -69,7 +69,39 @@ export const CLAVES_VALOR = {
    * trozos en vez de concatenar cadenas — un árbol no tiene `+`.
    */
   SEPARADOR: 'ext:separador',
+  /**
+   * **QUÉ HACER al pulsar, además de a dónde ir.**
+   *
+   * Taobao tiene `EVENT_TAP` para todo, y en este contrato `ONPRESS` lleva **el id del producto** (es
+   * como la tarjeta navega a la ficha: `ONPRESS: '$item.id'`). Un id **no dice qué hacer**: favorito y
+   * carrito son dos acciones distintas sobre el mismo producto.
+   *
+   * Por eso la acción va en **su propio atributo**: `ONPRESS` sigue llevando el id —y la navegación
+   * sigue funcionando igual— y aquí viaja el nombre de la acción.
+   *
+   * ```jsonc
+   * { "tipo": "Icono", "valor": "Heart",
+   *   "atributos": { "47d68a4bafe73f71": "$item.id", "ext:accion": "ext:favorito" } }
+   * ```
+   *
+   * **Los valores conocidos hoy**: `ext:favorito` y `ext:carrito` (ver `ACCIONES`). El cliente los
+   * interpreta; el árbol **no guarda estado** — si el corazón está puesto o no, eso es un dato.
+   */
+  ACCION: 'ext:accion',
 } as const;
+
+/**
+ * Las acciones que una tarjeta puede pedir hoy.
+ *
+ * **Son dos, y son las dos que hoy impiden que la rejilla servida sustituya a la lista**: sin ellas,
+ * reemplazar la rejilla costaría el corazón y el carrito.
+ */
+export const ACCIONES = {
+  FAVORITO: 'ext:favorito',
+  CARRITO: 'ext:carrito',
+} as const;
+
+export type NombreAccion = (typeof ACCIONES)[keyof typeof ACCIONES];
 
 export type NombreClaveValor = keyof typeof CLAVES_VALOR;
 

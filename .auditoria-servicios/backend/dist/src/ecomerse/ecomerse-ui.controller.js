@@ -68,7 +68,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
+exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.accionDeTarjeta = exports.ACCIONES = exports.CLAVE_ACCION = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
 const common_1 = require("@nestjs/common");
 const ecomerse_service_1 = require("./ecomerse.service");
 
@@ -263,6 +263,38 @@ const ARBOL_RELACIONADOS = arbolDeFranja('También te puede interesar');
 exports.ARBOL_RELACIONADOS = ARBOL_RELACIONADOS;
 
 /**
+ * LA CLAVE DE ACCIÓN del contrato. **La declara el cliente** en
+ * `components/ecomerse/valorAtributos.ts` (`CLAVES_VALOR.ACCION`); aquí solo se usa. Lleva prefijo
+ * `ext:` porque **Taobao no la tiene como atributo**: lo resuelve con su lenguaje de expresiones.
+ */
+const CLAVE_ACCION = 'ext:accion';
+exports.CLAVE_ACCION = CLAVE_ACCION;
+
+/** Las dos acciones de una tarjeta. **Son las que hoy impiden que la rejilla sustituya a la lista.** */
+const ACCIONES = { FAVORITO: 'ext:favorito', CARRITO: 'ext:carrito' };
+exports.ACCIONES = ACCIONES;
+
+/**
+ * Un BOTÓN DE ACCIÓN dentro de la tarjeta. `ONPRESS` lleva **el id del producto** (igual que el toque
+ * de la tarjeta, así navegar sigue igual) y la acción va en **`ext:accion`**.
+ */
+function accionDeTarjeta(icono, color, accion) {
+    return {
+        tipo: 'Icono',
+        valor: icono,
+        atributos: {
+            [K.ONPRESS]: '$item.id',
+            [CLAVE_ACCION]: accion,
+            [K.TEXTCOLOR]: color,
+            [K.TEXTSIZE]: 18,
+            [K.LAYOUT_WIDTH]: 26,
+            [K.LAYOUT_HEIGHT]: 26,
+        },
+    };
+}
+exports.accionDeTarjeta = accionDeTarjeta;
+
+/**
  * LA TARJETA de la rejilla: la misma pieza que la de la franja, **pero sin ancho fijo**.
  *
  * En la franja la tarjeta mide 132 porque el ancho lo fija la densidad de un carrusel. En una
@@ -294,6 +326,16 @@ function tarjetaDeRejilla(C) {
                     [K.PADDING_LEFT]: 8,
                     [K.PADDING_BOTTOM]: 8,
                 },
+            },
+            {
+                // Las dos acciones, en una fila al pie. **Con ellas la rejilla servida puede sustituir
+                // a la lista sin perder el corazón ni el carrito.**
+                tipo: 'Contenedor',
+                atributos: { [K.ORIENTATION]: 0, [K.PADDING_LEFT]: 8, [K.PADDING_RIGHT]: 8, [K.PADDING_BOTTOM]: 8 },
+                hijos: [
+                    accionDeTarjeta('Heart', C.naranja, ACCIONES.FAVORITO),
+                    accionDeTarjeta('ShoppingCart', C.secundario, ACCIONES.CARRITO),
+                ],
             },
         ],
     };
