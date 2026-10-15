@@ -960,9 +960,60 @@ la forma, el reparto puro, la política del `span`, y la red ampliada) · produc
 (`rejilla`: raíz `Lista`, dos columnas, `ext:span` por tarjeta, fichas con span 1|2, sin claves
 fantasma). Desplegado: `codeSha256 0c4158d4…`, Active, 89.287.661 B.
 
-⚠️ **Lo que NO se pudo verificar: la pantalla del móvil.** El teléfono se cayó del `adb` otra vez
-(`wait-for-device` esperando 12 minutos) y la comprobación visual quedó cortada. Lo que sí está
-comprobado sin el móvil es **el reparto exacto que producirá** (la tabla de arriba, calculada con la
-misma función que usa el widget) y la forma del árbol en producción. Queda como lo primero al
-recuperar el teléfono: abrir `egrouteplan://ecomerse-ui` con el servidor local y `UI_DESTACAR=2`
-(la pantalla **no está enlazada desde la app**; se entra por el esquema `egrouteplan`).
+⚠️ **Lo que NO se pudo verificar en esa sesión: la pantalla del móvil.** El teléfono se cayó del `adb`
+otra vez (`wait-for-device` esperando 12 minutos) y la comprobación visual quedó cortada. Lo que sí
+está comprobado sin el móvil es **el reparto exacto que producirá** (la tabla de arriba, calculada con
+la misma función que usa el widget) y la forma del árbol en producción.
+
+---
+
+## 20 · Verificado en el móvil, con el teléfono conectado (15/10, segunda sesión)
+
+Con el móvil ya estable se cerró todo lo que quedaba apuntado. **Las dos capturas están en
+`docs/evidencia/`.**
+
+### El carril de categorías, servido y con una pestaña que NO es la primera
+
+`egrouteplan://ecomerse-ui` (la pantalla no está enlazada: se entra por el esquema) con el servidor
+local y `UI_DESTACAR=2`. En
+`151025-carril-servido-hombre-activa.png`:
+
+- El carril **se pinta servido**: `Recomendado · Hombre · Mujer · Bebés y niños · Alim…`, **sin un
+  solo emoji**, con la activa en blanco y negrita.
+- **La activa es «Hombre», que NO es la primera**: la eligió el servidor con `?activa` y su índice
+  salió de los datos (`ext:activa`). Es lo que Taobao manda por pestaña (`isDefaultSelected`) y lo que
+  aquí no se podía comprobar en la sesión anterior por la red del móvil.
+- **El subrayado `smile` naranja** bajo la activa: el dibujo es nuestro (una cápsula), el contrato es
+  el de Taobao.
+
+### La rejilla irregular, EN PANTALLA
+
+En `151025-rejilla-span-en-el-movil.png` se ve el reparto exacto que había calculado, sin el móvil:
+
+```
+Producto cuota 4                     ← ANCHA, a todo el ancho
+Producto cuota 3 | Producto cuota 2  ← dos ESTRECHAS en pareja
+```
+
+Es la primera vez que el `span` por tarjeta se ve funcionando: **una tarjeta que ocupa las dos
+columnas y otra que ocupa una**, en la misma lista. *(Con los datos reales —sin destacados— la
+rejilla sale uniforme, así que esto se ve con la palanca `UI_DESTACAR` del servidor de pruebas.)*
+
+⚠️ **Y se ve también lo que falta**: en la tarjeta ancha, **la imagen no crece con ella** — se queda
+pequeña y centrada, con mucho hueco alrededor. Es lo esperado: ancha y estrecha **comparten una sola
+plantilla**, y el `span` solo reparte el ancho. Taobao no hace eso: allí la tarjeta ancha **es otra
+plantilla** (41 plantillas: 10 estrechas y 31 anchas). Eso es exactamente el siguiente paso
+(**tarjetas heterogéneas**), y la captura es su justificación.
+
+### Y el toque del carril, de punta a punta
+
+En `151025-toque-filtra-el-mercado.png`: al tocar una pestaña, el Mercado **queda filtrado por ese
+departamento** — se ven sus **familias reales** (Ropa de arriba, Vestidos y faldas, Pantalones,
+Chaquetas y abrigos, Lencería y ropa de casa, Tallas grandes, Calzado de mujer, Bolsos y complementos,
+Ropa tradicional) y **«0 productos»** con su estado vacío (cierto: el catálogo no tiene ningún producto
+en Mujer). O sea: carril servido → toque → filtro del listado → datos reales. **El canal de eventos
+del widget funciona.**
+
+*(Nota para la próxima sesión: el `adb reverse` de 8081/8788 **se pierde cada vez que el móvil se
+reconecta**, y sin él la app no alcanza ni Metro ni el servidor local — las dos secciones de la
+pantalla se quedan sin pintar sin decir por qué. Rehacer el `reverse` justo antes de relanzar.)*
