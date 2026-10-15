@@ -874,3 +874,95 @@ carga»**; hay que elegir transferencia de archivos en el diálogo de USB. Y par
 `tsc` **5** (los de siempre) · `rutas` **0** · `logica` **0** · `diseño` **en verde** · oráculo
 **124/124** · producción **EXIT=0** (con `?activa`, sin emojis, `smile` y `altoimagen 31`).
 Desplegado: `codeSha256 2fde9acd…`, Active, 89.286.898 B.
+
+---
+
+## 19 · El `span` por tarjeta: la rejilla ya puede ser irregular (15/10)
+
+### 1 · Qué dice Taobao, medido
+
+`re-e-categorias/out/span.txt` vuelca las plantillas enteras. **El `span` NO es atributo de la lista
+ni del elemento: es un campo de cada ENTRADA DE PLANTILLA**, junto a `name`, `url4Android` y
+`version4Android`:
+
+```json
+{ "name": "taolive_morelive_entry_202303", "span": "1", "url4Android": "https://…", "version4Android": 17 }
+```
+
+| fichero | span 1 | span 2 | vacío |
+|---|---|---|---|
+| catálogo de seguidos (`bottoming_template_list.json`, 41) | 10 | **31** | 0 |
+| `template_list.json` (29) | 24 | 2 | 3 |
+
+Es **texto** (`"1"`, `"2"`, `""`) en las 77 apariciones del corpus, y `""` —o sin `span`— significa
+una columna. O sea: **el ancho es una decisión del DISEÑO de la tarjeta**, y la mezcla es real
+(el catálogo de seguidos es mayoriariamente de tarjetas anchas).
+
+### 2 · Por qué cambió la forma de la rejilla
+
+Antes eran **dos `Lista` en un contenedor de fila**. Con dos listas independientes **una tarjeta ancha
+no existe**: no cabe en ninguna de las dos. Así que ahora es **UNA `Lista` con dos columnas y cada
+tarjeta diciendo cuántas ocupa** (`ext:span`), que es lo que hace el reciclador de Taobao: una lista
+donde cada elemento sabe su ancho.
+
+```
+Lista (DX_GRID_LAYOUT_COLUMN_COUNT: 2, hueco 12)
+  └── tarjeta (plantilla)  →  ext:span: "$item.span"
+```
+
+Y el reparto en filas es **lógica pura** (`listaAtributos.filasPorSpan`, testeable sin pintar nada):
+las estrechas entran de dos en dos, y **una ancha cierra la fila abierta antes de ponerse ella** —si
+no, quedaría un hueco muerto a su izquierda— y va sola.
+
+### 3 · De qué dato real sale el ancho (nada inventado)
+
+Taobao lo decide por plantilla; el Mercado no tiene plantillas por tarjeta, así que se ancla en **lo
+que sí es un dato suyo**, en este orden:
+
+1. **`isFeatured`** — el «destacado» del Mercado (con su `featuredUntil`). Es el análogo directo de la
+   tarjeta grande de Taobao.
+2. **Más de una foto** — una tarjeta con galería necesita el ancho.
+
+⚠️ **Hoy el catálogo real no tiene NINGÚN destacado (0 de 9) y todos tienen 1 foto**, así que **la
+rejilla sale uniforme**: no se inventa una mezcla que los datos no piden. Comprobado: el reparto que
+produce la pantalla con los datos de hoy es el de siempre (5 filas de dos + una suelta). El día que
+marquen un producto como destacado, su tarjeta pasa a ancho completo **sin tocar una línea**.
+
+Para poder **ver** la rejilla irregular sin tocar el catálogo, el **servidor de pruebas** tiene una
+palanca declarada: `?destacar=<n>` (o la variable `UI_DESTACAR`). El controlador desplegado **no la
+tiene**. Con `UI_DESTACAR=2` el reparto que produce es:
+
+```
+fila 1 → [ANCHA]    Foto upload E2E
+fila 2 → [ANCHA]    Producto cuota 4
+fila 3 → [estrecha] Producto cuota 3   |  [estrecha] Producto cuota 2
+fila 4 → [estrecha] Producto cuota 1   |  [estrecha] Supermercado Martínez
+fila 5 → [estrecha] Farmacia E2E v4.2  |  [estrecha] Arroz 25kg E2E v3
+fila 6 → [estrecha] Producto E2E Monedero
+```
+
+### 4 · Y la red del contrato se arregló por el camino
+
+Al entrar la rejilla en la red (`claves.test.mjs` la **recorre** ahora, antes no lo hacía) saltó que
+la comprobación de formato de claves exigía `^[0-9a-f]{16}$`… y **las claves de Taobao pueden ser
+decimales con signo**: `DX_GRID_LAYOUT_COLUMN_SPACING = -7076735627431451296` (el hueco entre
+columnas, justo la que estrena la rejilla) o `DXRECYCLERLAYOUT_ONENDREACHED = -2277119638481222228`.
+La regla se corrigió **con la medida delante**, y la rejilla dejó de ser el único árbol del contrato
+que no pasaba por la red.
+
+**Lo que sigue sin implementar y se declara**: `ABILITY_SPAN` **salió** de la lista de no
+implementados (el `span` por elemento ya se pinta).
+
+### Verificación
+
+`tsc` **5** · `rutas` **0** · `logica` **0** · `diseño` **en verde** · oráculo **127/127** (3 nuevos:
+la forma, el reparto puro, la política del `span`, y la red ampliada) · producción **EXIT=0**
+(`rejilla`: raíz `Lista`, dos columnas, `ext:span` por tarjeta, fichas con span 1|2, sin claves
+fantasma). Desplegado: `codeSha256 0c4158d4…`, Active, 89.287.661 B.
+
+⚠️ **Lo que NO se pudo verificar: la pantalla del móvil.** El teléfono se cayó del `adb` otra vez
+(`wait-for-device` esperando 12 minutos) y la comprobación visual quedó cortada. Lo que sí está
+comprobado sin el móvil es **el reparto exacto que producirá** (la tabla de arriba, calculada con la
+misma función que usa el widget) y la forma del árbol en producción. Queda como lo primero al
+recuperar el teléfono: abrir `egrouteplan://ecomerse-ui` con el servidor local y `UI_DESTACAR=2`
+(la pantalla **no está enlazada desde la app**; se entra por el esquema `egrouteplan`).

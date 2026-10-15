@@ -177,7 +177,6 @@ function bool(v: unknown): boolean | undefined {
 const NO_IMPLEMENTADOS: NombreAtributoLista[] = [
   'IS_REPEAT',       // el árbol ya repite por construcción: una lista con plantilla siempre repite
   'REPEAT_MODE',     // modos de repetición de Taobao (circular, etc.) sin equivalencia medida
-  'ABILITY_SPAN',    // el `span` por elemento (rejilla irregular) es del widget de rejilla
   'STICKY',          // cabeceras pegajosas: `FlatList` lo tiene pero necesita secciones
   'EMPTY',           // el estado vacío es un nodo, no un atributo: iría como segundo hijo
   'ON_STAY',         // el evento no tiene camino todavía
@@ -188,6 +187,8 @@ const NO_IMPLEMENTADOS: NombreAtributoLista[] = [
   'ITEM_HEIGHT',     // ídem
   'NEED_SEPARATOR',  // líneas separadoras: se expresan con bordes en la plantilla
 ];
+// **`ABILITY_SPAN` ya NO está en esta lista** (15/10/2026): el `span` por elemento se implementó.
+// Ver `CLAVE_SPAN_ELEMENTO` y `filasPorSpan`.
 
 /**
  * Convierte los atributos de Taobao en lo que `FlatList` necesita.
@@ -238,4 +239,88 @@ export function atributosDeLaLista(): NombreAtributoLista[] {
   return Object.keys(CLAVES_LISTA) as NombreAtributoLista[];
 }
 
-export default { CLAVES_LISTA, PROCEDENCIA, resolverLista, atributosDeLaLista };
+// ══════════════════════════════════════════════════════════════════════════════════════════════
+// EL `span` POR ELEMENTO — la rejilla irregular de Taobao
+// ══════════════════════════════════════════════════════════════════════════════════════════════
+
+/**
+ * La clave con la que **un elemento** dice cuántas columnas ocupa.
+ *
+ * Se midió en el corpus: en Taobao el `span` **no es un atributo de la lista ni del elemento**, sino
+ * un campo de la **entrada de plantilla** (`livehomecore_flexalocal/bottoming_template_list.json` y
+ * `template_list.json`), junto a `name`, `url4Android` y `version4Android`:
+ *
+ * ```json
+ * { "name": "taolive_morelive_entry_202303", "span": "1", "url4Android": "https://…", "version4Android": 17 }
+ * ```
+ *
+ * Es **texto** (`"1"`, `"2"` y a veces `""`) en las 77 apariciones del corpus, y la mezcla es real:
+ * el catálogo de seguidos tiene **31 de 41 con span 2** y 10 con span 1; `template_list.json`, 24
+ * con 1, 2 con 2 y 3 vacías. *(Con `""` —o sin `span`— la tarjeta ocupa una columna.)*
+ *
+ * Aquí el elemento lo declara con esta clave, porque **nuestro árbol sí tiene un nodo por elemento**:
+ * es el mismo dato en el sitio donde este contrato puede leerlo. La `ABILITY_SPAN` de
+ * `DXRecyclerLayout` es el nombre registrado de la capacidad; el valor viaja por elemento.
+ */
+export const CLAVE_SPAN_ELEMENTO = 'ext:span';
+
+/** El `span` de un elemento, saneado: sin dato (o vacío) es **1**, y nunca pasa de las columnas. */
+export function spanDeElemento(valor: unknown, columnas: number): number {
+  const cols = Math.max(1, Math.floor(columnas));
+  const n = num(valor);
+  // **Un `span` de 0, negativo o basura no encoge la tarjeta a nada: se queda en 1.** Y uno mayor que
+  // la rejilla se recorta: prometer 3 columnas en una rejilla de 2 no cabe, y callarlo daría una
+  // tarjeta desbordada.
+  if (n === undefined || !Number.isFinite(n) || n < 1) return 1;
+  return Math.min(Math.floor(n), cols);
+}
+
+/** Un elemento colocado en su fila, con el `span` ya resuelto. */
+export interface ElementoColocado<T> {
+  elemento: T;
+  indice: number;
+  span: number;
+}
+
+/**
+ * REPARTE LOS ELEMENTOS EN FILAS SEGÚN SU `span`. Es puro y por eso se puede probar sin pintar nada.
+ *
+ * La regla es la de un flujo con huecos: se recorre la lista y cada elemento entra en la fila abierta
+ * si cabe (`suma + span <= columnas`); si no, abre fila. Un elemento que pide la fila entera
+ * (`span >= columnas`) **va solo**, y eso es lo que deja la rejilla irregular: dos tarjetas anchas
+ * nunca comparten fila, y dos estrechas sí.
+ *
+ * **`irregular` es lo que decide si hay que cambiar de pintado**: con todos los `span` en 1, la
+ * rejilla es la de siempre (`FlatList` con `numColumns`) y este camino no se usa. Sin esa bandera,
+ * una rejilla normal pagaría el coste de las filas sin necesitarlo.
+ */
+export function filasPorSpan<T>(
+  elementos: T[],
+  columnas: number,
+  spanDe?: (elemento: T, indice: number) => unknown,
+): { filas: Array<Array<ElementoColocado<T>>>; irregular: boolean } {
+  const cols = Math.max(1, Math.floor(columnas));
+  const filas: Array<Array<ElementoColocado<T>>> = [];
+  let abierta: Array<ElementoColocado<T>> = [];
+  let usadas = 0;
+  let irregular = false;
+
+  elementos.forEach((elemento, indice) => {
+    const span = spanDe ? spanDeElemento(spanDe(elemento, indice), cols) : 1;
+    if (span > 1) irregular = true;
+    // Una tarjeta ancha cierra lo que hubiera abierto **antes** de ponerse ella: si no, quedaría una
+    // fila con un hueco muerto a su izquierda.
+    if (span >= cols && usadas > 0) { filas.push(abierta); abierta = []; usadas = 0; }
+    abierta.push({ elemento, indice, span });
+    usadas += span;
+    if (usadas >= cols) { filas.push(abierta); abierta = []; usadas = 0; }
+  });
+
+  if (abierta.length > 0) filas.push(abierta);
+  return { filas, irregular };
+}
+
+export default {
+  CLAVES_LISTA, PROCEDENCIA, CLAVE_SPAN_ELEMENTO, resolverLista, atributosDeLaLista,
+  spanDeElemento, filasPorSpan,
+};

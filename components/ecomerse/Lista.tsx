@@ -35,7 +35,7 @@ import React from 'react';
 import { FlatList, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { estiloDeCaja } from './layoutAtributos';
-import { resolverLista, type AtributosDxLista } from './listaAtributos';
+import { resolverLista, filasPorSpan, type AtributosDxLista } from './listaAtributos';
 
 export interface ListaProps {
   /**
@@ -48,6 +48,14 @@ export interface ListaProps {
    * un árbol sin plantilla no debe tumbar la pantalla.
    */
   renderizar?: (elemento: unknown, indice: number) => React.ReactElement | null;
+  /**
+   * El `span` de un elemento: **cuántas columnas ocupa**. Lo resuelve el `Nodo` contra la plantilla
+   * de ese elemento (`ext:span`), porque el dato vive en el árbol y no en la lista.
+   *
+   * Sin esto, o con todos los `span` en 1, la rejilla es la de siempre; **solo cuando hay alguno
+   * mayor que 1** se pinta por filas (ver `filasPorSpan`).
+   */
+  spanDe?: (elemento: unknown, indice: number) => unknown;
   /** Atributos `DXRecyclerLayout` decodificados, por nombre o por clave hex. */
   dx?: AtributosDxLista;
   style?: StyleProp<ViewStyle>;
@@ -74,7 +82,7 @@ function claveDe(elemento: unknown, indice: number): string {
 }
 
 export function Lista({
-  datos, renderizar, dx, style, testID, alLlegarAlFinal,
+  datos, renderizar, spanDe, dx, style, testID, alLlegarAlFinal,
 }: ListaProps) {
   const r = resolverLista(dx);
   const elementos = Array.isArray(datos) ? datos : [];
@@ -92,6 +100,49 @@ export function Lista({
 
   const enRejilla = r.columnas > 1;
   const separacion = r.separacionFilas ?? r.separacionColumnas;
+
+  // ── LA REJILLA IRREGULAR: el `span` por elemento ──────────────────────────────────────────────
+  // Taobao deja que una tarjeta ocupe 1 o 2 columnas (`span`, medido: 31 de 41 en el catálogo de
+  // seguidos). Con `numColumns` de `FlatList` eso NO se puede expresar —todas las celdas miden lo
+  // mismo—, así que cuando hay algún `span` mayor que 1 **se pinta por FILAS**: cada fila es una
+  // `View` en fila y cada elemento se lleva `flex: span`. Los que piden la fila entera van solos.
+  const reparto = enRejilla && !r.horizontal && spanDe
+    ? filasPorSpan(elementos, r.columnas, spanDe)
+    : null;
+
+  if (reparto?.irregular && renderizar) {
+    return (
+      <FlatList
+        testID={testID}
+        data={reparto.filas}
+        // La clave de una fila es la de sus elementos: si cambia el reparto, la fila se recicla bien.
+        keyExtractor={(fila) => fila.map((c) => claveDe(c.elemento, c.indice)).join('|')}
+        renderItem={({ item: fila }) => (
+          <View
+            style={[
+              { flexDirection: 'row' },
+              r.separacionColumnas !== undefined ? { columnGap: r.separacionColumnas } : null,
+            ]}
+          >
+            {fila.map(({ elemento, indice, span }) => (
+              // `flex: span` es el reparto del ancho: una tarjeta de 2 columnas se lleva el doble.
+              // **El `span` ya viene saneado** (1..columnas) por `filasPorSpan`.
+              <View key={claveDe(elemento, indice)} style={{ flex: span }}>
+                {renderizar(elemento, indice)}
+              </View>
+            ))}
+          </View>
+        )}
+        ItemSeparatorComponent={r.separacionFilas !== undefined ? () => (
+          <View style={{ height: r.separacionFilas }} />
+        ) : null}
+        contentContainerStyle={r.margenLateral !== undefined
+          ? { paddingHorizontal: r.margenLateral }
+          : undefined}
+        style={[estiloDeCaja(dx) as StyleProp<ViewStyle>, style]}
+      />
+    );
+  }
 
   return (
     <FlatList

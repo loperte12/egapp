@@ -41,6 +41,7 @@ import { Carrusel } from './Carrusel';
 import { Scroll } from './Scroll';
 import { Vista } from './Vista';
 import { Lista } from './Lista';
+import { CLAVE_SPAN_ELEMENTO } from './listaAtributos';
 import { Pestanas } from './Pestanas';
 import { Entrada } from './Entrada';
 import { Precio } from './Precio';
@@ -231,6 +232,14 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
             alCambiarTexto={alCambiarTexto}
           />
         );
+      };
+      // **Y EL `span` DEL ELEMENTO**, que es lo que hace la rejilla irregular de Taobao: la tarjeta
+      // lo declara en su raíz (`ext:span`, en Taobao un campo de la entrada de plantilla) y la
+      // `Lista` reparte las filas con él. Se resuelve contra los datos del elemento, igual que el
+      // contenido: si viniera del contenedor, todas las tarjetas medirían lo mismo.
+      props.spanDe = (elemento: unknown) => {
+        const { arbol: resuelta } = resolverSubarbol(plantilla, { [nombreItem]: elemento }, entorno);
+        return resuelta.atributos?.[CLAVE_SPAN_ELEMENTO];
       };
     }
   }

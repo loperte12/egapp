@@ -336,6 +336,10 @@ function tarjetaDeRejilla(C) {
       [K.BACKGROUNDCOLOR]: C.tarjeta,
       [K.CORNERRADIUS]: 10,
       [K.MARGIN_BOTTOM]: 10,
+      // **CUÁNTAS COLUMNAS OCUPA ESTA TARJETA.** En Taobao es un campo de la entrada de plantilla
+      // (`"span": "1" | "2"`); aquí lo declara la raíz de la tarjeta y viaja por elemento, que es
+      // donde este contrato puede leerlo. Lo reparte el cliente (`filasPorSpan`).
+      [SPAN_TARJETA]: '$item.span',
       // El toque lleva el id REAL del producto; la pantalla decide a dónde va.
       [K.ONPRESS]: '$item.id',
     },
@@ -407,6 +411,30 @@ const PESTANAS = {
 const ESPACIO_PESTANAS = 12;
 const TAMANO_PESTANA = 12;
 const TAMANO_PESTANA_ACTIVA = 13;
+
+/**
+ * La clave con la que una tarjeta dice **cuántas columnas ocupa**.
+ *
+ * Medido en el corpus: en Taobao el `span` es un campo de la entrada de plantilla
+ * (`livehomecore_flexalocal/bottoming_template_list.json`), **texto** (`"1"` / `"2"` / `""`), y el
+ * catálogo de seguidos tiene **31 de 41 con span 2**. Aquí viaja en la raíz de la tarjeta, que es
+ * donde este contrato puede leerlo por elemento. **El nombre lo comprueba el oráculo contra el
+ * cliente** (`listaAtributos.CLAVE_SPAN_ELEMENTO`): si se separan, el test falla.
+ */
+const SPAN_TARJETA = 'ext:span';
+
+/**
+ * Las claves de la REJILLA, de `DX_GRID_LAYOUT_*`.
+ *
+ * **No están en `K`** —que es el vocabulario de CAJA compartido— porque son de la lista: una caja no
+ * tiene columnas. Se declaran aquí con su procedencia, y **el oráculo las comprueba contra el cliente**
+ * (`listaAtributos.CLAVES_LISTA`): si alguien cambia una de las dos, el test falla en vez de que la
+ * rejilla salga de una columna sin que nadie se entere.
+ */
+const LISTA = {
+  COLUMN_COUNT: '4480460401770252962',     // DX_GRID_LAYOUT_COLUMN_COUNT
+  COLUMN_SPACING: '-7076735627431451296',  // DX_GRID_LAYOUT_COLUMN_SPACING
+};
 
 /**
  * LA BARRA DE PESTAÑAS de las categorías del Mercado, en la forma de Taobao.
@@ -494,33 +522,38 @@ async function datosDeCategorias() {
 }
 
 /**
- * LA REJILLA, en la forma de Taobao: **dos `Lista` en fila con los datos repartidos.**
+ * LA REJILLA, en la forma de Taobao: **una `Lista` con `span` por tarjeta.**
  *
- * Medido en el corpus: Taobao **no tiene un widget de waterfall**. Tiene `DXRecyclerLayout`, y una
- * franja de dos columnas se monta con **dos listas en un contenedor de fila** (el mismo patrón que
- * la franja horizontal, con `ORIENTATION: 1` en vez de `0`). Aquí igual:
+ * Antes eran dos `Lista` en un contenedor de fila. Eso daba dos columnas iguales, pero **no dejaba
+ * que una tarjeta ocupara las dos**: con dos listas independientes, una tarjeta ancha no existe.
  *
- * ```
- * Contenedor (ORIENTATION: 0 = fila)
- *   ├── Lista (ORIENTATION: 1, WEIGHT: 1)  ← columna A, con sus datos
- *   └── Lista (ORIENTATION: 1, WEIGHT: 1)  ← columna B, con los suyos
- * ```
+ * Y Taobao sí lo tiene: el `span` es un campo de **cada entrada de plantilla**
+ * (`livehomecore_flexalocal/bottoming_template_list.json`), medido en el corpus:
  *
- * **`WEIGHT: 1` es lo que reparte el ancho a partes iguales** (`flex: 1` en flexbox) y **es la
- * razón de que no haga falta una rejilla**: las dos columnas salen del vocabulario que ya existe.
+ * | fichero | span 1 | span 2 | vacío |
+ * |---|---|---|---|
+ * | catálogo de seguidos (41 plantillas) | 10 | **31** | 0 |
+ * | `template_list.json` (29) | 24 | 2 | 3 |
+ *
+ * Así que la rejilla es **un solo `Lista`** con dos columnas y **cada tarjeta diciendo cuántas
+ * ocupa** (`ext:span`). El cliente reparte las filas (`filasPorSpan`): las de span 1 van de dos en
+ * dos y una de span 2 va sola y a todo lo ancho.
  */
 function arbolDeRejilla(tema) {
   const C = coloresDe(tema);
-  const columna = (dato) => ({
-    tipo: 'Lista',
-    valor: dato,
-    atributos: { [K.ORIENTATION]: 1, [K.WEIGHT]: 1 },
-    hijos: [tarjetaDeRejilla(C)],
-  });
   return {
-    tipo: 'Contenedor',
-    atributos: { [K.ORIENTATION]: 0, [K.PADDING_LEFT]: 12, [K.PADDING_RIGHT]: 12, [K.PADDING_TOP]: 4 },
-    hijos: [columna('$columnaA'), columna('$columnaB')],
+    tipo: 'Lista',
+    valor: '$fichas',
+    atributos: {
+      // `DX_GRID_LAYOUT_COLUMN_COUNT`: dos columnas. **El `span` de cada tarjeta lo lleva la
+      // tarjeta**, no la lista.
+      [LISTA.COLUMN_COUNT]: 2,
+      [LISTA.COLUMN_SPACING]: 12,
+      [K.PADDING_LEFT]: 12,
+      [K.PADDING_RIGHT]: 12,
+      [K.PADDING_TOP]: 4,
+    },
+    hijos: [tarjetaDeRejilla(C)],
   };
 }
 
@@ -557,26 +590,49 @@ async function datosDeDestacados(excluir) {
 }
 
 /**
- * Los datos de la rejilla: **el catálogo repartido en dos columnas, alternando**.
+ * ¿ESTA TARJETA OCUPA LAS DOS COLUMNAS?
  *
- * Alternar (una sí, una no) es lo que deja las dos columnas **igualadas por número**: con tarjetas
- * de la misma altura —que es el caso hoy— el reparto alterno es exactamente equilibrado, y no hace
- * falta estimar alturas. *(Taobao sí las estima, porque sus tarjetas varían de alto.)*
+ * En Taobao el `span` lo trae la **entrada de plantilla** (31 de 41 en el catálogo de seguidos), o
+ * sea que el ancho es una decisión del DISEÑO de la tarjeta, no del dato. El Mercado no tiene
+ * plantillas por tarjeta, así que se ancla en **lo que sí es un dato real suyo**:
  *
- * Se reparte **lo mismo que se enseña**: si el reparto se hiciera sobre una lista y se pintara otra,
- * dos productos se quedarían fuera sin que nadie lo notara.
+ *   1. **`isFeatured`** — el «destacado» del Mercado (con su `featuredUntil`). Un producto destacado
+ *      es el que va a lo ancho; es el análogo directo de la tarjeta grande de Taobao.
+ *   2. **Más de una foto** — una tarjeta con galería necesita el ancho.
+ *
+ * **Hoy no hay ningún destacado en el catálogo (0 de 9) y todos tienen 1 foto**, así que la rejilla
+ * sale uniforme: **no se inventa una mezcla que los datos no piden.** El día que marquen uno como
+ * destacado, su tarjeta pasa a ancho completo sin tocar una línea de código.
  */
-async function datosDeRejilla(limite = 40) {
+function spanDeFicha(p) {
+  const fotos = Array.isArray(p.photos) ? p.photos.length : 0;
+  return p.isFeatured === true || fotos > 1 ? 2 : 1;
+}
+
+/**
+ * Los DATOS de la rejilla: **el catálogo REAL, en una sola lista**, cada ficha con su `span`.
+ *
+ * Antes se repartía alternando entre dos columnas, porque eran dos `Lista`. Ahora **el reparto lo
+ * hace el cliente** (`filasPorSpan`) a partir del `span` de cada tarjeta, que es lo que Taobao hace
+ * en su reciclador: una sola lista de la que cada elemento sabe cuánto ocupa.
+ *
+ * `destacar` es una **palanca de DEMOSTRACIÓN, solo de este servidor de pruebas**: marca las `n`
+ * primeras fichas como anchas para poder VER la rejilla irregular en el móvil sin tocar el catálogo
+ * real. **El controlador desplegado no la tiene**: allí manda `isFeatured`, y punto.
+ */
+async function datosDeRejilla(limite = 40, destacar = 0) {
   const respuesta = await fetch(`${CATALOGO}?limit=${limite}`);
   if (!respuesta.ok) return null;
   const productos = await respuesta.json();
   if (!Array.isArray(productos) || productos.length === 0) return null;
 
-  const fichas = productos.slice(0, limite).map(fichaDeProducto);
-  const columnaA = fichas.filter((_, i) => i % 2 === 0);
-  const columnaB = fichas.filter((_, i) => i % 2 === 1);
-  if (columnaA.length === 0) return null;
-  return { columnaA, columnaB, total: fichas.length };
+  const cuantas = Math.max(0, Math.trunc(destacar));
+  const fichas = productos.slice(0, limite).map((p, i) => ({
+    ...fichaDeProducto(p),
+    span: i < cuantas ? 2 : spanDeFicha(p),
+  }));
+  if (fichas.length === 0) return null;
+  return { fichas, total: fichas.length };
 }
 
 const servidor = createServer((req, res) => {
@@ -606,10 +662,17 @@ const servidor = createServer((req, res) => {
       arbol: arbolDeFranja('También te puede interesar', p.get('tema')),
       buscarDatos: () => datosDeDestacados(p.get('id') ?? undefined),
     }),
-    // **La rejilla en la forma de Taobao**: dos `Lista` en fila con los datos repartidos.
+    // **La rejilla en la forma de Taobao**: UNA `Lista` con dos columnas y el `span` por tarjeta.
     '/api/ecomerse/ui/rejilla': (p) => ({
       arbol: arbolDeRejilla(p.get('tema')),
-      buscarDatos: () => datosDeRejilla(),
+      // `?destacar=<n>` es la palanca de DEMOSTRACIÓN del servidor de pruebas (ver `datosDeRejilla`).
+      // `UI_DESTACAR` es la misma palanca por entorno, para poder VER la rejilla irregular en el móvil
+      // **sin tocar la pantalla ni el catálogo real**: el controlador desplegado no tiene ninguna de las
+      // dos, allí manda `isFeatured`.
+      buscarDatos: () => datosDeRejilla(
+        undefined,
+        Number(p.get('destacar') ?? process.env.UI_DESTACAR ?? 0) || 0,
+      ),
     }),
     // **La barra de pestañas de las categorías**: en Taobao, la sección `categoryTab`.
     //
@@ -670,4 +733,4 @@ if (esEjecucionDirecta) {
 
 // Se exporta para poder PROBAR el arbol sin arrancar el servidor: el oráculo comprueba que todas
 // las claves que manda el servidor son claves que el cliente conoce.
-export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, PESTANAS, ESPACIO_PESTANAS, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };
+export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, LISTA, spanDeFicha, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };
