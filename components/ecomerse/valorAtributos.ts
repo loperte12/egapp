@@ -105,6 +105,18 @@ export const ACCIONES = {
   FAVORITO: 'ext:favorito',
   CARRITO: 'ext:carrito',
   DEJAR_DE_SEGUIR: 'ext:dejardeseguir',
+  // ── las del feed de SIGUIENDO (关注), clonado de Taobao el 16/10/2026 ──────────────────────────
+  // En Taobao, la tarjeta de directo lleva `TBLFollow` (seguir), el MTOP de suscripción (预约) y
+  // `tblvSyncTask` (cargar más); la tarjeta de vacío lleva 「刷新」. Cada una es una acción distinta
+  // sobre el mismo nodo, y por eso van por nombre y no por banderas.
+  SEGUIR: 'ext:seguir',
+  AVISAR: 'ext:avisar',
+  CARGAR_MAS: 'ext:cargarmas',
+  REFRESCAR: 'ext:refrescar',
+  // La portada de un directo y el menú de reproducción automática (`preplayback_foldmenu`): en Taobao
+  // son dos cosas distintas —abrir el directo y plegar/desplegar el ajuste— y por eso son dos acciones.
+  REPRODUCIR: 'ext:reproducir',
+  PLEGAR: 'ext:plegar',
 } as const;
 
 export type NombreAccion = (typeof ACCIONES)[keyof typeof ACCIONES];

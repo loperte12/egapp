@@ -240,6 +240,32 @@ export default function EcomerseScreen() {
   const [estadoSiguiendo, setEstadoSiguiendo] = useState<'cargando' | 'lista' | 'vacia' | 'error'>('cargando');
 
   /**
+   * **LAS ACCIONES DEL FEED DE SIGUIENDO**, tal como las pide Taobao en su tarjeta (`TBLFollow`, el
+   * MTOP de suscripción, y 「刷新」 en la de vacío). Cada una dice lo que hace, y **ninguna finge**:
+   *
+   *   · `ext:seguir` / `ext:avisar` → la API real (`followStore`, `api/ecomerse.ts`). Hoy **falla**:
+   *     el endpoint de seguidos no existe en el backend de ecomerse. La acción se ejecuta de verdad y
+   *     el error se ve; lo que no se hace es fingir que se siguió.
+   *   · `ext:refrescar` → volver a pedir la sección (lo único que hoy puede traer algo nuevo).
+   *   · `ext:cargarmas` → **declarado y pendiente**: la lista no virtualizada no puede pedir la página
+   *     siguiente (ver la nota de `Lista`), así que aquí no hay nada que hacer todavía.
+   */
+  const alAccionSiguiendo = (accion: string, id: string) => {
+    // Las acciones se comparan con **las del vocabulario del cliente**, no con cadenas sueltas: el
+    // árbol las manda por nombre y aquí no puede haber una segunda copia de ese nombre.
+    if (accion === ACCIONES.SEGUIR || accion === ACCIONES.AVISAR) {
+      const queja = accion === ACCIONES.SEGUIR ? 'No se pudo seguir la tienda.' : 'No se pudo guardar el aviso.';
+      void ecomerseApi.followStore(id)
+        .catch(() => Alert.alert('Seguir', queja))
+        .finally(() => setRecarga((n) => n + 1));
+      return;
+    }
+    if (accion === ACCIONES.REFRESCAR) { setRecarga((n) => n + 1); return; }
+    // `ext:cargarmas`: declarado, sin hacer. Se dice en voz alta en vez de callar.
+    Alert.alert('Siguiendo', 'Todavía no hay más páginas que cargar.');
+  };
+
+  /**
    * **La búsqueda con retardo.** La rejilla se pide por RUTA (`?buscar=…`), así que sin retardo habría
    * **una petición por tecla**. Es el mismo retardo de 300 ms que tenía la carga del catálogo, movido
    * del `fetch` a la ruta: el comportamiento que se ve es el de siempre.
@@ -858,21 +884,19 @@ export default function EcomerseScreen() {
                 recarga={recarga}
                 alTocar={(id) => router.push({ pathname: '/ecomerse-tienda', params: { id } } as never)}
                 alEstado={setEstadoSiguiendo}
+                alAccion={alAccionSiguiendo}
               />
+              {/* El esqueleto de la espera: **del cliente, porque es del cliente la espera**. */}
               {estadoSiguiendo === 'cargando' && (
                 <View style={{ paddingTop: espaciado.e24, alignItems: 'center' }}>
                   <ActivityIndicator color={colors.textPrimary} />
                 </View>
               )}
-              {(estadoSiguiendo === 'vacia' || estadoSiguiendo === 'error') && (
-                <EmptyState
-                  emoji="🏬"
-                  titulo="Aquí verás las tiendas que sigues"
-                  texto="Este es el feed de Siguiendo: cuando sigas una tienda, sus novedades aparecen aquí, en orden."
-                  accionLabel="Ver el directorio de tiendas"
-                  onAccion={() => router.push('/ecomerse-tiendas' as any)}
-                />
-              )}
+              {/* AQUÍ HABÍA UN `EmptyState` DEL CLIENTE, Y SE RETIRÓ EL 16/10/2026: el vacío de este
+                  feed **es una tarjeta de Taobao** (`taolive_channel_follow_new_empty_card`, con su
+                  「刷新」 y su estado de error de red DENTRO), así que lo manda el servidor como una
+                  variante más. Un vacío en el cliente y otro en el servidor serían dos vacíos
+                  distintos para la misma pantalla — y el día que cambie uno, el otro miente. */}
             </>
             )}
           </View>

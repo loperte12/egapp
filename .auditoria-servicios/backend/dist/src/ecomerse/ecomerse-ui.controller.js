@@ -496,103 +496,307 @@ function arbolDeFeeds(tema, activo = 0) {
 exports.arbolDeFeeds = arbolDeFeeds;
 
 /** El árbol de SIGUIENDO: la lista de tiendas seguidas, con los widgets que ya existen. */
-function arbolDeSiguiendo(tema) {
-    const C = coloresDe(tema);
-    return {
-        tipo: 'Lista',
-        valor: '$tiendas',
-        atributos: {
-            [LISTA.COLUMN_COUNT]: 1,
-            [LISTA.ROW_SPACING]: 10,
-            [K.PADDING_LEFT]: REJILLA.MARGEN,
-            [K.PADDING_RIGHT]: REJILLA.MARGEN,
-            [K.PADDING_TOP]: REJILLA.MARGEN_SUPERIOR,
-        },
-        hijos: [
-            {
-                tipo: 'Contenedor',
-                atributos: {
-                    [TEMPLATE_NAME]: PLANTILLA_TIENDA,
-                    [SPAN_TARJETA]: 1,
-                    [K.ORIENTATION]: 0,
-                    [K.BACKGROUNDCOLOR]: C.tarjeta,
-                    [K.CORNERRADIUS]: REJILLA.RADIO,
-                    [K.PADDING_LEFT]: 10,
-                    [K.PADDING_RIGHT]: 10,
-                    [K.PADDING_TOP]: 10,
-                    [K.PADDING_BOTTOM]: 10,
-                    [K.ONPRESS]: '$item.id',
-                },
-                hijos: [
-                    {
-                        tipo: 'Imagen',
-                        valor: '$item.foto',
-                        atributos: { [K.LAYOUT_WIDTH]: 52, [CLAVE_ASPECTO]: ASPECTO_TARJETA, [K.CORNERRADIUS]: REJILLA.RADIO },
-                    },
-                    {
-                        tipo: 'Contenedor',
-                        atributos: { [K.ORIENTATION]: 1, [K.WEIGHT]: 1, [K.PADDING_LEFT]: 10 },
-                        hijos: [
-                            texto('$item.nombre', 14, C.texto, {}),
-                            texto('$item.seguidores', 11, C.secundario, { [K.PADDING_TOP]: 2 }),
-                            {
-                                tipo: 'Icono',
-                                valor: 'HeartOff',
-                                atributos: {
-                                    [K.ONPRESS]: '$item.id',
-                                    [CLAVE_ACCION]: ACCIONES.DEJAR_DE_SEGUIR,
-                                    [K.TEXTCOLOR]: C.secundario,
-                                    [K.TEXTSIZE]: 18,
-                                    [K.LAYOUT_WIDTH]: 26,
-                                    [K.LAYOUT_HEIGHT]: 26,
-                                },
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
-    };
-}
-exports.arbolDeSiguiendo = arbolDeSiguiendo;
 
 /**
- * LOS DATOS DE SIGUIENDO — **de quien pregunta**.
+ * LOS TIPOS DE TARJETA DEL FEED DE SIGUIENDO — **uno por variante**, clonados de Taobao.
  *
- * Se reenvía la cabecera `Authorization` al API, que es el único que sabe de quién son. **Si el
- * servicio no contesta, esto devuelve «nada» y no rellena con inventos**: hoy, medido, el endpoint
- * `GET /ecomerse/sellers/following` **no existe** en el backend de ecomerse (`sellers/:id` se come la
- * ruta y responde 400), así que esta sección sale vacía — y ese vacío es la verdad.
- *
- * ⚠️ **Cuando exista el endpoint, esta ruta funciona sin cambios de cliente**: la llamada ya va con la
- * cabecera reenviada y con plazo.
+ * Están en el fichero puro compartido `components/ecomerse/seguirVariantes.ts` (y probados allí); aquí
+ * van copiados porque este controlador es el paquete compilado y no puede importar del repositorio de
+ * la app. **La paridad la comprueba el oráculo**, no la buena intención.
  */
+const TIPOS_TARJETA = {
+    TITULO: 'titulo',
+    EN_VIVO: 'en_vivo',
+    REPETICION: 'repeticion',
+    ANUNCIO: 'anuncio',
+    TITULO_RECOMENDADO: 'titulo_recomendado',
+    RECOMENDADO: 'recomendado',
+    GRANDE: 'grande',
+    VACIO: 'vacio',
+    SIN_RED: 'sin_red',
+    CARGAR_MAS: 'cargar_mas',
+    AUTOPLAY: 'autoplay',
+};
+const PLANTILLA_SIGUIENDO = {
+    [TIPOS_TARJETA.TITULO]: 'seguir_titulo',
+    [TIPOS_TARJETA.EN_VIVO]: 'seguir_en_vivo',
+    [TIPOS_TARJETA.REPETICION]: 'seguir_repeticion',
+    [TIPOS_TARJETA.ANUNCIO]: 'seguir_anuncio',
+    [TIPOS_TARJETA.TITULO_RECOMENDADO]: 'seguir_titulo_recomendado',
+    [TIPOS_TARJETA.RECOMENDADO]: 'seguir_recomendado',
+    [TIPOS_TARJETA.GRANDE]: 'seguir_grande',
+    [TIPOS_TARJETA.VACIO]: 'seguir_vacio',
+    [TIPOS_TARJETA.SIN_RED]: 'seguir_vacio',
+    [TIPOS_TARJETA.CARGAR_MAS]: 'seguir_cargar_mas',
+    [TIPOS_TARJETA.AUTOPLAY]: 'seguir_autoplay',
+};
+const ACCIONES_SIGUIENDO = {
+    SEGUIR: 'ext:seguir',
+    AVISAR: 'ext:avisar',
+    REPRODUCIR: 'ext:reproducir',
+    REFRESCAR: 'ext:refrescar',
+    CARGAR_MAS: 'ext:cargarmas',
+    PLEGAR: 'ext:plegar',
+};
+exports.TIPOS_TARJETA = TIPOS_TARJETA;
+exports.PLANTILLA_SIGUIENDO = PLANTILLA_SIGUIENDO;
+exports.ACCIONES_SIGUIENDO = ACCIONES_SIGUIENDO;
+
+/** De los datos a las TARJETAS: **aquí vive "con todas sus variantes"** (igual que el .ts puro). */
+function tarjetasDeSiguiendo(datos) {
+    const tiendas = Array.isArray(datos && datos.tiendas) ? datos.tiendas : [];
+    if (datos && datos.sinRed) return [{ tipo: TIPOS_TARJETA.SIN_RED }];
+    if (tiendas.length === 0) return [{ tipo: TIPOS_TARJETA.VACIO }];
+    const tarjetas = [];
+    tarjetas.push({ tipo: TIPOS_TARJETA.AUTOPLAY, plegado: !(datos && datos.autoplayPlegado === false) });
+    tarjetas.push({ tipo: TIPOS_TARJETA.TITULO, titulo: (datos && datos.titulo) || 'Siguiendo' });
+    for (const t of tiendas) {
+        if (t.anuncio) tarjetas.push({ tipo: TIPOS_TARJETA.ANUNCIO, ...t.anuncio, tienda: t.nombre, id: t.id });
+        else if (t.repeticion) tarjetas.push({ tipo: TIPOS_TARJETA.REPETICION, ...t });
+        else tarjetas.push({ tipo: TIPOS_TARJETA.EN_VIVO, ...t });
+    }
+    if (datos.recomendados && datos.recomendados.length) {
+        tarjetas.push({ tipo: TIPOS_TARJETA.TITULO_RECOMENDADO, titulo: 'Basado en tus seguidos' });
+        for (const r of datos.recomendados) tarjetas.push({ tipo: TIPOS_TARJETA.RECOMENDADO, ...r });
+    }
+    if (datos.grandes && datos.grandes.length) for (const g of datos.grandes) tarjetas.push({ tipo: TIPOS_TARJETA.GRANDE, ...g });
+    tarjetas.push({ tipo: TIPOS_TARJETA.CARGAR_MAS });
+    return tarjetas;
+}
+exports.tarjetasDeSiguiendo = tarjetasDeSiguiendo;
+
+const tarjeta = (C_, hijos, extra = {}) => ({
+  tipo: 'Contenedor',
+  atributos: {
+    [K.ORIENTATION]: 1,
+    [K.BACKGROUNDCOLOR]: C_.tarjeta,
+    [K.CORNERRADIUS]: REJILLA.RADIO,
+    [K.PADDING_LEFT]: 10,
+    [K.PADDING_RIGHT]: 10,
+    [K.PADDING_TOP]: 10,
+    [K.PADDING_BOTTOM]: 10,
+    ...extra,
+  },
+  hijos,
+});
+
+const fila = (hijos, extra = {}) => ({
+  tipo: 'Contenedor',
+  atributos: { [K.ORIENTATION]: 0, ...extra },
+  hijos,
+});
+
+/** Un botón de texto: lleva el id REAL del elemento y **qué hacer** (`ext:accion`). */
+const boton = (rotulo, accion, color, extra = {}) => ({
+  tipo: 'Texto',
+  valor: rotulo,
+  atributos: {
+    [K.ONPRESS]: '$item.id',
+    [CLAVE_ACCION]: accion,
+    [K.TEXTSIZE]: 12,
+    [K.TEXTCOLOR]: color,
+    [K.PADDING_LEFT]: 10,
+    [K.PADDING_RIGHT]: 10,
+    [K.PADDING_TOP]: 4,
+    [K.PADDING_BOTTOM]: 4,
+    ...extra,
+  },
+});
+
+/** La portada de un directo: la imagen y, encima, el botón de reproducir (no hay widget de vídeo). */
+/**
+ * La portada de un directo: la imagen **y el botón de reproducir al lado**.
+ *
+ * ⚠️ **Aquí NO hay vídeo, y se dice.** La tarjeta de Taobao lleva dentro un `live_card_playerview`
+ * (el reproductor); nuestro contrato no tiene widget de vídeo, así que se manda **la portada y el
+ * botón que dice qué haría** (`ext:reproducir`). Fingir un reproductor sería peor que un botón.
+ */
+const portada = (C_) => fila([
+  {
+    tipo: 'Imagen',
+    valor: '$item.portada',
+    atributos: { [K.LAYOUT_WIDTH]: -1, [CLAVE_ASPECTO]: 1.6, [K.CORNERRADIUS]: REJILLA.RADIO },
+  },
+  {
+    tipo: 'Icono',
+    valor: 'Play',
+    atributos: {
+      [K.ONPRESS]: '$item.id',
+      [CLAVE_ACCION]: ACCIONES_SIGUIENDO.REPRODUCIR,
+      [K.TEXTCOLOR]: C_.texto,
+      [K.LAYOUT_WIDTH]: 32,
+      [K.LAYOUT_HEIGHT]: 32,
+    },
+  },
+], { [K.BACKGROUNDCOLOR]: C_.fondo, [K.CORNERRADIUS]: REJILLA.RADIO });
+
+/** La fila del creador: su avatar, su nombre y —si toca— el botón de seguir. */
+const creador = (C_, conBoton) => fila([
+  {
+    tipo: 'Imagen',
+    valor: '$item.avatar',
+    atributos: { [K.LAYOUT_WIDTH]: 28, [CLAVE_ASPECTO]: 1, [K.CORNERRADIUS]: 14 },
+  },
+  texto('$item.creador', 12, C_.texto, { [K.WEIGHT]: 1, [K.PADDING_LEFT]: 8 }),
+  ...(conBoton
+    ? [boton('$item.rotuloSeguir', ACCIONES_SIGUIENDO.SEGUIR, C_.naranja)]
+    : []),
+], { [K.PADDING_TOP]: 8 });
+
+function arbolDeSiguiendo(tema) {
+  const C_ = coloresDe(tema);
+  return {
+    tipo: 'Lista',
+    // **El feed son TARJETAS, no tiendas**: cada una trae su tipo y el tipo decide su plantilla.
+    valor: '$tarjetas',
+    atributos: {
+      [LISTA.COLUMN_COUNT]: 1,
+      [LISTA.ROW_SPACING]: 10,
+      [K.PADDING_LEFT]: REJILLA.MARGEN,
+      [K.PADDING_RIGHT]: REJILLA.MARGEN,
+      [K.PADDING_TOP]: REJILLA.MARGEN_SUPERIOR,
+    },
+    hijos: [
+      // ── 0 · `preplayback_foldmenu`: el ajuste de REPRODUCCIÓN AUTOMÁTICA, plegable ────────────
+      // En Taobao es un menú que se pliega (`fold`/`unfold` en `engineStorageSet`) y va ARRIBA del
+      // feed: es un ajuste del feed entero, no de una tarjeta. Aquí se manda su estado y su botón.
+      tarjeta(C_, [
+        fila([
+          texto('$item.estado', 11, C_.secundario, { [K.WEIGHT]: 1, [K.LAYOUT_WIDTH]: -1 }),
+          boton('$item.rotulo', ACCIONES_SIGUIENDO.PLEGAR, C_.secundario),
+        ]),
+      ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.autoplay, [SPAN_TARJETA]: 1 }),
+
+      // ── 1 · `common_title_card`: la tarjeta de TÍTULO ────────────────────────────────────────
+      tarjeta(C_, [
+        texto('$item.titulo', 15, C_.texto, {}),
+      ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.titulo, [SPAN_TARJETA]: 1 }),
+
+      // ── 2 · `live_card` · variante EN VIVO ───────────────────────────────────────────────────
+      tarjeta(C_, [
+        portada(C_),
+        fila([
+          texto('$item.estado', 11, C_.naranja, { [K.WEIGHT]: 1 }),
+          texto('$item.espectadores', 11, C_.secundario, { [K.PADDING_LEFT]: 8 }),
+        ], { [K.PADDING_TOP]: 6 }),
+        texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 4 }),
+        creador(C_, true),
+      ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.en_vivo, [SPAN_TARJETA]: 1, [K.ONPRESS]: '$item.id' }),
+
+      // ── 3 · `live_card` · variante REPETICIÓN (Taobao: `replayExpire`) ───────────────────────
+      tarjeta(C_, [
+        portada(C_),
+        fila([
+          texto('$item.estado', 11, C_.secundario, { [K.WEIGHT]: 1 }),
+          texto('$item.duracion', 11, C_.secundario, { [K.PADDING_LEFT]: 8 }),
+        ], { [K.PADDING_TOP]: 6 }),
+        texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 4 }),
+        creador(C_, false),
+      ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.repeticion, [SPAN_TARJETA]: 1, [K.ONPRESS]: '$item.id' }),
+
+      // ── 4 · `live_card` + `newPreLiveInfo` · variante ANUNCIO (预约) ──────────────────────────
+      // En Taobao, si el directo no ha empezado la tarjeta cambia de forma: título, hora y **预约**.
+      tarjeta(C_, [
+        fila([
+          { tipo: 'Imagen', valor: '$item.portada', atributos: { [K.LAYOUT_WIDTH]: 64, [CLAVE_ASPECTO]: 1, [K.CORNERRADIUS]: REJILLA.RADIO } },
+          {
+            tipo: 'Contenedor',
+            atributos: { [K.ORIENTATION]: 1, [K.WEIGHT]: 1, [K.PADDING_LEFT]: 10 },
+            hijos: [
+              texto('$item.titulo', 14, C_.texto, {}),
+              texto('$item.empieza', 11, C_.secundario, { [K.PADDING_TOP]: 2 }),
+            ],
+          },
+        ]),
+        fila([
+          texto('$item.creador', 12, C_.secundario, { [K.WEIGHT]: 1 }),
+          boton('$item.rotuloAviso', ACCIONES_SIGUIENDO.AVISAR, C_.naranja, { [K.LAYOUT_WIDTH]: -1 }),
+        ], { [K.PADDING_TOP]: 8, [K.ORIENTATION]: 0 }),
+      ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.anuncio, [SPAN_TARJETA]: 1, [K.ONPRESS]: '$item.id' }),
+
+      // ── 5 · `recommend_title`: el título de los recomendados («Basado en tus seguidos») ───────
+      tarjeta(C_, [
+        texto('$item.titulo', 13, C_.texto, { [K.WEIGHT]: 1 }),
+      ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.titulo_recomendado, [SPAN_TARJETA]: 1 }),
+
+      // ── 6 · `live_card` + `recommendInfo` · variante RECOMENDADO ─────────────────────────────
+      tarjeta(C_, [
+        fila([
+          { tipo: 'Imagen', valor: '$item.foto', atributos: { [K.LAYOUT_WIDTH]: 72, [CLAVE_ASPECTO]: 1, [K.CORNERRADIUS]: REJILLA.RADIO } },
+          {
+            tipo: 'Contenedor',
+            atributos: { [K.ORIENTATION]: 1, [K.WEIGHT]: 1, [K.PADDING_LEFT]: 10 },
+            hijos: [
+              texto('$item.titulo', 13, C_.texto, {}),
+              texto('$item.motivo', 11, C_.secundario, { [K.PADDING_TOP]: 2 }),
+            ],
+          },
+        ]),
+      ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.recomendado, [SPAN_TARJETA]: 1, [K.ONPRESS]: '$item.id' }),
+
+      // ── 7 · `sjsdbigfeed_card_2026`: la tarjeta GRANDE del feed (sin botón de seguir) ─────────
+      tarjeta(C_, [
+        portada(C_),
+        texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 6 }),
+        fila([
+          { tipo: 'Imagen', valor: '$item.avatar', atributos: { [K.LAYOUT_WIDTH]: 24, [CLAVE_ASPECTO]: 1, [K.CORNERRADIUS]: 12 } },
+          texto('$item.creador', 11, C_.secundario, { [K.PADDING_LEFT]: 6 }),
+        ], { [K.PADDING_TOP]: 6 }),
+      ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.grande, [SPAN_TARJETA]: 1, [K.ONPRESS]: '$item.id' }),
+
+      // ── 8 · `preplayback_loadmore`: el CARGAR MÁS del feed ───────────────────────────────────
+      tarjeta(C_, [
+        boton('$item.rotulo', ACCIONES_SIGUIENDO.CARGAR_MAS, C_.secundario, { [K.LAYOUT_WIDTH]: -1 }),
+      ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.cargar_mas, [SPAN_TARJETA]: 1, [K.ONPRESS]: '$item.id' }),
+
+      // ── 9 · `new_empty_card`: **vacío Y error de red en la misma tarjeta** ────────────────────
+      // En Taobao es UNA plantilla con `isNetError` dentro: la ilustración (420×300) y 「刷新」. Aquí
+      // el rótulo y el texto los pone el dato, así que la misma tarjeta sirve para las dos cosas.
+      tarjeta(C_, [
+        texto('$item.titulo', 15, C_.texto, { [K.LAYOUT_WIDTH]: -1 }),
+        texto('$item.texto', 12, C_.secundario, { [K.PADDING_TOP]: 6, [K.LAYOUT_WIDTH]: -1 }),
+        boton('$item.rotulo', ACCIONES_SIGUIENDO.REFRESCAR, C_.naranja, { [K.PADDING_TOP]: 12 }),
+      ], {
+        [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.vacio,
+        [SPAN_TARJETA]: 1,
+        [K.PADDING_TOP]: 24,
+        [K.PADDING_BOTTOM]: 24,
+      }),
+    ],
+  };
+}
+exports.arbolDeSiguiendo = arbolDeSiguiendo;
 async function datosDeSiguiendo(authorization) {
-    if (!authorization) return null;
+    if (!authorization) return { tarjetas: tarjetasDeSiguiendo(null) };
+    let respuesta;
     try {
-        const r = await fetch(SIGUIENDO_API, {
+        respuesta = await fetch(SIGUIENDO_API, {
             headers: { authorization: String(authorization) },
             signal: typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(3000) : undefined,
         });
-        if (!r.ok) return null;
-        const cuerpo = await r.json();
-        const tiendas = Array.isArray(cuerpo?.sellers) ? cuerpo.sellers : null;
-        if (!tiendas) return null;
-        return {
-            tiendas: tiendas.map((s) => ({
-                id: String(s.id ?? ''),
-                nombre: String(s.businessName ?? s.name ?? 'Tienda'),
-                seguidores: Number(s.followersCount ?? s.followers ?? 0),
-                anuncios: Number(s.anuncios ?? 0),
-                ciudad: String(s.city ?? ''),
-                ...(typeof s.photoKey === 'string' && /^https?:\/\//.test(s.photoKey) ? { foto: s.photoKey } : {}),
-                ...(s.badge ? { sello: String(s.badge) } : {}),
-            })),
-            total: Number(cuerpo?.total ?? tiendas.length),
-        };
     } catch {
-        return null;
+        return { tarjetas: tarjetasDeSiguiendo({ sinRed: true }) };
     }
+    if (!respuesta.ok) return { tarjetas: tarjetasDeSiguiendo({ sinRed: true }) };
+    const cuerpo = await respuesta.json().catch(() => null);
+    const tiendas = Array.isArray(cuerpo && cuerpo.sellers) ? cuerpo.sellers : null;
+    if (!tiendas) return { tarjetas: tarjetasDeSiguiendo({ sinRed: true }) };
+    return { tarjetas: tarjetasDeSiguiendo({
+        titulo: 'Siguiendo',
+        tiendas: tiendas.map((s) => ({
+            id: String(s.id || ''),
+            nombre: String(s.businessName || s.name || 'Tienda'),
+            creador: String(s.businessName || s.name || 'Tienda'),
+            titulo: String(s.titulo || s.businessName || ''),
+            ...(esUrlDeImagen(s.portada || s.photoKey) ? { portada: String(s.portada || s.photoKey) } : {}),
+            ...(esUrlDeImagen(s.avatar || s.photoKey) ? { avatar: String(s.avatar || s.photoKey) } : {}),
+            estado: String(s.estado || ''),
+            espectadores: s.espectadores ? String(s.espectadores) + ' viendo' : '',
+            ...(s.repeticion ? { repeticion: true, duracion: String(s.duracion || '') } : {}),
+            ...(s.anuncio ? { anuncio: { titulo: String(s.anuncio.titulo || ''), empieza: String(s.anuncio.empieza || ''), rotuloAviso: String(s.anuncio.rotuloAviso || 'Avisarme') } } : {}),
+            rotuloSeguir: 'Siguiendo',
+        })),
+    }) };
 }
 exports.datosDeSiguiendo = datosDeSiguiendo;
 
