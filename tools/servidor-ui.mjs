@@ -387,6 +387,8 @@ const PESTANAS = {
   INDICADOR_TIPO: 'ext:tipoindicador',
   NEGRITA_SELECCIONADA: 'ext:negritaactiva',
   ESPACIO: 'ext:espacio',
+  /** El alto de la imagen de una pestaña: en Taobao, `imageTabHeightAp` = 31. */
+  ALTO_IMAGEN: 'ext:altoimagen',
 };
 
 /**
@@ -415,8 +417,12 @@ const TAMANO_PESTANA_ACTIVA = 13;
  *
  * **El tema es de verdad claro/oscuro**: el color normal, el de la activa y el del subrayado salen
  * del tema que pide el cliente con `?tema=`, igual que el resto de las secciones.
+ *
+ * `activa` es el **índice** de la pestaña que empieza elegida. En Taobao eso viaja por pestaña
+ * (`isDefaultSelected` / `isStickyLeft`, medido en la pestaña 推荐); aquí llega como índice porque el
+ * árbol y los datos se montan a la vez — que es también como lo hace Taobao.
  */
-function arbolDeCategorias(tema) {
+function arbolDeCategorias(tema, activa = 0) {
   const C = coloresDe(tema);
   return {
     tipo: 'Pestanas',
@@ -435,20 +441,34 @@ function arbolDeCategorias(tema) {
       [PESTANAS.TAMANO_SELECCIONADO]: TAMANO_PESTANA_ACTIVA,
       [PESTANAS.INDICADOR]: true,
       [PESTANAS.INDICADOR_COLOR]: C.naranja,
-      [PESTANAS.INDICADOR_TIPO]: 'line',
+      // **`smile`: el subrayado curvo de Taobao**, medido (`tabIndicatorType: "smile"`). Se pinta con
+      // píxeles nuestros (una cápsula): sus arcos son imágenes de su CDN y no se copian.
+      [PESTANAS.INDICADOR_TIPO]: 'smile',
       [PESTANAS.NEGRITA_SELECCIONADA]: true,
       [PESTANAS.ESPACIO]: ESPACIO_PESTANAS,
-      // La primera es «Recomendado» (id `''`), que es como el listado abre hoy el Mercado.
-      [PESTANAS.SELECCIONADA]: 0,
+      // El alto de la imagen de una pestaña: en Taobao `imageTabHeightAp` = **31**. Hoy el Mercado no
+      // manda imágenes (ver `datosDeCategorias`), pero el contrato queda con su valor medido.
+      [PESTANAS.ALTO_IMAGEN]: 31,
+      [PESTANAS.SELECCIONADA]: Math.max(0, Math.trunc(activa)),
     },
   };
 }
+
+/** ¿Este texto es una URL con la que se pueda pintar una imagen? */
+const esUrlDeImagen = (v) => typeof v === 'string' && /^https?:\/\//i.test(v);
 
 /**
  * Los datos de la barra: **las categorías REALES del Mercado**, no una lista de ejemplo.
  *
  * La primera pestaña es **Recomendado** con `id: ''`, que es exactamente lo que hace el carril de
  * `app/ecomerse.tsx:681`: `''` significa «sin filtro». **No se inventa ni un departamento.**
+ *
+ * ⚠️ **Los emojis NO se mandan, y es a propósito.** Medido en las **12 pestañas** de la portada de
+ * Taobao (`re-e-categorias/out/pestanas-detalle.txt`): el rótulo es **texto** y, cuando la pestaña
+ * lleva icono, es **un PNG de 92×80** (`labelImg`) con su ubicación (`labelLocation: right`), su hueco
+ * (`imgPadding: 10`) y su proporción (`labelAspectRatio: 1.15`). **Emoji, ninguno: eso era invención
+ * nuestra.** El icono del departamento solo se manda si es **una URL**; hoy guarda un emoji, así que
+ * las pestañas salen **de texto** — que es lo que son **7 de las 12 de Taobao**.
  */
 async function datosDeCategorias() {
   const respuesta = await fetch(CATEGORIAS);
@@ -457,14 +477,20 @@ async function datosDeCategorias() {
   if (!Array.isArray(departamentos) || departamentos.length === 0) return null;
   const categorias = departamentos
     .filter((d) => d && d.id)
-    .map((d) => ({
-      id: String(d.id),
-      etiqueta: String(d.label ?? ''),
-      // El emoji es el icono del departamento, que es lo que la app pinta en su carril.
-      emoji: typeof d.icon === 'string' && d.icon ? d.icon : '',
-    }));
+    .map((d) => {
+      const icono = typeof d.icon === 'string' ? d.icon : '';
+      return {
+        id: String(d.id),
+        etiqueta: String(d.label ?? ''),
+        // Las claves de la imagen, **solo si de verdad hay una imagen**, con los valores MEDIDOS en
+        // Taobao para una pestaña con rótulo gráfico.
+        ...(esUrlDeImagen(icono)
+          ? { imagen: icono, imagenactiva: icono, ubicacion: 'right', separacion: 10, aspecto: 1.15 }
+          : {}),
+      };
+    });
   if (categorias.length === 0) return null;
-  return { categorias: [{ id: '', etiqueta: 'Recomendado', emoji: '' }, ...categorias] };
+  return { categorias: [{ id: '', etiqueta: 'Recomendado' }, ...categorias] };
 }
 
 /**
@@ -586,20 +612,35 @@ const servidor = createServer((req, res) => {
       buscarDatos: () => datosDeRejilla(),
     }),
     // **La barra de pestañas de las categorías**: en Taobao, la sección `categoryTab`.
+    //
+    // **`?activa=<id>` es qué pestaña empieza elegida.** El árbol tiene que saberlo, y el índice sale
+    // de los datos: por eso esta ruta no manda un árbol fijo, sino que **lo monta con los datos**
+    // (mismo orden que Taobao: primero llega la lista, y con ella cuál está seleccionada).
     '/api/ecomerse/ui/categorias': (p) => ({
-      arbol: arbolDeCategorias(p.get('tema')),
-      buscarDatos: () => datosDeCategorias(),
+      arbol: null,
+      buscarDatos: async () => {
+        const datos = await datosDeCategorias();
+        if (!datos) return null;
+        const buscada = p.get('activa');
+        const indice = buscada ? Math.max(0, datos.categorias.findIndex((c) => c.id === buscada)) : 0;
+        return { datos, arbol: arbolDeCategorias(p.get('tema'), indice) };
+      },
     }),
   };
 
   if (RUTAS[url.pathname]) {
     const cfg = RUTAS[url.pathname](url.searchParams);
     Promise.resolve(cfg.buscarDatos())
-      .then((datos) => {
+      .then((r) => {
+        // Una ruta puede devolver solo los datos, o **datos Y árbol** cuando el árbol depende de
+        // ellos (las pestañas: cuál está activa sale de la lista). Se aceptan las dos formas.
+        const conArbol = r && typeof r === 'object' && 'datos' in r && 'arbol' in r;
+        const datos = conArbol ? r.datos : r;
+        const arbol = conArbol ? r.arbol : cfg.arbol;
         // **`arbol: null` es un estado legítimo del contrato**: «no hay nada que pintar». El
         // cliente no pinta la sección y sigue con el resto de la pantalla.
-        if (!datos) { json(200, { esquema: ESQUEMA, arbol: null }); return; }
-        json(200, { esquema: ESQUEMA, arbol: cfg.arbol, datos });
+        if (!datos || !arbol) { json(200, { esquema: ESQUEMA, arbol: null }); return; }
+        json(200, { esquema: ESQUEMA, arbol, datos });
       })
       .catch(() => json(200, { esquema: ESQUEMA, arbol: null }));
     return;

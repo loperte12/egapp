@@ -459,11 +459,23 @@ export default function EcomerseScreen() {
                 (sin departamento elegido) el que la deja activa, y al pulsarla se vuelve al feed
                 entero. Va la primera porque es el camino de vuelta, y sin ella la única forma de
                 quitar el filtro sería volver a pulsar la pestaña puesta. */}
-            {loading && cats.length === 0 ? (
-              <PestanasEsqueleto colors={colors} />
-            ) : (
-              <PestanasDepartamentos cats={cats} activeId={categoryFilter} onPick={chooseCat} />
-            )}
+            {/*
+              ── EL CARRIL DE DEPARTAMENTOS, SERVIDO ──────────────────────────────────────────────
+              Antes esto era `PestanasDepartamentos`: un carril pintado por el cliente, con sus
+              estilos y su lógica dentro de esta pantalla. Ahora **lo manda el servidor** (en Taobao
+              es la sección `categoryTab`), así que sus 18 departamentos, su tema claro/oscuro y su
+              forma viven en un sitio y no en dos.
+
+              **`?activa=` va en la ruta y no en el estado del widget**: la pestaña elegida es la que
+              filtra la pantalla, y quien sabe qué está filtrado es el servidor. Al tocar, `chooseCat`
+              hace lo de siempre (y alterna: volver a pulsar la puesta quita el filtro), la ruta
+              cambia y el servidor devuelve el carril con esa pestaña activa.
+            */}
+            <FranjaServidor
+              ruta={categoryFilter ? `categorias?activa=${encodeURIComponent(categoryFilter)}` : 'categorias'}
+              testID="categorias-servidor"
+              alTocar={(id) => chooseCat(id)}
+            />
 
             {/* LA REJILLA — las familias del departamento activo, con la imagen del servidor.
                 La imagen **no es de la familia**: la familia no tiene ninguna (0 de 110 tienen
@@ -653,79 +665,28 @@ export default function EcomerseScreen() {
 // ---------------------------------------------------------------------------
 
 /**
- * PESTAÑAS DE DEPARTAMENTOS — el primer nivel de la home, pegado a la barra de búsqueda.
+ * EL CARRIL DE DEPARTAMENTOS SE MUDÓ AL SERVIDOR (15/10/2026).
  *
- * Son 18 y **no caben** en 360 dp, así que la fila **desliza** en vez de repartirse: 18 pestañas
- * comprimidas serían 18 rótulos cortados, que es el defecto que esta pantalla ya arregló una vez.
+ * Aquí vivían `PestanasDepartamentos`, `Pestana` y `PestanasEsqueleto`: un carril pintado por el
+ * cliente con sus estilos y su lógica dentro de esta pantalla. **Ahora lo manda el servidor**
+ * (`components/ecomerse/Pestanas.tsx`, y en Taobao es la sección `categoryTab`), así que los 18
+ * departamentos, el tema claro/oscuro y la forma de la barra viven **en un solo sitio**.
  *
- * La activa se marca de DOS formas a la vez —color y subrayado—, y no es redundancia: en el tema
- * oscuro el color primario y el texto secundario se distinguen mal, y hay quien no distingue el
- * rojo. El `accessibilityState` lo dice además sin depender de ninguna de las dos.
+ * Lo que se conservó, y por qué (cada uno está pagado con un fallo):
+ *   · **La fila desliza** en vez de repartirse: 18 pestañas comprimidas serían 18 rótulos cortados.
+ *   · **El subrayado se pinta siempre**, transparente cuando no toca: si no, la fila baila de alto.
+ *   · **`accessibilityRole="tab"` con `selected`**: que el lector de pantalla lo sepa sin depender
+ *     del color, que en el tema oscuro distingue mal.
+ *   · **«Recomendado» va la primera** y no es un departamento: es el estado «sin departamento».
  *
- * «Recomendado» es la primera y **no es un departamento**: es el estado «sin departamento». Volver a
- * pulsar la pestaña puesta también lo quita (`chooseCat` alterna), pero eso hay que descubrirlo; una
- * pestaña que se llama «Recomendado» se entiende sin manual.
+ * Lo que CAMBIÓ, y es el punto de la mudanza: **el emoji se fue**. Medido en las 12 pestañas de la
+ * portada de Taobao, el rótulo es **texto** y, cuando la pestaña lleva icono, es **un PNG** que va
+ * aparte con su ubicación y su hueco. El emoji era invención nuestra.
  *
- * EL EMOJI VA DELANTE DEL NOMBRE, y va dentro del MISMO `Text`: es lo único del árbol que tiene
- * imagen propia —los 18 departamentos sí, las 110 familias no—, así que la pestaña se reconoce por
- * figura antes de leerse. En dos `Text` hermanos dentro de una fila la línea base se descuadra en
- * cuanto cambia la escala de letra del sistema.
+ * ⚠️ **Lo que se pierde**: el esqueleto de carga del carril (5 barras del alto de una pestaña). El
+ * carril servido aparece cuando llega, sin esqueleto, así que la cabecera puede dar un salto pequeño.
+ * Se quita a conciencia: un esqueleto que no mide lo que va a medir es una promesa falsa.
  */
-function PestanasDepartamentos({ cats, activeId, onPick }: {
-  cats: EcomerseCategory[]; activeId: string; onPick: (id: string) => void;
-}) {
-  const { colors } = useTheme();
-  return (
-    <View style={[s_home.pestanasBarra, { borderBottomColor: colors.border }]}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s_home.pestanasContenido}>
-        <Pestana label="Recomendado" activa={activeId === ''} onPress={() => onPick('')} colors={colors} />
-        {cats.map((c) => (
-          <Pestana
-            key={c.id}
-            label={c.label}
-            emoji={c.icon}
-            activa={activeId === c.id}
-            onPress={() => onPick(c.id)}
-            colors={colors}
-          />
-        ))}
-      </ScrollView>
-    </View>
-  );
-}
-
-/** Una pestaña. Aparte del carril para que el carril no tenga dos ramas de pintado. */
-function Pestana({ label, emoji, activa, onPress, colors }: {
-  label: string; emoji?: string | null; activa: boolean;
-  onPress: () => void; colors: ReturnType<typeof useTheme>['colors'];
-}) {
-  return (
-    <Pressable onPress={onPress} hitSlop={6} accessibilityRole="tab"
-      accessibilityState={{ selected: activa }} accessibilityLabel={label} style={s_home.pestana}>
-      <Text numberOfLines={1} style={[s_home.pestanaTexto, { color: activa ? colors.text.primary : colors.textSecondary }]}>
-        {emoji ? `${emoji} ` : ''}{label}
-      </Text>
-      {/* El subrayado se pinta SIEMPRE (transparente cuando no toca) y no condicionalmente: así la
-          pestaña mide lo mismo activa y no activa, y al cambiar de pestaña no baila el alto. */}
-      <View style={[s_home.subrayado, { backgroundColor: activa ? colors.primary : 'transparent' }]} />
-    </Pressable>
-  );
-}
-
-/**
- * Esqueleto del carril de pestañas: **mismo alto, mismo deslizamiento horizontal, mismo hueco**. Un
- * esqueleto que no mide lo que va a medir el contenido real es una promesa falsa — hace saltar la
- * pantalla cuando llegan los datos. Por eso son barras del alto de una pestaña y no círculos.
- */
-function PestanasEsqueleto({ colors }: { colors: ReturnType<typeof useTheme>['colors'] }) {
-  return (
-    <View style={[s_home.pestanasEsqueleto, { borderBottomColor: colors.border }]}>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <View key={i} style={[s_home.pestanaEsqueleto, { backgroundColor: colors.border }]} />
-      ))}
-    </View>
-  );
-}
 
 /**
  * LA REJILLA DE FAMILIAS — el segundo nivel, con la imagen que resuelve el servidor.
@@ -785,19 +746,7 @@ function RejillaFamilias({ familias, activeId, onPick }: {
 }
 
 const s_home = StyleSheet.create({
-  /* --- pestañas --- */
-  pestanasBarra: { borderBottomWidth: trazo.fino },
-  pestanasContenido: { paddingHorizontal: espaciado.e16, gap: espaciado.e12, alignItems: 'flex-end' },
-  pestana: { alignItems: 'center', paddingTop: espaciado.e8 },
-  /** `caption` (12) y no `body`: con 18 pestañas la fila se recorre deslizando, y un rótulo grande
-   *  convierte cada pestaña en un bloque — se ve menos de la mitad del árbol de un vistazo. */
-  pestanaTexto: { fontSize: tipografia.caption, fontWeight: peso.fuerte, paddingBottom: espaciado.e4 },
-  /** `radios.full` y no `1`: el subrayado mide 2 dp de alto, así que el radio máximo lo convierte en
-   *  una barra de extremos redondeados igual que un `1` a mano — pero el `1` era el único valor de
-   *  radio suelto del archivo, y la guardia de diseño (`npm run diseno`) lo cazaba como deuda nueva. */
-  subrayado: { height: 2, width: '100%', borderRadius: radios.full },
-  pestanasEsqueleto: { flexDirection: 'row', gap: espaciado.e12, paddingHorizontal: espaciado.e16, paddingVertical: espaciado.e12, borderBottomWidth: trazo.fino },
-  pestanaEsqueleto: { width: 56, height: 12, borderRadius: radios.sm },
+  /* --- pestañas: los estilos se mudaron con el carril (ver `components/ecomerse/Pestanas.tsx`) --- */
 
   /* --- rejilla de familias --- */
   /** `flexWrap` con ancho EXPLÍCITO por celda (`100/COLUMNAS_REJILLA`): con `flex: 1` y base 0 el

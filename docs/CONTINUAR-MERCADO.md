@@ -792,3 +792,85 @@ es **idéntico** al del servidor local. Oráculo **122/122** (15 nuevos).
 3. **Migrar el carril del listado** a esta sección (`PestanasDepartamentos` se borra): hoy hay dos
    barras, la del cliente y la servida, y la servida ya hace lo mismo con el tema del servidor.
 4. La pantalla de categorías con la taxonomía del Mercado y sus tres niveles.
+
+---
+
+## 18 · El carril migrado, los emojis fuera y el APK instalado (15/10)
+
+### 1 · Se decodificó cómo pinta Taobao una pestaña: **la etiqueta es TEXTO**
+
+`re-e-categorias/out/pestanas-detalle.txt` vuelca **las 12 pestañas enteras** de la portada (关注 ·
+推荐 · 闪购 · 国补 · 年货节 · 飞猪 · 穿搭 · 居家 · 美食 · 数码 · 新品 · 运动). Lo que dicen, y es lo
+que se copió:
+
+| | Taobao |
+|---|---|
+| **el rótulo** | **`text`, texto** — nunca un emoji |
+| **el icono** | **7 de las 12 NO llevan icono.** Cuando lo llevan **es un PNG de 92×80** (`labelImg` / `labelSelectImg`, con sus variantes `Dark`), a un lado (`labelLocation: right`), con su hueco (`imgPadding: 10`) y su proporción (`labelAspectRatio: 1.15`) |
+| **emoji** | **ninguno, en ninguna de las 12** |
+
+Así que **el emoji era invención nuestra**: iba pegado al nombre («👗 Mujer») y salía del campo `icon`
+del departamento, que guarda un emoji. Se ha quitado del rótulo, y el widget **sí sabe pintar la
+imagen** de Taobao cuando la haya: `imagen` / `imagenactiva` / `ubicacion` / `separacion` / `aspecto`,
+con el alto del tema (`ext:altoimagen` ← `imageTabHeightAp` = **31**). **El servidor solo manda esas
+claves si el icono es una URL**; hoy guarda un emoji, así que las pestañas salen **de texto** — que es
+exactamente lo que son **7 de las 12** de Taobao. *(Si algún día se quiere icono, el camino es darle
+una imagen al departamento, no inventar dibujos ni copiar los de Alibaba.)*
+
+### 2 · El subrayado curvo (`smile`) ahora se pinta
+
+Taobao manda `tabIndicatorType: "smile"` con **dos imágenes de arco** (`leftArcImgUrl`,
+`rightArcImgUrl`, `arcImgRatio: 0.48`) de su CDN. Antes se degradaba a `line` y se declaraba; ahora
+**se pinta una cápsula** —el mismo contrato (subrayado curvo), con píxeles nuestros— y
+`INDICADORES_NO_IMPLEMENTADOS` queda vacío. **No se copian sus arcos**: eso no es copiar el contrato,
+es copiar el dibujo.
+
+### 3 · El carril del listado está MIGRADO (y el viejo, borrado)
+
+`app/ecomerse.tsx` ya no tiene `PestanasDepartamentos` / `Pestana` / `PestanasEsqueleto`: el carril lo
+manda el servidor. Lo que se conservó, pagado con un fallo cada cosa: **la fila desliza** (18
+pestañas comprimidas serían 18 rótulos cortados), **el subrayado se pinta siempre** (si no, la fila
+baila de alto), **`accessibilityRole="tab"` con `selected`** y **«Recomendado» la primera** (es el
+estado «sin departamento»).
+
+**Y la pestaña activa la dice el SERVIDOR**: la ruta va con `?activa=<id>` y el índice sale de los
+datos (`ext:activa`), que es como Taobao lo manda (`isDefaultSelected`, medido en 推荐). Volver a
+pulsar la pestaña puesta sigue quitando el filtro (`chooseCat` alterna). **Lo que se pierde**: el
+esqueleto de carga del carril (ahora aparece cuando llega; la cabecera puede dar un salto pequeño) —
+un esqueleto que no mide lo que va a medir es una promesa falsa.
+
+### 4 · El APK: compilado, instalado y **verificado en el móvil**
+
+```
+gradlew assembleRelease   → FALLA: falta `hermesc` (el bundle JS se genera, el bytecode .hbc no)
+gradlew assembleDebug     → BUILD SUCCESSFUL (11m 19s, 212,6 MB)  ← es el camino de la casa
+adb install -r app-debug.apk + Metro (npx expo start) + adb reverse tcp:8081
+```
+
+**Lo verificado en pantalla** (Mercado real, `/ecomerse`):
+
+- El carril servido **se pinta**: `Recomendado · Hombre · Mujer · Bebés y niños · Ali…`, **en texto y
+  sin un solo emoji**, con la activa en blanco y negrita y las demás en gris.
+- **El subrayado `smile` naranja** bajo la pestaña activa — se ve en la captura (nuestro dibujo).
+- **El toque llega**: al pulsar una pestaña el listado entró en «Cargando…», que es el filtro
+  cambiando (`chooseCat`), o sea que el canal de eventos del widget funciona.
+- La franja servida («Del servidor · 9 · productos») y las rejillas siguen pintándose.
+
+**Lo que NO se pudo verificar en pantalla, y por qué**: que el carril **cambie de pestaña activa** tras
+el toque. Se juntaron dos cosas: (a) el móvil **no alcanzaba `api.egrouteplan.com`** en ese momento
+—lo dice la sonda de la propia app: `netprobe FAIL api-domain … Aborted` mientras baidu y taobao daban
+200—, así que la recarga de la sección no llegaba y el widget conservaba el último árbol bueno
+(**degradar, no inventar**); (b) tras varias recargas los toques dejaron de registrarse. **Server-side
+sí está verificado**: `?activa=<id>` devuelve `ext:activa` con el índice correcto
+(`verificar-produccion.mjs`, EXIT=0) y el oráculo cubre el resolutor del widget. Queda apuntado como lo
+primero que hay que mirar con la red del móvil en condiciones.
+
+**Nota de fontanería del APK**: el móvil se caía del `adb` a cada paso porque estaba en **«solo
+carga»**; hay que elegir transferencia de archivos en el diálogo de USB. Y para capturar:
+`cmd /c "adb exec-out screencap -p > f.png"` — con el `>` de PowerShell el PNG sale corrupto.
+
+### Verificación
+
+`tsc` **5** (los de siempre) · `rutas` **0** · `logica` **0** · `diseño` **en verde** · oráculo
+**124/124** · producción **EXIT=0** (con `?activa`, sin emojis, `smile` y `altoimagen 31`).
+Desplegado: `codeSha256 2fde9acd…`, Active, 89.286.898 B.

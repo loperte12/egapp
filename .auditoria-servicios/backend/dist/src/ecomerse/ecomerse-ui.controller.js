@@ -68,7 +68,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeCategorias = exports.datosDeCategorias = exports.PESTANAS = exports.ESPACIO_PESTANAS = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.accionDeTarjeta = exports.ACCIONES = exports.CLAVE_ACCION = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
+exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeCategorias = exports.datosDeCategorias = exports.esUrlDeImagen = exports.PESTANAS = exports.ESPACIO_PESTANAS = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.accionDeTarjeta = exports.ACCIONES = exports.CLAVE_ACCION = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
 const common_1 = require("@nestjs/common");
 const ecomerse_service_1 = require("./ecomerse.service");
 
@@ -355,6 +355,8 @@ const PESTANAS = {
     INDICADOR_TIPO: 'ext:tipoindicador',
     NEGRITA_SELECCIONADA: 'ext:negritaactiva',
     ESPACIO: 'ext:espacio',
+    /** El alto de la imagen de una pestaña: en Taobao, `imageTabHeightAp` = 31. */
+    ALTO_IMAGEN: 'ext:altoimagen',
 };
 exports.PESTANAS = PESTANAS;
 
@@ -374,7 +376,7 @@ const TAMANO_PESTANA_ACTIVA = 13;
  * (pestañas en `content.tabs[]`, tema en `style.styleData.tabs`). Aquí el tipo es `Pestanas` —cuyo
  * alias ES `categoryTab`— y los datos van por `valor`, como en la `Lista`.
  */
-function arbolDeCategorias(tema) {
+function arbolDeCategorias(tema, activa = 0) {
     const C = coloresDe(tema);
     return {
         tipo: 'Pestanas',
@@ -390,28 +392,48 @@ function arbolDeCategorias(tema) {
             [PESTANAS.TAMANO_SELECCIONADO]: TAMANO_PESTANA_ACTIVA,
             [PESTANAS.INDICADOR]: true,
             [PESTANAS.INDICADOR_COLOR]: C.naranja,
-            [PESTANAS.INDICADOR_TIPO]: 'line',
+            // **`smile`: el subrayado curvo de Taobao** (`tabIndicatorType: "smile"`), pintado con
+            // píxeles nuestros (una cápsula): sus arcos son imágenes de su CDN y no se copian.
+            [PESTANAS.INDICADOR_TIPO]: 'smile',
             [PESTANAS.NEGRITA_SELECCIONADA]: true,
             [PESTANAS.ESPACIO]: ESPACIO_PESTANAS,
-            // La primera es «Recomendado» (id `''`), como abre hoy el listado del Mercado.
-            [PESTANAS.SELECCIONADA]: 0,
+            // El alto de la imagen de una pestaña: en Taobao `imageTabHeightAp` = 31.
+            [PESTANAS.ALTO_IMAGEN]: 31,
+            [PESTANAS.SELECCIONADA]: Math.max(0, Math.trunc(activa)),
         },
     };
 }
 exports.arbolDeCategorias = arbolDeCategorias;
 
+/** ¿Este texto es una URL con la que se pueda pintar una imagen? */
+const esUrlDeImagen = (v) => typeof v === 'string' && /^https?:\/\//i.test(v);
+exports.esUrlDeImagen = esUrlDeImagen;
+
 /**
  * Los datos de la barra: **las categorías REALES** que devuelve el servicio (departamentos activos,
- * por `sort_order`). La primera pestaña es **Recomendado** con `id: ''` = «sin filtro», que es lo que
- * hace el carril del listado. **No se inventa ni un departamento.**
+ * por `sort_order`). La primera pestaña es **Recomendado** con `id: ''` = «sin filtro».
+ *
+ * ⚠️ **Los emojis NO se mandan**: medido en las 12 pestañas de la portada de Taobao, el rótulo es
+ * TEXTO y el icono —cuando lo hay— es un PNG de 92x80 (`labelImg`) con su ubicación, su hueco y su
+ * proporción. El icono del departamento solo viaja si es **una URL**; hoy guarda un emoji, así que las
+ * pestañas salen de texto, que es lo que son 7 de las 12 de Taobao.
  */
 function datosDeCategorias(departamentos) {
     if (!Array.isArray(departamentos) || departamentos.length === 0) return null;
     const categorias = departamentos
         .filter((d) => d && d.id)
-        .map((d) => ({ id: String(d.id), etiqueta: String(d.label ?? ''), emoji: typeof d.icon === 'string' && d.icon ? d.icon : '' }));
+        .map((d) => {
+            const icono = typeof d.icon === 'string' ? d.icon : '';
+            return {
+                id: String(d.id),
+                etiqueta: String(d.label ?? ''),
+                ...(esUrlDeImagen(icono)
+                    ? { imagen: icono, imagenactiva: icono, ubicacion: 'right', separacion: 10, aspecto: 1.15 }
+                    : {}),
+            };
+        });
     if (categorias.length === 0) return null;
-    return { categorias: [{ id: '', etiqueta: 'Recomendado', emoji: '' }, ...categorias] };
+    return { categorias: [{ id: '', etiqueta: 'Recomendado' }, ...categorias] };
 }
 exports.datosDeCategorias = datosDeCategorias;
 
@@ -547,13 +569,18 @@ let EcomerseUiController = class EcomerseUiController {
     /**
      * LA BARRA DE CATEGORÍAS. Salen del servicio (`categories()`), que es la MISMA fuente que el
      * listado del Mercado: **no hay dos verdades sobre qué departamentos existen**.
+     *
+     * `activa` es el id que el cliente trae filtrado: el índice de la pestaña elegida **sale de los
+     * datos**, así que el árbol se monta con ellos (mismo orden que Taobao: llega la lista y con ella
+     * cuál está seleccionada).
      */
-    async categorias(tema) {
+    async categorias(tema, activa) {
         try {
             const departamentos = await this.ecomerse.categories();
             const datos = datosDeCategorias(departamentos);
             if (!datos) return { esquema: ESQUEMA_UI, arbol: null };
-            return { esquema: ESQUEMA_UI, arbol: arbolDeCategorias(tema), datos };
+            const indice = activa ? Math.max(0, datos.categorias.findIndex((c) => c.id === String(activa))) : 0;
+            return { esquema: ESQUEMA_UI, arbol: arbolDeCategorias(tema, indice), datos };
         } catch (e) {
             this.log.warn(`no se pudo montar la barra de categorias: ${(e && e.message) || e}`);
             return { esquema: ESQUEMA_UI, arbol: null };
@@ -615,8 +642,9 @@ __decorate([
     // quita casi todas las peticiones sin que nadie vea categorías de ayer por la tarde.
     (0, common_1.Header)('Cache-Control', 'public, max-age=60'),
     __param(0, (0, common_1.Query)('tema')),
+    __param(1, (0, common_1.Query)('activa')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], EcomerseUiController.prototype, "categorias", null);
 exports.EcomerseUiController = EcomerseUiController = __decorate([

@@ -34,14 +34,15 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { espaciado, peso, radios, tipografia } from '@egrouteplan/ui-kit';
+import { espaciado, icono as tamanosIcono, peso, radios, tipografia } from '@egrouteplan/ui-kit';
 
 import { estiloDeCaja } from './layoutAtributos';
 import { canonizarColor } from './textoAtributos';
 import {
-  resolverPestanas, etiquetaDePestana, idDePestana,
+  resolverPestanas, etiquetaDePestana, idDePestana, imagenDePestana, ubicacionDePestana,
+  separacionDePestana, aspectoDePestana,
   type AtributosDxPestanas,
 } from './pestanasAtributos';
 
@@ -99,6 +100,24 @@ export function Pestanas({ dx, datos, alCambiar, style, testID }: PestanasProps)
         {pestanas.map((dato, i) => {
           const etiqueta = etiquetaDePestana(dato);
           const activaEsta = i === indiceActivo;
+          // **La imagen es lo que Taobao pone cuando una pestaña lleva icono**: un PNG (92×80 en su
+          // caso) con su variante de activa, colocado a un lado con su hueco. El emoji NO: eso era
+          // invención nuestra y se quitó.
+          const imagen = imagenDePestana(dato, activaEsta);
+          const ubicacion = ubicacionDePestana(dato);
+          const separacion = separacionDePestana(dato);
+          const enFila = ubicacion === 'left' || ubicacion === 'right';
+          const nodoImagen = imagen ? (
+            <Image
+              source={{ uri: canonizarColor(imagen) ?? imagen }}
+              style={{
+                // El alto lo dice la barra (`imageTabHeightAp`), el ancho sale del aspecto de la imagen.
+                height: r.altoImagen ?? estilos.imagen.height,
+                width: (r.altoImagen ?? estilos.imagen.height) * aspectoDePestana(dato),
+              }}
+              resizeMode="contain"
+            />
+          ) : null;
           return (
             <Pressable
               key={idDePestana(dato) || `p_${i}`}
@@ -112,24 +131,35 @@ export function Pestanas({ dx, datos, alCambiar, style, testID }: PestanasProps)
               accessibilityLabel={etiqueta}
               style={estilos.pestana}
             >
-              <Text
-                numberOfLines={1}
+              {/* La imagen va al lado o encima del rótulo, según `labelLocation` de Taobao. */}
+              <View
                 style={[
-                  estilos.texto,
-                  { color: activaEsta ? colorActivo : colorNormal, fontSize: activaEsta ? tamanoActivo : r.tamano },
-                  // La activa va en negrita si el tema lo pide (`selectedIsBold` de Taobao). **La
-                  // inactiva en peso normal**: el carril viejo ponía las 18 en negrita, y así la
-                  // elegida se distinguía menos; con el color y el subrayado ya se distingue sola.
-                  { fontWeight: activaEsta && r.negritaSeleccionada ? peso.fuerte : peso.normal },
+                  { flexDirection: enFila ? 'row' : 'column', alignItems: 'center' },
+                  nodoImagen ? (enFila ? { columnGap: separacion } : { rowGap: separacion }) : null,
                 ]}
               >
-                {etiqueta}
-              </Text>
+                {nodoImagen && (ubicacion === 'left' || ubicacion === 'top') ? nodoImagen : null}
+                <Text
+                  numberOfLines={1}
+                  style={[
+                    estilos.texto,
+                    { color: activaEsta ? colorActivo : colorNormal, fontSize: activaEsta ? tamanoActivo : r.tamano },
+                    // La activa va en negrita si el tema lo pide (`selectedIsBold` de Taobao). **La
+                    // inactiva en peso normal**: el carril viejo ponía las 18 en negrita, y así la
+                    // elegida se distinguía menos; con el color y el subrayado ya se distingue sola.
+                    { fontWeight: activaEsta && r.negritaSeleccionada ? peso.fuerte : peso.normal },
+                  ]}
+                >
+                  {etiqueta}
+                </Text>
+                {nodoImagen && (ubicacion === 'right' || ubicacion === 'bottom') ? nodoImagen : null}
+              </View>
               {/* SIEMPRE pintado: transparente cuando no toca. Ver la cabecera del fichero. */}
               <View
                 style={[
                   estilos.subrayado,
-                  r.indicadorTipo === 'dot' ? estilos.punto : estilos.linea,
+                  r.indicadorTipo === 'dot' ? estilos.punto
+                    : r.indicadorTipo === 'smile' ? estilos.sonrisa : estilos.linea,
                   { backgroundColor: r.indicador && activaEsta ? colorIndicador : 'transparent' },
                 ]}
               />
@@ -142,18 +172,32 @@ export function Pestanas({ dx, datos, alCambiar, style, testID }: PestanasProps)
 }
 
 const estilos = StyleSheet.create({
-  /** Mismo alto de pestaña que el carril del listado: aire arriba, texto, y el subrayado debajo. */
+  /** Mismo alto de pestaña que el carril del listado: aire arriba, el contenido, y el subrayado. */
   pestana: { alignItems: 'center', paddingTop: espaciado.e8 },
   texto: { fontSize: tipografia.caption, paddingBottom: espaciado.e4, fontWeight: peso.normal },
+  /** Alto por defecto de la imagen de una pestaña; el árbol manda el suyo (`ext:altoimagen`). */
+  imagen: { height: tamanosIcono.md },
   subrayado: { marginTop: espaciado.e2 },
   // `radios.full` y no `1` a mano: el subrayado mide 2 dp de alto, así que el radio máximo lo deja
   // con los extremos redondeados igual, y **no es un valor suelto de radio**.
   linea: { height: 2, width: '100%', minWidth: espaciado.e16, borderRadius: radios.full },
+  /**
+   * El subrayado CURVO de Taobao (`tabIndicatorType: "smile"`).
+   *
+   * En Taobao son dos imágenes de arco (`leftArcImgUrl` / `rightArcImgUrl`) de su CDN; aquí es **una
+   * cápsula** — más gruesa y con los extremos del todo redondeados—, que es el mismo contrato
+   * («subrayado curvo») con píxeles nuestros. **No se copian sus imágenes**: eso no es copiar el
+   * contrato, es copiar el dibujo.
+   */
+  sonrisa: { height: 3, width: '100%', minWidth: espaciado.e16, borderRadius: radios.full },
   // El punto usa el radio del kit: así es un círculo y no un cuadrado con las esquinas a mano.
   punto: { height: radios.marca, width: radios.marca, borderRadius: radios.marca },
 });
 
 export default Pestanas;
 
-export { resolverPestanas, CLAVES_PESTANAS, PROCEDENCIA, etiquetaDePestana, idDePestana } from './pestanasAtributos';
+export {
+  resolverPestanas, CLAVES_PESTANAS, PROCEDENCIA, etiquetaDePestana, idDePestana,
+  imagenDePestana, ubicacionDePestana, separacionDePestana, aspectoDePestana,
+} from './pestanasAtributos';
 export type { AtributosDxPestanas, ResolucionPestanas } from './pestanasAtributos';
