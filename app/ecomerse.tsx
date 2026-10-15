@@ -26,6 +26,7 @@ import { TarjetaProducto, EsqueletoTarjeta, ANCHO_CARRUSEL } from '../components
 import PieDelMercado, { PIE_MERCADO_H } from '../components/ecomerse/PieDelMercado';
 import { useSinLeerMercado } from '../components/ecomerse/useSinLeer';
 import { useAccionesProducto } from '../components/ecomerse/useAccionesProducto';
+import { FranjaServidor } from '../components/ecomerse/FranjaServidor';
 
 /**
  * LA ZONA DE CATEGORÍAS DE LA HOME — 23-sep-2026. Es la estructura de la referencia (Pinduoduo):
@@ -414,6 +415,16 @@ export default function EcomerseScreen() {
           </Pressable>
         </View>
       </View>
+
+      {/* LA PRIMERA SECCIÓN DEL MERCADO QUE LA PINTA EL SERVIDOR.
+          Es **aditiva**: va encima de la lista y no sustituye nada. Si el servidor no responde,
+          no ocupa ni un píxel y el Mercado funciona igual — ver `FranjaServidor.tsx` para por qué
+          se eligió añadir en vez de convertir una sección que ya existía. */}
+      <FranjaServidor
+        ruta="home"
+        testID="franja-servidor"
+        alTocar={(id) => router.push({ pathname: '/ecomerse-detail', params: { id } } as never)}
+      />
 
       <FlatList
         data={listData}

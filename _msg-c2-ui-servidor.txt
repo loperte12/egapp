@@ -1,0 +1,42 @@
+C · C-2: la UI del Mercado servida por el backend — controlador, tema, entorno y la rejilla
+
+LO QUE SE VERSIONA AQUI. La linea del Mercado en el cliente estaba entera SIN versionar (salia como
+`??` en git): `api/ecomerseUi.ts`, los 46 ficheros de `components/ecomerse/`, `tools/servidor-ui.mjs`
+(el endpoint local que sirve el mismo arbol), `docs/CONTINUAR-MERCADO.md` (el relevo) y la pantalla
+de demostracion `app/ecomerse-ui.tsx`. Se anade tambien la integracion real en el listado
+(`app/ecomerse.tsx`, +11 lineas: el import y `<FranjaServidor ruta="home">`), que es todo del
+Mercado.
+
+EL CONTROLADOR, VERSIONADO DE VERDAD. Se sirve desde el modulo `ecomerse` del backend VIVO
+(`.auditoria-servicios/backend/dist/src/ecomerse/`), que estaba ignorado por `.gitignore` porque ahi
+tambien viven APKs e imagenes de referencia. `.gitignore` gana una cuarta pasada que **re-incluye
+solo esos dos ficheros** —`ecomerse-ui.controller.js` y `ecomerse.module.js`— y deja el resto del
+arbol ignorado (comprobado: `main.js` y los `.apk` siguen fuera). Son CODIGO DESPLEGADO: sin ellos,
+el repo tendria el cliente de la UI y no el servidor que la sirve.
+
+LO QUE NO SE VERSIONA, Y POR QUE. Tres ficheros que el relevo atribuia a esta linea traen tambien
+trabajo de OTRAS lineas, asi que no se mezclan a ciegas:
+  - `constants/rutas.ts`  trae `/conductor-escucha`, `/conductor-programados` y `/programar`, que no
+    son del Mercado (las dos del Mercado son `ecomerseArbol` y `ecomerseUi`).
+  - `app/ecomerse-detail.tsx`  +152/-29 lineas, muy por encima de las «+2 y el bloque» del relevo.
+  - `network_security_config.xml`  reescribe el comentario entero, no solo las +2 de `localhost`.
+Quedan como estaban para que decidas tu si van en su tanda o en esta.
+
+LO QUE ESTE COMMIT DEJA VERIFICADO (numeros exactos, 15/10):
+  - produccion: `GET /api/ecomerse/ui/home`, `/detail?id=` y `/rejilla` responden 200 con
+    `{esquema:1, arbol, datos}`; `verificar-produccion.mjs` EXIT=0 con 28 comprobaciones.
+  - la rejilla es la forma de Taobao: raiz `Contenedor` en FILA con DOS `Lista` verticales de peso
+    1, y el catalogo repartido 5+4 de 9 (todos, sin repetir, equilibradas).
+  - el tema lo resuelve el SERVIDOR (`?tema=claro|oscuro`): misma forma, colores distintos, y el
+    precio pasa de `#FFFF5000` a `#FFC2410C`.
+  - `$entorno.*` en el cliente (ancho, plataforma android/ios/**harmony** y tema), con la raiz
+    reservada: un dato llamado `entorno` no puede pisarla.
+  - oraculo 101 pass / 0 fail · T1-C 21/21 · tsc 5 (los dos ficheros de siempre) · rutas y logica 0 ·
+    diseno en verde.
+
+LO QUE NO ESTA HECHO. La rejilla NO sustituye a la del listado: la tarjeta de la rejilla mide lo
+mismo que todas las demas (`aspectRatio` fijo), asi que un waterfall HOY daria el mismo dibujo — y
+sustituirla perderia los botones de favorito y carrito, que el arbol todavia no sabe expresar. La
+rejilla se monta en la pantalla de demostracion, que es donde se puede ver y medir. Y replicar la
+portada de Taobao con fidelidad exige decodificar `homepage/*` entero: es trabajo de RE de varios
+turnos, no de uno.

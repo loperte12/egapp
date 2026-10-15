@@ -1,12 +1,12 @@
 {
   "total": {
-    "hex": 0,
-    "fontSize": 0,
-    "borderRadius": 0,
+    "hex": 18,
+    "fontSize": 7,
+    "borderRadius": 10,
     "fontWeight": 0,
-    "borderWidth": 5,
-    "espaciado": 183,
-    "precioFigura": 5,
+    "borderWidth": 7,
+    "espaciado": 194,
+    "precioFigura": 6,
     "strokeWidth": 0
   },
   "porArchivo": {
@@ -100,6 +100,16 @@
       "precioFigura": 0,
       "strokeWidth": 0
     },
+    "app/ecomerse-arbol.tsx": {
+      "hex": 6,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
     "app/ecomerse-checkout.tsx": {
       "hex": 0,
       "fontSize": 0,
@@ -111,7 +121,7 @@
       "strokeWidth": 0
     },
     "app/ecomerse-detail.tsx": {
-      "hex": 0,
+      "hex": 3,
       "fontSize": 0,
       "borderRadius": 0,
       "fontWeight": 0,
@@ -187,6 +197,16 @@
       "fontWeight": 0,
       "borderWidth": 0,
       "espaciado": 1,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "app/ecomerse-ui.tsx": {
+      "hex": 0,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 0,
+      "borderWidth": 2,
+      "espaciado": 0,
       "precioFigura": 0,
       "strokeWidth": 0
     },
@@ -390,6 +410,16 @@
       "precioFigura": 0,
       "strokeWidth": 0
     },
+    "app/lifebook-hotel-detalle.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 3,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 7,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
     "app/lifebook-hotel-habitaciones.tsx": {
       "hex": 0,
       "fontSize": 0,
@@ -398,6 +428,16 @@
       "borderWidth": 0,
       "espaciado": 1,
       "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "app/lifebook-hotel-resultados.tsx": {
+      "hex": 1,
+      "fontSize": 4,
+      "borderRadius": 5,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 2,
+      "precioFigura": 1,
       "strokeWidth": 0
     },
     "app/lifebook-inbox-comments.tsx": {
@@ -740,6 +780,86 @@
       "precioFigura": 0,
       "strokeWidth": 0
     },
+    "components/ecomerse/Carrusel.tsx": {
+      "hex": 2,
+      "fontSize": 0,
+      "borderRadius": 1,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 2,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "components/ecomerse/Entrada.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 1,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "components/ecomerse/entradaAtributos.ts": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "components/ecomerse/Icono.tsx": {
+      "hex": 2,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "components/ecomerse/Imagen.tsx": {
+      "hex": 0,
+      "fontSize": 1,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "components/ecomerse/precioAtributos.ts": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "components/ecomerse/Rejilla.tsx": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
+    "components/ecomerse/Renderizador.tsx": {
+      "hex": 1,
+      "fontSize": 0,
+      "borderRadius": 0,
+      "fontWeight": 0,
+      "borderWidth": 0,
+      "espaciado": 0,
+      "precioFigura": 0,
+      "strokeWidth": 0
+    },
     "components/EmergencyModal.tsx": {
       "hex": 0,
       "fontSize": 0,
@@ -811,16 +931,6 @@
       "strokeWidth": 0
     },
     "components/lifebook/GroupManageSheet.tsx": {
-      "hex": 0,
-      "fontSize": 0,
-      "borderRadius": 0,
-      "fontWeight": 0,
-      "borderWidth": 0,
-      "espaciado": 1,
-      "precioFigura": 0,
-      "strokeWidth": 0
-    },
-    "components/lifebook/OrderCardEnChat.tsx": {
       "hex": 0,
       "fontSize": 0,
       "borderRadius": 0,

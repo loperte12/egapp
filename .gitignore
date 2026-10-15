@@ -65,6 +65,31 @@ egrouteplan-app/
 *.aab
 
 # ---------------------------------------------------------------------------
+# CUARTA PASADA, 15/10/2026: los DOS ficheros del backend que SÍ son código.
+#
+# `.auditoria-servicios/` se ignora porque son APKs e imágenes de referencia (187 MB). Pero ahí
+# dentro vive también **el backend vivo extraído**, y la UI del Mercado se sirve desde su módulo
+# `ecomerse`. Esos dos ficheros son CÓDIGO DESPLEGADO, no material de auditoría: sin ellos, el repo
+# tendría el cliente de la UI y no el servidor que la sirve.
+#
+# Git no permite re-incluir un fichero si un directorio padre está excluido, así que hay que
+# re-incluir el camino entero, un nivel por línea. **Solo esos dos ficheros**: el resto del árbol
+# sigue ignorado.
+# ---------------------------------------------------------------------------
+!.auditoria-servicios/
+.auditoria-servicios/*
+!.auditoria-servicios/backend/
+.auditoria-servicios/backend/*
+!.auditoria-servicios/backend/dist/
+.auditoria-servicios/backend/dist/*
+!.auditoria-servicios/backend/dist/src/
+.auditoria-servicios/backend/dist/src/*
+!.auditoria-servicios/backend/dist/src/ecomerse/
+.auditoria-servicios/backend/dist/src/ecomerse/*
+!.auditoria-servicios/backend/dist/src/ecomerse/ecomerse-ui.controller.js
+!.auditoria-servicios/backend/dist/src/ecomerse/ecomerse.module.js
+
+# ---------------------------------------------------------------------------
 # TERCERA PASADA, 25/09/2026: los respaldos de los codemods.
 # Cada tanda escribe su respaldo en `_respaldo-<familia>-<n>/` antes de tocar un fichero. Son copia
 # byte a byte, no fuente, y ya asoman en el `git status` como ruido. Se ignoran por PATRON (mismo
