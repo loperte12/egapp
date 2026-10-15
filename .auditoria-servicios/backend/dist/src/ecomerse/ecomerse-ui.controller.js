@@ -68,7 +68,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeCategorias = exports.datosDeCategorias = exports.esUrlDeImagen = exports.PESTANAS = exports.ESPACIO_PESTANAS = exports.SPAN_TARJETA = exports.LISTA = exports.TEMPLATE_NAME = exports.PLANTILLA_ESTRECHA = exports.PLANTILLA_ANCHA = exports.tarjetaAnchaPara = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.accionDeTarjeta = exports.ACCIONES = exports.CLAVE_ACCION = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
+exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeCategorias = exports.datosDeCategorias = exports.esUrlDeImagen = exports.PESTANAS = exports.ESPACIO_PESTANAS = exports.SPAN_TARJETA = exports.CLAVE_ASPECTO = exports.ASPECTO_TARJETA = exports.REJILLA = exports.LISTA = exports.TEMPLATE_NAME = exports.PLANTILLA_ESTRECHA = exports.PLANTILLA_ANCHA = exports.SORT_POR_DEFECTO = exports.consultaDeCatalogo = exports.tarjetaAnchaPara = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.accionDeTarjeta = exports.ACCIONES = exports.CLAVE_ACCION = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
 const common_1 = require("@nestjs/common");
 const ecomerse_service_1 = require("./ecomerse.service");
 
@@ -305,7 +305,7 @@ exports.accionDeTarjeta = accionDeTarjeta;
  * del diseño de la tarjeta. La ancha lleva la imagen más grande, que es para lo que se le da el ancho.
  * **Los números son nuestros y el mecanismo es de Taobao.**
  */
-function tarjetaDeRejilla(C, { nombre, span, altoImagen, tamanoTitulo }) {
+function tarjetaDeRejilla(C, { nombre, span, tamanoTitulo }) {
     return {
         tipo: 'Contenedor',
         atributos: {
@@ -313,17 +313,16 @@ function tarjetaDeRejilla(C, { nombre, span, altoImagen, tamanoTitulo }) {
             [SPAN_TARJETA]: span,
             [K.ORIENTATION]: 1,
             [K.BACKGROUNDCOLOR]: C.tarjeta,
-            [K.CORNERRADIUS]: 10,
-            [K.MARGIN_BOTTOM]: 10,
+            [K.CORNERRADIUS]: REJILLA.RADIO,
             [K.ONPRESS]: '$item.id',
         },
         hijos: [
             {
                 tipo: 'Imagen',
                 valor: '$item.foto',
-                // **`LAYOUT_WIDTH: -1` = ocupar el ancho del hueco**: sin esto la imagen se queda con
-                // su tamaño natural, pequeña y centrada, y la tarjeta ancha no se ve ancha por dentro.
-                atributos: { [K.LAYOUT_WIDTH]: -1, [K.LAYOUT_HEIGHT]: altoImagen, [K.CORNERRADIUS]: 10 },
+                // `LAYOUT_WIDTH: -1` = ocupar el ancho del hueco; **la proporción medida** (1, cuadrada)
+                // pone el alto, así que la foto se ve más grande en la tarjeta ancha sin cambiar números.
+                atributos: { [K.LAYOUT_WIDTH]: -1, [CLAVE_ASPECTO]: ASPECTO_TARJETA, [K.CORNERRADIUS]: REJILLA.RADIO },
             },
             texto('$item.titulo', tamanoTitulo, C.texto, { [K.PADDING_LEFT]: 8, [K.PADDING_RIGHT]: 8, [K.PADDING_TOP]: 6 }),
             {
@@ -397,6 +396,33 @@ const SPAN_TARJETA = 'ext:span';
 exports.SPAN_TARJETA = SPAN_TARJETA;
 
 /**
+ * **NUESTRA extensión para la proporción de una imagen** (`ext:aspecto`).
+ *
+ * En Taobao la proporción es `DXTEMPLATE_ASPECTRATIO`, y en las tarjetas del feed vale **1**
+ * (cuadradas). El nombre es el mismo que el del cliente (`imagenAtributos.CLAVE_ASPECTO`) y el mismo
+ * que el del servidor local: el oráculo los compara.
+ */
+const CLAVE_ASPECTO = 'ext:aspecto';
+exports.CLAVE_ASPECTO = CLAVE_ASPECTO;
+
+/** **La proporción medida**: `DXTEMPLATE_ASPECTRATIO = 1` en las tarjetas del feed. */
+const ASPECTO_TARJETA = 1;
+exports.ASPECTO_TARJETA = ASPECTO_TARJETA;
+
+/**
+ * **LA GEOMETRÍA MEDIDA DE LA REJILLA**, en un sitio para no repetirla.
+ *
+ *   · `HUECO = 8` — medido en las plantillas de catálogo de 2 columnas del corpus
+ *     (`m_r_sub_feedback_detail_2025`, `buy_v2_item_ext`, `detail_v4_clothing_matching_purchase`; otra
+ *     trae 7). **Nunca 12**: el hueco que se veía en el móvil era el doble del de Taobao.
+ *   · `MARGEN = 8` — el margen lateral no tiene nombre propio en el corpus (las claves de
+ *     `leftGap`/`rightGap` son de otra tabla). **Se usa el mismo 8 y se declara como decisión.**
+ *   · `RADIO = 6` — el radio de las tarjetas del feed (`DXIMAGESPAN_CORNERRADIUS`, 864 usos).
+ */
+const REJILLA = { COLUMNAS: 2, HUECO: 8, MARGEN: 8, RADIO: 6 };
+exports.REJILLA = REJILLA;
+
+/**
  * Las claves de la REJILLA, de `DX_GRID_LAYOUT_*`. **No están en `K`** —el vocabulario de CAJA
  * compartido— porque son de la lista: una caja no tiene columnas. El oráculo las comprueba contra el
  * cliente (`listaAtributos.CLAVES_LISTA`).
@@ -404,6 +430,7 @@ exports.SPAN_TARJETA = SPAN_TARJETA;
 const LISTA = {
     COLUMN_COUNT: '4480460401770252962',     // DX_GRID_LAYOUT_COLUMN_COUNT
     COLUMN_SPACING: '-7076735627431451296',  // DX_GRID_LAYOUT_COLUMN_SPACING
+    ROW_SPACING: '-5965488911581852121',     // DX_GRID_LAYOUT_ROW_SPACING
 };
 exports.LISTA = LISTA;
 
@@ -420,6 +447,34 @@ const PLANTILLA_ESTRECHA = 'mercado_tarjeta_estrecha';
 const PLANTILLA_ANCHA = 'mercado_tarjeta_ancha';
 exports.PLANTILLA_ESTRECHA = PLANTILLA_ESTRECHA;
 exports.PLANTILLA_ANCHA = PLANTILLA_ANCHA;
+
+/**
+ * EL ORDEN POR DEFECTO del catálogo, **el mismo que manda la pantalla** (`SORT_CATALOGO` en
+ * `app/ecomerse.tsx`). Explícito y no al azar del servicio de datos: si el listado y la rejilla servida
+ * pidieran órdenes distintos, enseñarían **listas distintas del mismo catálogo** sin que nadie sepa
+ * por qué.
+ */
+const SORT_POR_DEFECTO = 'recommended';
+exports.SORT_POR_DEFECTO = SORT_POR_DEFECTO;
+
+/**
+ * TRADUCE los parámetros de la SECCIÓN a los de la API del catálogo.
+ *
+ * **Es el cable que permite que la rejilla servida sustituya a la del cliente**: la pantalla filtra por
+ * departamento, familia y búsqueda, y la sección tiene que filtrar **igual**. Los nombres son los de la
+ * sección y la traducción a la API (`department`, `family`, `q`, `sort`) vive aquí: la pantalla no
+ * tiene que saber cómo se llama cada filtro en el servicio de datos. Puro: se prueba sin red.
+ */
+function consultaDeCatalogo({ departamento, familia, buscar, orden } = {}) {
+    const q = {};
+    if (departamento) q.department = String(departamento);
+    if (familia) q.family = String(familia);
+    const t = typeof buscar === 'string' ? buscar.trim() : '';
+    if (t) q.q = t;
+    q.sort = orden ? String(orden) : SORT_POR_DEFECTO;
+    return q;
+}
+exports.consultaDeCatalogo = consultaDeCatalogo;
 
 /**
  * LA BARRA DE PESTAÑAS de las categorías, en la forma de Taobao: allí es la **sección** `categoryTab`
@@ -504,15 +559,16 @@ function arbolDeRejilla(tema) {
         tipo: 'Lista',
         valor: '$fichas',
         atributos: {
-            [LISTA.COLUMN_COUNT]: 2,
-            [LISTA.COLUMN_SPACING]: 12,
-            [K.PADDING_LEFT]: 12,
-            [K.PADDING_RIGHT]: 12,
-            [K.PADDING_TOP]: 4,
+            [LISTA.COLUMN_COUNT]: REJILLA.COLUMNAS,
+            [LISTA.COLUMN_SPACING]: REJILLA.HUECO,
+            [LISTA.ROW_SPACING]: REJILLA.HUECO,
+            [K.PADDING_LEFT]: REJILLA.MARGEN,
+            [K.PADDING_RIGHT]: REJILLA.MARGEN,
+            [K.PADDING_TOP]: REJILLA.MARGEN,
         },
         hijos: [
-            tarjetaDeRejilla(C, { nombre: PLANTILLA_ESTRECHA, span: 1, altoImagen: 150, tamanoTitulo: 12 }),
-            tarjetaDeRejilla(C, { nombre: PLANTILLA_ANCHA, span: 2, altoImagen: 210, tamanoTitulo: 14 }),
+            tarjetaDeRejilla(C, { nombre: PLANTILLA_ESTRECHA, span: 1, tamanoTitulo: 12 }),
+            tarjetaDeRejilla(C, { nombre: PLANTILLA_ANCHA, span: 2, tamanoTitulo: 14 }),
         ],
     };
 }
@@ -663,12 +719,16 @@ let EcomerseUiController = class EcomerseUiController {
     }
 
     /**
-     * LA REJILLA: el catálogo en dos columnas, en la forma de Taobao (dos `Lista` en fila con los
-     * datos repartidos). **El catálogo es el mismo que el del listado**, así que no puede desviarse.
+     * LA REJILLA: el catálogo en dos columnas, con las dos tarjetas y **con los filtros de la
+     * pantalla aplicados**. **El catálogo es el mismo que el del listado**, así que no puede
+     * desviarse: mismos filtros, mismo orden por defecto, misma fuente.
+     *
+     * `departamento`, `familia`, `buscar` y `orden` son los de la SECCIÓN; la traducción a la API vive
+     * en `consultaDeCatalogo`.
      */
-    async rejilla(tema) {
+    async rejilla(tema, departamento, familia, buscar, orden) {
         try {
-            const productos = await this.ecomerse.catalog({});
+            const productos = await this.ecomerse.catalog(consultaDeCatalogo({ departamento, familia, buscar, orden }));
             const datos = datosDeRejilla(productos);
             if (!datos) return { esquema: ESQUEMA_UI, arbol: null };
             return { esquema: ESQUEMA_UI, arbol: arbolDeRejilla(tema), datos };
@@ -707,8 +767,14 @@ __decorate([
     // viaja en la URL, así que cada modo es una respuesta distinta y la caché no los mezcla.
     (0, common_1.Header)('Cache-Control', 'public, max-age=30'),
     __param(0, (0, common_1.Query)('tema')),
+    // **Los filtros de la pantalla viajan a la sección**: la rejilla servida tiene que enseñar el
+    // MISMO catálogo filtrado que el listado, o sustituirlo sería una regresión.
+    __param(1, (0, common_1.Query)('departamento')),
+    __param(2, (0, common_1.Query)('familia')),
+    __param(3, (0, common_1.Query)('buscar')),
+    __param(4, (0, common_1.Query)('orden')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], EcomerseUiController.prototype, "rejilla", null);
 __decorate([

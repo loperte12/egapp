@@ -121,9 +121,18 @@ export const CLASE_IMAGEN: Record<NombreAtributoImagen, ClaseAtributoImagen> = {
   ZOOMENABLED: 'no-usado',
 };
 
+/**
+ * **NUESTRA extensión para la proporción de una imagen** (`ext:aspecto`), con la medida de Taobao
+ * dentro: en las tarjetas del feed su `DXTEMPLATE_ASPECTRATIO` vale **1** —cuadradas—.
+ *
+ * Va aparte de `CLAVES_DXIMAGEVIEW` **a propósito**: aquella tabla es el vocabulario MEDIDO de Taobao
+ * (doce claves con su hex y su procedencia), y esta no es suya. Mezclarlas convertiría una extensión
+ * nuestra en una clave suya, que es justo lo que el `ext:` sirve para no hacer.
+ */
+export const CLAVE_ASPECTO = 'ext:aspecto';
+
 /** Los que el componente **cubre** — el resto se declara. */
-export function atributosCubiertos(): NombreAtributoImagen[] {
-  return (Object.keys(CLASE_IMAGEN) as NombreAtributoImagen[])
+export function atributosCubiertos(): NombreAtributoImagen[] {  return (Object.keys(CLASE_IMAGEN) as NombreAtributoImagen[])
     .filter((n) => CLASE_IMAGEN[n] === 'prop' || CLASE_IMAGEN[n] === 'evento' || CLASE_IMAGEN[n] === 'layout');
 }
 
@@ -152,6 +161,22 @@ export interface ResolucionImagen {
   cachePolicy?: 'none' | 'disk' | 'memory' | 'memory-disk';
   /** `true` si Taobao pidió avisar al cargar. */
   avisarAlCargar: boolean;
+  /**
+   * **La proporción ancho:alto de la imagen** (`ext:aspecto`), si el árbol la trae.
+   *
+   * Es la medida de Taobao **`DXTEMPLATE_ASPECTRATIO`**: en las tarjetas del feed vale **1** —o sea
+   * **cuadradas**— (medido en `metricas3.mjs`: `m_r_v1_trends_card_2025`, `m_r_v1_daily_outfit_content`,
+   * `detail_v3_appraise`, `looked_dv3_item`; el 0,462 es un banner de splash).
+   *
+   * **Dónde vive la clave es una decisión nuestra, y se declara**: en Taobao es un atributo de la
+   * PLANTILLA; aquí se pone en el nodo de la IMAGEN, que es la caja cuyo tamaño define. El mecanismo es
+   * suyo (una proporción, no píxeles) y el sitio, nuestro.
+   *
+   * Con esto la tarjeta **deja de tener altura fija**: su alto sale del ancho que le da la rejilla, así
+   * que la misma tarjeta mide igual en cualquier móvil. Es lo que Taobao consigue con la proporción y lo
+   * que una altura en píxeles nunca consigue.
+   */
+  aspecto?: number;
   /**
    * Ajuste de la imagen, traducido a `contentFit` de `expo-image`.
    *
@@ -191,6 +216,14 @@ export function canonizarColor(v: unknown): string | undefined {
  */
 export function resolverImagen(dx: AtributosDxImagen = {}): ResolucionImagen {
   const out: ResolucionImagen = { avisarAlCargar: false };
+
+  // ── LA PROPORCIÓN (`ext:aspecto`) ─────────────────────────────────────────────────────────
+  // Nuestra extensión, con la medida de Taobao dentro: en las tarjetas del feed su
+  // `DXTEMPLATE_ASPECTRATIO` vale 1 (cuadradas). **Se ignora lo que no sea un número positivo**: una
+  // proporción de 0 o negativa no es una proporción, y aplicarla daría una imagen de alto cero.
+  const aspecto = dx[CLAVE_ASPECTO];
+  const aspectoN = typeof aspecto === 'number' ? aspecto : typeof aspecto === 'string' ? Number(aspecto) : NaN;
+  if (Number.isFinite(aspectoN) && aspectoN > 0) out.aspecto = aspectoN;
 
   const tinte = canonizarColor(dx[CLAVES_DXIMAGEVIEW.TINTCOLOR]);
   if (tinte) out.tintColor = tinte;

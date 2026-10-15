@@ -342,7 +342,7 @@ function accionDeTarjeta(icono, color, accion) {
  * ancho. Medirlos fue lo que se hizo con el `span`; elegirlos es una decisión de diseño, y por eso
  * está escrita aquí y no escondida en un `.dx`.
  */
-function tarjetaDeRejilla(C, { nombre, span, altoImagen, tamanoTitulo }) {
+function tarjetaDeRejilla(C, { nombre, span, tamanoTitulo }) {
   return {
     tipo: 'Contenedor',
     atributos: {
@@ -354,8 +354,9 @@ function tarjetaDeRejilla(C, { nombre, span, altoImagen, tamanoTitulo }) {
       [SPAN_TARJETA]: span,
       [K.ORIENTATION]: 1,
       [K.BACKGROUNDCOLOR]: C.tarjeta,
-      [K.CORNERRADIUS]: 10,
-      [K.MARGIN_BOTTOM]: 10,
+      [K.CORNERRADIUS]: REJILLA.RADIO,
+      // Sin separación propia: la pone la LISTA (`ROW_SPACING`), que es quien reparte. Ponerla aquí
+      // además sería contarla dos veces.
       // El toque lleva el id REAL del producto; la pantalla decide a dónde va.
       [K.ONPRESS]: '$item.id',
     },
@@ -363,10 +364,9 @@ function tarjetaDeRejilla(C, { nombre, span, altoImagen, tamanoTitulo }) {
       {
         tipo: 'Imagen',
         valor: '$item.foto',
-        // **`LAYOUT_WIDTH: -1` = ocupar el ancho del hueco**: sin esto la imagen se queda con su
-        // tamaño natural, pequeña y centrada, y la tarjeta ancha no se ve ancha por dentro —que es
-        // justo para lo que se le da el ancho—. Se vio en la captura antes de arreglarlo.
-        atributos: { [K.LAYOUT_WIDTH]: -1, [K.LAYOUT_HEIGHT]: altoImagen, [K.CORNERRADIUS]: 10 },
+        // **`LAYOUT_WIDTH: -1` = ocupar el ancho del hueco**, y **la proporción medida** (`1`, cuadrada)
+        // pone el alto: la foto se ve más grande en la tarjeta ancha sin cambiar ni un número.
+        atributos: { [K.LAYOUT_WIDTH]: -1, [CLAVE_ASPECTO]: ASPECTO_TARJETA, [K.CORNERRADIUS]: REJILLA.RADIO },
       },
       texto('$item.titulo', tamanoTitulo, C.texto, { [K.PADDING_LEFT]: 8, [K.PADDING_RIGHT]: 8, [K.PADDING_TOP]: 6 }),
       {
@@ -438,9 +438,20 @@ const TAMANO_PESTANA_ACTIVA = 13;
  * (`livehomecore_flexalocal/bottoming_template_list.json`), **texto** (`"1"` / `"2"` / `""`), y el
  * catálogo de seguidos tiene **31 de 41 con span 2**. Aquí viaja en la raíz de la tarjeta, que es
  * donde este contrato puede leerlo por elemento. **El nombre lo comprueba el oráculo contra el
- * cliente** (`listaAtributos.CLAVE_SPAN_ELEMENTO`): si se separan, el test falla.
+ * cliente** (`listaAtributos.CLAVE_SPAN_PLANTILLA`): si se separan, el test falla.
  */
 const SPAN_TARJETA = 'ext:span';
+
+/**
+ * **NUESTRA extensión para la proporción de una imagen** (`ext:aspecto`).
+ *
+ * En Taobao la proporción es `DXTEMPLATE_ASPECTRATIO` y en las tarjetas del feed vale **1**
+ * (cuadradas) — ver `ASPECTO_TARJETA`. **El nombre es el mismo que el del cliente**
+ * (`imagenAtributos.CLAVE_ASPECTO`), y el oráculo lo comprueba: si se separan, el test falla y no se
+ * descubre en el móvil.
+ */
+const CLAVE_ASPECTO = 'ext:aspecto';
+
 
 /**
  * Las claves de la REJILLA, de `DX_GRID_LAYOUT_*`.
@@ -453,6 +464,40 @@ const SPAN_TARJETA = 'ext:span';
 const LISTA = {
   COLUMN_COUNT: '4480460401770252962',     // DX_GRID_LAYOUT_COLUMN_COUNT
   COLUMN_SPACING: '-7076735627431451296',  // DX_GRID_LAYOUT_COLUMN_SPACING
+  ROW_SPACING: '-5965488911581852121',     // DX_GRID_LAYOUT_ROW_SPACING
+};
+
+/**
+ * **LA PROPORCIÓN DE LA IMAGEN DE UNA TARJETA, MEDIDA EN TAOBAO.**
+ *
+ * `DXTEMPLATE_ASPECTRATIO = 1` en las tarjetas del feed (`m_r_v1_trends_card_2025`,
+ * `m_r_v1_daily_outfit_content`, `detail_v3_appraise`, `looked_dv3_item` — ver `metricas3.mjs`): la
+ * foto de una tarjeta es **CUADRADA**. El otro valor que aparece en el corpus es 0,462, de un banner
+ * de splash, que no es una tarjeta.
+ *
+ * **Por qué esto es una tarjeta más pequeña que la de antes**: la nuestra tenía una altura en píxeles
+ * (150), y el ancho lo pone la rejilla; en un móvil de 392 dp con dos columnas, cada tarjeta mide unos
+ * 185 dp, así que 150 de alto daba una foto **más alta que ancha**. Con la proporción medida, la foto
+ * mide lo mismo de ancho que de alto —como Taobao— y la tarjeta encoge sin tocar nada más.
+ *
+ * Y **el alto deja de depender del móvil**: sale del ancho de la columna, así que la tarjeta mide bien
+ * en cualquier pantalla. Una altura fija no puede hacer eso.
+ */
+const ASPECTO_TARJETA = 1;
+
+/** Las claves de geometría MEDIDAS de la rejilla, en un sitio: van a los dos servidores. */
+const REJILLA = {
+  COLUMNAS: 2,
+  /** **8, medido** (3 plantillas de catálogo de 2 columnas: `m_r_sub_feedback_detail_2025` 8,
+   *  `buy_v2_item_ext` 8, `detail_v4_clothing_matching_purchase` 8; otra, 7). **Nunca 12**: el hueco
+   *  que se veía era el doble del de Taobao. */
+  HUECO: 8,
+  /** El margen lateral no tiene nombre propio en el corpus (las claves de `leftGap`/`rightGap` son de
+   *  otra tabla). **Se usa el mismo 8 del hueco, y se declara como decisión**: simétrico y coherente. */
+  MARGEN: 8,
+  /** El radio de las tarjetas del feed es **6** en todo el corpus (`DXIMAGESPAN_CORNERRADIUS`, 864
+   *  usos; la nuestra usaba 10). */
+  RADIO: 6,
 };
 
 /**
@@ -582,15 +627,18 @@ function arbolDeRejilla(tema) {
     tipo: 'Lista',
     valor: '$fichas',
     atributos: {
-      [LISTA.COLUMN_COUNT]: 2,
-      [LISTA.COLUMN_SPACING]: 12,
-      [K.PADDING_LEFT]: 12,
-      [K.PADDING_RIGHT]: 12,
-      [K.PADDING_TOP]: 4,
+      [LISTA.COLUMN_COUNT]: REJILLA.COLUMNAS,
+      // **8, medido** — ver `REJILLA.HUECO`. El hueco de fila también es 8: la rejilla de Taobao es
+      // simétrica (declarado: la separación de fila no aparece con nombre propio en el corpus).
+      [LISTA.COLUMN_SPACING]: REJILLA.HUECO,
+      [LISTA.ROW_SPACING]: REJILLA.HUECO,
+      [K.PADDING_LEFT]: REJILLA.MARGEN,
+      [K.PADDING_RIGHT]: REJILLA.MARGEN,
+      [K.PADDING_TOP]: REJILLA.MARGEN,
     },
     hijos: [
-      tarjetaDeRejilla(C, { nombre: PLANTILLA_ESTRECHA, span: 1, altoImagen: 150, tamanoTitulo: 12 }),
-      tarjetaDeRejilla(C, { nombre: PLANTILLA_ANCHA, span: 2, altoImagen: 210, tamanoTitulo: 14 }),
+      tarjetaDeRejilla(C, { nombre: PLANTILLA_ESTRECHA, span: 1, tamanoTitulo: 12 }),
+      tarjetaDeRejilla(C, { nombre: PLANTILLA_ANCHA, span: 2, tamanoTitulo: 14 }),
     ],
   };
 }
@@ -648,8 +696,39 @@ function tarjetaAnchaPara(p) {
 }
 
 /**
+ * EL ORDEN POR DEFECTO del catálogo, **el mismo que manda la pantalla** (`SORT_CATALOGO` en
+ * `app/ecomerse.tsx`). Se manda explícito y no se deja al azar del servidor de datos: si el listado
+ * y la rejilla servida pidieran órdenes distintos, enseñarían **listas distintas del mismo catálogo**
+ * y nadie sabría por qué.
+ */
+const SORT_POR_DEFECTO = 'recommended';
+
+/**
+ * TRADUCE los parámetros de la SECCIÓN a los de la API del catálogo.
+ *
+ * **Aquí está el cable que hace posible que la rejilla servida sustituya a la del cliente**: la
+ * pantalla filtra por departamento, familia y búsqueda, y la sección tiene que filtrar **igual**. Los
+ * nombres son los de la sección (`departamento`, `familia`, `buscar`, `orden`) y la traducción a la
+ * API (`department`, `family`, `q`, `sort`) vive aquí: la pantalla no tiene que saber cómo se llama
+ * cada filtro en el servicio de datos.
+ *
+ * Es puro y por eso se prueba sin red.
+ */
+function consultaDeCatalogo(p) {
+  const q = {};
+  const dep = p.get('departamento');
+  if (dep) q.department = dep;
+  const fam = p.get('familia');
+  if (fam) q.family = fam;
+  const buscar = (p.get('buscar') ?? '').trim();
+  if (buscar) q.q = buscar;
+  q.sort = p.get('orden') || SORT_POR_DEFECTO;
+  return q;
+}
+
+/**
  * Los DATOS de la rejilla: **el catálogo REAL en una sola lista**, cada ficha diciendo **qué tarjeta
- * usa** (`templateName`).
+ * usa** (`templateName`), y **con los filtros de la pantalla aplicados** (`consulta`).
  *
  * El ancho NO viaja aquí: **el `span` es de la plantilla**, como en Taobao (`{name, span, url}`).
  * El reparto en filas lo hace el cliente (`filasPorSpan`) con lo que diga la plantilla elegida.
@@ -658,8 +737,9 @@ function tarjetaAnchaPara(p) {
  * primeras fichas usen la tarjeta ancha, para poder VER una rejilla heterogénea en el móvil sin tocar
  * el catálogo real. **El controlador desplegado no la tiene**: allí manda `isFeatured`.
  */
-async function datosDeRejilla(limite = 40, destacar = 0) {
-  const respuesta = await fetch(`${CATALOGO}?limit=${limite}`);
+async function datosDeRejilla({ consulta = {}, limite = 40, destacar = 0 } = {}) {
+  const bus = new URLSearchParams({ limit: String(limite), ...consulta });
+  const respuesta = await fetch(`${CATALOGO}?${bus}`);
   if (!respuesta.ok) return null;
   const productos = await respuesta.json();
   if (!Array.isArray(productos) || productos.length === 0) return null;
@@ -708,10 +788,10 @@ const servidor = createServer((req, res) => {
       // `UI_DESTACAR` es la misma palanca por entorno, para poder VER la rejilla irregular en el móvil
       // **sin tocar la pantalla ni el catálogo real**: el controlador desplegado no tiene ninguna de las
       // dos, allí manda `isFeatured`.
-      buscarDatos: () => datosDeRejilla(
-        undefined,
-        Number(p.get('destacar') ?? process.env.UI_DESTACAR ?? 0) || 0,
-      ),
+      buscarDatos: () => datosDeRejilla({
+        consulta: consultaDeCatalogo(p),
+        destacar: Number(p.get('destacar') ?? process.env.UI_DESTACAR ?? 0) || 0,
+      }),
     }),
     // **La barra de pestañas de las categorías**: en Taobao, la sección `categoryTab`.
     //
@@ -772,4 +852,4 @@ if (esEjecucionDirecta) {
 
 // Se exporta para poder PROBAR el arbol sin arrancar el servidor: el oráculo comprueba que todas
 // las claves que manda el servidor son claves que el cliente conoce.
-export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };
+export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, CLAVE_ASPECTO, ASPECTO_TARJETA, REJILLA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, SORT_POR_DEFECTO, consultaDeCatalogo, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };

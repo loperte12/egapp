@@ -1200,3 +1200,78 @@ puede emitirlo: cuando haya paginación, el fin de lista lo tendrá que detectar
 de la sección contra el API, el puente compartido —`fichaSeccion.test.mjs`—, y el aviso de fin de
 lista con su campo propio) · producción **EXIT=0**, con el filtro comprobado contra el API del
 catálogo (mismo filtro, mismo número). Desplegado: `codeSha256 29d8e4ae…`.
+
+---
+
+## 23 · MEDIR A TAOBAO ANTES DE CLONARLO: tamaño, huecos y barra pegada (15/10)
+
+### 1 · La medición, y por qué hubo que rehacerla
+
+La primera pasada usó la tabla de claves de `t1b-alidx-v2` (755 entradas, la del APK que se decompiló
+en la línea `re-d`). **0 de 916 claves del corpus estaban ahí**: son **versiones distintas de Taobao**,
+y los hashes no viajan entre versiones. La tabla que corresponde al corpus está dentro de él
+(`t1c-vocabulario/out/vocabulario.json`, `clavesConNombre`: 88 claves) y es la que usan
+`metricas2.mjs` y `metricas3.mjs`.
+
+**Esto es una trampa que conviene recordar**: una tabla de claves sirve para UNA versión. Mezclarlas
+habría dado «medidas» inventadas con aspecto de dato.
+
+### 2 · Lo medido (`out/metricas2.txt`, `out/metricas3.txt`)
+
+| qué | valor en Taobao | dónde se midió | lo que teníamos |
+|---|---|---|---|
+| hueco entre columnas de un catálogo de 2 | **8** (3 plantillas) y 7 (1) | `m_r_sub_feedback_detail_2025`, `buy_v2_item_ext`, `detail_v4_clothing_matching_purchase` | **12** ← el doble |
+| proporción de la foto de una tarjeta | **1 (cuadrada)** | `m_r_v1_trends_card_2025`, `m_r_v1_daily_outfit_content`, `detail_v3_appraise`, `looked_dv3_item` | altura fija 150 |
+| radio de la tarjeta del feed | **6** | `DXIMAGESPAN_CORNERRADIUS` (864 usos) | 10 |
+| rejilla de accesos de la Home | **5 columnas, hueco 12** | `m_h_icons_low_purchase`, `m_h_v5_dojo_icons_d3_2026` | — (pendiente) |
+| barra de búsqueda | plantilla **`m_h_searchBar_slim_protocol_version`**; radio **10** (8,5 y 7 dentro, 3 en el detalle) | `homepage/m_h_searchBar_slim…` | 12 |
+| ancho de un elemento de barra | 61 (filas de iconos), 167,5 / 165,5 / 169 (barras de 2) | `m_r_sub_feedback_detail_2025`, `buy_v2_item_ext` | — |
+| el feed trae tarjetas DISTINTAS | `newface_main_sub_separator` (1 nodo), `cai_ad_ketuo` (publicidad), `m_r_item_video_2024_d3`, `m_r_item_live_d3`… | `informationFlow` | — (mecanismo listo, ver §4) |
+| 关注 (seguir) | `taolive_channel_follow_*` (6 plantillas: tarjeta, título, vacío, cargar más) | `live_channel_flexalocal` | — (pendiente) |
+
+### 3 · Lo que se cambió con eso, en los DOS servidores
+
+- **`ext:aspecto`** — la proporción, nuestra clave con la medida de Taobao dentro. El cliente la
+  resuelve en `imagenAtributos.resolverImagen` y el widget la aplica (`{width:'100%', aspectRatio}`):
+  **la tarjeta deja de tener altura en píxeles**, así que su alto sale del ancho de su hueco y **mide
+  bien en cualquier móvil** — que es lo que Taobao consigue con la proporción.
+  *(En Taobao es un atributo de la PLANTILLA; aquí vive en la IMAGEN. Es una decisión, y está escrita
+  en el código.)*
+- **Hueco 8** (columna y fila) y **radio 6**, medidos. El `MARGIN_BOTTOM` de cada tarjeta **se fue**:
+  la separación la reparte la lista (`ROW_SPACING`), no cada tarjeta — tenerla en los dos sitios era
+  contarla dos veces, y era parte del «hueco de más» que se veía.
+- **Margen lateral 8**: el corpus no le da nombre propio (`leftGap`/`rightGap` son de otra tabla), así
+  que se usa el mismo 8 del hueco **y se declara como decisión**.
+- **Buscador**: `radios.chip` (10) en vez de `radios.md` (12) — el radio medido, con el token que existe
+  para eso.
+- **La barra de departamentos se queda pegada** (`stickyHeaderIndices={[1]}`): su sitio pasa a ser el
+  **segundo hijo directo** del scroll, con fondo del tema y `zIndex`. Es lo que hace Taobao con
+  `categoryTab`, y lo que se pidió: con 18 departamentos, perderlos al bajar obligaba a subir para
+  cambiar de categoría.
+
+### 4 · Verificado en el móvil
+
+- `151025-tarjetas-medidas-taoBao.png` — las tarjetas **cuadradas**, más grandes y con el hueco
+  medido: el mismo catálogo ocupa menos alto y las fotos ya no son más altas que anchas.
+- `151025-barra-pegada-al-desplazar.png` — en pleno desplazamiento (Farmacia · Arroz · Monedero) el
+  carril sigue anclado bajo el buscador. **Y 0 avisos de listas anidadas** (el arreglo de §22 sigue
+  en pie con la barra movida).
+- `151025-medidas-taoBao.txt` — la salida cruda de la medición, para que se pueda rehacer.
+
+### 5 · Lo que queda de la lista, con su medida ya hecha
+
+| punto | estado |
+|---|---|
+| **tamaño y huecos de las tarjetas** | ✅ hecho y verificado |
+| **barra de categorías estable al bajar** | ✅ hecho y verificado |
+| **buscador al estilo de Taobao** | ✅ radio medido; el resto (alto 40) es decisión nuestra declarada |
+| **los servicios de la Home en la cabecera** | ⏳ falta. **La medida está**: 5 columnas con hueco 12. El catálogo existe (`components/ServiceGrid.tsx`, `REJILLA`, 3 filas de 5) y hay que exportar su primera fila y pintarla tras el buscador |
+| **la categoría de 关注 (seguidos)** | ⏳ falta, y **necesita dato antes que UI**: el corpus enseña sus 6 plantillas (`taolive_channel_follow_*`), pero hace falta saber si el API del Mercado tiene «tiendas seguidas»; sin eso, una pestaña de seguidos sería una pestaña que no puede enseñar nada |
+| **el feed entre las tarjetas** | ⏳ el **mecanismo ya está** (`templateName` por elemento + varias plantillas, §21) y el corpus confirma que Taobao intercala tarjetas de OTRO tipo (`newface_main_sub_separator`, publicidad, vídeo, directo). Falta el contenido real que intercalar: hoy el catálogo no tiene ni un destacado (0 de 9) ni una tienda con tarjeta propia |
+
+### Verificación
+
+`tsc` **5** · `rutas` **0** · `logica` **0** · `diseño` **en verde** · oráculo **133/133** (con el test
+nuevo que fija la geometría MEDIDA: hueco 8, radio 6, proporción 1, sin altura fija, y la misma clave
+`ext:aspecto` en cliente y los dos servidores) · producción **EXIT=0** con la geometría comprobada en
+el desplegado. Desplegado: `codeSha256 29d8e4ae…` + el cambio de geometría.

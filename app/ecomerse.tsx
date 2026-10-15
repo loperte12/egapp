@@ -554,6 +554,9 @@ export default function EcomerseScreen() {
         */
         <ScrollView
           testID="mercado-servidor"
+          // **La barra de departamentos (el hijo 1) se queda pegada arriba**: es lo que hace Taobao con
+          // sus pestañas, y es lo que se pidió. El índice apunta a un hijo DIRECTO del scroll.
+          stickyHeaderIndices={[1]}
           contentContainerStyle={[s.listContent, { paddingBottom: PIE_MERCADO_H + insets.bottom + espaciado.e32 }]}
           keyboardShouldPersistTaps="handled"
           refreshControl={
@@ -576,7 +579,25 @@ export default function EcomerseScreen() {
               desplazable={false}
               alTocar={(id) => router.push({ pathname: '/ecomerse-detail', params: { id } } as never)}
             />
+          </View>
 
+          {/*
+            ── LA BARRA DE DEPARTAMENTOS, **PEGADA** (15/10/2026) ──────────────────────────────────
+
+            Es el segundo hijo DIRECTO del `ScrollView` y por eso es el que se queda: `stickyHeaderIndices={[1]}`
+            la ancla arriba en cuanto su sitio pasa por debajo de la cabecera. **Es lo que hace Taobao** —sus
+            pestañas `categoryTab` no se van con el contenido— y es lo que se pidió: con 18 departamentos,
+            perderlos al bajar obligaba a subir para cambiar de categoría, que es justo lo que se hace
+            mientras se mira el catálogo.
+
+            **El `backgroundColor` no es decoración**: sin él, el catálogo se ve pasar POR DEBAJO de los
+            rótulos al desplazar y la barra parece rota. Y va pegado también el hueco de abajo, para que el
+            contenido no asome por la línea de la barra.
+
+            El envoltorio `<View>` hace falta aunque solo tenga un hijo: `stickyHeaderIndices` señala a un
+            hijo DIRECTO, y la sección servida no puede ocupar ese sitio (necesita su propio contenedor).
+          */}
+          <View style={[s.barraPegada, { backgroundColor: colors.background }]}>
             {/* PESTAÑAS DE DEPARTAMENTOS — lo primero bajo la barra de búsqueda.
                 Es la estructura de la referencia: el primer nivel son pestañas, la activa se marca
                 con color y subrayado, y la fila **desliza** en vez de aplastarse (18 departamentos
@@ -610,6 +631,10 @@ export default function EcomerseScreen() {
               desplazable={false}
               alTocar={(id) => chooseCat(id)}
             />
+          </View>
+
+          {/* Y AQUÍ EMPIEZA LO QUE SÍ SE VA CON EL CONTENIDO: familias, contador y rejilla. */}
+          <View>
 
             {/* LA REJILLA — las familias del departamento activo, con la imagen del servidor.
                 La imagen **no es de la familia**: la familia no tiene ninguna (0 de 110 tienen
@@ -894,6 +919,12 @@ const s_home = StyleSheet.create({
 const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   /**
+   * LA BARRA PEGADA (el hijo 1 del scroll). **Solo el `zIndex`**: el fondo va en línea, porque sale
+   * del tema (`colors.background`) y este `StyleSheet` ya recibe los colores — pero el `zIndex` tiene
+   * que ser estilo propio: sin él, en Android la barra se pinta por debajo del contenido que pasa.
+   */
+  barraPegada: { zIndex: 2 },
+  /**
    * Fondo SÓLIDO + elevación: es lo que despega la cabecera del catálogo que se desliza por
    * debajo. Sin `backgroundColor` la barra era transparente y, al desplazar, la fila de tarjetas
    * cortada por el borde de la lista se leía pegada al título, sin separación ninguna.
@@ -912,7 +943,19 @@ const styles = (c: ReturnType<typeof useTheme>['colors']) => StyleSheet.create({
    * crecía y desalineaba la fila entera). Los 40 dp son de la barra, no del área táctil: la barra
    * entera es el campo, así que el alto táctil ya es de sobra.
    */
-  headerSearch: { flex: 1, flexDirection: 'row', alignItems: 'center', marginHorizontal: espaciado.e12, height: 40, paddingHorizontal: espaciado.e12, backgroundColor: c.surface, borderRadius: radios.md, borderWidth: trazo.fino, borderColor: c.border },
+  /**
+   * La barra de búsqueda, en la cabecera. `height: 40` en vez de `paddingVertical`: es lo que la
+   * hace caber junto a los tres iconos de acción y quedar centrada con ellos, y evita que el alto
+   * dependa del `font_scale` del usuario (con un `paddingVertical` fijo, a 1.3 de escala la barra
+   * crecía y desalineaba la fila entera). Los 40 dp son de la barra, no del área táctil: la barra
+   * sigue siendo pulsable en toda su superficie.
+   *
+   * **El radio es `radios.chip` (10) y no `radios.md` (12) porque 10 es lo MEDIDO en el buscador de
+   * Taobao** (`m_h_searchBar_slim_protocol_version`, `DXIMAGESPAN_CORNERRADIUS`: 10 en la caja, 8.5 y
+   * 7 en lo de dentro, 3 en el detalle). La forma de la barra de Taobao es la de un chip alargado, no
+   * la de un campo de formulario, y el token que existe para eso es este.
+   */
+  headerSearch: { flex: 1, flexDirection: 'row', alignItems: 'center', marginHorizontal: espaciado.e12, height: 40, paddingHorizontal: espaciado.e12, backgroundColor: c.surface, borderRadius: radios.chip, borderWidth: trazo.fino, borderColor: c.border },
   /** `paddingVertical: 0` es obligatorio en Android: el `TextInput` trae relleno vertical propio y,
    *  sin quitarlo, desborda los 40 dp de la barra por arriba y por abajo. */
   searchInput: { flex: 1, color: c.textPrimary, fontSize: tipografia.body, marginLeft: espaciado.e8, paddingVertical: 0 },

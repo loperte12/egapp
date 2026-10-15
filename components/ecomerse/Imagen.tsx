@@ -81,7 +81,14 @@ export function Imagen({
   if (fallo) {
     return (
       <View
-        style={[estiloDeCaja(dx) as StyleProp<ViewStyle>, style, ESTILO_FALLO]}
+        style={[
+          estiloDeCaja(dx) as StyleProp<ViewStyle>,
+          // El marcador de fallo ocupa **lo mismo** que la imagen: con la proporción, el hueco no se
+          // mueve al fallar (si midiera distinto, cada foto caída daría un salto de maquetación).
+          r.aspecto !== undefined ? { width: '100%', aspectRatio: r.aspecto } : null,
+          style,
+          ESTILO_FALLO,
+        ]}
         accessible
         accessibilityRole="image"
         accessibilityLabel={accesibilidad ?? 'Imagen no disponible'}
@@ -94,7 +101,16 @@ export function Imagen({
   return (
     <Image
       source={{ uri }}
-      style={[estiloDeCaja(dx) as StyleProp<ImageStyle>, style, r.tintColor ? { tintColor: r.tintColor } : null]}
+      style={[
+        estiloDeCaja(dx) as StyleProp<ImageStyle>,
+        // **La proporción manda sobre la altura.** Si el árbol pide `ext:aspecto` (Taobao:
+        // `DXTEMPLATE_ASPECTRATIO`, 1 = cuadrada en las tarjetas del feed), el alto sale del ancho que
+        // le da la rejilla y una altura fija en píxeles se ignora: dos medidas para lo mismo, y la que
+        // depende del móvil es la que no puede ganar.
+        r.aspecto !== undefined ? { width: '100%', aspectRatio: r.aspecto } : null,
+        style,
+        r.tintColor ? { tintColor: r.tintColor } : null,
+      ]}
       contentFit={r.ajuste ?? ajuste}
       transition={200}
       cachePolicy={r.cachePolicy ?? 'memory-disk'}
