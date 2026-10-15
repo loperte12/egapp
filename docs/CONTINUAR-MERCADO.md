@@ -1478,9 +1478,14 @@ es la línea del contador. **Comprobado en producción**: `rejilla` sirve `db779
 ### 4 · Lo que queda
 
 1. **El endpoint de seguidos** (tabla + 3 rutas) es **lo único** que falta para que 关注 enseñe datos.
-2. ⚠️ **La comprobación en el móvil de este cambio está PENDIENTE**: el teléfono se desconectó a mitad
-   (`adb devices` vacío). Los iconos con color y el hueco nuevo **no se han visto en pantalla**; lo que
-   hay es la geometría servida (arriba) y 148 pruebas. Es lo primero al volver a enchufarlo.
+2. ✅ **La comprobación en el móvil ya está hecha** (el teléfono volvió a conectarse a mitad del
+   cierre): **los iconos salen con su color** —el mosaico: taxi azul, conductor rojo, monedero ámbar,
+   tienda verde…— (`161025-iconos-vivos-y-carril-de-feed.png`), **el hueco se fue** (el contador queda
+   pegado al carril y a las tarjetas) y los **dos carriles se apilan pegados** al desplazar, el de feed
+   arriba y el de categorías debajo (`161025-doble-carril-pegado-y-hueco-ajustado.png`), con **0
+   avisos** de listas anidadas. Queda sin fotografiar el **vacío de 关注**: los toques se iban a las
+   tarjetas; lo que lo sostiene es que producción responde `arbol: null` y el vacío es el mismo
+   `EmptyState` que el de la rejilla, ya visto en pantalla.
 3. El **feed entre tarjetas** sigue esperando contenido real que intercalar.
 4. La pantalla vieja de seguidos se borra **en el mismo commit** que la sustituya.
 
