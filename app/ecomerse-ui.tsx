@@ -39,6 +39,7 @@ import { uiHome, type NodoRemoto } from '../api/ecomerseUi';
 import { Renderizador } from '../components/ecomerse/Renderizador';
 import { FranjaServidor } from '../components/ecomerse/FranjaServidor';
 import { useAccionesProducto } from '../components/ecomerse/useAccionesProducto';
+import { useEcomerseStore } from '../state/ecomerse';
 import { ACCIONES } from '../components/ecomerse/valorAtributos';
 import type { EcomerseProduct } from '../api/ecomerse';
 
@@ -67,6 +68,8 @@ export default function EcomerseUiScreen() {
   // atrás si la API falla, y el carrito respeta la guarda de combinaciones. Copiarlas aquí sería
   // garantizar que un día digan cosas distintas (es lo que dice el propio módulo).
   const { alternarFavorito, anadirAlCarrito } = useAccionesProducto();
+  /** El filtro de departamento es el del listado: **una sola verdad sobre qué está filtrado**. */
+  const { setCategoryFilter } = useEcomerseStore();
 
   // **El modo del sistema viaja al servidor**, que es quien resuelve los colores del árbol (igual
   // que Taobao resuelve `style.styleData.*`). El cliente no tiene tabla de temas.
@@ -133,6 +136,20 @@ export default function EcomerseUiScreen() {
         </View>
       ) : (
         <>
+          {/*
+            LA BARRA DE CATEGORÍAS, servida. En Taobao es la sección `categoryTab` de la portada: las
+            pestañas son DATO (`content.tabs[]`) y el tema va aparte. Aquí la pinta el servidor y la
+            pantalla solo dice QUÉ HACER al tocar — **el mismo filtro que usa el propio listado**
+            (`useEcomerseStore`), no un camino nuevo.
+          */}
+          <FranjaServidor
+            ruta="categorias"
+            testID="categorias-servidor"
+            alTocar={(id) => {
+              setCategoryFilter(id);
+              router.push('/ecomerse' as never);
+            }}
+          />
           <Renderizador
             testID="portada-servidor"
             // **El `Renderizador` NO impone `flex: 1` a propósito** — dentro de un `ScrollView` un

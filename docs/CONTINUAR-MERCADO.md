@@ -709,3 +709,86 @@ molde medido, el plan por pasos y los huecos dichos.
 (2) **`span` por tarjeta** en `Lista` (span 1 y 2 mezclados, como Taobao); (3) **tarjetas
 heterogéneas** (un árbol distinto por elemento, no uno por lista); (4) la pantalla de categorías con
 **la taxonomía del Mercado** (`department/family/leaf`), no con IDs de Taobao.
+
+---
+
+## 17 · El widget de PESTAÑAS (15/10) — punto (1), hecho
+
+### La forma: en Taobao esto es una SECCIÓN, aquí es un widget
+
+Medido en `awesome/container_newface_home_main.json`: la barra es `sectionBizCode: "categoryTab"`, con
+las pestañas en `content.tabs[]` (**son dato**) y el tema en `style.styleData.tabs` (31 tokens). Aquí
+es el tipo **`Pestanas`**, y **su alias es el nombre real de la sección** — así un árbol generado desde
+una captura de Taobao no se descarta por llamarse como se llama. *(La lista blanca pasó de 13 a 14
+tipos: el test que la fija avisó, como debía, y se actualizó con el porqué.)*
+
+```
+{ "tipo": "Pestanas", "valor": "$categorias",        // las pestañas llegan por `valor`, como en `Lista`
+  "atributos": { "4fa0a53cf9ff05cd": "#FFA9AEB8",     // color normal (clave COMPARTIDA con `Texto`)
+                 "5db0637a915fa268": 12,
+                 "ext:coloractiva": "#FFFFFFFF", "ext:tamanoactiva": 13,
+                 "ext:indicador": true, "ext:colorindicador": "#FFFF5000",
+                 "ext:tipoindicador": "line", "ext:negritaactiva": true,
+                 "ext:espacio": 12, "ext:activa": 0 } }
+```
+
+### Cada token, con el token de Taobao al lado
+
+Donde Taobao ya tiene un **atributo compartido**, se usa el suyo (16 hex). Donde no —porque es tema de
+la sección— va una extensión `ext:` **y en `pestanasAtributos.ts` queda escrito de qué token sale**
+(`PROCEDENCIA`), que es lo que hace comprobable la fidelidad en vez de prometerla:
+
+| en el árbol | Taobao (`style.styleData.tabs`) |
+|---|---|
+| `ext:coloractiva` | `textSelectColor` |
+| `ext:tamanoactiva` | `textSelectSize` |
+| `ext:colorindicador` | `tabIndicatorColor` |
+| `ext:tipoindicador` | `tabIndicatorType` (`line` · `dot`; **`smile` no**) |
+| `ext:indicador` | `showTabIndicator` |
+| `ext:negritaactiva` | `selectedIsBold` |
+| `ext:espacio` | `tabSpaceConfig.phoneSpace` |
+| `ext:activa` | — (Taobao lo manda por pestaña; aquí es el índice inicial) |
+
+⚠️ **El formato de las claves lo cazó el propio test**: la casa exige `ext:` + **minúsculas**
+(`/^ext:[a-z]+$/`, la regla de la red del contrato). Se declararon en camelCase y **se renombraron**.
+
+### Los números: el mecanismo es de Taobao, las medidas son las de aquí
+
+| | Taobao | aquí | por qué |
+|---|---|---|---|
+| hueco | `phoneSpace` **11** | **12** (`espaciado.e12`) | el carril que esto sustituye ya usa 12: cambiarlo movería un píxel de una barra que ya está en la calle |
+| rótulo | `textSize` **16** | **12** (`tipografia.caption`) | con **18 pestañas** la fila se recorre deslizando; un rótulo grande convierte cada pestaña en un bloque |
+| activa | `textSelectSize` **18** | **13** | el mismo motivo, un peldaño por encima |
+
+Y **lo que NO se pinta se declara**: `tabIndicatorType: "smile"` (son los arcos `leftArcImgUrl` /
+`arcImgRatio`, **imágenes de Alibaba**) **se degrada a `line` y se anota** en `noImplementados` — la
+regla de la casa es copiar el contrato, no el dibujo. Los tipos de pestaña `img` · `gif` · `bubble`
+(`argsTypeMap`) tampoco están: hoy hacen falta pestañas de texto con emoji.
+
+### Lo que se reutilizó del carril que YA existía
+
+`app/ecomerse.tsx:698` (`Pestana`) tenía tres decisiones pagadas con un fallo cada una, y se mantienen:
+**el subrayado se pinta siempre** (transparente cuando no toca: si no, la fila baila de alto al
+cambiar), **`accessibilityRole="tab"` con `selected`** (que un lector de pantalla lo sepa, no que lo
+adivine por el color), y **`emoji + etiqueta` en un solo `Texto`** con `numberOfLines={1}`.
+
+### Las categorías son las REALES
+
+`GET /api/ecomerse/ui/categorias?tema=claro|oscuro` → **19 pestañas**: «Recomendado» (id `''` = sin
+filtro, como abre el listado) **+ los 18 departamentos del árbol del Mercado**, con sus emojis
+(👔 Hombre, 👗 Mujer, 🍼 Bebés y niños, 🍎 Alimentación…). Salen de `EcomerseService.categories()`, que
+es **la misma fuente que el listado**: no hay dos verdades sobre qué departamentos existen. Se monta en
+`/ecomerse-ui`, y al tocar **usa el filtro del propio listado** (`useEcomerseStore().setCategoryFilter`
++ navegar a `/ecomerse`) — no un camino nuevo.
+
+**Verificado en producción** (`codeSha256 bf4011f6…`, Active, 89.286.279 B): las 19 pestañas llegan,
+la primera es «Recomendado» sin id, no hay ids repetidos, los dos temas se pintan distinto y el árbol
+es **idéntico** al del servidor local. Oráculo **122/122** (15 nuevos).
+
+### Siguiente
+
+1. **`span` por tarjeta** en `Lista` (span 1 y 2 mezclados, como Taobao).
+2. **Tarjetas heterogéneas**: un árbol distinto por elemento, no uno por lista.
+3. **Migrar el carril del listado** a esta sección (`PestanasDepartamentos` se borra): hoy hay dos
+   barras, la del cliente y la servida, y la servida ya hace lo mismo con el tema del servidor.
+4. La pantalla de categorías con la taxonomía del Mercado y sus tres niveles.

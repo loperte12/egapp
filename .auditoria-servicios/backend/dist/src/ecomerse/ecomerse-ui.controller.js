@@ -68,7 +68,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.accionDeTarjeta = exports.ACCIONES = exports.CLAVE_ACCION = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
+exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeCategorias = exports.datosDeCategorias = exports.PESTANAS = exports.ESPACIO_PESTANAS = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.accionDeTarjeta = exports.ACCIONES = exports.CLAVE_ACCION = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
 const common_1 = require("@nestjs/common");
 const ecomerse_service_1 = require("./ecomerse.service");
 
@@ -343,6 +343,79 @@ function tarjetaDeRejilla(C) {
 exports.tarjetaDeRejilla = tarjetaDeRejilla;
 
 /**
+ * LAS CLAVES DE LA BARRA DE PESTAÑAS. **Las `ext:` las declara el cliente** en
+ * `components/ecomerse/pestanasAtributos.ts`, cada una con el token de Taobao del que sale.
+ */
+const PESTANAS = {
+    SELECCIONADA: 'ext:activa',
+    COLOR_SELECCIONADO: 'ext:coloractiva',
+    TAMANO_SELECCIONADO: 'ext:tamanoactiva',
+    INDICADOR: 'ext:indicador',
+    INDICADOR_COLOR: 'ext:colorindicador',
+    INDICADOR_TIPO: 'ext:tipoindicador',
+    NEGRITA_SELECCIONADA: 'ext:negritaactiva',
+    ESPACIO: 'ext:espacio',
+};
+exports.PESTANAS = PESTANAS;
+
+/**
+ * El hueco entre pestañas y los dos tamaños. **Se eligen los números MEDIDOS DE LA CASA**, no los de
+ * Taobao, y queda dicho por qué: Taobao usa `phoneSpace` 11 y `textSize/textSelectSize` 16/18, pero
+ * el carril que esto sustituye ya usa 12 de hueco y `caption` (12) de rótulo porque **con 18
+ * pestañas la fila se recorre deslizando**. El MECANISMO es el de Taobao; los números, los de aquí.
+ */
+const ESPACIO_PESTANAS = 12;
+exports.ESPACIO_PESTANAS = ESPACIO_PESTANAS;
+const TAMANO_PESTANA = 12;
+const TAMANO_PESTANA_ACTIVA = 13;
+
+/**
+ * LA BARRA DE PESTAÑAS de las categorías, en la forma de Taobao: allí es la **sección** `categoryTab`
+ * (pestañas en `content.tabs[]`, tema en `style.styleData.tabs`). Aquí el tipo es `Pestanas` —cuyo
+ * alias ES `categoryTab`— y los datos van por `valor`, como en la `Lista`.
+ */
+function arbolDeCategorias(tema) {
+    const C = coloresDe(tema);
+    return {
+        tipo: 'Pestanas',
+        valor: '$categorias',
+        atributos: {
+            [K.LAYOUT_WIDTH]: -1,
+            [K.BACKGROUNDCOLOR]: C.tarjeta,
+            [K.PADDING_LEFT]: 16,
+            [K.PADDING_RIGHT]: 16,
+            [K.TEXTCOLOR]: C.secundario,
+            [K.TEXTSIZE]: TAMANO_PESTANA,
+            [PESTANAS.COLOR_SELECCIONADO]: C.texto,
+            [PESTANAS.TAMANO_SELECCIONADO]: TAMANO_PESTANA_ACTIVA,
+            [PESTANAS.INDICADOR]: true,
+            [PESTANAS.INDICADOR_COLOR]: C.naranja,
+            [PESTANAS.INDICADOR_TIPO]: 'line',
+            [PESTANAS.NEGRITA_SELECCIONADA]: true,
+            [PESTANAS.ESPACIO]: ESPACIO_PESTANAS,
+            // La primera es «Recomendado» (id `''`), como abre hoy el listado del Mercado.
+            [PESTANAS.SELECCIONADA]: 0,
+        },
+    };
+}
+exports.arbolDeCategorias = arbolDeCategorias;
+
+/**
+ * Los datos de la barra: **las categorías REALES** que devuelve el servicio (departamentos activos,
+ * por `sort_order`). La primera pestaña es **Recomendado** con `id: ''` = «sin filtro», que es lo que
+ * hace el carril del listado. **No se inventa ni un departamento.**
+ */
+function datosDeCategorias(departamentos) {
+    if (!Array.isArray(departamentos) || departamentos.length === 0) return null;
+    const categorias = departamentos
+        .filter((d) => d && d.id)
+        .map((d) => ({ id: String(d.id), etiqueta: String(d.label ?? ''), emoji: typeof d.icon === 'string' && d.icon ? d.icon : '' }));
+    if (categorias.length === 0) return null;
+    return { categorias: [{ id: '', etiqueta: 'Recomendado', emoji: '' }, ...categorias] };
+}
+exports.datosDeCategorias = datosDeCategorias;
+
+/**
  * LA REJILLA, en la forma de Taobao: **dos `Lista` en fila con los datos repartidos.**
  *
  * Taobao **no tiene un widget de waterfall**: tiene `DXRecyclerLayout`, y una franja de dos columnas
@@ -472,6 +545,22 @@ let EcomerseUiController = class EcomerseUiController {
     }
 
     /**
+     * LA BARRA DE CATEGORÍAS. Salen del servicio (`categories()`), que es la MISMA fuente que el
+     * listado del Mercado: **no hay dos verdades sobre qué departamentos existen**.
+     */
+    async categorias(tema) {
+        try {
+            const departamentos = await this.ecomerse.categories();
+            const datos = datosDeCategorias(departamentos);
+            if (!datos) return { esquema: ESQUEMA_UI, arbol: null };
+            return { esquema: ESQUEMA_UI, arbol: arbolDeCategorias(tema), datos };
+        } catch (e) {
+            this.log.warn(`no se pudo montar la barra de categorias: ${(e && e.message) || e}`);
+            return { esquema: ESQUEMA_UI, arbol: null };
+        }
+    }
+
+    /**
      * LA REJILLA: el catálogo en dos columnas, en la forma de Taobao (dos `Lista` en fila con los
      * datos repartidos). **El catálogo es el mismo que el del listado**, así que no puede desviarse.
      */
@@ -520,6 +609,16 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], EcomerseUiController.prototype, "rejilla", null);
+__decorate([
+    (0, common_1.Get)('categorias'),
+    // El árbol de categorías lo mantiene el administrador y cambia poco: una caché corta en el borde
+    // quita casi todas las peticiones sin que nadie vea categorías de ayer por la tarde.
+    (0, common_1.Header)('Cache-Control', 'public, max-age=60'),
+    __param(0, (0, common_1.Query)('tema')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], EcomerseUiController.prototype, "categorias", null);
 exports.EcomerseUiController = EcomerseUiController = __decorate([
     (0, common_1.Controller)('ecomerse/ui'),
     __metadata("design:paramtypes", [ecomerse_service_1.EcomerseService])

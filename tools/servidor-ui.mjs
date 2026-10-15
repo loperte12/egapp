@@ -126,6 +126,13 @@ const C = coloresDe(TEMA_POR_DEFECTO);
 /** De dónde se leen los productos. **El mismo catálogo que usa la app.** */
 const CATALOGO = 'https://api.egrouteplan.com/api/ecomerse/catalog';
 
+/**
+ * De dónde salen las CATEGORÍAS. **El árbol real del Mercado**: departamentos (nivel 1) con sus
+ * familias y sus hojas. Son 18 departamentos, y es lo que la app ya usa en su carril de pestañas
+ * (`app/ecomerse.tsx:674`).
+ */
+const CATEGORIAS = 'https://api.egrouteplan.com/api/ecomerse/categories';
+
 const ESQUEMA = 1;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -367,6 +374,100 @@ function tarjetaDeRejilla(C) {
 }
 
 /**
+ * LAS CLAVES DE LA BARRA DE PESTAÑAS. **Las `ext:` las declara el cliente** en
+ * `components/ecomerse/pestanasAtributos.ts` (`CLAVES_PESTANAS`), cada una con el token de Taobao
+ * del que sale (`PROCEDENCIA`). Aquí solo se usan.
+ */
+const PESTANAS = {
+  SELECCIONADA: 'ext:activa',
+  COLOR_SELECCIONADO: 'ext:coloractiva',
+  TAMANO_SELECCIONADO: 'ext:tamanoactiva',
+  INDICADOR: 'ext:indicador',
+  INDICADOR_COLOR: 'ext:colorindicador',
+  INDICADOR_TIPO: 'ext:tipoindicador',
+  NEGRITA_SELECCIONADA: 'ext:negritaactiva',
+  ESPACIO: 'ext:espacio',
+};
+
+/**
+ * El hueco entre pestañas y los dos tamaños. **Aquí se eligen los números MEDIDOS DE LA CASA**, no
+ * los de Taobao, y se dice por qué:
+ *
+ * | | Taobao (`style.styleData.tabs`) | aquí | por qué |
+ * |---|---|---|---|
+ * | hueco | `tabSpaceConfig.phoneSpace` = **11** | **12** (`espaciado.e12`) | el carril que esto sustituye ya usa 12; cambiarlo movería un píxel de una barra que ya está en la calle |
+ * | tamaño | `textSize` = **16** | **12** (`tipografia.caption`) | con 18 pestañas la fila se recorre deslizando: un rótulo grande convierte cada pestaña en un bloque |
+ * | tamaño activo | `textSelectSize` = **18** | **13** | el mismo motivo, un peldaño por encima |
+ *
+ * **El mecanismo es el de Taobao; los números, los de la medición que ya existe aquí.** Los dos se
+ * pueden cambiar en una línea, y están al lado para poder compararlos.
+ */
+const ESPACIO_PESTANAS = 12;
+const TAMANO_PESTANA = 12;
+const TAMANO_PESTANA_ACTIVA = 13;
+
+/**
+ * LA BARRA DE PESTAÑAS de las categorías del Mercado, en la forma de Taobao.
+ *
+ * Taobao la monta como una **sección** (`sectionBizCode: "categoryTab"`), con las pestañas en
+ * `content.tabs[]` y el tema en `style.styleData.tabs`. Aquí: el tipo es `Pestanas` (cuyo alias ES
+ * `categoryTab`) y los datos van por `valor`, como en la `Lista`.
+ *
+ * **El tema es de verdad claro/oscuro**: el color normal, el de la activa y el del subrayado salen
+ * del tema que pide el cliente con `?tema=`, igual que el resto de las secciones.
+ */
+function arbolDeCategorias(tema) {
+  const C = coloresDe(tema);
+  return {
+    tipo: 'Pestanas',
+    valor: '$categorias',
+    atributos: {
+      // El carril ocupa el ancho y lleva su fondo y su aire: es una franja pegada a la barra de
+      // búsqueda, como la que el listado ya tiene.
+      [K.LAYOUT_WIDTH]: -1,
+      [K.BACKGROUNDCOLOR]: C.tarjeta,
+      [K.PADDING_LEFT]: 16,
+      [K.PADDING_RIGHT]: 16,
+      // ── el tema de la barra ──
+      [K.TEXTCOLOR]: C.secundario,          // inactiva: gris
+      [K.TEXTSIZE]: TAMANO_PESTANA,
+      [PESTANAS.COLOR_SELECCIONADO]: C.texto,
+      [PESTANAS.TAMANO_SELECCIONADO]: TAMANO_PESTANA_ACTIVA,
+      [PESTANAS.INDICADOR]: true,
+      [PESTANAS.INDICADOR_COLOR]: C.naranja,
+      [PESTANAS.INDICADOR_TIPO]: 'line',
+      [PESTANAS.NEGRITA_SELECCIONADA]: true,
+      [PESTANAS.ESPACIO]: ESPACIO_PESTANAS,
+      // La primera es «Recomendado» (id `''`), que es como el listado abre hoy el Mercado.
+      [PESTANAS.SELECCIONADA]: 0,
+    },
+  };
+}
+
+/**
+ * Los datos de la barra: **las categorías REALES del Mercado**, no una lista de ejemplo.
+ *
+ * La primera pestaña es **Recomendado** con `id: ''`, que es exactamente lo que hace el carril de
+ * `app/ecomerse.tsx:681`: `''` significa «sin filtro». **No se inventa ni un departamento.**
+ */
+async function datosDeCategorias() {
+  const respuesta = await fetch(CATEGORIAS);
+  if (!respuesta.ok) return null;
+  const departamentos = await respuesta.json();
+  if (!Array.isArray(departamentos) || departamentos.length === 0) return null;
+  const categorias = departamentos
+    .filter((d) => d && d.id)
+    .map((d) => ({
+      id: String(d.id),
+      etiqueta: String(d.label ?? ''),
+      // El emoji es el icono del departamento, que es lo que la app pinta en su carril.
+      emoji: typeof d.icon === 'string' && d.icon ? d.icon : '',
+    }));
+  if (categorias.length === 0) return null;
+  return { categorias: [{ id: '', etiqueta: 'Recomendado', emoji: '' }, ...categorias] };
+}
+
+/**
  * LA REJILLA, en la forma de Taobao: **dos `Lista` en fila con los datos repartidos.**
  *
  * Medido en el corpus: Taobao **no tiene un widget de waterfall**. Tiene `DXRecyclerLayout`, y una
@@ -484,6 +585,11 @@ const servidor = createServer((req, res) => {
       arbol: arbolDeRejilla(p.get('tema')),
       buscarDatos: () => datosDeRejilla(),
     }),
+    // **La barra de pestañas de las categorías**: en Taobao, la sección `categoryTab`.
+    '/api/ecomerse/ui/categorias': (p) => ({
+      arbol: arbolDeCategorias(p.get('tema')),
+      buscarDatos: () => datosDeCategorias(),
+    }),
   };
 
   if (RUTAS[url.pathname]) {
@@ -523,4 +629,4 @@ if (esEjecucionDirecta) {
 
 // Se exporta para poder PROBAR el arbol sin arrancar el servidor: el oráculo comprueba que todas
 // las claves que manda el servidor son claves que el cliente conoce.
-export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };
+export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, PESTANAS, ESPACIO_PESTANAS, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };

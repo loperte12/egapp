@@ -157,6 +157,19 @@ export const TIPOS_SOPORTADOS: Record<string, { alias: string[]; descripcion: st
     alias: ['DXMEGAPRICEVIEW', '2b85a6c2624a8015'],
     descripcion: 'precio formateado, con el símbolo menor',
   },
+  Pestanas: {
+    /**
+     * **Taobao NO tiene este widget: su barra de pestañas es una SECCIÓN de la página.**
+     *
+     * Medido en `awesome/container_newface_home_main.json`: `sectionBizCode: "categoryTab"`, las
+     * pestañas en `content.tabs[]` (son dato: `tabId`, `text`, `pageUrl`) y el tema en
+     * `style.styleData.tabs` (31 tokens). Aquí se implementa como widget porque el contrato del
+     * Mercado pinta árboles —y una barra tiene que poder vivir dentro de cualquier pantalla—, así
+     * que **el alias es el nombre real de la sección**, no un nombre de widget inventado.
+     */
+    alias: ['categoryTab', 'ext:Pestanas'],
+    descripcion: 'barra de pestañas (en Taobao, la sección categoryTab)',
+  },
   Condicional: {
     /**
      * **No es un widget: es un nodo de CONTROL.** Taobao lo tiene

@@ -41,6 +41,7 @@ import { Carrusel } from './Carrusel';
 import { Scroll } from './Scroll';
 import { Vista } from './Vista';
 import { Lista } from './Lista';
+import { Pestanas } from './Pestanas';
 import { Entrada } from './Entrada';
 import { Precio } from './Precio';
 
@@ -97,6 +98,7 @@ export const COMPONENTES: Record<string, React.ComponentType<any>> = {
   Carrusel,
   Scroll,
   Lista,
+  Pestanas,
   Entrada,
   Precio,
 };
@@ -185,6 +187,19 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
     props.children = unirTrozos(trozos, separador);
   }
 
+  // ── LA BARRA DE PESTAÑAS ──────────────────────────────────────────────────────────────────
+  // **Las pestañas son DATO, no hijos**: es la forma de Taobao (`content.tabs[]` en la sección
+  // `categoryTab`) y la misma que usa la `Lista`. El `valor` del nodo es el binding a la lista
+  // (`$categorias`), ya resuelto aquí.
+  //
+  // Al cambiar de pestaña se avisa por el MISMO canal que el toque (`alEvento`), con el `id` de la
+  // pestaña como nombre: **un canal, no dos**. La pantalla decide si eso filtra, navega o pide otra
+  // sección.
+  if (nodo.tipo === 'Pestanas') {
+    props.datos = Array.isArray(nodo.valor) ? nodo.valor : [];
+    if (alEvento) props.alCambiar = (_i: number, id: string) => alEvento(String(id), nodo);
+  }
+
   // ── LA LISTA ──────────────────────────────────────────────────────────────────────────────
   // Un `FlatList` necesita una función por elemento, y un árbol es declarativo. **La respuesta
   // es la de Taobao**: el primer hijo del nodo es la PLANTILLA que se repite, y `valor` (ya
@@ -254,6 +269,9 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
   // Y en un `Texto` CON separador tampoco: sus hijos ya están dentro del texto unido, y pintarlos
   // otra vez los duplicaría.
   const hijosSueltos = nodo.tipo === 'Lista'
+    // En la barra de pestañas tampoco: **sus hijos no son contenido, son pestañas** — y las pestañas
+    // llegan por `valor` (el dato). Pintarlas otra vez sacaría la lista duplicada al lado de la barra.
+    || nodo.tipo === 'Pestanas'
     || (nodo.tipo === 'Texto' && typeof nodo.atributos?.[CLAVES_VALOR.SEPARADOR] === 'string');
 
   const hijos = hijosSueltos ? [] : (nodo.hijos ?? []).map((h, i) => (
