@@ -1017,3 +1017,97 @@ del widget funciona.**
 *(Nota para la próxima sesión: el `adb reverse` de 8081/8788 **se pierde cada vez que el móvil se
 reconecta**, y sin él la app no alcanza ni Metro ni el servidor local — las dos secciones de la
 pantalla se quedan sin pintar sin decir por qué. Rehacer el `reverse` justo antes de relanzar.)*
+
+---
+
+## 21 · Tarjetas HETEROGÉNEAS: la tarjeta ancha es OTRA tarjeta (15/10)
+
+### 1 · Lo medido: cada elemento dice qué tarjeta usa
+
+`re-e-categorias/out/plantillas.txt`. En el feed de descubrimiento de Taobao
+(`live_flexalocal/discovery_video_list_new.json`) **la misma lista trae varias tarjetas**, y quien lo
+dice es **el elemento**, con `templateName`:
+
+| cuántas | `templateName` |
+|---|---|
+| 11× | `taolive_discovery_feed_live_v2` ← la tarjeta normal |
+| 1× | `taolive_discovery_feed_goods_card_v2` ← **una tarjeta DISTINTA en la misma lista** |
+| 1× | `taolive_discovery_head_card_2024` (la cabecera) |
+| 1× | `taolive_discovery_subtab_card_2024` (las pestañas) |
+
+Y cada elemento lleva, junto a él, `area`, `type`, `uniqueID`, `cardStyle`, `designLocation`,
+`noLeftRightSpace`, `noBottomSpace`. **El `span`, en cambio, sigue viajando en la entrada de
+plantilla** (`{name, span, url4Android}`): el ancho es del diseño de la tarjeta, no del dato.
+
+### 2 · Lo que cambió en el contrato
+
+| antes (15/10, mañana) | ahora |
+|---|---|
+| `Lista` con **UNA** plantilla | `Lista` con **DOS** plantillas, cada una con su `templateName` |
+| el `ext:span` era un **binding por elemento** (`$item.span`) | el `ext:span` es **constante de cada plantilla** |
+| el dato llevaba `span` | el dato lleva **`templateName`** (y el ancho no viaja en el dato) |
+
+Y el reparto en filas **no cambió**: sigue siendo `filasPorSpan` (las estrechas de dos en dos, la
+ancha cierra la fila abierta y va sola). Lo que cambió es **de dónde sale el ancho**.
+
+**Elegir la plantilla es lógica pura** (`listaAtributos.elegirPlantilla`), y tiene su degradación
+declarada: si un elemento nombra una plantilla que no está —o no nombra ninguna— se pinta **la
+primera** (la estrecha) y el nombre desconocido se declara. Una tarjeta con el diseño por defecto es
+mejor que un hueco en la lista.
+
+### 3 · Las dos tarjetas del Mercado
+
+| plantilla | `span` | imagen | título |
+|---|---|---|---|
+| `mercado_tarjeta_estrecha` | 1 | 150 | 12 |
+| `mercado_tarjeta_ancha` | 2 | **210** | **14** |
+
+Los **nombres son nuestros** (con espacio de nombres, al estilo de los de Taobao) y **el mecanismo es
+de Taobao**; los números son una decisión de diseño, escrita y no escondida en un `.dx`. La ancha va
+**segunda** y la estrecha **primera** a propósito: es la que se usa por defecto.
+
+**Quién decide qué tarjeta le toca a cada producto**: la misma política real de la víspera —
+`isFeatured` (el «destacado» del Mercado) o **más de una foto**. Hoy **0 de 9 están destacados** y
+todos tienen 1 foto, así que la rejilla sale uniforme: no se inventa una mezcla que los datos no
+piden. La palanca `?destacar=` / `UI_DESTACAR` del servidor de pruebas sigue sirviendo para verlo.
+
+### 4 · La red del contrato: tercera forma de clave
+
+Al meter `templateName` en el árbol, `claves.test.mjs` lo habría llamado «MAL FORMADA»: **no es hex ni
+decimal**. Y es una clave legal de Taobao: un **nombre registrado**, como `item_data`, `isRepeat`,
+`repeatMode`, `columnGap` o `sticky`, que el vocabulario del cliente ya declaraba. La regla de la red
+ahora acepta **las tres formas** —16 hex, decimal con signo y nombre registrado— y sigue cazando lo
+que no sea ninguna de las tres. *(Es la segunda vez que la red se corrige por una medida: la anterior
+fue la clave negativa del hueco de columna.)*
+
+### 5 · Verificado en el móvil
+
+`151025-tarjetas-heterogeneas-en-el-movil.png`, en el mismo encuadre:
+
+- **«Producto cuota 4»**: tarjeta **ancha**, a todo el ancho, con su imagen (210) ocupándolo.
+- **«Producto cuota 3 | Producto cuota 2»**: dos tarjetas **estrechas** en pareja, con la suya (150).
+
+Son **dos diseños distintos**, no la misma tarjeta con más ancho. *(Con la palanca puesta: los dos
+primeros productos son destacados.)*
+
+⚠️ **Y la prueba en el móvil encontró un defecto que las pruebas no**: la imagen **no crecía con la
+tarjeta** — se quedaba con su tamaño natural, pequeña y centrada, y la ancha no se veía ancha por
+dentro. Faltaba `LAYOUT_WIDTH: -1` (ocupar el ancho del hueco) en la imagen de la plantilla. Arreglado
+en los dos servidores y **vuelto a desplegar**. *(Las fotos tampoco cargan: el host
+`hk.egrouteplan.com` no responde desde el móvil, y el widget enseña su marcador — está documentado en
+el propio servidor.)*
+
+### Verificación
+
+`tsc` **5** · `rutas` **0** · `logica` **0** · `diseño` **en verde** · oráculo **128/128** (la forma con
+dos plantillas, `elegirPlantilla` con su degradación, la política de la tarjeta, y el recuento de
+acciones: dos plantillas × dos acciones) · producción **EXIT=0** (dos plantillas con su nombre y su
+span, la imagen de la ancha mayor —210 vs 150—, cada ficha eligiendo una de las dos, y el ancho fuera
+del dato). Desplegado: `codeSha256 29d8e4ae…`, Active, 89.288.186 B.
+
+### Siguiente
+
+Mudar a **A** (el Mercado) lo que todavía solo pinta su cliente: el badge PRO, «Como nuevo» y el
+contador de favoritos —como contenido del árbol—, y **borrar la rejilla del cliente**
+(`RejillaFamilias` y la `FlatList` de tarjetas). Cuando eso pase, `/ecomerse-ui` se queda como pantalla
+de desarrollo o se borra: su trabajo era demostrar que *el servidor manda*, y ya lo demuestra.

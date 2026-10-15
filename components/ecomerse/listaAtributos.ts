@@ -77,6 +77,23 @@ export const CLAVES_LISTA = {
   EMPTY: 'empty',
   /** Cuántas columnas (el `span` del widget de rejilla). */
   ABILITY_SPAN: 'ability_span',
+  /**
+   * **Qué tarjeta usa cada elemento.** Es el nombre REGISTRADO de Taobao, y se midió en el feed de
+   * descubrimiento (`live_flexalocal/discovery_video_list_new.json`): allí **cada elemento** lleva
+   * `templateName`, y en la MISMA lista conviven varias tarjetas:
+   *
+   * ```
+   * 11× taolive_discovery_feed_live_v2        ← la tarjeta normal
+   *  1× taolive_discovery_feed_goods_card_v2  ← una tarjeta DISTINTA en la misma lista
+   *  1× taolive_discovery_head_card_2024      ← la cabecera
+   *  1× taolive_discovery_subtab_card_2024    ← las pestañas
+   * ```
+   *
+   * Es la diferencia entre una lista homogénea —una plantilla para todos— y **una lista donde cada
+   * elemento dice qué es**. El `span` no viaja aquí: viaja en la **entrada de plantilla**
+   * (`{name, span, url4Android}`), o sea que **el ancho es del diseño de la tarjeta**.
+   */
+  TEMPLATE_NAME: 'templateName',
 
   // ── de la tabla de claves (hex) — **medidas**, no nombres ──
   /** `DXRECYCLERLAYOUT_ONENDREACHED` — se llega al final. */
@@ -120,6 +137,7 @@ export const PROCEDENCIA: Record<NombreAtributoLista, string> = {
   STICKY: 'DXRecyclerLayout (nombre registrado)',
   EMPTY: 'DXRecyclerLayout (nombre registrado)',
   ABILITY_SPAN: 'DXRecyclerLayout (nombre registrado)',
+  TEMPLATE_NAME: 'live_flexalocal/discovery_video_list_new.json — `templateName` por elemento (11+1 tarjetas distintas en la misma lista)',
   ON_END_REACHED: 'tabla de claves · DXRECYCLERLAYOUT_ONENDREACHED',
   ON_STAY: 'tabla de claves · DXRECYCLERLAYOUT_ONSTAY',
   MAX_WIDTH: 'tabla de claves · DXSCROLLLAYOUTBASE_MAXWIDTH',
@@ -244,7 +262,7 @@ export function atributosDeLaLista(): NombreAtributoLista[] {
 // ══════════════════════════════════════════════════════════════════════════════════════════════
 
 /**
- * La clave con la que **un elemento** dice cuántas columnas ocupa.
+ * **El `span` de una PLANTILLA**: cuántas columnas ocupa la tarjeta que la usa.
  *
  * Se midió en el corpus: en Taobao el `span` **no es un atributo de la lista ni del elemento**, sino
  * un campo de la **entrada de plantilla** (`livehomecore_flexalocal/bottoming_template_list.json` y
@@ -258,13 +276,15 @@ export function atributosDeLaLista(): NombreAtributoLista[] {
  * el catálogo de seguidos tiene **31 de 41 con span 2** y 10 con span 1; `template_list.json`, 24
  * con 1, 2 con 2 y 3 vacías. *(Con `""` —o sin `span`— la tarjeta ocupa una columna.)*
  *
- * Aquí el elemento lo declara con esta clave, porque **nuestro árbol sí tiene un nodo por elemento**:
- * es el mismo dato en el sitio donde este contrato puede leerlo. La `ABILITY_SPAN` de
- * `DXRecyclerLayout` es el nombre registrado de la capacidad; el valor viaja por elemento.
+ * **Consecuencia, y es la que importa**: el ancho es del DISEÑO de la tarjeta, no del producto. Por eso
+ * aquí esta clave vive en el **nodo de la plantilla** (constante), y no como binding por elemento: el
+ * elemento lo que hace es elegir su tarjeta (`TEMPLATE_NAME`).
+ *
+ * La `ABILITY_SPAN` de `DXRecyclerLayout` es el nombre registrado de la capacidad.
  */
-export const CLAVE_SPAN_ELEMENTO = 'ext:span';
+export const CLAVE_SPAN_PLANTILLA = 'ext:span';
 
-/** El `span` de un elemento, saneado: sin dato (o vacío) es **1**, y nunca pasa de las columnas. */
+/** El `span` de una plantilla, saneado: sin dato (o vacío) es **1**, y nunca pasa de las columnas. */
 export function spanDeElemento(valor: unknown, columnas: number): number {
   const cols = Math.max(1, Math.floor(columnas));
   const n = num(valor);
@@ -320,7 +340,27 @@ export function filasPorSpan<T>(
   return { filas, irregular };
 }
 
+/**
+ * ELIGE LA PLANTILLA DE UN ELEMENTO. Puro, y por eso se prueba sin pintar.
+ *
+ * El elemento lo dice por su **`templateName`** (medido: cada elemento del feed de Taobao lo lleva).
+ * Si el nombre no está entre las plantillas de la lista —o no lo trae— se usa **la primera** y se
+ * declara, que es la diferencia entre degradar y mentir: la tarjeta se pinta (con el diseño por
+ * defecto) y quien lea el diagnóstico sabe que ahí falta una plantilla, en vez de ver un hueco.
+ */
+export function elegirPlantilla(
+  nombres: string[],
+  declarado: unknown,
+): { indice: number; desconocida?: string } {
+  if (nombres.length === 0) return { indice: -1 };
+  const buscado = typeof declarado === 'string' && declarado !== '' ? declarado : undefined;
+  // Sin `templateName` no hay nada que declarar: es una lista de una sola tarjeta, como siempre.
+  if (!buscado) return { indice: 0 };
+  const i = nombres.indexOf(buscado);
+  return i >= 0 ? { indice: i } : { indice: 0, desconocida: buscado };
+}
+
 export default {
-  CLAVES_LISTA, PROCEDENCIA, CLAVE_SPAN_ELEMENTO, resolverLista, atributosDeLaLista,
-  spanDeElemento, filasPorSpan,
+  CLAVES_LISTA, PROCEDENCIA, CLAVE_SPAN_PLANTILLA, resolverLista, atributosDeLaLista,
+  spanDeElemento, filasPorSpan, elegirPlantilla,
 };

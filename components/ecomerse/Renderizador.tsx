@@ -41,7 +41,7 @@ import { Carrusel } from './Carrusel';
 import { Scroll } from './Scroll';
 import { Vista } from './Vista';
 import { Lista } from './Lista';
-import { CLAVE_SPAN_ELEMENTO } from './listaAtributos';
+import { CLAVES_LISTA, CLAVE_SPAN_PLANTILLA, elegirPlantilla } from './listaAtributos';
 import { Pestanas } from './Pestanas';
 import { Entrada } from './Entrada';
 import { Precio } from './Precio';
@@ -209,19 +209,34 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
   // ciclo de importes.
   if (nodo.tipo === 'Lista') {
     props.datos = Array.isArray(nodo.valor) ? nodo.valor : [];
-    const plantilla = (nodo.hijos ?? [])[0];
-    if (plantilla) {
+    // **LOS HIJOS DE UNA LISTA SON SUS PLANTILLAS**, y pueden ser VARIAS: en Taobao cada elemento
+    // dice qué tarjeta usa (`templateName`, medido en el feed de descubrimiento: 11 tarjetas normales
+    // y 1 distinta en la misma lista). Si solo hay una —o ninguna declara su nombre— la lista es
+    // homogénea y todo sigue funcionando igual que antes.
+    const plantillas = (nodo.hijos ?? []).filter(Boolean);
+    if (plantillas.length > 0) {
       // **`item_data` es cómo Taobao llama al elemento dentro de la plantilla.** Un binding
       // `$item.titulo` lee `datos.item.titulo`, así que el elemento se envuelve con ese nombre.
       // Si el servidor no lo dice, se usa `item` — el mismo por defecto que en el .dx.
       const nombreItem = typeof nodo.atributos?.item_data === 'string'
         ? String(nodo.atributos.item_data)
         : 'item';
+      const nombres = plantillas.map((n) => (typeof n.atributos?.[CLAVES_LISTA.TEMPLATE_NAME] === 'string'
+        ? String(n.atributos[CLAVES_LISTA.TEMPLATE_NAME])
+        : ''));
+      /** La plantilla de ESTE elemento: la que él dice; si no la dice o no existe, la primera. */
+      const plantillaDe = (elemento: unknown) => {
+        const declarado = elemento && typeof elemento === 'object'
+          ? (elemento as Record<string, unknown>)[CLAVES_LISTA.TEMPLATE_NAME]
+          : undefined;
+        return plantillas[Math.max(0, elegirPlantilla(nombres, declarado).indice)];
+      };
+
       props.renderizar = (elemento: unknown, i: number) => {
         // **La plantilla se resuelve CON LOS DATOS DEL ELEMENTO**, no con los del contenedor.
         // `preparar` la dejó cruda a propósito: `$item.*` no existía cuando se preparó el árbol.
         // El entorno viaja igual: una plantilla puede preguntar `$entorno.tema`.
-        const { arbol: resuelta } = resolverSubarbol(plantilla, { [nombreItem]: elemento }, entorno);
+        const { arbol: resuelta } = resolverSubarbol(plantillaDe(elemento), { [nombreItem]: elemento }, entorno);
         return (
           <Nodo
             nodo={resuelta}
@@ -233,13 +248,13 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
           />
         );
       };
-      // **Y EL `span` DEL ELEMENTO**, que es lo que hace la rejilla irregular de Taobao: la tarjeta
-      // lo declara en su raíz (`ext:span`, en Taobao un campo de la entrada de plantilla) y la
-      // `Lista` reparte las filas con él. Se resuelve contra los datos del elemento, igual que el
-      // contenido: si viniera del contenedor, todas las tarjetas medirían lo mismo.
+      // **Y EL `span`, que es de LA PLANTILLA**, no del dato: en Taobao viaja en su entrada
+      // (`{name, span, url4Android}`), así que la tarjeta ancha **es otra plantilla**. Se resuelve
+      // contra el elemento igual que el contenido —por si alguien lo bindea— y es lo que reparte las
+      // filas de la rejilla irregular.
       props.spanDe = (elemento: unknown) => {
-        const { arbol: resuelta } = resolverSubarbol(plantilla, { [nombreItem]: elemento }, entorno);
-        return resuelta.atributos?.[CLAVE_SPAN_ELEMENTO];
+        const { arbol: resuelta } = resolverSubarbol(plantillaDe(elemento), { [nombreItem]: elemento }, entorno);
+        return resuelta.atributos?.[CLAVE_SPAN_PLANTILLA];
       };
     }
   }

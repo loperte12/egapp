@@ -322,24 +322,40 @@ function accionDeTarjeta(icono, color, accion) {
 }
 
 /**
- * LA TARJETA de la rejilla: la misma pieza que la de la franja, **pero sin ancho fijo**.
+ * UNA PLANTILLA DE TARJETA de la rejilla: la misma pieza que la de la franja, **sin ancho fijo**.
  *
- * En la franja la tarjeta mide 132 porque el ancho lo fija la densidad de un carrusel. En una
- * columna del waterfall **el ancho lo pone la columna** (`WEIGHT: 1`), así que aquí no se declara:
- * una tarjeta con ancho fijo dentro de una columna elástica deja hueco a un lado.
+ * En la franja la tarjeta mide 132 porque el ancho lo fija la densidad de un carrusel. En un hueco
+ * de la rejilla **el ancho lo pone el `span`**, así que aquí no se declara: una tarjeta con ancho
+ * fijo dentro de un hueco elástico deja hueco a un lado.
+ *
+ * **Y hay DOS, que es el punto** (en Taobao, 41 en el catálogo de seguidos): cada una lleva su
+ * `templateName` —el nombre con el que los elementos la eligen— y **su `span`**, porque el ancho es
+ * del diseño de la tarjeta:
+ *
+ * | plantilla | span | imagen | título |
+ * |---|---|---|---|
+ * | `mercado_tarjeta_estrecha` | 1 | 150 | 12 |
+ * | `mercado_tarjeta_ancha` | 2 | **210** | **14** |
+ *
+ * **Los números son nuestros y el mecanismo es de Taobao** (lo mismo que se hizo con la barra de
+ * pestañas): la tarjeta ancha lleva **la imagen más grande**, que es justo para lo que se le da el
+ * ancho. Medirlos fue lo que se hizo con el `span`; elegirlos es una decisión de diseño, y por eso
+ * está escrita aquí y no escondida en un `.dx`.
  */
-function tarjetaDeRejilla(C) {
+function tarjetaDeRejilla(C, { nombre, span, altoImagen, tamanoTitulo }) {
   return {
     tipo: 'Contenedor',
     atributos: {
+      // El NOMBRE con el que un elemento elige esta tarjeta (`templateName` de Taobao).
+      [TEMPLATE_NAME]: nombre,
+      // **CUÁNTAS COLUMNAS OCUPA ESTA TARJETA.** En Taobao es un campo de la entrada de plantilla
+      // (`"span": "1" | "2"`), o sea que **es del diseño**: por eso va aquí, constante, y no como
+      // binding por elemento. Lo reparte el cliente (`filasPorSpan`).
+      [SPAN_TARJETA]: span,
       [K.ORIENTATION]: 1,
       [K.BACKGROUNDCOLOR]: C.tarjeta,
       [K.CORNERRADIUS]: 10,
       [K.MARGIN_BOTTOM]: 10,
-      // **CUÁNTAS COLUMNAS OCUPA ESTA TARJETA.** En Taobao es un campo de la entrada de plantilla
-      // (`"span": "1" | "2"`); aquí lo declara la raíz de la tarjeta y viaja por elemento, que es
-      // donde este contrato puede leerlo. Lo reparte el cliente (`filasPorSpan`).
-      [SPAN_TARJETA]: '$item.span',
       // El toque lleva el id REAL del producto; la pantalla decide a dónde va.
       [K.ONPRESS]: '$item.id',
     },
@@ -347,9 +363,12 @@ function tarjetaDeRejilla(C) {
       {
         tipo: 'Imagen',
         valor: '$item.foto',
-        atributos: { [K.LAYOUT_HEIGHT]: 150, [K.CORNERRADIUS]: 10 },
+        // **`LAYOUT_WIDTH: -1` = ocupar el ancho del hueco**: sin esto la imagen se queda con su
+        // tamaño natural, pequeña y centrada, y la tarjeta ancha no se ve ancha por dentro —que es
+        // justo para lo que se le da el ancho—. Se vio en la captura antes de arreglarlo.
+        atributos: { [K.LAYOUT_WIDTH]: -1, [K.LAYOUT_HEIGHT]: altoImagen, [K.CORNERRADIUS]: 10 },
       },
-      texto('$item.titulo', 12, C.texto, { [K.PADDING_LEFT]: 8, [K.PADDING_RIGHT]: 8, [K.PADDING_TOP]: 6 }),
+      texto('$item.titulo', tamanoTitulo, C.texto, { [K.PADDING_LEFT]: 8, [K.PADDING_RIGHT]: 8, [K.PADDING_TOP]: 6 }),
       {
         tipo: 'Precio',
         valor: '$item.precioXaf',
@@ -437,6 +456,20 @@ const LISTA = {
 };
 
 /**
+ * **QUÉ TARJETA USA CADA ELEMENTO.** En el feed de descubrimiento de Taobao cada elemento lleva
+ * `templateName` y en la misma lista conviven tarjetas distintas (11 normales + 1 de producto). Es el
+ * nombre REGISTRADO, así que no se le inventa una clave: se usa el suyo.
+ */
+const TEMPLATE_NAME = 'templateName';
+
+/**
+ * Los nombres de NUESTRAS dos plantillas de la rejilla, al estilo de los de Taobao
+ * (`taolive_discovery_feed_live_v2`): con espacio de nombres propio, para que se vea que son nuestras.
+ */
+const PLANTILLA_ESTRECHA = 'mercado_tarjeta_estrecha';
+const PLANTILLA_ANCHA = 'mercado_tarjeta_ancha';
+
+/**
  * LA BARRA DE PESTAÑAS de las categorías del Mercado, en la forma de Taobao.
  *
  * Taobao la monta como una **sección** (`sectionBizCode: "categoryTab"`), con las pestañas en
@@ -522,22 +555,26 @@ async function datosDeCategorias() {
 }
 
 /**
- * LA REJILLA, en la forma de Taobao: **una `Lista` con `span` por tarjeta.**
+ * LA REJILLA: **una `Lista` con DOS plantillas**, y cada elemento dice cuál usa.
  *
- * Antes eran dos `Lista` en un contenedor de fila. Eso daba dos columnas iguales, pero **no dejaba
- * que una tarjeta ocupara las dos**: con dos listas independientes, una tarjeta ancha no existe.
+ * Antes eran dos `Lista` en un contenedor de fila (dos columnas iguales, y una tarjeta ancha no
+ * existe), y después una sola `Lista` con UNA tarjeta y el `span` por dato. Las dos cosas se
+ * quedaban cortas por el mismo motivo: en Taobao **la tarjeta ancha es OTRA TARJETA**.
  *
- * Y Taobao sí lo tiene: el `span` es un campo de **cada entrada de plantilla**
- * (`livehomecore_flexalocal/bottoming_template_list.json`), medido en el corpus:
+ * Y se midió: en el feed de descubrimiento (`live_flexalocal/discovery_video_list_new.json`) la misma
+ * lista trae **11 elementos con `taolive_discovery_feed_live_v2` y 1 con
+ * `taolive_discovery_feed_goods_card_v2`** — tarjetas distintas conviviendo, y **cada elemento
+ * nombrando la suya** (`templateName`). El `span`, además, viaja en la **entrada de plantilla**
+ * (`{name, span, url4Android}`), o sea que el ancho es del diseño de la tarjeta.
  *
- * | fichero | span 1 | span 2 | vacío |
- * |---|---|---|---|
- * | catálogo de seguidos (41 plantillas) | 10 | **31** | 0 |
- * | `template_list.json` (29) | 24 | 2 | 3 |
+ * ```
+ * Lista (2 columnas)
+ *   ├── plantilla "mercado_tarjeta_estrecha"   ext:span 1   ← la normal
+ *   └── plantilla "mercado_tarjeta_ancha"      ext:span 2   ← la destacada, con la imagen grande
+ * ```
  *
- * Así que la rejilla es **un solo `Lista`** con dos columnas y **cada tarjeta diciendo cuántas
- * ocupa** (`ext:span`). El cliente reparte las filas (`filasPorSpan`): las de span 1 van de dos en
- * dos y una de span 2 va sola y a todo lo ancho.
+ * La estrecha va **primera** a propósito: es la que se usa cuando un elemento no dice su plantilla
+ * (`elegirPlantilla` cae en la primera y lo declara).
  */
 function arbolDeRejilla(tema) {
   const C = coloresDe(tema);
@@ -545,15 +582,16 @@ function arbolDeRejilla(tema) {
     tipo: 'Lista',
     valor: '$fichas',
     atributos: {
-      // `DX_GRID_LAYOUT_COLUMN_COUNT`: dos columnas. **El `span` de cada tarjeta lo lleva la
-      // tarjeta**, no la lista.
       [LISTA.COLUMN_COUNT]: 2,
       [LISTA.COLUMN_SPACING]: 12,
       [K.PADDING_LEFT]: 12,
       [K.PADDING_RIGHT]: 12,
       [K.PADDING_TOP]: 4,
     },
-    hijos: [tarjetaDeRejilla(C)],
+    hijos: [
+      tarjetaDeRejilla(C, { nombre: PLANTILLA_ESTRECHA, span: 1, altoImagen: 150, tamanoTitulo: 12 }),
+      tarjetaDeRejilla(C, { nombre: PLANTILLA_ANCHA, span: 2, altoImagen: 210, tamanoTitulo: 14 }),
+    ],
   };
 }
 
@@ -590,35 +628,35 @@ async function datosDeDestacados(excluir) {
 }
 
 /**
- * ¿ESTA TARJETA OCUPA LAS DOS COLUMNAS?
+ * ¿A ESTA FICHA LE TOCA LA TARJETA ANCHA?
  *
- * En Taobao el `span` lo trae la **entrada de plantilla** (31 de 41 en el catálogo de seguidos), o
- * sea que el ancho es una decisión del DISEÑO de la tarjeta, no del dato. El Mercado no tiene
- * plantillas por tarjeta, así que se ancla en **lo que sí es un dato real suyo**:
+ * En Taobao el `span` —y por tanto la tarjeta— lo trae la **entrada de plantilla** (31 de 41 anchas en
+ * el catálogo de seguidos): el ancho es una decisión del DISEÑO. El Mercado no tiene plantillas por
+ * tarjeta elegidas a mano, así que se ancla en **lo que sí es un dato real suyo**:
  *
- *   1. **`isFeatured`** — el «destacado» del Mercado (con su `featuredUntil`). Un producto destacado
- *      es el que va a lo ancho; es el análogo directo de la tarjeta grande de Taobao.
- *   2. **Más de una foto** — una tarjeta con galería necesita el ancho.
+ *   1. **`isFeatured`** — el «destacado» del Mercado (con su `featuredUntil`). Es el análogo directo
+ *      de la tarjeta grande de Taobao: lo destacado va a lo ancho.
+ *   2. **Más de una foto** — una tarjeta con galería necesita el ancho para enseñarla.
  *
  * **Hoy no hay ningún destacado en el catálogo (0 de 9) y todos tienen 1 foto**, así que la rejilla
  * sale uniforme: **no se inventa una mezcla que los datos no piden.** El día que marquen uno como
- * destacado, su tarjeta pasa a ancho completo sin tocar una línea de código.
+ * destacado, su tarjeta ancha entra sin tocar una línea de código.
  */
-function spanDeFicha(p) {
+function tarjetaAnchaPara(p) {
   const fotos = Array.isArray(p.photos) ? p.photos.length : 0;
-  return p.isFeatured === true || fotos > 1 ? 2 : 1;
+  return p.isFeatured === true || fotos > 1;
 }
 
 /**
- * Los DATOS de la rejilla: **el catálogo REAL, en una sola lista**, cada ficha con su `span`.
+ * Los DATOS de la rejilla: **el catálogo REAL en una sola lista**, cada ficha diciendo **qué tarjeta
+ * usa** (`templateName`).
  *
- * Antes se repartía alternando entre dos columnas, porque eran dos `Lista`. Ahora **el reparto lo
- * hace el cliente** (`filasPorSpan`) a partir del `span` de cada tarjeta, que es lo que Taobao hace
- * en su reciclador: una sola lista de la que cada elemento sabe cuánto ocupa.
+ * El ancho NO viaja aquí: **el `span` es de la plantilla**, como en Taobao (`{name, span, url}`).
+ * El reparto en filas lo hace el cliente (`filasPorSpan`) con lo que diga la plantilla elegida.
  *
- * `destacar` es una **palanca de DEMOSTRACIÓN, solo de este servidor de pruebas**: marca las `n`
- * primeras fichas como anchas para poder VER la rejilla irregular en el móvil sin tocar el catálogo
- * real. **El controlador desplegado no la tiene**: allí manda `isFeatured`, y punto.
+ * `destacar` es una **palanca de DEMOSTRACIÓN, solo de este servidor de pruebas**: hace que las `n`
+ * primeras fichas usen la tarjeta ancha, para poder VER una rejilla heterogénea en el móvil sin tocar
+ * el catálogo real. **El controlador desplegado no la tiene**: allí manda `isFeatured`.
  */
 async function datosDeRejilla(limite = 40, destacar = 0) {
   const respuesta = await fetch(`${CATALOGO}?limit=${limite}`);
@@ -629,7 +667,8 @@ async function datosDeRejilla(limite = 40, destacar = 0) {
   const cuantas = Math.max(0, Math.trunc(destacar));
   const fichas = productos.slice(0, limite).map((p, i) => ({
     ...fichaDeProducto(p),
-    span: i < cuantas ? 2 : spanDeFicha(p),
+    // **Qué tarjeta**: la ancha para el destacado (o la que trae galería), la normal para el resto.
+    [TEMPLATE_NAME]: i < cuantas || tarjetaAnchaPara(p) ? PLANTILLA_ANCHA : PLANTILLA_ESTRECHA,
   }));
   if (fichas.length === 0) return null;
   return { fichas, total: fichas.length };
@@ -733,4 +772,4 @@ if (esEjecucionDirecta) {
 
 // Se exporta para poder PROBAR el arbol sin arrancar el servidor: el oráculo comprueba que todas
 // las claves que manda el servidor son claves que el cliente conoce.
-export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, LISTA, spanDeFicha, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };
+export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };

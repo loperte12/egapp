@@ -68,7 +68,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeCategorias = exports.datosDeCategorias = exports.esUrlDeImagen = exports.PESTANAS = exports.ESPACIO_PESTANAS = exports.SPAN_TARJETA = exports.LISTA = exports.spanDeFicha = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.accionDeTarjeta = exports.ACCIONES = exports.CLAVE_ACCION = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
+exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeCategorias = exports.datosDeCategorias = exports.esUrlDeImagen = exports.PESTANAS = exports.ESPACIO_PESTANAS = exports.SPAN_TARJETA = exports.LISTA = exports.TEMPLATE_NAME = exports.PLANTILLA_ESTRECHA = exports.PLANTILLA_ANCHA = exports.tarjetaAnchaPara = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.accionDeTarjeta = exports.ACCIONES = exports.CLAVE_ACCION = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
 const common_1 = require("@nestjs/common");
 const ecomerse_service_1 = require("./ecomerse.service");
 
@@ -297,25 +297,35 @@ exports.accionDeTarjeta = accionDeTarjeta;
 /**
  * LA TARJETA de la rejilla: la misma pieza que la de la franja, **pero sin ancho fijo**.
  *
- * En la franja la tarjeta mide 132 porque el ancho lo fija la densidad de un carrusel. En una
- * columna del waterfall **el ancho lo pone la columna** (`WEIGHT: 1`): una tarjeta con ancho fijo
- * dentro de una columna elástica deja hueco a un lado.
+ * En la franja la tarjeta mide 132 porque el ancho lo fija la densidad de un carrusel. En un hueco de
+ * la rejilla **el ancho lo pone el `span`**.
+ *
+ * **Y HAY DOS, que es el punto** (en Taobao, 41 plantillas en el catálogo de seguidos): cada una lleva
+ * su `templateName` —el nombre con el que los elementos la eligen— y **su `span`**, porque el ancho es
+ * del diseño de la tarjeta. La ancha lleva la imagen más grande, que es para lo que se le da el ancho.
+ * **Los números son nuestros y el mecanismo es de Taobao.**
  */
-function tarjetaDeRejilla(C) {
+function tarjetaDeRejilla(C, { nombre, span, altoImagen, tamanoTitulo }) {
     return {
         tipo: 'Contenedor',
         atributos: {
+            [TEMPLATE_NAME]: nombre,
+            [SPAN_TARJETA]: span,
             [K.ORIENTATION]: 1,
             [K.BACKGROUNDCOLOR]: C.tarjeta,
             [K.CORNERRADIUS]: 10,
             [K.MARGIN_BOTTOM]: 10,
-            // **CUÁNTAS COLUMNAS OCUPA ESTA TARJETA** (en Taobao, `span` de la entrada de plantilla).
-            [SPAN_TARJETA]: '$item.span',
             [K.ONPRESS]: '$item.id',
         },
         hijos: [
-            { tipo: 'Imagen', valor: '$item.foto', atributos: { [K.LAYOUT_HEIGHT]: 150, [K.CORNERRADIUS]: 10 } },
-            texto('$item.titulo', 12, C.texto, { [K.PADDING_LEFT]: 8, [K.PADDING_RIGHT]: 8, [K.PADDING_TOP]: 6 }),
+            {
+                tipo: 'Imagen',
+                valor: '$item.foto',
+                // **`LAYOUT_WIDTH: -1` = ocupar el ancho del hueco**: sin esto la imagen se queda con
+                // su tamaño natural, pequeña y centrada, y la tarjeta ancha no se ve ancha por dentro.
+                atributos: { [K.LAYOUT_WIDTH]: -1, [K.LAYOUT_HEIGHT]: altoImagen, [K.CORNERRADIUS]: 10 },
+            },
+            texto('$item.titulo', tamanoTitulo, C.texto, { [K.PADDING_LEFT]: 8, [K.PADDING_RIGHT]: 8, [K.PADDING_TOP]: 6 }),
             {
                 tipo: 'Precio',
                 valor: '$item.precioXaf',
@@ -379,8 +389,9 @@ const TAMANO_PESTANA_ACTIVA = 13;
  * Medido en el corpus: en Taobao el `span` es un campo de la entrada de plantilla
  * (`livehomecore_flexalocal/bottoming_template_list.json`), **texto** (`"1"` / `"2"` / `""`), y el
  * catálogo de seguidos tiene **31 de 41 con span 2**. Aquí viaja en la raíz de la tarjeta, que es
- * donde este contrato puede leerlo por elemento. **El nombre lo comprueba el oráculo contra el
- * cliente** (`listaAtributos.CLAVE_SPAN_ELEMENTO`): si se separan, el test falla.
+ * donde este contrato puede leerlo por elemento —y ahora **es una constante de cada PLANTILLA**,
+ * porque en Taobao el ancho es del diseño de la tarjeta. **El nombre lo comprueba el oráculo contra el
+ * cliente** (`listaAtributos.CLAVE_SPAN_PLANTILLA`): si se separan, el test falla.
  */
 const SPAN_TARJETA = 'ext:span';
 exports.SPAN_TARJETA = SPAN_TARJETA;
@@ -395,6 +406,20 @@ const LISTA = {
     COLUMN_SPACING: '-7076735627431451296',  // DX_GRID_LAYOUT_COLUMN_SPACING
 };
 exports.LISTA = LISTA;
+
+/**
+ * **QUÉ TARJETA USA CADA ELEMENTO.** En el feed de descubrimiento de Taobao cada elemento lleva
+ * `templateName`, y en la misma lista conviven tarjetas distintas (11 normales + 1 de producto). Es el
+ * nombre REGISTRADO: no se le inventa una clave.
+ */
+const TEMPLATE_NAME = 'templateName';
+exports.TEMPLATE_NAME = TEMPLATE_NAME;
+
+/** Los nombres de NUESTRAS dos plantillas, al estilo de los de Taobao (espacio de nombres propio). */
+const PLANTILLA_ESTRECHA = 'mercado_tarjeta_estrecha';
+const PLANTILLA_ANCHA = 'mercado_tarjeta_ancha';
+exports.PLANTILLA_ESTRECHA = PLANTILLA_ESTRECHA;
+exports.PLANTILLA_ANCHA = PLANTILLA_ANCHA;
 
 /**
  * LA BARRA DE PESTAÑAS de las categorías, en la forma de Taobao: allí es la **sección** `categoryTab`
@@ -463,14 +488,15 @@ function datosDeCategorias(departamentos) {
 exports.datosDeCategorias = datosDeCategorias;
 
 /**
- * LA REJILLA, en la forma de Taobao: **una `Lista` con `span` por tarjeta.**
+ * LA REJILLA: **una `Lista` con DOS plantillas**, y cada elemento dice cuál usa.
  *
- * El `span` es, en Taobao, un campo de **cada entrada de plantilla**
- * (`livehomecore_flexalocal/bottoming_template_list.json`): medido, **31 de 41 con span 2** en el
- * catálogo de seguidos (y `template_list.json`: 24 con 1, 2 con 2, 3 vacías). O sea: el ancho es una
- * decisión del DISEÑO de la tarjeta, y dos listas independientes no pueden expresarlo — una tarjeta
- * ancha no cabe en ninguna de las dos. Por eso es **un solo `Lista`** con dos columnas y **cada
- * tarjeta diciendo cuántas ocupa**; el cliente reparte las filas (`filasPorSpan`).
+ * En Taobao la tarjeta ancha **es OTRA TARJETA**, y se midió: en el feed de descubrimiento
+ * (`live_flexalocal/discovery_video_list_new.json`) la misma lista trae **11 elementos con
+ * `taolive_discovery_feed_live_v2` y 1 con `taolive_discovery_feed_goods_card_v2`**, cada elemento
+ * nombrando la suya (`templateName`). El `span` viaja en la **entrada de plantilla**
+ * (`{name, span, url4Android}`), o sea que el ancho es del diseño.
+ *
+ * La estrecha va **primera** a propósito: es la que se usa cuando un elemento no dice su plantilla.
  */
 function arbolDeRejilla(tema) {
     const C = coloresDe(tema);
@@ -484,7 +510,10 @@ function arbolDeRejilla(tema) {
             [K.PADDING_RIGHT]: 12,
             [K.PADDING_TOP]: 4,
         },
-        hijos: [tarjetaDeRejilla(C)],
+        hijos: [
+            tarjetaDeRejilla(C, { nombre: PLANTILLA_ESTRECHA, span: 1, altoImagen: 150, tamanoTitulo: 12 }),
+            tarjetaDeRejilla(C, { nombre: PLANTILLA_ANCHA, span: 2, altoImagen: 210, tamanoTitulo: 14 }),
+        ],
     };
 }
 exports.arbolDeRejilla = arbolDeRejilla;
@@ -524,34 +553,38 @@ function datosDeDestacados(productos, excluir) {
 exports.datosDeDestacados = datosDeDestacados;
 
 /**
- * ¿ESTA TARJETA OCUPA LAS DOS COLUMNAS?
+ * ¿A ESTA FICHA LE TOCA LA TARJETA ANCHA?
  *
- * En Taobao el `span` lo trae la **entrada de plantilla** (31 de 41 en el catálogo de seguidos), o
- * sea que el ancho es una decisión del DISEÑO de la tarjeta. El Mercado no tiene plantillas por
- * tarjeta, así que se ancla en **lo que sí es un dato real suyo**:
+ * En Taobao el `span` —y por tanto la tarjeta— lo trae la **entrada de plantilla** (31 de 41 anchas en
+ * el catálogo de seguidos): el ancho es una decisión del DISEÑO. El Mercado no tiene plantillas por
+ * tarjeta elegidas a mano, así que se ancla en **lo que sí es un dato real suyo**:
  *
- *   1. **`isFeatured`** — el «destacado» del Mercado (con su `featuredUntil`): es el análogo directo
- *      de la tarjeta grande de Taobao.
- *   2. **Más de una foto** — una tarjeta con galería necesita el ancho.
+ *   1. **`isFeatured`** — el «destacado» del Mercado (con su `featuredUntil`): lo destacado va a lo
+ *      ancho, que es el análogo directo de la tarjeta grande de Taobao.
+ *   2. **Más de una foto** — una tarjeta con galería necesita el ancho para enseñarla.
  *
  * **Si no hay ningún destacado ni ninguna ficha con varias fotos, la rejilla sale uniforme**: no se
  * inventa una mezcla que los datos no piden.
  */
-function spanDeFicha(p) {
+function tarjetaAnchaPara(p) {
     const fotos = Array.isArray(p.photos) ? p.photos.length : 0;
-    return p.isFeatured === true || fotos > 1 ? 2 : 1;
+    return p.isFeatured === true || fotos > 1;
 }
-exports.spanDeFicha = spanDeFicha;
+exports.tarjetaAnchaPara = tarjetaAnchaPara;
 
 /**
- * Los datos de la rejilla: **el catálogo REAL en una sola lista**, cada ficha con su `span`.
+ * Los datos de la rejilla: **el catálogo REAL en una sola lista**, cada ficha diciendo **qué tarjeta
+ * usa** (`templateName`).
  *
- * El reparto en filas lo hace el CLIENTE (`filasPorSpan`) con el `span` de cada tarjeta, que es lo
- * que hace el reciclador de Taobao: una sola lista donde cada elemento sabe cuánto ocupa.
+ * El ancho NO viaja aquí: **el `span` es de la plantilla**, como en Taobao (`{name, span, url}`). El
+ * reparto en filas lo hace el cliente (`filasPorSpan`) con lo que diga la plantilla elegida.
  */
 function datosDeRejilla(productos, limite = 40) {
     if (!Array.isArray(productos) || productos.length === 0) return null;
-    const fichas = productos.slice(0, limite).map((p) => ({ ...fichaDeProducto(p), span: spanDeFicha(p) }));
+    const fichas = productos.slice(0, limite).map((p) => ({
+        ...fichaDeProducto(p),
+        [TEMPLATE_NAME]: tarjetaAnchaPara(p) ? PLANTILLA_ANCHA : PLANTILLA_ESTRECHA,
+    }));
     if (fichas.length === 0) return null;
     return { fichas, total: fichas.length };
 }
