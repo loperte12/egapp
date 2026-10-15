@@ -1350,3 +1350,72 @@ puede contestar es superficie sin valor; se despliega cuando exista el backend.
 `tsc` **5** · `logica` **0** · `diseño` **en verde** · oráculo **138/138** (5 pruebas nuevas: el árbol
 sólo con widgets de la lista blanca, la acción declarada, **sin token no hay datos** contra el API de
 verdad, la cabecera privada, y el cliente pidiendo la sección con sesión).
+
+---
+
+## 25 · EL MÉTODO: mirar la lógica de negocio, y encima clonar Taobao (15/10)
+
+### 1 · El método, dicho por quien manda
+
+> «Miramos la lógica de negocio que hay detrás de las pantallas antiguas; sobre esa lógica construimos
+> mediante la clonación de Taobao y así sustituir por las pantallas antiguas.»
+
+Traducido a trabajo: **la lógica no se reinventa ni se copia, se EXTRAE a un sitio compartido**; y la
+forma (qué se ve, cómo se coloca, cuánto mide) sale de Taobao. El día que la pantalla vieja se borre, lo
+que valía de ella ya no está dentro de ella.
+
+### 2 · La primera aplicación: los servicios en la cabecera
+
+Lo pidió así: **«dos filas con 5 servicios en cada fila; las que sobran se agregan dentro de “Más
+servicios” como icono, como en Taobao»**.
+
+**La lógica que había detrás** (estaba dentro de `ServiceGrid`, la rejilla de la Home) tenía cuatro
+casos que **no se ven** al mirar la pantalla, y todos se respetaron:
+
+| caso | qué hace |
+|---|---|
+| **Perfiles** | hay servicios con más de un perfil (taxi → pasajero/conductor): si ya se eligió, va directo; si no, **pregunta**; y **mantener pulsado** vuelve a preguntar. Se recuerda por dispositivo. |
+| **Urgencia** | `tone: 'emergency'` **no navega**: abre el modal de emergencia. Es la diferencia entre «ir a una pantalla» y «avisar ahora». |
+| **«Próximamente»** | la celda está deshabilitada y **lo dice**. |
+| **Navegación validada** | la ruta pasa por el validador — así se cazó un `/emergencia` que no existía. |
+
+Se **extrajeron** a `components/servicios/useServicios.ts` (+ el modal a `SelectorDePerfil.tsx`), y
+**`ServiceGrid` ahora los usa**: en la Home ya no hay una copia. El Mercado pinta
+`components/servicios/FilaServicios.tsx`, que es **el mismo hook y el mismo modal** — no un clon.
+
+**Lo que se ve** (`151025-servicios-en-la-cabecera.png`): dos filas de cinco, **doce** de hueco (la
+medida de Taobao para su rejilla de accesos, §23), la décima plaza **«Más servicios»**… y dentro
+(`151025-mas-servicios.png`) **«6 servicios más»** con la misma rejilla y el mismo comportamiento —
+incluida la emergencia, que sale en rojo porque su tono es urgente.
+
+Y los servicios van **los primeros del scroll** (bajo la barra de búsqueda, que sí es fija): es el orden
+de Taobao —accesos, banner, pestañas pegadas, feed— y así no le roban a la pantalla dos filas
+permanentes.
+
+### 3 · El reparto es lógica pura, y tiene su prueba
+
+`components/servicios/repartoServicios.ts` decide **quién se ve y quién va dentro**, y de ahí sale una
+cuenta que no es de estilo:
+
+- Con 15 servicios y 2×5, **se ven NUEVE**: la décima plaza **es** «Más servicios». Ver diez obligaría a
+  que el botón se saliera de la rejilla.
+- **Si todo cabe, no hay botón**: con 9 servicios «Más servicios» desaparece solo. Un botón que abre un
+  panel vacío es peor que no tenerlo.
+
+Su prueba encontró **un fallo real antes que el móvil**: con cero plazas, `slice(0, -1)` quitaba el
+último servicio en vez de no dar ninguno. Está arreglado y con su caso cubierto.
+
+### 4 · Lo que sigue
+
+1. **关注 (seguidos)**: **bloqueado en el backend** — el endpoint no existe (§24). El árbol y la sección
+   con sesión ya están hechos y probados; falta el dato.
+2. **El feed entre tarjetas**: el mecanismo está; falta contenido real que intercalar.
+3. La sustitución de la pantalla vieja de seguidos (`ecomerse-perfil-tiendas.tsx`) va **en el mismo
+   commit** que enseñe la nueva funcionando.
+
+### Verificación
+
+`tsc` **5** · `logica` **0** · `diseño` **en verde** · oráculo **144/144** (6 pruebas nuevas: el reparto
+2×5 con sus casos raros, que el catálogo son quince y cada uno con id/rótulo/icono/ruta, que **la
+rejilla de la Home no cita ningún id que no exista** —una plaza vacía en silencio—, y que la Home y el
+Mercado usan **el mismo** hook y el mismo selector, sin decidir perfiles ni urgencia por su cuenta).

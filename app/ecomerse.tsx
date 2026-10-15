@@ -27,6 +27,8 @@ import PieDelMercado, { PIE_MERCADO_H } from '../components/ecomerse/PieDelMerca
 import { useSinLeerMercado } from '../components/ecomerse/useSinLeer';
 import { useAccionesProducto } from '../components/ecomerse/useAccionesProducto';
 import { FranjaServidor } from '../components/ecomerse/FranjaServidor';
+import { FilaServicios } from '../components/servicios/FilaServicios';
+import EmergencyModal from '../components/EmergencyModal';
 import { productoDeFicha } from '../components/ecomerse/fichaDeSeccion';
 import { ACCIONES } from '../components/ecomerse/valorAtributos';
 
@@ -224,6 +226,11 @@ export default function EcomerseScreen() {
      convertía en una lista vacía + un Alert, o sea en un «no hay resultados» falso. */
   const [imageError, setImageError] = useState<string | null>(null);
   const [imageBusy, setImageBusy] = useState(false);
+  /**
+   * **La emergencia, con el MISMO modal que la Home.** Un servicio con `tone: 'emergency'` no navega:
+   * avisa. Repetir aquí el modal sería tener dos emergencias distintas.
+   */
+  const [emergencia, setEmergencia] = useState(false);
 
   /**
    * **La búsqueda con retardo.** La rejilla se pide por RUTA (`?buscar=…`), así que sin retardo habría
@@ -570,6 +577,24 @@ export default function EcomerseScreen() {
           }
         >
           <View>
+            {/*
+              ── LOS SERVICIOS, EN LA CABECERA (15/10/2026) ──────────────────────────────────────────
+
+              Lo pidió el dueño del producto: **los servicios que ya están en la Home, aquí**, con la
+              forma de Taobao —**dos filas de cinco** y lo que sobra dentro de «Más servicios»—.
+              Van los primeros del scroll, justo bajo la barra de búsqueda (que sí es fija), y por
+              tanto **se van con el contenido**: es lo que hace Taobao con su rejilla de accesos, y así
+              no le roban a la pantalla dos filas permanentes.
+
+              **No son una copia de los de la Home**: es el mismo `FilaServicios` → el mismo
+              `useServicios`, con sus perfiles, su urgencia, su «próximamente» y su navegación validada.
+              El servicio de urgencia abre **el mismo `EmergencyModal`** que la Home.
+            */}
+            <FilaServicios
+              testID="servicios-cabecera"
+              alAbrirEmergencia={() => setEmergencia(true)}
+            />
+
             {/* LA PRIMERA SECCIÓN: la franja de destacados, servida. Va aquí dentro, con las demás,
                 para que toda la pantalla desplace como una sola cosa. Si el servidor no responde no
                 ocupa ni un píxel y el Mercado funciona igual (ver `FranjaServidor.tsx`). */}
@@ -798,6 +823,9 @@ export default function EcomerseScreen() {
           `paddingBottom` de arriba: sin él, la última fila de productos quedaría tapada por la barra
           y no habría forma de llegar a ella. */}
       <PieDelMercado sinLeer={sinLeer} />
+
+      {/* La emergencia de los servicios de la cabecera: el modal de la Home, no uno nuevo. */}
+      <EmergencyModal visible={emergencia} onClose={() => setEmergencia(false)} />
     </View>
   );
 }
