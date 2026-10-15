@@ -29,6 +29,7 @@
  */
 
 import { API_HOST } from './config';
+import { tokenActual } from './httpClient';
 import { interpretarRespuestaUi, ESQUEMA_UI as ESQUEMA, type NodoRemoto } from '../components/ecomerse/uiContrato';
 
 /**
@@ -94,13 +95,34 @@ export async function pedirUi(
   senal?: AbortSignal,
   tema?: string,
   alFallar?: (motivo: 'red' | 'respuesta' | 'contrato') => void,
+  opciones?: {
+    /**
+     * **Pedir la sección CON LA SESIÓN DEL USUARIO.**
+     *
+     * Hay secciones que son **de quien pregunta** —las tiendas que sigue (`sellers/following`), los
+     * favoritos, sus pedidos—, y un árbol público no puede servirlas: sin token, el servidor no sabe
+     * quién pregunta y **no puede contestar sin inventarse un usuario**.
+     *
+     * Por eso la petición lleva el mismo `Authorization: Bearer` que cualquier otra, y por eso esas
+     * rutas **no se pueden cachear en público** (ver el `Cache-Control: private, no-store` del
+     * servidor): una respuesta con las tiendas de alguien, guardada en una caché compartida, se le
+     * sirve al siguiente que pregunte.
+     */
+    conSesion?: boolean;
+  },
 ): Promise<UiRemota | null> {
   const separador = ruta.includes('?') ? '&' : '?';
   const conTema = tema ? `${ruta}${separador}tema=${encodeURIComponent(tema)}` : ruta;
   const url = `${UI_HOST}/api/ecomerse/ui/${conTema.replace(/^\//, '')}`;
+  // **El token se pide a `httpClient`**, que es quien lo guarda y lo rota (`tokenActual`). Sin sesión no
+  // se manda una cabecera vacía: se manda lo mismo que antes, y el servidor dirá «no hay nada».
+  const tok = opciones?.conSesion ? tokenActual() : null;
   let respuesta: Response;
   try {
-    respuesta = await fetch(url, { signal: senal });
+    respuesta = await fetch(url, {
+      signal: senal,
+      headers: tok ? { Authorization: `Bearer ${tok}` } : undefined,
+    });
   } catch {
     // Sin red, o el servidor no está. **No se distingue a propósito**: desde aquí son lo mismo, y
     // quien depure tiene el log del servidor.

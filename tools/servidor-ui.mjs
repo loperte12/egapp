@@ -133,6 +133,12 @@ const CATALOGO = 'https://api.egrouteplan.com/api/ecomerse/catalog';
  */
 const CATEGORIAS = 'https://api.egrouteplan.com/api/ecomerse/categories';
 
+/**
+ * LAS TIENDAS QUE SIGUE EL USUARIO. Es el `GET /ecomerse/sellers/following` de la app, y por eso
+ * **necesita el token**: sin él el servicio no sabe de quién son los seguidos.
+ */
+const SIGUIENDO = 'https://api.egrouteplan.com/api/ecomerse/sellers/following';
+
 const ESQUEMA = 1;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -295,7 +301,7 @@ const ARBOL_RELACIONADOS = arbolDeFranja('También te puede interesar');
 const CLAVE_ACCION = 'ext:accion';
 
 /** Las dos acciones de una tarjeta. **Son las que hoy impiden que la rejilla sustituya a la lista.** */
-const ACCIONES = { FAVORITO: 'ext:favorito', CARRITO: 'ext:carrito' };
+const ACCIONES = { FAVORITO: 'ext:favorito', CARRITO: 'ext:carrito', DEJAR_DE_SEGUIR: 'ext:dejardeseguir' };
 
 /**
  * Un BOTÓN DE ACCIÓN dentro de la tarjeta (corazón, carrito).
@@ -513,6 +519,8 @@ const TEMPLATE_NAME = 'templateName';
  */
 const PLANTILLA_ESTRECHA = 'mercado_tarjeta_estrecha';
 const PLANTILLA_ANCHA = 'mercado_tarjeta_ancha';
+/** La tarjeta de una TIENDA (la lista de seguidos): otra pantalla, otra tarjeta, mismo mecanismo. */
+const PLANTILLA_TIENDA = 'mercado_tarjeta_tienda';
 
 /**
  * LA BARRA DE PESTAÑAS de las categorías del Mercado, en la forma de Taobao.
@@ -582,8 +590,7 @@ async function datosDeCategorias() {
   const departamentos = await respuesta.json();
   if (!Array.isArray(departamentos) || departamentos.length === 0) return null;
   const categorias = departamentos
-    .filter((d) => d && d.id)
-    .map((d) => {
+    .filter((d) => d && d.id)    .map((d) => {
       const icono = typeof d.icon === 'string' ? d.icon : '';
       return {
         id: String(d.id),
@@ -756,13 +763,24 @@ async function datosDeRejilla({ consulta = {}, limite = 40, destacar = 0 } = {})
 
 const servidor = createServer((req, res) => {
   const url = new URL(req.url ?? '/', 'http://localhost');
+  /**
+   * **Lo que NO se puede cachear en público.** Son las rutas cuya respuesta es **de quien pregunta**:
+   * con las tiendas que sigue alguien guardadas en una caché compartida, el siguiente que pregunte las
+   * vería. Va en la respuesta y no en un comentario: la cabecera es lo que lee el intermediario.
+   */
+  const CACHE_PRIVADA = new Set(['/api/ecomerse/ui/siguiendo']);
   const json = (codigo, cuerpo) => {
     const texto = JSON.stringify(cuerpo);
-    res.writeHead(codigo, {
+    const cabeceras = {
       'content-type': 'application/json; charset=utf-8',
       'content-length': Buffer.byteLength(texto),
       'access-control-allow-origin': '*',
-    });
+    };
+    // Las secciones de quien pregunta: **`private, no-store`**. `private` = solo el navegador del
+    // usuario; `no-store` = ni eso (los seguidos cambian con un toque).
+    if (CACHE_PRIVADA.has(url.pathname)) cabeceras['cache-control'] = 'private, no-store';
+    else cabeceras['cache-control'] = 'public, max-age=30';
+    res.writeHead(codigo, cabeceras);
     res.end(texto);
   };
 
@@ -808,10 +826,19 @@ const servidor = createServer((req, res) => {
         return { datos, arbol: arbolDeCategorias(p.get('tema'), indice) };
       },
     }),
+    // **LA PRIMERA SECCIÓN DE QUIEN PREGUNTA**: las tiendas que sigue el usuario.
+    //
+    // Es la única ruta de aquí que **necesita la cabecera `Authorization`**: sin token no hay seguidos
+    // que enseñar (y no se inventa un usuario). **No se cachea en público** — ver `CACHE_PRIVADA`.
+    '/api/ecomerse/ui/siguiendo': (p, req) => ({
+      arbol: arbolDeSiguiendo(p.get('tema')),
+      buscarDatos: () => datosDeSiguiendo(req?.headers?.authorization),
+    }),
   };
 
   if (RUTAS[url.pathname]) {
-    const cfg = RUTAS[url.pathname](url.searchParams);
+    // **`req` va a la ruta**: las secciones de quien pregunta necesitan su cabecera (`Authorization`).
+    const cfg = RUTAS[url.pathname](url.searchParams, req);
     Promise.resolve(cfg.buscarDatos())
       .then((r) => {
         // Una ruta puede devolver solo los datos, o **datos Y árbol** cuando el árbol depende de
@@ -850,6 +877,125 @@ if (esEjecucionDirecta) {
   });
 }
 
+// ══════════════════════════════════════════════════════════════════════════════════════════════
+// LA PRIMERA SECCIÓN **DE QUIEN PREGUNTA**: las tiendas que sigue el usuario
+// ══════════════════════════════════════════════════════════════════════════════════════════════
+
+/**
+ * LAS TIENDAS QUE SIGUE EL USUARIO.
+ *
+ * Es el `GET /ecomerse/sellers/following` de la app, y por eso **necesita el token**: sin él el
+ * servicio no sabe de quién son los seguidos y no puede contestar. Aquí el token llega en la cabecera
+ * `Authorization` **de la petición a la sección**, y el servidor lo reenvía tal cual.
+ *
+ * **Un árbol público no puede servir esto**, y no es un problema de caché que se arregle con un
+ * `max-age` corto: la pregunta «¿qué tiendas sigue?» no tiene respuesta sin saber quién pregunta. Por
+ * eso estas rutas van con `Cache-Control: private, no-store` — una respuesta con los seguidos de
+ * alguien, guardada en una caché compartida, se le sirve al siguiente que pregunte.
+ *
+ * `null` si no hay token o si el servicio dice que no: eso es «no hay nada que pintar», que la pantalla
+ * ya distingue de un error (ver `alEstado`).
+ */
+async function datosDeSiguiendo(authorization) {
+  if (!authorization) return null;
+  let respuesta;
+  try {
+    respuesta = await fetch(SIGUIENDO, { headers: { Authorization: authorization } });
+  } catch {
+    return null;
+  }
+  if (!respuesta.ok) return null;
+  const cuerpo = await respuesta.json().catch(() => null);
+  const tiendas = Array.isArray(cuerpo?.sellers) ? cuerpo.sellers : null;
+  if (!tiendas) return null;
+  return {
+    tiendas: tiendas.map((s) => ({
+      id: String(s.id ?? ''),
+      nombre: String(s.businessName ?? s.name ?? 'Tienda'),
+      // Los seguidores son un NÚMERO REAL de la tienda; el árbol lo formatea.
+      seguidores: Number(s.followersCount ?? s.followers ?? 0),
+      anuncios: Number(s.anuncios ?? 0),
+      ciudad: String(s.city ?? ''),
+      // La foto se manda **solo si es una URL**: el árbol no adivina claves del servicio de imágenes.
+      ...(esUrlDeImagen(s.photoKey ?? s.foto) ? { foto: String(s.photoKey ?? s.foto) } : {}),
+      ...(s.badge ? { sello: String(s.badge) } : {}),
+    })),
+    total: Number(cuerpo?.total ?? tiendas.length),
+  };
+}
+
+/**
+ * EL ÁRBOL DE SEGUIDOS: la lista de tiendas que sigues, cada una con su tarjeta.
+ *
+ * **Con los widgets que YA existen** (`Contenedor`, `Imagen`, `Texto`, `Icono`): una pantalla nueva no
+ * obliga a añadir un tipo al contrato. La tarjeta es una fila —foto, nombre, seguidores— y a la derecha
+ * el botón de dejar de seguir, que viaja como `ext:accion` y ejecuta la acción REAL de la app.
+ *
+ * **Una columna**: una tienda no es una rejilla; es una fila con su nombre y sus datos.
+ */
+function arbolDeSiguiendo(tema) {
+  const C = coloresDe(tema);
+  return {
+    tipo: 'Lista',
+    valor: '$tiendas',
+    atributos: {
+      [LISTA.COLUMN_COUNT]: 1,
+      [LISTA.ROW_SPACING]: 10,
+      [K.PADDING_LEFT]: REJILLA.MARGEN,
+      [K.PADDING_RIGHT]: REJILLA.MARGEN,
+      [K.PADDING_TOP]: REJILLA.MARGEN,
+    },
+    hijos: [
+      {
+        tipo: 'Contenedor',
+        atributos: {
+          // El NOMBRE de la plantilla: la lista tiene una, pero se nombra igual que las demás, porque
+          // el día que haya dos tarjetas de tienda (con y sin promoción) esto ya está en su sitio.
+          [TEMPLATE_NAME]: PLANTILLA_TIENDA,
+          [SPAN_TARJETA]: 1,
+          [K.ORIENTATION]: 0,
+          [K.BACKGROUNDCOLOR]: C.tarjeta,
+          [K.CORNERRADIUS]: REJILLA.RADIO,
+          [K.PADDING_LEFT]: 10,
+          [K.PADDING_RIGHT]: 10,
+          [K.PADDING_TOP]: 10,
+          [K.PADDING_BOTTOM]: 10,
+          // La tienda se abre al tocarla: el id REAL de la tienda.
+          [K.ONPRESS]: '$item.id',
+        },
+        hijos: [
+          // La foto de la tienda, **cuadrada** (la proporción medida, la misma de las tarjetas).
+          {
+            tipo: 'Imagen',
+            valor: '$item.foto',
+            atributos: { [K.LAYOUT_WIDTH]: 52, [CLAVE_ASPECTO]: ASPECTO_TARJETA, [K.CORNERRADIUS]: REJILLA.RADIO },
+          },
+          {
+            tipo: 'Contenedor',
+            atributos: { [K.ORIENTATION]: 1, [K.WEIGHT]: 1, [K.PADDING_LEFT]: 10 },
+            hijos: [
+              texto('$item.nombre', 14, C.texto, {}),
+              texto('$item.seguidores', 11, C.secundario, { [K.PADDING_TOP]: 2 }),
+              {
+                tipo: 'Icono',
+                valor: 'HeartOff',
+                atributos: {
+                  [K.ONPRESS]: '$item.id',
+                  [CLAVE_ACCION]: ACCIONES.DEJAR_DE_SEGUIR,
+                  [K.TEXTCOLOR]: C.secundario,
+                  [K.TEXTSIZE]: 18,
+                  [K.LAYOUT_WIDTH]: 26,
+                  [K.LAYOUT_HEIGHT]: 26,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+}
+
 // Se exporta para poder PROBAR el arbol sin arrancar el servidor: el oráculo comprueba que todas
 // las claves que manda el servidor son claves que el cliente conoce.
-export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, CLAVE_ASPECTO, ASPECTO_TARJETA, REJILLA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, SORT_POR_DEFECTO, consultaDeCatalogo, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };
+export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, arbolDeSiguiendo, datosDeSiguiendo, PLANTILLA_TIENDA, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, CLAVE_ASPECTO, ASPECTO_TARJETA, REJILLA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, SORT_POR_DEFECTO, consultaDeCatalogo, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };

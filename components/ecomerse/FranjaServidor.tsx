@@ -99,10 +99,18 @@ export interface FranjaServidorProps {
    * propio scroll.
    */
   desplazable?: boolean;
+  /**
+   * **Pedir la sección con la SESIÓN del usuario** (el `Authorization: Bearer`).
+   *
+   * Para las secciones que son **de quien pregunta** —las tiendas que sigue, sus favoritos, sus
+   * pedidos—: un árbol público no puede servirlas, porque sin token el servidor no sabe quién pregunta.
+   * Ver `pedirUi({ conSesion })` y el `Cache-Control: private, no-store` de esas rutas.
+   */
+  conSesion?: boolean;
   testID?: string;
 }
 
-export function FranjaServidor({ ruta, alTocar, alAccion, alEstado, recarga, desplazable = true, style, testID }: FranjaServidorProps) {
+export function FranjaServidor({ ruta, alTocar, alAccion, alEstado, recarga, desplazable = true, conSesion, style, testID }: FranjaServidorProps) {
   const [arbol, setArbol] = useState<NodoRemoto | null>(null);
   const [datos, setDatos] = useState<unknown>(undefined);
 
@@ -126,7 +134,7 @@ export function FranjaServidor({ ruta, alTocar, alAccion, alEstado, recarga, des
     avisoRef.current?.('cargando');
     pedirUi(ruta, c.signal, tema, () => {
       if (!c.signal.aborted) avisoRef.current?.('error');
-    }).then((r) => {
+    }, { conSesion }).then((r) => {
       if (c.signal.aborted) return;
       if (!r) {
         // `arbol: null` es «no hay nada que pintar», no un fallo: se dice `vacia` y la pantalla decide.
@@ -142,7 +150,10 @@ export function FranjaServidor({ ruta, alTocar, alAccion, alEstado, recarga, des
     return () => c.abort();
     // `ruta` manda: si cambia el filtro o el producto, se vuelve a pedir. `tema`, si cambia el modo.
     // `recarga`, cuando la pantalla pide volver a preguntar (tirar para recargar, reintento).
-  }, [ruta, tema, recarga]);
+    // **`conSesion` también**: si la pantalla pasa de «sin sesión» a «con sesión» (el usuario acaba de
+    // entrar), la sección tiene que volver a pedirse — antes preguntaba sin token y le contestaron
+    // «no hay nada». Es un booleano estable, así que no vuelve a pedir en cada render.
+  }, [ruta, tema, recarga, conSesion]);
 
   if (!arbol) return null;
 

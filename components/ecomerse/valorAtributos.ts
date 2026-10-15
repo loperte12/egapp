@@ -93,12 +93,18 @@ export const CLAVES_VALOR = {
 /**
  * Las acciones que una tarjeta puede pedir hoy.
  *
- * **Son dos, y son las dos que hoy impiden que la rejilla servida sustituya a la lista**: sin ellas,
- * reemplazar la rejilla costaría el corazón y el carrito.
+ * **Son tres, y cada una existe porque sin ella una pantalla no se puede mudar al árbol**:
+ * `ext:favorito` y `ext:carrito` son lo que impedía que la rejilla servida sustituyera a la lista; y
+ * **`ext:dejardeseguir`** (15/10/2026) es lo que necesita la lista de tiendas seguidas — una tarjeta de
+ * «siguiendo» sin forma de dejar de seguir es media tarjeta.
+ *
+ * ⚠️ **El oráculo comprueba que toda acción que mande el servidor esté declarada aquí**: una acción sin
+ * declarar no es un fallo de pintado, es un toque que no hace nada.
  */
 export const ACCIONES = {
   FAVORITO: 'ext:favorito',
   CARRITO: 'ext:carrito',
+  DEJAR_DE_SEGUIR: 'ext:dejardeseguir',
 } as const;
 
 export type NombreAccion = (typeof ACCIONES)[keyof typeof ACCIONES];

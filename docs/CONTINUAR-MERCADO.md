@@ -1275,3 +1275,78 @@ habría dado «medidas» inventadas con aspecto de dato.
 nuevo que fija la geometría MEDIDA: hueco 8, radio 6, proporción 1, sin altura fija, y la misma clave
 `ext:aspecto` en cliente y los dos servidores) · producción **EXIT=0** con la geometría comprobada en
 el desplegado. Desplegado: `codeSha256 29d8e4ae…` + el cambio de geometría.
+
+---
+
+## 24 · CONSTRUIR EL ÁRBOL NUEVO Y SUSTITUIR: sí, y para 关注 el dato NO está (15/10)
+
+### 1 · La estrategia: sí, con el orden bien puesto
+
+Construir la sección aparte, probarla y **sustituir** la pantalla vieja es lo que se hizo con la
+rejilla y funcionó. Y sí: con los widgets ya en el cliente, **una pantalla nueva no obliga a tocar el
+contrato** — la de seguidos se armó con `Contenedor`, `Imagen`, `Texto` e `Icono`, que ya existían.
+
+Pero el orden no es «árbol → sustituto», es **`DATO → árbol → sustituto`**, y para 关注 el primer
+paso **no está hecho**:
+
+### 2 · El hallazgo: el endpoint de seguidos NO existe
+
+El cliente lo declara (`api/ecomerse.ts`) y la UI lo usa (`BotonSeguirTienda.tsx`,
+`ecomerse-perfil-tiendas.tsx`). En producción, medido hoy:
+
+| petición | respuesta |
+|---|---|
+| `GET /api/ecomerse/sellers/following` | **400 «Tienda inválida»** |
+| `GET /api/ecomerse/sellers/following/ids` | **404** |
+| `GET /api/ecomerse/sellers` | 200 ✓ (el censo: 2 tiendas) |
+| `GET /api/ecomerse/sellers/abc` | 400 «Tienda inválida» |
+
+**Lo que pasa**: el backend tiene `sellers` y `sellers/:id` —y su propio comentario explica que la ruta
+literal gana— pero **no tiene NINGUNA ruta de seguidos**: `sellers/:id` se come `following` y lo trata
+como un id de tienda. O sea: **el botón de seguir tiendas y la pantalla de «mis tiendas seguidas» están
+llamando a rutas que no existen.** No es un fallo del árbol ni del cliente: falta el backend.
+
+Y no falta por olvido de una tabla: **el lado `lifebook` SÍ lo tiene** (`POST /commerce/shops/:id/follow`,
+`toggleFollow`, `shop_follows`, y hasta el error `CANNOT_FOLLOW_SELF`) — es el lado **ecomerse** el que
+nunca lo implementó. *(Se comprobó con `grep` sobre el backend espejo entero: cero rutas y cero tablas de
+follows en `ecomerse`.)*
+
+**Consecuencia para el plan**: una pestaña 关注 hoy no tendría nada que enseñar. Construirla sería
+enseñar una pestaña vacía con aspecto de función — justo lo que esta línea de trabajo evita.
+
+### 3 · Lo que SÍ se dejó hecho y verificado: las secciones **de quien pregunta**
+
+Es lo que hacía falta para 关注 y para **cualquier** pantalla de usuario (favoritos, pedidos, mis
+tiendas), así que se hizo una vez:
+
+- **`httpClient.tokenActual()`** — el token lo entrega quien lo guarda y lo rota. Leerlo desde fuera
+  sería una segunda copia de la lógica de refresco.
+- **`pedirUi(ruta, …, { conSesion })` + `FranjaServidor conSesion`** — la petición de una sección lleva
+  el mismo `Authorization: Bearer` que cualquier otra.
+- **`Cache-Control: private, no-store`** en esas rutas. **No es un detalle de rendimiento**: una
+  respuesta con las tiendas que sigue alguien, guardada en una caché compartida, se le sirve al
+  siguiente que pregunte. Las públicas siguen con su `public, max-age=30`.
+- **El árbol de seguidos** (`arbolDeSiguiendo`): lista de una columna, tarjeta de tienda con foto
+  cuadrada (la proporción medida), nombre, seguidores y el botón de **dejar de seguir** como
+  `ext:accion`. La acción quedó **declarada en el vocabulario del cliente** (`ACCIONES.DEJAR_DE_SEGUIR`),
+  que es lo que el oráculo exige: una acción sin declarar es un toque que no hace nada.
+- Sin token, la sección devuelve **«nada»** (`arbol: null`), no una lista inventada ✓.
+
+**No se desplegó la ruta**: hoy devolvería siempre «nada» porque el dato no existe. Un endpoint que no
+puede contestar es superficie sin valor; se despliega cuando exista el backend.
+
+### 4 · Lo que sigue, en orden
+
+1. **Backend de seguidos de ecomerse** (tabla + `POST /sellers/:id/follow`, `GET /sellers/following`,
+   `GET /sellers/following/ids`), copiando la forma del lado `lifebook` que ya funciona. **Sin esto no
+   hay 关注, y es lo único que falta.**
+2. **La pestaña 关注 en el Mercado** (servida), con la sección que ya está construida; y borrar la
+   pantalla vieja (`ecomerse-perfil-tiendas.tsx`) en el mismo commit que la sustituye.
+3. Los dos puntos que quedaron de §23: **los servicios de la Home en la cabecera** (5 columnas, hueco
+   12 — medido) y **el feed entre tarjetas** (el mecanismo está; falta contenido real que intercalar).
+
+### Verificación
+
+`tsc` **5** · `logica` **0** · `diseño` **en verde** · oráculo **138/138** (5 pruebas nuevas: el árbol
+sólo con widgets de la lista blanca, la acción declarada, **sin token no hay datos** contra el API de
+verdad, la cabecera privada, y el cliente pidiendo la sección con sesión).

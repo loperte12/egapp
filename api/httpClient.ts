@@ -51,6 +51,22 @@ export function configureHttpAuth(a: AuthHolder) {
   auth = a;
 }
 
+/**
+ * **El token de acceso AHORA, o `null` si no hay sesión.**
+ *
+ * Existe para que **quien no es este módulo pueda pedir algo con la sesión del usuario**: la UI
+ * dirigida por el servidor necesita secciones que son **de quien pregunta** —las tiendas que sigue, los
+ * favoritos, sus pedidos—, y para eso su petición tiene que llevar el mismo `Authorization: Bearer` que
+ * lleva cualquier otra.
+ *
+ * **El token se pide aquí y no se lee de `SecureStore` desde fuera**: este módulo es el único que sabe
+ * cómo se guarda, cuándo se rota y cuándo hay que canjear el refresh. Leerlo por fuera sería una segunda
+ * copia de esa lógica, y la primera que cambiara no llegaría a la otra.
+ */
+export function tokenActual(): string | null {
+  return auth?.getAccessToken() ?? null;
+}
+
 let refreshInflight: Promise<string | null> | null = null;
 
 /** Último canje bueno, con el refresh_token que se usó. Evita canjear DOS VECES el mismo:
