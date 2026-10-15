@@ -8,9 +8,9 @@
  * Ruta: /ecomerse
  */
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  ActivityIndicator, Alert, FlatList, Pressable, ScrollView, StyleSheet,
+  ActivityIndicator, Alert, FlatList, Pressable, RefreshControl, ScrollView, StyleSheet,
   Text, TextInput, View,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -18,15 +18,17 @@ import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Camera, Heart, Search, ShoppingCart, Store } from 'lucide-react-native';
-import { useTheme, alpha, EmptyState, InlineError, tipografia, radios, trazo, peso, espaciado, ilustracion } from '@egrouteplan/ui-kit';
+import { useTheme, alpha, EmptyState, InlineError, tipografia, radios, trazo, peso, espaciado } from '@egrouteplan/ui-kit';
 import { ecomerseApi, EcomerseCategory, EcomerseFamily, EcomerseProduct } from '../api/ecomerse';
 import { useEcomerseStore } from '../state/ecomerse';
 import { brand } from '@egrouteplan/ui-kit';
-import { TarjetaProducto, EsqueletoTarjeta, ANCHO_CARRUSEL } from '../components/ecomerse/TarjetaProducto';
+import { TarjetaProducto, EsqueletoTarjeta } from '../components/ecomerse/TarjetaProducto';
 import PieDelMercado, { PIE_MERCADO_H } from '../components/ecomerse/PieDelMercado';
 import { useSinLeerMercado } from '../components/ecomerse/useSinLeer';
 import { useAccionesProducto } from '../components/ecomerse/useAccionesProducto';
 import { FranjaServidor } from '../components/ecomerse/FranjaServidor';
+import { productoDeFicha } from '../components/ecomerse/fichaDeSeccion';
+import { ACCIONES } from '../components/ecomerse/valorAtributos';
 
 /**
  * LA ZONA DE CATEGORÍAS DE LA HOME — 23-sep-2026. Es la estructura de la referencia (Pinduoduo):
@@ -161,18 +163,18 @@ const MAX_PHOTO_MB = 8;
 /**
  * EL ORDEN DEL CATÁLOGO YA NO SE ELIGE DESDE LA HOME (23-sep-2026). Aquí vivía `SORTS` —los tres
  * chips «Recomendado · Mejor valorado · Novedades»—, construidos en la tanda A sobre el `sort` que
- * el servidor acepta desde siempre. Se retiraron con el resto del cromo de la cabecera, y la app
- * manda `sort: 'recommended'` fijo, que es el valor por defecto que el `switch` de
- * `ecomerse.service.ts` ya aplicaba cuando no llegaba nada.
+ * el servidor acepta desde siempre. Se retiraron con el resto del cromo de la cabecera.
+ *
+ * **Desde el 15/10/2026 la constante `SORT_CATALOGO` tampoco vive aquí**: el orden es un parámetro de
+ * la SECCIÓN (`?orden=`), y su valor por defecto lo pone el servidor (`SORT_POR_DEFECTO`, el mismo
+ * `'recommended'`). Dejarla en esta pantalla sería una segunda copia de una decisión que ya no se
+ * toma aquí — y la primera que cambiara no llegaría a la otra.
  *
  * NO SE PERDIÓ CAPACIDAD: el servidor sigue aceptando `rating`, `newest`, `price_asc` y
  * `price_desc`, y los ids no cambiaron. Devolver el selector es volver a pintar los chips. Si algún
  * día se recupera, el sitio natural no es la cabecera —donde competía con las categorías— sino el
  * orden de la lista ya filtrada.
  */
-const SORT_CATALOGO = 'recommended';
-
-const PLACEHOLDER_CARDS = [0, 1, 2, 3];
 
 export default function EcomerseScreen() {
   const { colors } = useTheme();
@@ -192,11 +194,24 @@ export default function EcomerseScreen() {
    */
   const { favIds, abrirFicha, alternarFavorito, anadirAlCarrito } = useAccionesProducto();
 
-  const [products, setProducts] = useState<EcomerseProduct[]>([]);
-  const [recommended, setRecommended] = useState<EcomerseProduct[]>([]);
   const [cats, setCats] = useState<EcomerseCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  /**
+   * **EL ESTADO DE LA REJILLA SERVIDA.** Desde el 15/10/2026 los productos **no los pide esta
+   * pantalla**: los manda el servidor en la sección `rejilla`. Pero la pantalla tiene que saber qué
+   * enseñar mientras tanto, y por eso la sección avisa (`alEstado`):
+   *
+   *   · `cargando` → el esqueleto de tarjetas
+   *   · `vacia`    → el vacío del kit, con su texto según los filtros
+   *   · `error`    → el error con reintento. **Distinto de `vacia`**: decir «no hay productos» cuando
+   *                  lo que falló es la red es una afirmación falsa sobre el catálogo.
+   */
+  const [estadoRejilla, setEstadoRejilla] = useState<'cargando' | 'lista' | 'vacia' | 'error'>('cargando');
+  /** Cuántos productos trajo la sección: es el contador de resultados, y sale del servidor. */
+  const [totalRejilla, setTotalRejilla] = useState(0);
+  /** Cambia para **volver a pedir** la sección: la tirar-para-recargar y el botón de reintento. */
+  const [recarga, setRecarga] = useState(0);
   /* AQUÍ VIVIÓ `clasesAbiertas`, el estado de la hoja de clases, unas horas del 23-sep-2026. Se
      retiró con la hoja entera al corregir Bernardo la forma: «me equivoqué en decir que el modal, si
      no que una pantalla completa». El tercer escalón del árbol ya no se elige en un modal sobre el
@@ -210,49 +225,42 @@ export default function EcomerseScreen() {
   const [imageError, setImageError] = useState<string | null>(null);
   const [imageBusy, setImageBusy] = useState(false);
 
-  // Carga con debounce: búsqueda server-side + filtros. Nunca datos stale:
-  // se vacían los productos al empezar; recomendados son globales (sin ciudad).
+  /**
+   * **La búsqueda con retardo.** La rejilla se pide por RUTA (`?buscar=…`), así que sin retardo habría
+   * **una petición por tecla**. Es el mismo retardo de 300 ms que tenía la carga del catálogo, movido
+   * del `fetch` a la ruta: el comportamiento que se ve es el de siempre.
+   */
+  const [busqueda, setBusqueda] = useState('');
+  useEffect(() => {
+    const t = setTimeout(() => setBusqueda(query), 300);
+    return () => clearTimeout(t);
+  }, [query]);
+
+  /**
+   * Carga de las CATEGORÍAS, que es lo único del catálogo que sigue pidiendo esta pantalla.
+   *
+   * **Los productos ya no se piden aquí**: los manda el servidor en la sección `rejilla`, con los
+   * mismos filtros (`departamento`, `familia`, `buscar`). Las categorías sí hacen falta en el cliente
+   * porque la rejilla de FAMILIAS —el segundo escalón— sigue siendo suya: es taxonomía, y la pantalla
+   * la usa para navegar al tercer escalón.
+   */
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
-    setProducts([]);
     try {
-      const q: Record<string, string> = {};
-      /* El árbol con sus dos nombres. El alias viejo (`category` -> familia) seguiría funcionando,
-         pero mandarlo con el nombre nuevo evita que dentro de seis meses alguien lea `category` y
-         crea que filtra por departamento.
-         El tercer escalón (`leaf`) ya no se manda desde aquí: la subclase se elige en la pantalla de
-         la subcategoría, que pide la familia entera y reparte en memoria. El servidor lo sigue
-         aceptando —no se ha tocado— por si algún día vuelve a hacer falta. */
-      if (categoryFilter) q.department = categoryFilter;
-      if (subcategoryFilter) q.family = subcategoryFilter;
-      const t = query.trim();
-      if (t) q.q = t;
-      /* El orden deja de ser una elección del usuario en la home; se manda el valor por defecto
-         del servidor, explícito, para que el contrato se lea en la llamada. Ver `SORT_CATALOGO`. */
-      q.sort = SORT_CATALOGO;
-      const [p, c, rec] = await Promise.all([
-        ecomerseApi.catalog(q),
-        ecomerseApi.categories(),
-        ecomerseApi.catalog({ sort: 'recommended' }),
-      ]);
-      setProducts(p);
-      setCats(c);
-      setRecommended(rec.slice(0, 8));
+      setCats(await ecomerseApi.categories());
     } catch {
-      setError('No pudimos cargar el mercado. Revisa tu conexión e inténtalo de nuevo.');
-      setProducts([]);
-      setRecommended([]);
+      setError('No pudimos cargar las categorías. Revisa tu conexión e inténtalo de nuevo.');
+      setCats([]);
     } finally {
       setLoading(false);
     }
-  }, [categoryFilter, subcategoryFilter, query]);
+  }, []);
 
-  useEffect(() => {
-    const t = setTimeout(() => { load(); }, 300);
-    return () => clearTimeout(t);
-  }, [load]);
+  useEffect(() => { void load(); }, [load]);
 
+  // Carga con debounce: búsqueda server-side + filtros. Nunca datos stale:
+  // se vacían los productos al empezar; recomendados son globales (sin ciudad).
   /* AQUÍ VIVÍAN DOS COSAS QUE SE MUDARON A `useAccionesProducto`, y las dos por el mismo motivo —la
      pantalla de la subcategoría pinta las mismas tarjetas y las necesita iguales—:
        · la **sincronización de favoritos** al montar (`favoriteIds()`), que traía los corazones;
@@ -319,13 +327,53 @@ export default function EcomerseScreen() {
   const caminoFiltro = activeFam?.label ?? '';
   const cartCount = cart.reduce((a, c) => a + c.qty, 0);
 
-  const listData: EcomerseProduct[] = useMemo(() => {
-    const base = imageActive ? imageResults : products;
-    if (loading && !products.length && !imageActive) return PLACEHOLDER_CARDS.map((i) => ({ id: `__sk_${i}` } as EcomerseProduct));
-    return base.length % 2 === 1 ? [...base, { id: '__spacer__' } as EcomerseProduct] : base;
-  }, [imageActive, imageResults, products, loading]);
+  /**
+   * **LA RUTA DE LA REJILLA, con los filtros de la pantalla dentro.**
+   *
+   * Es el cable que permite que la sección sustituya a la lista sin perder nada: departamento, familia
+   * y búsqueda viajan al servidor, que los traduce a los suyos (`consultaDeCatalogo`) y devuelve **el
+   * mismo catálogo filtrado** que antes pedía esta pantalla.
+   *
+   * Los nombres son los de la SECCIÓN y no los de la API: la pantalla no tiene por qué saber cómo se
+   * llama cada filtro en el servicio de datos.
+   */
+  const rutaRejilla = useMemo(() => {
+    const p = new URLSearchParams();
+    if (categoryFilter) p.set('departamento', categoryFilter);
+    if (subcategoryFilter) p.set('familia', subcategoryFilter);
+    const t = busqueda.trim();
+    if (t) p.set('buscar', t);
+    const cadena = p.toString();
+    return cadena ? `rejilla?${cadena}` : 'rejilla';
+  }, [categoryFilter, subcategoryFilter, busqueda]);
 
-  const isPlaceholder = (id: string) => id.startsWith('__sk_');
+  /** Los datos de la rejilla servida, para el contador y para el puente de las acciones. */
+  const datosRejilla = useRef<unknown>(undefined);
+
+  /** Volver a pedir la rejilla: el reintento del error y la tirar-para-recargar. */
+  const recargar = useCallback(() => setRecarga((n) => n + 1), []);
+
+  /**
+   * **LAS DOS ACCIONES DE LA TARJETA SERVIDA, ejecutando las de verdad.**
+   *
+   * El árbol pide `ext:favorito` o `ext:carrito` sobre un id; la ficha con ese id está en los datos
+   * que mandó el servidor, y aquí se traduce al producto de la app (`productoDeFicha`) para llamar a
+   * `useAccionesProducto`. **Sin esto, migrar la rejilla costaría el corazón y el carrito** —o peor:
+   * dejaría unos iconos que no hacen nada.
+   */
+  const alAccionRejilla = useCallback((accion: string, id: string) => {
+    const producto = productoDeFicha(datosRejilla.current, id);
+    if (!producto) return;
+    const p = producto as unknown as EcomerseProduct;
+    if (accion === ACCIONES.FAVORITO) alternarFavorito(p);
+    else if (accion === ACCIONES.CARRITO) anadirAlCarrito(p);
+  }, [alternarFavorito, anadirAlCarrito]);
+
+  /** La lista de la BÚSQUEDA POR FOTO: sigue siendo del cliente (es otra función, con otro endpoint). */
+  const listData: EcomerseProduct[] = useMemo(() => {
+    const base = imageResults;
+    return base.length % 2 === 1 ? [...base, { id: '__spacer__' } as EcomerseProduct] : base;
+  }, [imageResults]);
 
   const chooseCat = (catId: string) => {
     const next = categoryFilter === catId ? '' : catId;
@@ -416,27 +464,31 @@ export default function EcomerseScreen() {
         </View>
       </View>
 
-      {/* LA PRIMERA SECCIÓN DEL MERCADO QUE LA PINTA EL SERVIDOR.
-          Es **aditiva**: va encima de la lista y no sustituye nada. Si el servidor no responde,
-          no ocupa ni un píxel y el Mercado funciona igual — ver `FranjaServidor.tsx` para por qué
-          se eligió añadir en vez de convertir una sección que ya existía. */}
-      <FranjaServidor
-        ruta="home"
-        testID="franja-servidor"
-        alTocar={(id) => router.push({ pathname: '/ecomerse-detail', params: { id } } as never)}
-      />
+      {/*
+        AQUÍ ESTABA LA FRANJA SERVIDA como hermana fija de la lista (`ruta="home"`), y desde el
+        15/10/2026 **vive dentro del scroll de la pantalla, con las demás secciones**. El motivo es el
+        mismo que el del resto de la migración: con la rejilla servida, el Mercado ya no es «una lista
+        con una franja encima» sino **una pantalla de secciones**, y la primera es esta franja. Como
+        hermana fija se quedaba pegada arriba gastando altura para siempre —y en el modo de búsqueda
+        por foto aparecía encima de unos resultados que no son el catálogo—.
+      */}
 
-      <FlatList
-        data={listData}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        columnWrapperStyle={s.colWrap}
-        contentContainerStyle={[s.listContent, { paddingBottom: PIE_MERCADO_H + insets.bottom + espaciado.e32 }]}
-        keyboardShouldPersistTaps="handled"
-        refreshing={loading && products.length > 0}
-        onRefresh={load}
-        ListHeaderComponent={
-          imageActive ? (
+      {imageActive ? (
+        /*
+          ── MODO BÚSQUEDA POR FOTO: la ÚNICA lista que sigue siendo del cliente ─────────────────
+          Y a conciencia: estos resultados vienen de OTRO endpoint (buscar por imagen) y **no son el
+          catálogo**. El árbol dirige el catálogo; esto es otra función, con su propio ciclo de vida
+          (elegir foto → subir → buscar → pintar), y meterlo en el contrato del catálogo sería meter
+          dos cosas distintas en la misma sección.
+        */
+        <FlatList
+          data={listData}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          columnWrapperStyle={s.colWrap}
+          contentContainerStyle={[s.listContent, { paddingBottom: PIE_MERCADO_H + insets.bottom + espaciado.e32 }]}
+          keyboardShouldPersistTaps="handled"
+          ListHeaderComponent={
             <View style={[s.photoBanner, { backgroundColor: alpha(colors.primary, 0.08), borderColor: colors.border }]}>
               <Text style={[s.photoBannerTitle, { color: colors.textPrimary }]}>🔍 Resultados de tu foto</Text>
               <Text style={[s.photoBannerSub, { color: colors.textSecondary }]}>
@@ -446,8 +498,85 @@ export default function EcomerseScreen() {
                 <Text style={s.photoBackText}>← Volver al catálogo</Text>
               </Pressable>
             </View>
-          ) : (
+          }
+          ListEmptyComponent={
+            /* Tres estados distintos, y antes eran uno: mientras busca se enseña que busca, si falla
+               se dice que falló (con reintento), y solo si de verdad no hay resultados se enseña el
+               vacío. El vacío, además, es el del kit. */
+            imageBusy ? (
+              <View style={{ alignItems: 'center', paddingTop: 48 }}>
+                <ActivityIndicator color={colors.text.primary} />
+                <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e10 }}>Buscando productos parecidos…</Text>
+              </View>
+            ) : imageError ? (
+              <View style={{ paddingTop: 40, paddingHorizontal: espaciado.e32 }}>
+                <InlineError mensaje={imageError} onReintentar={() => void searchByPhoto()} etiquetaReintento="Elegir otra foto" />
+              </View>
+            ) : (
+              <EmptyState
+                emoji="📷"
+                titulo="No encontramos productos parecidos"
+                texto="Prueba con otra foto más nítida, de frente y con buena luz, o busca por texto."
+                accionLabel="← Volver al catálogo"
+                onAccion={() => setImageActive(false)}
+              />
+            )
+          }
+          renderItem={({ item }) =>
+            item.id === '__spacer__' ? (
+              <View key="spacer" style={{ flex: 1 }} />
+            ) : (
+              <TarjetaProducto
+                product={item}
+                favorited={favIds.includes(item.id)}
+                onPress={() => abrirFicha(item.id)}
+                onFav={() => alternarFavorito(item)}
+                onAdd={() => anadirAlCarrito(item)}
+              />
+            )
+          }
+        />
+      ) : (
+        /*
+          ── EL CATÁLOGO, DIRIGIDO POR EL SERVIDOR (15/10/2026) ──────────────────────────────────
+          Aquí estaba la `FlatList` del cliente con sus tarjetas. Ahora **los productos los manda el
+          servidor** en la sección `rejilla` —la misma que se probó en `/ecomerse-ui`, con sus dos
+          plantillas (ancha y estrecha)— y esta pantalla sólo pone el marco: la cabecera de búsqueda,
+          la rejilla de familias (que es taxonomía) y el pie.
+
+          **Los filtros no se pierden**: viajan en la ruta (`departamento`, `familia`, `buscar`) y el
+          servidor filtra con ellos. Y las acciones tampoco: el árbol pide `ext:favorito` / `ext:carrito`
+          y aquí se ejecutan las de verdad (`alAccionRejilla`).
+
+          Es un `ScrollView` y no una `FlatList` porque **ya no hay lista que virtualizar en el
+          cliente**: la que virtualiza es la de dentro de la sección. Una `FlatList` envolviendo a otra
+          es el fallo clásico de React Native —dos scrolls anidados— y aquí no hace falta ninguna.
+        */
+        <ScrollView
+          testID="mercado-servidor"
+          contentContainerStyle={[s.listContent, { paddingBottom: PIE_MERCADO_H + insets.bottom + espaciado.e32 }]}
+          keyboardShouldPersistTaps="handled"
+          refreshControl={
+            <RefreshControl
+              // Se recarga **la sección**, no una copia: tirar para recargar vuelve a preguntar al
+              // servidor por el mismo filtro (`recarga` es el contador que lo provoca).
+              refreshing={estadoRejilla === 'cargando' && totalRejilla > 0}
+              onRefresh={recargar}
+              tintColor={colors.textSecondary}
+            />
+          }
+        >
           <View>
+            {/* LA PRIMERA SECCIÓN: la franja de destacados, servida. Va aquí dentro, con las demás,
+                para que toda la pantalla desplace como una sola cosa. Si el servidor no responde no
+                ocupa ni un píxel y el Mercado funciona igual (ver `FranjaServidor.tsx`). */}
+            <FranjaServidor
+              ruta="home"
+              testID="franja-servidor"
+              desplazable={false}
+              alTocar={(id) => router.push({ pathname: '/ecomerse-detail', params: { id } } as never)}
+            />
+
             {/* PESTAÑAS DE DEPARTAMENTOS — lo primero bajo la barra de búsqueda.
                 Es la estructura de la referencia: el primer nivel son pestañas, la activa se marca
                 con color y subrayado, y la fila **desliza** en vez de aplastarse (18 departamentos
@@ -474,6 +603,11 @@ export default function EcomerseScreen() {
             <FranjaServidor
               ruta={categoryFilter ? `categorias?activa=${encodeURIComponent(categoryFilter)}` : 'categorias'}
               testID="categorias-servidor"
+              // **`desplazable={false}` en las tres secciones de esta pantalla**: el Mercado envuelve
+              // sus secciones en SU `ScrollView` (el de la pantalla), y una lista virtualizada dentro
+              // de un scroll rompe el reciclado —React Native lo avisa por consola—. El que desplaza
+              // aquí es la pantalla; la sección sólo pinta.
+              desplazable={false}
               alTocar={(id) => chooseCat(id)}
             />
 
@@ -524,115 +658,98 @@ export default function EcomerseScreen() {
                 productos —la más larga del árbol vivo— y eso no cabe en una hoja sobre el catálogo.
                 Aquí no queda nada que pintar. */}
 
-            {/* Recomendados (globales; no se ocultan al filtrar) */}
-            {recommended.length > 0 && (
-              <>
-                <View style={[s.sectionHead, { marginTop: espaciado.e4 }]}>
-                  <Text style={s.sectionTitle}>🔥 Recomendados</Text>
-                </View>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: espaciado.e10, paddingRight: espaciado.e16 }}>
-                  {recommended.map((p) => (
-                    <TarjetaProducto
-                      key={p.id}
-                      product={p}
-                      width={ANCHO_CARRUSEL}
-                      iconoTamano={ilustracion.md}
-                      favorited={favIds.includes(p.id)}
-                      onPress={() => router.push({ pathname: '/ecomerse-detail', params: { id: p.id } } as any)}
-                      onFav={() => alternarFavorito(p)}
-                    />
-                  ))}
-                </ScrollView>
-              </>
+            {/* AQUÍ ESTABA EL CARRIL «🔥 Recomendados» DEL CLIENTE, y se retiró el 15/10/2026 al
+                migrar el catálogo al servidor. **No se pierde nada y se gana una verdad**: era el
+                MISMO carrusel que la franja servida de arriba (`home`, los diez primeros del catálogo
+                por `recommended`) — los mismos productos dos veces en la misma pantalla, uno mandado
+                por el servidor y otro pedido aparte por la pantalla. Con dos fuentes para lo mismo, el
+                día que una cambie de orden la pantalla se contradice sola. */}
+
+            {/* Contador de resultados, con el CAMINO elegido delante cuando hay filtro de categoría.
+                **El número sale del servidor** (las fichas que trajo la sección), que es quien sabe
+                cuántos productos hay con estos filtros: contarlos aquí sería volver a tener la lista
+                en el cliente, que es justo lo que se acaba de quitar. */}
+            <Text style={s.resultsLabel}>
+              {estadoRejilla === 'cargando' ? 'Cargando…'
+                : `${caminoFiltro ? `${caminoFiltro} — ` : ''}${totalRejilla} producto${totalRejilla === 1 ? '' : 's'}`}
+            </Text>
+
+            {/* Si fallan las CATEGORÍAS, la pantalla lo dice sin tumbarse: el catálogo de abajo viene
+                del servidor y se pinta igual; lo que falta es la rejilla de familias. */}
+            {error ? (
+              <View style={{ paddingHorizontal: espaciado.e32, paddingBottom: espaciado.e12 }}>
+                <InlineError mensaje={error} onReintentar={load} />
+              </View>
+            ) : null}
+
+            {/* ── LA REJILLA, SERVIDA ──────────────────────────────────────────────────────────
+                Aquí estaba la `FlatList` de tarjetas del cliente. Ahora es una sección más: la pide
+                el servidor con los filtros de la pantalla en la ruta, y la pantalla sólo reacciona a
+                su estado. **El toque va a la ficha del producto** y **las acciones (corazón y
+                carrito) son las de verdad**, no unos iconos decorativos. */}
+            <FranjaServidor
+              ruta={rutaRejilla}
+              testID="rejilla-servidor"
+              recarga={recarga}
+              desplazable={false}
+              alTocar={(id) => router.push({ pathname: '/ecomerse-detail', params: { id } } as never)}
+              alAccion={alAccionRejilla}
+              alEstado={(estado, datos) => {
+                // Los datos se guardan para el puente de las acciones: el corazón necesita el
+                // producto entero (precio, fotos), no sólo el id que trae el evento.
+                datosRejilla.current = datos;
+                setEstadoRejilla(estado);
+                const fichas = (datos as { fichas?: unknown[] } | undefined)?.fichas;
+                setTotalRejilla(estado === 'lista' && Array.isArray(fichas) ? fichas.length : 0);
+              }}
+            />
+
+            {/* El esqueleto: **del cliente, porque es del cliente la espera**. Cuatro tarjetas en dos
+                filas —la forma que va a llegar—, no un spinner suelto. */}
+            {estadoRejilla === 'cargando' && (
+              <View style={{ paddingHorizontal: espaciado.e16, gap: espaciado.e10, paddingTop: espaciado.e4 }}>
+                {[0, 1].map((fila) => (
+                  <View key={fila} style={{ flexDirection: 'row', gap: espaciado.e10 }}>
+                    <View style={{ flex: 1 }}><EsqueletoTarjeta /></View>
+                    <View style={{ flex: 1 }}><EsqueletoTarjeta /></View>
+                  </View>
+                ))}
+              </View>
             )}
 
-            {/* Contador de resultados, con el CAMINO elegido delante cuando hay filtro de categoría:
-                es donde se ve la clase activa desde que la hoja se cierra al elegirla. Va en esta
-                línea y no en una fila nueva: la cabecera de esta pantalla no admite más cromo. */}
-            {!error && (
-              <Text style={s.resultsLabel}>
-                {loading ? 'Cargando…'
-                  : `${caminoFiltro ? `${caminoFiltro} — ` : ''}${products.length} producto${products.length === 1 ? '' : 's'}`}
-              </Text>
+            {/* VACÍO ≠ ERROR, y por eso son dos estados y no uno. El vacío lleva el texto según los
+                filtros (como antes); el error trae reintento. Decir «no hay productos» cuando lo que
+                falló fue la conexión sería una afirmación falsa sobre el catálogo. */}
+            {estadoRejilla === 'vacia' && (
+              <EmptyState
+                emoji="🛍️"
+                {...((!!categoryFilter || !!subcategoryFilter || !!busqueda.trim())
+                  ? {
+                      titulo: 'Sin resultados con estos filtros',
+                      texto: 'Prueba a quitar filtros o a buscar con otras palabras.',
+                      accionLabel: 'Quitar filtros',
+                      onAccion: () => { setCategoryFilter(''); setSubcategoryFilter(''); setQuery(''); },
+                    }
+                  : {
+                      titulo: 'Todavía no hay productos',
+                      texto: 'Sé el primero en publicar: identidad verificada + aprobación del administrador.',
+                      accionLabel: 'Publicar mi primer producto',
+                      accionPrimaria: true,
+                      onAccion: () => router.push('/ecomerse-seller' as any),
+                    })}
+              />
+            )}
+            {estadoRejilla === 'error' && (
+              <View style={{ paddingTop: espaciado.e24, paddingHorizontal: espaciado.e32 }}>
+                <InlineError
+                  mensaje="No pudimos cargar los productos. Revisa tu conexión e inténtalo de nuevo."
+                  onReintentar={recargar}
+                />
+              </View>
             )}
           </View>
-          )
-        }
-        ListEmptyComponent={
-          imageActive ? (
-            /* Tres estados distintos, y antes eran uno: mientras busca se enseña que busca, si
-               falla se dice que falló (con reintento), y solo si de verdad no hay resultados se
-               enseña el vacío. El vacío, además, ahora es el del kit. */
-            imageBusy ? (
-              <View style={{ alignItems: 'center', paddingTop: 48 }}>
-                <ActivityIndicator color={colors.text.primary} />
-                <Text style={{ color: colors.textSecondary, fontSize: tipografia.body, marginTop: espaciado.e10 }}>Buscando productos parecidos…</Text>
-              </View>
-            ) : imageError ? (
-              <View style={{ paddingTop: 40, paddingHorizontal: espaciado.e32 }}>
-                <InlineError mensaje={imageError} onReintentar={() => void searchByPhoto()} etiquetaReintento="Elegir otra foto" />
-              </View>
-            ) : (
-              <EmptyState
-                emoji="📷"
-                titulo="No encontramos productos parecidos"
-                texto="Prueba con otra foto más nítida, de frente y con buena luz, o busca por texto."
-                accionLabel="← Volver al catálogo"
-                onAccion={() => setImageActive(false)}
-              />
-            )
-          ) : error ? (
-            /*
-              El error, con el componente del kit: se anuncia al lector de pantalla, vibra y trae
-              su propio reintento. Era un bloque a mano con 📡 y un botón de estilo propio.
-            */
-            <View style={{ paddingTop: 40, paddingHorizontal: espaciado.e32 }}>
-              <InlineError mensaje={`No pudimos cargar el catálogo. ${error}`} onReintentar={load} />
-            </View>
-          ) : loading ? null : (
-            /* El vacío del kit. Antes este archivo definía el suyo: tres formas de hacer lo
-               mismo en el mismo producto. Las dos caras van en un solo objeto para no repetir
-               cinco veces la condición de «hay filtros». */
-            /* La ciudad salió de esta condición el 23-sep-2026 junto con su carril. No se pierde
-               nada: `cityFilter` sigue en el store pero **nada puede ya escribirlo** —la home no lo
-               pinta y el `partialize` del store solo persiste `cart`—, así que un filtro de ciudad
-               es hoy imposible de tener activo. Y el texto ya no manda «buscar en otra ciudad», que
-               era una salida que esta pantalla no ofrece. */
-            <EmptyState
-              emoji="🛍️"
-              {...((!!categoryFilter || !!subcategoryFilter || !!query.trim())
-                ? {
-                    titulo: 'Sin resultados con estos filtros',
-                    texto: 'Prueba a quitar filtros o a buscar con otras palabras.',
-                    accionLabel: 'Quitar filtros',
-                    onAccion: () => { setCategoryFilter(''); setSubcategoryFilter(''); setQuery(''); },
-                  }
-                : {
-                    titulo: 'Todavía no hay productos',
-                    texto: 'Sé el primero en publicar: identidad verificada + aprobación del administrador.',
-                    accionLabel: 'Publicar mi primer producto',
-                    accionPrimaria: true,
-                    onAccion: () => router.push('/ecomerse-seller' as any),
-                  })}
-            />
-          )
-        }
-        renderItem={({ item }) =>
-          isPlaceholder(item.id) ? (
-            <EsqueletoTarjeta key={item.id} />
-          ) : item.id === '__spacer__' ? (
-            <View key="spacer" style={{ flex: 1 }} />
-          ) : (
-            <TarjetaProducto
-              product={item}
-              favorited={favIds.includes(item.id)}
-              onPress={() => abrirFicha(item.id)}
-              onFav={() => alternarFavorito(item)}
-              onAdd={() => anadirAlCarrito(item)}
-            />
-          )
-        }
-      />
+        </ScrollView>
+      )}
 
       {/* AQUÍ VIVÍAN DOS MODALES: «Todas las categorías» (la hoja de la pila de avatares) y «Elige tu
           ciudad». Los dos cayeron con el cromo de la cabecera el 23-sep-2026: las 18 pestañas de

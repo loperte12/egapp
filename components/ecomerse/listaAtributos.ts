@@ -172,6 +172,16 @@ export interface ResolucionLista {
   minimoElementos?: number;
   /** Lo que se declara y NO se implementa, con su clave — para no fingir cobertura. */
   noImplementados: NombreAtributoLista[];
+  /**
+   * **¿El árbol PIDE que se avise al llegar al final?** (`DXRECYCLERLAYOUT_ONENDREACHED`).
+   *
+   * Campo propio y no dentro de `noImplementados`, que es donde estaba y **se leía como un fallo**:
+   * el resolver lo apuntaba como «declarado y no emitido», y el componente emitía justo cuando
+   * aparecía ahí — o sea, funcionaba por casualidad y con la condición invertida de aspecto. Lo que
+   * de verdad pasa es que el evento **sí se puede emitir**: lo que faltaba era un manejador, y eso lo
+   * pone la pantalla (`alLlegarAlFinal`).
+   */
+  pideFinDeLista: boolean;
 }
 
 function num(v: unknown): number | undefined {
@@ -212,7 +222,13 @@ const NO_IMPLEMENTADOS: NombreAtributoLista[] = [
  * Convierte los atributos de Taobao en lo que `FlatList` necesita.
  */
 export function resolverLista(dx: AtributosDxLista = {}): ResolucionLista {
-  const r: ResolucionLista = { columnas: 1, horizontal: false, esconderSiVacia: false, noImplementados: [] };
+  const r: ResolucionLista = {
+    columnas: 1,
+    horizontal: false,
+    esconderSiVacia: false,
+    noImplementados: [],
+    pideFinDeLista: false,
+  };
 
   // `DX_GRID_LAYOUT_COLUMN_COUNT` es el número de columnas. **Sin él, una lista vertical.**
   const cols = num(dx[CLAVES_LISTA.COLUMN_COUNT]);
@@ -246,8 +262,10 @@ export function resolverLista(dx: AtributosDxLista = {}): ResolucionLista {
   for (const nombre of NO_IMPLEMENTADOS) {
     if (dx[CLAVES_LISTA[nombre]] !== undefined) r.noImplementados.push(nombre);
   }
-  // `ON_END_REACHED` se cuenta aparte: la clave existe y se detecta, pero el evento no se emite.
-  if (dx[CLAVES_LISTA.ON_END_REACHED] !== undefined) r.noImplementados.push('ON_END_REACHED');
+  // **El aviso de fin de lista NO es «no implementado»**, y por eso tiene su propio campo: el evento
+  // sí se puede emitir —lo que faltaba era un manejador, y lo pone la pantalla—. Antes se apuntaba
+  // aquí y el componente lo cableaba por estar en esta lista, que es funcionar por casualidad.
+  if (dx[CLAVES_LISTA.ON_END_REACHED] !== undefined) r.pideFinDeLista = true;
 
   return r;
 }

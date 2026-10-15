@@ -84,6 +84,15 @@ export interface RenderizadorProps {
    */
   entorno?: Entorno;
   style?: StyleProp<ViewStyle>;
+  /**
+   * **Si las listas del árbol virtualizan por su cuenta** (por defecto sí).
+   *
+   * Una pantalla que ya desplaza —un `ScrollView` con secciones servidas dentro, como el Mercado
+   * desde el 15/10/2026— pasa `false`: montar un `FlatList` dentro de un `ScrollView` es el anidado
+   * que React Native prohíbe, y **rompe el reciclado de verdad**, no es un aviso de estilo. Ver
+   * `ListaProps.virtualizar`.
+   */
+  virtualizar?: boolean;
   testID?: string;
 }
 
@@ -110,7 +119,7 @@ export const COMPONENTES: Record<string, React.ComponentType<any>> = {
  * El `key` se toma del `id` del árbol si lo trae, y del índice si no. **Usar el índice como `key`
  * es correcto aquí** porque el árbol es inmutable: no hay reordenaciones que reconcilien mal.
  */
-export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: {
+export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto, virtualizar = true }: {
   nodo: NodoArbol;
   datos: unknown;
   /**
@@ -121,6 +130,13 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
   clave: string;
   alEvento?: (nombre: string, nodo: NodoArbol) => void;
   alCambiarTexto?: (nombre: string, valor: string, nodo: NodoArbol) => void;
+  /**
+   * **Si las listas de este subárbol virtualizan por su cuenta.** Se hereda hacia abajo, porque el
+   * problema que resuelve es del SITIO donde está el árbol, no del nodo: un árbol dentro del
+   * `ScrollView` de una pantalla no puede montar listas virtualizadas en ningún nivel. Ver
+   * `ListaProps.virtualizar`.
+   */
+  virtualizar?: boolean;
 }) {
   // ── EL CONDICIONAL ────────────────────────────────────────────────────────────────────────
   // **Es un nodo de CONTROL, no un widget**: no pinta nada por su cuenta, elige CUÁL de sus
@@ -145,6 +161,7 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
         clave={`${clave}.${esVerdadero(nodo.valor) ? 'si' : 'no'}`}
         alEvento={alEvento}
         alCambiarTexto={alCambiarTexto}
+                virtualizar={virtualizar}
       />
     );
   }
@@ -209,6 +226,10 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
   // ciclo de importes.
   if (nodo.tipo === 'Lista') {
     props.datos = Array.isArray(nodo.valor) ? nodo.valor : [];
+    // **Si la pantalla ya desplaza, la lista NO monta su propio `FlatList`**: sería el anidado que
+    // React Native prohíbe («VirtualizedLists should never be nested inside plain ScrollViews»), y
+    // rompe el reciclado de verdad. Se hereda de arriba (ver `ListaProps.virtualizar`).
+    props.virtualizar = virtualizar;
     // **LOS HIJOS DE UNA LISTA SON SUS PLANTILLAS**, y pueden ser VARIAS: en Taobao cada elemento
     // dice qué tarjeta usa (`templateName`, medido en el feed de descubrimiento: 11 tarjetas normales
     // y 1 distinta en la misma lista). Si solo hay una —o ninguna declara su nombre— la lista es
@@ -245,6 +266,7 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
             clave={`${clave}.${i}`}
             alEvento={alEvento}
             alCambiarTexto={alCambiarTexto}
+                virtualizar={virtualizar}
           />
         );
       };
@@ -307,6 +329,7 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
       clave={`${clave}.${i}`}
       alEvento={alEvento}
       alCambiarTexto={alCambiarTexto}
+                virtualizar={virtualizar}
     />
   ));
 
@@ -331,7 +354,7 @@ export function Nodo({ nodo, datos, entorno, clave, alEvento, alCambiarTexto }: 
 /**
  * El renderizador del Mercado.
  */
-export function Renderizador({ arbol, datos, entorno: entornoDado, alDiagnosticar, alEvento, alCambiarTexto, style, testID }: RenderizadorProps) {
+export function Renderizador({ arbol, datos, entorno: entornoDado, alDiagnosticar, alEvento, alCambiarTexto, style, testID, virtualizar = true }: RenderizadorProps) {
   // ── EL ENTORNO DEL APARATO ────────────────────────────────────────────────────────────────
   // Se resuelve con los hooks de React Native, que es donde vive de verdad: el ancho y el alto de
   // la ventana, la plataforma (android/ios/**harmony**) y el modo del sistema (claro/oscuro).
@@ -374,7 +397,7 @@ export function Renderizador({ arbol, datos, entorno: entornoDado, alDiagnostica
     // un bloque incrustado en un ScrollView NO — y si se impusiera, el bloque colapsaría a cero.
     // Se descubrió al incrustar el renderizador en la ficha real.
     <Vista style={style} testID={testID}>
-        <Nodo nodo={listo} datos={datos} entorno={entorno} clave="raiz" alEvento={alEvento} alCambiarTexto={alCambiarTexto} />
+        <Nodo nodo={listo} datos={datos} entorno={entorno} clave="raiz" alEvento={alEvento} alCambiarTexto={alCambiarTexto} virtualizar={virtualizar} />
     </Vista>
   );
 }

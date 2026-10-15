@@ -1111,3 +1111,92 @@ Mudar a **A** (el Mercado) lo que todavía solo pinta su cliente: el badge PRO, 
 contador de favoritos —como contenido del árbol—, y **borrar la rejilla del cliente**
 (`RejillaFamilias` y la `FlatList` de tarjetas). Cuando eso pase, `/ecomerse-ui` se queda como pantalla
 de desarrollo o se borra: su trabajo era demostrar que *el servidor manda*, y ya lo demuestra.
+
+---
+
+## 22 · EL ÁRBOL LLEGA A A: el Mercado es una pantalla de secciones (15/10)
+
+### 1 · Qué cambió, en una frase
+
+**El Mercado ya no tiene lista de productos.** La `FlatList` de tarjetas del cliente se fue y en su
+sitio está la sección servida `rejilla` —la misma que se probó en `/ecomerse-ui`, con sus dos
+plantillas—. La pantalla se queda con el marco: la cabecera de búsqueda, el carril de departamentos,
+la rejilla de familias y el pie.
+
+Y con eso la estructura cambia de forma, porque ya no hay nada que virtualizar en el cliente: **un
+`ScrollView` con secciones dentro**, no una lista con cabecera. Es lo que Taobao hace con su
+`DXRecyclerLayout` de secciones, y es lo que el contrato venía pidiendo desde el primer día.
+
+### 2 · Los cables que había que atar (y se ataron)
+
+| cable | cómo se ató |
+|---|---|
+| **los filtros** | viajan en la ruta: `rejilla?departamento=…&familia=…&buscar=…`. El servidor los traduce a los del API (`consultaDeCatalogo`) y devuelve **el mismo catálogo filtrado**. Sin esto, migrar habría *perdido* el filtrado |
+| **el contador** («9 productos») | sale de las fichas que trajo el servidor. Contarlas en el cliente sería volver a tener la lista aquí |
+| **esqueleto y «0 productos»** | la sección avisa de su estado (`alEstado`: `cargando`/`lista`/`vacia`/`error`) |
+| **vacío ≠ error** | `pedirUi` devolvía `null` para todo. Ahora dice **por qué** (`alFallar`: `red`/`respuesta`/`contrato`), sin cambiar el `null`: decir «no hay productos» cuando falló la red es **una afirmación falsa sobre el catálogo** |
+| **tirar para recargar y reintentar** | `recarga` (un contador, no un booleano: dos recargas seguidas tienen que ser dos peticiones) |
+| **el corazón y el carrito** | el árbol pide `ext:favorito`/`ext:carrito` y aquí se ejecutan **las acciones de verdad**. Se tradujo la ficha con `productoDeFicha`, **un puente compartido** con `/ecomerse-ui` en vez de dos copias |
+| **el carrusel «🔥 Recomendados»** | **se retiró**: era el mismo carrusel que la franja servida —los mismos productos dos veces, uno del servidor y otro pedido aparte— |
+| **la franja** | pasó de hermana fija a **primera sección dentro del scroll**: toda la pantalla desplaza como una cosa |
+
+### 3 · El defecto que encontró el móvil (y que ningún test podía ver)
+
+Al abrir el Mercado migrado, la consola soltó dos veces:
+
+```
+ERROR VirtualizedLists should never be nested inside plain ScrollViews with the same orientation
+because it can break windowing and other functionality
+```
+
+**No es un aviso de estilo: es el reciclado de listas rompiéndose de verdad.** La sección montaba su
+`FlatList` dentro del `ScrollView` de la pantalla.
+
+El arreglo se hizo **en el widget**, que es quien tiene que saberlo: `Lista` acepta
+`virtualizar={false}` y entonces pinta sus filas como `View`s (con el **mismo reparto**, `filasPlanas`),
+dejando que **desplace el de fuera**. La bandera se hereda por `Renderizador` (`virtualizar`) y
+`FranjaServidor` la expone como `desplazable`; el Mercado pasa `false` en sus tres secciones y
+`/ecomerse-ui` sigue con el valor por defecto **porque allí cada sección es su propio scroll** —
+medido: con el log limpio y solo el Mercado abierto, **0 avisos**.
+
+### 4 · Y otro cable que llevaba tiempo torcido: `onEndReached`
+
+El resolver marcaba `ON_END_REACHED` dentro de `noImplementados` («declarado y no emitido») y
+`Lista.tsx` lo cableaba **justo cuando aparecía ahí**: funcionaba por casualidad, con una condición que
+se leía invertida. Ahora tiene su propio campo (`pideFinDeLista`): el evento **sí se puede emitir**; lo
+que faltaba era un manejador, y lo pone la pantalla. *(La rejilla servida, al no virtualizar, hoy no
+puede emitirlo: cuando haya paginación, el fin de lista lo tendrá que detectar la pantalla.)*
+
+### 5 · Verificado en el móvil
+
+- `151025-mercado-servido-carril-rejilla.png` — el Mercado tal cual queda: cabecera fija, **franja
+  servida**, **carril servido** con «Recomendado» activo y su subrayado, **«9 productos»** (del
+  servidor) y la **rejilla servida** de tarjetas con corazón y carrito.
+- `151025-mercado-filtro-vacio.png` — se toca «Hombre»: la pestaña se activa, aparecen **las familias
+  de Hombre** (del cliente: es taxonomía), el contador dice **«0 productos»** y sale el vacío del kit
+  —**«Sin resultados con estos filtros»**—. O sea: filtro → sección → `arbol: null` → `vacia` → el
+  vacío de la pantalla. **El estado vacío es del servidor, no una lista rancia.**
+
+### 6 · Lo que sigue siendo del cliente, y por qué
+
+| pieza | por qué |
+|---|---|
+| la cabecera (buscar, cámara, favoritos, carrito, tiendas) | es cromo de la pantalla, no catálogo |
+| la **rejilla de familias** | es **taxonomía** (110 familias, tercer escalón aparte) y la pantalla la usa para navegar |
+| la **búsqueda por foto** | sus resultados vienen de **otro endpoint** y no son el catálogo: tiene su propio ciclo (elegir foto → subir → buscar) |
+
+### 7 · Pendiente
+
+- **El contenido de la tarjeta** que solo sabe pintar el cliente: badge **PRO**, **«Como nuevo»** y el
+  **contador de favoritos**. Migrar la rejilla los perdió: llevarlos al árbol es el siguiente paso, y
+  es contenido (una clave más, `ext:`), no estructura.
+- **Paginación**: ver §4.
+- **`/ecomerse-ui`**: ya no demuestra nada que el Mercado no haga. Se queda como banco de pruebas
+  hasta que se decida borrarlo.
+
+### Verificación
+
+`tsc` **5** · `rutas` **0** · `logica` **0** · `diseño` **en verde** · oráculo **132/132** (los filtros
+de la sección contra el API, el puente compartido —`fichaSeccion.test.mjs`—, y el aviso de fin de
+lista con su campo propio) · producción **EXIT=0**, con el filtro comprobado contra el API del
+catálogo (mismo filtro, mismo número). Desplegado: `codeSha256 29d8e4ae…`.

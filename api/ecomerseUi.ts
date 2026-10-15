@@ -73,8 +73,28 @@ export interface UiRemota {
  * `tema` es `'claro'` u `'oscuro'` y **se le dice al servidor**, que es quien resuelve los colores
  * (igual que Taobao resuelve `style.styleData.*` en el servidor). **El cliente no tiene tabla de
  * temas**: si la tuviera, habría dos sitios donde arreglar el mismo color.
+ *
+ * ## `alFallar`: por qué sigue devolviendo `null`, pero dice el motivo
+ *
+ * El `null` NO se toca: el contrato es «o llega, o no se pinta», y quien lo consuma tiene derecho a
+ * tratarlo todo igual. Pero desde el 15/10/2026 **el Mercado sustituye su lista por una sección**, y
+ * ahí el `null` se vuelve peligroso: la pantalla tiene que decidir si enseña **«todavía no hay
+ * productos»** —una afirmación sobre el catálogo— o **«no pudimos cargar»**. Sin el motivo, un fallo
+ * de red se vestiría de catálogo vacío, que es una mentira.
+ *
+ * Así que el motivo sale por aquí, **como aviso y no como valor de retorno**: quien no lo pase sigue
+ * viendo exactamente el mismo `null` de antes. Los motivos que SÍ se distinguen son los tres que se
+ * pueden saber aquí: `red` (no hay conexión o el servidor no está), `respuesta` (HTTP distinto de 200,
+ * o un cuerpo que no es JSON) y `contrato` (llegó algo, pero el cliente no sabe pintarlo). **El
+ * «sin contenido» legítimo (`arbol: null`) no es un fallo y no avisa**: es el servidor diciendo que no
+ * hay nada.
  */
-export async function pedirUi(ruta: string, senal?: AbortSignal, tema?: string): Promise<UiRemota | null> {
+export async function pedirUi(
+  ruta: string,
+  senal?: AbortSignal,
+  tema?: string,
+  alFallar?: (motivo: 'red' | 'respuesta' | 'contrato') => void,
+): Promise<UiRemota | null> {
   const separador = ruta.includes('?') ? '&' : '?';
   const conTema = tema ? `${ruta}${separador}tema=${encodeURIComponent(tema)}` : ruta;
   const url = `${UI_HOST}/api/ecomerse/ui/${conTema.replace(/^\//, '')}`;
@@ -84,21 +104,29 @@ export async function pedirUi(ruta: string, senal?: AbortSignal, tema?: string):
   } catch {
     // Sin red, o el servidor no está. **No se distingue a propósito**: desde aquí son lo mismo, y
     // quien depure tiene el log del servidor.
+    alFallar?.('red');
     return null;
   }
-  if (!respuesta.ok) return null;
+  if (!respuesta.ok) {
+    alFallar?.('respuesta');
+    return null;
+  }
 
   let cuerpo: unknown;
   try {
     cuerpo = await respuesta.json();
   } catch {
     // Un 200 con cuerpo que no es JSON es un servidor mal configurado, no una pantalla rota.
+    alFallar?.('respuesta');
     return null;
   }
 
   // **La interpretación vive en el módulo puro** (`uiContrato.ts`): así se puede probar que
   // rechaza lo que debe rechazar, sin red y sin React.
-  return interpretarRespuestaUi(cuerpo);
+  const r = interpretarRespuestaUi(cuerpo);
+  // Un cuerpo que llega pero no se entiende SÍ avisa; un `arbol: null` legítimo no (ver arriba).
+  if (!r && (cuerpo as { arbol?: unknown } | null)?.arbol !== null) alFallar?.('contrato');
+  return r;
 }
 
 /** La portada del Mercado. */

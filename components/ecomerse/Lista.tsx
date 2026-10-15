@@ -58,6 +58,22 @@ export interface ListaProps {
   spanDe?: (elemento: unknown, indice: number) => unknown;
   /** Atributos `DXRecyclerLayout` decodificados, por nombre o por clave hex. */
   dx?: AtributosDxLista;
+  /**
+   * **¿Virtualiza por su cuenta?** Por defecto sí: usa el `FlatList` de React Native, que recicla
+   * filas.
+   *
+   * Pero **una lista virtualizada dentro de un `ScrollView` rompe el reciclado del padre** —React
+   * Native lo dice por consola, y no es un aviso cosmético: «VirtualizedLists should never be nested
+   * inside plain ScrollViews with the same orientation because it can break windowing». Una sección
+   * servida suele ir **dentro del scroll de la pantalla**, así que cuando la pantalla ya desplaza sus
+   * secciones van con `virtualizar={false}`: las filas se pintan como `View`s normales y **el que
+   * virtualiza es el de fuera**, que es como se compone una pantalla.
+   *
+   * Se midió al migrar el Mercado (15/10/2026): con el `ScrollView` de la pantalla y las secciones
+   * virtualizando, la consola soltaba el error **en cada sección**. El banco de pruebas
+   * `/ecomerse-ui` sigue con el valor por defecto porque allí **cada sección es su propio scroll**.
+   */
+  virtualizar?: boolean;
   style?: StyleProp<ViewStyle>;
   testID?: string;
   /** Se avisa al llegar al final. **Hoy no lo emite nadie**: el camino del evento no existe. */
@@ -81,8 +97,33 @@ function claveDe(elemento: unknown, indice: number): string {
   return `_${indice}`;
 }
 
+/**
+ * Reparte los elementos en filas SIN virtualizar (para el camino de `virtualizar={false}`).
+ *
+ * Es el mismo reparto que hace el `FlatList` de arriba, pero en memoria: en rejilla manda el `span`
+ * (`filasPorSpan`) y sin `span` se corta por columnas; en lista o franja, una fila por elemento.
+ * **Tenerlo aquí y no en el componente** deja claro que las dos formas reparten IGUAL — que es la
+ * única manera de que la rejilla se vea igual dentro y fuera de un scroll.
+ */
+function filasPlanas(
+  elementos: unknown[],
+  columnas: number,
+  horizontal: boolean,
+  spanDe?: (elemento: unknown, indice: number) => unknown,
+) {
+  if (horizontal || columnas <= 1) {
+    return elementos.map((elemento, indice) => [{ elemento, indice, span: 1 }]);
+  }
+  if (spanDe) return filasPorSpan(elementos, columnas, spanDe).filas;
+  const filas = [];
+  for (let i = 0; i < elementos.length; i += columnas) {
+    filas.push(elementos.slice(i, i + columnas).map((elemento, j) => ({ elemento, indice: i + j, span: 1 })));
+  }
+  return filas;
+}
+
 export function Lista({
-  datos, renderizar, spanDe, dx, style, testID, alLlegarAlFinal,
+  datos, renderizar, spanDe, dx, style, testID, alLlegarAlFinal, virtualizar = true,
 }: ListaProps) {
   const r = resolverLista(dx);
   const elementos = Array.isArray(datos) ? datos : [];
@@ -109,6 +150,52 @@ export function Lista({
   const reparto = enRejilla && !r.horizontal && spanDe
     ? filasPorSpan(elementos, r.columnas, spanDe)
     : null;
+
+  // ── SIN VIRTUALIZAR: dentro del scroll de la pantalla ────────────────────────────────────────
+  // El que desplaza es el padre, así que aquí no se monta ningún `FlatList` (sería el anidado que
+  // React Native prohíbe). Se pintan las filas como `View`s, con el MISMO reparto que arriba.
+  if (!virtualizar) {
+    const filas = filasPlanas(
+      elementos,
+      r.columnas,
+      r.horizontal,
+      enRejilla && !r.horizontal ? spanDe : undefined,
+    );
+    // **Solo la rejilla reparte el ancho entre sus columnas.** En una franja horizontal o en una
+    // lista de una columna el ancho lo pone el contenido: un `flex: 1` estiraría la tarjeta de la
+    // franja (132) hasta el ancho de la pantalla.
+    const reparteAncho = !r.horizontal && r.columnas > 1;
+    return (
+      <View
+        testID={testID}
+        style={[
+          estiloDeCaja(dx) as StyleProp<ViewStyle>,
+          r.margenLateral !== undefined ? { paddingHorizontal: r.margenLateral } : null,
+          // Una franja es una fila; una lista, una columna. La rejilla son filas de filas (abajo).
+          r.horizontal ? { flexDirection: 'row' } : null,
+          r.horizontal && r.separacionColumnas !== undefined ? { columnGap: r.separacionColumnas } : null,
+          !r.horizontal && r.separacionFilas !== undefined ? { rowGap: r.separacionFilas } : null,
+          style,
+        ]}
+      >
+        {filas.map((fila, f) => (
+          <View
+            key={fila.map((c) => claveDe(c.elemento, c.indice)).join('|') || `fila-${f}`}
+            style={[
+              { flexDirection: 'row' },
+              r.separacionColumnas !== undefined && fila.length > 1 ? { columnGap: r.separacionColumnas } : null,
+            ]}
+          >
+            {fila.map(({ elemento, indice, span }) => (
+              <View key={claveDe(elemento, indice)} style={reparteAncho ? { flex: span } : undefined}>
+                {renderizar(elemento, indice)}
+              </View>
+            ))}
+          </View>
+        ))}
+      </View>
+    );
+  }
 
   if (reparto?.irregular && renderizar) {
     return (
@@ -173,7 +260,7 @@ export function Lista({
       // El estilo de CAJA (vocabulario compartido) va en el contenedor: la lista también tiene
       // márgenes, tamaño y visibilidad como cualquier otro widget.
       style={[estiloDeCaja(dx) as StyleProp<ViewStyle>, style]}
-      onEndReached={r.noImplementados.includes('ON_END_REACHED') ? alLlegarAlFinal : undefined}
+      onEndReached={r.pideFinDeLista ? alLlegarAlFinal : undefined}
       // Sin `getItemLayout`: exige altura fija por fila y la plantilla puede variar. Añadirlo con
       // alturas distintas daría saltos de scroll — peor que no tenerlo.
       // Sin `initialNumToRender`/`windowSize`: son afinado de rendimiento y no hay medida que

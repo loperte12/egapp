@@ -38,27 +38,17 @@ import { espaciado, peso, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import { uiHome, type NodoRemoto } from '../api/ecomerseUi';
 import { Renderizador } from '../components/ecomerse/Renderizador';
 import { FranjaServidor } from '../components/ecomerse/FranjaServidor';
+import { productoDeFicha } from '../components/ecomerse/fichaDeSeccion';
 import { useAccionesProducto } from '../components/ecomerse/useAccionesProducto';
 import { useEcomerseStore } from '../state/ecomerse';
 import { ACCIONES } from '../components/ecomerse/valorAtributos';
 import type { EcomerseProduct } from '../api/ecomerse';
 
 /**
- * Busca una ficha de producto en los datos que mandó el servidor.
- *
- * **El árbol manda los datos con nombres cortos** (`id`, `titulo`, `precioXaf`, `foto`); la API de la
- * app habla el suyo (`id`, `title`, `priceXaf`, `photos`). El puente se hace aquí, en una función, en
- * vez de obligar al árbol a hablar el idioma de la API — que es justo lo que se quiere evitar.
+ * **El puente de la ficha vive en `components/ecomerse/fichaDeSeccion.ts`**, no aquí: desde que el
+ * Mercado también ejecuta las acciones del árbol, tenerlo dos veces sería garantizar que un día
+ * traduzcan distinto.
  */
-function buscarFicha(datos: unknown, id: string): Record<string, unknown> | null {
-  if (!datos || typeof datos !== 'object') return null;
-  for (const valor of Object.values(datos as Record<string, unknown>)) {
-    if (!Array.isArray(valor)) continue;
-    const f = valor.find((x) => x && typeof x === 'object' && (x as Record<string, unknown>).id === id);
-    if (f) return f as Record<string, unknown>;
-  }
-  return null;
-}
 
 export default function EcomerseUiScreen() {
   const { colors } = useTheme();
@@ -179,16 +169,11 @@ export default function EcomerseUiScreen() {
             // acciones REALES de la app. **Sin esto, la rejilla servida no podía sustituir a la
             // lista**: sería una rejilla bonita sin corazón y sin carrito.
             alAccion={(accion, id, datos) => {
-              const ficha = buscarFicha(datos, id);
-              if (!ficha) return;
-              const producto = {
-                id: String(ficha.id),
-                title: String(ficha.titulo ?? ''),
-                priceXaf: Number(ficha.precioXaf ?? 0),
-                photos: ficha.foto ? [String(ficha.foto)] : [],
-              } as unknown as EcomerseProduct;
-              if (accion === ACCIONES.FAVORITO) alternarFavorito(producto);
-              else if (accion === ACCIONES.CARRITO) anadirAlCarrito(producto);
+              const producto = productoDeFicha(datos, id);
+              if (!producto) return;
+              const p = producto as unknown as EcomerseProduct;
+              if (accion === ACCIONES.FAVORITO) alternarFavorito(p);
+              else if (accion === ACCIONES.CARRITO) anadirAlCarrito(p);
             }}
           />
         </>
