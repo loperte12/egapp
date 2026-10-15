@@ -560,3 +560,82 @@ Así que hay dos caminos, y es una decisión de producto, no de código:
 Y si algún día se hace: **la forma de Taobao es dos `Lista` en fila con los datos repartidos**
 (`DXRecyclerLayout` con `ORIENTATION: 1`), no una rejilla de columnas. Se puede montar **desde el
 servidor**, que es donde vive ya la franja.
+
+---
+
+## 15 · La rejilla servida por el servidor (15/10) — hecha; y el versionado
+
+### La forma de Taobao, montada desde el servidor
+
+```
+GET /api/ecomerse/ui/rejilla[?tema=claro|oscuro]
+raíz: Contenedor ORIENTATION 0 (FILA)
+  ├── Lista ORIENTATION 1, WEIGHT 1  →  $columnaA     (5 productos)
+  └── Lista ORIENTATION 1, WEIGHT 1  →  $columnaB     (4 productos)
+```
+
+- **`WEIGHT: 1` es lo que reparte el ancho** (`flex: 1`): las dos columnas salen del vocabulario que
+  ya existe, **sin inventar un widget de waterfall** — Taobao tampoco lo tiene.
+- **El reparto es alterno** (pares a A, impares a B): con tarjetas de la misma altura queda
+  exactamente equilibrado y no hay que estimar alturas. *(Taobao sí las estima, porque sus tarjetas
+  varían.)* **Se reparte lo mismo que se enseña**: si se repartiera una lista y se pintara otra, dos
+  productos se quedarían fuera sin que nadie lo notara.
+- **Verificado en producción**: raíz en fila, **dos columnas, peso 1/1, reparto 5+4 = 9** (todos,
+  sin repetir, equilibradas), y el árbol **normalizado idéntico** al del servidor local.
+- **Se monta en la pantalla de demostración** (`app/ecomerse-ui.tsx`, `/ecomerse-ui`), que es donde
+  se puede ver y medir. **No sustituye a la rejilla del listado**: la tarjeta mide lo mismo que
+  todas (`aspectRatio` fijo), así que hoy el dibujo sería el mismo — y sustituirla perdería los
+  botones de favorito y carrito, que el árbol **todavía no sabe expresar**. Eso es el paso
+  siguiente: llevar esas dos acciones al contrato.
+
+### Y una nota de alcance, para que no se confunda con trabajo de un rato
+
+**Replicar la portada de Taobao con fidelidad exige decodificar `homepage/*` entero** (y el lenguaje
+de expresiones que resuelven sus valores): **es trabajo de RE de varios turnos, no de uno.** Lo que
+sí está hecho y medido es el vocabulario de los 269 `.dx` (§11 y `t1c-vocabulario/`), que es la
+materia prima.
+
+### Versionado: lo que ya está en git
+
+```
+commit 7dbe97b  "La UI del Mercado servida por el backend: controlador en el modulo real,
+                 /detail, el tema y el entorno, y la rejilla en la forma de Taobao"
+41 ficheros · 7.524 líneas
+```
+
+Entran: `api/ecomerseUi.ts` · los ficheros de `components/ecomerse/` · `tools/servidor-ui.mjs` ·
+`app/ecomerse-ui.tsx` · `app/ecomerse.tsx` (+11, todo del Mercado) · `docs/CONTINUAR-MERCADO.md` ·
+`.diseno-baseline.json` · `_msg-c2-ui-servidor.txt` · **y los dos ficheros del controlador**.
+
+**El controlador estaba en un directorio ignorado.** `.gitignore` gana una cuarta pasada que
+**re-incluye solo esos dos ficheros** (`ecomerse-ui.controller.js` y `ecomerse.module.js`) y deja el
+resto del árbol fuera — comprobado: `main.js` y los `.apk` siguen ignorados.
+
+**Se quedan fuera tres ficheros que mezclan otras líneas**, para no colarlas:
+`constants/rutas.ts` (trae `/conductor-*` y `/programar`), `app/ecomerse-detail.tsx` (+152/-29, muy
+por encima de las «+2» del relevo) y `network_security_config.xml` (reescribe el comentario entero).
+**Ojo**: el mapa de rutas versionado no tiene aún `/ecomerse-ui`, así que un clon nuevo puede hacer
+saltar el auditor de rutas hasta que esa línea entre.
+
+### Y la receta del despliegue, ahora EN EL REPO
+
+```powershell
+$env:TENCENTCLOUD_SECRETID='…'; $env:TENCENTCLOUD_SECRETKEY='…'
+node pruebas/desplegar-ui-mercado.cjs --comprobar   # lee: qué hay desplegado (no toca nada)
+node pruebas/desplegar-ui-mercado.cjs               # baja el vivo, parchea, sube y despliega
+```
+
+Hace las tres cosas que costaron una hora: **construye el paquete limpio** (un ZIP reescrito lo
+rechaza el `unzip` de SCF), **comprueba la subida con el `ETag` de COS contra el MD5 local** (el
+primer intento dio 200 y no subió nada) y **despliega por la API de SCF con `Namespace`** (el MCP
+decía `success: true` sin desplegar). Sin credenciales en el entorno **sale con código 2 y no toca
+nada**; y nunca escribe credenciales en ningún fichero.
+
+### Limpieza hecha
+
+- **Borrado `D:\cb-deploy`** (206 MB, el paquete extraído).
+- **`.tmp-cloudbase` de 341 MB a 85 MB**: solo queda `rollback\` — el ZIP del código que corría
+  antes (`egrouteplan-api-live-20261012.zip`, `sha256 cec06ed1…`) y `module-vivo.js` (la referencia
+  del `module.js` vivo, que es con la que se comprobó que el árbol extraído era el desplegado).
+- Como la receta ya vive en `pruebas/`, los temporales **no hacen falta para volver a desplegar**: se
+  parte siempre del código vivo.
