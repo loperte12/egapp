@@ -567,9 +567,13 @@ function tarjetasDeSiguiendo(datos) {
     });
     tarjetas.push({ tipo: TIPOS_TARJETA.TITULO, titulo: (datos && datos.titulo) || 'Siguiendo' });
     for (const t of tiendas) {
+        // **Lo que trae hoy el backend son TIENDAS, no directos**: la variante que les toca es la
+        // grande (portada + titulo + creador), con su boton para poder dejarlo. Las de directo
+        // (enVivo / repeticion / anuncio) quedan disponibles para cuando el dato las traiga.
         if (t.anuncio) tarjetas.push({ tipo: TIPOS_TARJETA.ANUNCIO, ...t.anuncio, tienda: t.nombre, id: t.id });
         else if (t.repeticion) tarjetas.push({ tipo: TIPOS_TARJETA.REPETICION, ...t });
-        else tarjetas.push({ tipo: TIPOS_TARJETA.EN_VIVO, ...t });
+        else if (t.enVivo) tarjetas.push({ tipo: TIPOS_TARJETA.EN_VIVO, ...t });
+        else tarjetas.push({ tipo: TIPOS_TARJETA.GRANDE, ...t, rotuloSeguir: 'Siguiendo' });
     }
     if (datos.recomendados && datos.recomendados.length) {
         tarjetas.push({ tipo: TIPOS_TARJETA.TITULO_RECOMENDADO, titulo: 'Basado en tus seguidos' });
@@ -756,7 +760,11 @@ function arbolDeSiguiendo(tema) {
         texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 6 }),
         fila([
           { tipo: 'Imagen', valor: '$item.avatar', atributos: { [K.LAYOUT_WIDTH]: 24, [CLAVE_ASPECTO]: 1, [K.CORNERRADIUS]: 12 } },
-          texto('$item.creador', 11, C_.secundario, { [K.PADDING_LEFT]: 6 }),
+          texto('$item.creador', 11, C_.secundario, { [K.PADDING_LEFT]: 6, [K.PADDING_TOP]: 2 }),
+          // El botón de dejar de seguir: en Taobao esta tarjeta no lo lleva (es la del feed de
+          // recomendados), pero aquí el dato es una tienda que YA sigues, y sin botón no habría forma
+          // de dejarla desde este feed.
+          boton('$item.rotuloSeguir', ACCIONES_SIGUIENDO.SEGUIR, C_.naranja),
         ], { [K.PADDING_TOP]: 6 }),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.grande, [SPAN_TARJETA]: 1, [K.ONPRESS]: '$item.id' }),
 

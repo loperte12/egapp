@@ -156,10 +156,19 @@ export function tarjetasDeSiguiendo(datos: DatosSiguiendo | null | undefined): T
   // El título de la sección: en Taobao es una tarjeta (`common_title_card`).
   tarjetas.push({ tipo: TIPOS_TARJETA.TITULO, titulo: datos?.titulo ?? 'Siguiendo' });
   for (const t of tiendas) {
-    // **Cada tienda seguida se convierte en su variante**, por lo que trae.
+    /**
+     * **Cada tienda seguida se convierte en su variante**, por lo que trae.
+     *
+     * ⚠️ **Lo que trae hoy nuestro backend son TIENDAS, no directos.** El feed de 关注 de Taobao es de
+     * directos (`live_card`, con `liveInfo`), y esas variantes están clonadas y disponibles; pero
+     * mientras el dato sea un vendedor, la tarjeta que le toca es la **grande**
+     * (`sjsdbigfeed_card_2026`: portada + título + creador), con su botón de seguir para poder dejarlo.
+     * El día que el backend sirva directos, bastará con que traigan `enVivo`, `repeticion` o `anuncio`.
+     */
     if (t.anuncio) tarjetas.push({ tipo: TIPOS_TARJETA.ANUNCIO, ...t.anuncio, tienda: t.nombre, id: t.id });
-    else if (t.repeticion) tarjetas.push({ tipo: TIPOS_TARJETA.REPETICION, ...t, });
-    else tarjetas.push({ tipo: TIPOS_TARJETA.EN_VIVO, ...t });
+    else if (t.repeticion) tarjetas.push({ tipo: TIPOS_TARJETA.REPETICION, ...t });
+    else if (t.enVivo) tarjetas.push({ tipo: TIPOS_TARJETA.EN_VIVO, ...t });
+    else tarjetas.push({ tipo: TIPOS_TARJETA.GRANDE, ...t, rotuloSeguir: 'Siguiendo' });
   }
   if (datos?.recomendados?.length) {
     tarjetas.push({ tipo: TIPOS_TARJETA.TITULO_RECOMENDADO, titulo: 'Basado en tus seguidos' });

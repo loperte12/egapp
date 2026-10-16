@@ -1575,3 +1575,73 @@ local y mirarlo en pantalla), o iterar desplegando.
 producción con las once plantillas y la copia · paridad de los dos servidores comprobada en los dos
 temas tras restaurarla.
 
+---
+
+## 28 · El endpoint de seguidos, empujado — y el despliegue que no empujaba (16/10)
+
+### 1 · Lo que se hizo
+
+**Nada de lifebook**, como se pidió: tabla nueva y propia de ecomerse, con la forma que este módulo ya
+usa para «lo que un usuario guarda» (`wallet.ecomerse_favorites`: pareja de uuids como clave primaria).
+Tres rutas **vivas en producción**:
+
+| ruta | antes | ahora |
+|---|---|---|
+| `GET /ecomerse/sellers/following` | **400** «Tienda inválida» (se la comía `sellers/:id`) | **401** sin sesión · **200 `{total:0,sellers:[]}`** con sesión |
+| `GET /ecomerse/sellers/following/ids` | **404** | **401** sin sesión · **200 `[]`** con sesión |
+| `POST /ecomerse/sellers/:id/follow` | **404** | **401** sin sesión (alterna: seguir/dejar de seguir) |
+
+**Las dos literales van declaradas ANTES de `sellers/:id`**, y eso no es cosmético: Nest resuelve las
+rutas en el orden en que se decoran, y si `:id` va primero, `following` entra por el parámetro y
+contesta «Tienda inválida» — que es exactamente el 400 que se medía antes.
+
+Se comprobó con un **token firmado de verdad** (mismo `JWT_SECRET`, `sub` = un uuid de prueba):
+`pruebas/probar-seguidos.mjs`. Y la lista sale **vacía y no inventada** cuando no hay filas.
+
+### 2 · ⚠️ LO QUE BLOQUEA: la tabla la tiene que aplicar quien pueda
+
+**Medido, no supuesto**: el rol de la aplicación **no puede crear en el esquema `wallet`** —
+
+```
+Raw query failed. Code: 42501. Message: ERROR: permission denied for schema wallet
+```
+
+Así que el «asegurar la tabla en el primer uso» **no puede funcionar** (era mi plan, y el despliegue lo
+desmintió). **Hace falta que alguien con privilegios ejecute** el SQL, que está en el repo:
+
+```bash
+# desde el entorno que SÍ alcanza la base (172.22.0.4 es una red privada del despliegue)
+npx prisma db execute --file prisma/sql/ecomerse_seller_follows.sql --schema prisma/schema.prisma
+```
+
+Mientras no esté aplicada, el código **no finge**: la lista y los ids responden vacío (es verdad) y
+**seguir** contesta un conflicto legible. *(La versión con 409 está en el repo pero **no se pudo
+desplegar hoy**: la API de Tencent falló 12 veces seguidas con `[DownloadFunction] An error has
+occurred` — es su lado, no el nuestro.)*
+
+### 3 · 🔴 Y el hallazgo gordo: **el despliegue no empujaba el backend**
+
+El script de despliegue bajaba el código vivo y **reemplazaba solo dos ficheros** (el controlador de
+la UI y su módulo). O sea: durante toda esta línea de trabajo **la UI viajaba y el resto del backend
+no**. Se descubrió precisamente empujando esto: el despliegue decía OK, y en producción las rutas
+seguían sin existir (404) mientras la ruta nueva de la UI sí estaba.
+
+Arreglado: `FICHEROS` es ahora el **contrato de lo que se publica** (UI + `ecomerse.controller.js` +
+`ecomerse.service.js`), con el aviso escrito al lado.
+
+### 4 · Lo que queda pendiente
+
+1. **Aplicar la tabla** (arriba) — es lo único que falta para que 关注 tenga datos de verdad.
+2. **El texto de la tarjeta de vacío** que no pinta en el móvil (§27.4): **no se ha tocado todavía**,
+   porque el orden que se pidió fue «primero el endpoint, luego el texto».
+3. La app, en el móvil, se quedó en «Comprobando…» al abrir una tienda: **su sesión es vieja** y las
+   llamadas autenticadas no resuelven (por eso el botón de seguir no cambia de estado). No es el
+   endpoint: con un token firmado responde 200.
+
+### Verificación
+
+`tsc` **5** · `logica` **0** · `diseño` **en verde** · oráculo **148/148** · producción: las tres
+rutas existen (401 sin sesión) y la lista responde 200 vacío con sesión · `/sellers` y `/ui/siguiendo`
+intactas.
+
+

@@ -88,6 +88,11 @@ egrouteplan-app/
 .auditoria-servicios/backend/dist/src/ecomerse/*
 !.auditoria-servicios/backend/dist/src/ecomerse/ecomerse-ui.controller.js
 !.auditoria-servicios/backend/dist/src/ecomerse/ecomerse.module.js
+# 16/10/2026: **el módulo de ecomerse también se versiona.** Hasta hoy solo estaban exceptuados el
+# controlador de la UI y su módulo, así que los cambios del backend —el endpoint de seguidos, por
+# ejemplo— **viajaban al despliegue pero no quedaban en git**: imposibles de revisar y de recuperar.
+!.auditoria-servicios/backend/dist/src/ecomerse/ecomerse.controller.js
+!.auditoria-servicios/backend/dist/src/ecomerse/ecomerse.service.js
 
 # ---------------------------------------------------------------------------
 # TERCERA PASADA, 25/09/2026: los respaldos de los codemods.

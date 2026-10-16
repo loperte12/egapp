@@ -49,10 +49,22 @@ const PYTHON = process.env.PYTHON_UI ?? 'C:\\Users\\nisang12\\.dsh\\dsh-runtimes
 /** La función viva: ZIP Web Function de CloudBase, región ap-singapore. */
 const FUNCION = { nombre: 'egrouteplan-api', envId: 'egrouteplan-d0gpkwbe7ce86f609', region: 'ap-singapore' };
 
-/** Los dos ficheros que SON la UI del Mercado, en el árbol vivo del backend. */
+/**
+ * Los ficheros que se empujan, en el árbol vivo del backend.
+ *
+ * **Fue una sorpresa cara**: el script bajaba el código VIVO y solo reemplazaba estos dos, así que
+ * durante toda la línea de trabajo **la UI viajaba y el resto del backend no**. Se notó al empujar el
+ * endpoint de seguidos: se desplegó, y en producción las rutas seguían sin existir (404), mientras la
+ * ruta de la UI nueva sí estaba. La lista es el CONTRATO de lo que se publica: si algo se cambia fuera
+ * de ella, no llega.
+ */
 const FICHEROS = [
+  // la UI del Mercado (lo que este script despliega desde el principio)
   'dist/src/ecomerse/ecomerse-ui.controller.js',
   'dist/src/ecomerse/ecomerse.module.js',
+  // y el módulo de ecomerse, que es donde viven las rutas de verdad (seguidos, etc.)
+  'dist/src/ecomerse/ecomerse.controller.js',
+  'dist/src/ecomerse/ecomerse.service.js',
 ];
 const ORIGEN = path.join(RAIZ, '.auditoria-servicios', 'backend');
 

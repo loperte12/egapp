@@ -1215,7 +1215,11 @@ function arbolDeSiguiendo(tema) {
         texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 6 }),
         fila([
           { tipo: 'Imagen', valor: '$item.avatar', atributos: { [K.LAYOUT_WIDTH]: 24, [CLAVE_ASPECTO]: 1, [K.CORNERRADIUS]: 12 } },
-          texto('$item.creador', 11, C_.secundario, { [K.PADDING_LEFT]: 6 }),
+          texto('$item.creador', 11, C_.secundario, { [K.PADDING_LEFT]: 6, [K.PADDING_TOP]: 2 }),
+          // El botón de dejar de seguir: en Taobao esta tarjeta no lo lleva (es la del feed de
+          // recomendados), pero aquí el dato es una tienda que YA sigues, y sin botón no habría forma
+          // de dejarla desde este feed.
+          boton('$item.rotuloSeguir', ACCIONES_SIGUIENDO.SEGUIR, C_.naranja),
         ], { [K.PADDING_TOP]: 6 }),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.grande, [SPAN_TARJETA]: 1, [K.ONPRESS]: '$item.id' }),
 
