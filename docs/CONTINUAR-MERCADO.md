@@ -1495,3 +1495,83 @@ es la línea del contador. **Comprobado en producción**: `rejilla` sirve `db779
 oráculo **148/148** · producción: `feeds` 200 con la activa, `siguiendo` **private/no-store** y «nada»,
 `rejilla` con el margen 4 · la paridad de los dos servidores comprobada en **tres** árboles (rejilla,
 feeds y siguiendo), no solo en uno.
+
+---
+
+## 27 · 关注 clonado con todas sus variantes — y lo que cazó el móvil (16/10)
+
+### 1 · Se fue al material de Taobao, y el material cambió el trabajo
+
+El dueño del producto: «**no debes tomar nada de lifebook**, ya tenemos el material de Taobao en la
+sección de 关注: haz una copia y clonación con todas sus variantes. Mira cómo está construida».
+
+Y la primera cosa que enseñó es que **关注 no es una lista de tiendas: es el feed de DIRECTO de los que
+sigues**. Lo dicen las siete plantillas que la sirven (`taolive_channel_follow_*`), sus textos (预告 ·
+回放 · 预约 · 已关注 · 基于你的关注推荐) y sus acciones (`TBLFollow`, el MTOP de suscripción). La versión
+anterior —una lista de tiendas con su foto— **era otra cosa**, y queda sustituida.
+
+**El informe completo está en [`INFORME-关注-TAOBAO.md`](./INFORME-关注-TAOBAO.md)**, con las siete
+plantillas una por una, sus medidas y colores, y el volcado crudo en
+`evidencia/161025-como-esta-construida-关注-taoBao.txt`:
+
+| plantilla | qué es |
+|---|---|
+| `common_title_card` | la tarjeta de título (`cardInfo.cardTitle`) |
+| **`live_card`** (29 KB) | **la grande: directo, 回放, 预约, recomendación, atmósfera y el botón de seguir con su animación** |
+| `new_empty_card` | **vacío Y error de red**, con 刷新 y `isNetError` dentro |
+| `preplayback_foldmenu` | el ajuste de reproducción automática, plegable |
+| `preplayback_loadmore` | 「点击加载更多」 |
+| `recommend_title` | el título de los recomendados |
+| `sjsdbigfeed_card_2026` | la tarjeta grande del feed (avatar + portada) |
+
+### 2 · El clon: **una plantilla por variante**, y la variante la elige el dato
+
+Mismo mecanismo que Taobao (`cardData[0]`): el servidor mira cada tarjeta y **elige su plantilla**; el
+cliente no decide nada. **Once plantillas**: `seguir_autoplay · seguir_titulo · seguir_en_vivo ·
+seguir_repeticion · seguir_anuncio · seguir_titulo_recomendado · seguir_recomendado · seguir_grande ·
+seguir_cargar_mas · seguir_vacio · seguir_sin_red`.
+
+**La copia de cada variante vive con la variante** (como en Taobao, donde el rótulo está dentro de la
+plantilla): si la pusiera el cliente habría dos sitios donde cambiarla. Y las acciones van por nombre y
+**declaradas en el cliente**: `ext:seguir` (TBLFollow) · `ext:avisar` (el MTOP) · `ext:reproducir` ·
+`ext:plegar` · `ext:cargarmas` · `ext:refrescar`.
+
+**Desplegado y comprobado en producción**: `ui/siguiendo` → 200, `private, no-store`, árbol `Lista`
+con sus once plantillas y la tarjeta de vacío con su copia.
+
+### 3 · Lo que NO se puede clonar todavía, y se dice
+
+1. **El vídeo**: Taobao lleva un `live_card_playerview` **dentro**; nuestro contrato no tiene widget de
+   vídeo → se manda **portada + botón de reproducir** que dice qué haría.
+2. **La animación del borde** (`bindingX`): el estado del botón sí, la animación no.
+3. **El dato**: el feed real llega por MTOP y nuestro API no tiene el endpoint de seguidos (§24) → hoy
+   se ve la **variante de vacío**, que es una variante real de Taobao, no un hueco.
+
+### 4 · Lo que cazó el móvil (y los tests no)
+
+1. **La copia no viajaba**: la tarjeta salía como una caja gris vacía. Arreglado (la copia con la
+   variante) y **con prueba**.
+2. **`LAYOUT_WIDTH` no es de un texto**: `estiloDeCaja` lo traduce a `width: -1` y el rótulo queda
+   **invisible**. Quitado de los textos —y hay **prueba nueva que lo caza en TODOS los árboles**: un
+   `Texto` no puede llevar `LAYOUT_WIDTH`/`LAYOUT_HEIGHT`/`WEIGHT`/`ORIENTATION`, las claves de
+   colocación del `Contenedor`, tomadas por **nombre** de su tabla—.
+3. ⚠️ **Sigue abierto**: en el móvil, la tarjeta de vacío pinta **solo su botón**; el título y el texto
+   no aparecen — **ni con la copia literal**, ni quitando `LAYOUT_WIDTH`, ni en fila con la columna
+   dentro. Descartado: no es el binding (falla igual con literales) y **el árbol desplegado es correcto
+   nodo a nodo**. El sospechoso es el camino «un `Texto` dentro de la tarjeta de una `Lista` de UNA
+   columna»: todo lo que hoy se pinta bien en la app son filas (la rejilla y la franja).
+
+### 5 · Y un hallazgo de método que costó una hora
+
+**La app NO estaba usando el servidor local.** `EXPO_PUBLIC_UI_HOST` no entró en el bundle y la app
+siguió pidiendo al **desplegado**: se descubrió porque el botón seguía diciendo «Actualizar» cuando el
+local ya mandaba otro rótulo. Todas las pruebas de iteración rápida contra `tools/servidor-ui.mjs`
+fueron **ciegas**. **Para la próxima: comprobar el host ANTES de iterar** (un rótulo distinto en el
+local y mirarlo en pantalla), o iterar desplegando.
+
+### Verificación
+
+`tsc` **5** · `logica` **0** · `diseño` **en verde** · oráculo **148/148** (con la regla nueva) ·
+producción con las once plantillas y la copia · paridad de los dos servidores comprobada en los dos
+temas tras restaurarla.
+
