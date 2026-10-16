@@ -73,7 +73,7 @@ export const PLANTILLA_SIGUIENDO = {
   [TIPOS_TARJETA.RECOMENDADO]: 'seguir_recomendado',
   [TIPOS_TARJETA.GRANDE]: 'seguir_grande',
   [TIPOS_TARJETA.VACIO]: 'seguir_vacio',
-  [TIPOS_TARJETA.SIN_RED]: 'seguir_vacio',
+  [TIPOS_TARJETA.SIN_RED]: 'seguir_sin_red',
   [TIPOS_TARJETA.CARGAR_MAS]: 'seguir_cargar_mas',
   [TIPOS_TARJETA.AUTOPLAY]: 'seguir_autoplay',
 };
@@ -117,13 +117,42 @@ export const ORDEN_DE_PLANTILLAS = [
  * pantalla queda en blanco y parece rota.
  */
 export function tarjetasDeSiguiendo(datos: DatosSiguiendo | null | undefined): TarjetaSiguiendo[] {
+  /**
+   * **La copia de cada variante vive CON la variante.**
+   *
+   * No es un detalle de organización: en Taobao el rótulo está **dentro de la plantilla**
+   * (`new_empty_card` lleva su `title` y su 「刷新」; el `foldmenu`, su descripción). Si el texto lo
+   * pusiera el cliente habría dos sitios donde cambiarlo, y el día que uno cambiara el otro mentiría.
+   * Y si no lo pusiera nadie saldría **una tarjeta vacía** — que es exactamente lo que se vio en el
+   * móvil la primera vez: una caja gris sin nada dentro.
+   */
   const tiendas = Array.isArray(datos?.tiendas) ? datos.tiendas : [];
-  if (datos?.sinRed) return [{ tipo: TIPOS_TARJETA.SIN_RED }];
-  if (tiendas.length === 0) return [{ tipo: TIPOS_TARJETA.VACIO }];
+  if (datos?.sinRed) {
+    return [{
+      tipo: TIPOS_TARJETA.SIN_RED,
+      titulo: 'No pudimos cargar esto',
+      texto: 'Revisa tu conexión y vuelve a intentarlo.',
+      rotulo: 'Reintentar',
+    }];
+  }
+  if (tiendas.length === 0) {
+    return [{
+      tipo: TIPOS_TARJETA.VACIO,
+      titulo: 'Aquí verás los directos de las tiendas que sigues',
+      texto: 'Cuando sigas una tienda, sus directos aparecen aquí, en orden.',
+      rotulo: 'Actualizar',
+    }];
+  }
   const tarjetas: TarjetaSiguiendo[] = [];
   // **El menú de reproducción automática va ARRIBA**, antes de todo: en Taobao es un ajuste del feed
   // (preplayback_foldmenu) y solo aparece cuando hay feed que reproducir — con el vacío, no.
-  tarjetas.push({ tipo: TIPOS_TARJETA.AUTOPLAY, plegado: datos?.autoplayPlegado !== false });
+  const plegado = datos?.autoplayPlegado !== false;
+  tarjetas.push({
+    tipo: TIPOS_TARJETA.AUTOPLAY,
+    plegado,
+    estado: plegado ? 'Reproducción automática: plegada' : 'Reproducción automática: desplegada',
+    rotulo: plegado ? 'Desplegar' : 'Plegar',
+  });
   // El título de la sección: en Taobao es una tarjeta (`common_title_card`).
   tarjetas.push({ tipo: TIPOS_TARJETA.TITULO, titulo: datos?.titulo ?? 'Siguiendo' });
   for (const t of tiendas) {
@@ -137,7 +166,8 @@ export function tarjetasDeSiguiendo(datos: DatosSiguiendo | null | undefined): T
     for (const r of datos.recomendados) tarjetas.push({ tipo: TIPOS_TARJETA.RECOMENDADO, ...r });
   }
   if (datos?.grandes?.length) for (const g of datos.grandes) tarjetas.push({ tipo: TIPOS_TARJETA.GRANDE, ...g });
-  // Y al final, el cargar-más del feed (`preplayback_loadmore`).
-  tarjetas.push({ tipo: TIPOS_TARJETA.CARGAR_MAS });
+  // Y al final, el cargar-más del feed (`preplayback_loadmore`): **con su rótulo**, como la plantilla
+  // de Taobao, que lleva el 「点击加载更多」 dentro.
+  tarjetas.push({ tipo: TIPOS_TARJETA.CARGAR_MAS, rotulo: 'Ver más directos' });
   return tarjetas;
 }

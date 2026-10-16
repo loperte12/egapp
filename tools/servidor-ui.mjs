@@ -1112,7 +1112,7 @@ const creador = (C_, conBoton) => fila([
     valor: '$item.avatar',
     atributos: { [K.LAYOUT_WIDTH]: 28, [CLAVE_ASPECTO]: 1, [K.CORNERRADIUS]: 14 },
   },
-  texto('$item.creador', 12, C_.texto, { [K.WEIGHT]: 1, [K.PADDING_LEFT]: 8 }),
+  texto('$item.creador', 12, C_.texto, { [K.PADDING_LEFT]: 8 }),
   ...(conBoton
     ? [boton('$item.rotuloSeguir', ACCIONES_SIGUIENDO.SEGUIR, C_.naranja)]
     : []),
@@ -1137,21 +1137,21 @@ function arbolDeSiguiendo(tema) {
       // feed: es un ajuste del feed entero, no de una tarjeta. Aquí se manda su estado y su botón.
       tarjeta(C_, [
         fila([
-          texto('$item.estado', 11, C_.secundario, { [K.WEIGHT]: 1, [K.LAYOUT_WIDTH]: -1 }),
+          texto('$item.estado', 11, C_.secundario, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
           boton('$item.rotulo', ACCIONES_SIGUIENDO.PLEGAR, C_.secundario),
         ]),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.autoplay, [SPAN_TARJETA]: 1 }),
 
       // ── 1 · `common_title_card`: la tarjeta de TÍTULO ────────────────────────────────────────
       tarjeta(C_, [
-        texto('$item.titulo', 15, C_.texto, {}),
+        texto('$item.titulo', 15, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.titulo, [SPAN_TARJETA]: 1 }),
 
       // ── 2 · `live_card` · variante EN VIVO ───────────────────────────────────────────────────
       tarjeta(C_, [
         portada(C_),
         fila([
-          texto('$item.estado', 11, C_.naranja, { [K.WEIGHT]: 1 }),
+          texto('$item.estado', 11, C_.naranja, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
           texto('$item.espectadores', 11, C_.secundario, { [K.PADDING_LEFT]: 8 }),
         ], { [K.PADDING_TOP]: 6 }),
         texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 4 }),
@@ -1162,7 +1162,7 @@ function arbolDeSiguiendo(tema) {
       tarjeta(C_, [
         portada(C_),
         fila([
-          texto('$item.estado', 11, C_.secundario, { [K.WEIGHT]: 1 }),
+          texto('$item.estado', 11, C_.secundario, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
           texto('$item.duracion', 11, C_.secundario, { [K.PADDING_LEFT]: 8 }),
         ], { [K.PADDING_TOP]: 6 }),
         texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 4 }),
@@ -1178,20 +1178,20 @@ function arbolDeSiguiendo(tema) {
             tipo: 'Contenedor',
             atributos: { [K.ORIENTATION]: 1, [K.WEIGHT]: 1, [K.PADDING_LEFT]: 10 },
             hijos: [
-              texto('$item.titulo', 14, C_.texto, {}),
+              texto('$item.titulo', 14, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
               texto('$item.empieza', 11, C_.secundario, { [K.PADDING_TOP]: 2 }),
             ],
           },
         ]),
         fila([
-          texto('$item.creador', 12, C_.secundario, { [K.WEIGHT]: 1 }),
-          boton('$item.rotuloAviso', ACCIONES_SIGUIENDO.AVISAR, C_.naranja, { [K.LAYOUT_WIDTH]: -1 }),
+          texto('$item.creador', 12, C_.secundario, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+          boton('$item.rotuloAviso', ACCIONES_SIGUIENDO.AVISAR, C_.naranja),
         ], { [K.PADDING_TOP]: 8, [K.ORIENTATION]: 0 }),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.anuncio, [SPAN_TARJETA]: 1, [K.ONPRESS]: '$item.id' }),
 
       // ── 5 · `recommend_title`: el título de los recomendados («Basado en tus seguidos») ───────
       tarjeta(C_, [
-        texto('$item.titulo', 13, C_.texto, { [K.WEIGHT]: 1 }),
+        texto('$item.titulo', 13, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.titulo_recomendado, [SPAN_TARJETA]: 1 }),
 
       // ── 6 · `live_card` + `recommendInfo` · variante RECOMENDADO ─────────────────────────────
@@ -1202,7 +1202,7 @@ function arbolDeSiguiendo(tema) {
             tipo: 'Contenedor',
             atributos: { [K.ORIENTATION]: 1, [K.WEIGHT]: 1, [K.PADDING_LEFT]: 10 },
             hijos: [
-              texto('$item.titulo', 13, C_.texto, {}),
+              texto('$item.titulo', 13, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
               texto('$item.motivo', 11, C_.secundario, { [K.PADDING_TOP]: 2 }),
             ],
           },
@@ -1221,18 +1221,32 @@ function arbolDeSiguiendo(tema) {
 
       // ── 8 · `preplayback_loadmore`: el CARGAR MÁS del feed ───────────────────────────────────
       tarjeta(C_, [
-        boton('$item.rotulo', ACCIONES_SIGUIENDO.CARGAR_MAS, C_.secundario, { [K.LAYOUT_WIDTH]: -1 }),
+        boton('$item.rotulo', ACCIONES_SIGUIENDO.CARGAR_MAS, C_.secundario),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.cargar_mas, [SPAN_TARJETA]: 1, [K.ONPRESS]: '$item.id' }),
 
       // ── 9 · `new_empty_card`: **vacío Y error de red en la misma tarjeta** ────────────────────
       // En Taobao es UNA plantilla con `isNetError` dentro: la ilustración (420×300) y 「刷新」. Aquí
       // el rótulo y el texto los pone el dato, así que la misma tarjeta sirve para las dos cosas.
       tarjeta(C_, [
-        texto('$item.titulo', 15, C_.texto, { [K.LAYOUT_WIDTH]: -1 }),
-        texto('$item.texto', 12, C_.secundario, { [K.PADDING_TOP]: 6, [K.LAYOUT_WIDTH]: -1 }),
-        boton('$item.rotulo', ACCIONES_SIGUIENDO.REFRESCAR, C_.naranja, { [K.PADDING_TOP]: 12 }),
+        texto('Aquí verás los directos de las tiendas que sigues', 15, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        texto('Cuando sigas una tienda, sus directos aparecen aquí, en orden.', 12, C_.secundario, { [K.PADDING_TOP]: 6 }),
+        boton('Actualizar', ACCIONES_SIGUIENDO.REFRESCAR, C_.naranja, { [K.PADDING_TOP]: 12 }),
       ], {
         [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.vacio,
+        [SPAN_TARJETA]: 1,
+        [K.PADDING_TOP]: 24,
+        [K.PADDING_BOTTOM]: 24,
+      }),
+
+      // ── 10 · EL MISMO VACÍO, PERO DE RED (en Taobao es isNetError, dentro de la misma plantilla) ──
+      // Dos estados, dos copias: la de arriba invita a seguir tiendas; esta dice que fallo la red y
+      // ofrece reintentar. **No son el mismo mensaje con otro botón.**
+      tarjeta(C_, [
+        texto('No pudimos cargar esto', 15, C_.texto, {}),
+        texto('Revisa tu conexión y vuelve a intentarlo.', 12, C_.secundario, { [K.PADDING_TOP]: 6 }),
+        boton('Reintentar', ACCIONES_SIGUIENDO.REFRESCAR, C_.naranja, { [K.PADDING_TOP]: 12 }),
+      ], {
+        [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.sin_red,
         [SPAN_TARJETA]: 1,
         [K.PADDING_TOP]: 24,
         [K.PADDING_BOTTOM]: 24,
