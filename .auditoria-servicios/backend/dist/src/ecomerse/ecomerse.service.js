@@ -239,32 +239,35 @@ let EcomerseService = class EcomerseService {
      *
      * **Se recuerda por proceso**: una vez creada no se vuelve a preguntar en cada petición.
      */
-    async asegurarTablaDeSeguidos() {
-        if (this.__seguidosLista)
+    /**
+     * ¿ESTÁ LA TABLA DE SEGUIDOS?
+     *
+     * **Antes esto la creaba, y estaba mal**: el rol de la aplicación no puede crear en `wallet`
+     * (medido: `permission denied for schema wallet`, 42501), así que en cada primer uso se comía un
+     * error y lo convertía en un 500 opaco. La tabla la aplica una **migración**
+     * (`20261017080000_ecomerse_seller_follows`, con el rol de administración); aquí solo se comprueba.
+     *
+     * Se recuerda por proceso: es una consulta al catálogo, no a los datos.
+     */
+    async hayTablaDeSeguidos() {
+        if (this.__seguidosLista === true)
             return true;
-        if (this.__seguidosSinPermiso)
-            return false;
+        let hay = false;
         try {
-            await this.prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS wallet.ecomerse_seller_follows (
-                user_id uuid NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
-                seller_id uuid NOT NULL REFERENCES wallet.ecomerse_sellers(id) ON DELETE CASCADE,
-                created_at timestamptz NOT NULL DEFAULT now(),
-                PRIMARY KEY (user_id, seller_id))`);
-            await this.prisma.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS ecomerse_seller_follows_seller_idx ON wallet.ecomerse_seller_follows (seller_id)`);
-            await this.prisma.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS ecomerse_seller_follows_user_fecha_idx ON wallet.ecomerse_seller_follows (user_id, created_at DESC)`);
-            this.__seguidosLista = true;
-            return true;
+            const r = await this.prisma.$queryRawUnsafe(`SELECT to_regclass('wallet.ecomerse_seller_follows')::text AS t`);
+            hay = !!(r && r[0] && r[0].t);
         }
         catch (e) {
-            /**
-             * **Sin privilegios para crear, la tabla la aplica una migración** (el rol de la aplicación
-             * no puede crear en `wallet`: medido, `permission denied for schema wallet`, 42501). No se
-             * reintenta en cada petición y **no se finge**: se recuerda y cada endpoint dice lo suyo.
-             */
-            this.__seguidosSinPermiso = true;
-            this.log?.warn?.('seguidos: no se pudo asegurar wallet.ecomerse_seller_follows: ' + ((e && e.message) || e));
+            this.log?.warn?.('seguidos: no se pudo comprobar la tabla: ' + ((e && e.message) || e));
             return false;
         }
+        // **Solo se recuerda el «sí»**: un «no» puede ser un arranque temprano (o una migración a
+        // medio aplicar) y quedarse pegado en un proceso reutilizado.
+        if (hay)
+            this.__seguidosLista = true;
+        else
+            this.log?.warn?.('seguidos: falta aplicar cloudbase/migrations/20261017080000_ecomerse_seller_follows.sql');
+        return hay;
     }
     /**
      * SEGUIR O DEJAR DE SEGUIR una tienda. **Alterna**, como el corazón de un anuncio: la app no manda
@@ -274,7 +277,7 @@ let EcomerseService = class EcomerseService {
         if (!FLAG.f1)
             throw new common_1.BadRequestException('Ecomerse no está habilitado');
         const id = this.exigirUuid(sellerId, 'Tienda inválida');
-        if (!(await this.asegurarTablaDeSeguidos())) {
+        if (!(await this.hayTablaDeSeguidos())) {
             // 409 y no 503: el filtro de errores de esta API **solo deja pasar los 4xx con su mensaje**
             // (los 5xx salen como «Error interno»), y esto es exactamente un conflicto con el estado del
             // servidor: falta aplicar la tabla de seguidos.
@@ -297,7 +300,7 @@ let EcomerseService = class EcomerseService {
     }
     /** Los IDs de las tiendas que sigo — para que la ficha sepa si ya la sigo, sin traer la lista. */
     async idsTiendasSeguidas(userId) {
-        if (!(await this.asegurarTablaDeSeguidos()))
+        if (!(await this.hayTablaDeSeguidos()))
             return [];
         const rows = await this.prisma.$queryRawUnsafe(`SELECT seller_id FROM wallet.ecomerse_seller_follows WHERE user_id=$1::uuid ORDER BY created_at DESC`, userId);
         return rows.map((r) => String(r.seller_id));
@@ -311,7 +314,7 @@ let EcomerseService = class EcomerseService {
         if (!FLAG.f1)
             throw new common_1.BadRequestException('Ecomerse no está habilitado');
         // Sin tabla no hay nada que enseñar: **la lista sale vacía**, que es la verdad.
-        if (!(await this.asegurarTablaDeSeguidos()))
+        if (!(await this.hayTablaDeSeguidos()))
             return { total: 0, anuncios: 0, sellers: [] };
         const rankExpr = this.rangoDeTienda('s');
         const anunciosExpr = `(SELECT count(*)::int FROM wallet.ecomerse_products p WHERE p.seller_id = s.id AND p.status='active')`;

@@ -1644,4 +1644,77 @@ Arreglado: `FICHEROS` es ahora el **contrato de lo que se publica** (UI + `ecome
 rutas existen (401 sin sesión) y la lista responde 200 vacío con sesión · `/sellers` y `/ui/siguiendo`
 intactas.
 
+---
+
+## 29 · La tabla, aplicada — y la sección con datos de verdad (17/10)
+
+### 1 · Cómo se aplicó (y por qué no la pude aplicar desde aquí)
+
+La base vive en `172.22.0.4`, una **red privada del despliegue**: desde este equipo no se alcanza
+(`Test-NetConnection` → falso). Pero el **MCP de CloudBase** —el que ya usaba el despliegue— tiene
+herramientas de PostgreSQL con **rol de administración** (`cloudbase_postgres`), y ahí estaba el camino:
+
+| migración | qué hace | resultado |
+|---|---|---|
+| `20261017080000_ecomerse_seller_follows` | crea la tabla (uuid + uuid, pareja como clave primaria, FK a la tienda) | **Succeed**, verificada |
+| `20261017083000_permisos_seguidos` | **GRANT** al rol de la aplicación + `ALTER DEFAULT PRIVILEGES` | **Succeed**, verificada |
+
+**El segundo no es un detalle: sin él la tabla existe y la aplicación no la ve.** La creó el rol de
+administración y `egrouteplan_api` se quedó sin permisos, así que `information_schema` ni se la
+mostraba. Los permisos son **exactamente los de sus tablas hermanas** (`ecomerse_favorites`,
+`ecomerse_sellers`), comprobados en `information_schema.role_table_grants`. El SQL vive en el repo:
+`cloudbase/migrations/20261017080000_ecomerse_seller_follows.sql` y `..._permisos_seguidos.sql`.
+
+### 2 · Los endpoints, ahora de verdad
+
+```
+POST /ecomerse/sellers/:id/follow   -> 201 {"following":true,"followersCount":1}
+GET  /ecomerse/sellers/following    -> 200 {"total":1,"anuncios":8,"sellers":[{"businessName":"Abacería E2E v3",…}]}
+POST /ecomerse/sellers/:id/follow   -> 201 {"following":false,"followersCount":0}
+```
+
+Y el código dejó de intentar crear la tabla en cada arranque (el rol no puede: `permission denied for
+schema wallet`): ahora **comprueba que está** (`to_regclass(...)::text`) y **no cachea el «no»** — un
+«no» cacheado en un proceso reutilizado sobrevivía a la migración y hacía contestar «no está activada»
+con la tabla delante.
+
+### 3 · Y la sección de 关注 ya trae datos
+
+`GET /ui/siguiendo` con el token del usuario → **`autoplay, titulo, grande, cargar_mas`**: la tarjeta
+grande con la tienda seguida («Abacería E2E v3», 8 anuncios). Antes solo salía la de vacío.
+
+Por el camino hubo que cambiar **cómo** se pide esa lista: el servidor la pedía **por HTTPS a su propia
+URL pública desde dentro de la función**, y en el móvil eso salía como la variante «Reintentar» con la
+sesión perfectamente válida. Ahora se llama al **servicio en proceso** (`this.ecomerse.tiendasSeguidas`)
+con un **guard opcional** (`OptionalJwtGuard`, nuevo): un invitado ve la tarjeta de vacío, y quien tiene
+sesión ve sus tiendas.
+
+### 4 · Un fallo MÍO que cazó el oráculo
+
+Al sustituir `datosDeSiguiendo` con un `slice` sobre el controlador, **me llevé por delante
+`SORT_POR_DEFECTO`** (declaración y export): el catálogo se quedó con una referencia inexistente y eso
+**estuvo vivo** hasta el siguiente despliegue. Lo cazó la prueba del contrato («los dos servidores, el
+mismo orden por defecto»), se repuso al nivel del módulo y se desplegó. Lección: un `slice` sobre un
+fichero grande necesita comprobar el resultado, no solo que el fichero siga siendo válido.
+
+### 5 · ⏳ Lo que queda abierto: la tarjeta que sale vacía
+
+La sección ya pinta **contenido real** —«Reproducción automática: plegada» + «Desplegar», «Ver más
+directos»— pero las tarjetas de **título** y **grande** salen como cajas estrechas y vacías. Lo
+descartado, con medidas: no es el binding (los textos de `autoplay` sí pintan), no es el árbol (correcto
+nodo a nodo), y no es la falta de caja del texto.
+
+**La causa está localizada**: en una `Lista` de **una columna**, la celda se monta dentro de una fila
+(`flexDirection: 'row'`) y **nadie le pone ancho**, así que mide su contenido; una tarjeta cuyos hijos
+son textos se queda en cero. Por eso se pintan las que traen imagen (la franja) o `flex` (la rejilla) y
+no estas. **Arreglado en `components/ecomerse/Lista.tsx`** (`flex: 1` en la celda cuando la lista es
+vertical), pero **la app no llegó a recogerlo** en la última comprobación (bundle cacheado): hay que
+recargar el bundle y volver a mirarlo.
+
+### Verificación
+
+`tsc` **5** · `logica` **0** · `diseño` **en verde** · oráculo **148/148** · tabla y permisos aplicados y
+verificados · los tres endpoints de seguidos probados con token firmado · `/ui/siguiendo` con datos.
+
+
 

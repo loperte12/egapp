@@ -71,6 +71,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EcomerseUiController = exports.CLAVES_UI = exports.ESQUEMA_UI = exports.ARBOL_RELACIONADOS = exports.ARBOL_DESTACADOS = exports.TEMAS = exports.TEMA_POR_DEFECTO = exports.coloresDe = exports.arbolDeCategorias = exports.datosDeCategorias = exports.esUrlDeImagen = exports.PESTANAS = exports.ESPACIO_PESTANAS = exports.SPAN_TARJETA = exports.CLAVE_ASPECTO = exports.ASPECTO_TARJETA = exports.REJILLA = exports.LISTA = exports.TEMPLATE_NAME = exports.PLANTILLA_ESTRECHA = exports.PLANTILLA_ANCHA = exports.SORT_POR_DEFECTO = exports.consultaDeCatalogo = exports.tarjetaAnchaPara = exports.arbolDeRejilla = exports.tarjetaDeRejilla = exports.accionDeTarjeta = exports.ACCIONES = exports.CLAVE_ACCION = exports.fichaDeProducto = exports.datosDeRejilla = exports.arbolDeFranja = exports.datosDeDestacados = void 0;
 const common_1 = require("@nestjs/common");
 const ecomerse_service_1 = require("./ecomerse.service");
+const guards_1 = require("../http/guards");
+
+// El orden por defecto del catálogo. Va aquí, a nivel de módulo, para que exista ya al importar.
+const SORT_POR_DEFECTO = 'recommended';
+exports.SORT_POR_DEFECTO = SORT_POR_DEFECTO;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LAS CLAVES — copiadas de `components/ecomerse/*Atributos.ts`. NO tecleadas.
@@ -689,7 +694,9 @@ function arbolDeSiguiendo(tema) {
 
       // ── 1 · `common_title_card`: la tarjeta de TÍTULO ────────────────────────────────────────
       tarjeta(C_, [
-        texto('$item.titulo', 15, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        fila([
+          texto('$item.titulo', 15, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        ]),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.titulo, [SPAN_TARJETA]: 1 }),
 
       // ── 2 · `live_card` · variante EN VIVO ───────────────────────────────────────────────────
@@ -736,7 +743,9 @@ function arbolDeSiguiendo(tema) {
 
       // ── 5 · `recommend_title`: el título de los recomendados («Basado en tus seguidos») ───────
       tarjeta(C_, [
-        texto('$item.titulo', 13, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        fila([
+          texto('$item.titulo', 13, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        ]),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.titulo_recomendado, [SPAN_TARJETA]: 1 }),
 
       // ── 6 · `live_card` + `recommendInfo` · variante RECOMENDADO ─────────────────────────────
@@ -757,7 +766,9 @@ function arbolDeSiguiendo(tema) {
       // ── 7 · `sjsdbigfeed_card_2026`: la tarjeta GRANDE del feed (sin botón de seguir) ─────────
       tarjeta(C_, [
         portada(C_),
-        texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 6 }),
+        fila([
+          texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 6 }),
+        ]),
         fila([
           { tipo: 'Imagen', valor: '$item.avatar', atributos: { [K.LAYOUT_WIDTH]: 24, [CLAVE_ASPECTO]: 1, [K.CORNERRADIUS]: 12 } },
           texto('$item.creador', 11, C_.secundario, { [K.PADDING_LEFT]: 6, [K.PADDING_TOP]: 2 }),
@@ -777,8 +788,12 @@ function arbolDeSiguiendo(tema) {
       // En Taobao es UNA plantilla con `isNetError` dentro: la ilustración (420×300) y 「刷新」. Aquí
       // el rótulo y el texto los pone el dato, así que la misma tarjeta sirve para las dos cosas.
       tarjeta(C_, [
-        texto('Aquí verás los directos de las tiendas que sigues', 15, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
-        texto('Cuando sigas una tienda, sus directos aparecen aquí, en orden.', 12, C_.secundario, { [K.PADDING_TOP]: 6 }),
+        fila([
+          texto('Aquí verás los directos de las tiendas que sigues', 15, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        ]),
+        fila([
+          texto('Cuando sigas una tienda, sus directos aparecen aquí, en orden.', 12, C_.secundario, { [K.PADDING_TOP]: 6 }),
+        ]),
         boton('Actualizar', ACCIONES_SIGUIENDO.REFRESCAR, C_.naranja, { [K.PADDING_TOP]: 12 }),
       ], {
         [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.vacio,
@@ -791,8 +806,12 @@ function arbolDeSiguiendo(tema) {
       // Dos estados, dos copias: la de arriba invita a seguir tiendas; esta dice que fallo la red y
       // ofrece reintentar. **No son el mismo mensaje con otro botón.**
       tarjeta(C_, [
-        texto('No pudimos cargar esto', 15, C_.texto, {}),
-        texto('Revisa tu conexión y vuelve a intentarlo.', 12, C_.secundario, { [K.PADDING_TOP]: 6 }),
+        fila([
+          texto('No pudimos cargar esto', 15, C_.texto, {}),
+        ]),
+        fila([
+          texto('Revisa tu conexión y vuelve a intentarlo.', 12, C_.secundario, { [K.PADDING_TOP]: 6 }),
+        ]),
         boton('Reintentar', ACCIONES_SIGUIENDO.REFRESCAR, C_.naranja, { [K.PADDING_TOP]: 12 }),
       ], {
         [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.sin_red,
@@ -804,60 +823,38 @@ function arbolDeSiguiendo(tema) {
   };
 }
 exports.arbolDeSiguiendo = arbolDeSiguiendo;
-async function datosDeSiguiendo(authorization) {
-    if (!authorization) return { tarjetas: tarjetasDeSiguiendo(null) };
-    let respuesta;
+async function datosDeSiguiendo(servicio, userId) {
+    /**
+     * **Sin sesión**: la tarjeta de vacío, que es una variante REAL de Taobao (no un hueco).
+     */
+    if (!userId) return { tarjetas: tarjetasDeSiguiendo(null) };
     try {
-        respuesta = await fetch(SIGUIENDO_API, {
-            headers: { authorization: String(authorization) },
-            signal: typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(3000) : undefined,
-        });
-    } catch {
+        /**
+         * **En proceso, no por HTTP.** El servicio ya está inyectado en este controlador; llamarlo
+         * aquí evita el viaje de ida y vuelta a la propia URL pública, que es lo que fallaba en el
+         * móvil (salía «Reintentar» con la sesión válida).
+         */
+        const r = await servicio.tiendasSeguidas(userId);
+        const tiendas = (r && r.sellers ? r.sellers : []).map((s) => ({
+            id: String(s.id),
+            nombre: s.businessName ?? 'Vendedor',
+            creador: s.businessName ?? 'Vendedor',
+            // 'photoKey' es una CLAVE, no una URL: si no empieza por http no hay portada que enseñar.
+            portada: esUrlDeImagen(s.photoKey) ? s.photoKey : null,
+            avatar: esUrlDeImagen(s.photoKey) ? s.photoKey : null,
+            anuncios: Number(s.anuncios ?? 0),
+            ciudad: s.city ?? null,
+            desde: s.since ?? null,
+        }));
+        return { tarjetas: tarjetasDeSiguiendo({ titulo: 'Siguiendo', tiendas }) };
+    }
+    catch (e) {
+        // Falló de verdad: la variante de error de red, con su «Reintentar».
+        servicio?.log?.warn?.('siguiendo: no se pudo leer la lista: ' + ((e && e.message) || e));
         return { tarjetas: tarjetasDeSiguiendo({ sinRed: true }) };
     }
-    if (!respuesta.ok) return { tarjetas: tarjetasDeSiguiendo({ sinRed: true }) };
-    const cuerpo = await respuesta.json().catch(() => null);
-    const tiendas = Array.isArray(cuerpo && cuerpo.sellers) ? cuerpo.sellers : null;
-    if (!tiendas) return { tarjetas: tarjetasDeSiguiendo({ sinRed: true }) };
-    return { tarjetas: tarjetasDeSiguiendo({
-        titulo: 'Siguiendo',
-        tiendas: tiendas.map((s) => ({
-            id: String(s.id || ''),
-            nombre: String(s.businessName || s.name || 'Tienda'),
-            creador: String(s.businessName || s.name || 'Tienda'),
-            titulo: String(s.titulo || s.businessName || ''),
-            ...(esUrlDeImagen(s.portada || s.photoKey) ? { portada: String(s.portada || s.photoKey) } : {}),
-            ...(esUrlDeImagen(s.avatar || s.photoKey) ? { avatar: String(s.avatar || s.photoKey) } : {}),
-            estado: String(s.estado || ''),
-            espectadores: s.espectadores ? String(s.espectadores) + ' viendo' : '',
-            ...(s.repeticion ? { repeticion: true, duracion: String(s.duracion || '') } : {}),
-            ...(s.anuncio ? { anuncio: { titulo: String(s.anuncio.titulo || ''), empieza: String(s.anuncio.empieza || ''), rotuloAviso: String(s.anuncio.rotuloAviso || 'Avisarme') } } : {}),
-            rotuloSeguir: 'Siguiendo',
-        })),
-    }) };
 }
-exports.datosDeSiguiendo = datosDeSiguiendo;
 
-/**
- * EL ORDEN POR DEFECTO del catálogo, **el mismo que manda la pantalla** (`SORT_CATALOGO` en
- * `app/ecomerse.tsx`). Explícito y no al azar del servicio de datos: si el listado y la rejilla servida
- * pidieran órdenes distintos, enseñarían **listas distintas del mismo catálogo** sin que nadie sepa
- * por qué.
- */
-/** El endpoint de seguidos del API (el que la app llama y que HOY NO EXISTE en el backend: ver abajo). */
-const SIGUIENDO_API = 'https://api.egrouteplan.com/api/ecomerse/sellers/following';
-
-const SORT_POR_DEFECTO = 'recommended';
-exports.SORT_POR_DEFECTO = SORT_POR_DEFECTO;
-
-/**
- * TRADUCE los parámetros de la SECCIÓN a los de la API del catálogo.
- *
- * **Es el cable que permite que la rejilla servida sustituya a la del cliente**: la pantalla filtra por
- * departamento, familia y búsqueda, y la sección tiene que filtrar **igual**. Los nombres son los de la
- * sección y la traducción a la API (`department`, `family`, `q`, `sort`) vive aquí: la pantalla no
- * tiene que saber cómo se llama cada filtro en el servicio de datos. Puro: se prueba sin red.
- */
 function consultaDeCatalogo({ departamento, familia, buscar, orden } = {}) {
     const q = {};
     if (departamento) q.department = String(departamento);
@@ -1153,9 +1150,9 @@ let EcomerseUiController = class EcomerseUiController {
      * **Y por eso esta ruta NO se cachea en público** (ver el `Cache-Control: private, no-store` de su
      * decorador): una respuesta con las tiendas de alguien, en una caché compartida, la ve el siguiente.
      */
-    async siguiendo(tema, authorization) {
+    async siguiendo(tema, _authorization, u) {
         try {
-            const datos = await datosDeSiguiendo(authorization);
+            const datos = await datosDeSiguiendo(this.ecomerse, u && u.userId ? String(u.userId) : null);
             if (!datos) return { esquema: ESQUEMA_UI, arbol: null };
             return { esquema: ESQUEMA_UI, arbol: arbolDeSiguiendo(tema), datos };
         } catch (e) {
@@ -1236,6 +1233,8 @@ __decorate([
     __param(0, (0, common_1.Query)('tema')),
     // La cabecera del usuario, tal cual: el API es el único que sabe de quién son los seguidos.
     __param(1, (0, common_1.Headers)('authorization')),
+    __param(2, (0, guards_1.OptionalUser)()),
+    (0, common_1.UseGuards)(guards_1.OptionalJwtGuard),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)

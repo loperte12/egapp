@@ -187,7 +187,23 @@ export function Lista({
             ]}
           >
             {fila.map(({ elemento, indice, span }) => (
-              <View key={claveDe(elemento, indice)} style={reparteAncho ? { flex: span } : undefined}>
+              <View
+                key={claveDe(elemento, indice)}
+                /*
+                 * EL ANCHO DE LA CELDA, y aquí estaba el fallo que se veía en 关注.
+                 *
+                 * La fila es un `flexDirection: 'row'`, así que el ancho de una celda **no se estira**:
+                 * sale de su contenido. En la rejilla (`reparteAncho`) se reparte con `flex`, y en una
+                 * franja horizontal la tarjeta debe medir lo suyo. Pero en una **lista de una columna**
+                 * —el caso de la sección de seguidos— nadie ponía ancho: una tarjeta cuyos hijos son
+                 * TEXTOS se quedaba en cero y salía como una caja gris vacía, aunque el árbol estuviera
+                 * bien. Por eso se pintaban las tarjetas con imagen o con botón (que traen ancho) y no
+                 * las de solo texto.
+                 *
+                 * `flex: 1` en la lista vertical es lo que dice «esta celda ocupa la fila entera».
+                 */
+                style={reparteAncho ? { flex: span } : r.horizontal ? undefined : { flex: 1 }}
+              >
                 {renderizar(elemento, indice)}
               </View>
             ))}
