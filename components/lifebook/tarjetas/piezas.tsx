@@ -88,10 +88,24 @@ export function tonoDeClave(clave: ClaveEstado): Tono {
  * `buttonStatus: 'disabled'`. Un botón que no se puede usar se **enseña apagado**, no se esconde:
  * esconderlo hace que la tarjeta cambie de forma y el usuario no sepa por qué.
  */
+/**
+ * A DÓNDE VA UN BOTÓN. Viaja **con el botón**, como el `nav` de la referencia.
+ *
+ * No se usa un mapa global `id → pantalla`: dos tarjetas pueden tener un botón con el mismo texto
+ * que lleva a sitios distintos, y un mapa por texto volvería a atar el destino al rótulo — el error
+ * que esta adopción viene a corregir. El destino es un dato del botón.
+ */
+export type DestinoBoton =
+  | { tipo: 'pedido'; id?: string }
+  | { tipo: 'producto'; id: string }
+  | { tipo: 'enlace'; url: string };
+
 export type BotonTarjeta = {
   id: string;
   etiqueta: string;
   estado?: 'activo' | 'inactivo';
+  /** Si viene, el chat navega. Si no, el botón se pinta apagado: sin destino no hay acción. */
+  destino?: DestinoBoton;
 };
 
 /**

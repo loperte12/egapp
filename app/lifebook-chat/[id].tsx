@@ -15,7 +15,7 @@
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  ActivityIndicator, Alert, Dimensions, FlatList, Image, KeyboardAvoidingView, Modal, Platform,
+  ActivityIndicator, Alert, Dimensions, FlatList, Image, KeyboardAvoidingView, Linking, Modal, Platform,
   Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -25,7 +25,7 @@ import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, Shoppin
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
 import { OrderCardEnChat } from '../../components/lifebook/OrderCardEnChat';
-import { TarjetaDeChat } from '../../components/lifebook/tarjetas/registro';
+import { TarjetaDeChat, destinoDeBoton } from '../../components/lifebook/tarjetas/registro';
 import { TarjetaNota } from '../../components/lifebook/tarjetas/TarjetaNota';
 import type { LbProductCard } from '../../api/commerce';
 import * as ImagePicker from 'expo-image-picker';
@@ -1733,12 +1733,33 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
         tarjeta={msg.cardRef}
         acciones={{
           /*
-           * Los BOTONES de las tarjetas quedan sin cablear a propósito: en la referencia cada
-           * botón lleva su propio destino (`nav` con un enlace, o una función del servidor), y esa
-           * decisión pertenece al contrato del servidor que aún no existe. Cablearlos ahora sería
-           * inventarse a dónde van. Lo que sí se cablea es lo que el chat ya sabe hacer: copiar un
-           * dato y abrir el pedido.
+           * LOS BOTONES, YA CABLEADOS.
+           *
+           * Antes quedaban sin cablear **a propósito**, y estaba bien: no había contrato que dijera
+           * qué llevaba cada botón, y cablearlos habría sido inventarse destinos. Ya lo hay (medido
+           * en el APK de referencia): el botón trae su `id`, y **el destino viaja con él**. Si el
+           * servidor no lo manda, `destinoDeBoton` usa el dato que la tarjeta ya tiene — un botón de
+           * una tarjeta de pedido lleva a ese pedido, no a un sitio inventado.
+           *
+           * Y si no hay destino, NO SE NAVEGA. Un botón que no hace nada es malo; mandar a alguien a
+           * una pantalla que no toca es peor.
            */
+          onBoton: (id) => {
+            const destino = destinoDeBoton(msg.cardRef?.payload, id);
+            if (!destino) return;
+
+            if (destino.tipo === 'pedido') {
+              if (destino.id) onOpenOrder?.(String(destino.id));
+              return;
+            }
+            if (destino.tipo === 'producto') {
+              irSeguro.libre('/lifebook-product/[id]', { id: destino.id });
+              return;
+            }
+            // Enlace: interno si es una ruta de la app; externo si es http(s).
+            if (/^https?:\/\//i.test(destino.url)) { void Linking.openURL(destino.url); return; }
+            irSeguro.libre(destino.url);
+          },
           onCopiar: (valor) => { void Clipboard.setStringAsync(valor); },
           onAbrir: onOpenOrder,
         }}

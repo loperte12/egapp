@@ -18,7 +18,7 @@ export {
   TarjetaEnChat, CabeceraTarjeta, EtiquetaEstado, BloquePedido, FilaDato,
   BotonPildora, FilaBotones, FilaBotonesDeTarjeta, PieDebil, LineaCronologia,
   colorDeTono, tonoDeClave,
-  type Tono, type ClaveEstado, type BotonTarjeta,
+  type Tono, type ClaveEstado, type BotonTarjeta, type DestinoBoton,
 } from './piezas';
 
 export { TarjetaPostventa, type DatosPostventa } from './TarjetaPostventa';
@@ -57,7 +57,9 @@ export { TarjetaInfraccion } from './TarjetaInfraccion';
 export { TarjetaNota } from './TarjetaNota';
 export { TarjetaReposicion } from './TarjetaReposicion';
 export {
-  TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones, type AccionesTarjeta,
+  TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones,
+  botonesDelServidor, destinoDeBoton,
+  type AccionesTarjeta,
 } from './registro';
 
 /**

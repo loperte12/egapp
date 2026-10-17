@@ -57,7 +57,7 @@ import { TarjetaInfraccion } from './TarjetaInfraccion';
 import { TarjetaNota } from './TarjetaNota';
 import { TarjetaReposicion } from './TarjetaReposicion';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
-import type { BotonTarjeta } from './piezas';
+import type { BotonTarjeta, DestinoBoton } from './piezas';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
 export interface AccionesTarjeta {
@@ -98,9 +98,52 @@ export function botonesDelServidor(brutos: unknown): BotonTarjeta[] {
     if (!etiqueta) continue;
     const id = String(x.id ?? x.buttonId ?? etiqueta);
     const apagado = x.buttonStatus === 'disabled' || x.estado === 'inactivo' || x.disabled === true;
-    salida.push({ id, etiqueta, estado: apagado ? 'inactivo' : 'activo' });
+
+    /**
+     * EL DESTINO VIAJA CON EL BOTÓN, como el `nav` de la referencia. Se aceptan las tres formas en
+     * que un servidor razonable puede mandarlo: una URL, un destino tipado, o nada.
+     */
+    const url = String(x.buttonUrl ?? x.buttonLink ?? x.url ?? x.deeplink ?? x.navUrl ?? '').trim();
+    const tipo = String(x.buttonTargetType ?? x.targetType ?? '').trim().toLowerCase();
+    const destinoId = x.buttonTargetId ?? x.targetId;
+    let destino: DestinoBoton | undefined;
+    if (url) {
+      destino = { tipo: 'enlace', url };
+    } else if (tipo === 'order' || tipo === 'pedido') {
+      destino = { tipo: 'pedido', id: destinoId ? String(destinoId) : undefined };
+    } else if ((tipo === 'product' || tipo === 'producto') && destinoId) {
+      destino = { tipo: 'producto', id: String(destinoId) };
+    }
+
+    salida.push({ id, etiqueta, estado: apagado ? 'inactivo' : 'activo', destino });
   }
   return salida;
+}
+
+/**
+ * A dónde va un botón concreto de una tarjeta.
+ *
+ * Primero se busca el destino **que trajo el botón**. Si no trajo ninguno, se usa **el dato que la
+ * tarjeta ya tiene**: un botón de una tarjeta de pedido lleva a ese pedido, y uno de producto, a ese
+ * producto. Eso no es inventar un destino, es usar el que la tarjeta ya declara con sus datos.
+ *
+ * Si no hay ni una cosa ni la otra, devuelve `null` y el botón **no navega** — antes que mandar a
+ * alguien a una pantalla que no toca.
+ */
+export function destinoDeBoton(payload: unknown, id: string): DestinoBoton | null {
+  const x = (payload ?? {}) as Record<string, unknown>;
+  const boton = botonesDelServidor(x.buttons).find((b) => b.id === id);
+  if (boton?.destino) return boton.destino;
+
+  const pedido = x.orderId ?? x.order_id ?? x.packageId
+    ?? (x.orderDetail as Record<string, unknown> | undefined)?.packageId;
+  if (pedido) return { tipo: 'pedido', id: String(pedido) };
+
+  const producto = x.productId ?? x.product_id ?? x.goodsId ?? x.skuId
+    ?? (x.goodsInfo as Array<Record<string, unknown>> | undefined)?.[0]?.skuId;
+  if (producto) return { tipo: 'producto', id: String(producto) };
+
+  return null;
 }
 
 interface Entrada {
