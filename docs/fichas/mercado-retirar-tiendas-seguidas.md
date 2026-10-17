@@ -64,7 +64,7 @@ Lo que se retira está **sustituido por código ya desplegado** (punto 3).
 | Fichero retirado | ✅ `app/ecomerse-perfil-tiendas.tsx` borrado |
 | Ruta retirada | ✅ `ecomersePerfilTiendas` fuera de `constants/rutas.ts` |
 | Referencias | ✅ sólo quedan dos **comentarios** que explican la retirada (en el perfil y en el feed) |
-| Móvil: Perfil → «Tiendas que sigo» abre el Mercado en 关注 | ⏳ **PENDIENTE**: el teléfono no aparecía por USB (`adb devices` vacío) al cerrar la rebana. **No se afirma probado.** |
+| Móvil: Perfil → «Tiendas que sigo» abre el Mercado en 关注 | ⏳ **PENDIENTE**: 2.º intento: el teléfono apareció, pero la app servía el bundle **viejo** (Metro no invalidó el árbol de rutas al borrar el fichero) y al reiniciar Metro con `--clear` **el USB se cayó otra vez** (`no devices/emulators found`). **No se afirma probado.** |
 | Móvil: estado de fallo (sin red) | ⏳ pendiente de la misma pasada |
 
 **Para cerrarla** (cuando haya dispositivo): `adb reverse tcp:8081 tcp:8081` → abrir Perfil →
