@@ -102,6 +102,12 @@ Búsqueda sobre **todo** el material (APK + assets + recursos + taller), por tex
 Esa pantalla la **genera el servidor** (Dinamic/Fluid) y **no viaja en el APK**. Los textos que la
 nombran tampoco están en el APK por la misma razón: los manda el servidor.
 
+> **17/10/2026 — esto ya no es cierto.** Con el **teléfono conectado** se volcó la jerarquía de vistas de
+> la página real (`uiautomator`) y se capturaron sus estados. El plano de **B**, con medidas en dp, está
+> en **[RE-关注-TIENDAS.md](RE-关注-TIENDAS.md)**: avatares con pastilla de contador, carril de filtros,
+> panel de rejilla compartido por 分类 y 分组, y anatomía de la tarjeta de publicación.
+> Lo que sigue valiendo es que **no está en el APK** (la genera el servidor): el material de B es
+> **captura en ejecución**, no artefacto.
 **Conclusión, dicha sin rodeos**: con el material actual **se puede** documentar el feed de 关注 (A) y
 los estados de su pestaña; **no se puede** documentar la página de tiendas seguidas (B). Dibujarla ahora
 sería inventarla, y eso es peor que decir que falta.
