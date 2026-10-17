@@ -1716,5 +1716,29 @@ recargar el bundle y volver a mirarlo.
 `tsc` **5** · `logica` **0** · `diseño` **en verde** · oráculo **148/148** · tabla y permisos aplicados y
 verificados · los tres endpoints de seguidos probados con token firmado · `/ui/siguiendo` con datos.
 
+### 6 · ✅ Y la causa de la tarjeta vacía: **el dato no declaraba su plantilla** (17/10)
+
+Lo cazó una prueba escrita **después** de ver el fallo, y era **mío**: el cliente elige la plantilla del
+elemento con `elegirPlantilla(nombres, elemento.templateName)`, y `tarjetasDeSiguiendo` mandaba
+`tipo` pero **no `templateName`** — así que **todas las tarjetas se pintaban con la PRIMERA**
+(`seguir_autoplay`). Al resolver `$item.estado` / `$item.rotulo` contra datos que no tienen esos
+campos, salían cajas en blanco. Encajaba con lo que se veía: la 1.ª con su texto, la 4.ª con su «Ver más
+directos» (porque `rotulo` sí existe) y las de en medio vacías.
+
+Lo dice el contrato medido en Taobao: **cada elemento del feed declara su `templateName`**. Arreglado
+con un `conPlantilla()` que añade `PLANTILLA_SIGUIENDO[tipo]` a cada tarjeta, en el módulo puro y en el
+controlador, **y con la prueba que lo habría cazado**: cada tarjeta declara una plantilla y esa
+plantilla está entre las del árbol.
+
+De paso, el otro fallo que quedaba por debajo: en una `Lista` de **una columna** la celda se montaba
+dentro de una fila **sin ancho** y medía su contenido, así que una tarjeta de solo textos se colapsaba;
+ahora la celda va con `flex: 1` cuando la lista es vertical (`components/ecomerse/Lista.tsx`).
+
+**Verificado en el móvil**, con el bundle recargado: la sección pinta las cuatro tarjetas con SU
+plantilla —«Reproducción automática: plegada» + «Desplegar», «Siguiendo», la tarjeta grande con ▶,
+**«Abacería E2E v3»** y su botón **«Siguiendo»**, y «Ver más directos»—, con el hueco de 10 entre
+tarjetas (medido en los píxeles: fondo `(23,23,26)` entre tarjetas `(36,36,36)`).
+
+
 
 

@@ -128,33 +128,33 @@ export function tarjetasDeSiguiendo(datos: DatosSiguiendo | null | undefined): T
    */
   const tiendas = Array.isArray(datos?.tiendas) ? datos.tiendas : [];
   if (datos?.sinRed) {
-    return [{
+    return [conPlantilla({
       tipo: TIPOS_TARJETA.SIN_RED,
       titulo: 'No pudimos cargar esto',
       texto: 'Revisa tu conexión y vuelve a intentarlo.',
       rotulo: 'Reintentar',
-    }];
+    })];
   }
   if (tiendas.length === 0) {
-    return [{
+    return [conPlantilla({
       tipo: TIPOS_TARJETA.VACIO,
       titulo: 'Aquí verás los directos de las tiendas que sigues',
       texto: 'Cuando sigas una tienda, sus directos aparecen aquí, en orden.',
       rotulo: 'Actualizar',
-    }];
+    })];
   }
-  const tarjetas: TarjetaSiguiendo[] = [];
+  const tarjetas: Array<TarjetaSiguiendo & { templateName: string }> = [];
   // **El menú de reproducción automática va ARRIBA**, antes de todo: en Taobao es un ajuste del feed
   // (preplayback_foldmenu) y solo aparece cuando hay feed que reproducir — con el vacío, no.
   const plegado = datos?.autoplayPlegado !== false;
-  tarjetas.push({
+  tarjetas.push(conPlantilla({
     tipo: TIPOS_TARJETA.AUTOPLAY,
     plegado,
     estado: plegado ? 'Reproducción automática: plegada' : 'Reproducción automática: desplegada',
     rotulo: plegado ? 'Desplegar' : 'Plegar',
-  });
+  }));
   // El título de la sección: en Taobao es una tarjeta (`common_title_card`).
-  tarjetas.push({ tipo: TIPOS_TARJETA.TITULO, titulo: datos?.titulo ?? 'Siguiendo' });
+  tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.TITULO, titulo: datos?.titulo ?? 'Siguiendo' }));
   for (const t of tiendas) {
     /**
      * **Cada tienda seguida se convierte en su variante**, por lo que trae.
@@ -165,18 +165,31 @@ export function tarjetasDeSiguiendo(datos: DatosSiguiendo | null | undefined): T
      * (`sjsdbigfeed_card_2026`: portada + título + creador), con su botón de seguir para poder dejarlo.
      * El día que el backend sirva directos, bastará con que traigan `enVivo`, `repeticion` o `anuncio`.
      */
-    if (t.anuncio) tarjetas.push({ tipo: TIPOS_TARJETA.ANUNCIO, ...t.anuncio, tienda: t.nombre, id: t.id });
-    else if (t.repeticion) tarjetas.push({ tipo: TIPOS_TARJETA.REPETICION, ...t });
-    else if (t.enVivo) tarjetas.push({ tipo: TIPOS_TARJETA.EN_VIVO, ...t });
-    else tarjetas.push({ tipo: TIPOS_TARJETA.GRANDE, ...t, rotuloSeguir: 'Siguiendo' });
+    if (t.anuncio) tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.ANUNCIO, ...t.anuncio, tienda: t.nombre, id: t.id }));
+    else if (t.repeticion) tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.REPETICION, ...t }));
+    else if (t.enVivo) tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.EN_VIVO, ...t }));
+    else tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.GRANDE, ...t, rotuloSeguir: 'Siguiendo' }));
   }
   if (datos?.recomendados?.length) {
-    tarjetas.push({ tipo: TIPOS_TARJETA.TITULO_RECOMENDADO, titulo: 'Basado en tus seguidos' });
-    for (const r of datos.recomendados) tarjetas.push({ tipo: TIPOS_TARJETA.RECOMENDADO, ...r });
+    tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.TITULO_RECOMENDADO, titulo: 'Basado en tus seguidos' }));
+    for (const r of datos.recomendados) tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.RECOMENDADO, ...r }));
   }
-  if (datos?.grandes?.length) for (const g of datos.grandes) tarjetas.push({ tipo: TIPOS_TARJETA.GRANDE, ...g });
+  if (datos?.grandes?.length) for (const g of datos.grandes) tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.GRANDE, ...g }));
   // Y al final, el cargar-más del feed (`preplayback_loadmore`): **con su rótulo**, como la plantilla
   // de Taobao, que lleva el 「点击加载更多」 dentro.
-  tarjetas.push({ tipo: TIPOS_TARJETA.CARGAR_MAS, rotulo: 'Ver más directos' });
+  tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.CARGAR_MAS, rotulo: 'Ver más directos' }));
   return tarjetas;
+}
+
+/**
+ * **La tarjeta, con su plantilla declarada.**
+ *
+ * El cliente elige la plantilla del elemento con `elegirPlantilla(nombres, elemento.templateName)`; si el
+ * dato no lleva ese campo, **todas las tarjetas se pintan con la PRIMERA** de la lista. Es lo que pasó:
+ * la sección entera se pintaba con `seguir_autoplay`, y como los datos de las demás no tienen `estado`
+ * ni `rotulo`, salían cajas vacías. Lo dice el contrato medido en Taobao: **cada elemento del feed
+ * declara su `templateName`**.
+ */
+function conPlantilla(tarjeta: TarjetaSiguiendo): TarjetaSiguiendo & { templateName: string } {
+  return { ...tarjeta, templateName: PLANTILLA_SIGUIENDO[tarjeta.tipo] ?? '' };
 }

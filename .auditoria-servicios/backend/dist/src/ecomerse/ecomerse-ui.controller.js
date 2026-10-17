@@ -548,6 +548,15 @@ exports.PLANTILLA_SIGUIENDO = PLANTILLA_SIGUIENDO;
 exports.ACCIONES_SIGUIENDO = ACCIONES_SIGUIENDO;
 
 /** De los datos a las TARJETAS: **aquí vive "con todas sus variantes"** (igual que el .ts puro). */
+/**
+ * **La tarjeta, con su plantilla declarada.** El cliente elige con `elemento.templateName`; sin ese
+ * campo pinta la PRIMERA plantilla de la lista para todas, y los textos que no existan en el dato salen
+ * en blanco. Lo dice el contrato medido en Taobao: cada elemento del feed declara su `templateName`.
+ */
+function conPlantilla(tarjeta) {
+    return { ...tarjeta, templateName: PLANTILLA_SIGUIENDO[tarjeta.tipo] ?? '' };
+}
+
 function tarjetasDeSiguiendo(datos) {
     /**
      * **La copia de cada variante vive CON la variante** (igual que en Taobao, donde el rótulo está
@@ -557,35 +566,35 @@ function tarjetasDeSiguiendo(datos) {
      */
     const tiendas = Array.isArray(datos && datos.tiendas) ? datos.tiendas : [];
     if (datos && datos.sinRed) {
-        return [{ tipo: TIPOS_TARJETA.SIN_RED, titulo: 'No pudimos cargar esto', texto: 'Revisa tu conexión y vuelve a intentarlo.', rotulo: 'Reintentar' }];
+        return [conPlantilla({ tipo: TIPOS_TARJETA.SIN_RED, titulo: 'No pudimos cargar esto', texto: 'Revisa tu conexión y vuelve a intentarlo.', rotulo: 'Reintentar' })];
     }
     if (tiendas.length === 0) {
-        return [{ tipo: TIPOS_TARJETA.VACIO, titulo: 'Aquí verás los directos de las tiendas que sigues', texto: 'Cuando sigas una tienda, sus directos aparecen aquí, en orden.', rotulo: 'Actualizar' }];
+        return [conPlantilla({ tipo: TIPOS_TARJETA.VACIO, titulo: 'Aquí verás los directos de las tiendas que sigues', texto: 'Cuando sigas una tienda, sus directos aparecen aquí, en orden.', rotulo: 'Actualizar' })];
     }
     const tarjetas = [];
     const plegado = !(datos && datos.autoplayPlegado === false);
-    tarjetas.push({
+    tarjetas.push(conPlantilla({
         tipo: TIPOS_TARJETA.AUTOPLAY,
         plegado,
         estado: plegado ? 'Reproducción automática: plegada' : 'Reproducción automática: desplegada',
         rotulo: plegado ? 'Desplegar' : 'Plegar',
-    });
-    tarjetas.push({ tipo: TIPOS_TARJETA.TITULO, titulo: (datos && datos.titulo) || 'Siguiendo' });
+    }));
+    tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.TITULO, titulo: (datos && datos.titulo) || 'Siguiendo' }));
     for (const t of tiendas) {
         // **Lo que trae hoy el backend son TIENDAS, no directos**: la variante que les toca es la
         // grande (portada + titulo + creador), con su boton para poder dejarlo. Las de directo
         // (enVivo / repeticion / anuncio) quedan disponibles para cuando el dato las traiga.
-        if (t.anuncio) tarjetas.push({ tipo: TIPOS_TARJETA.ANUNCIO, ...t.anuncio, tienda: t.nombre, id: t.id });
-        else if (t.repeticion) tarjetas.push({ tipo: TIPOS_TARJETA.REPETICION, ...t });
-        else if (t.enVivo) tarjetas.push({ tipo: TIPOS_TARJETA.EN_VIVO, ...t });
-        else tarjetas.push({ tipo: TIPOS_TARJETA.GRANDE, ...t, rotuloSeguir: 'Siguiendo' });
+        if (t.anuncio) tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.ANUNCIO, ...t.anuncio, tienda: t.nombre, id: t.id }));
+        else if (t.repeticion) tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.REPETICION, ...t }));
+        else if (t.enVivo) tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.EN_VIVO, ...t }));
+        else tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.GRANDE, ...t, rotuloSeguir: 'Siguiendo' }));
     }
     if (datos.recomendados && datos.recomendados.length) {
-        tarjetas.push({ tipo: TIPOS_TARJETA.TITULO_RECOMENDADO, titulo: 'Basado en tus seguidos' });
-        for (const r of datos.recomendados) tarjetas.push({ tipo: TIPOS_TARJETA.RECOMENDADO, ...r });
+        tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.TITULO_RECOMENDADO, titulo: 'Basado en tus seguidos' }));
+        for (const r of datos.recomendados) tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.RECOMENDADO, ...r }));
     }
-    if (datos.grandes && datos.grandes.length) for (const g of datos.grandes) tarjetas.push({ tipo: TIPOS_TARJETA.GRANDE, ...g });
-    tarjetas.push({ tipo: TIPOS_TARJETA.CARGAR_MAS, rotulo: 'Ver más directos' });
+    if (datos.grandes && datos.grandes.length) for (const g of datos.grandes) tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.GRANDE, ...g }));
+    tarjetas.push(conPlantilla({ tipo: TIPOS_TARJETA.CARGAR_MAS, rotulo: 'Ver más directos' }));
     return tarjetas;
 }
 exports.tarjetasDeSiguiendo = tarjetasDeSiguiendo;
