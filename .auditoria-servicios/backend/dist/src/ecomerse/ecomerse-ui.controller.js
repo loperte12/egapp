@@ -1110,21 +1110,35 @@ function arbolDePanelCategorias(tema) {
             [K.LAYOUT_WIDTH]: -1,
             [K.ORIENTATION]: 1,
             [K.BACKGROUNDCOLOR]: C.fondo,
-            [K.PADDING_LEFT]: PANEL_V2.MARGEN,
-            [K.PADDING_RIGHT]: PANEL_V2.MARGEN,
             [K.PADDING_TOP]: 4,
         },
         hijos: [
-            texto('Categorías', 15, C.texto, { [K.PADDING_BOTTOM]: PANEL_V2.SEPARACION_TITULO }),
+            texto('Categorías', 15, C.texto, {
+                [K.PADDING_BOTTOM]: PANEL_V2.SEPARACION_TITULO,
+                [K.PADDING_LEFT]: PANEL_V2.MARGEN,
+            }),
             {
-                tipo: 'Lista',
-                valor: '$categorias',
+                // **El margen va en un Contenedor**: la `Lista` no aplica `PADDING_*` (en el móvil las
+                // celdas salieron de 111 dp en vez de 98,7). Con el contenedor, las columnas recuperan
+                // (360 − 2·18,3 − 2·13,7) / 3 = 98,67 dp.
+                tipo: 'Contenedor',
                 atributos: {
-                    [LISTA.COLUMN_COUNT]: PANEL_V2.COLUMNAS,
-                    [LISTA.COLUMN_SPACING]: PANEL_V2.HUECO_COLUMNA,
-                    [LISTA.ROW_SPACING]: PANEL_V2.HUECO_FILA, [K.PADDING_LEFT]: PANEL_V2.MARGEN, [K.PADDING_RIGHT]: PANEL_V2.MARGEN,
+                    [K.LAYOUT_WIDTH]: -1,
+                    [K.PADDING_LEFT]: PANEL_V2.MARGEN,
+                    [K.PADDING_RIGHT]: PANEL_V2.MARGEN,
                 },
-                hijos: [celdaDePanel(C)],
+                hijos: [
+                    {
+                        tipo: 'Lista',
+                        valor: '$categorias',
+                        atributos: {
+                            [LISTA.COLUMN_COUNT]: PANEL_V2.COLUMNAS,
+                            [LISTA.COLUMN_SPACING]: PANEL_V2.HUECO_COLUMNA,
+                            [LISTA.ROW_SPACING]: PANEL_V2.HUECO_FILA,
+                        },
+                        hijos: [celdaDePanel(C)],
+                    },
+                ],
             },
         ],
     };
