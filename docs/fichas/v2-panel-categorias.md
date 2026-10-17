@@ -50,6 +50,16 @@ Sustituye a:       nada (la retirada de la lista vieja ya se hizo en su propia f
 - **Despliegue**: la ruta `/api/ecomerse/ui/v2-categorias` responde `{esquema:1, arbol, datos}` en
   producción.
 
+## 4.1 · Verificación (17/10/2026)
+
+| comprobación | resultado |
+|---|---|
+| \
+pm run verificar\ | ✅ verde: tsc 5 = base · diseño · lógica · **rutas 138, mapa al día** · oráculo **159/159** |
+| Despliegue | ✅ 6 ficheros versionados y limpios · guardia «vivo» ✓ · subida con etag ✓ · **humo** 200 y esquema 1 ✓ |
+| **Ruta en PRODUCCIÓN** | ✅ \GET /api/ecomerse/ui/v2-categorias?tema=oscuro\ → **200** con \esquema:1\ y **18 categorías**; respuesta guardada en \docs/evidencia/171025-v2-panel-produccion.json\ (tardó un poco: SCF sirvió una instancia vieja las primeras peticiones — anotado) |
+| **Móvil** | ⏳ **PENDIENTE**: el teléfono no apareció por USB (\db devices\ vacío) al cerrar. **No se afirma probado.** Para cerrarla: \db reverse tcp:8081 tcp:8081\ → abrir \egrouteplan://ecomerse-v2\ → captura; y modo avión para el estado de error |
+
 ## 5 · Fuera de alcance
 
 | Qué no se hace | Por qué | Cuándo se revisa |
