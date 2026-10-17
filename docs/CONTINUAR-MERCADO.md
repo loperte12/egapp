@@ -1766,6 +1766,35 @@ privado y daría 403: eso sería peor que no mandar nada.
 dura 7 días, así que el primer acceso paga y el resto son instantáneos), y entonces mirar los logs
 para saber cuál de los dos candidatos era.
 
+### 30.1 · Resuelto: la región del cliente, y la prueba de que la firma vale
+
+Ninguno de los dos candidatos era el bueno: era **la región**. El SDK de minio pregunta la región del
+bucket (`GetBucketLocation`) **antes de firmar** si no se la dan, y eso es una llamada de red. Medido
+con el firmador de verdad: **la primera firma 473 ms** y las siguientes 1 ms. Desde la función esa
+llamada no completa, así que la firma se quedaba fuera del tope y la portada salía vacía — y encima la
+sección se iba a **3 s** (cada petición pagaba el intento).
+
+`MINIO_REGION=us-east-1` **ya estaba** en la configuración: solo faltaba pasársela al cliente.
+Con ella, firmar es local:
+
+| | antes | ahora |
+|---|---|---|
+| firmar (local) | 473 ms | **3 ms** |
+| `/ui/siguiendo` con portada | ~3000 ms y sin portada | **600 ms / 432 ms** (2.ª cacheada) y con URL |
+
+Y la prueba de que la firma **vale**: pidiendo la URL firmada, S3 contesta **404 `NoSuchKey`**, no
+`AccessDenied`. O sea que la firma es correcta y **el objeto no está en el bucket**: esa `photo_key` de
+los datos de prueba está huérfana. Para ver la portada hay que subir una foto de verdad (la pantalla
+«Mi tienda» la sube y devuelve la clave).
+
+**Queda de pulido**: cuando NO hay portada, el hueco de la imagen (cuadrada a todo el ancho) deja la
+tarjeta muy alta y con el marcador de imagen en el centro. Lo suyo es que el hueco **se pliegue** si no
+hay portada — o que el contrato tenga una `Imagen` vacía que ocupe cero.
+
+**Y por qué no se cacheó el fallo**: un `null` no se guarda, así que la siguiente petición reintenta.
+Un fallo cacheado seis días sería peor que el fallo.
+
+
 
 
 

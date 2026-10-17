@@ -266,15 +266,34 @@ let EcomerseService = class EcomerseService {
         if (/^https?:\/\//i.test(limpia))
             return limpia;
         /**
-         * **Con tope de tiempo, y no es pesimismo**: firmar habla con MinIO, y cuando MinIO no responde
-         * desde la función la sección entera se colgaba (medido en producción: `socket hang up` y 433
-         * del gateway). Una portada no puede costar la sección: si en 800 ms no hay URL, se devuelve
-         * `null` y la tarjeta se pinta sin portada, que es como estaba antes.
+         * **Cacheada, y no es una optimización: es la diferencia entre salir y no salir.**
+         *
+         * Medido con el firmador de verdad: construir el cliente 1 ms, **la PRIMERA firma 473 ms** y las
+         * siguientes **1 ms** — la primera pregunta la región del bucket por red. Con el tope de 800 ms
+         * aquello se quedaba fuera desde la función y la portada salía vacía.
+         *
+         * La firma dura 7 días (`MINIO_READ_TTL`); se guarda 6. Con eso el primer acceso de cada proceso
+         * paga la consulta de región y el resto son instantáneos.
          */
+        const SEIS_DIAS = 6 * 24 * 60 * 60 * 1000;
+        this.cacheFotos ??= new Map();
+        const guardada = this.cacheFotos.get(limpia);
+        if (guardada && guardada.expira > Date.now())
+            return guardada.url;
         try {
             const firma = this.storage.urlDeLectura(limpia);
-            const tope = new Promise((res) => setTimeout(() => res(null), 800));
-            return await Promise.race([firma, tope]);
+            const tope = new Promise((res) => setTimeout(() => res(null), 2500));
+            const url = await Promise.race([firma, tope]);
+            if (!url)
+                return null; // no se cachea el fallo: la próxima vez se reintenta
+            this.cacheFotos.set(limpia, { url, expira: Date.now() + SEIS_DIAS });
+            // El mapa no crece sin freno: si pasa de 500 fotos, se vacía el más viejo primero.
+            if (this.cacheFotos.size > 500) {
+                const primera = this.cacheFotos.keys().next();
+                if (!primera.done)
+                    this.cacheFotos.delete(primera.value);
+            }
+            return url;
         }
         catch (e) {
             this.log?.warn?.('no se pudo firmar la foto: ' + ((e && e.message) || e));

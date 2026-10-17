@@ -65,6 +65,10 @@ const FICHEROS = [
   // y el módulo de ecomerse, que es donde viven las rutas de verdad (seguidos, etc.)
   'dist/src/ecomerse/ecomerse.controller.js',
   'dist/src/ecomerse/ecomerse.service.js',
+  // el firmador de la portada (region del bucket: sin ella, firmar sale a la red)
+  'dist/src/ecomerse/ecomerse-storage.service.js',
+  // el guard opcional (la seccion de seguidos se sirve a invitados pero aprovecha la sesion)
+  'dist/src/http/guards.js',
 ];
 const ORIGEN = path.join(RAIZ, '.auditoria-servicios', 'backend');
 
