@@ -1028,7 +1028,13 @@ const servidor = createServer((req, res) => {
   // v2 · el CARRIL DE FILTROS: pastillas medidas; `?activa=categorias` hace aparecer el panel.
   '/api/ecomerse/ui/v2-filtros': (p) => ({
     arbol: arbolDeFiltros(p.get('tema'), p.get('activa') ?? ''),
-    buscarDatos: () => datosDeFiltros(p.get('activa') ?? ''),
+    // **Los datos son de la sección que se compone**: si el árbol trae el panel, sus datos tienen que
+    // venir con él o la lista se queda sin nada que repetir (pasó: fila y título, lista vacía).
+    buscarDatos: async () => {
+      const activa = p.get('activa') ?? '';
+      const datos = datosDeFiltros(activa);
+      return activa === 'categorias' ? { ...datos, ...(await datosDePanelCategorias()) } : datos;
+    },
   }),
 
   '/api/ecomerse/ui/v2-categorias': (p) => ({

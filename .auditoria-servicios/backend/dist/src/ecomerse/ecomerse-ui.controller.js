@@ -1212,11 +1212,37 @@ exports.FILTROS_V2 = FILTROS_V2;
 exports.FILTROS = FILTROS;
 exports.arbolDeFiltros = arbolDeFiltros;
 exports.datosDeFiltros = datosDeFiltros;
+/**
+ * Los datos de la sección COMPUESTA: si el árbol trae el panel, sus categorías tienen que viajar con él.
+ * Sin esto la `Lista` se queda sin elementos y se pinta una sección vacía sin ningún error (pasó en el
+ * móvil: fila, título y nada debajo).
+ */
+function datosDeFiltrosCompuestos(activa, departamentos) {
+    const datos = datosDeFiltros(activa);
+    if (String(activa || '') === 'categorias') {
+        Object.assign(datos, datosDePanelCategorias(departamentos) ?? {});
+    }
+    return datos;
+}
+exports.datosDeFiltrosCompuestos = datosDeFiltrosCompuestos;
 
 exports.FILTROS_V2 = FILTROS_V2;
 exports.FILTROS = FILTROS;
 exports.arbolDeFiltros = arbolDeFiltros;
 exports.datosDeFiltros = datosDeFiltros;
+/**
+ * Los datos de la sección COMPUESTA: si el árbol trae el panel, sus categorías tienen que viajar con él.
+ * Sin esto la `Lista` se queda sin elementos y se pinta una sección vacía sin ningún error (pasó en el
+ * móvil: fila, título y nada debajo).
+ */
+function datosDeFiltrosCompuestos(activa, departamentos) {
+    const datos = datosDeFiltros(activa);
+    if (String(activa || '') === 'categorias') {
+        Object.assign(datos, datosDePanelCategorias(departamentos) ?? {});
+    }
+    return datos;
+}
+exports.datosDeFiltrosCompuestos = datosDeFiltrosCompuestos;
 let EcomerseUiController = class EcomerseUiController {
     constructor(ecomerse) {
         this.ecomerse = ecomerse;
@@ -1283,10 +1309,15 @@ let EcomerseUiController = class EcomerseUiController {
      */
     async v2Filtros(tema, activa) {
         try {
+            // **Los datos son de la sección que se compone**: con el panel en el árbol, sus categorías
+            // tienen que venir también o la Lista se queda sin elementos (se pintó vacía: fila y
+            // título, y nada debajo).
+            // **Los datos son de la sección que se compone**: ver `datosDeFiltrosCompuestos`.
+            const datos = datosDeFiltrosCompuestos(activa, await this.ecomerse.categories());
             return {
                 esquema: ESQUEMA_UI,
                 arbol: arbolDeFiltros(tema, activa),
-                datos: datosDeFiltros(activa),
+                datos,
             };
         } catch (e) {
             this.log.warn(`no se pudo montar el carril de filtros: ${(e && e.message) || e}`);
