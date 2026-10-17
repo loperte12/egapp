@@ -229,7 +229,8 @@ function verificarCalidad() {
   }
   console.log('verificar      tsc · oráculo · diseño · lógica · rutas…');
   try {
-    execFileSync('npm', ['run', 'verificar'], { cwd: RAIZ, stdio: 'inherit', shell: true });
+    const npm = process.platform === 'win32' ? ['cmd.exe', ['/c', 'npm run verificar']] : ['npm', ['run', 'verificar']];
+    execFileSync(npm[0], npm[1], { cwd: RAIZ, stdio: 'inherit' });
   } catch {
     console.error('\nDESPLIEGUE ABORTADO: `npm run verificar` falló. Arregla antes de publicar.');
     process.exit(5);

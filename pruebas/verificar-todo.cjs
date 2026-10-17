@@ -82,7 +82,9 @@ todoBien = correr('tsc', () => {
 // 2..4 · los scripts de la casa, tal cual
 for (const [nombre, script] of [['diseño', 'diseno'], ['lógica', 'logica'], ['rutas', 'rutas']]) {
   todoBien = correr(nombre, () => {
-    execFileSync('npm', ['run', script], { cwd: RAIZ, stdio: 'inherit', shell: true });
+    // Sin shell:true: pasar argumentos con shell abierto es una concatenación (y avisa Node).
+    const npm = process.platform === 'win32' ? ['cmd.exe', ['/c', `npm run ${script}`]] : ['npm', ['run', script]];
+    execFileSync(npm[0], npm[1], { cwd: RAIZ, stdio: 'inherit' });
     return 'verde';
   }) && todoBien;
 }
