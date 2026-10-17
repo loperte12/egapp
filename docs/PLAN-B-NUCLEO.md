@@ -15,7 +15,29 @@ la ingeniería inversa deja de pelearse con la app.
 
 ---
 
-## Costura 1 · Contrato (semana 1)
+## Costura 1 · Contrato — **CERRADA el 17/10** ✅
+
+**Lo que quedó:**
+
+1. **`docs/CONTRATO-UI.md`** — el documento vivo: el sobre `{esquema, arbol, datos}`, las cuatro
+   reglas de interpretación, **la política de versión** (§3: qué cambios son compatibles y cuáles
+   obligan a subir a 2), el procedimiento de subida (los dos lados en el mismo despliegue), la tabla de
+   los **14 tipos** con sus alias, y las reglas de claves y extensiones `ext:`.
+2. **`test/contratoVersion.test.mjs`** (4 pruebas nuevas) — la que faltaba de verdad:
+   - **las tres copias de la versión valen lo mismo** (`uiContrato.ESQUEMA_UI`,
+     `renderizadorNucleo.VERSION_ESQUEMA` y la del controlador). Tres copias de un número es cómo se
+     rompe una versión sin que nadie lo vea;
+   - **lo que el cliente declara es lo que acepta** (`capacidades().versionEsquema` ↔
+     `interpretarRespuestaUi`): declarar la 2 y aceptar la 1 es el mismo fallo por el otro lado;
+   - **la lista de 14 tipos está congelada** (añadir o quitar obliga a tocar el test y el documento);
+   - **ningún alias se pisa** y el mapa inverso cubre exactamente tipos + alias.
+3. La tabla de rechazo de §1 ya estaba probada en `claves.test.mjs`; ahora además está **escrita**.
+4. Las tres constantes llevan en el código un puntero a este documento y al test.
+
+**Aceptación**: ✅ las pruebas pasan (oráculo: 153), y el contrato está enlazado desde la ley (§3) y
+desde el propio código (`uiContrato.ts`, `renderizadorNucleo.ts`).
+
+
 
 **Qué significa congelado**: el árbol que manda el servidor y el que pinta la app hablan **una sola
 versión**, y hay una regla escrita para cambiarla.

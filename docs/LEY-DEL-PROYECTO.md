@@ -52,7 +52,7 @@ captura / APK / panel                  ficha aprobada
 
 | Costura | Qué es | Dónde vive | Estado |
 |---|---|---|---|
-| **1 · Contrato** backend↔app | `{esquema, arbol, datos}` con 14 tipos de widget; esquema versionado; si no coincide, **no se pinta** | `components/ecomerse/uiContrato.ts` (65 líneas, `ESQUEMA_UI = 1`) · `api/ecomerseUi.ts` (156) | congelado; **falta** la política de versión escrita y la prueba de rechazo |
+| **1 · Contrato** backend↔app | `{esquema, arbol, datos}` con 14 tipos de widget; esquema versionado; si no coincide, **no se pinta** | `components/ecomerse/uiContrato.ts` (65 líneas, `ESQUEMA_UI = 1`) · `api/ecomerseUi.ts` (156) | congelada: política y tipos en [CONTRATO-UI.md](CONTRATO-UI.md); tres copias de la versión fijadas por `contratoVersion.test.mjs` |
 | **2 · Kit y motor de UI** | widgets (`Contenedor`, `Texto`, `Imagen`, `Lista`, `Precio`, `Pestanas`…), tablas de claves **puras** y tokens de diseño: **no se escribe hexadecimal fuera de los tokens** | `components/ecomerse/` (26 componentes + 25 módulos puros) · `npm run diseno` | congelado; **falta** documento de «cómo se añade un widget» |
 | **3 · Cadena de entrega** | un despliegue que publica **exactamente lo commiteado**, guardias (`tsc`, oráculo, diseño, rutas) y **una** forma de verificar en el móvil | `pruebas/desplegar-ui-mercado.cjs` (6 ficheros hoy) · `mercado-fase1/o1-oraculo` (13 ficheros, 148 pruebas) · `package.json` | **a medias**: la lista de ficheros sigue escrita a mano y las guardias son manuales |
 

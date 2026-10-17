@@ -53,6 +53,12 @@
  *
  * **El cliente la declara al servidor.** Si el servidor conoce una versión mayor, debe abstenerse
  * de mandar nodos que este cliente no sabrá pintar.
+ *
+ * **Esta constante está TRES veces en el árbol** (aquí, en `uiContrato.ts` para validar, y en el
+ * controlador del servidor para mandar): es el precio de que este módulo sea autocontenido y se
+ * pueda probar en Node. **La política completa y cuándo subirla: `docs/CONTRATO-UI.md`.**
+ * `test/contratoVersion.test.mjs` falla si las tres no valen lo mismo o si lo declarado aquí no es
+ * lo aceptado por `interpretarRespuestaUi`.
  */
 export const VERSION_ESQUEMA = 1;
 

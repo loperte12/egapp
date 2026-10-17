@@ -30,6 +30,12 @@
  *
  * **Sube esto cuando cambie la forma del árbol.** Un cliente viejo con un servidor nuevo no pinta
  * —que es lo correcto: es mejor una sección que no está que una sección con datos mal leídos.
+ *
+ * **Qué es «cambiar la forma» y qué no, y el procedimiento: `docs/CONTRATO-UI.md`.** El resumen:
+ * un valor nuevo en un atributo existente **no** sube la versión; un **tipo** nuevo, una **clave**
+ * nueva o un cambio de tipo de valor **sí**, y entonces se sube **en los tres sitios a la vez**
+ * (aquí, `renderizadorNucleo.VERSION_ESQUEMA` y el controlador del servidor) y se actualiza el test
+ * `contratoVersion.test.mjs`, que falla si las tres no coinciden.
  */
 export const ESQUEMA_UI = 1;
 
