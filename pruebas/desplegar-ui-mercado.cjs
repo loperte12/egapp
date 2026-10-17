@@ -50,27 +50,40 @@ const PYTHON = process.env.PYTHON_UI ?? 'C:\\Users\\nisang12\\.dsh\\dsh-runtimes
 const FUNCION = { nombre: 'egrouteplan-api', envId: 'egrouteplan-d0gpkwbe7ce86f609', region: 'ap-singapore' };
 
 /**
- * Los ficheros que se empujan, en el árbol vivo del backend.
+ * Los ficheros que se empujan, **derivados de git** — no una lista escrita a mano.
  *
- * **Fue una sorpresa cara**: el script bajaba el código VIVO y solo reemplazaba estos dos, así que
- * durante toda la línea de trabajo **la UI viajaba y el resto del backend no**. Se notó al empujar el
- * endpoint de seguidos: se desplegó, y en producción las rutas seguían sin existir (404), mientras la
- * ruta de la UI nueva sí estaba. La lista es el CONTRATO de lo que se publica: si algo se cambia fuera
- * de ella, no llega.
+ * **Fue una sorpresa cara** (17/10): el script bajaba el código VIVO y solo reemplazaba dos ficheros,
+ * así que durante toda la línea de trabajo **la UI viajaba y el resto del backend no**. Se notó al
+ * empujar el endpoint de seguidos: el despliegue decía OK y en producción las rutas seguían en 404.
+ *
+ * Desde hoy la lista **es lo que git tiene versionado** bajo el árbol del backend: si un fichero está
+ * commiteado, viaja sin que nadie lo añada a una lista; y si alguien lo cambia sin commitear, el
+ * despliegue **seniega** (ver `verificarFicheros`).
  */
-const FICHEROS = [
-  // la UI del Mercado (lo que este script despliega desde el principio)
-  'dist/src/ecomerse/ecomerse-ui.controller.js',
-  'dist/src/ecomerse/ecomerse.module.js',
-  // y el módulo de ecomerse, que es donde viven las rutas de verdad (seguidos, etc.)
-  'dist/src/ecomerse/ecomerse.controller.js',
-  'dist/src/ecomerse/ecomerse.service.js',
-  // el firmador de la portada (region del bucket: sin ella, firmar sale a la red)
-  'dist/src/ecomerse/ecomerse-storage.service.js',
-  // el guard opcional (la seccion de seguidos se sirve a invitados pero aprovecha la sesion)
-  'dist/src/http/guards.js',
-];
+const RUTA_BACKEND_GIT = '.auditoria-servicios/backend/';
+
+function ficherosDeGit() {
+  const salida = execFileSync('git', ['ls-files', '--', `${RUTA_BACKEND_GIT}dist/src/`],
+    { cwd: RAIZ, encoding: 'utf8' });
+  const lista = salida.split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
+    .map((l) => l.slice(RUTA_BACKEND_GIT.length));
+  if (lista.length === 0) {
+    throw new Error('git no tiene versionado ningún fichero del backend: ¿se perdió .gitignore?');
+  }
+  return lista;
+}
+const FICHEROS = ficherosDeGit();
 const ORIGEN = path.join(RAIZ, '.auditoria-servicios', 'backend');
+
+/**
+ * Las carpetas donde vive NUESTRO código. En ellas rige una regla fuerte: **todo lo local tiene que ser
+ * o publicado, o byte-idéntico a lo que está en vivo**. Si algo difiere y no se publica, se aborta.
+ *
+ * Es el fallo del `ecomerse-storage.service.js`: existía en vivo, se cambió en local (la región del
+ * cliente de minio) y **no estaba en la lista**, así que el arreglo no llegaba a producción y el
+ * síntoma (portada vacía) parecía otra cosa.
+ */
+const CARPETAS_NUESTRAS = ['dist/src/ecomerse/', 'dist/src/http/'];
 
 const MCP_ENV = {
   ...process.env,
@@ -142,6 +155,88 @@ function comprobarCredenciales() {
   }
 }
 
+/**
+ * ── LAS DOS GUARDIAS QUE HACEN QUE «LO QUE HAY EN PRODUCCIÓN ES LO QUE ESTÁ EN GIT» ──
+ *
+ * 1. **Nada sin commitear**: por cada fichero a publicar, `git status --porcelain` tiene que salir
+ *    vacío. Si el fichero cambió y no se commiteó, se aborta: el despliegue publica **commits**, no
+ *    el disco.
+ * 2. **Nada cambiado que no viaje**: dentro de `CARPETAS_NUESTRAS`, todo fichero local que **difiera**
+ *    del vivo (o que no exista en vivo) tiene que estar en la lista. Si no, se aborta **nombrando el
+ *    fichero** — es exactamente el fallo que dejó la portada vacía durante dos despliegues.
+ *
+ * (Para saltarse la primera a propósito: `SALTAR_VERIFICACION=1`. La segunda **no** se salta: si se
+ *  quiere publicar algo nuevo, `git add -f` y listo, que es lo correcto.)
+ */
+function verificarFicheros() {
+  const sucios = [];
+  for (const f of FICHEROS) {
+    const estado = execFileSync('git', ['status', '--porcelain', '--', `${RUTA_BACKEND_GIT}${f}`],
+      { cwd: RAIZ, encoding: 'utf8' }).trim();
+    if (estado) sucios.push(f);
+  }
+  if (sucios.length) {
+    console.error('\nDESPLIEGUE ABORTADO: hay ficheros sin commitear que se iban a publicar:');
+    for (const f of sucios) console.error('  · ' + f);
+    console.error('\nSe publica lo que está en git, no lo que hay en el disco. Commitea primero.');
+    process.exit(3);
+  }
+  console.log(`ficheros       ${FICHEROS.length} (todos versionados y limpios en git)`);
+}
+
+/** Compara lo local con el árbol VIVO ya extraído: nada de `CARPETAS_NUESTRAS` puede diferir sin viajar. */
+function verificarContraVivo(carpetaDelVivo) {
+  const publicados = new Set(FICHEROS);
+  const problemas = [];
+  const walk = (dir) => {
+    let entradas;
+    try { entradas = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+    for (const e of entradas) {
+      const abs = path.join(dir, e.name);
+      if (e.isDirectory()) { walk(abs); continue; }
+      const rel = path.relative(ORIGEN, abs).replace(/\\/g, '/');
+      if (!CARPETAS_NUESTRAS.some((c) => rel.startsWith(c))) continue;
+      const vivo = path.join(carpetaDelVivo, ...rel.split('/'));
+      const existeVivo = fs.existsSync(vivo);
+      const igual = existeVivo && sha256(abs) === sha256(vivo);
+      if (igual || publicados.has(rel)) continue;
+      problemas.push(existeVivo
+        ? `${rel}  (cambió en local y NO se publica)`
+        : `${rel}  (es NUEVO y NO se publica)`);
+    }
+  };
+  for (const c of CARPETAS_NUESTRAS) walk(path.join(ORIGEN, ...c.split('/')));
+  if (problemas.length) {
+    console.error('\nDESPLIEGUE ABORTADO: hay código nuestro que NO viajaría:');
+    for (const p of problemas) console.error('  · ' + p);
+    console.error('\nCada fichero de esas carpetas tiene que ser byte-idéntico al vivo o estar en la lista.');
+    console.error('Si es nuevo: `git add -f` y vuelve a intentarlo (la lista sale de git).');
+    process.exit(4);
+  }
+  console.log(`vivo           ${FICHEROS.length} ficheros nuestros coinciden o viajan ✓`);
+}
+
+/**
+ * ── LAS GUARDIAS DE CALIDAD: `npm run verificar` ──
+ *
+ * `tsc` + oráculo + diseño + lógica + rutas, en un comando. El despliegue **se niega** a publicar si
+ * alguna falla (la ley, §5: sin las cinco comprobaciones no se despliega).
+ */
+function verificarCalidad() {
+  if (process.env.SALTAR_VERIFICACION === '1') {
+    console.log('AVISO          SALTAR_VERIFICACION=1: no se corren las guardias (decisión explícita)');
+    return;
+  }
+  console.log('verificar      tsc · oráculo · diseño · lógica · rutas…');
+  try {
+    execFileSync('npm', ['run', 'verificar'], { cwd: RAIZ, stdio: 'inherit', shell: true });
+  } catch {
+    console.error('\nDESPLIEGUE ABORTADO: `npm run verificar` falló. Arregla antes de publicar.');
+    process.exit(5);
+  }
+  console.log('verificar      todo en verde ✓');
+}
+
 // ─────────────────────────── 1 · qué hay desplegado ───────────────────────────
 function comprobar() {
   const d = q('queryFunctions', { action: 'getFunctionDownloadUrl', functionName: FUNCION.nombre });
@@ -157,6 +252,10 @@ function comprobar() {
 
 // ─────────────────────────── 2 · descargar, parchear, subir, desplegar ───────────────────────────
 function desplegar() {
+  // Las guardias ANTES de tocar nada: sin commitear no sale, y sin verde no sale.
+  verificarFicheros();
+  verificarCalidad();
+
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ui-mercado-'));
   try {
     // a) el código VIVO, que es la base: así el paquete no arrastra copias viejas de nada más.
@@ -165,13 +264,17 @@ function desplegar() {
     execFileSync('curl.exe', ['-s', '-S', '-L', '-o', vivo, d.downloadUrl], { stdio: 'inherit' });
     console.log(`vivo           ${fs.statSync(vivo).size.toLocaleString('es')} B  sha256 ${sha256(vivo).slice(0, 16)}…`);
 
-    // b) los dos ficheros del Mercado, sustituidos por los del árbol de trabajo.
+    // b) los ficheros versionados, sustituidos por los del árbol de trabajo.
     const carpeta = path.join(tmp, 'paquete');
     fs.mkdirSync(carpeta, { recursive: true });
     execFileSync(PYTHON, ['-c', `
 import zipfile, sys
 zipfile.ZipFile(r"${vivo}").extractall(r"${carpeta}")
 `], { stdio: 'inherit' });
+
+    // ── la guardia fuerte: nada de nuestro código puede haber cambiado sin viajar ──
+    verificarContraVivo(carpeta);
+
     for (const f of FICHEROS) {
       const destino = path.join(carpeta, ...f.split('/'));
       if (!fs.existsSync(destino)) throw new Error(`el paquete vivo no trae ${f}: ¿cambió el backend?`);
@@ -215,6 +318,19 @@ print("paquete:", len(zz.infolist()), "entradas,", os.path.getsize(dst), "B")
       },
     });
     console.log(`despliegue     ${JSON.stringify(r?.data?.RequestId ?? r)}`);
+
+    // f) lo desplegado, comparado con lo enviado. **Se despliega lo que se comprueba.**
+    const esperado = sha256(nuevo);
+    console.log(`esperado       sha256 ${esperado}`);
+    try {
+      const ahora = comprobar();
+      const coincide = String(ahora.codeSha256).toLowerCase() === esperado;
+      console.log(`desplegado     ${coincide ? 'CONCUERDA ✓' : '⚠ NO concuerda — comprueba con --comprobar en 30 s'}`);
+      if (!coincide) console.log('               (SCF publica de forma asíncrona: repetir --comprobar antes de dar por hecho)');
+    } catch (e) {
+      console.log(`(no se pudo releer el estado: ${e.message})`);
+    }
+
     console.log('\nempaquetado y enviado. **Comprobar el estado en 30 s con `--comprobar` y, sobre todo, con');
     console.log('el verificador de producción:**');
     console.log('  node "../<ruta>/o1-oraculo/work/verificar-produccion.mjs"');
