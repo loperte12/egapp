@@ -26,10 +26,10 @@
  * CONTRATO: `cardType: 'recordatorio-pago'`. Sin tipo nuevo.
  */
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { espaciado, interlineado, peso, tipografia, useTheme } from '@egrouteplan/ui-kit';
 import {
-  BloquePedido, BotonPildora, CabeceraTarjeta, FilaBotones, TarjetaEnChat,
+  BloquePedido, CabeceraTarjeta, FilaBotonesDeTarjeta, TarjetaEnChat, type BotonTarjeta,
 } from './piezas';
 
 export function TarjetaRecordatorioPago({ titulo, contenido, producto, imagen, importe, botones, onAbrirPedido, onBoton }: {
@@ -44,7 +44,11 @@ export function TarjetaRecordatorioPago({ titulo, contenido, producto, imagen, i
   onBoton?: (etiqueta: string) => void;
 }) {
   const { colors } = useTheme();
-  const acciones = botones ?? [];
+  /** Normalizado a `BotonTarjeta`: el `id` local puede faltar y cae al rótulo (igual que el mapeador). */
+  const acciones: BotonTarjeta[] = (botones ?? []).map((b) => ({
+    id: b.id ?? b.etiqueta,
+    etiqueta: b.etiqueta,
+  }));
 
   return (
     <TarjetaEnChat>
@@ -66,17 +70,7 @@ export function TarjetaRecordatorioPago({ titulo, contenido, producto, imagen, i
         />
       ) : null}
 
-      {acciones.length ? (
-        <FilaBotones>
-          {acciones.map((b, i) => (
-            <BotonPildora
-              key={`${b.etiqueta}-${i}`}
-              texto={b.etiqueta}
-              onPress={onBoton ? () => onBoton(b.id ?? b.etiqueta) : undefined}
-            />
-          ))}
-        </FilaBotones>
-      ) : null}
+      <FilaBotonesDeTarjeta botones={acciones} onBoton={onBoton} />
     </TarjetaEnChat>
   );
 }

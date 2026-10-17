@@ -304,10 +304,12 @@ export function FilaBotones({ children }: { children: ReactNode }) {
  * antes cada tarjeta pintaba sus botones a mano y el toque devolvía el TEXTO. Aquí el toque
  * devuelve el **`id`**, que es lo que no cambia cuando cambia el rótulo.
  */
-export function FilaBotonesDeTarjeta({ botones, onBoton, tono }: {
+export function FilaBotonesDeTarjeta({ botones, onBoton, tono, contorno }: {
   botones: BotonTarjeta[];
   onBoton?: (id: string) => void;
   tono?: Tono;
+  /** Botones de contorno (variante destacada), como en `TarjetaTextoAcciones`. */
+  contorno?: boolean;
 }) {
   if (!botones.length) return null;
   return (
@@ -319,6 +321,7 @@ export function FilaBotonesDeTarjeta({ botones, onBoton, tono }: {
             key={b.id}
             texto={b.etiqueta}
             tono={tono}
+            contorno={contorno}
             inactivo={apagado}
             onPress={apagado ? undefined : () => onBoton?.(b.id)}
           />

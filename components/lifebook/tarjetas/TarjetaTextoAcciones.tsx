@@ -24,9 +24,9 @@
  * CONTRATO: `cardType: 'texto-acciones'`. Sin tipo nuevo.
  */
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { espaciado, interlineado, peso, tipografia, useTheme } from '@egrouteplan/ui-kit';
-import { BotonPildora, TarjetaEnChat } from './piezas';
+import { FilaBotonesDeTarjeta, TarjetaEnChat, type BotonTarjeta } from './piezas';
 
 export function TarjetaTextoAcciones({ titulo, texto, botones, destacado, onBoton }: {
   /** Si viene, la tarjeta se pinta en su variante destacada (título a 16 en negrita). */
@@ -40,7 +40,15 @@ export function TarjetaTextoAcciones({ titulo, texto, botones, destacado, onBoto
 }) {
   const { colors } = useTheme();
   const esDestacado = destacado || Boolean(titulo);
-  const acciones = botones ?? [];
+  /**
+   * Se normalizan a `BotonTarjeta` aquí: el `id` local puede faltar y el del contrato no. Si falta,
+   * cae al rótulo — peor es no tener ninguno, y así una tarjeta antigua sigue funcionando (misma
+   * regla que `botonesDelServidor`).
+   */
+  const acciones: BotonTarjeta[] = (botones ?? []).map((b) => ({
+    id: b.id ?? b.etiqueta,
+    etiqueta: b.etiqueta,
+  }));
 
   return (
     <TarjetaEnChat>
@@ -61,18 +69,8 @@ export function TarjetaTextoAcciones({ titulo, texto, botones, destacado, onBoto
         </Text>
       ) : null}
 
-      {acciones.length ? (
-        <View style={estilos.acciones}>
-          {acciones.map((b, i) => (
-            <BotonPildora
-              key={`${b.etiqueta}-${i}`}
-              texto={b.etiqueta}
-              contorno={esDestacado}
-              onPress={onBoton ? () => onBoton(b.id ?? b.etiqueta) : undefined}
-            />
-          ))}
-        </View>
-      ) : null}
+      {/* La fila de botones es la pieza compartida: el toque devuelve el id, y el inactivo se apaga. */}
+      <FilaBotonesDeTarjeta botones={acciones} onBoton={onBoton} contorno={esDestacado} />
     </TarjetaEnChat>
   );
 }
@@ -82,5 +80,4 @@ const estilos = StyleSheet.create({
   texto: { fontSize: tipografia.body, lineHeight: interlineado.body },
   /** El aviso importante: 16/22 como la tarjeta 29. */
   textoDestacado: { fontSize: tipografia.subtitle, lineHeight: interlineado.suelto },
-  acciones: { flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e8, marginTop: espaciado.e12 },
 });
