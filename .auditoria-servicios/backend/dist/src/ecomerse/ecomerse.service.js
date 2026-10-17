@@ -249,6 +249,39 @@ let EcomerseService = class EcomerseService {
      *
      * Se recuerda por proceso: es una consulta al catálogo, no a los datos.
      */
+    /**
+     * **La URL de lectura de una foto guardada**: la clave (`products/….jpg`) no es una URL.
+     *
+     * Envuelve el firmador que ya existe (`EcomerseStorageService.urlDeLectura`, URL pública o
+     * presigned GET según `MINIO_SIGNED_READ`), para que la sección de seguidos no tenga que saber
+     * nada del almacenamiento y no haya dos formas de firmar.
+     */
+    async urlDeFoto(key) {
+        if (!key)
+            return null;
+        const limpia = String(key).trim();
+        if (!limpia)
+            return null;
+        // Si ya viene una URL (datos viejos, pruebas), se devuelve tal cual.
+        if (/^https?:\/\//i.test(limpia))
+            return limpia;
+        /**
+         * **Con tope de tiempo, y no es pesimismo**: firmar habla con MinIO, y cuando MinIO no responde
+         * desde la función la sección entera se colgaba (medido en producción: `socket hang up` y 433
+         * del gateway). Una portada no puede costar la sección: si en 800 ms no hay URL, se devuelve
+         * `null` y la tarjeta se pinta sin portada, que es como estaba antes.
+         */
+        try {
+            const firma = this.storage.urlDeLectura(limpia);
+            const tope = new Promise((res) => setTimeout(() => res(null), 800));
+            return await Promise.race([firma, tope]);
+        }
+        catch (e) {
+            this.log?.warn?.('no se pudo firmar la foto: ' + ((e && e.message) || e));
+            return null;
+        }
+    }
+
     async hayTablaDeSeguidos() {
         if (this.__seguidosLista === true)
             return true;

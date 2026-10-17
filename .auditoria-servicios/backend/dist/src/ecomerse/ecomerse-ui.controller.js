@@ -844,17 +844,25 @@ async function datosDeSiguiendo(servicio, userId) {
          * móvil (salía «Reintentar» con la sesión válida).
          */
         const r = await servicio.tiendasSeguidas(userId);
-        const tiendas = (r && r.sellers ? r.sellers : []).map((s) => ({
-            id: String(s.id),
-            nombre: s.businessName ?? 'Vendedor',
-            creador: s.businessName ?? 'Vendedor',
-            // 'photoKey' es una CLAVE, no una URL: si no empieza por http no hay portada que enseñar.
-            portada: esUrlDeImagen(s.photoKey) ? s.photoKey : null,
-            avatar: esUrlDeImagen(s.photoKey) ? s.photoKey : null,
-            anuncios: Number(s.anuncios ?? 0),
-            ciudad: s.city ?? null,
-            desde: s.since ?? null,
-        }));
+        const tiendas = [];
+        for (const s of (r && r.sellers ? r.sellers : [])) {
+            /**
+             * **La foto de la tienda es una CLAVE** (`products/….jpg`), no una URL: se firma con el
+             * mismo camino que usa el resto del módulo. Antes se descartaba por no ser una URL, y por
+             * eso ninguna tienda con foto enseñaba portada.
+             */
+            const foto = await servicio.urlDeFoto(s.photoKey);
+            tiendas.push({
+                id: String(s.id),
+                nombre: s.businessName ?? 'Vendedor',
+                creador: s.businessName ?? 'Vendedor',
+                portada: foto,
+                avatar: foto,
+                anuncios: Number(s.anuncios ?? 0),
+                ciudad: s.city ?? null,
+                desde: s.since ?? null,
+            });
+        }
         return { tarjetas: tarjetasDeSiguiendo({ titulo: 'Siguiendo', tiendas }) };
     }
     catch (e) {
