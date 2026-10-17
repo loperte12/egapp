@@ -251,6 +251,41 @@ function comprobar() {
 }
 
 // ─────────────────────────── 2 · descargar, parchear, subir, desplegar ───────────────────────────
+/**
+ * ── EL HUMO: pedir una ruta conocida y esperar lo que devuelve ──
+ *
+ * Es la comprobación que **no puede mentir**: si el código publicado no responde con el contrato
+ * esperado, el despliegue falla aunque la subida fuera perfecta. Se usa la ruta de la UI porque es
+ * pública (sin token) y devuelve `{esquema:1, arbol:…}`.
+ */
+function esperarHumo(intentos = 6) {
+  const https = require('node:https');
+  const url = 'https://api.egrouteplan.com/api/ecomerse/ui/siguiendo';
+  const unaVez = () => new Promise((res) => {
+    const req = https.get(url, { headers: { 'cache-control': 'no-cache' } }, (r) => {
+      let cuerpo = '';
+      r.on('data', (d) => cuerpo += d);
+      r.on('end', () => res({ status: r.statusCode, cuerpo }));
+    });
+    req.on('error', (e) => res({ status: 0, cuerpo: e.message }));
+    req.setTimeout(15000, () => { req.destroy(); res({ status: 0, cuerpo: 'timeout' }); });
+  });
+
+  // SCF publica de forma asíncrona: se reintenta con espera creciente.
+  const esperas = [5000, 10000, 15000, 20000, 25000, 30000];
+  return (async () => {
+    let ultimo = { status: 0, cuerpo: 'sin intentos' };
+    for (let i = 0; i < intentos; i++) {
+      ultimo = await unaVez();
+      if (ultimo.status === 200 && /"esquema"\s*:\s*1/.test(ultimo.cuerpo)) {
+        return { ok: true, motivo: `200 y esquema 1 en ${i + 1} intento(s)` };
+      }
+      if (i < intentos - 1) await new Promise((r) => setTimeout(r, esperas[Math.min(i, esperas.length - 1)]));
+    }
+    return { ok: false, motivo: `estado ${ultimo.status}: ${String(ultimo.cuerpo).slice(0, 160)}` };
+  })();
+}
+
 function desplegar() {
   // Las guardias ANTES de tocar nada: sin commitear no sale, y sin verde no sale.
   verificarFicheros();
@@ -319,20 +354,22 @@ print("paquete:", len(zz.infolist()), "entradas,", os.path.getsize(dst), "B")
     });
     console.log(`despliegue     ${JSON.stringify(r?.data?.RequestId ?? r)}`);
 
-    // f) lo desplegado, comparado con lo enviado. **Se despliega lo que se comprueba.**
-    const esperado = sha256(nuevo);
-    console.log(`esperado       sha256 ${esperado}`);
-    try {
-      const ahora = comprobar();
-      const coincide = String(ahora.codeSha256).toLowerCase() === esperado;
-      console.log(`desplegado     ${coincide ? 'CONCUERDA ✓' : '⚠ NO concuerda — comprueba con --comprobar en 30 s'}`);
-      if (!coincide) console.log('               (SCF publica de forma asíncrona: repetir --comprobar antes de dar por hecho)');
-    } catch (e) {
-      console.log(`(no se pudo releer el estado: ${e.message})`);
+    // f) LA PRUEBA DE VERDAD: que PRODUCE. Lo desplegado se comprueba pidiendo una ruta conocida.
+    //
+    // (Antes comparaba el `codeSha256` de SCF con el sha256 del ZIP enviado. **Es un error**: SCF no
+    // publica el sha del ZIP, calcula otro — y el aviso «NO concuerda» salía siempre, incluso con el
+    // despliegue perfecto. Un chequeo que no puede pasar no comprueba nada.)
+    const estado = comprobar();
+    console.log(`codeSha256     ${estado.codeSha256}   (referencia para deshacer)`);
+    const humo = esperarHumo();
+    if (!humo.ok) {
+      console.error(`\nDESPLEGADO PERO NO PRODUCE: ${humo.motivo}`);
+      console.error('Revisar con --comprobar y, si hace falta, volver al ZIP de .tmp-cloudbase/rollback/.');
+      process.exit(6);
     }
+    console.log(`humo           ${humo.motivo} ✓`);
 
-    console.log('\nempaquetado y enviado. **Comprobar el estado en 30 s con `--comprobar` y, sobre todo, con');
-    console.log('el verificador de producción:**');
+    console.log('\nempaquetado, enviado y produciendo. **Comprobar también con el verificador de producción:**');
     console.log('  node "../<ruta>/o1-oraculo/work/verificar-produccion.mjs"');
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
