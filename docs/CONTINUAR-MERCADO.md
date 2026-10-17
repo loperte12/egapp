@@ -1738,6 +1738,34 @@ ahora la celda va con `flex: 1` cuando la lista es vertical (`components/ecomers
 plantilla —«Reproducción automática: plegada» + «Desplegar», «Siguiendo», la tarjeta grande con ▶,
 **«Abacería E2E v3»** y su botón **«Siguiendo»**, y «Ver más directos»—, con el hueco de 10 entre
 tarjetas (medido en los píxeles: fondo `(23,23,26)` entre tarjetas `(36,36,36)`).
+---
+
+## 30 · La portada de la tarjeta: la clave sí se firma, pero el almacenamiento no contesta (17/10)
+
+La tarjeta grande salía con el ▶ sobre un fondo vacío porque la sección **descartaba** `photoKey` con
+`esUrlDeImagen(photoKey)`: es una **clave** (`products/….jpg`), no una URL. El backend ya sabía
+resolverla — `EcomerseStorageService.urlDeLectura` (presigned GET, `MINIO_SIGNED_READ=1`, TTL 7 días,
+bucket `egapp-media` en `https://s3.bitiful.net`) —, así que se añadió `EcomerseService.urlDeFoto(key)`
+que **envuelve el firmador** (nada de firmar en el controlador) y la sección la usa.
+
+**Dos cosas que se aprendieron al desplegarlo:**
+
+1. **Firmar puede costar la sección.** En la primera versión, sin tope, la sección se **colgó** en
+   producción (`socket hang up` y 433 del gateway). Firmar habla con el almacenamiento, y una portada
+   no puede costar la sección: ahora `urlDeFoto` tiene un **tope de 800 ms** y devuelve `null` si no
+   llega. Medido después: la sección responde **200 en 1299 ms** y `datos` viene siempre.
+2. **La portada sigue saliendo vacía** (`portada: null`). El candidato es que la firma no complete
+   dentro del tope (arranque en frío) o que el cliente de almacenamiento falle en la función. La línea
+   que lo diría está escrita y **no la he podido leer**: `no se pudo firmar la foto: …`
+   (`this.log.warn`). Queda **pendiente** mirar los logs de la función.
+
+**Sin atajos**: cuando la firma falla **no** se manda la URL pública a sabiendas de que el bucket es
+privado y daría 403: eso sería peor que no mandar nada.
+
+**Siguiente paso concreto**: subir el tope a ~2 s y **cachear la URL firmada por clave** (la firma
+dura 7 días, así que el primer acceso paga y el resto son instantáneos), y entonces mirar los logs
+para saber cuál de los dos candidatos era.
+
 
 
 
