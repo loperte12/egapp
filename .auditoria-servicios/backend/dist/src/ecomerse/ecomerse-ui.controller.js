@@ -1074,6 +1074,9 @@ exports.datosDeDestacados = datosDeDestacados;
  */
 // `gravity` del motor, MEDIDO: CLAVES_LAYOUT.GRAVITY = d35754e84f6522f6; 4 = center.
 const GRAVEDAD_CENTRO = 'd35754e84f6522f6';
+// `margen izquierdo` del motor, MEDIDO: `CLAVES_LAYOUT.MARGIN_LEFT` = f3477b9719b6f213. No está en la
+// copia `K` del controlador, y la paridad lo exige idéntico en los dos servidores.
+const MARGEN_IZQUIERDO = 'f3477b9719b6f213';
 const PANEL_V2 = Object.freeze({
     COLUMNAS: 3,
     HUECO_COLUMNA: 13.7,
@@ -1119,7 +1122,7 @@ function arbolDePanelCategorias(tema) {
                 atributos: {
                     [LISTA.COLUMN_COUNT]: PANEL_V2.COLUMNAS,
                     [LISTA.COLUMN_SPACING]: PANEL_V2.HUECO_COLUMNA,
-                    [LISTA.ROW_SPACING]: PANEL_V2.HUECO_FILA,
+                    [LISTA.ROW_SPACING]: PANEL_V2.HUECO_FILA, [K.PADDING_LEFT]: PANEL_V2.MARGEN, [K.PADDING_RIGHT]: PANEL_V2.MARGEN,
                 },
                 hijos: [celdaDePanel(C)],
             },
@@ -1158,7 +1161,7 @@ const FILTROS = Object.freeze([
     { id: 'todos', nombre: '全部' },
     { id: 'categorias', nombre: '分类', caret: true },
 ]);
-function pastillaDeFiltro(C, { id, nombre, caret }, activo) {
+function pastillaDeFiltro(C, { id, nombre, caret }, activo, primera) {
     return {
         tipo: 'Contenedor',
         atributos: {
@@ -1168,7 +1171,7 @@ function pastillaDeFiltro(C, { id, nombre, caret }, activo) {
             [K.LAYOUT_HEIGHT]: FILTROS_V2.ALTO_PASTILLA,
             [K.PADDING_LEFT]: FILTROS_V2.RELLENO_H,
             [K.PADDING_RIGHT]: FILTROS_V2.RELLENO_H,
-            [K.MARGIN_RIGHT]: FILTROS_V2.HUECO,
+            [K.MARGIN_RIGHT]: FILTROS_V2.HUECO, [MARGEN_IZQUIERDO]: primera ? FILTROS_V2.MARGEN : 0,
             [K.CORNERRADIUS]: FILTROS_V2.RADIO,
             [K.BACKGROUNDCOLOR]: activo ? C.naranja : C.tarjeta,
             // ID LITERAL: no hay `$item` en un carril fijo. Con `$item.id` el toque llegaría vacío.
@@ -1190,7 +1193,7 @@ function arbolDeFiltros(tema, activa = '') {
                 [K.PADDING_TOP]: FILTROS_V2.PAD_V,
                 [K.PADDING_BOTTOM]: FILTROS_V2.PAD_V,
             },
-            hijos: FILTROS.map((f) => pastillaDeFiltro(C, f, elegida === f.id)),
+            hijos: FILTROS.map((f, i) => pastillaDeFiltro(C, f, elegida === f.id, i === 0)),
         },
     ];
     if (elegida === 'categorias')
