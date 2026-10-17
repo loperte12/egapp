@@ -43,6 +43,7 @@ import {
 import { Package } from 'lucide-react-native';
 import type { LbMessageOrderRef } from '../../api/messages';
 import { LB_ORDER_META, lbXaf } from '../../constants/lifebook';
+import { colorDeTono, tonoDeClave, type ClaveEstado } from '../../constants/tonos-estado';
 import { lbPayLabel, lbTransportLabel } from '../../constants/commerce';
 import { shortDate } from '../../utils/datetime';
 
@@ -81,7 +82,9 @@ export function OrderCardEnChat({ pedido, onOpen }: {
   onOpen?: (orderId: string) => void;
 }) {
   const { colors } = useTheme();
-  const meta = LB_ORDER_META[pedido.status] ?? { label: pedido.status, color: colors.textSecondary };
+  const meta = LB_ORDER_META[pedido.status] ?? { label: pedido.status, clave: 'pendiente' as ClaveEstado };
+  /** El color sale de la CLAVE, no de una tabla: un solo sitio decide (y echazado va en rojo). */
+  const colorMeta = colorDeTono(tonoDeClave(meta.clave), colors);
   const primero = pedido.items[0];
   const resto = Math.max(0, pedido.items.length - 1);
   const titulo = pedido.social
@@ -107,8 +110,8 @@ export function OrderCardEnChat({ pedido, onOpen }: {
         <Text style={[styles.titulo, { color: colors.textPrimary }]} numberOfLines={2}>
           {titulo}
         </Text>
-        <View style={[styles.pill, { backgroundColor: alpha(meta.color, 0.14) }]}>
-          <Text style={[styles.pillTexto, { color: meta.color }]} numberOfLines={1}>{meta.label}</Text>
+        <View style={[styles.pill, { backgroundColor: alpha(colorMeta, 0.14) }]}>
+          <Text style={[styles.pillTexto, { color: colorMeta }]} numberOfLines={1}>{meta.label}</Text>
         </View>
       </View>
 

@@ -30,50 +30,24 @@ import {
 } from '@egrouteplan/ui-kit';
 import { Copy, Package } from 'lucide-react-native';
 
-/** Tono semántico de un estado. El rojo no está en la lista a propósito. */
-export type Tono = 'exito' | 'proceso' | 'espera' | 'neutro';
-
-export function colorDeTono(tono: Tono, colors: { success: string; secondary: string; warning: string; textSecondary: string }): string {
-  switch (tono) {
-    case 'exito': return colors.success;
-    case 'proceso': return colors.secondary;
-    case 'espera': return colors.warning;
-    default: return colors.textSecondary;
-  }
-}
-
 /**
- * EL ESTADO DE MÁQUINA, separado del rótulo que se lee.
+ * EL VOCABULARIO DE TONOS Y ESTADOS SE MUEVE A `constants/tonos-estado.ts`.
  *
- * ── POR QUÉ SE SEPARAN ───────────────────────────────────────────────────────
- * Antes las tarjetas recibían `estado: string` y el color lo decidía quien llamaba. Eso confunde
- * dos cosas distintas: **en qué punto está** (la máquina) y **cómo se llama ese punto en la
- * pantalla** (el rótulo). Mezcladas, la tarjeta no puede decidir el color sin parsear texto —y
- * parsear texto para decidir un color es cómo se acaba pintando de rojo «No entregado» porque
- * lleva la palabra «no».
+ * Motivo de capas: `constants/lifebook.ts` necesita decidir el color de un estado de pedido, y un
+ * fichero de constantes que importa de un componente está al revés. Allí no depende de nada de
+ * pintado, y aquí se **re-exporta** para que las 30 tarjetas sigan importando de donde siempre.
  *
- * La referencia (`content.data.content.state` frente a `statusInfo.text`) también las separa.
- *
- * ── Y LO QUE NO SE COPIA DE LA REFERENCIA ────────────────────────────────────
- * Ella manda además el color (`statusInfo.theme`). Aquí **no**: el color sale de esta función, en
- * el cliente, para que la ley visual no dependa de lo que diga un servidor.
+ * La ley de color (y su excepción aprobada: `rechazado` en rojo) está documentada en ese fichero.
  */
-export type ClaveEstado = 'pendiente' | 'en_proceso' | 'hecho' | 'cancelado' | 'aviso';
+import {
+  colorDeTono,
+  tonoDeClave,
+  type ClaveEstado,
+  type Tono,
+} from '../../../constants/tonos-estado';
 
-/**
- * De la clave al tono. Un solo sitio decide, y el rojo sigue sin estar en la lista: una tarjeta de
- * chat nunca pinta un estado de emergencia (el rojo es de la infracción y de nada más).
- */
-export function tonoDeClave(clave: ClaveEstado): Tono {
-  switch (clave) {
-    case 'hecho': return 'exito';
-    case 'en_proceso': return 'proceso';
-    case 'pendiente':
-    case 'aviso': return 'espera';
-    case 'cancelado':
-    default: return 'neutro';
-  }
-}
+export { colorDeTono, tonoDeClave };
+export type { ClaveEstado, Tono };
 
 /**
  * UN BOTÓN DE TARJETA, con su identidad aparte de su texto.

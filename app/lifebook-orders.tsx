@@ -17,6 +17,7 @@ import { absUrl } from '../api/config';
 import { lifebookOrdersApi, lifebookChatApi, type LbOrder } from '../api/lifebook';
 import { commerceOrdersApi, type LbOrderCard } from '../api/commerce';
 import { LB_ORDER_META, LB_ORDER_ACTIONS, LB_ORDER_BUYER_ACTIONS, LB_ORDER_ACTION_LABEL, lbXaf } from '../constants/lifebook';
+import { colorDeTono, tonoDeClave, type ClaveEstado } from '../constants/tonos-estado';
 import FloatingFooter, { DOCK_BODY_H } from '../components/FloatingFooter';
 import { useAppDock } from '../core/useAppDock';
 import { ir as irSeguro } from '../constants/rutas';
@@ -114,7 +115,8 @@ function OrdersContent() {
                   Pedidos de tienda
                 </Text>
                 {comercio.map((o) => {
-                  const meta = LB_ORDER_META[o.status] ?? { label: o.status, color: colors.textSecondary };
+                  const meta = LB_ORDER_META[o.status] ?? { label: o.status, clave: 'pendiente' as ClaveEstado };
+                    const colorMeta = colorDeTono(tonoDeClave(meta.clave), colors);
                   return (
                     <Pressable
                       key={o.id}
@@ -135,7 +137,7 @@ function OrdersContent() {
                           {side === 'buyer' ? (o.shop?.name ?? 'Tienda') : (o.buyer?.name ?? 'Cliente')}
                           {' · '}{o.itemsCount} artículo{o.itemsCount === 1 ? '' : 's'}
                         </Text>
-                        <Text style={{ color: meta.color, fontSize: tipografia.caption, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>{meta.label}</Text>
+                        <Text style={{ color: colorMeta, fontSize: tipografia.caption, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>{meta.label}</Text>
                       </View>
                       <Precio valor={o.totalXaf} tamano="md" color={colors.textPrimary} />
                     </Pressable>
@@ -161,7 +163,8 @@ function OrdersContent() {
           }
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           renderItem={({ item }) => {
-            const meta = LB_ORDER_META[item.status] ?? { label: item.status, color: colors.textSecondary };
+            const meta = LB_ORDER_META[item.status] ?? { label: item.status, clave: 'pendiente' as ClaveEstado };
+              const colorMeta = colorDeTono(tonoDeClave(meta.clave), colors);
             const other = otherOf(item);
             const actions = allowed(item);
             return (
@@ -179,8 +182,8 @@ function OrdersContent() {
                   <View style={{ flex: 1 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaciado.e6 }}>
                       <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>{item.orderNo}</Text>
-                      <View style={{ backgroundColor: alpha(meta.color, 0.13), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
-                        <Text style={{ color: meta.color, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{meta.label}</Text>
+                      <View style={{ backgroundColor: alpha(colorMeta, 0.13), borderRadius: radios.full, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e3 }}>
+                        <Text style={{ color: colorMeta, fontSize: tipografia.micro, fontWeight: peso.titulo }}>{meta.label}</Text>
                       </View>
                     </View>
                     <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: tipografia.fino, fontWeight: peso.titulo, marginTop: espaciado.e3 }}>

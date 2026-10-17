@@ -7,6 +7,7 @@ import {
   Briefcase, CarTaxiFront, Heart, Home, MapPin, MessageSquareText, Music,
   Palette, Sparkles, Sun, Tag, Trophy, Utensils, type LucideIcon,
 } from 'lucide-react-native';
+import type { ClaveEstado } from './tonos-estado';
 import { brand } from '@egrouteplan/ui-kit';
 
 export interface LbChannel {
@@ -414,19 +415,31 @@ export const LB_NOTIF_ROWS: Array<{ key: string; label: string }> = [
   { key: 'promotions', label: '🎁 Promociones' },
   { key: 'digest', label: '📋 Resumen diario' },
 ];
-export const LB_ORDER_META: Record<string, { label: string; color: string }> = {
-  requested: { label: 'Pedido enviado', color: brand.primary },
-  accepted: { label: 'Aceptado', color: brand.success },
-  declined: { label: 'Rechazado', color: brand.danger },
-  in_transit: { label: 'En camino', color: brand.secondary },
-  delivered: { label: 'Entregado', color: brand.success },
-  cancelled: { label: 'Cancelado', color: '#86909C' },
-  disputed: { label: 'Disputa', color: '#E0439A' },
+/**
+ * LOS ESTADOS DEL PEDIDO: solo su rótulo y su CLAVE DE MÁQUINA. **Ningún color.**
+ *
+ * Antes cada estado traía su color escrito aquí, y eso tenía dos problemas:
+ *   · tres eran hexadecimales a mano (`#86909C`, `#E0439A`, `#7C3AED`), que es justo lo que la
+ *     guardia de diseño persigue;
+ *   · el color se decidía en una tabla de datos, así que la ley visual estaba repartida.
+ *
+ * Ahora el color sale de `colorDeTono(tonoDeClave(clave))` en el punto de pintado. Un solo sitio
+ * decide, y el rojo no puede colarse por un descuido: `tonoDeClave` solo lo devuelve para
+ * `rechazado`, que es la excepción aprobada por el dueño (17/10/2026).
+ */
+export const LB_ORDER_META: Record<string, { label: string; clave: ClaveEstado }> = {
+  requested: { label: 'Pedido enviado', clave: 'pendiente' },
+  accepted: { label: 'Aceptado', clave: 'en_proceso' },
+  declined: { label: 'Rechazado', clave: 'rechazado' },
+  in_transit: { label: 'En camino', clave: 'en_proceso' },
+  delivered: { label: 'Entregado', clave: 'hecho' },
+  cancelled: { label: 'Cancelado', clave: 'cancelado' },
+  disputed: { label: 'Disputa', clave: 'aviso' },
   // Parte 36: estados del COMERCIO (pedido con líneas, tienda y entrega)
-  created: { label: 'Pedido creado', color: brand.primary },
-  confirmed: { label: 'Confirmado por la tienda', color: brand.success },
-  preparing: { label: 'En preparación', color: brand.secondary },
-  ready_pickup: { label: 'Listo para recoger', color: '#7C3AED' },
+  created: { label: 'Pedido creado', clave: 'pendiente' },
+  confirmed: { label: 'Confirmado por la tienda', clave: 'en_proceso' },
+  preparing: { label: 'En preparación', clave: 'en_proceso' },
+  ready_pickup: { label: 'Listo para recoger', clave: 'en_proceso' },
 };
 
 /** Barra de progreso del pedido del comercio (Parte 36). */

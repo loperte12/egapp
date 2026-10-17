@@ -45,6 +45,26 @@ const FROM: Record<string, string[]> = {
   dispute: ['confirmed', 'preparing', 'in_transit', 'ready_pickup', 'delivered'],
 };
 
+/**
+ * QUE TARJETA LLEVA CADA AVISO DE ESTADO.
+ *
+ * Antes los ocho avisos eran una frase: «Tu pedido esta en preparacion», sin el pedido. El
+ * comprador tenia que ir a «Mis pedidos» para saber DE QUE pedido le hablaban.
+ *
+ * deliver y send llevan la tarjeta logistica porque son los dos momentos en que se mira el
+ * envio; los demas llevan el aviso con el articulo, que es lo que se quiere confirmar de un vistazo.
+ */
+const TARJETA_DEL_AVISO: Record<string, string> = {
+  accept: 'aviso-producto',
+  decline: 'cancelacion',
+  prepare: 'aviso-producto',
+  send: 'pedido-logistico',
+  ready: 'aviso-producto',
+  deliver: 'pedido-logistico',
+  cancel: 'cancelacion',
+  dispute: 'texto-acciones',
+};
+
 export interface OrderInput {
   items?: { productId?: string; variantId?: string | null; quantity?: number }[];
   deliveryMode?: string;
@@ -842,7 +862,7 @@ export class LifebookOrdersService {
 
     // Con motivo (reclamación), el aviso lo lleva: es lo que la tienda necesita leer.
     if (a === 'dispute' && motivo) {
-      await this.notify(o, userId, `El comprador abrió una reclamación: «${motivo}»`);
+      await this.notify(o, userId, `El comprador abrió una reclamación: «${motivo}»`, TARJETA_DEL_AVISO[a]);
       return this.orderDetail(orderId, userId);
     }
     const aviso = {
@@ -858,7 +878,43 @@ export class LifebookOrdersService {
     // Parche 97: el dinero del monedero, DESPUÉS de que el pedido quede en firme.
     if (a === 'deliver') await this.liberarSiMonedero(orderId, o.seller_id);
     if (a === 'cancel' || a === 'decline') await this.devolverSiMonedero(orderId);
-    await this.notify(o, userId, aviso ?? 'El pedido cambió de estado');
+    await this.notify(o, userId, aviso ?? 'El pedido cambió de estado', TARJETA_DEL_AVISO[a]);
+
+    /*
+     * LA INVITACIÓN A VALORAR. Va aquí, al ENTREGAR, por tres razones:
+     *   · es el único momento en que el comprador tiene el producto en la mano;
+     *   · `reviewOrder` ya existe y se puede comprobar si ya valoró — sin esa comprobación, cada
+     *     cambio de estado volvería a pedirle la reseña;
+     *   · si el pedido se cancela o se reclama, no se invita: no hay nada que valorar.
+     *
+     * LA TABLA Y SUS COLUMNAS ESTÁN VERIFICADAS: `lifebook.order_reviews` la lee y la escribe este
+     * mismo fichero, con las columnas `order_id · shop_id · buyer_id · rating · comment`, y su INSERT
+     * lleva `ON CONFLICT (order_id) DO NOTHING` — o sea que `order_id` es ÚNICO y la propia base
+     * impide valorar dos veces.
+     *
+     * NOTA HONESTA: sin planificador, la invitación sale JUNTO al aviso de entrega, así que el
+     * comprador recibe dos tarjetas seguidas. Si molesta, hay que retrasarla con una cola.
+     */
+    if (cfg.to === 'delivered') {
+      const yaValorada: any[] = await this.db.$queryRaw`
+        SELECT 1 FROM lifebook.order_reviews WHERE order_id = ${orderId}::uuid LIMIT 1`;
+      if (!yaValorada[0]) {
+        /**
+         * EL ARTÍCULO SALE DE `order_items`, NO DEL PEDIDO: `orders` no tiene columnas de título ni
+         * de imagen. Las columnas reales de `order_items` están verificadas en el SELECT de
+         * `orderDetail`.
+         */
+        const linea: any[] = await this.db.$queryRaw`
+          SELECT title_snapshot, media_url FROM lifebook.order_items
+           WHERE order_id = ${orderId}::uuid ORDER BY created_at LIMIT 1`;
+        await this.notify(o, userId, '¿Nos cuentas qué tal?', 'invitacion-resena', {
+          goods_name: String(linea[0]?.title_snapshot ?? 'Tu pedido'),
+          goods_image: linea[0]?.media_url ? String(linea[0].media_url) : null,
+          reviewable: true,
+        });
+      }
+    }
+
     return this.orderDetail(orderId, userId);
   }
 
@@ -913,7 +969,8 @@ export class LifebookOrdersService {
     });
     // Parche 97: entrega confirmada con el código → el monedero libera al vendedor.
     await this.liberarSiMonedero(orderId, o.seller_id);
-    await this.notify(o, userId, 'Pedido entregado y cobrado ✅');
+    // Es la OTRA forma de entregar (código de contra entrega): le toca la tarjeta logística.
+    await this.notify(o, userId, 'Pedido entregado y cobrado ✅', 'pedido-logistico');
     return this.orderDetail(orderId, userId);
   }
 
@@ -958,7 +1015,12 @@ export class LifebookOrdersService {
       UPDATE lifebook.orders SET delivery_cost_xaf = ${coste}, total_xaf = ${total}, updated_at = now()
        WHERE id = ${orderId}::uuid AND status NOT IN ('delivered','cancelled','declined','disputed')
          AND payment_status <> 'paid'`;
-    await this.notify(o, userId, `La tienda ha fijado el reparto en ${coste} XAF: el total queda en ${total} XAF`);
+    // Con tarjeta de cobro: el importe y el motivo se ven, no hay que abrir el pedido para leerlos.
+    await this.notify(o, userId, La tienda ha fijado el reparto en  XAF: el total queda en  XAF, 'cobro', {
+      importe: ${Number(total)} XAF,
+      motivo: Reparto  XAF,
+      estado: 'Aceptar',
+    });
     return this.orderDetail(orderId, userId);
   }
 
@@ -1008,7 +1070,16 @@ export class LifebookOrdersService {
          SET payment_status = 'paid', paid_at = now(), paid_by = ${userId}::uuid,
              payment_proof_url = ${justificante}, payment_note = ${texto}, updated_at = now()
        WHERE id = ${orderId}::uuid AND payment_status <> 'paid'`;
-    await this.notify(o, userId, 'La tienda ha marcado tu pedido como cobrado ✅');
+    /*
+     * AVISO DE COBRO, ahora con tarjeta. El texto ya existía; lo que faltaba era el importe y el
+     * motivo, que es lo que el comprador quiere ver. `total_xaf` SÍ es una columna de `orders`
+     * (verificado: se usa en este mismo fichero).
+     */
+    await this.notify(o, userId, 'La tienda ha marcado tu pedido como cobrado ✅', 'cobro', {
+      importe: `${Number(o.total_xaf ?? 0)} XAF`,
+      motivo: 'Pedido marcado como cobrado',
+      estado: 'Cobrado',
+    });
     return this.orderDetail(orderId, userId);
   }
 
@@ -1068,7 +1139,11 @@ export class LifebookOrdersService {
                          WHERE i.order_id = ${orderId}::uuid AND i.product_id IS NOT NULL)`;
     });
 
-    await this.notify(o, userId, `El comprador ha valorado el pedido con ${rating} de 5 ⭐`);
+    // Con tarjeta: la valoración se ve con su contenido, no como una frase suelta.
+    await this.notify(o, userId, El comprador ha valorado el pedido con  de 5 ⭐, 'aviso', {
+      top: 'El comprador ha dejado una valoración',
+      content: Ha valorado el pedido con  de 5,
+    });
     return this.orderDetail(orderId, userId);
   }
 
@@ -1474,13 +1549,71 @@ export class LifebookOrdersService {
     };
   }
 
-  private async notify(o: any, autorId: string, texto: string) {
+  /**
+   * LA FOTO DEL PEDIDO, en un solo sitio.
+   *
+   * La usan la tarjeta de pedido y TODOS los avisos de estado. Si cada aviso armara su propio
+   * objeto, el día que se añada un campo a uno el otro seguiría sin él — y el mismo pedido se vería
+   * distinto según de qué aviso vengas.
+   *
+   * `o` es lo que devuelve `publicOrder` (la fila de `orders` + `shop_name`); las LÍNEAS no vienen
+   * ahí, así que se piden aquí. Es una consulta por aviso, y merece la pena: un aviso de estado sin
+   * el artículo obliga al comprador a ir a «Mis pedidos» para saber de qué le hablan.
+   */
+  private async fotoDelPedido(o: any) {
+    const items: any[] = await this.db.$queryRaw`
+      SELECT title_snapshot, variant_snapshot, media_url, quantity, line_total_xaf
+        FROM lifebook.order_items
+       WHERE order_id = ${o.id}::uuid ORDER BY created_at LIMIT 20`;
+    return {
+      orderId: String(o.id),
+      // `order_no` es la columna; `code` era el nombre del objeto de `createOrder`, no de la fila.
+      code: String(o.order_no ?? ''),
+      shopName: o.shop_name ? String(o.shop_name) : null,
+      status: String(o.status ?? 'created'),
+      deliveryMode: o.delivery_mode ? String(o.delivery_mode) : null,
+      items: items.map((i) => ({
+        title: String(i.title_snapshot ?? '').slice(0, 200),
+        variant: i.variant_snapshot ? String(i.variant_snapshot).slice(0, 140) : null,
+        mediaUrl: i.media_url ? String(i.media_url) : null,
+        quantity: Number(i.quantity ?? 1) || 1,
+        lineTotalXaf: Number(i.line_total_xaf ?? 0) || 0,
+      })),
+    };
+  }
+
+  private async notify(o: any, autorId: string, texto: string, cardType?: string, data?: Record<string, unknown>) {
     try {
       const otro = o.shop_owner === autorId ? o.buyer_id : o.shop_owner;
       if (!otro) return;
       const conv = await this.conversacionDirecta(autorId, otro);
       if (!conv) return;
-      await this.publicarEnChat(conv, autorId, texto, 'system', {});
+
+      // El `cardType` llega ya resuelto: `TARJETA_DEL_AVISO[accion]` en los avisos de estado, o el
+      // que corresponda en los avisos que no son una transicion (cobro, valoracion).
+      /*
+       * SIN TARJETA CONOCIDA SE MANDA EL AVISO DE SIEMPRE: ningún aviso se pierde por no tener una
+       * tarjeta que lo pinte. `system` sigue existiendo y se sigue usando.
+       */
+      if (!cardType) {
+        await this.publicarEnChat(conv, autorId, texto, 'system', {});
+        return;
+      }
+
+      /*
+       * Y CON TARJETA SE PASA POR EL MISMO PUBLICADOR QUE YA EXISTE.
+       *
+       * `publicarEnChat` ya acepta `kind` y `payload`, y ya hace el INSERT con las reglas de
+       * no-leídos y de vista previa. No hace falta método nuevo, ni inyectar nada, ni duplicar el
+       * INSERT: esta llamada escribe la MISMA forma que `serializeMessage` sabe leer.
+       *
+       * El TEXTO sigue yendo en el `body`: es la vista previa de la lista de conversaciones, y una
+       * tarjeta sin vista previa deja la conversación en blanco.
+       */
+      await this.publicarEnChat(conv, autorId, texto, 'card', {
+        cardType,
+        data: data ?? { ...(await this.fotoDelPedido(o)), title: texto },
+      });
     } catch (e) {
       this.log.warn(`no se pudo avisar del pedido: ${(e as Error).message}`);
     }

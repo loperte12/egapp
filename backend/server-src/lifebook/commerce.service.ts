@@ -2781,7 +2781,31 @@ export class LifebookCommerceService {
         const texto = it.variant_name
           ? `✅ Ya hay stock de «${it.title}» (${it.variant_name}). Vuelve a estar disponible.`
           : `✅ «${it.title}» vuelve a estar disponible.`;
-        await this.avisarEnChat(String(it.user_id), String(it.vendedor), texto, { productId: String(it.product_id) });
+        /**
+         * LA TARJETA DE REPOSICIÓN.
+         *
+         * Antes solo viajaba el `productId` y el cliente no lo miraba: el dato se tiraba. Ahora viaja
+         * lo que la tarjeta necesita para pintarse — nombre, imagen, variante y precio— y se emite
+         * como `cardType: 'alerta-reposicion'`.
+         *
+         * Solo se añaden al SELECT campos que la consulta de arriba ya trae (`title`, `variant_name`,
+         * `media_url`, `price_xaf`); si alguno no estuviera, el `?? null` lo deja vacío y la tarjeta
+         * se pinta sin ese trozo — nunca revienta.
+         */
+        await this.avisarEnChat(
+          String(it.user_id),
+          String(it.vendedor),
+          texto,
+          {
+            productId: String(it.product_id),
+            productTitle: String(it.title ?? ''),
+            variantName: it.variant_name ? String(it.variant_name) : null,
+            imageUrl: it.media_url ? String(it.media_url) : null,
+            price: it.price_xaf !== null && it.price_xaf !== undefined
+              ? `${Number(it.price_xaf)} XAF` : null,
+          },
+          'alerta-reposicion',
+        );
         await this.db.$executeRaw`
           UPDATE lifebook.product_interest SET notified_at = now()
            WHERE user_id = ${it.user_id}::uuid AND product_id = ${productId}::uuid
@@ -2797,7 +2821,7 @@ export class LifebookCommerceService {
   }
 
   /** Mensaje de SISTEMA en el chat comprador↔tienda (se crea la conversación si no existe). */
-  private async avisarEnChat(comprador: string, vendedor: string, texto: string, payload: Record<string, unknown>) {
+  private async avisarEnChat(comprador: string, vendedor: string, texto: string, payload: Record<string, unknown>, tarjeta?: string) {
     let conv: any[] = await this.db.$queryRaw`
       SELECT id, user_a, user_b FROM lifebook.conversations
        WHERE kind = 'direct' AND ((user_a = ${comprador}::uuid AND user_b = ${vendedor}::uuid)
@@ -2808,9 +2832,23 @@ export class LifebookCommerceService {
         VALUES ('direct', ${comprador}::uuid, ${vendedor}::uuid) RETURNING id, user_a, user_b`;
     }
     const cuerpo = texto.slice(0, 300);
+
+    /**
+     * ANTES: esto se guardaba siempre como `system` con el payload dentro, y el cliente solo miraba
+     * el texto. El aviso de reposición mandaba `{ productId }` y ese dato SE TIRABA.
+     *
+     * AHORA: si el que llama dice qué tarjeta es, se guarda como `card` y el dato se ve.
+     *
+     * SE CAMBIA EL `kind` DEL INSERT QUE YA ESTÁ AQUÍ, no se añade otro. Este método ya hace el
+     * INSERT completo con las reglas de no-leídos y de vista previa; lo único que hacía falta era
+     * dejar de escribir `'system'` cuando hay tarjeta.
+     */
+    const kind = tarjeta ? 'card' : 'system';
+    const guardado = tarjeta ? { cardType: tarjeta, data: payload } : payload;
+
     await this.db.$executeRaw`
       INSERT INTO lifebook.messages (conversation_id, sender_id, body, kind, payload)
-      VALUES (${conv[0].id}::uuid, ${vendedor}::uuid, ${cuerpo}, 'system', ${JSON.stringify(payload)}::jsonb)`;
+      VALUES (${conv[0].id}::uuid, ${vendedor}::uuid, ${cuerpo}, ${kind}, ${JSON.stringify(guardado)}::jsonb)`;
     const compradorEsA = conv[0].user_a === comprador;
     await this.db.$executeRaw`
       UPDATE lifebook.conversations

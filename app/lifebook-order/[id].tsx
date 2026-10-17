@@ -28,6 +28,7 @@ import {
   LB_COMMERCE_BUYER_ACTIONS, LB_ORDER_ACTION_LABEL, LB_ORDER_ACTION_LABEL_EXTRA, LB_ORDER_FLOW,
   LB_ORDER_META, LB_SELLER_ORDER_ACTIONS, lbXaf,
 } from '../../constants/lifebook';
+import { colorDeTono, tonoDeClave, type ClaveEstado } from '../../constants/tonos-estado';
 import { lbPayLabel, lbTransportLabel } from '../../constants/commerce';
 import { Chip, ChipRow } from '../../components/lifebook/Chip';
 import { Notice, SummaryRow } from '../../components/lifebook/publish/PublishParts';
@@ -286,7 +287,8 @@ function OrderContent() {
     );
   }
 
-  const meta = LB_ORDER_META[order.status] ?? { label: order.status, color: colors.textSecondary };
+  const meta = LB_ORDER_META[order.status] ?? { label: order.status, clave: 'pendiente' as ClaveEstado };
+  const colorMeta = colorDeTono(tonoDeClave(meta.clave), colors);
   const esComprador = order.role === 'buyer';
   const acciones = esComprador
     ? (LB_COMMERCE_BUYER_ACTIONS[order.status] ?? [])
@@ -317,7 +319,7 @@ function OrderContent() {
         <Text style={{ color: colors.textPrimary, fontWeight: peso.titulo, fontSize: tipografia.subtitle, marginLeft: espaciado.e10, flex: 1 }} numberOfLines={1}>
           Pedido {order.code}
         </Text>
-        <Text style={{ color: meta.color, fontWeight: peso.titulo, fontSize: tipografia.caption }}>{meta.label}</Text>
+        <Text style={{ color: colorMeta, fontWeight: peso.titulo, fontSize: tipografia.caption }}>{meta.label}</Text>
       </View>
 
       <ScrollView contentContainerStyle={{ padding: espaciado.e16, paddingBottom: espaciado.e24 }}>
