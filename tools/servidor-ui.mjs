@@ -903,6 +903,88 @@ async function datosDePanelCategorias() {
   return categorias.length ? { categorias } : null;
 }
 
+
+// ─────────────────── v2 · CARRIL DE FILTROS ───────────────────
+/**
+ * Geometría MEDIDA (pastilla 50×28,7 dp con texto de 24,7 dentro): alto **28,7**, relleno horizontal
+ * **12,6**, hueco entre pastillas **5,7**, y la fila alineada con el margen del panel (**18,3**).
+ *
+ * **Decisiones declaradas** (el volcado no las trae): radio 8 y color de selección — naranja de marca
+ * con texto blanco en la activa, tarjeta con texto secundario en las demás.
+ */
+const FILTROS_V2 = Object.freeze({
+  ALTO_PASTILLA: 28.7,
+  RADIO: 8,
+  RELLENO_H: 12.6,
+  HUECO: 5.7,
+  TAMANO: 14,
+  MARGEN: 18.3,
+  PAD_V: 6,
+});
+
+/**
+ * Los filtros, **sólo los que el Mercado tiene de verdad**. Taobao tiene además 买过 · 特别关注 · 常逛 ·
+ * 分组, y no se pintan porque aquí no existen: una pastilla que no filtra nada sería mentira.
+ */
+const FILTROS = Object.freeze([
+  { id: 'todos', nombre: '全部' },
+  { id: 'categorias', nombre: '分类', caret: true },
+]);
+
+function pastillaDeFiltro(C, { id, nombre, caret }, activo) {
+  return {
+    tipo: 'Contenedor',
+    atributos: {
+      [TEMPLATE_NAME]: 'filtro_pastilla',
+      [K.ORIENTATION]: 0,
+      [GRAVEDAD_CENTRO]: 4,
+      [K.LAYOUT_HEIGHT]: FILTROS_V2.ALTO_PASTILLA,
+      [K.PADDING_LEFT]: FILTROS_V2.RELLENO_H,
+      [K.PADDING_RIGHT]: FILTROS_V2.RELLENO_H,
+      [K.MARGIN_RIGHT]: FILTROS_V2.HUECO,
+      [K.CORNERRADIUS]: FILTROS_V2.RADIO,
+      [K.BACKGROUNDCOLOR]: activo ? C.naranja : C.tarjeta,
+      // ID LITERAL: no hay `$item` en un carril fijo.
+      [K.ONPRESS]: id,
+    },
+    hijos: [texto(nombre + (caret ? ' ▾' : ''), FILTROS_V2.TAMANO, activo ? C.tarjeta : C.secundario)],
+  };
+}
+
+function arbolDeFiltros(tema, activa = '') {
+  const C = coloresDe(tema);
+  const elegida = String(activa || 'todos');
+  const hijos = [
+    {
+      tipo: 'Scroll',
+      atributos: {
+        [K.ORIENTATION]: 0,
+        [K.LAYOUT_WIDTH]: -1,
+        [K.PADDING_LEFT]: FILTROS_V2.MARGEN,
+        [K.PADDING_TOP]: FILTROS_V2.PAD_V,
+        [K.PADDING_BOTTOM]: FILTROS_V2.PAD_V,
+      },
+      hijos: FILTROS.map((f) => pastillaDeFiltro(C, f, elegida === f.id)),
+    },
+  ];
+  // **La sección que se pide decide qué hay.** Elegir «分类» hace aparecer el panel; es el servidor quien
+  // compone, no la pantalla (que sigue sin saber qué widgets hay).
+  if (elegida === 'categorias') hijos.push(...arbolDePanelCategorias(tema).hijos);
+  return {
+    tipo: 'Contenedor',
+    atributos: {
+      [K.LAYOUT_WIDTH]: -1,
+      [K.ORIENTATION]: 1,
+      [K.BACKGROUNDCOLOR]: C.fondo,
+    },
+    hijos,
+  };
+}
+
+function datosDeFiltros(activa = '') {
+  return { filtros: FILTROS.map((f) => ({ id: f.id, nombre: f.nombre })), activa: String(activa || 'todos') };
+}
+
 const servidor = createServer((req, res) => {
   const url = new URL(req.url ?? '/', 'http://localhost');
   /**
@@ -943,6 +1025,12 @@ const servidor = createServer((req, res) => {
     }),
     // **La rejilla en la forma de Taobao**: UNA `Lista` con dos columnas y el `span` por tarjeta.
     // v2 · el PANEL DE REJILLA: las categorías en 3 columnas, geometría medida (RE-关注-TIENDAS §3).
+  // v2 · el CARRIL DE FILTROS: pastillas medidas; `?activa=categorias` hace aparecer el panel.
+  '/api/ecomerse/ui/v2-filtros': (p) => ({
+    arbol: arbolDeFiltros(p.get('tema'), p.get('activa') ?? ''),
+    buscarDatos: () => datosDeFiltros(p.get('activa') ?? ''),
+  }),
+
   '/api/ecomerse/ui/v2-categorias': (p) => ({
     arbol: arbolDePanelCategorias(p.get('tema')),
     buscarDatos: () => datosDePanelCategorias(),
@@ -1362,4 +1450,4 @@ function arbolDeSiguiendo(tema) {
 
 // Se exporta para poder PROBAR el arbol sin arrancar el servidor: el oráculo comprueba que todas
 // las claves que manda el servidor son claves que el cliente conoce.
-export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, arbolDePanelCategorias, datosDePanelCategorias, PANEL_V2, arbolDeSiguiendo, datosDeSiguiendo, tarjetasDeSiguiendo, TIPOS_TARJETA, PLANTILLA_SIGUIENDO, ACCIONES_SIGUIENDO, PLANTILLA_TIENDA, FEEDS, arbolDeFeeds, datosDeFeeds, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, CLAVE_ASPECTO, ASPECTO_TARJETA, REJILLA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, SORT_POR_DEFECTO, consultaDeCatalogo, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };
+export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, arbolDePanelCategorias, datosDePanelCategorias, PANEL_V2, arbolDeFiltros, datosDeFiltros, FILTROS_V2, FILTROS, arbolDeSiguiendo, datosDeSiguiendo, tarjetasDeSiguiendo, TIPOS_TARJETA, PLANTILLA_SIGUIENDO, ACCIONES_SIGUIENDO, PLANTILLA_TIENDA, FEEDS, arbolDeFeeds, datosDeFeeds, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, CLAVE_ASPECTO, ASPECTO_TARJETA, REJILLA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, SORT_POR_DEFECTO, consultaDeCatalogo, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };

@@ -1138,6 +1138,85 @@ exports.PANEL_V2 = PANEL_V2;
 exports.arbolDePanelCategorias = arbolDePanelCategorias;
 exports.datosDePanelCategorias = datosDePanelCategorias;
 
+
+// ─────────────────── v2 · CARRIL DE FILTROS ───────────────────
+/**
+ * Geometría MEDIDA (pastilla 50×28,7 dp con texto de 24,7 dentro): alto 28,7 · relleno 12,6 · hueco
+ * 5,7 · margen 18,3 (alineado con el panel). Decisiones declaradas: radio 8 y color de selección.
+ */
+const FILTROS_V2 = Object.freeze({
+    ALTO_PASTILLA: 28.7,
+    RADIO: 8,
+    RELLENO_H: 12.6,
+    HUECO: 5.7,
+    TAMANO: 14,
+    MARGEN: 18.3,
+    PAD_V: 6,
+});
+/** Sólo los filtros que el Mercado tiene de verdad (买过/特别关注/常逛/分组 no existen aquí). */
+const FILTROS = Object.freeze([
+    { id: 'todos', nombre: '全部' },
+    { id: 'categorias', nombre: '分类', caret: true },
+]);
+function pastillaDeFiltro(C, { id, nombre, caret }, activo) {
+    return {
+        tipo: 'Contenedor',
+        atributos: {
+            [TEMPLATE_NAME]: 'filtro_pastilla',
+            [K.ORIENTATION]: 0,
+            [GRAVEDAD_CENTRO]: 4,
+            [K.LAYOUT_HEIGHT]: FILTROS_V2.ALTO_PASTILLA,
+            [K.PADDING_LEFT]: FILTROS_V2.RELLENO_H,
+            [K.PADDING_RIGHT]: FILTROS_V2.RELLENO_H,
+            [K.MARGIN_RIGHT]: FILTROS_V2.HUECO,
+            [K.CORNERRADIUS]: FILTROS_V2.RADIO,
+            [K.BACKGROUNDCOLOR]: activo ? C.naranja : C.tarjeta,
+            // ID LITERAL: no hay `$item` en un carril fijo. Con `$item.id` el toque llegaría vacío.
+            [K.ONPRESS]: id,
+        },
+        hijos: [texto(nombre + (caret ? ' ▾' : ''), FILTROS_V2.TAMANO, activo ? C.tarjeta : C.secundario)],
+    };
+}
+function arbolDeFiltros(tema, activa = '') {
+    const C = coloresDe(tema);
+    const elegida = String(activa || 'todos');
+    const hijos = [
+        {
+            tipo: 'Scroll',
+            atributos: {
+                [K.ORIENTATION]: 0,
+                [K.LAYOUT_WIDTH]: -1,
+                [K.PADDING_LEFT]: FILTROS_V2.MARGEN,
+                [K.PADDING_TOP]: FILTROS_V2.PAD_V,
+                [K.PADDING_BOTTOM]: FILTROS_V2.PAD_V,
+            },
+            hijos: FILTROS.map((f) => pastillaDeFiltro(C, f, elegida === f.id)),
+        },
+    ];
+    if (elegida === 'categorias')
+        hijos.push(...arbolDePanelCategorias(tema).hijos);
+    return {
+        tipo: 'Contenedor',
+        atributos: {
+            [K.LAYOUT_WIDTH]: -1,
+            [K.ORIENTATION]: 1,
+            [K.BACKGROUNDCOLOR]: C.fondo,
+        },
+        hijos,
+    };
+}
+function datosDeFiltros(activa = '') {
+    return { filtros: FILTROS.map((f) => ({ id: f.id, nombre: f.nombre })), activa: String(activa || 'todos') };
+}
+exports.FILTROS_V2 = FILTROS_V2;
+exports.FILTROS = FILTROS;
+exports.arbolDeFiltros = arbolDeFiltros;
+exports.datosDeFiltros = datosDeFiltros;
+
+exports.FILTROS_V2 = FILTROS_V2;
+exports.FILTROS = FILTROS;
+exports.arbolDeFiltros = arbolDeFiltros;
+exports.datosDeFiltros = datosDeFiltros;
 let EcomerseUiController = class EcomerseUiController {
     constructor(ecomerse) {
         this.ecomerse = ecomerse;
@@ -1191,6 +1270,26 @@ let EcomerseUiController = class EcomerseUiController {
             return { esquema: ESQUEMA_UI, arbol: arbolDePanelCategorias(tema), datos };
         } catch (e) {
             this.log.warn(`no se pudo montar el panel de categorias: ${(e && e.message) || e}`);
+            return { esquema: ESQUEMA_UI, arbol: null };
+        }
+    }
+    /**
+     * v2 · EL CARRIL DE FILTROS. Sólo los filtros que el Mercado tiene de verdad (`全部`, y `分类`
+     * que abre el panel). Taobao tiene además 买过 · 特别关注 · 常逛 · 分组: aquí no existen y por eso
+     * no se pintan — una pastilla que no filtra nada sería mentira.
+     *
+     * **`?activa=categorias` compone el panel en el MISMO árbol**: es el servidor el que decide qué
+     * secciones hay, no la pantalla.
+     */
+    async v2Filtros(tema, activa) {
+        try {
+            return {
+                esquema: ESQUEMA_UI,
+                arbol: arbolDeFiltros(tema, activa),
+                datos: datosDeFiltros(activa),
+            };
+        } catch (e) {
+            this.log.warn(`no se pudo montar el carril de filtros: ${(e && e.message) || e}`);
             return { esquema: ESQUEMA_UI, arbol: null };
         }
     }
@@ -1316,6 +1415,16 @@ __decorate([
         __metadata("design:paramtypes", [String]),
         __metadata("design:returntype", Promise)
     ], EcomerseUiController.prototype, "v2Categorias", null);
+__decorate([
+    (0, common_1.Get)('v2-filtros'),
+    // El árbol depende de `activa`, que viaja en la URL: cada selección es una respuesta distinta.
+    (0, common_1.Header)('Cache-Control', 'public, max-age=30'),
+    __param(0, (0, common_1.Query)('tema')),
+    __param(1, (0, common_1.Query)('activa')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], EcomerseUiController.prototype, "v2Filtros", null);
 __decorate([
     (0, common_1.Get)('categorias'),
     // El árbol de categorías lo mantiene el administrador y cambia poco: una caché corta en el borde

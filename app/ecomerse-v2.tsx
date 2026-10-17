@@ -36,6 +36,14 @@ export default function EcomerseV2Screen() {
   const { colors } = useTheme();
   const [estado, setEstado] = useState<Estado>('cargando');
   const [recarga, setRecarga] = useState(0);
+  /**
+   * **El filtro elegido.** 	odos es «全部» (llega resaltada de fábrica).
+   *
+   * La pantalla **no sabe qué filtros hay**: los manda el servidor en el árbol y en los datos. Aquí sólo
+   * se guarda el id que llega del toque y se devuelve en la ruta (?activa=), y como el servidor compone
+   * el árbol según ese id, **elegir 分类 hace aparecer el panel** sin que la pantalla sepa nada de él.
+   */
+  const [activa, setActiva] = useState('todos');
 
   return (
     <View style={[s.raiz, { backgroundColor: colors.background, paddingTop: insets.top }]}>
@@ -53,8 +61,8 @@ export default function EcomerseV2Screen() {
 
       <ScrollView contentContainerStyle={{ paddingBottom: espaciado.e24 }}>
         <FranjaServidor
-          ruta="v2-categorias"
-          alTocar={() => undefined}
+          ruta={`v2-filtros?activa=${encodeURIComponent(activa)}`}
+          alTocar={(id) => { if (id) setActiva(String(id)); }}
           alEstado={(e) => setEstado(e)}
           recarga={recarga}
           desplazable={false}
