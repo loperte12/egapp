@@ -60,7 +60,49 @@ haya tocado el kit; las 148 pruebas pasan.
 
 ---
 
-## Costura 3 · Cadena de entrega (semana 2–3)
+## Costura 3 · Cadena de entrega — **CERRADA el 17/10** ✅
+
+**Aceptación pasada** (despliegue real por la cadena nueva, dos veces):
+
+```
+ficheros       6 (todos versionados y limpios en git)
+verificar      todo en verde ✓
+vivo           6 ficheros nuestros coinciden y viajan ✓
+subida         HTTP 200 · etag = md5 ✓
+despliegue     {"RequestId":"b5e57b54-…"}
+humo           200 y esquema 1 en 1 intento(s) ✓
+deploy EXIT=0
+```
+
+Lo que quedó implementado en `pruebas/desplegar-ui-mercado.cjs`:
+
+1. **La lista sale de git** (`git ls-files` del árbol del backend). Si está commiteado, viaja; si no,
+   no viaja. Se acabó la lista escrita a mano que dejó el backend sin actualizar.
+2. **Aborta si algo no está commiteado** (se publican commits, no el disco).
+3. **Aborta si algo nuestro cambia y no viaja**: compara cada fichero de `dist/src/ecomerse/` y
+   `dist/src/http/` con el árbol **vivo**; si difiere (o es nuevo) y no está en la lista, **nombra el
+   fichero y para**. Es la clase de fallo del `ecomerse-storage.service.js` (la región de minio no
+   viajaba y la portada salía vacía).
+4. **Llama a `npm run verificar`** (tsc contra línea base + diseño + lógica + rutas + oráculo) y **no
+   publica** si algo falla. Escape explícito: `SALTAR_VERIFICACION=1`.
+5. **Humo real**: pide `/api/ecomerse/ui/siguiendo` y exige `200` + `esquema:1` (reintenta mientras
+   SCF propaga). Si no produce, sale con error en vez de decir «OK». *(Antes comparaba el
+   `codeSha256` de SCF con el sha del ZIP: SCF calcula otro, así que el aviso «no concuerda» salía
+   siempre con el despliegue perfecto. Un chequeo que no puede pasar no comprueba nada.)*
+
+Y `docs/VERIFICACION-MOVIL.md`: el checklist único de la cuarta comprobación (servidor real vs
+desplegado, `adb reverse`, sesión caducada disfrazada de «Comprobando…», espacio en C:, y los estados
+de fallo: sin red, vacío, sin sesión, dato que falta).
+
+### Lo que queda de esta costura (no bloquea módulos)
+
+- CI real (hoy el «CI» es el despliegue llamando a `verificar`; no hay servidor de integración).
+- Publicar desde `git ls-files` **también** para otros servicios (hoy está especializado en ecomerse +
+  http; al añadir módulos, las carpetas entran en `CARPETAS_NUESTRAS`).
+
+---
+
+## ~~Costura 3 (plan original)~~
 
 **Qué significa congelado**: **lo que está en producción es lo que está en git**, y las guardias corren
 sin que nadie se acuerde.
@@ -108,7 +150,7 @@ fallan, y (c) deja registro con los sha. Comprobado con un despliegue real y un 
 | 4 | **Taxi** | 5 | por inventariar | ? | pendiente |
 | 5 | **Interurbano** | 3 | por inventariar | ? | pendiente |
 | 6 | **Monedero / pagos** | 6 | por inventariar | ? | pendiente |
-| 7 | **Panel del comerciante** (Qianniu) | — | **instalador** (24 MB), no el cliente | **baja** → instalar y capturar | pendiente |
+| 7 | **Panel del comerciante** (千牛 web) | — | **YA ES WEB**: `https://myseller.taobao.com/home.htm/QnworkbenchHome/` (confirmado por el dueño del producto, 17/10). El instalador de 24 MB era sólo el bootstrapper | **alta** (web = JS + respuestas) → falta **captura con sesión** | pendiente de captura |
 
 **Backend ya existente** (para el inventario): `ads`, `billing`, `ecomerse`, `food`, `intercity`,
 `lifebook`, `mobility`, `rental`, `services`, `tts`, `work`. Cada módulo entra por su servicio.
