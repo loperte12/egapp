@@ -66,6 +66,10 @@ reglas visibles), y es justo la que aún no hemos explotado en el Mercado. Para 
 | **Mensajería** | WeChat | — | **nada** |
 | **Monedero/pagos** | Alipay | `mercado-fase1/ta-pagos` (parcial) | bajo |
 
+>> **Ya está hecho, con prueba en disco**: [INVENTARIO-MATERIAL-V2.md](INVENTARIO-MATERIAL-V2.md) (17/10).
+> Incluye el hallazgo del **panel Qianniu en Electron ya extraído** (`taobao-desktop/`: `app.asar` 242 MB,
+> 18 MB de JS legible) y los huecos comunes (capturas HAR).
+
 La conclusión de este inventario: **no hay que empezar por los servicios con menos material, sino por los
 dos que ya lo tienen** (Mercado y Taxi) para fijar el método con coste bajo, y usar ese molde en el resto.
 
