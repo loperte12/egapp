@@ -286,7 +286,7 @@ function esperarHumo(intentos = 6) {
   })();
 }
 
-function desplegar() {
+async function desplegar() {
   // Las guardias ANTES de tocar nada: sin commitear no sale, y sin verde no sale.
   verificarFicheros();
   verificarCalidad();
@@ -360,8 +360,8 @@ print("paquete:", len(zz.infolist()), "entradas,", os.path.getsize(dst), "B")
     // publica el sha del ZIP, calcula otro — y el aviso «NO concuerda» salía siempre, incluso con el
     // despliegue perfecto. Un chequeo que no puede pasar no comprueba nada.)
     const estado = comprobar();
-    console.log(`codeSha256     ${estado.codeSha256}   (referencia para deshacer)`);
-    const humo = esperarHumo();
+    console.log(`codeSha256     ${estado && estado.codeSha256 ? estado.codeSha256 : '(no disponible)'}   (referencia para deshacer)`);
+    const humo = await esperarHumo();
     if (!humo.ok) {
       console.error(`\nDESPLEGADO PERO NO PRODUCE: ${humo.motivo}`);
       console.error('Revisar con --comprobar y, si hace falta, volver al ZIP de .tmp-cloudbase/rollback/.');
@@ -376,5 +376,12 @@ print("paquete:", len(zz.infolist()), "entradas,", os.path.getsize(dst), "B")
   }
 }
 
-if (process.argv.includes('--comprobar')) comprobar();
-else { comprobarCredenciales(); desplegar(); }
+if (process.argv.includes('--comprobar')) {
+  comprobar();
+} else {
+  comprobarCredenciales();
+  desplegar().catch((e) => {
+    console.error(`\nDESPLIEGUE ABORTADO POR ERROR: ${e && e.message ? e.message : e}`);
+    process.exit(7);
+  });
+}
