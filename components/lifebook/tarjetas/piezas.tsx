@@ -43,6 +43,58 @@ export function colorDeTono(tono: Tono, colors: { success: string; secondary: st
 }
 
 /**
+ * EL ESTADO DE MÁQUINA, separado del rótulo que se lee.
+ *
+ * ── POR QUÉ SE SEPARAN ───────────────────────────────────────────────────────
+ * Antes las tarjetas recibían `estado: string` y el color lo decidía quien llamaba. Eso confunde
+ * dos cosas distintas: **en qué punto está** (la máquina) y **cómo se llama ese punto en la
+ * pantalla** (el rótulo). Mezcladas, la tarjeta no puede decidir el color sin parsear texto —y
+ * parsear texto para decidir un color es cómo se acaba pintando de rojo «No entregado» porque
+ * lleva la palabra «no».
+ *
+ * La referencia (`content.data.content.state` frente a `statusInfo.text`) también las separa.
+ *
+ * ── Y LO QUE NO SE COPIA DE LA REFERENCIA ────────────────────────────────────
+ * Ella manda además el color (`statusInfo.theme`). Aquí **no**: el color sale de esta función, en
+ * el cliente, para que la ley visual no dependa de lo que diga un servidor.
+ */
+export type ClaveEstado = 'pendiente' | 'en_proceso' | 'hecho' | 'cancelado' | 'aviso';
+
+/**
+ * De la clave al tono. Un solo sitio decide, y el rojo sigue sin estar en la lista: una tarjeta de
+ * chat nunca pinta un estado de emergencia (el rojo es de la infracción y de nada más).
+ */
+export function tonoDeClave(clave: ClaveEstado): Tono {
+  switch (clave) {
+    case 'hecho': return 'exito';
+    case 'en_proceso': return 'proceso';
+    case 'pendiente':
+    case 'aviso': return 'espera';
+    case 'cancelado':
+    default: return 'neutro';
+  }
+}
+
+/**
+ * UN BOTÓN DE TARJETA, con su identidad aparte de su texto.
+ *
+ * ── POR QUÉ LLEVA `id` ───────────────────────────────────────────────────────
+ * Antes el toque devolvía **el texto del botón** (`onBoton('Abrir')`). Eso ata el comportamiento al
+ * rótulo: cambia una coma en el texto y el cableado se rompe en silencio. La referencia ya lo hace
+ * bien (`buttons[].id` frente a `buttons[].buttonValue`): el `id` identifica la acción, la
+ * `etiqueta` es lo que se lee.
+ *
+ * `estado: 'inactivo'` es un botón que se ve pero no se pulsa — la referencia lo llama
+ * `buttonStatus: 'disabled'`. Un botón que no se puede usar se **enseña apagado**, no se esconde:
+ * esconderlo hace que la tarjeta cambie de forma y el usuario no sepa por qué.
+ */
+export type BotonTarjeta = {
+  id: string;
+  etiqueta: string;
+  estado?: 'activo' | 'inactivo';
+};
+
+/**
  * El armazón: una tarjeta con el radio y el padding del patrón aprobado, y **toda ella táctil**
  * cuando hay acción —como en la referencia, donde la tarjeta entera navega.
  */
@@ -80,16 +132,24 @@ export function EtiquetaEstado({ texto, tono = 'neutro' }: { texto: string; tono
 
 /** Cabecera del patrón: título a la izquierda (flex) y estado a la derecha.
  *  `estado` acepta `null` a propósito: viene del servidor y puede no haber llegado. */
-export function CabeceraTarjeta({ titulo, estado, tono }: {
+export function CabeceraTarjeta({ titulo, estado, tono, estadoClave }: {
   titulo: string;
+  /** El rótulo que se lee («En camino»). */
   estado?: string | null;
+  /** El tono, si quien llama ya lo sabe. Si llega `estadoClave`, manda la clave. */
   tono?: Tono;
+  /**
+   * El estado de máquina. Si viene, **decide el color él** y no el llamador: así el color de un
+   * estado se decide en un solo sitio y no en cada tarjeta.
+   */
+  estadoClave?: ClaveEstado | null;
 }) {
   const { colors } = useTheme();
+  const tonoFinal = estadoClave ? tonoDeClave(estadoClave) : tono;
   return (
     <View style={estilos.cabecera}>
       <Text style={[estilos.titulo, { color: colors.textPrimary }]} numberOfLines={2}>{titulo}</Text>
-      {estado ? <EtiquetaEstado texto={estado} tono={tono} /> : null}
+      {estado ? <EtiquetaEstado texto={estado} tono={tonoFinal} /> : null}
     </View>
   );
 }
@@ -99,16 +159,24 @@ export function CabeceraTarjeta({ titulo, estado, tono }: {
  * Es la pieza que más se repite (13 de las 54). Si no hay foto, entra el icono de paquete:
  * una tarjeta no puede quedar con un hueco.
  */
-export function BloquePedido({ imagen, titulo, subtitulo, detalle, onPress, etiquetaAccesible }: {
+export function BloquePedido({ imagen, titulo, subtitulo, detalle, cantidad, paquete, onPress, etiquetaAccesible }: {
   imagen?: string | null;
   titulo: string;
   subtitulo?: string | null;
   /** Tercera línea, para el importe o la cantidad. */
   detalle?: ReactNode;
+  /**
+   * Unidades. Se pinta «×3» al lado del nombre, como en la referencia (`orderDetail.quantity`).
+   * Con 1 no se pinta: «×1» no informa de nada y ensucia la línea.
+   */
+  cantidad?: number | null;
+  /** Número de paquete, para el pie del bloque (referencia: `orderDetail.packageId`). */
+  paquete?: string | null;
   onPress?: () => void;
   etiquetaAccesible?: string;
 }) {
   const { colors } = useTheme();
+  const unidades = Number(cantidad ?? 0);
   const contenido = (
     <>
       {imagen ? (
@@ -119,11 +187,21 @@ export function BloquePedido({ imagen, titulo, subtitulo, detalle, onPress, etiq
         </View>
       )}
       <View style={estilos.datos}>
-        <Text style={[estilos.bloqueTitulo, { color: colors.textPrimary }]} numberOfLines={2}>{titulo}</Text>
+        <View style={estilos.bloqueTituloFila}>
+          <Text style={[estilos.bloqueTitulo, { color: colors.textPrimary }]} numberOfLines={2}>{titulo}</Text>
+          {unidades > 1 ? (
+            <Text style={[estilos.bloqueCantidad, { color: colors.textSecondary }]} numberOfLines={1}>×{unidades}</Text>
+          ) : null}
+        </View>
         {subtitulo ? (
           <Text style={[estilos.bloqueSub, { color: colors.textSecondary }]} numberOfLines={1}>{subtitulo}</Text>
         ) : null}
         {detalle}
+        {paquete ? (
+          <Text style={[estilos.bloqueSub, { color: colors.textSecondary }]} numberOfLines={1}>
+            Paquete {paquete}
+          </Text>
+        ) : null}
       </View>
     </>
   );
@@ -175,20 +253,29 @@ export function FilaDato({ etiqueta, valor, extra, copiable, onCopiar }: {
 }
 
 /** Botón en píldora. `contorno` = solo borde (secundario); si no, relleno con el azul de acción. */
-export function BotonPildora({ texto, onPress, contorno, tono }: {
+export function BotonPildora({ texto, onPress, contorno, tono, inactivo }: {
   texto: string;
   onPress?: () => void;
   contorno?: boolean;
   tono?: Tono;
+  /** Se ve pero no se pulsa. Un botón inactivo se apaga, no se esconde. */
+  inactivo?: boolean;
 }) {
   const { colors } = useTheme();
   const color = tono ? colorDeTono(tono, colors) : brand.primary;
+  const tinte = inactivo ? alpha(color, 0.45) : color;
   const estilo = contorno
-    ? [estilos.boton, { borderWidth: trazo.fino, borderColor: color, backgroundColor: 'transparent' }]
-    : [estilos.boton, { backgroundColor: alpha(color, 0.12) }];
+    ? [estilos.boton, { borderWidth: trazo.fino, borderColor: tinte, backgroundColor: 'transparent' }]
+    : [estilos.boton, { backgroundColor: alpha(tinte, inactivo ? 0.06 : 0.12) }];
   return (
-    <Tactil onPress={onPress} accessibilityRole="button" accessibilityLabel={texto} style={estilo}>
-      <Text style={[estilos.botonTexto, { color }]} numberOfLines={1}>{texto}</Text>
+    <Tactil
+      onPress={inactivo ? undefined : onPress}
+      accessibilityRole="button"
+      accessibilityLabel={texto}
+      accessibilityState={{ disabled: Boolean(inactivo) }}
+      style={estilo}
+    >
+      <Text style={[estilos.botonTexto, { color: tinte }]} numberOfLines={1}>{texto}</Text>
     </Tactil>
   );
 }
@@ -196,6 +283,35 @@ export function BotonPildora({ texto, onPress, contorno, tono }: {
 /** Fila de botones; si no caben, se reparten. */
 export function FilaBotones({ children }: { children: ReactNode }) {
   return <View style={estilos.filaBotones}>{children}</View>;
+}
+
+/**
+ * Los botones de una tarjeta, desde su contrato. Es la pieza que cierra el hueco de la campaña:
+ * antes cada tarjeta pintaba sus botones a mano y el toque devolvía el TEXTO. Aquí el toque
+ * devuelve el **`id`**, que es lo que no cambia cuando cambia el rótulo.
+ */
+export function FilaBotonesDeTarjeta({ botones, onBoton, tono }: {
+  botones: BotonTarjeta[];
+  onBoton?: (id: string) => void;
+  tono?: Tono;
+}) {
+  if (!botones.length) return null;
+  return (
+    <FilaBotones>
+      {botones.map((b) => {
+        const apagado = b.estado === 'inactivo' || !onBoton;
+        return (
+          <BotonPildora
+            key={b.id}
+            texto={b.etiqueta}
+            tono={tono}
+            inactivo={apagado}
+            onPress={apagado ? undefined : () => onBoton?.(b.id)}
+          />
+        );
+      })}
+    </FilaBotones>
+  );
 }
 
 /** Pie débil de dos líneas (código y fecha), el cierre del patrón. */
@@ -261,7 +377,10 @@ const estilos = StyleSheet.create({
   foto: { width: 56, height: 56, borderRadius: radios.punta },
   fotoVacia: { alignItems: 'center', justifyContent: 'center' },
   datos: { flex: 1, minWidth: 0 },
-  bloqueTitulo: { fontSize: tipografia.body, lineHeight: interlineado.amplio },
+  /** El nombre y las unidades en la misma línea: «×3» no merece una línea propia. */
+  bloqueTituloFila: { flexDirection: 'row', alignItems: 'flex-start', gap: espaciado.e4 },
+  bloqueTitulo: { flex: 1, fontSize: tipografia.body, lineHeight: interlineado.amplio },
+  bloqueCantidad: { fontSize: tipografia.body, lineHeight: interlineado.amplio, fontWeight: peso.medio },
   bloqueSub: { fontSize: tipografia.caption, lineHeight: interlineado.caption, marginTop: espaciado.e2 },
 
   filaDato: { marginTop: espaciado.e4 },

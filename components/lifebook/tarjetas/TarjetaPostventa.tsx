@@ -54,7 +54,7 @@ export interface DatosPostventa {
     subNodeDesc?: string | null;
     eventAt?: string | null;
   } | null;
-  xhsAppButtons?: Array<{ label: string; theme?: string | null }>;
+  xhsAppButtons?: Array<{ id?: string | null; label: string; theme?: string | null }>;
 }
 
 export function TarjetaPostventa({ datos, tonoEstado, onAbrirPedido, onBoton, onCopiar }: {
@@ -126,7 +126,7 @@ export function TarjetaPostventa({ datos, tonoEstado, onAbrirPedido, onBoton, on
               key={`${b.label}-${i}`}
               texto={b.label}
               contorno
-              onPress={onBoton ? () => onBoton(b.label) : undefined}
+              onPress={onBoton ? () => onBoton(b.id ?? b.label) : undefined}
             />
           ))}
         </FilaBotones>

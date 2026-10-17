@@ -33,7 +33,7 @@ export function TarjetaTextoAcciones({ titulo, texto, botones, destacado, onBoto
   titulo?: string | null;
   /** Opcional: la tarjeta 37 (`queueguideleave_114`) es título y botones, sin cuerpo. */
   texto?: string | null;
-  botones?: Array<{ etiqueta: string }>;
+  botones?: Array<{ id?: string | null; etiqueta: string }>;
   /** Fuerza la variante destacada aunque no haya título. */
   destacado?: boolean;
   onBoton?: (etiqueta: string) => void;
@@ -68,7 +68,7 @@ export function TarjetaTextoAcciones({ titulo, texto, botones, destacado, onBoto
               key={`${b.etiqueta}-${i}`}
               texto={b.etiqueta}
               contorno={esDestacado}
-              onPress={onBoton ? () => onBoton(b.etiqueta) : undefined}
+              onPress={onBoton ? () => onBoton(b.id ?? b.etiqueta) : undefined}
             />
           ))}
         </View>

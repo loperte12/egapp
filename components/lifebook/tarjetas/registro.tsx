@@ -57,17 +57,50 @@ import { TarjetaInfraccion } from './TarjetaInfraccion';
 import { TarjetaNota } from './TarjetaNota';
 import { TarjetaReposicion } from './TarjetaReposicion';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
+import type { BotonTarjeta } from './piezas';
 
 /** Acciones que el chat presta a cualquier tarjeta. */
 export interface AccionesTarjeta {
-  /** Un botón de la tarjeta. Llega la etiqueta tal cual la mandó el servidor. */
-  onBoton?: (etiqueta: string) => void;
+  /**
+   * Un botón de la tarjeta. Llega el **`id`** del botón, no su etiqueta.
+   *
+   * ANTES LLEGABA LA ETIQUETA, y era un error: el comportamiento quedaba atado al rótulo, así que
+   * cambiar una coma en el texto rompía el cableado en silencio. La referencia separa las dos cosas
+   * (`buttons[].id` frente a `buttons[].buttonValue`) y esto hace lo mismo.
+   */
+  onBoton?: (id: string) => void;
   /** Un enlace dentro de una tarjeta compuesta. */
   onEnlace?: (url: string) => void;
   /** Copiar un dato (número de expediente, de gestión…). */
   onCopiar?: (valor: string) => void;
   /** Abrir el pedido o el objeto al que apunta la tarjeta. */
   onAbrir?: (id: string) => void;
+}
+
+/**
+ * LOS BOTONES DEL SERVIDOR, con la forma de la referencia convertida a la de LifeBook.
+ *
+ * La referencia manda `buttons[]` con `{ id, buttonValue, buttonStatus }`. Aquí se traduce a
+ * `BotonTarjeta` (`id`, `etiqueta`, `estado`). Se hace en UN solo sitio para que las 54 tarjetas no
+ * tengan cada una su propia idea de qué es un botón — que es exactamente cómo se acaba con 30
+ * tarjetas y 30 maneras de pintar un botón.
+ *
+ * Si el servidor no manda `id`, se usa la etiqueta como id: peor es no tener ninguno, y así una
+ * tarjeta antigua sigue funcionando.
+ */
+export function botonesDelServidor(brutos: unknown): BotonTarjeta[] {
+  if (!Array.isArray(brutos)) return [];
+  const salida: BotonTarjeta[] = [];
+  for (const b of brutos) {
+    if (!b || typeof b !== 'object') continue;
+    const x = b as Record<string, unknown>;
+    const etiqueta = String(x.buttonValue ?? x.label ?? x.text ?? '').trim();
+    if (!etiqueta) continue;
+    const id = String(x.id ?? x.buttonId ?? etiqueta);
+    const apagado = x.buttonStatus === 'disabled' || x.estado === 'inactivo' || x.disabled === true;
+    salida.push({ id, etiqueta, estado: apagado ? 'inactivo' : 'activo' });
+  }
+  return salida;
 }
 
 interface Entrada {
@@ -230,9 +263,9 @@ const REGISTRO: Record<string, Entrada> = {
         title?: string | null; content?: string | null; body?: string | null;
         buttons?: Array<Record<string, string>>;
       };
-      const botones = (x?.buttons ?? []).map((b) => ({
-        etiqueta: b.buttonValue ?? b.text ?? b.label ?? '',
-      })).filter((b) => b.etiqueta);
+      // Los botones se traducen en UN solo sitio (`botonesDelServidor`), no aquí: si cada tarjeta
+      // tradujera su propio `buttons[]` acabarían con ideas distintas de qué es un botón.
+      const botones = botonesDelServidor(x?.buttons);
       return (
         <TarjetaTextoAcciones
           titulo={x?.title}
@@ -417,8 +450,7 @@ const REGISTRO: Record<string, Entrada> = {
           producto={x?.name}
           imagen={x?.image}
           importe={x?.totalPrice ?? x?.price}
-          botones={(x?.buttons ?? []).map((b) => ({ etiqueta: b.buttonValue ?? b.text ?? b.label ?? '' }))
-            .filter((b) => b.etiqueta)}
+          botones={botonesDelServidor(x?.buttons)}
           onAbrirPedido={a.onAbrir ? () => a.onAbrir?.('') : undefined}
           onBoton={a.onBoton}
         />

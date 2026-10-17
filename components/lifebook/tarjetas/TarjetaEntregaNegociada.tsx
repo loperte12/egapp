@@ -44,7 +44,7 @@ export function TarjetaEntregaNegociada({ datos, tonoEstado, onAbrirPedido, onBo
     price?: string | null;
     preDeliveryTime?: string | null;
     expectDeliveryTime?: string | null;
-    buttons?: Array<{ buttonValue?: string }>;
+    buttons?: Array<{ id?: string | null; buttonValue?: string }>;
   };
   tonoEstado?: Tono;
   onAbrirPedido?: () => void;
@@ -100,7 +100,7 @@ export function TarjetaEntregaNegociada({ datos, tonoEstado, onAbrirPedido, onBo
               key={`${b.buttonValue}-${i}`}
               texto={b.buttonValue ?? ''}
               contorno
-              onPress={onBoton ? () => onBoton(b.buttonValue ?? '') : undefined}
+              onPress={onBoton ? () => onBoton(b.id ?? b.buttonValue ?? '') : undefined}
             />
           ))}
         </FilaBotones>

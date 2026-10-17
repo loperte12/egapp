@@ -49,7 +49,7 @@ export interface DatosEstadoPostventa {
     price?: string | null;
     packageId?: string | null;
   } | null;
-  buttons?: Array<{ label: string; buttonStyle?: string | null; status?: string | null }>;
+  buttons?: Array<{ id?: string | null; label: string; buttonStyle?: string | null; status?: string | null }>;
 }
 
 export function TarjetaEstadoPostventa({ datos, banner, pista, tonoEstado, onAbrirPedido, onBoton }: {
@@ -116,7 +116,7 @@ export function TarjetaEstadoPostventa({ datos, banner, pista, tonoEstado, onAbr
                 key={`${b.label}-${i}`}
                 texto={b.label}
                 contorno
-                onPress={onBoton ? () => onBoton(b.label) : undefined}
+                onPress={onBoton ? () => onBoton(b.id ?? b.label) : undefined}
               />
             ))}
           </FilaBotones>

@@ -39,7 +39,7 @@ export function TarjetaRecordatorioPago({ titulo, contenido, producto, imagen, i
   imagen?: string | null;
   /** Lo que hay que pagar, ya formateado. */
   importe?: string | null;
-  botones?: Array<{ etiqueta: string }>;
+  botones?: Array<{ id?: string | null; etiqueta: string }>;
   onAbrirPedido?: () => void;
   onBoton?: (etiqueta: string) => void;
 }) {
@@ -72,7 +72,7 @@ export function TarjetaRecordatorioPago({ titulo, contenido, producto, imagen, i
             <BotonPildora
               key={`${b.etiqueta}-${i}`}
               texto={b.etiqueta}
-              onPress={onBoton ? () => onBoton(b.etiqueta) : undefined}
+              onPress={onBoton ? () => onBoton(b.id ?? b.etiqueta) : undefined}
             />
           ))}
         </FilaBotones>

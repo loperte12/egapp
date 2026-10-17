@@ -43,7 +43,7 @@ export interface DatosReclamarCupon {
     useEndTs?: string | null;
     limits?: string | null;
   } | null;
-  buttons?: Array<{ label: string; status?: string | null }>;
+  buttons?: Array<{ id?: string | null; label: string; status?: string | null }>;
 }
 
 export function TarjetaReclamarCupon({ datos, onReclamar, onBoton }: {
@@ -102,7 +102,7 @@ export function TarjetaReclamarCupon({ datos, onReclamar, onBoton }: {
             <BotonPildora
               key={`${b.label}-${i}`}
               texto={b.label}
-              onPress={onBoton ? () => onBoton(b.label) : (i === 0 ? onReclamar : undefined)}
+              onPress={onBoton ? () => onBoton(b.id ?? b.label) : (i === 0 ? onReclamar : undefined)}
             />
           ))}
         </View>

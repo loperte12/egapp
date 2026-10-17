@@ -16,8 +16,9 @@
  */
 export {
   TarjetaEnChat, CabeceraTarjeta, EtiquetaEstado, BloquePedido, FilaDato,
-  BotonPildora, FilaBotones, PieDebil, LineaCronologia, colorDeTono,
-  type Tono,
+  BotonPildora, FilaBotones, FilaBotonesDeTarjeta, PieDebil, LineaCronologia,
+  colorDeTono, tonoDeClave,
+  type Tono, type ClaveEstado, type BotonTarjeta,
 } from './piezas';
 
 export { TarjetaPostventa, type DatosPostventa } from './TarjetaPostventa';

@@ -43,7 +43,7 @@ export function TarjetaPedidoLogistico({ datos, onAbrirPedido, onBoton }: {
     skuCount?: number | string | null;
     totalPrice?: string | null;
     recentTrackingRecord?: { subNodeDesc?: string | null } | null;
-    buttons?: Array<{ buttonValue?: string; buttonStatus?: string | null }>;
+    buttons?: Array<{ id?: string | null; buttonValue?: string; buttonStatus?: string | null }>;
   };
   onAbrirPedido?: () => void;
   onBoton?: (etiqueta: string) => void;
@@ -99,7 +99,7 @@ export function TarjetaPedidoLogistico({ datos, onAbrirPedido, onBoton }: {
               texto={b.buttonValue ?? ''}
               contorno
               // Un botón deshabilitado se pinta como tal, no se ofrece para que falle al pulsarlo.
-              onPress={b.buttonStatus === 'disabled' ? undefined : (onBoton ? () => onBoton(b.buttonValue ?? '') : undefined)}
+              onPress={b.buttonStatus === 'disabled' ? undefined : (onBoton ? () => onBoton(b.id ?? b.buttonValue ?? '') : undefined)}
             />
           ))}
         </FilaBotones>
