@@ -822,6 +822,87 @@ async function datosDeRejilla({ consulta = {}, limite = 40, destacar = 0 } = {})
   return { fichas, total: fichas.length };
 }
 
+
+// ─────────────────── v2 · PANEL DE REJILLA (categorías) ───────────────────
+/**
+ * La geometría del panel, **MEDIDA en la app real** (`docs/RE-关注-TIENDAS.md` §3): celda
+ * 98,7×34,7 dp · columnas en x 18,3 / 130,7 / 243 · hueco horizontal 13,7 · paso vertical 42,3
+ * (hueco 7,6) · primera fila en y=242.
+ *
+ * **No hace falta ningún tipo nuevo**: `Lista` de 3 columnas + celda `Contenedor` + `Texto`. Por eso
+ * el esquema NO sube (CONTRATO-UI.md §3.1: una plantilla nueva con tipos existentes es compatible).
+ */
+// `gravity` del motor, MEDIDO: CLAVES_LAYOUT.GRAVITY = d35754e84f6522f6; 4 = center.
+const GRAVEDAD_CENTRO = 'd35754e84f6522f6';
+const PANEL_V2 = Object.freeze({
+  COLUMNAS: 3,
+  HUECO_COLUMNA: 13.7,
+  HUECO_FILA: 7.6,
+  MARGEN: 18.3,
+  ALTO_CELDA: 34.7,
+  RADIO: 8,
+  TAMANO: 13,
+  SEPARACION_TITULO: 10,
+});
+
+/** Una celda: fondo de tarjeta, radio, el alto medido y el rótulo centrado. */
+function celdaDePanel(C) {
+  return {
+    tipo: 'Contenedor',
+    atributos: {
+      [TEMPLATE_NAME]: 'panel_celda',
+      [K.ORIENTATION]: 1,
+      // 4 = `center` en el enum de gravedad del motor (9 posiciones, medido).
+      [GRAVEDAD_CENTRO]: 4,
+      [K.BACKGROUNDCOLOR]: C.tarjeta,
+      [K.CORNERRADIUS]: PANEL_V2.RADIO,
+      [K.LAYOUT_HEIGHT]: PANEL_V2.ALTO_CELDA,
+      [K.ONPRESS]: '$item.id',
+    },
+    hijos: [texto('$item.nombre', PANEL_V2.TAMANO, C.texto)],
+  };
+}
+
+function arbolDePanelCategorias(tema) {
+  const C = coloresDe(tema);
+  return {
+    tipo: 'Contenedor',
+    atributos: {
+      [K.LAYOUT_WIDTH]: -1,
+      [K.ORIENTATION]: 1,
+      [K.BACKGROUNDCOLOR]: C.fondo,
+      [K.PADDING_LEFT]: PANEL_V2.MARGEN,
+      [K.PADDING_RIGHT]: PANEL_V2.MARGEN,
+      [K.PADDING_TOP]: 4,
+    },
+    hijos: [
+      texto('Categorías', 15, C.texto, { [K.PADDING_BOTTOM]: PANEL_V2.SEPARACION_TITULO }),
+      {
+        tipo: 'Lista',
+        valor: '$categorias',
+        atributos: {
+          [LISTA.COLUMN_COUNT]: PANEL_V2.COLUMNAS,
+          [LISTA.COLUMN_SPACING]: PANEL_V2.HUECO_COLUMNA,
+          [LISTA.ROW_SPACING]: PANEL_V2.HUECO_FILA,
+        },
+        hijos: [celdaDePanel(C)],
+      },
+    ],
+  };
+}
+
+/** Los datos: los departamentos REALES (18), sin la pestaña «Recomendado», que no es una categoría. */
+async function datosDePanelCategorias() {
+  const respuesta = await fetch(CATEGORIAS);
+  if (!respuesta.ok) return null;
+  const departamentos = await respuesta.json();
+  if (!Array.isArray(departamentos) || departamentos.length === 0) return null;
+  const categorias = departamentos
+    .filter((d) => d && d.id)
+    .map((d) => ({ id: String(d.id), nombre: String(d.label ?? d.name ?? '') }));
+  return categorias.length ? { categorias } : null;
+}
+
 const servidor = createServer((req, res) => {
   const url = new URL(req.url ?? '/', 'http://localhost');
   /**
@@ -861,7 +942,13 @@ const servidor = createServer((req, res) => {
       buscarDatos: () => datosDeDestacados(p.get('id') ?? undefined),
     }),
     // **La rejilla en la forma de Taobao**: UNA `Lista` con dos columnas y el `span` por tarjeta.
-    '/api/ecomerse/ui/rejilla': (p) => ({
+    // v2 · el PANEL DE REJILLA: las categorías en 3 columnas, geometría medida (RE-关注-TIENDAS §3).
+  '/api/ecomerse/ui/v2-categorias': (p) => ({
+    arbol: arbolDePanelCategorias(p.get('tema')),
+    buscarDatos: () => datosDePanelCategorias(),
+  }),
+
+  '/api/ecomerse/ui/rejilla': (p) => ({
       arbol: arbolDeRejilla(p.get('tema')),
       // `?destacar=<n>` es la palanca de DEMOSTRACIÓN del servidor de pruebas (ver `datosDeRejilla`).
       // `UI_DESTACAR` es la misma palanca por entorno, para poder VER la rejilla irregular en el móvil
@@ -1275,4 +1362,4 @@ function arbolDeSiguiendo(tema) {
 
 // Se exporta para poder PROBAR el arbol sin arrancar el servidor: el oráculo comprueba que todas
 // las claves que manda el servidor son claves que el cliente conoce.
-export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, arbolDeSiguiendo, datosDeSiguiendo, tarjetasDeSiguiendo, TIPOS_TARJETA, PLANTILLA_SIGUIENDO, ACCIONES_SIGUIENDO, PLANTILLA_TIENDA, FEEDS, arbolDeFeeds, datosDeFeeds, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, CLAVE_ASPECTO, ASPECTO_TARJETA, REJILLA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, SORT_POR_DEFECTO, consultaDeCatalogo, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };
+export { ARBOL_DESTACADOS, ARBOL_RELACIONADOS, arbolDeFranja, arbolDeRejilla, tarjetaDeRejilla, accionDeTarjeta, ACCIONES, CLAVE_ACCION, arbolDeCategorias, datosDeCategorias, arbolDePanelCategorias, datosDePanelCategorias, PANEL_V2, arbolDeSiguiendo, datosDeSiguiendo, tarjetasDeSiguiendo, TIPOS_TARJETA, PLANTILLA_SIGUIENDO, ACCIONES_SIGUIENDO, PLANTILLA_TIENDA, FEEDS, arbolDeFeeds, datosDeFeeds, PESTANAS, ESPACIO_PESTANAS, SPAN_TARJETA, CLAVE_ASPECTO, ASPECTO_TARJETA, REJILLA, LISTA, TEMPLATE_NAME, PLANTILLA_ESTRECHA, PLANTILLA_ANCHA, tarjetaAnchaPara, SORT_POR_DEFECTO, consultaDeCatalogo, datosDeDestacados, datosDeRejilla, fichaDeProducto, K, C, TEMAS, TEMA_POR_DEFECTO, coloresDe, ESQUEMA, puerto };

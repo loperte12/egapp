@@ -45,6 +45,8 @@ export const RUTAS = {
   driverProfile: { ruta: '/driver-profile', params: [] },
   ecomerse: { ruta: '/ecomerse', params: [] },
   ecomerseCheckout: { ruta: '/ecomerse-checkout', params: [] },
+  // v2: la pantalla semilla del shell nuevo (panel de rejilla del servidor).
+  ecomerseV2: { ruta: '/ecomerse-v2', params: [] },
   ecomerseDetail: { ruta: '/ecomerse-detail', params: [] },
   ecomerseDireccion: { ruta: '/ecomerse-direccion', params: [] },
   ecomerseDirecciones: { ruta: '/ecomerse-direcciones', params: [] },

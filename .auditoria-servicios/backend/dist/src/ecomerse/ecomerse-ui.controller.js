@@ -1064,6 +1064,80 @@ exports.datosDeDestacados = datosDeDestacados;
  * Una franja que no se puede montar **no es un fallo del Mercado entero**: se responde 200 con
  * `arbol: null` (contrato: «no hay nada que pintar») y la pantalla sigue igual.
  */
+
+// ─────────────────── v2 · PANEL DE REJILLA (categorías) ───────────────────
+/**
+ * Geometría **MEDIDA** en la app real (`docs/RE-关注-TIENDAS.md` §3): celda 98,7×34,7 dp · columnas
+ * en x 18,3 / 130,7 / 243 · hueco horizontal 13,7 · paso vertical 42,3 · primera fila y=242.
+ *
+ * **No hace falta ningún tipo nuevo**: `Lista` de 3 columnas + celda `Contenedor` + `Texto`.
+ */
+// `gravity` del motor, MEDIDO: CLAVES_LAYOUT.GRAVITY = d35754e84f6522f6; 4 = center.
+const GRAVEDAD_CENTRO = 'd35754e84f6522f6';
+const PANEL_V2 = Object.freeze({
+    COLUMNAS: 3,
+    HUECO_COLUMNA: 13.7,
+    HUECO_FILA: 7.6,
+    MARGEN: 18.3,
+    ALTO_CELDA: 34.7,
+    RADIO: 8,
+    TAMANO: 13,
+    SEPARACION_TITULO: 10,
+});
+function celdaDePanel(C) {
+    return {
+        tipo: 'Contenedor',
+        atributos: {
+            [TEMPLATE_NAME]: 'panel_celda',
+            [K.ORIENTATION]: 1,
+            [GRAVEDAD_CENTRO]: 4,
+            [K.BACKGROUNDCOLOR]: C.tarjeta,
+            [K.CORNERRADIUS]: PANEL_V2.RADIO,
+            [K.LAYOUT_HEIGHT]: PANEL_V2.ALTO_CELDA,
+            [K.ONPRESS]: '$item.id',
+        },
+        hijos: [texto('$item.nombre', PANEL_V2.TAMANO, C.texto)],
+    };
+}
+function arbolDePanelCategorias(tema) {
+    const C = coloresDe(tema);
+    return {
+        tipo: 'Contenedor',
+        atributos: {
+            [K.LAYOUT_WIDTH]: -1,
+            [K.ORIENTATION]: 1,
+            [K.BACKGROUNDCOLOR]: C.fondo,
+            [K.PADDING_LEFT]: PANEL_V2.MARGEN,
+            [K.PADDING_RIGHT]: PANEL_V2.MARGEN,
+            [K.PADDING_TOP]: 4,
+        },
+        hijos: [
+            texto('Categorías', 15, C.texto, { [K.PADDING_BOTTOM]: PANEL_V2.SEPARACION_TITULO }),
+            {
+                tipo: 'Lista',
+                valor: '$categorias',
+                atributos: {
+                    [LISTA.COLUMN_COUNT]: PANEL_V2.COLUMNAS,
+                    [LISTA.COLUMN_SPACING]: PANEL_V2.HUECO_COLUMNA,
+                    [LISTA.ROW_SPACING]: PANEL_V2.HUECO_FILA,
+                },
+                hijos: [celdaDePanel(C)],
+            },
+        ],
+    };
+}
+function datosDePanelCategorias(departamentos) {
+    if (!Array.isArray(departamentos) || departamentos.length === 0)
+        return null;
+    const categorias = departamentos
+        .filter((d) => d && d.id)
+        .map((d) => ({ id: String(d.id), nombre: String(d.label ?? d.name ?? '') }));
+    return categorias.length ? { categorias } : null;
+}
+exports.PANEL_V2 = PANEL_V2;
+exports.arbolDePanelCategorias = arbolDePanelCategorias;
+exports.datosDePanelCategorias = datosDePanelCategorias;
+
 let EcomerseUiController = class EcomerseUiController {
     constructor(ecomerse) {
         this.ecomerse = ecomerse;
@@ -1104,6 +1178,22 @@ let EcomerseUiController = class EcomerseUiController {
         }
     }
 
+    /**
+     * v2 · EL PANEL DE REJILLA. Las categorías del Mercado en la geometría MEDIDA de Taobao
+     * (3 columnas, celda 98,7×34,7 dp, huecos 13,7 / 7,6). Ver `docs/RE-关注-TIENDAS.md` §3.
+     * **Sin categorías, `arbol: null`**: el panel no se pinta y la pantalla sigue.
+     */
+    async v2Categorias(tema) {
+        try {
+            const departamentos = await this.ecomerse.categories();
+            const datos = datosDePanelCategorias(departamentos);
+            if (!datos) return { esquema: ESQUEMA_UI, arbol: null };
+            return { esquema: ESQUEMA_UI, arbol: arbolDePanelCategorias(tema), datos };
+        } catch (e) {
+            this.log.warn(`no se pudo montar el panel de categorias: ${(e && e.message) || e}`);
+            return { esquema: ESQUEMA_UI, arbol: null };
+        }
+    }
     /**
      * LA BARRA DE CATEGORÍAS. Salen del servicio (`categories()`), que es la MISMA fuente que el
      * listado del Mercado: **no hay dos verdades sobre qué departamentos existen**.
@@ -1217,6 +1307,15 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], EcomerseUiController.prototype, "rejilla", null);
+    __decorate([
+        (0, common_1.Get)('v2-categorias'),
+        // Las categorías cambian poco: la misma caché corta y pública que la barra de categorías.
+        (0, common_1.Header)('Cache-Control', 'public, max-age=60'),
+        __param(0, (0, common_1.Query)('tema')),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [String]),
+        __metadata("design:returntype", Promise)
+    ], EcomerseUiController.prototype, "v2Categorias", null);
 __decorate([
     (0, common_1.Get)('categorias'),
     // El árbol de categorías lo mantiene el administrador y cambia poco: una caché corta en el borde
