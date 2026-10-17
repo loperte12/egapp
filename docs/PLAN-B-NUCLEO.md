@@ -56,7 +56,33 @@ versión**, y hay una regla escrita para cambiarla.
 
 ---
 
-## Costura 2 · Kit y motor de UI (semana 1–2)
+## Costura 2 · Kit y motor de UI — **CERRADA el 17/10** ✅
+
+**Lo que quedó:**
+
+1. **`docs/KIT-UI.md`** — la guía del kit:
+   - las **dos capas** (tabla pura / componente / motor) y **por qué** la decisión vive en la capa pura
+     (se puede probar en Node) y el `.tsx` sólo lee;
+   - **la receta de siete pasos**, en dos casos: **A) componente para un tipo que ya existe** (no toca el
+     contrato) y **B) tipo nuevo** (sí: `TIPOS_SOPORTADOS`, tabla del contrato, versión a 2 y los dos
+     lados en el mismo despliegue);
+   - **las dos lecciones** como doctrina: el `Texto` que **nunca** lleva `LAYOUT_WIDTH`/`LAYOUT_HEIGHT`/
+     `WEIGHT`/`ORIENTATION` (el `-1` de caja lo deja invisible) y **la celda de una `Lista` de una
+     columna**, que necesita `flex: 1` (sin test posible: es visual, va al checklist de móvil);
+   - **los tokens**: definición en `packages/ui-kit/src/theme/`, consumo por `@egrouteplan/ui-kit`, y
+     nada de hexadecimal fuera de `theme/` (`npm run diseno` lo impone);
+   - el **checklist de nueve puntos** y dónde está cada prueba.
+2. **`test/kit.test.mjs`** (2 pruebas nuevas) — la parte ejecutable de la guía:
+   - **todo tipo tiene componente** (menos `Condicional`, que no pinta): un tipo sin componente pinta
+     un hueco **sin error**, que es el fallo que no sale en los logs;
+   - **ningún resolutor lanza**, ni con atributos vacíos ni con basura (`{}`, claves desconocidas y
+     valores de todos los tipos) — la regla «nunca lanza» bajada al kit.
+3. Las dos lecciones ya tenían sus guardianes vivos: el de los textos es un test que recorre **todos
+   los árboles**; el de la celda está en el código de `Lista.tsx` con su comentario.
+
+**Aceptación**: ✅ oráculo **155/155** · `npm run verificar` en verde · guía enlazada desde la ley.
+
+
 
 **Qué significa congelado**: añadir un widget es **copiar una tabla pura, escribir su componente y
 probarlo**; no se toca el motor. Y los fallos de maquetación que costaron días quedan escritos.
