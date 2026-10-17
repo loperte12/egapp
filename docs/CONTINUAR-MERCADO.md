@@ -1795,6 +1795,71 @@ hay portada — o que el contrato tenga una `Imagen` vacía que ocupe cero.
 Un fallo cacheado seis días sería peor que el fallo.
 
 
+### 30.2 · El hueco, plegado (17/10)
+
+La portada era `match_parent` + `ext:aspecto: 1`: un **cuadrado** del ancho de la pantalla (~360×360).
+Cuando la foto falta o falla, `Imagen` pinta su marcador **a ese mismo tamaño** a propósito (para que el
+layout no salte)… y quedaba una tarjeta altísima con un 🖼️ en el centro: justo el hueco que había que
+plegar.
+
+**DECISIÓN DECLARADA**: la evidencia de Taobao (`sjsdbigfeed_card_2026`: portada `coverImg` + avatar)
+no trae la altura de la portada —sus literales son colores y nombres—, así que se elige **180** de alto
+de banda. No es una medida medida: es una decisión, y va dicha como tal. Con ella el fallo ocupa una
+banda y no un bloque. (La imagen **sin** URL ya colapsaba sola: `Imagen` devuelve `null` sin `uri`.)
+
+Verificado en el móvil: el marcador de la tienda con foto huérfana ocupa ahora la banda de 180.
+
+---
+
+## 31 · El panel del comerciante: Qianniu (千牛) — el objetivo localizado (17/10)
+
+**Encontrado.** `C:\Users\nisang12\Downloads\qianniu_(9.97.74N)_NK_64(1).exe` — 24 772 608 B,
+descargado **hoy a las 09:58**. Es **千牛 (Qianniu)**, el **panel del comerciante de Taobao**: el sitio
+donde el vendedor publica productos, gestiona pedidos, envíos, mensajes y **verifica su documentación**.
+
+**Lo que se sacó del propio instalador** (con evidencia, no por el nombre del fichero):
+
+- PE de 64 bits (`0x8664`), sin NSIS/Inno/Squirrel/Electron/CEF: es un **bootstrapper propio**.
+- Recursos de configuración: `app_dir_name = AliWorkbench`, `main_exe_name = AliWorkbench.exe`,
+  `AliWorkbench.ini`, `AliIMX.dll` (el núcleo de mensajería de WangWang) y la clave de registro
+  `App Paths\AliWorkbench.exe`.
+- **No trae URLs** por ningún lado: el bootstrapper se baja el cliente y su configuración del servidor.
+
+**Conclusión importante, y es lo que hay que decir**: esos 24 MB **no son el panel**. Es el
+**instalador**; el cliente de verdad (cientos de MB, con el motor web y sus páginas) se descarga al
+instalarlo. **Con el EXE solo no se puede hacer la ingeniería inversa del panel.**
+
+**Lo que hace falta** (una de dos):
+1. **Instalarlo** en este equipo (Qianniu es un cliente Windows; al abrirlo con una cuenta de vendedor
+   se descarga el cliente real). Después se analiza el árbol instalado: si es un motor web (como todo
+   apunta), sus páginas son **JavaScript** y se pueden leer con las herramientas de análisis de
+   aplicaciones (`analyze_javascript_application`), sin ejecutar nada.
+2. O **traer ya instalado/copiado** el árbol del panel (la carpeta `AliWorkbench` con su `.exe`, sus
+   `dll` y, sobre todo, la carpeta de recursos web).
+
+**Plan de la investigación, por flujos** (lo que queremos del panel, y lo que ya tenemos del lado de la
+app): el Mercado ya modela `wallet.ecomerse_sellers`, `ecomerse_products`, `ecomerse_orders`,
+`ecomerse_disputes`, `ecomerse_delivery_zones`… Lo que falta aprender del panel es **cómo lo hace el
+comerciante**:
+
+| # | flujo | qué se busca en el panel |
+|---|---|---|
+| 1 | **Verificación del documento** (店铺资质 / 实名) | estados, qué documento pide, cómo lo sube y qué devuelve |
+| 2 | Publicar/editar producto | campos obligatorios, fotos, precio, stock, categoría |
+| 3 | Pedidos y envíos | estados, quién cambia qué, plazos, devoluciones |
+| 4 | Mensajes con el comprador | hilos, avisos, plantillas |
+| 5 | Cobros/liquidaciones | cuándo y cómo se le paga |
+
+**Lo primero de la lista es el 1**, porque es lo que el dueño del producto está esperando («esperando la
+verificación del documento»).
+
+**Y una vía paralela que ya se puede hacer sin el panel**: confrontar esos flujos con lo que el backend
+del Mercado ya implementa (`seller/kyc`, `sellerMe`, `ecomerse_storage`, `kycOk`) para ver qué estados
+faltan del lado nuestro. El KYC de la app vive en `mobility` y el ecommerce lo consulta (`resolveVerified`):
+es el mismo concepto que la verificación de documento del panel.
+
+
+
 
 
 

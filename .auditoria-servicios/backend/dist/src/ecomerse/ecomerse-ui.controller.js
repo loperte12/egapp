@@ -649,7 +649,7 @@ const portada = (C_) => fila([
   {
     tipo: 'Imagen',
     valor: '$item.portada',
-    atributos: { [K.LAYOUT_WIDTH]: -1, [CLAVE_ASPECTO]: 1.6, [K.CORNERRADIUS]: REJILLA.RADIO },
+    atributos: { [K.LAYOUT_WIDTH]: -1, [K.LAYOUT_HEIGHT]: 180, [K.CORNERRADIUS]: REJILLA.RADIO },
   },
   {
     tipo: 'Icono',

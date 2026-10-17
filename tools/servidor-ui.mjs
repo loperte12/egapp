@@ -1090,7 +1090,7 @@ const portada = (C_) => fila([
   {
     tipo: 'Imagen',
     valor: '$item.portada',
-    atributos: { [K.LAYOUT_WIDTH]: -1, [CLAVE_ASPECTO]: 1.6, [K.CORNERRADIUS]: REJILLA.RADIO },
+    atributos: { [K.LAYOUT_WIDTH]: -1, [K.LAYOUT_HEIGHT]: 180, [K.CORNERRADIUS]: REJILLA.RADIO },
   },
   {
     tipo: 'Icono',
@@ -1144,7 +1144,9 @@ function arbolDeSiguiendo(tema) {
 
       // ── 1 · `common_title_card`: la tarjeta de TÍTULO ────────────────────────────────────────
       tarjeta(C_, [
-        texto('$item.titulo', 15, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        fila([
+          texto('$item.titulo', 15, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        ]),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.titulo, [SPAN_TARJETA]: 1 }),
 
       // ── 2 · `live_card` · variante EN VIVO ───────────────────────────────────────────────────
@@ -1191,7 +1193,9 @@ function arbolDeSiguiendo(tema) {
 
       // ── 5 · `recommend_title`: el título de los recomendados («Basado en tus seguidos») ───────
       tarjeta(C_, [
-        texto('$item.titulo', 13, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        fila([
+          texto('$item.titulo', 13, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        ]),
       ], { [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.titulo_recomendado, [SPAN_TARJETA]: 1 }),
 
       // ── 6 · `live_card` + `recommendInfo` · variante RECOMENDADO ─────────────────────────────
@@ -1212,7 +1216,9 @@ function arbolDeSiguiendo(tema) {
       // ── 7 · `sjsdbigfeed_card_2026`: la tarjeta GRANDE del feed (sin botón de seguir) ─────────
       tarjeta(C_, [
         portada(C_),
-        texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 6 }),
+        fila([
+          texto('$item.titulo', 14, C_.texto, { [K.PADDING_TOP]: 6 }),
+        ]),
         fila([
           { tipo: 'Imagen', valor: '$item.avatar', atributos: { [K.LAYOUT_WIDTH]: 24, [CLAVE_ASPECTO]: 1, [K.CORNERRADIUS]: 12 } },
           texto('$item.creador', 11, C_.secundario, { [K.PADDING_LEFT]: 6, [K.PADDING_TOP]: 2 }),
@@ -1232,8 +1238,12 @@ function arbolDeSiguiendo(tema) {
       // En Taobao es UNA plantilla con `isNetError` dentro: la ilustración (420×300) y 「刷新」. Aquí
       // el rótulo y el texto los pone el dato, así que la misma tarjeta sirve para las dos cosas.
       tarjeta(C_, [
-        texto('Aquí verás los directos de las tiendas que sigues', 15, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
-        texto('Cuando sigas una tienda, sus directos aparecen aquí, en orden.', 12, C_.secundario, { [K.PADDING_TOP]: 6 }),
+        fila([
+          texto('Aquí verás los directos de las tiendas que sigues', 15, C_.texto, { [K.PADDING_LEFT]: 2, [K.PADDING_TOP]: 2 }),
+        ]),
+        fila([
+          texto('Cuando sigas una tienda, sus directos aparecen aquí, en orden.', 12, C_.secundario, { [K.PADDING_TOP]: 6 }),
+        ]),
         boton('Actualizar', ACCIONES_SIGUIENDO.REFRESCAR, C_.naranja, { [K.PADDING_TOP]: 12 }),
       ], {
         [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.vacio,
@@ -1246,8 +1256,12 @@ function arbolDeSiguiendo(tema) {
       // Dos estados, dos copias: la de arriba invita a seguir tiendas; esta dice que fallo la red y
       // ofrece reintentar. **No son el mismo mensaje con otro botón.**
       tarjeta(C_, [
-        texto('No pudimos cargar esto', 15, C_.texto, {}),
-        texto('Revisa tu conexión y vuelve a intentarlo.', 12, C_.secundario, { [K.PADDING_TOP]: 6 }),
+        fila([
+          texto('No pudimos cargar esto', 15, C_.texto, {}),
+        ]),
+        fila([
+          texto('Revisa tu conexión y vuelve a intentarlo.', 12, C_.secundario, { [K.PADDING_TOP]: 6 }),
+        ]),
         boton('Reintentar', ACCIONES_SIGUIENDO.REFRESCAR, C_.naranja, { [K.PADDING_TOP]: 12 }),
       ], {
         [TEMPLATE_NAME]: PLANTILLA_SIGUIENDO.sin_red,
