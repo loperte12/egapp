@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Camera, Heart, Search, ShoppingCart, Store } from 'lucide-react-native';
 import { useTheme, alpha, EmptyState, InlineError, tipografia, radios, trazo, peso, espaciado } from '@egrouteplan/ui-kit';
@@ -234,8 +234,15 @@ export default function EcomerseScreen() {
   /**
    * **Qué feed se está viendo** (`Recomendado` · `Siguiendo`): el carril de arriba de Taobao. Antes de
    * esto no existía, y por eso «Siguiendo» no tenía dónde ponerse — no era un descuido de estilo.
+   *
+   * **Y se puede entrar directo a `Siguiendo`** con `?feed=siguiendo`: es lo que usa la fila «Tiendas
+   * que sigo» del perfil desde que se retiró la pantalla vieja (`ecomerse-perfil-tiendas`). Mismo
+   * patrón que `ecomerse-orders?filtro=` y `ecomerse-mensajes-avisos?canal=`.
    */
-  const [feedActivo, setFeedActivo] = useState<'recomendado' | 'siguiendo'>('recomendado');
+  const { feed: feedParam } = useLocalSearchParams<{ feed?: string }>();
+  const [feedActivo, setFeedActivo] = useState<'recomendado' | 'siguiendo'>(
+    feedParam === 'siguiendo' ? 'siguiendo' : 'recomendado',
+  );
   /** El estado de la sección de seguidos, para su vacío y su error (mismo contrato que la rejilla). */
   const [estadoSiguiendo, setEstadoSiguiendo] = useState<'cargando' | 'lista' | 'vacia' | 'error'>('cargando');
 

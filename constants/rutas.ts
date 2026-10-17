@@ -57,7 +57,6 @@ export const RUTAS = {
   ecomersePerfil: { ruta: '/ecomerse-perfil', params: [] },
   ecomersePerfilReembolso: { ruta: '/ecomerse-perfil-reembolso', params: [] },
   ecomersePerfilReembolsos: { ruta: '/ecomerse-perfil-reembolsos', params: [] },
-  ecomersePerfilTiendas: { ruta: '/ecomerse-perfil-tiendas', params: [] },
   ecomersePlanes: { ruta: '/ecomerse-planes', params: [] },
   ecomerseSeller: { ruta: '/ecomerse-seller', params: [] },
   ecomerseSubcategoria: { ruta: '/ecomerse-subcategoria', params: [] },

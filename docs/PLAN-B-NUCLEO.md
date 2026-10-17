@@ -211,6 +211,6 @@ Estas tres eran deudas de la línea anterior; así se cierran:
 
 | Rebanada | Costura | Aceptación | Retirada |
 |---|---|---|---|
-| Retirar la pantalla vieja de tiendas seguidas | Kit/entrega | `关注` sin la pantalla vieja; `rutas` verde | borrar `app/ecomerse-perfil-tiendas.tsx` en el mismo commit |
+| **Retirar la pantalla vieja de tiendas seguidas** | Kit/entrega | ✅ hecho 17/10: fichero y ruta borrados, el perfil enlaza a `?feed=siguiendo`; `rutas` 137 verde | ✅ borrado en el mismo commit · ⏳ móvil pendiente |
 | Intercalar producto en el feed (mecanismo listo) | Contrato | un feed mixto en el móvil con captura | — |
 | Decidir A o B de 关注 (feed vs tiendas) | Contrato | **ficha nueva** con la captura de la página de tiendas; sin captura, **no se implementa** | — |

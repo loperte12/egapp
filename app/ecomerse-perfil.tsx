@@ -235,20 +235,26 @@ export default function EcomersePerfilScreen() {
    * un seguimiento. La Fase 6 construyó ese sitio (`wallet.ecomerse_store_follows`) y esta fila pasa
    * a ser viva, con el mismo criterio que las de arriba: el contador sale del servidor, y cuando no
    * se pudo preguntar la nota no afirma un cero.
+   *
+   * **Y ya no lleva a una pantalla propia.** El 17/10/2026 se retiró `ecomerse-perfil-tiendas` (la
+   * lista vieja) porque su sustituto es la pestaña **关注 del Mercado**, que enseña las mismas tiendas
+   * con las tarjetas del censo. La fila pasa a ser un **enlace directo** a esa pestaña
+   * (`?feed=siguiendo`), no un duplicado: una sola lista, un solo sitio.
    */
   const tiendasQueSigo: Acceso[] = useMemo(() => {
     const nota =
       nTiendas === null
-        ? 'Las tiendas del Mercado que sigues, juntas en un sitio.'
+        ? 'Las tiendas que sigues, en el feed 关注 del Mercado.'
         : nTiendas === 0
           ? 'Todavía no sigues ninguna. Se sigue desde la página de cada tienda.'
-          : `${nTiendas} ${nTiendas === 1 ? 'tienda' : 'tiendas'}`;
+          : `${nTiendas} ${nTiendas === 1 ? 'tienda' : 'tiendas'} · en 关注`;
     return [
       {
         titulo: 'Tiendas que sigo',
         nota,
         icono: Store,
-        ruta: '/ecomerse-perfil-tiendas',
+        // Enlace a la pestaña 关注 del Mercado (la que sustituye a la pantalla retirada).
+        ruta: '/ecomerse?feed=siguiendo',
       },
     ];
   }, [nTiendas]);

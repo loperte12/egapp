@@ -1858,9 +1858,23 @@ del Mercado ya implementa (`seller/kyc`, `sellerMe`, `ecomerse_storage`, `kycOk`
 faltan del lado nuestro. El KYC de la app vive en `mobility` y el ecommerce lo consulta (`resolveVerified`):
 es el mismo concepto que la verificación de documento del panel.
 
+---
 
+## 32 · Retirada de la pantalla vieja de tiendas seguidas (17/10)
 
+Ficha: `docs/fichas/mercado-retirar-tiendas-seguidas.md`.
 
+**Qué se hizo, en un solo commit** (retirar **y** sustituir, como manda la ley §5):
 
+- **Se borró** `app/ecomerse-perfil-tiendas.tsx` (213 líneas) y su ruta del mapa
+  (`ecomersePerfilTiendas`, `constants/rutas.ts`). No queda ninguna pantalla con esa lista.
+- **El acceso no se perdió**: la fila «Tiendas que sigo» del perfil pasa a ser un **enlace directo** a
+  la pestaña **关注 del Mercado** (`/ecomerse?feed=siguiendo`). El feed acepta ese parámetro de
+  arranque con el mismo patrón que `ecomerse-orders?filtro=` y `ecomerse-mensajes-avisos?canal=`.
+- **Una sola lista, un solo sitio**: el sustituto es la sección 关注 (la que se verificó en el móvil el
+  17/10 con datos reales).
 
-
+**Estado**: código hecho y guardias verdes (`npm run verificar`: tsc 5 = base, diseño, lógica,
+**rutas 137 con el mapa al día**, oráculo 155/155). **La comprobación en el móvil queda PENDIENTE**: el
+teléfono no aparecía por USB al cerrar la rebana. No se declara probada hasta hacerla:
+Perfil → «Tiendas que sigo» → debe abrir el Mercado con **Siguiendo** encendido.
