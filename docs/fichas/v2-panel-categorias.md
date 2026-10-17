@@ -58,7 +58,8 @@ Sustituye a:       nada (la retirada de la lista vieja ya se hizo en su propia f
 pm run verificar\ | ✅ verde: tsc 5 = base · diseño · lógica · **rutas 138, mapa al día** · oráculo **159/159** |
 | Despliegue | ✅ 6 ficheros versionados y limpios · guardia «vivo» ✓ · subida con etag ✓ · **humo** 200 y esquema 1 ✓ |
 | **Ruta en PRODUCCIÓN** | ✅ \GET /api/ecomerse/ui/v2-categorias?tema=oscuro\ → **200** con \esquema:1\ y **18 categorías**; respuesta guardada en \docs/evidencia/171025-v2-panel-produccion.json\ (tardó un poco: SCF sirvió una instancia vieja las primeras peticiones — anotado) |
-| **Móvil** | ⏳ **PENDIENTE**: el teléfono no apareció por USB (\db devices\ vacío) al cerrar. **No se afirma probado.** Para cerrarla: \db reverse tcp:8081 tcp:8081\ → abrir \egrouteplan://ecomerse-v2\ → captura; y modo avión para el estado de error |
+| **Móvil** | ✅ **panel con las categorías REALES** (Hombre · Mujer · Bebés y niños · Alimentación · Hogar y limpieza · Muebles y decoración…), 3 columnas, celdas de **34,7 dp** de alto. Captura: `docs/evidencia/171025-v2-panel-clasificacion.png`. ⚠️ Las celdas salían de **111 dp** de ancho (no 98,7): ver la fila siguiente. |
+| **Geometría** | ✅ **cerrada en árbol y producción**: la rejilla va dentro de un `Contenedor` con margen **18,3** en los dos servidores → (360 − 2·18,3 − 2·13,7)/3 = **98,67 dp**, que es lo medido. Oráculo **165/165** y producción sirviendo el envoltorio (`docs/evidencia/171025-v2-panel-margen-produccion.json`). ⏳ **La confirmación de este cambio en el móvil queda pendiente**: el teléfono se quedó en la pantalla de patrón y no se puede desbloquear sin el patrón del dueño. Lo que sí se vio en el móvil fue el mecanismo hermano: el margen 18,3 de la primera pastilla (mismo `Contenedor` + `PADDING_*`). |
 
 ## 5 · Fuera de alcance
 
