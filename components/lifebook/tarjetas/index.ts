@@ -55,6 +55,8 @@ export { TarjetaRecordatorioPago } from './TarjetaRecordatorioPago';
 export { TarjetaVideo } from './TarjetaVideo';
 export { TarjetaInfraccion } from './TarjetaInfraccion';
 export { TarjetaNota } from './TarjetaNota';
+export { TarjetaPedido } from './TarjetaPedido';
+export { TarjetaProducto } from './TarjetaProducto';
 export { TarjetaReposicion } from './TarjetaReposicion';
 export {
   TarjetaDeChat, TARJETAS_REGISTRADAS, compararVersiones,

@@ -591,3 +591,66 @@ variante a la consulta que ya se está haciendo:
    mensajes que nadie ve.
 3. **El orden correcto es**: primero el cliente (que ya está hecho, en `components/lifebook/tarjetas/`),
    después este parche. Al revés se pierden mensajes.
+
+---
+
+## BLOQUE 6 — EL PUENTE: los tipos antiguos viajan como tarjeta (APLICADO Y DESPLEGADO)
+
+**Qué.** `serializeMessage` añade `out.cardRef` también para `order`, `product`, `post` y `sale`,
+traduciendo los campos que ya emitía (`orderRef`, `productRef`, `postRef`). Los campos viejos se
+**conservan**: un cliente antiguo sigue funcionando y la transición no rompe a nadie.
+
+```ts
+if (!out.cardRef) {
+  if (kind === 'order' && out.orderRef) {
+    out.cardRef = { cardType: 'pedido', payload: out.orderRef };
+  } else if (kind === 'product' && out.productRef) {
+    out.cardRef = { cardType: 'producto', payload: out.productRef };
+  } else if ((kind === 'post' || kind === 'sale') && out.postRef) {
+    out.cardRef = { cardType: 'nota', payload: { postRef: out.postRef, sale: kind === 'sale' } };
+  }
+}
+```
+
+**Por qué hace falta.** El cliente ya NO tiene ramas propias para esos tipos: solo conoce el árbol
+(`cardType → componente`). Sin el puente, los mensajes ya escritos en miles de conversaciones
+dejarían de pintarse. **No se reescriben las filas**: se traduce al leer, igual que el estado del
+pedido.
+
+**Condición del cliente.** El chat pinta el árbol cuando **hay `cardRef`**, no cuando `kind === 'card'`.
+Si se exigiera `kind === 'card'`, el puente no serviría: estos mensajes conservan su `kind` original.
+Ese fue el fallo detectado al probarlo (los productos salían como texto).
+
+### CÓMO SE DESPLEGÓ (reproducible)
+
+El CLI de CloudBase **no puede** en esta red: su subida a COS falla (el bucket temporal no existe) y
+la descarga de código también. El camino que **sí** funciona:
+
+1. **Parchear el JS compilado**, no solo el fuente: la función corre `dist/src/main.js`, así que el
+   cambio tiene que estar en `dist/src/lifebook/lifebook.service.js`.
+2. **Empaquetar con `tar`** desde la raíz del paquete (NO con `Compress-Archive`: mete barras
+   invertidas y rompe las rutas en Linux). El `scf_bootstrap` tiene que quedar **en la raíz**.
+3. **Subir el zip a COS** con `cos-nodejs-sdk-v5` al bucket del entorno
+   (`6567-egrouteplan-…-1309240014`, región `ap-singapore`).
+4. **`UpdateFunctionCode`** por la API de SCF con `CosBucketName` **SIN el sufijo del appid**
+   (`6567-egrouteplan-…`, no `…-1309240014`) y `CosObjectName` empezando por `/`.
+
+```js
+await scf.UpdateFunctionCode({
+  FunctionName: 'egrouteplan-api',
+  Namespace: 'egrouteplan-d0gpkwbe7ce86f609',
+  CosBucketName: '6567-egrouteplan-d0gpkwbe7ce86f609',   // SIN -<appid>
+  CosObjectName: '/funciones/api-puente.zip',
+  CosBucketRegion: 'ap-singapore',
+});
+```
+
+### ⚠️ LA FUENTE DE VERDAD
+
+**El código fuente real del servidor NO está en este repositorio** (`backend/server-src` es una copia
+de anclaje: 35 ficheros, sin `main.ts`, sin `app.module.ts`, sin `*.module.ts`). Lo que hay
+desplegado es el **paquete compilado** parcheado en `dist/`.
+
+**Consecuencia:** si alguien redespliega la API desde el fuente sin aplicar BLOQUE 1 y BLOQUE 6, las
+tarjetas desaparecen. Al llevar esto al fuente de verdad hay que añadir **las dos cosas**: la rama
+`kind === 'card'` y el puente.

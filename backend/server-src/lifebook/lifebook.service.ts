@@ -2277,6 +2277,35 @@ export class LifebookService {
         link: this.serviceLinkOut(payload.link),
       };
     }
+
+    /**
+     * EL PUENTE — los tipos antiguos viajan TAMBIÉN como tarjeta del árbol.
+     *
+     * POR QUÉ HACE FALTA: el cliente ya no tiene ramas propias para `order`, `product`, `post` ni
+     * `sale`; solo conoce el árbol (`cardType → componente`). Sin este puente, esos mensajes —los
+     * que ya están escritos en miles de conversaciones— dejarían de pintarse.
+     *
+     * POR QUÉ NO SE CONVIERTEN LOS MENSAJES: reescribir el historial sería reescribir la
+     * conversación de la gente. Aquí se **traduce al leer**, igual que el estado del pedido: la
+     * fila no cambia, cambia lo que se le sirve al cliente.
+     *
+     * SE MANTIENEN TAMBIÉN LOS CAMPOS VIEJOS (`orderRef`, `productRef`, `postRef`): un cliente
+     * antiguo que aún no conoce el árbol sigue funcionando. La transición no rompe a nadie.
+     */
+    if (!out.cardRef) {
+      if (kind === 'order' && out.orderRef) {
+        out.cardRef = { cardType: 'pedido', payload: out.orderRef };
+      } else if (kind === 'product' && out.productRef) {
+        out.cardRef = { cardType: 'producto', payload: out.productRef };
+      } else if ((kind === 'post' || kind === 'sale') && out.postRef) {
+        out.cardRef = {
+          cardType: 'nota',
+          // La nota acepta `postRef` dentro del payload; `sale` distingue venta de nota normal.
+          payload: { postRef: out.postRef, sale: kind === 'sale' },
+        };
+      }
+    }
+
     return out;
   }
 

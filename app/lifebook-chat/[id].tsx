@@ -24,9 +24,7 @@ import { alpha, espaciado, interlineado, peso, Precio, radios, tipografia, trazo
 import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, ShoppingBag, ShoppingCart, X } from 'lucide-react-native';
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
-import { OrderCardEnChat } from '../../components/lifebook/OrderCardEnChat';
 import { TarjetaDeChat, destinoDeBoton } from '../../components/lifebook/tarjetas/registro';
-import { TarjetaNota } from '../../components/lifebook/tarjetas/TarjetaNota';
 import type { LbProductCard } from '../../api/commerce';
 import * as ImagePicker from 'expo-image-picker';
 // Parte 32: expo-image (caché memoria+disco) — las fotos del chat no destellan.
@@ -1655,55 +1653,10 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
    * resuelve al leer), no el del día en que se envió: si el comerciante lo cambió, se ve el
    * bueno. Si el producto ya no está a la venta se dice, en vez de ofrecer comprarlo.
    */
-  if (msg.kind === 'product' && msg.productRef) {
-    const pr = msg.productRef;
-    return wrap(
-      <View style={[styles.cardBubble, { backgroundColor: colors.card, width: 224, flexDirection: 'column' }]}>
-        {pr.coverUrl ? (
-          <ExpoImage source={absUrl(pr.coverUrl)} style={styles.postCover} contentFit="cover" cachePolicy="memory-disk" transition={0} />
-        ) : (
-          <View style={[styles.postCover, { alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(colors.primary, 0.08) }]}>
-            <ShoppingCart size={22} color={alpha(colors.text.primary, 0.5)} />
-          </View>
-        )}
-        <Text style={{ color: colors.textPrimary, fontSize: tipografia.caption, fontWeight: peso.maximo, marginTop: espaciado.e6 }} numberOfLines={2}>
-          {pr.title}
-        </Text>
-        {/* Variante que el cliente ya había elegido en la ficha: así el comerciante sabe qué le
-            preguntan sin que nadie tenga que describir el producto (guía del dueño, regla 3). */}
-        {pr.variantLabel ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, marginTop: espaciado.e2 }} numberOfLines={1}>
-            {pr.variantLabel}
-          </Text>
-        ) : null}
-        {/* Aviso de consulta: alguien pregunta por ESTE producto. */}
-        {pr.asking ? (
-          <Text style={{ color: colors.textSecondary, fontSize: tipografia.micro, fontWeight: peso.fuerte, marginTop: espaciado.e3 }}>
-            Consultando sobre este producto
-          </Text>
-        ) : null}
-        {pr.priceXaf !== null && pr.priceXaf !== undefined ? (
-          <Precio valor={pr.priceXaf} tamano="md" color={colors.text.primary} style={{ marginTop: espaciado.e2 }} />
-        ) : (
-          <Text style={{ color: colors.textSecondary, fontWeight: peso.fuerte, fontSize: tipografia.caption, marginTop: espaciado.e2 }}>Precio a consultar</Text>
-        )}
-        {pr.available === false ? (
-          <Text style={{ color: colors.text.danger, fontWeight: peso.maximo, fontSize: tipografia.micro, marginTop: espaciado.e4 }}>
-            Ya no está a la venta
-          </Text>
-        ) : (
-          <Pressable
-            onPress={() => onOpenProduct?.(pr.id)}
-            accessibilityLabel={`Ver y comprar ${pr.title}`}
-            style={{ marginTop: espaciado.e8, backgroundColor: colors.primary, borderRadius: radios.full, paddingVertical: espaciado.e7, alignItems: 'center' }}
-          >
-            <Text style={{ color: brand.white, fontWeight: peso.titulo, fontSize: tipografia.caption }}>Comprar</Text>
-          </Pressable>
-        )}
-      </View>,
-    );
-  }
-
+  /**
+   * EL PRODUCTO ya NO tiene rama aquí: el servidor lo manda como `cardType: 'producto'` y lo
+   * pinta el árbol (`TarjetaProducto`). Antes era JSX suelto en esta cadena — un camino más.
+   */
   /**
    * MERCADO (tanda E) — LA TARJETA DEL PEDIDO en el chat.
    *
@@ -1711,9 +1664,11 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
    * el ESTADO VIVO (lo resuelve el servidor al leer el mensaje, no se queda congelado el día de la
    * compra). En un grupo se lee como prueba social («✅ Fulano compró esto»).
    */
-  if (msg.kind === 'order' && msg.orderRef) {
-    return wrap(<OrderCardEnChat pedido={msg.orderRef} onOpen={onOpenOrder} />);
-  }
+  /*
+   * EL PEDIDO ya NO tiene rama aquí: el servidor lo manda como `cardType: 'pedido'` y lo pinta el
+   * árbol (`TarjetaPedido`). Antes esta cadena tenía un `if (kind === 'order')` con un componente
+   * fuera del árbol, o sea DOS caminos para lo mismo.
+   */
 
   /**
    * TARJETA GENÉRICA — un solo tipo para las 54 tarjetas de comercio del chat.
@@ -1727,7 +1682,7 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
    * app más nueva que la instalada, el motor devuelve el aviso de mensaje no soportado y la
    * conversación sigue. Por eso esta rama es segura aunque el servidor mande algo que no existe.
    */
-  if (msg.kind === 'card' && msg.cardRef) {
+  if (msg.cardRef) {
     return wrap(
       <TarjetaDeChat
         tarjeta={msg.cardRef}
@@ -1779,17 +1734,10 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
    *   2. **este fichero es donde vive todo**, y cada tarjeta que sigue dentro es una razón más para
    *      no poder partirlo. Sacar la nota es la primera mudanza de esa deuda.
    */
-  if ((msg.kind === 'post' || msg.kind === 'sale') && msg.postRef) {
-    return wrap(
-      <TarjetaNota
-        nota={msg.postRef}
-        autor={msg.author
-          ? { nombre: msg.author.name ?? msg.author.fullName, avatarUrl: msg.author.avatarUrl }
-          : null}
-        esVenta={msg.kind === 'sale'}
-      />,
-    );
-  }
+  /*
+   * LA NOTA ya NO tiene rama aquí: el servidor la manda como `cardType: 'nota'` y la pinta el árbol
+   * (`TarjetaNota`, que ya estaba registrada). Es la misma pieza, por un solo camino.
+   */
 
   /**
    * Parte 24 (G2): VOTACIÓN con datos reales — cada opción se puede tocar, se

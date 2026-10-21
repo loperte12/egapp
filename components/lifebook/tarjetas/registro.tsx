@@ -55,6 +55,8 @@ import { TarjetaRecordatorioPago } from './TarjetaRecordatorioPago';
 import { TarjetaVideo } from './TarjetaVideo';
 import { TarjetaInfraccion } from './TarjetaInfraccion';
 import { TarjetaNota } from './TarjetaNota';
+import { TarjetaPedido } from './TarjetaPedido';
+import { TarjetaProducto } from './TarjetaProducto';
 import { TarjetaReposicion } from './TarjetaReposicion';
 import { TarjetaNoSoportada } from './TarjetaNoSoportada';
 import type { BotonTarjeta, DestinoBoton } from './piezas';
@@ -530,6 +532,40 @@ const REGISTRO: Record<string, Entrada> = {
         />
       );
     },
+  },
+  /**
+   * EL PEDIDO EN EL CHAT — dentro del árbol.
+   *
+   * Antes era una rama del chat (`if (kind === 'order')` → `OrderCardEnChat`), un componente fuera de
+   * esta carpeta. Así había DOS caminos para pintar un pedido: el árbol y la rama a mano. Ahora es
+   * una tarjeta más y el chat solo conoce el árbol.
+   *
+   * El servidor la manda como `cardType: 'pedido'` con el mismo `orderRef` de siempre en `payload`,
+   * así que el componente no cambia de forma: cambia de sitio.
+   */
+  pedido: {
+    descripcion: 'El pedido en el chat: estado vivo, artículo y ticket',
+    render: (d, a) => (
+      <TarjetaPedido
+        datos={d as Parameters<typeof TarjetaPedido>[0]['datos']}
+        onAbrirPedido={a.onAbrir}
+      />
+    ),
+  },
+  /**
+   * EL PRODUCTO COMPARTIDO — dentro del árbol.
+   *
+   * Antes era JSX suelto dentro del chat (`if (kind === 'product')`): no lo podía reutilizar ninguna
+   * otra pantalla y el chat acumulaba otra rama. Ahora es `cardType: 'producto'`.
+   */
+  producto: {
+    descripcion: 'Producto compartido: foto, precio vivo, variante y comprar',
+    render: (d, a) => (
+      <TarjetaProducto
+        datos={d as Parameters<typeof TarjetaProducto>[0]['datos']}
+        onAbrirProducto={a.onAbrir}
+      />
+    ),
   },
   /**
    * La nota compartida. Es la misma que el chat despacha por `kind: 'post'`/`'sale'`: aquí queda
