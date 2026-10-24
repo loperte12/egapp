@@ -21,7 +21,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { alpha, espaciado, radios, tipografia, useTheme, peso, trazo} from '@egrouteplan/ui-kit';
 import {
-  Eraser, ImageOff, Lock, LogOut, MoreHorizontal, Palette, Pencil, Search, ShieldAlert, UserX, Users, X,
+  Eraser, ImageOff, Lock, LogOut, MessageSquareText, MoreHorizontal, Palette, Pencil, Search, ShieldAlert, UserX, Users, X,
 } from 'lucide-react-native';
 import { messagesApi, type LbChatSearchKind, type LbMessage } from '../../api/messages';
 import { lifebookBlocksApi } from '../../api/lifebook';
@@ -217,6 +217,9 @@ export function ChatOptionsSheet({
             <Row icon={<Search size={18} color={colors.text.secondary} />} label="Buscar en todos mis chats"
               hint="Encuentra un mensaje aunque no recuerdes dónde"
               onPress={() => { onClose(); router.push('/lifebook-message-search' as never); }} />
+            <Row icon={<MessageSquareText size={18} color={colors.text.primary} />} label="Respuestas rápidas"
+              hint="Frases de la tienda y mías, para responder en un toque"
+              onPress={() => { onClose(); router.push('/lifebook-respuestas-rapidas' as never); }} />
             <Row icon={<Lock size={18} color={colors.text.primary} />} label="No molestar"
               hint={state.muted ? 'Silenciado' : 'Avisar de cada mensaje'}
               right={<Switch value={state.muted} disabled={busy === 'muted'} onValueChange={(v) => toggle('muted', v)} />} />

@@ -959,3 +959,25 @@ export const commerceMerchantApi = {
     http.patch<LbQuickEditResult>(`${MERCHANT}/products/${id}/quick`, input),
 };
 
+/**
+ * RESPUESTAS RÁPIDAS del vendedor (T1). Dos alcances, como se pidió:
+ *   · `shop` → frases de la TIENDA, compartidas por todo el equipo que atiende.
+ *   · `user` → frases de UNA PERSONA.
+ * El chat las ofrece como chips encima del compositor.
+ */
+export interface LbRespuestaRapida {
+  id: string;
+  scope: 'shop' | 'user';
+  text: string;
+  sort: number;
+  /** `true` si es de la persona (no de la tienda). */
+  mine: boolean;
+}
+
+export const respuestasRapidasApi = {
+  listar: () => http.get<{ items: LbRespuestaRapida[]; shopName: string | null }>(`${MERCHANT}/quick-replies`),
+  guardar: (body: { id?: string; text: string; scope: 'shop' | 'user' }) =>
+    http.post<{ ok: boolean; id: string }>(`${MERCHANT}/quick-replies`, body),
+  borrar: (id: string) => http.delete<{ ok: boolean }>(`${MERCHANT}/quick-replies/${id}`),
+};
+

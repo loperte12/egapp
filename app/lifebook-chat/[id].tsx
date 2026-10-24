@@ -25,7 +25,7 @@ import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, Shoppin
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
 import { TarjetaDeChat, destinoDeBoton } from '../../components/lifebook/tarjetas/registro';
-import { cuponesApi, type LbProductCard } from '../../api/commerce';
+import { cuponesApi, respuestasRapidasApi, type LbProductCard } from '../../api/commerce';
 import * as ImagePicker from 'expo-image-picker';
 // Parte 32: expo-image (caché memoria+disco) — las fotos del chat no destellan.
 import { Image as ExpoImage } from 'expo-image';
@@ -89,6 +89,8 @@ function ChatThreadContent() {
   const [loadingOlder, setLoadingOlder] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [text, setText] = useState(p.draft ? decodeURIComponent(String(p.draft)) : '');
+  /** RESPUESTAS RÁPIDAS (T1): frases de la tienda (compartidas) y mías (por persona). */
+  const [respuestas, setRespuestas] = useState<Array<{ id: string; text: string; scope: 'shop' | 'user' }>>([]);
   const [sending, setSending] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [plusOpen, setPlusOpen] = useState(false);
@@ -215,6 +217,15 @@ function ChatThreadContent() {
 
   // B8: y al SALIR del chat, por si llegaron mensajes mientras estaba abierto
   // (se marcaron leídos sin pasar por el `then` de arriba en el último tick).
+  useEffect(() => {
+    let vivo = true;
+    // El que no es vendedor no tiene frases: la lista llega vacía y no se pinta nada.
+    respuestasRapidasApi.listar()
+      .then((r) => { if (vivo) setRespuestas(Array.isArray(r.items) ? r.items : []); })
+      .catch(() => { /* sin frases, sin chips: el chat funciona igual */ });
+    return () => { vivo = false; };
+  }, []);
+
   useEffect(() => () => { forzar(); }, [forzar]);
 
   useEffect(() => {
@@ -1149,8 +1160,30 @@ function ChatThreadContent() {
             );
           }
           return (
-            <View style={[styles.inputBar, { paddingBottom: insets.bottom + 8, backgroundColor: colors.card, borderTopColor: alpha(colors.border, 0.6) }]}>
-              <TextInput
+            <>
+              {/* RESPUESTAS RÁPIDAS (T1): frases de la tienda o mías; tocar pone el texto en el compositor. */}
+              {respuestas.length ? (
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  keyboardShouldPersistTaps="handled"
+                  style={{ backgroundColor: colors.card, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: alpha(colors.border, 0.6) }}
+                  contentContainerStyle={{ gap: espaciado.e6, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 }}
+                >
+                  {respuestas.map((r) => (
+                    <Pressable
+                      key={r.id}
+                      onPress={() => setText(r.text)}
+                      accessibilityLabel={`Usar respuesta rápida: ${r.text}`}
+                      style={{ maxWidth: 280, borderRadius: 999, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 }}
+                    >
+                      <Text numberOfLines={1} style={{ color: colors.text.primary, fontSize: tipografia.caption }}>{r.text}</Text>
+                    </Pressable>
+                  ))}
+                </ScrollView>
+              ) : null}
+              <View style={[styles.inputBar, { paddingBottom: insets.bottom + 8, backgroundColor: colors.card, borderTopColor: alpha(colors.border, 0.6) }]}>
+                <TextInput
                 value={text}
                 onChangeText={setText}
                 placeholder="Escribe un mensaje…"
@@ -1171,7 +1204,8 @@ function ChatThreadContent() {
                   {sending ? <ActivityIndicator size="small" color={brand.white} /> : <Send size={16} color={brand.white} />}
                 </Pressable>
               ) : null}
-            </View>
+              </View>
+            </>
           );
         })()}
 

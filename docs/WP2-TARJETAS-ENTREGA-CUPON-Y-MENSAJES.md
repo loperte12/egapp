@@ -438,3 +438,54 @@ y en el checkout de LifeBook la predeterminada se propone sola. La pantalla se c
 `ecomerse-direcciones`/`ecomerse-direccion` (ya probadas), pero apuntando a `/lifebook/addresses`.
 
 
+
+---
+
+## 10. T1 — Respuestas rápidas del vendedor (estado y desbloqueo)
+
+**Hecho (código completo, compila y degrada sin romper nada):**
+
+| Pieza | Dónde |
+|---|---|
+| Tabla (DDL idempotente, dos variantes) | `commerce.service.js` → `asegurarTablaRespuestas()` |
+| GET/POST/DELETE `/lifebook/commerce/merchant/quick-replies` | `commerce.service.js` + `commerce.controller.js` |
+| API del móvil | `api/commerce.ts` → `respuestasRapidasApi` |
+| **Chips sobre el compositor** | `app/lifebook-chat/[id].tsx` (tocar → el texto va al compositor) |
+| **Pantalla de gestión** | `app/lifebook-respuestas-rapidas.tsx` (crear/borrar, «Tienda» o «Mía») |
+| Acceso | hoja «⋯» → «Respuestas rápidas» |
+
+**Bloqueo real, medido en vivo:** el usuario de la base que usa el backend **no puede crear tablas**:
+
+```
+Raw query failed. Code: 42501. Message: ERROR: permission denied for schema lifebook
+```
+
+El GET degrada a `{ items: [], aviso: "…" }` (el chat abre igual, sin chips). Este mismo bloqueo
+afecta a **T13 (libreta de direcciones)**.
+
+**SQL para desbloquear (ejecutar como administrador de la base, una vez):**
+
+```sql
+-- 1) permisos para que los despliegues puedan crear/actualizar sus tablas
+GRANT CREATE ON SCHEMA lifebook TO <usuario_de_la_app>;
+
+-- 2) o, si se prefiere crear las tablas a mano:
+CREATE TABLE IF NOT EXISTS lifebook.quick_replies (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  scope text NOT NULL CHECK (scope IN ('shop','user')),
+  shop_id uuid NULL REFERENCES lifebook.shops(id) ON DELETE CASCADE,
+  user_id uuid NOT NULL REFERENCES mobility.users(id) ON DELETE CASCADE,
+  text text NOT NULL,
+  sort integer NOT NULL DEFAULT 0,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  CHECK ((scope = 'shop' AND shop_id IS NOT NULL) OR (scope = 'user' AND shop_id IS NULL))
+);
+CREATE INDEX IF NOT EXISTS ix_lb_qr_shop ON lifebook.quick_replies (shop_id, sort);
+CREATE INDEX IF NOT EXISTS ix_lb_qr_user ON lifebook.quick_replies (user_id, sort);
+GRANT ALL ON lifebook.quick_replies TO <usuario_de_la_app>;
+```
+
+**Pendiente inmediato tras el desbloqueo:** desplegar (la subida a COS está caída por red en este
+momento; se reintenta) y validar en el móvil con la cuenta del vendedor: crear una frase «Tienda» y
+otra «Mía», verlas como chips y comprobar que tocar una pone el texto en el compositor.
