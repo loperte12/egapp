@@ -34,6 +34,8 @@ export interface DatosCupon {
   threshold?: string | null;
   name?: string | null;
   couponType?: string | null;
+  /** `percent` = descuento en %, `amount` = importe. Si falta, se deduce del texto. */
+  discountType?: 'percent' | 'amount' | null;
   itemName?: string | null;
   startTime?: string | null;
   endTime?: string | null;
@@ -50,22 +52,34 @@ export function TarjetaCupon({ datos, etiquetaTipo, onUsar, onAbrir }: {
   const { colors } = useTheme();
   const tipo = etiquetaTipo ?? datos.couponType;
   const validez = [datos.startTime, datos.endTime].filter(Boolean).join(' — ');
+  /**
+   * EL SÍMBOLO NO ES SIEMPRE XAF.
+   *
+   * `ImporteCupon` antepone el símbolo a la cifra; con un cupón de PORCENTAJE eso pintaba
+   * «XAF 15 %» (medido en el móvil el 24/10). El servidor manda la cifra con su unidad
+   * («15 %» o «1500 XAF») y aquí se separa: porcentaje → cifra + «%» sin símbolo; importe → XAF.
+   */
+  const crudo = String(datos.discount ?? '').trim();
+  const esPorcentaje = datos.discountType === 'percent' || /%\s*$/.test(crudo);
+  const cifra = crudo.replace(/\s*XAF$/i, '').replace(/\s*%\s*$/, '').trim();
+  const cantidad = esPorcentaje ? `${cifra} %` : cifra;
+  const simbolo = esPorcentaje ? '' : 'XAF';
 
   return (
     <TarjetaEnChat onPress={onAbrir} etiquetaAccesible={datos.name ? `Cupón ${datos.name}` : 'Cupón'}>
       <View style={estilos.fila}>
         {/* El importe manda: es lo que hace que el usuario siga leyendo. */}
         <View style={estilos.importe}>
-          <ImporteCupon cantidad={datos.discount} simbolo="XAF" minimo={datos.threshold} />
+          <ImporteCupon cantidad={cantidad} simbolo={simbolo} minimo={datos.threshold} />
         </View>
 
         <View style={estilos.detalle}>
-          <View style={estilos.nombreLinea}>
-            {tipo ? <SelloTipoCupon texto={tipo} /> : null}
-            {datos.name ? (
-              <Text style={[estilos.nombre, { color: colors.textPrimary }]} numberOfLines={2}>{datos.name}</Text>
-            ) : null}
-          </View>
+          {/* El sello, en su línea: en una tarjeta estrecha, compartir fila con el nombre lo
+              comprimía a «Des/cu…» (medido el 24/10). */}
+          {tipo ? <View style={estilos.sello}><SelloTipoCupon texto={tipo} /></View> : null}
+          {datos.name ? (
+            <Text style={[estilos.nombre, { color: colors.textPrimary }]} numberOfLines={2}>{datos.name}</Text>
+          ) : null}
           {datos.itemName ? (
             <Text style={[estilos.validez, { color: colors.textSecondary }]} numberOfLines={1}>{datos.itemName}</Text>
           ) : null}
@@ -90,8 +104,8 @@ const estilos = StyleSheet.create({
   fila: { flexDirection: 'row', gap: espaciado.e12 },
   importe: { minWidth: 84 },
   detalle: { flex: 1, minWidth: 0 },
-  nombreLinea: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4 },
-  nombre: { flex: 1, fontSize: tipografia.body, lineHeight: interlineado.amplio },
+  sello: { alignSelf: 'flex-start', marginBottom: espaciado.e4 },
+  nombre: { fontSize: tipografia.body, lineHeight: interlineado.amplio },
   validez: { fontSize: tipografia.nota, lineHeight: interlineado.micro, marginTop: espaciado.e4 },
   separador: { height: StyleSheet.hairlineWidth, marginTop: espaciado.e8 },
   accion: { flexDirection: 'row', marginTop: espaciado.e8 },

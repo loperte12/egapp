@@ -28,6 +28,7 @@ import type { LbMessageCardRef } from '../../../api/messages';
 import { TarjetaPostventa, type DatosPostventa } from './TarjetaPostventa';
 import { TarjetaEstadoPostventa, type DatosEstadoPostventa } from './TarjetaEstadoPostventa';
 import { TarjetaConfirmarPedido, type DatosConfirmarPedido } from './TarjetaConfirmarPedido';
+import { TarjetaConfirmacionEntrega } from './TarjetaConfirmacionEntrega';
 import { TarjetaCertificado, type DatosCertificado } from './TarjetaCertificado';
 import { TarjetaCompuesta, type ParrafoCompuesto } from './TarjetaCompuesta';
 import { TarjetaCupon, type DatosCupon } from './TarjetaCupon';
@@ -193,6 +194,55 @@ const REGISTRO: Record<string, Entrada> = {
         onModificar={a.onBoton ? () => a.onBoton?.('Modificar') : undefined}
       />
     ),
+  },
+  'confirmacion-entrega': {
+    descripcion: 'Confirmación de la entrega con el código que enseña el comprador',
+    render: (d, a) => {
+      /**
+       * Acepta DOS FORMAS, como el resto de avisos del pedido:
+       *  · la explícita (`goods`, `address`, `status{desc,feedback}`, `buttons[]`) — la del DSL
+       *    `bcim_chat_askconfirmorder_71`;
+       *  · la foto del pedido que manda LifeBook (`items[]`, `totalXaf`, `title`) + `deliveryCode`.
+       * El código es lo propio de LifeBook: la referencia no tiene tarjeta para enseñarlo.
+       */
+      const x = d as {
+        orderNo?: string | null; code?: string | null; title?: string | null;
+        deliveryCode?: string | null;
+        goods?: { preview?: string | null; name: string; count?: number; total_amt?: string | null } | null;
+        items?: Array<{ title?: string; mediaUrl?: string | null; quantity?: number }>;
+        totalXaf?: number | null;
+        address?: { desc?: string | null } | null;
+        logisticsType?: string | null;
+        status?: { desc?: string | null; feedback?: string | null } | null;
+        isShowButton?: boolean | null;
+        buttons?: Array<{ id?: string | null; label?: string | null }>;
+      };
+      const bienes = x?.goods ?? (Array.isArray(x?.items) && x.items.length
+        ? {
+            preview: x.items[0]?.mediaUrl ?? null,
+            name: String(x.items[0]?.title ?? 'Tu pedido'),
+            count: x.items.length,
+            total_amt: x?.totalXaf != null ? `${Number(x.totalXaf)} XAF` : null,
+          }
+        : null);
+      return (
+        <TarjetaConfirmacionEntrega
+          datos={{
+            orderNo: x?.orderNo ?? x?.code ?? null,
+            deliveryCode: x?.deliveryCode ?? null,
+            goods: bienes,
+            address: x?.address ?? null,
+            logisticsType: x?.logisticsType ?? null,
+            status: x?.status ?? (x?.title ? { desc: x.title } : null),
+            isShowButton: x?.isShowButton,
+            buttons: x?.buttons,
+          }}
+          onAbrirPedido={a.onAbrir ? () => a.onAbrir?.('') : undefined}
+          onCopiarCodigo={a.onCopiar}
+          onBoton={(id) => a.onBoton?.(id)}
+        />
+      );
+    },
   },
   certificado: {
     descripcion: 'Solicitud de cualificación de categoría',
