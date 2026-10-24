@@ -589,3 +589,29 @@ Se instaló el APK de la campaña y se recorrió todo lo desplegado:
 | Mención | `@nickname` + aviso «有人@你» | `@nombre` (miembro del grupo) | el formato ya es `@nombre`; queda el aviso de mención y el resaltado visual (T7b) |
 
 > **Resumen para la decisión:** el ajuste visual (tamaño/máx. 3) queda aplicado; para igualar del todo a Red Book falta el modelo **con icono y destino** (producto/grupo), que cambia el esquema de `quick_replies` y la pantalla de gestión.
+
+---
+
+## 15. T1b — respuestas rápidas con tipo y destino + menciones resaltadas (hecho)
+
+**Norma nueva:** `skills/clonar-xhs/SKILL.md` (RE primero; si falta material, re-RE con `tools/re-xhs.mjs`).
+Ninguna pantalla/chip se implementa «a ojo»: se extrae el contrato del APK y se anota la evidencia.
+
+**Backend (desplegado):**
+- `lifebook.quick_replies` gana `kind` (`text` · `product` · `group`), `ref_id`, `icon_url` y `keywords` (ALTER perezoso).
+- Validación al guardar: producto **activo de la tienda** (icono deducido de su media) · grupo **donde participo**.
+- Menciones: al enviar, se marca `status_prefs.mentioned` del mencionado; `GET /chat/conversations` devuelve
+  `mentioned` y `markRead` lo limpia (aviso «te mencionó»).
+
+**Cliente:**
+- Chips en **una sola fila** (máx. 3, ancho 120) con **miniatura** y «Ver todas (N)»; tocar: texto→compositor ·
+  producto→**tarjeta de producto** · grupo→**abre el grupo** (equivale a `QuickIntentItem.icon/name/jumpLink`).
+- El texto del mensaje **resalta `@nombre`** (amarillo en burbuja propia, color primario en ajena).
+- Lista de chats: etiqueta **«te mencionó»** cuando hay mención sin leer.
+- Gestión: selector **Texto/Producto/Grupo**, lista de productos/grupos, **palabras clave**.
+
+**Verificado:** API — respuesta rápida de producto creada con `kind=product`, `refId` e `icon=true`; mención
+enviada. APK BUILD SUCCESSFUL; chips en una fila (captura) y pantalla de gestión con tipo/destino.
+
+**Pendiente:** sugerencias automáticas por palabra clave en el servidor (las palabras ya se guardan), aviso
+push de mención y comprobación visual del resaltado en un mensaje con mención real.

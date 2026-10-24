@@ -1267,14 +1267,14 @@ function ChatThreadContent() {
                   style={{ backgroundColor: colors.card, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: alpha(colors.border, 0.6) }}
                   contentContainerStyle={{ gap: espaciado.e6, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, alignItems: 'center' }}
                 >
-                  {respuestas.slice(0, 3).map((r) => (
+                  {respuestas.slice(0, 2).map((r) => (
                     <Pressable
                       key={r.id}
                       onPress={() => { void usarRespuesta(r); }}
                       accessibilityLabel={`Usar respuesta rápida: ${r.text}`}
                       style={{
                         flexDirection: 'row', alignItems: 'center', gap: espaciado.e4,
-                        maxWidth: 170, borderRadius: 12, borderWidth: StyleSheet.hairlineWidth,
+                        maxWidth: 120, borderRadius: 12, borderWidth: StyleSheet.hairlineWidth,
                         borderColor: colors.border, backgroundColor: colors.surface,
                         paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4,
                       }}
