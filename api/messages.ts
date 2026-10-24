@@ -56,6 +56,8 @@ export interface LbConversation {
   background?: string | null;
   /** Fase B: requiere estado efímero (hoy el hilo hace polling cada 4 s). */
   peerIsTyping?: boolean;
+  /** T7b: hay una mención sin leer («alguien te mencionó»). */
+  mentioned?: boolean;
   /** Fase B: contexto de la publicación que originó el chat. */
   relatedPostId?: string;
   relatedPostTitle?: string;
@@ -102,6 +104,7 @@ export function toConversation(c: {
     isPinned: !!c.pinned,
     isMuted: !!c.muted,
     background: c.background ?? null,
+    mentioned: !!(c as { mentioned?: boolean }).mentioned,
   };
 }
 
@@ -328,6 +331,8 @@ export interface LbMessage {
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'failed';
   /** Autor cuando el mensaje no es mío (útil en grupos y en la tarjeta). */
   author?: LbAuthor;
+  /** T7: personas mencionadas con @ (id + nombre visible) para resaltarlas. */
+  mentions?: Array<{ id: string; name: string }>;
   postRef?: LbMessagePostRef;
   /** TANDA D: tarjeta de producto (kind='product'). */
   productRef?: LbMessageProductRef;
@@ -398,6 +403,8 @@ export interface LbMessageRaw {
   kind?: string;
   readAt: string | null;
   createdAt: string | null;
+  /** T7: menciones @ resueltas por el servidor (id + nombre visible). */
+  mentions?: Array<{ id: string; name: string }>;
   postRef?: LbMessagePostRef;
   /** TANDA D: tarjeta de producto, ya resuelta por el servidor al leer el mensaje. */
   productRef?: LbMessageProductRef;
@@ -473,6 +480,7 @@ export function toMessage(m: LbMessageRaw): LbMessage {
       : undefined,
     imageUrl: m.imageUrl,
     fileRef: m.fileRef,
+    mentions: Array.isArray(m.mentions) ? m.mentions : undefined,
     locationRef: m.locationRef,
     voteRef: m.voteRef,
     chainRef: m.chainRef,
@@ -597,6 +605,8 @@ export interface LbConversationCard {
   /** Nº de miembros (solo grupos). */
   memberCount?: number;
   relatedPostTitle?: string;
+  /** T7b: en esta conversación hay una mención sin leer («alguien te mencionó»). */
+  mentioned?: boolean;
 }
 
 export function toConversationCard(c: LbConversation): LbConversationCard {
@@ -612,6 +622,7 @@ export function toConversationCard(c: LbConversation): LbConversationCard {
     lastMessage: c.lastMessage,
     timeLabel: lbTimeAgo(c.lastAt),
     unreadCount: c.unreadCount,
+    mentioned: !!c.mentioned,
     isPinned: !!c.isPinned,
     isMuted: !!c.isMuted,
     isGroup,

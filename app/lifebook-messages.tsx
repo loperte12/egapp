@@ -373,6 +373,13 @@ function ConversationRow({ card, colors, onPress, onPressAvatar }: {
           <Text numberOfLines={1} style={{ color: colors.textPrimary, fontWeight: isUnread ? peso.maximo : peso.medio, fontSize: tipografia.body, flex: 1 }}>
             {card.name}
           </Text>
+          {card.mentioned ? (
+            <View style={[styles.groupChip, { backgroundColor: alpha(colors.primary, 0.16), marginLeft: espaciado.e4 }]}>
+              <Text style={{ color: colors.primary, fontSize: tipografia.micro, fontWeight: peso.maximo }}>
+                te mencionó
+              </Text>
+            </View>
+          ) : null}
           {card.isGroup ? (
             <View style={[styles.groupChip, { backgroundColor: alpha(colors.primary, 0.12) }]}>
               <Text style={{ color: colors.text.primary, fontSize: tipografia.nota, fontWeight: peso.fuerte }}>

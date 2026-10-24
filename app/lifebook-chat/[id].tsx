@@ -631,6 +631,36 @@ function ChatThreadContent() {
     }
   }, [convId]);
 
+  /** T1b: una respuesta rápida puede ser TEXTO (al compositor), PRODUCTO (envía su tarjeta) o
+   *  GRUPO (abre el grupo). Es el `QuickIntentItem` de Red Book: icon + name + jumpLink/action. */
+  const usarRespuesta = async (r: { kind?: string; refId?: string | null; text: string; iconUrl?: string | null }) => {
+    const tipo = r.kind ?? 'text';
+    if (tipo === 'group' && r.refId) {
+      router.push(`/lifebook-chat/${r.refId}` as never);
+      return;
+    }
+    if (tipo === 'product' && r.refId) {
+      await push(
+        { kind: 'product', productId: r.refId },
+        {
+          id: `tmp-${Date.now()}`,
+          conversationId: convId,
+          fromMe: true,
+          kind: 'product',
+          text: r.text,
+          createdAt: new Date().toISOString(),
+          status: 'sending',
+          productRef: {
+            id: r.refId, title: r.text, priceXaf: null, currency: 'XAF',
+            coverUrl: r.iconUrl ?? null, shopId: null, available: true,
+            variantLabel: null, asking: false,
+          } as never,
+        },
+      );
+      return;
+    }
+    setText(r.text);
+  };
   const sendText = async () => {
     const body = text.trim();
     if (!body || sending) return;
@@ -1226,34 +1256,32 @@ function ChatThreadContent() {
                   ))}
                 </ScrollView>
               ) : null}
-              {/* RESPUESTAS RÁPIDAS (T1, ajustado a Red Book): cada intención es una BURBUJA de
-                  radio 12 (no una tarjeta grande) y se ven MÁXIMO 3 (Math.min(size,3) en la
-                  referencia). «Ver todas» abre la gestión. */}
+              {/* RESPUESTAS RÁPIDAS (T1b, Red Book): UNA fila de burbujas compactas (radio 12) con
+                  miniatura; máximo 3 + «Ver todas». Tocar: texto→compositor · producto→tarjeta ·
+                  grupo→abre el grupo (QuickIntent*: icon + name + jumpLink/action). */}
               {respuestas.length ? (
-                <View style={{
-                  backgroundColor: colors.card,
-                  borderTopWidth: StyleSheet.hairlineWidth,
-                  borderTopColor: alpha(colors.border, 0.6),
-                  paddingHorizontal: espaciado.e12,
-                  paddingVertical: espaciado.e6,
-                  gap: espaciado.e4,
-                  alignItems: 'flex-start',
-                }}>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  keyboardShouldPersistTaps="handled"
+                  style={{ backgroundColor: colors.card, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: alpha(colors.border, 0.6) }}
+                  contentContainerStyle={{ gap: espaciado.e6, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6, alignItems: 'center' }}
+                >
                   {respuestas.slice(0, 3).map((r) => (
                     <Pressable
                       key={r.id}
-                      onPress={() => setText(r.text)}
+                      onPress={() => { void usarRespuesta(r); }}
                       accessibilityLabel={`Usar respuesta rápida: ${r.text}`}
                       style={{
-                        maxWidth: '100%',
-                        borderRadius: 12,
-                        borderWidth: StyleSheet.hairlineWidth,
-                        borderColor: colors.border,
-                        backgroundColor: colors.surface,
-                        paddingHorizontal: espaciado.e10,
-                        paddingVertical: espaciado.e4,
+                        flexDirection: 'row', alignItems: 'center', gap: espaciado.e4,
+                        maxWidth: 170, borderRadius: 12, borderWidth: StyleSheet.hairlineWidth,
+                        borderColor: colors.border, backgroundColor: colors.surface,
+                        paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4,
                       }}
                     >
+                      {r.iconUrl ? (
+                        <Image source={{ uri: r.iconUrl }} style={{ width: 16, height: 16, borderRadius: 4 }} />
+                      ) : null}
                       <Text numberOfLines={1} style={{ color: colors.text.primary, fontSize: tipografia.nota }}>{r.text}</Text>
                     </Pressable>
                   ))}
@@ -1261,16 +1289,15 @@ function ChatThreadContent() {
                     <Pressable
                       onPress={() => router.push('/lifebook-respuestas-rapidas' as never)}
                       accessibilityLabel={`Ver las ${respuestas.length} respuestas rápidas`}
-                      style={{ paddingVertical: espaciado.e2 }}
+                      style={{ paddingVertical: espaciado.e2, paddingHorizontal: espaciado.e4 }}
                     >
                       <Text style={{ color: colors.primary, fontSize: tipografia.nota, fontWeight: '700' }}>
                         Ver todas ({respuestas.length})
                       </Text>
                     </Pressable>
                   ) : null}
-                </View>
-              ) : null}
-              <View style={[styles.inputBar, { paddingBottom: insets.bottom + 8, backgroundColor: colors.card, borderTopColor: alpha(colors.border, 0.6) }]}>
+                </ScrollView>
+              ) : null}              <View style={[styles.inputBar, { paddingBottom: insets.bottom + 8, backgroundColor: colors.card, borderTopColor: alpha(colors.border, 0.6) }]}>
                 <TextInput
                 value={text}
                 onChangeText={setText}
@@ -2171,11 +2198,31 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
           : { backgroundColor: colors.surface, borderBottomLeftRadius: radios.punta },
       ]}
     >
-      <Text style={{ color: mine ? brand.white : colors.textPrimary, fontSize: tipografia.body, lineHeight: interlineado.holgado }}>{msg.text}</Text>
+      <TextoMensaje texto={msg.text} menciones={msg.mentions} estilo={{ color: mine ? brand.white : colors.textPrimary, fontSize: tipografia.body, lineHeight: interlineado.holgado }} colorMencion={mine ? '#FFE08A' : colors.primary} />
     </View>,
   );
 }
 
+/** T7b: pinta el texto resaltando las menciones @nombre (Red Book: «有人@你» y @nickname). */
+function TextoMensaje({ texto, menciones, estilo, colorMencion }: {
+  texto: string;
+  menciones?: Array<{ id: string; name: string }>;
+  estilo: object;
+  colorMencion: string;
+}) {
+  const nombres = (menciones ?? []).map((m) => m.name).filter(Boolean);
+  if (!nombres.length) return <Text style={estilo}>{texto}</Text>;
+  const tokens = nombres.map((n) => `@${n}`);
+  const patron = new RegExp(`(${tokens.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
+  const partes = String(texto ?? '').split(patron);
+  return (
+    <Text style={estilo}>
+      {partes.map((p, idx) => (tokens.includes(p)
+        ? <Text key={`m-${idx}`} style={{ color: colorMencion, fontWeight: '700' }}>{p}</Text>
+        : <Text key={`t-${idx}`}>{p}</Text>))}
+    </Text>
+  );
+}
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row', alignItems: 'center',

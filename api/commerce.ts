@@ -972,12 +972,22 @@ export interface LbRespuestaRapida {
   sort: number;
   /** `true` si es de la persona (no de la tienda). */
   mine: boolean;
+  /** T1b (Red Book): `text` va al compositor · `product` envía su tarjeta · `group` abre el grupo. */
+  kind?: 'text' | 'product' | 'group';
+  refId?: string | null;
+  /** Miniatura de la burbuja (producto o grupo). */
+  iconUrl?: string | null;
+  /** Palabras clave separadas por comas (sugerencias). */
+  keywords?: string | null;
 }
 
 export const respuestasRapidasApi = {
   /** OJO: viven en `commerce/merchant/...`, no en el panel de tienda (`lifebook/merchant`). */
   listar: () => http.get<{ items: LbRespuestaRapida[]; shopName: string | null }>(`${BASE}/merchant/quick-replies`),
-  guardar: (body: { id?: string; text: string; scope: 'shop' | 'user' }) =>
+  guardar: (body: {
+    id?: string; text: string; scope: 'shop' | 'user';
+    kind?: 'text' | 'product' | 'group'; refId?: string | null; iconUrl?: string | null; keywords?: string | null;
+  }) =>
     http.post<{ ok: boolean; id: string }>(`${BASE}/merchant/quick-replies`, body),
   borrar: (id: string, scope: 'shop' | 'user') =>
     http.delete<{ ok: boolean }>(`${BASE}/merchant/quick-replies/${id}?scope=${scope}`),
