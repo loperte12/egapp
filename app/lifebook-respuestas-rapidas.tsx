@@ -59,13 +59,13 @@ export default function RespuestasRapidasScreen() {
     }
   };
 
-  const borrar = (id: string) => {
+  const borrar = (r: LbRespuestaRapida) => {
     Alert.alert('Borrar frase', '¿Quitar esta respuesta rápida?', [
       { text: 'Cancelar', style: 'cancel' },
       {
         text: 'Borrar', style: 'destructive',
         onPress: async () => {
-          try { await respuestasRapidasApi.borrar(id); await cargar(); }
+          try { await respuestasRapidasApi.borrar(r.id, r.scope); await cargar(); }
           catch (e) { Alert.alert('Respuestas rápidas', e instanceof Error ? e.message : 'No se pudo borrar.'); }
         },
       },
@@ -107,7 +107,7 @@ export default function RespuestasRapidasScreen() {
                   {r.scope === 'shop' ? 'Tienda · compartida' : 'Mía · personal'}
                 </Text>
               </View>
-              <Pressable onPress={() => borrar(r.id)} hitSlop={8} accessibilityLabel="Borrar frase">
+              <Pressable onPress={() => borrar(r)} hitSlop={8} accessibilityLabel="Borrar frase">
                 <Trash2 size={18} color={colors.text.secondary} />
               </Pressable>
             </View>

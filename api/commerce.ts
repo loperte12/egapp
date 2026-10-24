@@ -978,6 +978,7 @@ export const respuestasRapidasApi = {
   listar: () => http.get<{ items: LbRespuestaRapida[]; shopName: string | null }>(`${MERCHANT}/quick-replies`),
   guardar: (body: { id?: string; text: string; scope: 'shop' | 'user' }) =>
     http.post<{ ok: boolean; id: string }>(`${MERCHANT}/quick-replies`, body),
-  borrar: (id: string) => http.delete<{ ok: boolean }>(`${MERCHANT}/quick-replies/${id}`),
+  borrar: (id: string, scope: 'shop' | 'user') =>
+    http.delete<{ ok: boolean }>(`${MERCHANT}/quick-replies/${id}?scope=${scope}`),
 };
 

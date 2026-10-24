@@ -454,38 +454,22 @@ y en el checkout de LifeBook la predeterminada se propone sola. La pantalla se c
 | **Pantalla de gestión** | `app/lifebook-respuestas-rapidas.tsx` (crear/borrar, «Tienda» o «Mía») |
 | Acceso | hoja «⋯» → «Respuestas rápidas» |
 
-**Bloqueo real, medido en vivo:** el usuario de la base que usa el backend **no puede crear tablas**:
+**Dónde se guarda (decisión final):** el usuario de base del backend **no puede crear tablas**
+(comprobado en vivo: `42501 permission denied for schema lifebook`, y lo mismo en `public` y
+`wallet`). Por eso las frases se guardan en la bolsa **jsonb** que ya existe para preferencias del
+usuario, `mobility.users.status_prefs`, bajo la clave `quickReplies`:
 
-```
-Raw query failed. Code: 42501. Message: ERROR: permission denied for schema lifebook
-```
-
-El GET degrada a `{ items: [], aviso: "…" }` (el chat abre igual, sin chips). Este mismo bloqueo
-afecta a **T13 (libreta de direcciones)**.
-
-**SQL para desbloquear (ejecutar como administrador de la base, una vez):**
-
-```sql
--- 1) permisos para que los despliegues puedan crear/actualizar sus tablas
-GRANT CREATE ON SCHEMA lifebook TO <usuario_de_la_app>;
-
--- 2) o, si se prefiere crear las tablas a mano:
-CREATE TABLE IF NOT EXISTS lifebook.quick_replies (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  scope text NOT NULL CHECK (scope IN ('shop','user')),
-  shop_id uuid NULL REFERENCES lifebook.shops(id) ON DELETE CASCADE,
-  user_id uuid NOT NULL REFERENCES mobility.users(id) ON DELETE CASCADE,
-  text text NOT NULL,
-  sort integer NOT NULL DEFAULT 0,
-  created_at timestamptz NOT NULL DEFAULT now(),
-  updated_at timestamptz NOT NULL DEFAULT now(),
-  CHECK ((scope = 'shop' AND shop_id IS NOT NULL) OR (scope = 'user' AND shop_id IS NULL))
-);
-CREATE INDEX IF NOT EXISTS ix_lb_qr_shop ON lifebook.quick_replies (shop_id, sort);
-CREATE INDEX IF NOT EXISTS ix_lb_qr_user ON lifebook.quick_replies (user_id, sort);
-GRANT ALL ON lifebook.quick_replies TO <usuario_de_la_app>;
+```json
+{ "quickReplies": { "shop": [{ "id": "...", "text": "…", "sort": 0 }], "user": [ … ] } }
 ```
 
+Las frases **de tienda** viven en la fila del **dueño** de la tienda; las **personales**, en la de
+cada uno. Es aditivo y no pisa las demás claves (`lb`, `publish_banned_until`, `suspended_until`).
+Si algún día se concede `CREATE` al usuario de la app, se puede migrar a su tabla propia sin cambiar
+el contrato del móvil.
+
+**Verificado con la API real (12:30):** el vendedor crea una frase de tienda y otra personal y el
+GET devuelve las dos con `shopName: "Hotel Demo Malabo"`; el ADMIN crea la suya y la recibe también.
 **Pendiente inmediato tras el desbloqueo:** desplegar (la subida a COS está caída por red en este
 momento; se reintenta) y validar en el móvil con la cuenta del vendedor: crear una frase «Tienda» y
 otra «Mía», verlas como chips y comprobar que tocar una pone el texto en el compositor.
