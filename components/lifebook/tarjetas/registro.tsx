@@ -116,6 +116,8 @@ export function botonesDelServidor(brutos: unknown): BotonTarjeta[] {
       destino = { tipo: 'pedido', id: destinoId ? String(destinoId) : undefined };
     } else if ((tipo === 'product' || tipo === 'producto') && destinoId) {
       destino = { tipo: 'producto', id: String(destinoId) };
+    } else if ((tipo === 'shop' || tipo === 'tienda') && destinoId) {
+      destino = { tipo: 'tienda', id: String(destinoId) };
     }
 
     salida.push({ id, etiqueta, estado: apagado ? 'inactivo' : 'activo', destino });

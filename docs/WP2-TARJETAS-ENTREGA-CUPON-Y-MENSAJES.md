@@ -231,9 +231,9 @@ el contrato no coincidía con lo que se pinta):
 **Estado real que confirmó la auditoría de código** (dato para el plan):
 
 - `cupon` es el **único** cupón que se emite, y solo al reclamar por primera vez.
-  `cupon-compacto` y `cupon-reclamar` están **registrados sin emisor**.
-- El botón **«Usar cupón» no navega**: el payload no lleva `buttons`/`orderId`/`productId`, así que
-  `destinoDeBoton` devuelve `null` y el botón no hace nada. Es el siguiente arreglo barato.
+  `cupon-compacto` y `cupon-reclamar` están **registrados sin emisor** (hasta T2, ver §6.1).
+- El botón **«Usar cupón» no navegaba**: el payload no llevaba destino, así que `destinoDeBoton`
+  devolvía `null`. **Arreglado en T2** con destino tipado `shop` → `/lifebook-shop/[id]`.
 - `confirmar-pedido` (la tarjeta de `askconfirmorder` de la referencia) sigue **registrada sin
   emisor**; el doc `CARD-tarjeta-generica-en-el-chat.md` aún la da como pendiente (documentación por
   detrás del código).
@@ -241,7 +241,24 @@ el contrato no coincidía con lo que se pinta):
   emisores reales son `notify`, `publicarEnChat`, `publicarPedido` y `avisarEnChat`.
 - El **bot no existe** en el chat: lo automático son avisos del servidor. El «asistente» es una
   pantalla aparte (`app/lifebook-ai.tsx`, tablas `ai_conversations`/`ai_messages`, 4 sugerencias
-  iniciales). `bienvenida` está registrada y **sin emisor**; la TANDA-N (bot) no está hecha.
+  iniciales). `bienvenida` estaba registrada y **sin emisor**; la TANDA-N (bot) no está hecha.
+
+### 6.1 · T2 cableado (24/10, tras la auditoría)
+
+Cableado lo que ya existía, sin inventar contratos:
+
+| Qué | Cómo | Resultado |
+|---|---|---|
+| **Bienvenida al abrir el chat de una tienda** | `ensureChatIntro` en `chatMessages` (una vez por conversación): emite `bienvenida` con nombre de la tienda y saludo | ✅ visto en pantalla: «Hola, soy Hotel Demo Malabo. ¿En qué te ayudo?» |
+| **Cupón reclamable en el chat** | el mismo emisor ofrece hasta 2 cupones de importe activos como `cupon-reclamar` (≡ `couponclaim_112`), con botón `reclamar-<código>` | ✅ visto: «Cupón de Hotel Demo Malabo · Descuento de 2000 XAF…» |
+| **Botón «Reclamar»** | el chat intercepta `reclamar-*` y llama a `cuponesApi.recoger` (la misma API del checkout) | ✅ alerta «Guardado en tu cuenta: se aplica al pagar.» |
+| **«Usar cupón» navegable** | destino tipado nuevo `shop` en `DestinoBoton` + `botonesDelServidor`; el servidor manda `buttonTargetType:'shop'`; el chat navega a `/lifebook-shop/[id]` | ✅ abre la tienda |
+
+**Queda como T2b** (necesita una decisión de producto, no es solo cablear):
+`cupon-compacto` (mostrar el cupón aplicado en un pedido) y `confirmar-pedido` (la referencia lo usa
+para «revisa los datos antes de confirmar»; en LifeBook el paso equivalente es el `accept` de la
+tienda y la confirmación con código, así que emitirlo sin más duplicaría tarjetas e inventaría una
+acción de comprador que no existe).
 
 ---
 

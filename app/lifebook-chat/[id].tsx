@@ -25,7 +25,7 @@ import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, Shoppin
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
 import { TarjetaDeChat, destinoDeBoton } from '../../components/lifebook/tarjetas/registro';
-import type { LbProductCard } from '../../api/commerce';
+import { cuponesApi, type LbProductCard } from '../../api/commerce';
 import * as ImagePicker from 'expo-image-picker';
 // Parte 32: expo-image (caché memoria+disco) — las fotos del chat no destellan.
 import { Image as ExpoImage } from 'expo-image';
@@ -1712,6 +1712,27 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
            * una pantalla que no toca es peor.
            */
           onBoton: (id) => {
+            /**
+             * CUPÓN RECLAMABLE — «Reclamar» no NAVEGA, EJECUTA.
+             *
+             * El id viaja como `reclamar-<código>` (lo pone el servidor al ofrecer el cupón en el
+             * chat). Se recoge con la MISMA API que el checkout (`cuponesApi.recoger`), así que el
+             * cupón queda en la cuenta y no en el móvil. Sin esto, el botón de `cupon-reclamar` caía
+             * en `destinoDeBoton` (que no tiene destino) y no hacía nada.
+             */
+            if (msg.cardRef?.cardType === 'cupon-reclamar' && String(id).startsWith('reclamar-')) {
+              const codigo = String(id).slice('reclamar-'.length).trim();
+              if (!codigo) return;
+              void (async () => {
+                try {
+                  await cuponesApi.recoger(codigo);
+                  Alert.alert('Cupón', 'Guardado en tu cuenta: se aplica al pagar.');
+                } catch (e) {
+                  Alert.alert('Cupón', e instanceof Error ? e.message : 'No se pudo reclamar el cupón.');
+                }
+              })();
+              return;
+            }
             const destino = destinoDeBoton(msg.cardRef?.payload, id);
             if (!destino) return;
 
@@ -1721,6 +1742,10 @@ function Bubble({ msg, colors, onLongPress, onAvatar, onAvatarLongPress, onOpenI
             }
             if (destino.tipo === 'producto') {
               irSeguro.libre('/lifebook-product/[id]', { id: destino.id });
+              return;
+            }
+            if (destino.tipo === 'tienda') {
+              irSeguro.libre('/lifebook-shop/[id]', { id: destino.id });
               return;
             }
             // Enlace: interno si es una ruta de la app; externo si es http(s).

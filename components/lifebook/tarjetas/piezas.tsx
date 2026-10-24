@@ -72,6 +72,7 @@ export type { ClaveEstado, Tono };
 export type DestinoBoton =
   | { tipo: 'pedido'; id?: string }
   | { tipo: 'producto'; id: string }
+  | { tipo: 'tienda'; id: string }
   | { tipo: 'enlace'; url: string };
 
 export type BotonTarjeta = {
