@@ -248,3 +248,87 @@ el contrato no coincidía con lo que se pinta):
 ## 7. Límites de este informe
 - En los informes de los subagentes (si llegan después de este documento) puede haber detalle
   adicional; este documento se apoya en los `dsl.json` leídos directamente.
+
+---
+
+## 8. Alcance completo del clon del chat (inventario T0–T12)
+
+**Por qué existe esta sección:** T1–T6 de §4 no bastaban para un *clon real*. Este es el inventario
+completo: cada capacidad de la referencia, qué tenemos, qué falta y en qué tanda cae. La evidencia de
+la columna 小红书 sale de `assets/dsl/`, del manifiesto y de WP1 §1.4; la de LifeBook, del código
+(rutas y línea citadas arriba en este documento y en los informes de `D:\temp\egapp-validate\re\`).
+
+Leyenda: **✅ hecho** · **🟡 parcial / tipado sin UI** · **❌ falta** · **➕ añadido al plan**
+
+### 8.1 Mensajería y composición
+
+| Capacidad | 小红书 [APK] | LifeBook [CÓDIGO] | Tanda |
+|---|---|---|---|
+| Texto, foto, vídeo, fichero, enlace | kinds IM + `linkcard_100`/`file_17`/`video_73` | ✅ `CHAT_KINDS` + ramas del chat | — |
+| Ubicación / en vivo | `checkin` | ✅ `location`, `checkin`, live location | — |
+| Votación, cadena, quedada | `GroupVote*`, `intention` | ✅ kinds `vote`/`chain`/`checkin` | — |
+| Anuncio de grupo | `isvoption` | ✅ kind `ad` | — |
+| **Menciones @ dentro del chat** | `CommentAt` (评论和@), y @ en grupo | ❌ en el chat; ✅ solo bandeja de menciones (`LbMentionReceived`, «Comentarios y @») | **T7 ➕** |
+| **Cita / responder a un mensaje** | hilo por cita (patrón de IM) | ❌ (`replyTo` no existe en `LbMessage`) | **T8 ➕** |
+| **Reacciones a MENSAJES** | no verificado en DSL (probable solo en publicaciones) | ❌ | **T8 (opcional) ➕** |
+| Emojis / stickers | teclado + stickers propios | ❌ (solo teclado del sistema) | **T9 ➕** |
+| **Mensajes de voz** | `im.voiceservice` (llamadas aparte) | ❌ | **T9 ➕** |
+| Reenviar | sí | ✅ reenviar 1-a-1; ❌ multiselección | T9 (multi-select) |
+| Copiar / borrar | sí | ✅ | — |
+| Editar mensaje | sí (IM) | ❌ | T9 (opcional) |
+| **Traducción de mensajes** | sí | ❌ | **T10 ➕** |
+
+### 8.2 Estado del chat y ajustes
+
+| Capacidad | 小红书 | LifeBook | Tanda |
+|---|---|---|---|
+| Recibos de leído | sí | ✅ `readAt` + `chatMarkRead` | — |
+| **«Escribiendo…»** | sí | 🟡 `peerIsTyping` tipado en `api/messages.ts` pero **sin UI ni emisión** | **T7 ➕** |
+| Fijar conversación arriba | sí | ✅ `chatPrefs` + hoja (📌 Fijar arriba) | — |
+| Silenciar | sí (+ `Block merchants`) | ✅ `chatPrefs` mute; ❌ silencio específico de comercio | T11 (block merchants) |
+| Borrar historial | 2 niveles (historial / historial+lista) | ✅ `chatClear` (un nivel) | T11 (2º nivel) |
+| **Marcar como no leído** | sí | ❌ | **T7 ➕** |
+| Buscar en mensajes | sí | ✅ `chatSearch` + «Buscar en el historial» (por tipo) y «en todos mis chats» | — |
+| Fondo / tema del chat | `FireworkThemePanelActivity` | 🟡 `bg` + `chatBackgroundOf`; sin panel de temas | T10 (tema) |
+| **Nota fijada del chat (sticky)** | `StickyNoteEditActivity` | ❌ (hay pin de conversación, no aviso fijado en el hilo) | **T10 ➕** |
+| Bloquear / reportar | sí (+ comerciantes) | ✅ bloquear 1-a-1; ❌ reportar con motivo; ❌ block merchants | T11 |
+| Privacidad de mensajes | `PrivacyMessageSettingsActivity` | 🟡 privacidad de perfil; sin ajustes de mensajes | T11 |
+| **Capa de desconocidos** | `StrangerMsg*` + ajustes + compositor | ❌ | **T12 ➕** |
+
+### 8.3 Automatización y atención
+
+| Capacidad | 小红书 | LifeBook | Tanda |
+|---|---|---|---|
+| **Respuestas rápidas del vendedor** | `im.quickreply.QuickReplyActivity` | ❌ | **T1** |
+| **Bienvenida del servicio** | `cswelcomemsg_209` | 🟡 tarjeta `bienvenida` registrada, **sin emisor** | **T2** |
+| Hints con botón / elementos | `buttonhint_120`, `commonhint_131`, `richhinttoc_126` | 🟡 `texto-acciones`, `enlace-boton`, `compuesta`; ❌ botón inline | **T2** |
+| **Bot en streaming** | `agentstreamreply_302` | ❌ en el chat (el «asistente» es pantalla aparte `lifebook-ai.tsx`) | **T4** |
+| **Cola humana + mensaje dejado** | `sysqueueinfo_82`, `queueguideleave_114`, `queueleave_115`, `queueleavereply_116` | ❌ | **T3** |
+
+### 8.4 Comercio (ya cubierto en esta campaña)
+
+| Capacidad | 小红书 | LifeBook | Tanda |
+|---|---|---|---|
+| Tarjetas de pedido | `order_3` | ✅ `pedido` | — |
+| Verificación de pedido | `askconfirmorder_71` | 🟡 `confirmar-pedido` registrada sin emisor | T2 |
+| Confirmación de entrega con código | (no existe como tarjeta) | ✅ **`confirmacion-entrega` (nueva, T0)** | — |
+| Cupones | `coupon_19`, `couponcardv2_222`, `couponclaim_112` | 🟡 `cupon` emitido; `cupon-compacto`/`cupon-reclamar` sin emisor; «Usar cupón» sin destino | T2 |
+| Cobro / logística / postventa / reposición | `smallpayment`, `logisticorder`, `aftersalecard`… | ✅ `cobro`, `pedido-logistico`, `postventa*`, `alerta-reposicion` | — |
+| Urgencias de pago/entrega | `urgepay_121`, `urgingdelivery_109` | ❌ | **T5** |
+
+### 8.5 Tandas que **se añaden** al plan de §4
+
+| Tanda | Qué incluye | Coste | Dependencias |
+|---|---|---|---|
+| **T7** | Menciones @ en el chat (picker de miembros, resaltado, «te mencionaron», deep-link al mensaje) · indicador **«escribiendo…»** (endpoint + evento) · **marcar no leído** | Medio | servidor (menciones en `payload`, typing event), app |
+| **T8** | **Citar/responder** a un mensaje (swipe + bloque cita en la burbuja) · **reacciones a mensajes** (opcional, si se quiere ir más allá de la referencia) | Medio | `replyTo` en `LbMessage` + payload; reacciones: tabla |
+| **T9** | **Stickers/emoji picker** · **mensajes de voz** (grabar, enviar, reproducir) · multiselección para reenviar · editar mensaje | Alto | permisos de audio, almacenamiento, UI nueva |
+| **T10** | **Traducción de mensaje** · panel de **temas/fondo** · **nota fijada del chat** (sticky) | Medio | proveedor de traducción (ya hay uno para notas) |
+| **T11** | Ajustes: 2º nivel de borrado, **reportar con motivo**, **block merchants**, privacidad de mensajes | Bajo-medio | servidor |
+| **T12** | **Capa de desconocidos** (mensajes de quien no sigues, con ajustes y compositor) | Alto | modelo social (seguidores) ya existe |
+
+> **Nota de honestidad:** lo marcado como ❌ en 小红书 (p. ej. reacciones a mensajes) es porque **no
+> se ha verificado** en el DSL/manifiesto, no porque se sepa que no existe. Si quieres, la tanda T8
+> lo incluye igualmente como añadido propio.
+
+
