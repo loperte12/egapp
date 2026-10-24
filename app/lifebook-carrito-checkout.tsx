@@ -26,7 +26,7 @@ import { alpha, brand, espaciado, MasOpciones, peso, PinSheet, Precio, radios, t
 import { ArrowLeft, Check, Store } from 'lucide-react-native';
 import * as Crypto from 'expo-crypto';
 import { AuthGate } from '../core/AuthGate';
-import { commerceOrdersApi, cuponesApi, descuentoDeCupon, type LbCupon } from '../api/commerce';
+import { commerceOrdersApi, cuponesApi, descuentoDeCupon, direccionesApi, type LbCupon, type LbDireccion } from '../api/commerce';
 import { walletApi } from '../api/wallet';
 import { carritoApi, type LbCarrito, type LbGrupoCarrito, type LbLineaCarrito } from '../api/lifebookCarrito';
 import { SelectorDeCupon } from '../components/lifebook/SelectorDeCupon';
@@ -54,6 +54,9 @@ function CheckoutContent() {
   const [ciudad, setCiudad] = useState('Malabo');
   const [zona, setZona] = useState('');
   const [referencia, setReferencia] = useState('');
+  /** Libreta de direcciones (T13): el checkout propone la predeterminada. */
+  const [direcciones, setDirecciones] = useState<LbDireccion[]>([]);
+  const [direccionSel, setDireccionSel] = useState<LbDireccion | null>(null);
   /** Por tienda: forma de entrega, forma de pago y mensaje. */
   const [entrega, setEntrega] = useState<Record<string, string>>({});
   const [pago, setPago] = useState<Record<string, string>>({});
@@ -61,6 +64,29 @@ function CheckoutContent() {
   /** Clave de idempotencia por tienda: un doble toque no crea dos pedidos. */
   const claves = useMemo(() => ({} as Record<string, string>), []);
   const [exito, setExito] = useState<{ ids: string[]; codigos: string[] } | null>(null);
+
+  /** Pone una dirección guardada en los campos del pedido (y recuerda su id/remitente). */
+  const aplicarDireccion = useCallback((d: LbDireccion) => {
+    setDireccionSel(d);
+    if (d.municipality && LB_CITIES.includes(d.municipality)) setCiudad(d.municipality);
+    setZona(d.neighborhood);
+    setReferencia(d.reference);
+  }, []);
+
+  // La libreta: si hay una predeterminada y el comprador aún no escribió la dirección, se propone.
+  useEffect(() => {
+    let vivo = true;
+    direccionesApi.listar()
+      .then((r) => {
+        if (!vivo) return;
+        const items = r.items ?? [];
+        setDirecciones(items);
+        const pred = items.find((d) => d.isDefault);
+        if (pred) aplicarDireccion(pred);
+      })
+      .catch(() => { /* sin libreta, el formulario manual sigue igual */ });
+    return () => { vivo = false; };
+  }, [aplicarDireccion]);
 
   const idsSeleccionados = useMemo(
     () => String(lineas ?? '').split(',').map((s) => s.trim()).filter(Boolean),
@@ -262,7 +288,12 @@ function CheckoutContent() {
             quantity: i.quantity,
           })),
           deliveryMode: modo,
-          deliveryAddress: modo === 'pickup' ? {} : { city: ciudad.trim(), zone: zona.trim(), reference: referencia.trim() },
+          deliveryAddress: modo === 'pickup' ? {} : {
+            city: ciudad.trim(),
+            zone: zona.trim(),
+            reference: referencia.trim(),
+            ...(direccionSel ? { addressId: direccionSel.id, receiverName: direccionSel.receiverName, phone: direccionSel.phone ?? undefined } : {}),
+          },
           paymentMethod: pago[clave] as never,
           note: (nota[clave] ?? '').trim() || undefined,
           /* TANDA Q: el cupón de ESA tienda. Solo viaja el CÓDIGO: el descuento lo hace el servidor. */
@@ -515,6 +546,31 @@ function CheckoutContent() {
         {bloques.some((g) => (entrega[g.shop?.id ?? 'sin-tienda'] ?? 'pickup') !== 'pickup') ? (
           <View style={[styles.bloque, { backgroundColor: colors.card, borderColor: alpha(colors.border, 0.6) }]}>
             <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.titulo }}>Dirección de entrega</Text>
+            {/* T13: libreta de direcciones. La predeterminada ya viene puesta; aquí se cambia. */}
+            {direcciones.length ? (
+              <View style={{ gap: espaciado.e6, marginTop: espaciado.e8 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 }}>
+                  {direcciones.map((d) => {
+                    const on = direccionSel?.id === d.id;
+                    return (
+                      <Pressable
+                        key={d.id}
+                        onPress={() => aplicarDireccion(d)}
+                        accessibilityLabel={`Usar dirección ${d.label ?? d.receiverName}`}
+                        style={[styles.chip, { borderColor: on ? colors.primary : colors.border, backgroundColor: on ? alpha(colors.primary, 0.12) : colors.surface }]}
+                      >
+                        <Text style={{ color: colors.textPrimary, fontSize: tipografia.body, fontWeight: peso.maximo }}>
+                          {(d.label ?? d.receiverName) + (d.isDefault ? ' ⭐' : '')}
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+                <Pressable onPress={() => irSeguro.libre('/lifebook-direcciones')} accessibilityLabel="Gestionar direcciones">
+                  <Text style={{ color: colors.primary, fontSize: tipografia.caption, fontWeight: peso.maximo }}>Gestionar direcciones</Text>
+                </Pressable>
+              </View>
+            ) : null}
             <Text style={[styles.etiqueta, { color: colors.textSecondary }]}>CIUDAD</Text>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaciado.e7 }}>
               {LB_CITIES.map((c) => {

@@ -982,3 +982,49 @@ export const respuestasRapidasApi = {
     http.delete<{ ok: boolean }>(`${MERCHANT}/quick-replies/${id}?scope=${scope}`),
 };
 
+
+// ─────────────────── LIBRETA DE DIRECCIONES (T13) ─────────────────────────────
+/**
+ * Direcciones de entrega de LifeBook — libreta PROPIA (no comparte con la del Mercado).
+ * En Guinea Ecuatorial no hay código postal: `neighborhood` y `reference` son obligatorios.
+ * Una sola `isDefault` por usuario (la garantiza la base con un índice único parcial).
+ */
+export interface LbDireccion {
+  id: string;
+  label: string | null;
+  receiverName: string;
+  phone: string | null;
+  province: string | null;
+  municipality: string | null;
+  neighborhood: string;
+  reference: string;
+  lat: number | null;
+  lng: number | null;
+  notes: string | null;
+  isDefault: boolean;
+  /** Una línea lista para pintar: «Barrio · Referencia · Municipio». */
+  line: string;
+}
+
+export interface LbDireccionInput {
+  label?: string | null;
+  receiverName: string;
+  phone?: string | null;
+  province?: string | null;
+  municipality?: string | null;
+  neighborhood: string;
+  reference: string;
+  notes?: string | null;
+  lat?: number | null;
+  lng?: number | null;
+  isDefault?: boolean;
+}
+
+export const direccionesApi = {
+  listar: () => http.get<{ items: LbDireccion[] }>(`${BASE}/addresses`),
+  crear: (body: LbDireccionInput) => http.post<{ ok: boolean; id: string }>(`${BASE}/addresses`, body),
+  actualizar: (id: string, body: Partial<LbDireccionInput>) =>
+    http.patch<{ ok: boolean; id: string }>(`${BASE}/addresses/${id}`, body),
+  predeterminar: (id: string) => http.patch<{ ok: boolean }>(`${BASE}/addresses/${id}/default`, {}),
+  borrar: (id: string) => http.delete<{ ok: boolean }>(`${BASE}/addresses/${id}`),
+};

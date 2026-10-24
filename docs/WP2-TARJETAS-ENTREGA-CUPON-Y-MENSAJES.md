@@ -479,3 +479,35 @@ vendedor pasó a tener en la tabla sus dos frases (una de tienda y una personal)
 **Pendiente:** el vistazo en el móvil. El teléfono está **desconectado del USB** (`adb: no devices`);
 en cuanto vuelva: chat → chips encima del compositor → tocar uno → comprobar que el texto entra en
 el compositor; y la pantalla de gestión desde «⋯ → Respuestas rápidas».
+---
+
+## 11. T13 — Libreta de direcciones de LifeBook (estado)
+
+**Backend (tabla propia, ya con permisos):**
+
+| Pieza | Dónde |
+|---|---|
+| DDL perezoso e idempotente + índice único parcial `uq_lb_addr_default` | `commerce.service.js` → `asegurarTablaDirecciones()` |
+| `GET/POST /lifebook/commerce/addresses` · `PATCH /addresses/:id` · `PATCH /addresses/:id/default` · `DELETE /addresses/:id` | `commerce.service.js` + `commerce.controller.js` |
+
+Decisiones del 24/10 aplicadas: **libreta separada** de la del Mercado; **barrio + referencia
+obligatorios** (provincia y municipio se piden pero no bloquean); **destinatario distinto** permitido
+(nombre y teléfono propios); `lat/lng` opcionales (mapa en curso). Sin FK (falta `REFERENCES` en el
+rol); la propiedad se comprueba en cada consulta.
+
+**Verificado por API (22:57):** tabla creada sola; POST de dos direcciones (la primera queda
+predeterminada); cambio de predeterminada; **PATCH de solo la referencia conserva nombre/teléfono/
+provincia/municipio** (se corrigió el merge); borrar la predeterminada **hereda** la más reciente.
+
+**Cliente:**
+
+- `api/commerce.ts` → `direccionesApi` (`listar`, `crear`, `actualizar`, `predeterminar`, `borrar`).
+- **Pantalla `app/lifebook-direcciones.tsx`**: lista con «predeterminada», editar, borrar y formulario
+  (etiqueta, destinatario, teléfono, municipio, provincia, barrio, referencia, notas).
+- **Checkout de LifeBook** (`app/lifebook-carrito-checkout.tsx`): chips con las direcciones guardadas
+  (la predeterminada ya viene puesta), «Gestionar direcciones», y el pedido guarda además
+  `addressId`, `receiverName` y `phone` en el snapshot.
+
+**Pendiente:** vistazo en el móvil (USB desconectado) y un pedido real con la dirección de la libreta
+(el intento por API dio **409** por stock del producto de prueba; se reintenta con la app o con otro
+producto).
