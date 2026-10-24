@@ -1219,33 +1219,56 @@ function ChatThreadContent() {
                         setMencionOpen(false);
                       }}
                       accessibilityLabel={`Mencionar a ${m.name}`}
-                      style={{ borderRadius: 999, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 }}
+                      style={{ maxWidth: 160, borderRadius: 999, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, backgroundColor: colors.surface, paddingHorizontal: espaciado.e8, paddingVertical: espaciado.e4 }}
                     >
-                      <Text style={{ color: colors.text.primary, fontSize: tipografia.caption }}>@{m.name}</Text>
+                      <Text numberOfLines={1} style={{ color: colors.text.primary, fontSize: tipografia.nota }}>@{m.name}</Text>
                     </Pressable>
                   ))}
                 </ScrollView>
               ) : null}
-              {/* RESPUESTAS RÁPIDAS (T1): frases de la tienda o mías; tocar pone el texto en el compositor. */}
+              {/* RESPUESTAS RÁPIDAS (T1, ajustado a Red Book): cada intención es una BURBUJA de
+                  radio 12 (no una tarjeta grande) y se ven MÁXIMO 3 (Math.min(size,3) en la
+                  referencia). «Ver todas» abre la gestión. */}
               {respuestas.length ? (
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  keyboardShouldPersistTaps="handled"
-                  style={{ backgroundColor: colors.card, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: alpha(colors.border, 0.6) }}
-                  contentContainerStyle={{ gap: espaciado.e6, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 }}
-                >
-                  {respuestas.map((r) => (
+                <View style={{
+                  backgroundColor: colors.card,
+                  borderTopWidth: StyleSheet.hairlineWidth,
+                  borderTopColor: alpha(colors.border, 0.6),
+                  paddingHorizontal: espaciado.e12,
+                  paddingVertical: espaciado.e6,
+                  gap: espaciado.e4,
+                  alignItems: 'flex-start',
+                }}>
+                  {respuestas.slice(0, 3).map((r) => (
                     <Pressable
                       key={r.id}
                       onPress={() => setText(r.text)}
                       accessibilityLabel={`Usar respuesta rápida: ${r.text}`}
-                      style={{ maxWidth: 280, borderRadius: 999, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 }}
+                      style={{
+                        maxWidth: '100%',
+                        borderRadius: 12,
+                        borderWidth: StyleSheet.hairlineWidth,
+                        borderColor: colors.border,
+                        backgroundColor: colors.surface,
+                        paddingHorizontal: espaciado.e10,
+                        paddingVertical: espaciado.e4,
+                      }}
                     >
-                      <Text numberOfLines={1} style={{ color: colors.text.primary, fontSize: tipografia.caption }}>{r.text}</Text>
+                      <Text numberOfLines={1} style={{ color: colors.text.primary, fontSize: tipografia.nota }}>{r.text}</Text>
                     </Pressable>
                   ))}
-                </ScrollView>
+                  {respuestas.length > 3 ? (
+                    <Pressable
+                      onPress={() => router.push('/lifebook-respuestas-rapidas' as never)}
+                      accessibilityLabel={`Ver las ${respuestas.length} respuestas rápidas`}
+                      style={{ paddingVertical: espaciado.e2 }}
+                    >
+                      <Text style={{ color: colors.primary, fontSize: tipografia.nota, fontWeight: '700' }}>
+                        Ver todas ({respuestas.length})
+                      </Text>
+                    </Pressable>
+                  ) : null}
+                </View>
               ) : null}
               <View style={[styles.inputBar, { paddingBottom: insets.bottom + 8, backgroundColor: colors.card, borderTopColor: alpha(colors.border, 0.6) }]}>
                 <TextInput

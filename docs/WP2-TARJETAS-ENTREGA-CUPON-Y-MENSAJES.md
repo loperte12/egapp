@@ -550,3 +550,42 @@ Se instaló el APK de la campaña y se recorrió todo lo desplegado:
 | **T13 · libreta de direcciones** | `/lifebook-direcciones` muestra «Casa · predeterminada», destinatario, «Paraíso · Portón azul, casa 12…», teléfono y el formulario |
 
 **Fallo encontrado y corregido al validar:** el cliente de respuestas rápidas apuntaba a `/lifebook/merchant/quick-replies` y el backend las sirve en `/lifebook/commerce/merchant/quick-replies` (por eso al principio no salían los chips). Corregido en `api/commerce.ts`.
+
+---
+
+## 14. Red Book: qué son de verdad las «respuestas rápidas» y las menciones (verificación)
+
+### 14.1 Respuestas rápidas en 小红书 [APK]
+
+| Evidencia | Qué dice |
+|---|---|
+| `XYBCIMMessageType.java:51-52` | **`INTENTION_OPTION(21, "旧快捷回复")`** y **`INTENTION(23, "快捷回复")`**: la respuesta rápida es un **tipo de mensaje** de chat |
+| `model/messages/special/XYBCIMIntentionMessage.java` | campos `intentionTitle`, `intentionDesc`, **`options: List<Map>`** (cada opción es un mapa libre) |
+| `XYBCIMComplexIntentMessage` / `XYBCIMComplexIntentContent` | variante «compleja»: lista de intents |
+| `assets/dsl/bcim_chat_intention_23/dsl.json` | **burbuja pequeña**: `padding 12/8`, **radio 12pt**, `min_width 40pt`, texto `16/20`; color propio `#3D8AF5` con texto blanco, ajeno blanco/oscuro con `#CC000000`; contenido = `content.data.content.content.intent.name` |
+| `im/ui/adapter/ChatQuickReplyItemAdapter.java` | **máximo 3 elementos visibles** (`Math.min(size, 3)`), **solo texto** (un `TextView` por chip) |
+| `im/quickreply/*`, `ChatQuickReplyDialog` | panel/hoja de «常用语»; el diálogo lleva `bundle_text`, `bundle_send_user_id/name`, `bundle_cover`, `bundle_scene` |
+| `strings.xml` 0x7f1115c7 | «**设置我的快捷回复**»: hay pantalla de ajustes de las frases |
+| `lt0/k.java` («命中关键字，请求快捷短语，keywords=…») | **sugerencias por palabra clave**: al escribir algo que casa con un keyword, el cliente **pide** las frases al servidor |
+| `QuickIntentItem` / `QuickIntentResultItem` / `AgentQuickIntentResultItem` | campos **`icon`**, **`name`**, **`event`/`eventParams`**, **`jumpLink`**, **`localActionType`**, `showSelector`: la respuesta rápida puede llevar **icono + destino** (producto, grupo, enlace) y hasta un **selector** |
+
+**Conclusión de la referencia:** las respuestas rápidas son **chips pequeños (burbuja de radio 12, máx. 3 a la vez)** que pueden llevar **icono y destino** (producto/grupo/enlace) o ser texto; además hay sugerencias automáticas por palabra clave. **No son tarjetas grandes de ancho completo.**
+
+### 14.2 Menciones en 小红书 [APK]
+
+- `strings.xml`: «**有人@你**», «当有人@你、群主发言时…», «不通知任何消息，包括有人@你消息» → la mención es **`@` + nombre** y genera **aviso propio**.
+- `matrix/notedetail/.../NoteMention*` para menciones en notas/comentarios; en el chat el texto viaja con `@nombre` (nickname visible).
+
+**Conclusión:** el formato correcto es **`@` + nombre visible del miembro** (nickname), no `@` + identificador ni «@Miembro» genérico. El aviso es «alguien te mencionó» (XHS: «有人@你»).
+
+### 14.3 Comparación con lo nuestro y ajustes
+
+| Aspecto | Red Book | LifeBook (antes de este ajuste) | Acción |
+|---|---|---|---|
+| Tamaño del chip | burbuja 12/8, radio 12, texto 16, **máx. 3** | chips grandes, ancho hasta 280, todos a la vez | **Ajustado**: máx. **3** visibles, chip compacto y «+N» para gestionar |
+| Tipos | texto · producto · grupo · enlace (con `icon`/`jumpLink`) | solo texto | **Pendiente T1b**: `kind` (text/product/group) + `ref_id` + `icon_url`; tocar = insertar texto / enviar tarjeta de producto / abrir grupo |
+| Sugerencias por keyword | sí (`lt0/k.java`) | no | T1b (servidor sugiere por palabra clave) |
+| Ajustes | «设置我的快捷回复» | pantalla propia | hecho (T1) |
+| Mención | `@nickname` + aviso «有人@你» | `@nombre` (miembro del grupo) | el formato ya es `@nombre`; queda el aviso de mención y el resaltado visual (T7b) |
+
+> **Resumen para la decisión:** el ajuste visual (tamaño/máx. 3) queda aplicado; para igualar del todo a Red Book falta el modelo **con icono y destino** (producto/grupo), que cambia el esquema de `quick_replies` y la pantalla de gestión.
