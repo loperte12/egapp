@@ -654,3 +654,16 @@ desplegado es el **paquete compilado** parcheado en `dist/`.
 **Consecuencia:** si alguien redespliega la API desde el fuente sin aplicar BLOQUE 1 y BLOQUE 6, las
 tarjetas desaparecen. Al llevar esto al fuente de verdad hay que añadir **las dos cosas**: la rama
 `kind === 'card'` y el puente.
+---
+
+## ESTADO DE DESPLIEGUE (23/10/2026)
+
+- **BLOQUE 1 + 6** — desplegados el 21/10 (función `egrouteplan-api`, `Active`). El árbol pinta pedido,
+  producto, nota y la tarjeta genérica; verificado en el móvil.
+- **BLOQUE 4 + 5** — aplicados SOBRE EL JS REAL (`dist/src/lifebook/orders.service.js` y
+  `commerce.service.js`) y desplegados el 23/10 a las 22:03. Los 8 avisos de pedido salen ahora como
+  tarjeta (mapeo aprobado por el dueño), la invitación a valorar se envía al entregar, y la reposición
+  emite `alerta-reposicion`.
+
+**OJO con `server-src`:** la base de `backend/server-src` en git está VIEJA (6/10). La referencia del
+backend es `dist\src` (lo compilado y desplegado). Los bloques se han aplicado ahí, no en `server-src`.
