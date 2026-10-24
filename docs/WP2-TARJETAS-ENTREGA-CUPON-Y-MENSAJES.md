@@ -533,3 +533,20 @@ producto).
 - Hoja «⋯» → **Marcar como no leído** (vuelve el aviso a la lista).
 
 **Pendiente:** vistazo en el móvil (USB desconectado). Para probarlo: abrir un grupo → @ → elegir miembro → enviar; y en un 1:1 escribir para que el otro vea «escribiendo…».
+
+---
+
+## 13. Validación en el móvil (24/10, teléfono conectado)
+
+Se instaló el APK de la campaña y se recorrió todo lo desplegado:
+
+| Qué | Resultado en pantalla |
+|---|---|
+| **T1 · chips de respuestas rápidas** | Aparece el chip «Respuesta rápida de prueba» encima del compositor; al tocarlo, el texto entra en el compositor |
+| **T1 · pantalla de gestión** | «Respuestas rápidas» abre desde ⋯; muestra «De Tienda Admin…», la frase con «Mía · personal», el selector Tienda/Mía y el formulario |
+| **T7 · «escribiendo…»** | Con un pulso enviado desde la API, el chat muestra «Usuario EG Route Plan está escribiendo…» |
+| **T7 · menciones @** | En «Prueba tarjeta producto» (grupo), el botón @ lista «@Administrador EG Route Plan» / «@Usuario EG Route Plan» y al tocar uno inserta «@Administrador EG Route Plan » en el compositor |
+| **T7 · marcar no leído** | ⋯ → Marcar como no leído: vuelve a la lista y la conversación aparece con badge **1** |
+| **T13 · libreta de direcciones** | `/lifebook-direcciones` muestra «Casa · predeterminada», destinatario, «Paraíso · Portón azul, casa 12…», teléfono y el formulario |
+
+**Fallo encontrado y corregido al validar:** el cliente de respuestas rápidas apuntaba a `/lifebook/merchant/quick-replies` y el backend las sirve en `/lifebook/commerce/merchant/quick-replies` (por eso al principio no salían los chips). Corregido en `api/commerce.ts`.

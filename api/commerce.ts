@@ -975,11 +975,12 @@ export interface LbRespuestaRapida {
 }
 
 export const respuestasRapidasApi = {
-  listar: () => http.get<{ items: LbRespuestaRapida[]; shopName: string | null }>(`${MERCHANT}/quick-replies`),
+  /** OJO: viven en `commerce/merchant/...`, no en el panel de tienda (`lifebook/merchant`). */
+  listar: () => http.get<{ items: LbRespuestaRapida[]; shopName: string | null }>(`${BASE}/merchant/quick-replies`),
   guardar: (body: { id?: string; text: string; scope: 'shop' | 'user' }) =>
-    http.post<{ ok: boolean; id: string }>(`${MERCHANT}/quick-replies`, body),
+    http.post<{ ok: boolean; id: string }>(`${BASE}/merchant/quick-replies`, body),
   borrar: (id: string, scope: 'shop' | 'user') =>
-    http.delete<{ ok: boolean }>(`${MERCHANT}/quick-replies/${id}?scope=${scope}`),
+    http.delete<{ ok: boolean }>(`${BASE}/merchant/quick-replies/${id}?scope=${scope}`),
 };
 
 
