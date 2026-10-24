@@ -425,4 +425,16 @@ a pedirla entera. No hay pantalla de direcciones ni predeterminada en `lifebook`
 Mercado) o dos libretas por vertical? El código de `ecomerse` sugiere que **unificar** es lo más
 barato: mismo modelo, una pantalla, una predeterminada global.
 
+### 9.5 Decisiones tomadas (24/10/2026)
+
+| Pregunta | Decisión |
+|---|---|
+| ¿Una agenda o dos? | **Dos libretas separadas**: Mercado conserva la suya (`ecomerse`) y LifeBook tendrá la suya (`lifebook.addresses`), con su propia predeterminada. Se **copia el patrón** (índice único parcial, snapshot en el pedido), no la tabla. |
+| Campos obligatorios en GE | **Barrio + referencia obligatorios**; provincia y municipio se piden pero **no bloquean** mientras el mapa no exista. |
+| ¿Destinatario distinto del titular? | **Sí**: `receiver_name` y `phone` pueden ser de otra persona (regalo/familia); el repartidor llama a ese teléfono. |
+
+**Consecuencia para T13:** tabla propia (no compartida), un `is_default` por usuario de LifeBook,
+y en el checkout de LifeBook la predeterminada se propone sola. La pantalla se clona de
+`ecomerse-direcciones`/`ecomerse-direccion` (ya probadas), pero apuntando a `/lifebook/addresses`.
+
 
