@@ -54,6 +54,19 @@ export function TarjetaReclamarCupon({ datos, onReclamar, onBoton }: {
   const { colors } = useTheme();
   const cupon = datos.couponDetail;
   const botones = datos.buttons ?? [];
+  /**
+   * El importe y el mínimo vienen con unidad o crudos («2000», «10000»). Se normalizan aquí:
+   * porcentaje → «15 %» sin símbolo; importe → «XAF 2000»; mínimo → «Mínimo 10000 XAF».
+   * (Antes el mínimo se pintaba como «10000» suelto y el nombre se comprimía a «Desc uento…».)
+   */
+  const crudo = String(cupon?.discountAmountFen ?? '').trim();
+  const esPorcentaje = /%\s*$/.test(crudo);
+  const cifra = crudo.replace(/\s*XAF$/i, '').replace(/\s*%\s*$/, '').trim() || '—';
+  const cantidad = esPorcentaje ? `${cifra} %` : cifra;
+  const simbolo = esPorcentaje ? '' : 'XAF';
+  const umbral = cupon?.thresholdFen && !/m[ií]nimo/i.test(String(cupon?.limits ?? ''))
+    ? `Mínimo ${String(cupon.thresholdFen).replace(/\s*XAF$/i, '')} XAF`
+    : null;
 
   return (
     <TarjetaEnChat>
@@ -64,24 +77,21 @@ export function TarjetaReclamarCupon({ datos, onReclamar, onBoton }: {
         <Text style={[estilos.explicacion, { color: colors.textPrimary }]} numberOfLines={3}>{datos.content}</Text>
       ) : null}
 
+      {/* El nombre del cupón, a todo el ancho: en la columna estrecha se truncaba. */}
+      {cupon?.name ? (
+        <Text style={[estilos.cuponNombre, { color: colors.textPrimary }]} numberOfLines={2}>{cupon.name}</Text>
+      ) : null}
+
       {/* El cupón, dibujado con tokens: superficie, borde y muesca. Sin PNG de fondo. */}
       {cupon ? (
         <View style={[estilos.cupon, { backgroundColor: colors.surface, borderColor: colors.border }]}>
           <View style={estilos.cuponIzquierda}>
-            <ImporteCupon
-              cantidad={cupon.discountAmountFen ?? '—'}
-              simbolo="XAF"
-              minimo={cupon.thresholdFen}
-              tamano="mayor"
-            />
+            <ImporteCupon cantidad={cantidad} simbolo={simbolo} minimo={umbral} tamano="mayor" />
           </View>
 
           <View style={[estilos.muesca, { backgroundColor: colors.border }]} />
 
           <View style={estilos.cuponDerecha}>
-            {cupon.name ? (
-              <Text style={[estilos.cuponNombre, { color: colors.textPrimary }]} numberOfLines={2}>{cupon.name}</Text>
-            ) : null}
             {cupon.useEndTs ? (
               <Text style={[estilos.cuponValidez, { color: colors.textSecondary }]} numberOfLines={1}>
                 Válido hasta {cupon.useEndTs}

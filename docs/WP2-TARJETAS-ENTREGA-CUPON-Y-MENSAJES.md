@@ -348,4 +348,81 @@ Leyenda: **✅ hecho** · **🟡 parcial / tipado sin UI** · **❌ falta** · *
 > se ha verificado** en el DSL/manifiesto, no porque se sepa que no existe. Si quieres, la tanda T8
 > lo incluye igualmente como añadido propio.
 
+---
+
+## 9. La DIRECCIÓN del pedido: 小红书, LifeBook y la libreta para Guinea Ecuatorial
+
+### 9.1 Lo que hace 小红书 [APK]
+
+| Evidencia | Qué demuestra |
+|---|---|
+| `bz5/z1.java:17` → `@kd.c(alternate = {"addressListPage"}, value = "address_list_page")` | hay una **página de lista de direcciones** con ruta propia |
+| `b56/i.java:9` → `ADDRESS_INVALID(-3000, "地址信息不完善，不支持结算")` | **sin dirección completa no se puede pagar**: el checkout la valida |
+| strings `收货地址` (dirección de envío), `地址管理` (gestión de direcciones), `设为默认` (marcar como predeterminada) | **libreta + predeterminada** son parte del producto |
+| `com/xingin/entities/AddressV3Bean.java` (`cityName`, `cityNameSpell`, `id`, `name`, `subtitle`, `type`) | selector de **ciudad/región** jerárquico |
+| `com/xingin/mp/ipc/v2/action/ChooseAddressAction.java` | **elegir** una dirección guardada desde el checkout |
+| `com/xingin/commercial/variantpay/compose/address/OverseasPayAddressView.java` | formulario de dirección **de otro país** (campo país/región), útil como patrón para GE |
+| `com/xingin/trade_bcim/ui/page/service/ModifyAddressFailEntry*` | entrada de «la dirección falló / hay que corregirla» |
+
+**Comportamiento que se deduce:** el comprador tiene una **agenda de direcciones**; en el pago
+**elige** una (la predeterminada se propone sola), puede **añadir/editar**, y marcar **una como
+predeterminada**. Sin dirección completa, el checkout se bloquea con un error explícito.
+
+### 9.2 Lo que ya tiene LifeBook [CÓDIGO]
+
+**En el Mercado (`ecomerse`) SÍ existe la libreta completa** — y es el patrón a reutilizar:
+
+- `api/ecomerse.ts:740-752` → `addresses()`, `createAddress()`, `updateAddress()`,
+  `setDefaultAddress()` (ruta propia `/default`, idempotente), `deleteAddress()`.
+- `EcomerseAddress` con `isDefault`, etiqueta y texto; `EcomerseAddressInput` para alta/edición.
+- Pantallas `app/ecomerse-direcciones.tsx` («Mis direcciones de entrega») y `app/ecomerse-direccion.tsx`.
+- **Una sola predeterminada garantizada por la base**: índice único parcial `uq_ec_addr_default`
+  (no lo vigila la pantalla; lo cumple quien escribe).
+- Los pedidos guardan **copia congelada** del texto (`ecomerse_orders.delivery_address`), así que
+  editar la libreta no cambia pedidos históricos.
+
+**En el comercio de LifeBook NO existe:** el checkout pide la dirección **inline** y no la guarda —
+`app/lifebook-carrito-checkout.tsx:54-56` (ciudad, zona, referencia), `:227` (validación),
+`:265` (`deliveryAddress: {city, zone, reference}`), `:518-545` (formulario). Un pedido nuevo vuelve
+a pedirla entera. No hay pantalla de direcciones ni predeterminada en `lifebook`.
+
+### 9.3 Propuesta alineada a Guinea Ecuatorial (sin depender del mapa)
+
+**Campos** (reusando el modelo de `ecomerse`, no inventando otro):
+
+| Campo | Por qué en GE |
+|---|---|
+| `label` | «Casa», «Trabajo», «Casa de mamá»: el comprador elige por nombre, no por coordenadas |
+| `receiver_name` | muchas entregas son **para otra persona** (regalo, familia) |
+| `phone` (+240) | el repartidor llama; validar formato GE |
+| `province` | Bioko Norte, Bioko Sur, Annobón, Litoral, Centro Sur, Kié-Ntem, Wele-Nzas, Djibloho |
+| `municipality` | Malabo, Bata, Ebebiyín, Mongomo, Evinayong, Luba… (lista por provincia) |
+| `neighborhood / street` | barrio o calle |
+| **`reference` (obligatoria)** | **en GE no hay código postal**: «frente a la farmacia», «portón azul», «junto al mercado» es la dirección real |
+| `lat/lng` (nullables) | **el mapa aún está en curso**: se guardan si hay pin, y la dirección funciona sin él |
+| `notes` | indicaciones para el repartidor |
+| `is_default` | **una sola** por usuario, con índice único parcial (`uq_lb_addr_default`) |
+
+**Flujo:**
+1. Checkout: selector de direcciones guardadas; la **predeterminada preseleccionada**; «+ Nueva».
+2. El pedido guarda el **snapshot** del texto (como ya hace `ecomerse`) y opcionalmente el `addressId`.
+3. `confirmar-pedido` (ya en T2b) muestra la dirección del pedido; más adelante, botón «Cambiar
+   dirección» que abre la libreta antes de que la tienda prepare.
+4. Mapa: cuando llegue, el pin es **opcional**; si existe, «Ver en el mapa».
+
+### 9.4 Plan T13 (dirección)
+
+| Paso | Qué | Reuso |
+|---|---|---|
+| 1 | DDL `lifebook.addresses` + índice único parcial de la predeterminada | patrón `uq_ec_addr_default` de `ecomerse` |
+| 2 | Endpoints `/lifebook/addresses` (GET/POST/PATCH/DELETE + `/default`) | patrón exacto de `api/ecomerse.ts:740-752` |
+| 3 | `createOrder` acepta `deliveryAddressId` y copia el snapshot | ya copia texto hoy (`delivery_address`) |
+| 4 | Pantallas `lifebook-direcciones` / `lifebook-direccion` | clonar las de `ecomerse-direcciones`/`ecomerse-direccion` (ya probadas) |
+| 5 | Selector en checkout + predeterminada | `lifebook-carrito-checkout.tsx:518-545` |
+| 6 | Verificación | crear 2, marcar predeterminada, pedir con ella y ver el texto en el pedido y en `confirmar-pedido` |
+
+**Decisión de producto pendiente (ver preguntas):** ¿una sola agenda para toda la app (LifeBook +
+Mercado) o dos libretas por vertical? El código de `ecomerse` sugiere que **unificar** es lo más
+barato: mismo modelo, una pantalla, una predeterminada global.
+
 

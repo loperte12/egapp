@@ -192,6 +192,7 @@ const REGISTRO: Record<string, Entrada> = {
     render: (d, a) => (
       <TarjetaConfirmarPedido
         datos={d as DatosConfirmarPedido}
+        textoModificar="Ver pedido"
         onConfirmar={a.onBoton ? () => a.onBoton?.('Confirmar') : undefined}
         onModificar={a.onBoton ? () => a.onBoton?.('Modificar') : undefined}
       />

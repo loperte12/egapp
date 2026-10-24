@@ -44,6 +44,15 @@ export function TarjetaCuponCompacto({ datos, etiquetaTipo, onUsar }: {
 }) {
   const { colors } = useTheme();
   const tipo = etiquetaTipo ?? datos.couponType;
+  /**
+   * EL SÍMBOLO NO ES SIEMPRE XAF (medido en el móvil): el servidor manda la cifra con su unidad
+   * («2000 XAF» o «15 %») y aquí se separa, igual que en `TarjetaCupon`.
+   */
+  const crudo = String(datos.discount ?? '').trim();
+  const esPorcentaje = datos.discountType === 'percent' || /%\s*$/.test(crudo);
+  const cifra = crudo.replace(/\s*XAF$/i, '').replace(/\s*%\s*$/, '').trim();
+  const cantidad = esPorcentaje ? `${cifra} %` : cifra;
+  const simbolo = esPorcentaje ? '' : (datos.discountType && datos.discountType !== 'percent' ? datos.discountType : 'XAF');
 
   return (
     <TarjetaEnChat
@@ -53,23 +62,17 @@ export function TarjetaCuponCompacto({ datos, etiquetaTipo, onUsar }: {
     >
       <View style={estilos.fila}>
         <View style={estilos.izquierda}>
-          <ImporteCupon
-            cantidad={datos.discount}
-            simbolo={datos.discountType ?? 'XAF'}
-            minimo={datos.threshold}
-          />
+          <ImporteCupon cantidad={cantidad} simbolo={simbolo} minimo={datos.threshold} />
         </View>
 
         {/* La muesca: el corte del cupón, con el borde del tema en vez de un PNG. */}
         <View style={[estilos.muesca, { backgroundColor: colors.border }]} />
 
         <View style={estilos.derecha}>
-          <View style={estilos.nombreLinea}>
-            {tipo ? <SelloTipoCupon texto={tipo} /> : null}
-            {datos.name ? (
-              <Text style={[estilos.nombre, { color: colors.textPrimary }]} numberOfLines={2}>{datos.name}</Text>
-            ) : null}
-          </View>
+          {tipo ? <View style={estilos.sello}><SelloTipoCupon texto={tipo} /></View> : null}
+          {datos.name ? (
+            <Text style={[estilos.nombre, { color: colors.textPrimary }]} numberOfLines={2}>{datos.name}</Text>
+          ) : null}
           {datos.validoHasta ? (
             <Text style={[estilos.validez, { color: colors.textSecondary }]} numberOfLines={1}>
               Válido hasta {datos.validoHasta}
@@ -88,7 +91,7 @@ const estilos = StyleSheet.create({
   izquierda: { minWidth: 86 },
   muesca: { width: StyleSheet.hairlineWidth, alignSelf: 'stretch', marginHorizontal: espaciado.e12 },
   derecha: { flex: 1, minWidth: 0 },
-  nombreLinea: { flexDirection: 'row', alignItems: 'center', gap: espaciado.e4, marginBottom: espaciado.e6 },
-  nombre: { flex: 1, fontSize: tipografia.body, lineHeight: interlineado.amplio },
+  sello: { alignSelf: 'flex-start', marginBottom: espaciado.e6 },
+  nombre: { fontSize: tipografia.body, lineHeight: interlineado.amplio },
   validez: { fontSize: tipografia.nota, lineHeight: interlineado.micro },
 });

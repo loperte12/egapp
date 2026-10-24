@@ -44,13 +44,19 @@ export interface DatosConfirmarPedido {
   goods?: { preview?: string | null; name: string; count?: number; total_amt?: string | null } | null;
 }
 
-export function TarjetaConfirmarPedido({ datos, titulo, onModificar, onConfirmar, onAbrirPedido }: {
+export function TarjetaConfirmarPedido({ datos, titulo, onModificar, onConfirmar, onAbrirPedido, textoModificar = 'Modificar' }: {
   datos: DatosConfirmarPedido;
   /** Texto de cabecera. Por defecto, el de la referencia traducido. */
   titulo?: string;
   onModificar?: () => void;
   onConfirmar?: () => void;
   onAbrirPedido?: () => void;
+  /**
+   * Etiqueta del primer botón. En LifeBook esta tarjeta también sirve de REPASO del pedido recién
+   * creado («revisa tu dirección»), y ahí el botón no modifica: abre el pedido. Se etiqueta acorde
+   * en vez de dejar «Modificar» diciendo otra cosa.
+   */
+  textoModificar?: string;
 }) {
   const { colors } = useTheme();
   const cuenta = datos.accountInfoList ?? [];
@@ -89,7 +95,7 @@ export function TarjetaConfirmarPedido({ datos, titulo, onModificar, onConfirmar
       ) : null}
 
       <FilaBotones>
-        <BotonPildora texto="Modificar" contorno onPress={onModificar} />
+        {onModificar ? <BotonPildora texto={textoModificar} contorno onPress={onModificar} /> : null}
         {puedeConfirmar ? <BotonPildora texto="Confirmar" onPress={onConfirmar} /> : null}
       </FilaBotones>
 
