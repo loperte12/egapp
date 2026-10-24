@@ -667,3 +667,138 @@ tarjetas desaparecen. Al llevar esto al fuente de verdad hay que añadir **las d
 
 **OJO con `server-src`:** la base de `backend/server-src` en git está VIEJA (6/10). La referencia del
 backend es `dist\src` (lo compilado y desplegado). Los bloques se han aplicado ahí, no en `server-src`.
+
+---
+
+## BLOQUE 7 — EL APK DE RELEASE Y LA TARJETA DE PRODUCTO (24/10/2026)
+
+### 7.1 · El APK del 24/10 09:16 estaba ROTO (y por qué)
+
+El APK release compilado a las 09:16 (141 MB) **crasheaba al arrancar** en el móvil (OPPO PKK110,
+Android 16), con este error en logcat:
+
+```
+JavascriptException: [runtime not ready]: SyntaxError: Unexpected token '?'
+```
+
+**No era el bundle.** El bundle embebido (`assets/index.android.bundle`, 8,1 MB, JS plano) pasa
+`node --check` sin errores. Lo que fallaba era el **runtime**: ese APK se compiló con
+`-PhermesEnabled=false` porque faltaba `hermesc.exe`, y ese flag **no es cosmético** — empaqueta
+**JavaScriptCore** (`libjsc.so`) en vez de Hermes. RN 0.79.6 / Expo SDK 53 no están preparados para
+ese runtime y el bundle no parsea: la app muere antes de pintar nada. Es decir: **el APK «release»
+del 09:16 no servía ni para validar ni para probar**.
+
+**Causa del flag:** en `node_modules/react-native/sdks/hermesc/` solo estaban `linux64-bin/` y
+`osx-bin/`; **faltaba `win64-bin/`**.
+
+### 7.2 · La receta de compilación CORREGIDA (la buena)
+
+El tarball npm de `react-native@0.79.6` **sí trae** `sdks/hermesc/win64-bin/` (`hermesc.exe` +
+`icudt64.dll`, `msvcp140.dll`…). No hace falta renunciar a Hermes:
+
+1. Comprobar que existe y funciona:
+   `node_modules\react-native\sdks\hermesc\win64-bin\hermesc.exe --version`
+   → `Hermes release version: 0.12.0 · HBC bytecode version: 96`
+2. Si falta, restaurarlo del paquete npm (`npm pack react-native@0.79.6`, extraer
+   `package/sdks/hermesc/win64-bin/` y copiarlo en su sitio).
+3. Compilar **sin** `-PhermesEnabled=false`:
+   `cd android && .\gradlew.bat assembleRelease`
+4. Verificar que el APK es Hermes: tiene `lib/arm64-v8a/libhermes.so` (y **no** `libjsc.so`), y
+   `assets/index.android.bundle` empieza por el magic de bytecode Hermes `c6 1f bc 03`.
+5. `adb install -r` y arrancar. (Comprobado: arranca y pinta las tarjetas sin Metro.)
+
+> **Si `hermesc.exe` vuelve a desaparecer** (un antivirus puede borrarlo: es un compilador sin firma
+> de 1,9 MB de un paquete npm), repetir el paso 2. **NO** volver a `-PhermesEnabled=false`: rompe el
+> release.
+
+### 7.3 · Defecto encontrado: enviar un producto salía como TEXTO
+
+**Síntoma (reportado por el dueño):** al mandar un producto a un chat aparecía «🛍 …» como texto, sin
+la tarjeta.
+
+**Causa:** el mensaje **optimista** de `enviarProducto` (`app/lifebook-chat/[id].tsx`) se construía
+con `productRef` pero **sin `cardRef`**. El chat ya no tiene rama `kind === 'product'`: pinta el árbol
+**solo cuando hay `msg.cardRef`** (ver §«Condición del cliente»). Sin `cardRef`, la cadena caía al
+texto. El servidor sí devuelve `cardRef` al leer (rama `product` + puente), pero la copia local del
+mensaje no se refresca al confirmar el envío: el defecto se ve **justo al enviar**.
+
+**Arreglo (cliente, `app/lifebook-chat/[id].tsx`):** el mensaje optimista lleva ahora también
+`cardRef: { cardType: 'producto', payload: productRef }`, con la misma forma que manda el servidor.
+El servidor **no se tocó**: su lado ya era correcto.
+
+### 7.4 · Datos de prueba generados (y validados a nivel de API)
+
+Se generaron por la **API real** (`https://api.egrouteplan.com/api/v1`) con las cuentas de prueba de
+`.tmp-servidor/` (comprador = el usuario del móvil; vendedor = dueño de «Hotel Demo Malabo»):
+
+- **NOTA** — mensajes `kind='post'` y `kind='sale'` con `postId` real → el servidor responde
+  `cardRef.cardType = 'nota'` (en `ff76ca94…`, comprador↔tienda).
+- **GENÉRICAS** — pedido nuevo + acciones del vendedor (accept → prepare → send → deliver), rechazo de
+  un segundo pedido, reclamación del comprador, coste de reparto (`taxi_moto`) y reposición de stock
+  (watch + reactivación). En `0d137588…` quedan: `order/pedido` ×5 y `card/` → `aviso-producto` ×3,
+  `pedido-logistico` ×2, `invitacion-resena`, `aviso`, `cancelacion` ×2, `texto-acciones`,
+  `alerta-reposicion` y `cobro`.
+
+Con eso quedan cubiertos **todos** los `cardType` que emiten los BLOQUES 4 y 5.
+
+> Nota de entorno: `mark-paid` con justificante no se pudo usar para el `cobro` porque la subida de
+> imagen pasa por el API y la función SCF corta a los **60 s** (`Invoking task timed out after 60
+> seconds`). El `cobro` se consiguió por la otra vía del BLOQUE 4c: `setDeliveryCost` sobre un pedido
+> con reparto.
+
+### 7.5 · Limpieza y pendiente
+
+- **`netprobe` eliminado** (`api/netprobe.ts` + su llamada en `app/_layout.tsx`): era diagnóstico
+  temporal commiteado que sondeaba URLs externas en cada arranque y escribía en logcat.
+- **Validación visual completada** el 24/10 con el APK final (ver §7.7).
+- La pantalla del mapa sigue dando «No se pudo cargar el mapa» y el propio `netprobe` registraba
+  fallos a `egrouteplan.com` / `api.egrouteplan.com/api/v1/health` (404): es red/API del entorno, **no**
+  el árbol de tarjetas.
+
+### 7.6 · Segundo defecto: los avisos del BLOQUE 4 no casaban con el registro del cliente
+
+Medido **en el móvil** con los datos de prueba de §7.4:
+
+| Tarjeta | Lo que se veía | Por qué |
+|---|---|---|
+| `cobro` | «Tienes un cobro pendiente» + **«—»** y botón «Pagar» | El servidor manda `{ importe, motivo, estado }`; el registro leía `{ amount, reason, status }` (DSL). |
+| `aviso-producto` | «Tu pedido» **sin artículo, sin foto, sin precio** | El servidor manda la **foto del pedido** (`items[]`, `totalXaf`) + `title`; el registro leía `name/noteTitle/price/image`. |
+| `cancelacion` | **El mensaje desaparecía del chat** | `TarjetaCancelacion` devuelve `null` si no hay `tienda` ni `pedido`; el servidor manda `shopName`/`code`, no `sellerPkgData`/`package_id`. |
+| `pedido-logistico` | Solo la frase («Tu pedido va en camino»), sin artículos ni total | El servidor manda `items[]`/`totalXaf`; el registro pasaba el objeto tal cual y el componente espera `skus`/`totalPrice`. |
+
+**Regla que sale de esto:** los ocho avisos de pedido emiten **la misma foto del pedido**
+(`fotoDelPedido` + `title`) y el `cobro` emite `importe/motivo/estado`; el registro del cliente
+esperaba la forma del **DSL de la referencia** (nombres en inglés, otro anidamiento). Ninguno de los
+dos lados estaba «mal»: estaban **desconectados**.
+
+**Arreglo aplicado (cliente, `components/lifebook/tarjetas/registro.tsx`):** cada uno de esos cuatro
+mapeos acepta **las dos formas** (DSL y LifeBook). Se hizo en el registro y no en el servidor por dos
+razones: no exige redesplegar la API, y **arregla también los mensajes que ya están escritos** en las
+conversaciones (el servidor no reescribe filas: la forma se resuelve al leer).
+
+**Recomendación para las próximas tarjetas:** que el emisor mande la forma que **declara el
+componente** (el contrato vive en la ficha de la tarjeta) y que el registro tolere las dos mientras
+convivan mensajes viejos.
+
+### 7.7 · Lo que quedó validado en pantalla (24/10, APK final)
+
+Con el móvil (OPPO PKK110, Android 16) y la app **sin Metro**, sesión del usuario del teléfono
+(ADMIN). Todo lo que sigue se vio renderizado, no solo respondido por la API:
+
+| Tarjeta | Qué se vio |
+|---|---|
+| `nota` (post y `sale`) | Tarjeta con título; en `sale`, el `🏷️` que añade el componente. |
+| `pedido` | Chip de estado («Cancelado», «Pedido creado», «Disputa»), artículo, ticket (pago/entrega), total, «Ver pedido». |
+| `producto` | Foto/placeholder, nombre, precio, «Comprar». **Y el envío desde la app**: al tocar un producto del «+», la tarjeta aparece **ya** (optimista), no un texto. |
+| `aviso-producto` | «Tu pedido está en preparación» / «La tienda aceptó tu pedido» + artículo. |
+| `pedido-logistico` | «Tu pedido va en camino» / «Pedido entregado» + artículo + «1 artículos · x1». |
+| `cancelacion` | «Solicitud de cancelación · Tienda: Hotel Demo Malabo · Pedido: LB-…». |
+| `cobro` | «Tienes un cobro pendiente · 25700 XAF · Reparto 700 XAF · Aceptar». |
+| `alerta-reposicion` | «Vuelve a estar disponible» + producto + precio + «Ver el producto». |
+| `invitacion-resena` | «Te invitamos a valorar este producto» + artículo + «Escribir una reseña». |
+| `aviso` | Valoración: «El comprador ha dejado una valoración · Ha valorado el pedido con 4 de 5». |
+| `texto-acciones` | Reclamación: «El comprador abrió una reclamación: «…»». |
+
+**Queda pendiente solo la decisión de producto** de qué hacer con los dos `cardType` que el servidor
+podría emitir y que hoy no emite ningún flujo: `confirmacion-entrega` y la parte de `cupon` (§«Lo que
+falta antes de poder convertirlo todo»).

@@ -346,13 +346,49 @@ const REGISTRO: Record<string, Entrada> = {
   },
   'pedido-logistico': {
     descripcion: 'El pedido visto desde logística, con su último movimiento',
-    render: (d, a) => (
-      <TarjetaPedidoLogistico
-        datos={d as Parameters<typeof TarjetaPedidoLogistico>[0]['datos']}
-        onAbrirPedido={a.onAbrir ? () => a.onAbrir?.('') : undefined}
-        onBoton={a.onBoton}
-      />
-    ),
+    render: (d, a) => {
+      /**
+       * DOS FORMAS DE DATOS, y las dos se aceptan:
+       *  · la del DSL (`skus`, `totalPrice`, `recentTrackingRecord`…);
+       *  · la que manda LifeBook en los avisos de pedido: la FOTO DEL PEDIDO (`items[]`,
+       *    `totalXaf`) y la frase en `title`.
+       * Sin la segunda, la tarjeta salía solo con la frase y sin artículos ni total (medido en el
+       * móvil el 24/10).
+       */
+      const x = d as {
+        title?: string | null;
+        skus?: Array<{ skuTag?: string | null; image?: string | null; skuName?: string; skuSpecification?: string | null; skuQuantity?: number | string | null }>;
+        skuCount?: number | string | null;
+        totalPrice?: string | null;
+        recentTrackingRecord?: { subNodeDesc?: string | null } | null;
+        buttons?: Array<{ id?: string | null; buttonValue?: string; buttonStatus?: string | null }>;
+        items?: Array<{ title?: string; variant?: string | null; mediaUrl?: string | null; quantity?: number }>;
+        totalXaf?: number | null;
+      };
+      const skus = x?.skus ?? (Array.isArray(x?.items)
+        ? x.items.map((i) => ({
+            skuTag: null,
+            image: i?.mediaUrl ?? null,
+            skuName: String(i?.title ?? ''),
+            skuSpecification: i?.variant ?? null,
+            skuQuantity: i?.quantity ?? 1,
+          }))
+        : undefined);
+      return (
+        <TarjetaPedidoLogistico
+          datos={{
+            title: x?.title,
+            skus,
+            skuCount: x?.skuCount ?? (Array.isArray(x?.items) ? x.items.length : undefined),
+            totalPrice: x?.totalPrice ?? (x?.totalXaf != null ? `${Number(x.totalXaf)} XAF` : null),
+            recentTrackingRecord: x?.recentTrackingRecord,
+            buttons: x?.buttons,
+          }}
+          onAbrirPedido={a.onAbrir ? () => a.onAbrir?.('') : undefined}
+          onBoton={a.onBoton}
+        />
+      );
+    },
   },
   'entrega-negociada': {
     descripcion: 'La fecha de entrega ha cambiado: prometida y nueva',
@@ -367,15 +403,22 @@ const REGISTRO: Record<string, Entrada> = {
   cancelacion: {
     descripcion: 'Se ha pedido cancelar un pedido: tienda e identificador',
     render: (d, a) => {
+      /**
+       * DOS FORMAS: el DSL (`sellerPkgData`, `package_id`) y la FOTO DEL PEDIDO que manda LifeBook
+       * en los avisos (`shopName`, `code`, `items[]`). Sin la segunda, `TarjetaCancelacion` recibía
+       * todo vacío y **devolvía `null`: el mensaje desaparecía del chat** (medido el 24/10).
+       */
       const x = d as {
         package_id?: string | null; packageId?: string | null;
         sellerPkgData?: { shopName?: string | null; newSkuList?: Array<{ image?: string | null }> } | null;
+        code?: string | null; shopName?: string | null;
+        items?: Array<{ mediaUrl?: string | null }>;
       };
       return (
         <TarjetaCancelacion
-          imagen={x?.sellerPkgData?.newSkuList?.[0]?.image}
-          tienda={x?.sellerPkgData?.shopName}
-          pedido={x?.package_id ?? x?.packageId}
+          imagen={x?.sellerPkgData?.newSkuList?.[0]?.image ?? x?.items?.[0]?.mediaUrl ?? null}
+          tienda={x?.sellerPkgData?.shopName ?? x?.shopName ?? null}
+          pedido={x?.package_id ?? x?.packageId ?? x?.code ?? null}
           onCopiar={a.onCopiar}
         />
       );
@@ -385,18 +428,32 @@ const REGISTRO: Record<string, Entrada> = {
   'aviso-producto': {
     descripcion: 'Un aviso sobre un producto, con el artículo debajo',
     render: (d, a) => {
+      /**
+       * DOS FORMAS DE DATOS, y las dos se aceptan:
+       *  · la del DSL de la referencia: `image/noteImage/noteTitle/price/state`;
+       *  · la que manda LifeBook en los ocho avisos de pedido: la FOTO DEL PEDIDO (`items[]`,
+       *    `totalXaf`, `shopName`, `code`) y la frase del aviso en `title`.
+       *
+       * Sin la segunda, la tarjeta salía «Tu pedido» **sin artículo, sin foto y sin precio**
+       * (medido en el móvil el 24/10): el servidor no tiene por qué saber qué forma quiere cada
+       * componente, así que el registro acepta las dos.
+       */
       const x = d as {
         image?: string | null; noteImage?: string | null; name?: string | null;
         noteTitle?: string | null; price?: string | null; state?: string | null;
+        title?: string | null; items?: Array<{ title?: string; mediaUrl?: string | null }>;
+        totalXaf?: number | null;
       };
-      const producto = x?.name ?? x?.noteTitle ?? '';
+      const producto = x?.name ?? x?.noteTitle ?? x?.items?.[0]?.title ?? '';
+      const imagen = x?.image ?? x?.noteImage ?? x?.items?.[0]?.mediaUrl ?? null;
+      const precio = x?.price ?? (x?.totalXaf != null ? `${Number(x.totalXaf)} XAF` : null);
       return (
         <TarjetaAvisoProducto
-          texto={x?.state ? 'El pedido que consultas' : 'Tu pedido'}
+          texto={x?.title ?? (x?.state ? 'El pedido que consultas' : 'Tu pedido')}
           estado={x?.state}
-          imagen={x?.image ?? x?.noteImage}
+          imagen={imagen}
           producto={producto}
-          precio={x?.price}
+          precio={precio}
           onAbrir={a.onAbrir ? () => a.onAbrir?.('') : undefined}
         />
       );
@@ -451,14 +508,24 @@ const REGISTRO: Record<string, Entrada> = {
   cobro: {
     descripcion: 'Aviso de un cobro pendiente, con importe y motivo',
     render: (d, a) => {
-      const x = d as { amount?: string | number; reason?: string | null; status?: string | null };
-      const importe = typeof x?.amount === 'number' ? `${x.amount} XAF` : (x?.amount ?? '—');
+      /**
+       * DOS FORMAS: el DSL (`amount/reason/status`) y la que manda LifeBook en los avisos de
+       * cobro del BLOQUE 4c (`importe/motivo/estado`). Sin la segunda, la tarjeta salía con el
+       * importe «—», sin motivo y con el botón «Pagar» por defecto (medido en el móvil el 24/10).
+       */
+      const x = d as {
+        amount?: string | number; reason?: string | null; status?: string | null;
+        importe?: string | number; motivo?: string | null; estado?: string | null;
+      };
+      const bruto = x?.importe ?? x?.amount;
+      const importe = typeof bruto === 'number' ? `${bruto} XAF` : (bruto ?? '—');
+      const etiqueta = x?.estado ?? x?.status ?? 'Pagar';
       return (
         <TarjetaCobro
           importe={importe}
-          motivo={x?.reason}
-          estado={x?.status}
-          onPagar={a.onBoton ? () => a.onBoton?.(x?.status ?? 'Pagar') : undefined}
+          motivo={x?.motivo ?? x?.reason}
+          estado={etiqueta}
+          onPagar={a.onBoton ? () => a.onBoton?.(etiqueta) : undefined}
         />
       );
     },

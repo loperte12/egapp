@@ -29,13 +29,7 @@ import { ThemeProvider, useTheme } from '../theme/ThemeContext';
 import { SessionProvider } from '../state/session';
 import { StatusProvider } from '../state/statusStore';
 import { CrashShield } from '../core/diagnostics';
-import { runNetProbe } from '../api/netprobe';
 import BotonCucucul from '../components/lifebook/BotonCucucul';
-
-// Diagnóstico temporal de red (logcat). Eliminar junto a api/netprobe.ts.
-if (typeof globalThis !== 'undefined') {
-  runNetProbe();
-}
 
 // Arranque en Life Book (decisión del dueño): SOLO en el primer montaje de la
 // sesión y con un pequeño retardo, porque navegar antes de que el Stack raíz

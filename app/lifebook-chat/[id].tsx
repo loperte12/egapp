@@ -928,13 +928,25 @@ function ChatThreadContent() {
      * (comprobado en el teléfono).
      */
     const tmpId = `tmp-${Date.now()}`;
+    /**
+     * EL ÁRBOL PINTA POR `cardRef`, NO POR `kind`.
+     *
+     * Este mensaje optimista se pintaba como TEXTO («🛍 …») porque solo llevaba `productRef`. El
+     * chat ya no tiene rama `kind === 'product'`: el producto vive en el árbol como
+     * `cardType: 'producto'`, y sin `cardRef` la cadena de render caía al texto — el dueño lo vio
+     * como «mando un producto y sale un texto, sin tarjeta». El servidor sí devuelve `cardRef` al
+     * leer, pero esta copia local no se refresca al confirmar el envío, así que el defecto se ve
+     * justo al enviar. Se rellena con la misma forma que manda el servidor.
+     */
+    const productRef = {
+      id: p.id, title: p.title, priceXaf: p.priceXaf ?? null, currency: 'XAF',
+      coverUrl: p.coverUrl ?? null, shopId: p.shop?.id ?? null, available: true,
+    };
     setMessages((prev) => [...prev, {
       id: tmpId, conversationId: convId, fromMe: true, kind: 'product',
       text: `🛍 ${p.title}`, createdAt: new Date().toISOString(), status: 'sending',
-      productRef: {
-        id: p.id, title: p.title, priceXaf: p.priceXaf ?? null, currency: 'XAF',
-        coverUrl: p.coverUrl ?? null, shopId: p.shop?.id ?? null, available: true,
-      },
+      productRef,
+      cardRef: { cardType: 'producto', payload: productRef },
     }]);
     try {
       const real = await productosEnNotaApi.enviarAlChat(convId, p.id);
