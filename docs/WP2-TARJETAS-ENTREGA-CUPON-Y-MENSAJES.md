@@ -454,22 +454,28 @@ y en el checkout de LifeBook la predeterminada se propone sola. La pantalla se c
 | **Pantalla de gestión** | `app/lifebook-respuestas-rapidas.tsx` (crear/borrar, «Tienda» o «Mía») |
 | Acceso | hoja «⋯» → «Respuestas rápidas» |
 
-**Dónde se guarda (decisión final):** el usuario de base del backend **no puede crear tablas**
-(comprobado en vivo: `42501 permission denied for schema lifebook`, y lo mismo en `public` y
-`wallet`). Por eso las frases se guardan en la bolsa **jsonb** que ya existe para preferencias del
-usuario, `mobility.users.status_prefs`, bajo la clave `quickReplies`:
-
-```json
-{ "quickReplies": { "shop": [{ "id": "...", "text": "…", "sort": 0 }], "user": [ … ] } }
+**Dónde se guarda (final):** tabla propia **`lifebook.quick_replies`**, creada de forma **perezosa e
+idempotente** por el backend. El `GRANT USAGE, CREATE` del rol `egrouteplan_api` ya está aplicado y
+la tabla se creó en la primera llamada. **Sin claves foráneas**: el rol puede crear tablas pero no
+tiene `REFERENCES` sobre `shops`/`users`, así que la integridad va en código. Si se quieren FK:
+```sql
+GRANT REFERENCES ON lifebook.shops, mobility.users TO egrouteplan_api;
 ```
 
-Las frases **de tienda** viven en la fila del **dueño** de la tienda; las **personales**, en la de
-cada uno. Es aditivo y no pisa las demás claves (`lb`, `publish_banned_until`, `suspended_until`).
-Si algún día se concede `CREATE` al usuario de la app, se puede migrar a su tabla propia sin cambiar
-el contrato del móvil.
+**Migración:** mientras no había permiso, la primera versión guardó las frases en
+`mobility.users.status_prefs -> quickReplies`. Al abrir la lista, si el usuario aún tiene esa clave y
+la tabla no tiene sus filas, se **migran a la tabla** y la clave se borra (una vez). Verificado: el
+vendedor pasó a tener en la tabla sus dos frases (una de tienda y una personal).
 
-**Verificado con la API real (12:30):** el vendedor crea una frase de tienda y otra personal y el
-GET devuelve las dos con `shopName: "Hotel Demo Malabo"`; el ADMIN crea la suya y la recibe también.
-**Pendiente inmediato tras el desbloqueo:** desplegar (la subida a COS está caída por red en este
-momento; se reintenta) y validar en el móvil con la cuenta del vendedor: crear una frase «Tienda» y
-otra «Mía», verlas como chips y comprobar que tocar una pone el texto en el compositor.
+**Verificado por API (22:52):**
+
+| Caso | Resultado |
+|---|---|
+| GET vendedor | 2 frases migradas: `shop` «¿En qué te ayudo?» + `user` «Te confirmo en un momento», con `shopName` |
+| GET ADMIN | su frase personal |
+| POST nueva (`scope: shop`) | **201**, `sort` correcto y aparece en el GET |
+| DELETE con `?scope=shop` | **200** y desaparece del GET |
+
+**Pendiente:** el vistazo en el móvil. El teléfono está **desconectado del USB** (`adb: no devices`);
+en cuanto vuelva: chat → chips encima del compositor → tocar uno → comprobar que el texto entra en
+el compositor; y la pantalla de gestión desde «⋯ → Respuestas rápidas».
