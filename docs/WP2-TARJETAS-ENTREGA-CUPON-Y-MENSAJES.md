@@ -511,3 +511,25 @@ provincia/municipio** (se corrigió el merge); borrar la predeterminada **hereda
 **Pendiente:** vistazo en el móvil (USB desconectado) y un pedido real con la dirección de la libreta
 (el intento por API dio **409** por stock del producto de prueba; se reintenta con la app o con otro
 producto).
+
+---
+
+## 12. T7 — Menciones @, «escribiendo…» y marcar no leído (estado)
+
+**Backend (desplegado y verificado por API el 24/10, 23:11):**
+
+| Pieza | Cómo |
+|---|---|
+| **Menciones @** | `chatSend` acepta `mentions: [{id}]`; valida que sean **miembros** de la conversación (en 1:1, la otra persona), y guarda `payload.mentions = [{id, name}]`. `serializeMessage` devuelve `mentions` al leer. El DTO `SendDto` ya admite el campo. |
+| **«Escribiendo…»** | `POST /lifebook/chat/conversations/:id/typing` guarda el pulso en `mobility.users.status_prefs.chatTyping` (clave = conversación, hora). `GET .../typing` devuelve quién escribió en los **últimos 6 s** con su nombre. Sin websocket: latido y consulta desde el cliente. |
+| **Marcar no leído** | `POST .../unread`: en 1:1 sube el contador (`unread_a/b = GREATEST(...,1)`); en grupo deja `last_read_at` justo antes del último mensaje. |
+
+**Verificado en vivo:** `typing` del vendedor → el ADMIN ve `{"escriben":[{"name":"Usuario EG Route Plan"}]}`; mensaje con `mentions` → **201** y al leerlo devuelve `[{"id":"…","name":"Usuario EG Route Plan"}]`; `unread` → **201**.
+
+**Cliente (APK BUILD SUCCESSFUL, build16):**
+
+- En el chat: **«X está escribiendo…»** encima del compositor (consulta cada 4 s; latido al escribir, máx. cada 2,5 s).
+- Botón **@** (solo grupos) que abre los miembros y mete `@Nombre` en el compositor; el mensaje viaja con `mentions`.
+- Hoja «⋯» → **Marcar como no leído** (vuelve el aviso a la lista).
+
+**Pendiente:** vistazo en el móvil (USB desconectado). Para probarlo: abrir un grupo → @ → elegir miembro → enviar; y en un 1:1 escribir para que el otro vea «escribiendo…».

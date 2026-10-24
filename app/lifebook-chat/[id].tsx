@@ -21,7 +21,7 @@ import {
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { alpha, espaciado, interlineado, peso, Precio, radios, tipografia, trazo, useTheme } from '@egrouteplan/ui-kit';
-import { ArrowLeft, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, ShoppingBag, ShoppingCart, X } from 'lucide-react-native';
+import { ArrowLeft, AtSign, FileText, MapPin, MoreHorizontal, Plus, Radio, Send, ShoppingBag, ShoppingCart, X } from 'lucide-react-native';
 import { productosEnNotaApi } from '../../api/lifebookProductos';
 import { ProductoEnChatSheet } from '../../components/lifebook/ProductoEnChatSheet';
 import { TarjetaDeChat, destinoDeBoton } from '../../components/lifebook/tarjetas/registro';
@@ -91,6 +91,12 @@ function ChatThreadContent() {
   const [text, setText] = useState(p.draft ? decodeURIComponent(String(p.draft)) : '');
   /** RESPUESTAS RÁPIDAS (T1): frases de la tienda (compartidas) y mías (por persona). */
   const [respuestas, setRespuestas] = useState<Array<{ id: string; text: string; scope: 'shop' | 'user' }>>([]);
+  /** T7: «escribiendo…» del otro lado, menciones @ y miembros del grupo para mencionar. */
+  const [peerTyping, setPeerTyping] = useState<string | null>(null);
+  const [menciones, setMenciones] = useState<Array<{ id: string; name: string }>>([]);
+  const [miembrosGrupo, setMiembrosGrupo] = useState<Array<{ id: string; name: string }>>([]);
+  const [mencionOpen, setMencionOpen] = useState(false);
+  const ultimoLatido = useRef(0);
   const [sending, setSending] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [plusOpen, setPlusOpen] = useState(false);
@@ -228,6 +234,32 @@ function ChatThreadContent() {
 
   useEffect(() => () => { forzar(); }, [forzar]);
 
+  /** T7 · «escribiendo…»: latido al escribir (máx. cada 2,5 s; el servidor lo caduca en 6 s). */
+  useEffect(() => {
+    const cuerpo = text.trim();
+    if (!cuerpo || !convId) return;
+    const ahora = Date.now();
+    if (ahora - ultimoLatido.current < 2500) return;
+    ultimoLatido.current = ahora;
+    messagesApi.typing(convId).catch(() => { /* el pulso no puede romper el chat */ });
+  }, [text, convId]);
+
+  /** T7 · ¿está escribiendo el otro? Se pregunta cada 4 s mientras el chat está abierto. */
+  useEffect(() => {
+    if (!convId) return;
+    let vivo = true;
+    const preguntar = async () => {
+      try {
+        const r = await messagesApi.typingStatus(convId);
+        if (!vivo) return;
+        const quien = (r.escriben ?? [])[0];
+        setPeerTyping(quien ? (quien.name || 'Alguien') : null);
+      } catch { /* sin dato, sin aviso */ }
+    };
+    const t = setInterval(() => { void preguntar(); }, 4000);
+    return () => { vivo = false; clearInterval(t); };
+  }, [convId]);
+
   useEffect(() => {
     loadLatest();
     const t = setInterval(loadLatest, POLL_MS);
@@ -285,6 +317,7 @@ function ChatThreadContent() {
           topic: g.topic ?? null,
         });
         setGroupId(g.id ?? convId);
+        setMiembrosGrupo((Array.isArray(g.members) ? g.members : []).map((m) => ({ id: String(m.id), name: String(m.fullName ?? 'Miembro') })));
         setPeer({
           name: g.title || peerName,
           avatarUrl: g.photoUrl ?? null,
@@ -601,9 +634,12 @@ function ChatThreadContent() {
   const sendText = async () => {
     const body = text.trim();
     if (!body || sending) return;
+    const envioMenciones = menciones.length ? menciones : undefined;
     setSending(true);
     setText('');
-    await push({ text: body }, {
+    setMenciones([]);
+    setPeerTyping(null);
+    await push({ text: body, ...(envioMenciones ? { mentions: envioMenciones } : {}) }, {
       id: `tmp-${Date.now()}`, conversationId: convId, fromMe: true, kind: 'text',
       text: body, createdAt: new Date().toISOString(), status: 'sending',
     });
@@ -1161,6 +1197,35 @@ function ChatThreadContent() {
           }
           return (
             <>
+              {peerTyping ? (
+                <View style={{ backgroundColor: colors.card, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e4 }}>
+                  <Text style={{ color: colors.text.secondary, fontSize: tipografia.caption }}>{peerTyping} está escribiendo…</Text>
+                </View>
+              ) : null}
+              {mencionOpen && miembrosGrupo.length ? (
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  keyboardShouldPersistTaps="handled"
+                  style={{ backgroundColor: colors.card }}
+                  contentContainerStyle={{ gap: espaciado.e6, paddingHorizontal: espaciado.e12, paddingVertical: espaciado.e8 }}
+                >
+                  {miembrosGrupo.map((m) => (
+                    <Pressable
+                      key={m.id}
+                      onPress={() => {
+                        setText((v) => `${v}${v && !v.endsWith(' ') ? ' ' : ''}@${m.name} `);
+                        setMenciones((v) => (v.some((x) => x.id === m.id) ? v : [...v, m]));
+                        setMencionOpen(false);
+                      }}
+                      accessibilityLabel={`Mencionar a ${m.name}`}
+                      style={{ borderRadius: 999, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, backgroundColor: colors.surface, paddingHorizontal: espaciado.e10, paddingVertical: espaciado.e6 }}
+                    >
+                      <Text style={{ color: colors.text.primary, fontSize: tipografia.caption }}>@{m.name}</Text>
+                    </Pressable>
+                  ))}
+                </ScrollView>
+              ) : null}
               {/* RESPUESTAS RÁPIDAS (T1): frases de la tienda o mías; tocar pone el texto en el compositor. */}
               {respuestas.length ? (
                 <ScrollView
@@ -1192,6 +1257,15 @@ function ChatThreadContent() {
                 maxLength={1000}
                 style={[styles.input, { backgroundColor: colors.surface, color: colors.textPrimary }]}
               />
+              {peer?.kind === 'group' ? (
+                <Pressable
+                  onPress={() => setMencionOpen((v) => !v)}
+                  accessibilityLabel="Mencionar a alguien"
+                  style={[styles.iconBtn, { backgroundColor: mencionOpen ? colors.primary : colors.surface }]}
+                >
+                  <AtSign size={18} color={mencionOpen ? brand.white : colors.textPrimary} />
+                </Pressable>
+              ) : null}
               <Pressable
                 onPress={() => setPlusOpen((v) => !v)}
                 accessibilityLabel="Más acciones"
@@ -1440,6 +1514,10 @@ function ChatThreadContent() {
         onOpenMembers={() => { setSheetStep('members'); setMembersOpen(true); }}
         onEditGroup={() => { setSheetStep('edit'); setMembersOpen(true); }}
         onLeaveGroup={() => router.back()}
+        onMarkUnread={async () => {
+          try { await messagesApi.markUnread(convId); } catch { /* si falla, se queda como está */ }
+          router.back();
+        }}
       />
 
       {/* ═══════ Menú de un mensaje: ver · copiar · reenviar · borrar ═══════ */}

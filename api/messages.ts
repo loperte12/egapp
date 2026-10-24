@@ -632,6 +632,18 @@ export const messagesApi = {
   /** Total de mensajes sin leer (badge de la barra). */
   unreadTotal: () => lifebookChatApi.unread(),
 
+  /** T7 · «escribiendo…»: latido mientras se escribe (el servidor lo caduca en 6 s). */
+  typing: (conversationId: string) =>
+    http.post<{ ok: boolean }>(`/lifebook/chat/conversations/${conversationId}/typing`, {}),
+
+  /** T7 · quién está escribiendo ahora mismo en la conversación. */
+  typingStatus: (conversationId: string) =>
+    http.get<{ escriben: Array<{ id: string; name: string }> }>(`/lifebook/chat/conversations/${conversationId}/typing`),
+
+  /** T7 · marcar la conversación como NO leída (vuelve el aviso a la lista). */
+  markUnread: (conversationId: string) =>
+    http.post<{ ok: boolean }>(`/lifebook/chat/conversations/${conversationId}/unread`, {}),
+
   /** Abre (o crea) la conversación con alguien. `postId` llegará en la Fase B. */
   open: async (userId: string, postId?: string) => {
     const conv = await lifebookChatApi.open(userId);
@@ -664,6 +676,8 @@ export const messagesApi = {
       lat?: number; lng?: number; label?: string; question?: string; options?: string[];
       title?: string; note?: string; slots?: number; at?: string;
       priceXaf?: number; linkType?: string; linkId?: string;
+      /** T7: personas mencionadas con @ (ids de miembros; el servidor valida que lo sean). */
+      mentions?: Array<{ id: string; name?: string }>;
     },
   ): Promise<LbMessage> => {
     const payload = typeof input === 'string' ? { text: input } : input;

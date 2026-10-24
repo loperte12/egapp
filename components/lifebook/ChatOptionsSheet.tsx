@@ -39,7 +39,7 @@ export interface ChatOptionsState {
 
 export function ChatOptionsSheet({
   visible, onClose, convId, isGroup, peerId, peerName, state, myRole,
-  onChanged, onOpenMembers, onEditGroup, onLeaveGroup,
+  onChanged, onOpenMembers, onEditGroup, onLeaveGroup, onMarkUnread,
 }: {
   visible: boolean;
   onClose: () => void;
@@ -56,6 +56,8 @@ export function ChatOptionsSheet({
   onEditGroup?: () => void;
   /** Se llama cuando ya salí del grupo (para cerrar el chat). */
   onLeaveGroup?: () => void;
+  /** T7: marcar esta conversación como no leída (vuelve el aviso a Mensajes). */
+  onMarkUnread?: () => void;
 }) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
@@ -226,6 +228,11 @@ export function ChatOptionsSheet({
             <Row icon={<MoreHorizontal size={18} color={colors.text.primary} />} label="Fijar chat arriba"
               hint={state.pinned ? 'Está arriba en Mensajes' : 'Ordenar por fecha'}
               right={<Switch value={state.pinned} disabled={busy === 'pinned'} onValueChange={(v) => toggle('pinned', v)} />} />
+            {onMarkUnread ? (
+              <Row icon={<Search size={18} color={colors.text.secondary} />} label="Marcar como no leído"
+                hint="El aviso vuelve a la lista de Mensajes"
+                onPress={() => { onClose(); onMarkUnread(); }} />
+            ) : null}
             <Row icon={<Palette size={18} color={colors.text.primary} />} label="Establecer el fondo del chat"
               hint={CHAT_BACKGROUNDS.find((b) => b.id === (state.background ?? 'default'))?.label ?? 'Predeterminado'}
               onPress={() => setStep('background')} />
